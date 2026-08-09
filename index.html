@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>هیئت کاظمیون خرم‌آباد</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#060302;
+    --void-2:#0b0605;
+    --crimson:#8c1518;
+    --crimson-bright:#b8241f;
+    --crimson-deep:#33070a;
+    --ember:#e2593f;
+    --ember-soft:#e2593f66;
+    --gold:#c9a227;
+    --gold-soft:#8a7040;
+    --gold-dim:#5c4a28;
+    --parchment:#f1e7d8;
+    --parchment-dim:#a99c8a;
+    --line:rgba(201,162,39,0.16);
+    --glass:rgba(255,255,255,0.03);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:
+      radial-gradient(ellipse 120% 70% at 50% -8%, rgba(140,21,24,0.30), transparent 55%),
+      radial-gradient(ellipse 90% 50% at 15% 40%, rgba(140,21,24,0.10), transparent 60%),
+      radial-gradient(ellipse 90% 50% at 85% 75%, rgba(140,21,24,0.12), transparent 60%),
+      var(--void);
+    color:var(--parchment);
+    font-family:'Vazirmatn', sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  /* ---------------- background texture + embers ---------------- */
+  .noise{
+    position:fixed; inset:0; pointer-events:none; z-index:0; opacity:0.05; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .embers{ position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+  .ember-spark{
+    position:absolute;
+    bottom:-10px;
+    width:3px; height:3px;
+    border-radius:50%;
+    background:var(--ember);
+    box-shadow:0 0 6px 1px var(--ember-soft);
+    opacity:0;
+    animation-name:rise;
+    animation-timing-function:ease-in;
+    animation-iteration-count:infinite;
+  }
+  @keyframes rise{
+    0%{ transform:translateY(0) translateX(0); opacity:0; }
+    8%{ opacity:0.9; }
+    80%{ opacity:0.5; }
+    100%{ transform:translateY(-100vh) translateX(var(--drift,20px)); opacity:0; }
+  }
+
+  .page{
+    width:100%;
+    max-width:500px;
+    padding:52px 22px 70px;
+    position:relative;
+    z-index:1;
+  }
+
+  .reveal{
+    opacity:0;
+    transform:translateY(14px);
+    transition:opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.show{ opacity:1; transform:translateY(0); }
+
+  /* ---------------- eyebrow ---------------- */
+  .eyebrow{
+    text-align:center;
+    font-family:'Amiri', serif;
+    font-style:italic;
+    font-size:14px;
+    color:var(--gold);
+    opacity:0.85;
+    margin-bottom:8px;
+    letter-spacing:0.02em;
+  }
+  .eyebrow-tag{
+    text-align:center;
+    font-size:11.5px;
+    letter-spacing:0.22em;
+    color:var(--gold-soft);
+    font-weight:600;
+    margin-bottom:36px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+  }
+  .eyebrow-tag::before, .eyebrow-tag::after{
+    content:'';
+    width:30px; height:1px;
+    background:linear-gradient(90deg, transparent, var(--gold-dim));
+  }
+  .eyebrow-tag::after{ background:linear-gradient(90deg, var(--gold-dim), transparent); }
+
+  /* ---------------- EMBLEM ---------------- */
+  .emblem-wrap{ display:flex; justify-content:center; margin-bottom:32px; }
+  .emblem{
+    position:relative;
+    width:238px; height:238px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .emblem .glow{
+    position:absolute; inset:-48px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(140,21,24,0.55) 0%, rgba(140,21,24,0.18) 45%, transparent 72%);
+    filter:blur(8px);
+    animation:breathe 4.5s ease-in-out infinite;
+  }
+  @keyframes breathe{
+    0%,100%{ transform:scale(1); opacity:0.8; }
+    50%{ transform:scale(1.09); opacity:1; }
+  }
+  .emblem svg.frame{
+    position:absolute; inset:0; width:100%; height:100%;
+    animation:spin 90s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  .emblem .ring-static{
+    position:absolute; inset:8px;
+    border-radius:50%;
+    border:1px solid var(--line);
+  }
+
+  .emblem .disc{
+    position:absolute; inset:30px;
+    border-radius:50%;
+    overflow:hidden;
+    border:2px solid var(--crimson);
+    box-shadow:
+      inset 0 0 26px rgba(140,21,24,0.4),
+      0 0 36px rgba(140,21,24,0.4),
+      0 0 70px rgba(140,21,24,0.15);
+  }
+  .emblem .disc img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .emblem .disc::after{
+    content:'';
+    position:absolute; inset:0;
+    box-shadow:inset 0 0 30px rgba(0,0,0,0.55);
+    border-radius:50%;
+  }
+
+  /* ---------------- TITLE ---------------- */
+  .title-block{ text-align:center; margin-bottom:8px; }
+  h1{
+    font-size:26px;
+    font-weight:800;
+    color:var(--parchment);
+    line-height:1.5;
+    margin-bottom:12px;
+    text-shadow:0 0 24px rgba(140,21,24,0.25);
+  }
+  .meta-line{
+    font-size:14.5px;
+    color:var(--parchment-dim);
+    font-weight:400;
+    line-height:2;
+  }
+  .meta-line b{ color:var(--gold); font-weight:600; }
+
+  /* ---------------- ornamental divider ---------------- */
+  .ornament{
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    margin:26px 0;
+    color:var(--gold-dim);
+  }
+  .ornament .bar{ height:1px; flex:1; max-width:90px; background:linear-gradient(90deg, transparent, var(--gold-dim)); }
+  .ornament:nth-of-type(1) .bar:last-child, .ornament .bar.r{ background:linear-gradient(90deg, var(--gold-dim), transparent); }
+  .ornament svg{ width:16px; height:16px; opacity:0.8; }
+
+  /* ---------------- COUNTDOWN (signature) ---------------- */
+  .countdown-card{
+    position:relative;
+    margin:26px 0 8px;
+    padding:22px 20px 20px;
+    border-radius:20px;
+    border:1px solid var(--line);
+    background:
+      linear-gradient(180deg, rgba(140,21,24,0.10), rgba(140,21,24,0.02)),
+      var(--glass);
+    text-align:center;
+    overflow:hidden;
+  }
+  .countdown-card::before{
+    content:'';
+    position:absolute; top:-40%; left:50%; transform:translateX(-50%);
+    width:220px; height:220px;
+    background:radial-gradient(circle, rgba(140,21,24,0.35), transparent 70%);
+    pointer-events:none;
+  }
+  .countdown-label{
+    font-size:12.5px;
+    color:var(--gold);
+    letter-spacing:0.08em;
+    font-weight:600;
+    margin-bottom:14px;
+    position:relative;
+  }
+  .countdown-grid{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    position:relative;
+  }
+  .countdown-unit{
+    min-width:58px;
+    padding:10px 6px 8px;
+    border-radius:12px;
+    background:rgba(0,0,0,0.28);
+    border:1px solid var(--line);
+  }
+  .countdown-unit .num{
+    font-size:22px;
+    font-weight:800;
+    color:var(--parchment);
+    font-variant-numeric:tabular-nums;
+    display:block;
+  }
+  .countdown-unit .lbl{
+    font-size:10.5px;
+    color:var(--parchment-dim);
+    margin-top:4px;
+    display:block;
+  }
+  .countdown-foot{
+    margin-top:14px;
+    font-size:12px;
+    color:var(--parchment-dim);
+    position:relative;
+  }
+
+  /* ---------------- GROUP LABEL ---------------- */
+  .group-label{
+    font-size:12px;
+    color:var(--gold-soft);
+    letter-spacing:0.1em;
+    margin:30px 4px 14px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .group-label::after{
+    content:'';
+    flex:1; height:1px;
+    background:linear-gradient(90deg, var(--line), transparent);
+  }
+
+  /* ---------------- LINK CARDS ---------------- */
+  .links{ display:flex; flex-direction:column; gap:14px; }
+  .link-card{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    padding:16px 18px;
+    border-radius:18px;
+    text-decoration:none;
+    position:relative;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0));
+    backdrop-filter:blur(6px);
+    transition:transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+    overflow:hidden;
+  }
+  .link-card::before{
+    content:'';
+    position:absolute; inset:0;
+    background:linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.05) 50%, transparent 70%);
+    transform:translateX(-120%);
+    transition:transform 0.6s ease;
+  }
+  .link-card:active{ transform:scale(0.97); }
+  @media (hover:hover){
+    .link-card:hover{
+      border-color:var(--gold-soft);
+      background:linear-gradient(180deg, rgba(184,147,63,0.09), rgba(255,255,255,0));
+      box-shadow:0 6px 24px rgba(0,0,0,0.35);
+    }
+    .link-card:hover::before{ transform:translateX(120%); }
+  }
+
+  .link-left{ display:flex; align-items:center; gap:14px; }
+  .link-label{ display:flex; flex-direction:column; gap:3px; }
+  .link-label .fa-title{ font-size:16px; font-weight:700; color:var(--parchment); }
+  .link-label .fa-sub{
+    font-size:11px; color:var(--parchment-dim); font-weight:400;
+    letter-spacing:0.02em; direction:ltr; text-align:right;
+  }
+
+  .icon-box{
+    width:44px; height:44px; min-width:44px;
+    border-radius:13px;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 4px 14px rgba(0,0,0,0.35);
+  }
+  .icon-box svg{ width:22px; height:22px; }
+
+  .rubika .icon-box{ background:linear-gradient(135deg,#5b3fb0,#8b5fe0); }
+  .eitaa .icon-box{ background:linear-gradient(135deg,#e05b1e,#f28a3c); }
+  .instagram .icon-box{ background:linear-gradient(135deg,#4f5bd5,#962fbf 30%,#d62976 60%,#fa7e1e 85%,#feda75); }
+  .neshan .icon-box{ background:linear-gradient(135deg,#0c8f7f,#1cb8a3); }
+  .balad .icon-box{ background:linear-gradient(135deg,#1e6fb8,#3a9be0); }
+
+  .go-arrow{
+    color:var(--gold-dim);
+    display:flex; align-items:center;
+  }
+  .go-arrow svg{ width:16px; height:16px; }
+
+  /* ---------------- FOOTER ---------------- */
+  footer{
+    text-align:center;
+    margin-top:52px;
+  }
+  .flame{
+    width:14px; height:20px;
+    margin:0 auto 14px;
+    display:block;
+  }
+  .flame path{ animation:flicker 2.2s ease-in-out infinite; transform-origin:50% 90%; }
+  @keyframes flicker{
+    0%,100%{ transform:scaleY(1) scaleX(1); }
+    25%{ transform:scaleY(1.06) scaleX(0.96); }
+    50%{ transform:scaleY(0.94) scaleX(1.05); }
+    75%{ transform:scaleY(1.03) scaleX(0.98); }
+  }
+  footer .ya{
+    font-family:'Amiri', serif;
+    font-style:italic;
+    font-size:16px;
+    color:var(--gold-soft);
+    margin-bottom:10px;
+    display:block;
+  }
+  footer .sub{
+    font-size:11px;
+    color:rgba(169,156,138,0.5);
+    letter-spacing:0.05em;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .emblem .glow, .emblem svg.frame, .flame path, .reveal{ animation:none !important; transition:none !important; }
+    .reveal{ opacity:1; transform:none; }
+    .ember-spark{ display:none; }
+  }
+
+  @media (max-width:360px){
+    .emblem{ width:200px; height:200px; }
+    h1{ font-size:23px; }
+    .countdown-unit{ min-width:50px; }
+  }
+</style>
+</head>
+<body>
+<div class="noise"></div>
+<div class="embers" id="embers"></div>
+
+<div class="page">
+
+  <div class="eyebrow">بسم الله الرحمن الرحیم</div>
+  <div class="eyebrow-tag">هیئـت عزاداری</div>
+
+  <div class="emblem-wrap reveal">
+    <div class="emblem">
+      <div class="glow"></div>
+      <svg class="frame" viewBox="0 0 240 240">
+        <defs>
+          <path id="circ" d="M120,120 m-96,0 a96,96 0 1,1 192,0 a96,96 0 1,1 -192,0"/>
+        </defs>
+        <g fill="none" stroke="rgba(201,162,39,0.4)" stroke-width="1.4">
+          <circle cx="120" cy="120" r="118" stroke-dasharray="1 7" stroke-linecap="round"/>
+          <circle cx="120" cy="120" r="106" stroke-dasharray="0.5 5" opacity="0.6"/>
+        </g>
+      </svg>
+      <div class="ring-static"></div>
+      <div class="disc">
+        <img src="logo.jpg" alt="نشان هیئت کاظمیون خرم‌آباد">
+      </div>
+    </div>
+  </div>
+
+  <div class="title-block reveal">
+    <h1>هیئت کاظمیون خرم‌آباد</h1>
+    <div class="meta-line">
+      برگزاری هر هفته، <b>سه‌شنبه‌ها ساعت ۲۱</b><br>
+      قاضی‌آباد، خیابان نهم، مسجد حضرت قائم «عج»
+    </div>
+  </div>
+
+  <div class="countdown-card reveal">
+    <div class="countdown-label">تا شروع مجلس بعدی</div>
+    <div class="countdown-grid">
+      <div class="countdown-unit"><span class="num" id="cd-days">--</span><span class="lbl">روز</span></div>
+      <div class="countdown-unit"><span class="num" id="cd-hours">--</span><span class="lbl">ساعت</span></div>
+      <div class="countdown-unit"><span class="num" id="cd-mins">--</span><span class="lbl">دقیقه</span></div>
+      <div class="countdown-unit"><span class="num" id="cd-secs">--</span><span class="lbl">ثانیه</span></div>
+    </div>
+    <div class="countdown-foot" id="cd-foot">سه‌شنبه، ساعت ۲۱:۰۰</div>
+  </div>
+
+  <div class="group-label reveal">دنبال کنید</div>
+  <div class="links reveal">
+
+    <a class="link-card eitaa" href="https://eitaa.com/kazemiuon1381" target="_blank" rel="noopener">
+      <div class="link-left">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 12c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8c-1.1 0-2.1-.2-3-.6L5 20l1-4.4c-1.2-1-2-2.6-2-4.4z" fill="#fff"/><circle cx="9" cy="12" r="1.3" fill="#e05b1e"/><circle cx="12" cy="12" r="1.3" fill="#e05b1e"/><circle cx="15" cy="12" r="1.3" fill="#e05b1e"/></svg>
+        </div>
+        <div class="link-label">
+          <span class="fa-title">کاظمیون در ایتا</span>
+          <span class="fa-sub">eitaa.com/kazemiuon1381</span>
+        </div>
+      </div>
+      <div class="go-arrow"><svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="link-card rubika" href="https://rubika.ir/page/kazemiuon1381" target="_blank" rel="noopener">
+      <div class="link-left">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7.5 4.3v9.4L12 21l-7.5-4.3V7.3L12 3z" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 8l3 1.7v3.6L12 15l-3-1.7V9.7L12 8z" fill="#fff"/></svg>
+        </div>
+        <div class="link-label">
+          <span class="fa-title">کاظمیون در روبیکا</span>
+          <span class="fa-sub">rubika.ir/page/kazemiuon1381</span>
+        </div>
+      </div>
+      <div class="go-arrow"><svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="link-card instagram" href="https://instagram.com/kazemiuon1381" target="_blank" rel="noopener">
+      <div class="link-left">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="#fff" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="#fff" stroke-width="1.6"/><circle cx="17.2" cy="6.8" r="1.1" fill="#fff"/></svg>
+        </div>
+        <div class="link-label">
+          <span class="fa-title">کاظمیون در اینستاگرام</span>
+          <span class="fa-sub">@kazemiuon1381</span>
+        </div>
+      </div>
+      <div class="go-arrow"><svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+  </div>
+
+  <div class="group-label reveal">مسیر رسیدن به هیئت</div>
+  <div class="links reveal">
+
+    <a class="link-card neshan" href="https://nshn.ir/rbSnvSY5047L" target="_blank" rel="noopener">
+      <div class="link-left">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.1 7-11.5C19 5.4 15.9 3 12 3S5 5.4 5 9.5C5 14.9 12 21 12 21z" fill="#fff"/><circle cx="12" cy="9.5" r="2.4" fill="#0c8f7f"/></svg>
+        </div>
+        <div class="link-label">
+          <span class="fa-title">مسیریابی با نشان</span>
+          <span class="fa-sub">nshn.ir</span>
+        </div>
+      </div>
+      <div class="go-arrow"><svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+    <a class="link-card balad" href="https://balad.ir/location?latitude=33.471360&longitude=48.355532&zoom=16.500000" target="_blank" rel="noopener">
+      <div class="link-left">
+        <div class="icon-box">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.1 7-11.5C19 5.4 15.9 3 12 3S5 5.4 5 9.5C5 14.9 12 21 12 21z" fill="#fff"/><circle cx="12" cy="9.5" r="2.4" fill="#1e6fb8"/></svg>
+        </div>
+        <div class="link-label">
+          <span class="fa-title">مسیریابی با بلد</span>
+          <span class="fa-sub">balad.ir</span>
+        </div>
+      </div>
+      <div class="go-arrow"><svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+
+  </div>
+
+  <footer class="reveal">
+    <svg class="flame" viewBox="0 0 14 20"><path d="M7 0c1 3-3 4-3 8a3 3 0 0 0 6 0c0-1-.5-1.5-1-2 .3 1.5-.5 2-1 2-1 0-1.5-.7-1-2 .8-2 1-3.5 0-6z" fill="#e2593f"/></svg>
+    <span class="ya">یا ابا الفضل العباس</span>
+    <span class="sub">کانال رسمی هیئت کاظمیون خرم‌آباد</span>
+  </footer>
+
+</div>
+
+<script>
+  // Persian digits
+  function toFa(n){
+    const fa = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+    return String(n).replace(/\d/g, d => fa[d]).padStart(2, fa[0]);
+  }
+
+  function nextSession(){
+    const now = new Date();
+    const target = new Date(now);
+    let day = now.getDay(); // Sun=0 ... Tue=2
+    let diff = (2 - day + 7) % 7;
+    target.setHours(21,0,0,0);
+    if(diff === 0 && now >= target) diff = 7;
+    target.setDate(now.getDate() + diff);
+    target.setHours(21,0,0,0);
+    return target;
+  }
+
+  function updateCountdown(){
+    const target = nextSession();
+    const now = new Date();
+    let ms = target - now;
+    if(ms < 0) ms = 0;
+    const days = Math.floor(ms / 86400000);
+    const hours = Math.floor((ms % 86400000) / 3600000);
+    const mins = Math.floor((ms % 3600000) / 60000);
+    const secs = Math.floor((ms % 60000) / 1000);
+    document.getElementById('cd-days').textContent = toFa(days);
+    document.getElementById('cd-hours').textContent = toFa(hours);
+    document.getElementById('cd-mins').textContent = toFa(mins);
+    document.getElementById('cd-secs').textContent = toFa(secs);
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // ember particles
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduceMotion){
+    const wrap = document.getElementById('embers');
+    const count = 16;
+    for(let i=0;i<count;i++){
+      const s = document.createElement('div');
+      s.className = 'ember-spark';
+      const left = Math.random()*100;
+      const delay = Math.random()*10;
+      const dur = 6 + Math.random()*6;
+      const drift = (Math.random()*60 - 30) + 'px';
+      s.style.left = left + 'vw';
+      s.style.animationDelay = delay + 's';
+      s.style.animationDuration = dur + 's';
+      s.style.setProperty('--drift', drift);
+      wrap.appendChild(s);
+    }
+  }
+
+  // scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); }
+      });
+    }, { threshold:0.15 });
+    revealEls.forEach(el=>io.observe(el));
+  } else {
+    revealEls.forEach(el=>el.classList.add('show'));
+  }
+</script>
+
+</body>
+</html>
