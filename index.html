@@ -3,7 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>هیئت کاظمیون خرم‌آباد</title>
+<title>هیئت کاظمیون خرم‌آباد | Heyat Kazemiyoon Khorramabad</title>
+
+<!-- ===== SEO ===== -->
+<meta name="description" content="کانال رسمی هیئت کاظمیون خرم‌آباد؛ برگزاری مجالس عزاداری هر سه‌شنبه ساعت ۲۱ در مسجد حضرت قائم (عج)، قاضی‌آباد. عضویت در ایتا، روبیکا و اینستاگرام و مسیریابی با نشان و بلد.">
+<meta name="keywords" content="هیئت کاظمیون, هیئت کاظمیون خرم‌آباد, هیئت مذهبی خرم‌آباد, عزاداری, قاضی‌آباد, مسجد حضرت قائم, ایتا, روبیکا, اینستاگرام">
+<meta name="author" content="هیئت کاظمیون خرم‌آباد">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://kazemiuon154-cmyk.github.io/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="هیئت کاظمیون خرم‌آباد">
+<meta property="og:description" content="کانال رسمی هیئت کاظمیون خرم‌آباد؛ برگزاری مجالس عزاداری هر سه‌شنبه ساعت ۲۱ در مسجد حضرت قائم (عج)، قاضی‌آباد.">
+<meta property="og:image" content="logo.jpg">
+<meta property="og:locale" content="fa_IR">
+<meta property="og:url" content="https://kazemiuon154-cmyk.github.io/">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="هیئت کاظمیون خرم‌آباد">
+<meta name="twitter:description" content="کانال رسمی هیئت کاظمیون خرم‌آباد؛ برگزاری مجالس عزاداری هر سه‌شنبه ساعت ۲۱.">
+<meta name="twitter:image" content="logo.jpg">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "هیئت کاظمیون خرم‌آباد",
+  "url": "https://kazemiuon154-cmyk.github.io/",
+  "logo": "logo.jpg",
+  "sameAs": [
+    "https://eitaa.com/kazemiuon1381",
+    "https://rubika.ir/page/kazemiuon1381",
+    "https://instagram.com/kazemiuon1381"
+  ],
+  "event": {
+    "@type": "Event",
+    "name": "مجلس هفتگی هیئت کاظمیون خرم‌آباد",
+    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+    "location": {
+      "@type": "Place",
+      "name": "مسجد حضرت قائم (عج)",
+      "address": "قاضی‌آباد، خیابان نهم، خرم‌آباد، ایران"
+    }
+  }
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -22,7 +67,15 @@
     --parchment:#f1e7d8;
     --parchment-dim:#a99c8a;
     --line:rgba(201,162,39,0.16);
-    --glass:rgba(255,255,255,0.03);
+    --glass:rgba(255,255,255,0.045);
+  }
+  body.mode-day{
+    --void:#0c0705;
+    --crimson:#9c1a1d;
+    --gold:#d4ac35;
+    --parchment:#f5ecdf;
+    --line:rgba(212,172,53,0.22);
+    --glass:rgba(255,255,255,0.06);
   }
 
   *{margin:0;padding:0;box-sizing:border-box;}
@@ -41,6 +94,7 @@
     justify-content:center;
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
+    transition:background 0.8s ease, color 0.8s ease;
   }
 
   /* ---------------- background texture + embers ---------------- */
@@ -83,16 +137,161 @@
   }
   .reveal.show{ opacity:1; transform:translateY(0); }
 
+  /* ---------------- loader ---------------- */
+  .loader{
+    position:fixed; inset:0; z-index:100;
+    background:var(--void);
+    display:flex; align-items:center; justify-content:center;
+    transition:opacity 0.6s ease, visibility 0.6s ease;
+  }
+  .loader.hide{ opacity:0; visibility:hidden; pointer-events:none; }
+  .loader-emblem{ position:relative; width:88px; height:88px; }
+  .loader-ring{
+    position:absolute; inset:0;
+    border-radius:50%;
+    border:2px solid rgba(201,162,39,0.15);
+    border-top-color:var(--gold);
+    animation:loader-spin 0.9s linear infinite;
+  }
+  @keyframes loader-spin{ to{ transform:rotate(360deg); } }
+  .loader-logo{
+    position:absolute; inset:14px;
+    width:60px; height:60px;
+    border-radius:50%;
+    object-fit:cover;
+    opacity:0.9;
+    animation:loader-pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes loader-pulse{
+    0%,100%{ transform:scale(0.96); opacity:0.75; }
+    50%{ transform:scale(1.02); opacity:1; }
+  }
+
+  /* ---------------- scroll progress bar ---------------- */
+  .progress-bar{
+    position:fixed; top:0; left:0;
+    height:3px; width:0%;
+    background:linear-gradient(90deg, var(--crimson), var(--gold));
+    z-index:90;
+    transition:width 0.1s ease-out;
+    box-shadow:0 0 8px rgba(201,162,39,0.5);
+  }
+
+  /* ---------------- top controls ---------------- */
+  .top-controls{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:28px;
+  }
+  .sound-toggle{
+    width:30px; height:30px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.02);
+    color:var(--parchment-dim);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:all 0.2s ease;
+  }
+  .sound-toggle svg{ width:15px; height:15px; }
+  .sound-toggle:hover{ border-color:var(--gold-soft); color:var(--gold); }
+  .lang-switch{
+    display:flex;
+    justify-content:center;
+    gap:6px;
+  }
+  .lang-switch button{
+    font-family:'Vazirmatn', sans-serif;
+    font-size:11.5px;
+    font-weight:600;
+    letter-spacing:0.04em;
+    color:var(--parchment-dim);
+    background:rgba(255,255,255,0.02);
+    border:1px solid var(--line);
+    padding:6px 14px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:all 0.2s ease;
+  }
+  .lang-switch button.active{
+    color:var(--void);
+    background:var(--gold);
+    border-color:var(--gold);
+  }
+  .lang-switch button:not(.active):hover{
+    border-color:var(--gold-soft);
+    color:var(--parchment);
+  }
+
+  /* ---------------- share buttons ---------------- */
+  .share-block{
+    margin-top:30px;
+    text-align:center;
+  }
+  .share-label{
+    font-size:12px;
+    color:var(--parchment-dim);
+    margin-bottom:14px;
+  }
+  .share-buttons{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+  }
+  .share-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:46px; height:46px;
+    border-radius:50%;
+    text-decoration:none;
+    border:1px solid var(--line);
+    transition:transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .share-btn svg{ width:21px; height:21px; }
+  .share-btn:active{ transform:scale(0.92); }
+  .share-btn.whatsapp{ background:linear-gradient(135deg,#25d366,#128c46); }
+  .share-btn.telegram{ background:linear-gradient(135deg,#3aa9e0,#1e6fb8); }
+  @media (hover:hover){
+    .share-btn:hover{ box-shadow:0 6px 18px rgba(0,0,0,0.4); transform:translateY(-2px); }
+  }
+
   /* ---------------- eyebrow ---------------- */
+  .bismillah-wrap{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    margin-bottom:14px;
+  }
+  .bismillah-wrap svg{
+    width:9px; height:9px;
+    flex:none;
+    opacity:0.6;
+    animation:diamond-pulse 4.5s ease-in-out infinite;
+  }
+  @keyframes diamond-pulse{
+    0%,100%{ opacity:0.4; transform:scale(1); }
+    50%{ opacity:0.9; transform:scale(1.25); }
+  }
   .eyebrow{
     text-align:center;
     font-family:'Amiri', serif;
     font-style:italic;
-    font-size:14px;
+    font-weight:700;
+    font-size:23px;
     color:var(--gold);
-    opacity:0.85;
-    margin-bottom:8px;
-    letter-spacing:0.02em;
+    letter-spacing:0.015em;
+    text-shadow:
+      0 0 18px rgba(201,162,39,0.45),
+      0 0 3px rgba(0,0,0,0.6);
+    animation:bismillah-glow 4.5s ease-in-out infinite;
+  }
+  @keyframes bismillah-glow{
+    0%,100%{ text-shadow:0 0 14px rgba(201,162,39,0.35), 0 0 3px rgba(0,0,0,0.6); }
+    50%{ text-shadow:0 0 26px rgba(201,162,39,0.6), 0 0 3px rgba(0,0,0,0.6); }
   }
   .eyebrow-tag{
     text-align:center;
@@ -114,11 +313,25 @@
   .eyebrow-tag::after{ background:linear-gradient(90deg, var(--gold-dim), transparent); }
 
   /* ---------------- EMBLEM ---------------- */
-  .emblem-wrap{ display:flex; justify-content:center; margin-bottom:32px; }
+  .emblem-wrap{
+    display:flex; justify-content:center; margin-bottom:32px;
+    perspective:800px;
+  }
   .emblem{
     position:relative;
     width:238px; height:238px;
     display:flex; align-items:center; justify-content:center;
+    transform-style:preserve-3d;
+    will-change:transform;
+    filter:drop-shadow(0 18px 30px rgba(0,0,0,0.55));
+    opacity:0;
+    transform:scale(0.4) rotate(-8deg);
+    animation:emblem-enter 1.1s cubic-bezier(0.22,1.2,0.36,1) 0.15s forwards;
+  }
+  @keyframes emblem-enter{
+    0%{ opacity:0; transform:scale(0.4) rotate(-8deg); }
+    60%{ opacity:1; transform:scale(1.06) rotate(1deg); }
+    100%{ opacity:1; transform:scale(1) rotate(0deg); }
   }
   .emblem .glow{
     position:absolute; inset:-48px;
@@ -133,14 +346,23 @@
   }
   .emblem svg.frame{
     position:absolute; inset:0; width:100%; height:100%;
-    animation:spin 90s linear infinite;
+    animation:spin 120s linear infinite;
+    color:var(--gold);
   }
   @keyframes spin{ to{ transform:rotate(360deg); } }
+  .emblem svg.frame-counter{
+    position:absolute; inset:14px; width:calc(100% - 28px); height:calc(100% - 28px);
+    animation:spin-rev 90s linear infinite;
+    color:var(--gold-dim);
+    opacity:0.7;
+  }
+  @keyframes spin-rev{ to{ transform:rotate(-360deg); } }
 
   .emblem .ring-static{
     position:absolute; inset:8px;
     border-radius:50%;
     border:1px solid var(--line);
+    box-shadow:0 0 0 1px rgba(0,0,0,0.3);
   }
 
   .emblem .disc{
@@ -151,7 +373,8 @@
     box-shadow:
       inset 0 0 26px rgba(140,21,24,0.4),
       0 0 36px rgba(140,21,24,0.4),
-      0 0 70px rgba(140,21,24,0.15);
+      0 0 70px rgba(140,21,24,0.15),
+      0 10px 26px rgba(0,0,0,0.5);
   }
   .emblem .disc img{ width:100%; height:100%; object-fit:cover; display:block; }
   .emblem .disc::after{
@@ -197,8 +420,14 @@
     border-radius:20px;
     border:1px solid var(--line);
     background:
-      linear-gradient(180deg, rgba(140,21,24,0.10), rgba(140,21,24,0.02)),
+      linear-gradient(180deg, rgba(140,21,24,0.12), rgba(140,21,24,0.02)),
       var(--glass);
+    backdrop-filter:blur(14px) saturate(160%);
+    -webkit-backdrop-filter:blur(14px) saturate(160%);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.06) inset,
+      0 18px 36px rgba(0,0,0,0.35),
+      0 2px 8px rgba(0,0,0,0.25);
     text-align:center;
     overflow:hidden;
   }
@@ -279,8 +508,12 @@
     text-decoration:none;
     position:relative;
     border:1px solid var(--line);
-    background:linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0));
-    backdrop-filter:blur(6px);
+    background:linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.005));
+    backdrop-filter:blur(12px) saturate(160%);
+    -webkit-backdrop-filter:blur(12px) saturate(160%);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.05) inset,
+      0 10px 24px rgba(0,0,0,0.28);
     transition:transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
     overflow:hidden;
   }
@@ -295,8 +528,10 @@
   @media (hover:hover){
     .link-card:hover{
       border-color:var(--gold-soft);
-      background:linear-gradient(180deg, rgba(184,147,63,0.09), rgba(255,255,255,0));
-      box-shadow:0 6px 24px rgba(0,0,0,0.35);
+      background:linear-gradient(180deg, rgba(184,147,63,0.11), rgba(255,255,255,0.005));
+      box-shadow:
+        0 1px 0 rgba(255,255,255,0.06) inset,
+        0 14px 30px rgba(0,0,0,0.4);
     }
     .link-card:hover::before{ transform:translateX(120%); }
   }
@@ -374,53 +609,75 @@
 </style>
 </head>
 <body>
+<div id="loader" class="loader">
+  <div class="loader-emblem">
+    <div class="loader-ring"></div>
+    <img src="logo.jpg" alt="" class="loader-logo">
+  </div>
+</div>
+
+<div class="progress-bar" id="progress-bar"></div>
 <div class="noise"></div>
 <div class="embers" id="embers"></div>
 
 <div class="page">
 
-  <div class="eyebrow">بسم الله الرحمن الرحیم</div>
-  <div class="eyebrow-tag">هیئـت عزاداری</div>
+  <div class="top-controls">
+    <div class="lang-switch" role="tablist" aria-label="زبان صفحه">
+      <button type="button" data-lang="fa" class="active">فا</button>
+      <button type="button" data-lang="ar">عربي</button>
+      <button type="button" data-lang="en">EN</button>
+    </div>
+    <button type="button" id="sound-toggle" class="sound-toggle" aria-label="قطع/وصل صدا" aria-pressed="false">
+      <svg class="icon-sound-on" viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a4 4 0 0 1 0 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M18.5 6a7.5 7.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/></svg>
+      <svg class="icon-sound-off" viewBox="0 0 24 24" fill="none" style="display:none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M15.5 9.5l5 5M20.5 9.5l-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
 
-  <div class="emblem-wrap reveal">
-    <div class="emblem">
+  <div class="bismillah-wrap">
+    <svg viewBox="0 0 10 10"><path d="M5 0 L10 5 L5 10 L0 5 Z" fill="currentColor" style="color:var(--gold-dim)"/></svg>
+    <div class="eyebrow" data-i18n="bismillah">بسم الله الرحمن الرحیم</div>
+    <svg viewBox="0 0 10 10"><path d="M5 0 L10 5 L5 10 L0 5 Z" fill="currentColor" style="color:var(--gold-dim)"/></svg>
+  </div>
+  <div class="eyebrow-tag" data-i18n="tag">هیئـت عزاداری</div>
+
+  <div class="emblem-wrap">
+    <div class="emblem" id="emblem">
       <div class="glow"></div>
-      <svg class="frame" viewBox="0 0 240 240">
-        <defs>
-          <path id="circ" d="M120,120 m-96,0 a96,96 0 1,1 192,0 a96,96 0 1,1 -192,0"/>
-        </defs>
-        <g fill="none" stroke="rgba(201,162,39,0.4)" stroke-width="1.4">
-          <circle cx="120" cy="120" r="118" stroke-dasharray="1 7" stroke-linecap="round"/>
-          <circle cx="120" cy="120" r="106" stroke-dasharray="0.5 5" opacity="0.6"/>
-        </g>
+      <svg class="frame" id="motif-ring" viewBox="0 0 240 240"></svg>
+      <svg class="frame-counter" viewBox="0 0 212 212">
+        <circle cx="106" cy="106" r="100" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 6" stroke-linecap="round"/>
       </svg>
       <div class="ring-static"></div>
       <div class="disc">
-        <img src="logo.jpg" alt="نشان هیئت کاظمیون خرم‌آباد">
+        <picture>
+          <source srcset="logo.webp" type="image/webp">
+          <img src="logo.jpg" alt="نشان هیئت کاظمیون خرم‌آباد" loading="eager" width="480" height="443">
+        </picture>
       </div>
     </div>
   </div>
 
   <div class="title-block reveal">
-    <h1>هیئت کاظمیون خرم‌آباد</h1>
-    <div class="meta-line">
+    <h1 data-i18n="title">هیئت کاظمیون خرم‌آباد</h1>
+    <div class="meta-line" data-i18n="meta">
       برگزاری هر هفته، <b>سه‌شنبه‌ها ساعت ۲۱</b><br>
       قاضی‌آباد، خیابان نهم، مسجد حضرت قائم «عج»
     </div>
   </div>
 
   <div class="countdown-card reveal">
-    <div class="countdown-label">تا شروع مجلس بعدی</div>
+    <div class="countdown-label" data-i18n="cdLabel">تا شروع مجلس بعدی</div>
     <div class="countdown-grid">
-      <div class="countdown-unit"><span class="num" id="cd-days">--</span><span class="lbl">روز</span></div>
-      <div class="countdown-unit"><span class="num" id="cd-hours">--</span><span class="lbl">ساعت</span></div>
-      <div class="countdown-unit"><span class="num" id="cd-mins">--</span><span class="lbl">دقیقه</span></div>
-      <div class="countdown-unit"><span class="num" id="cd-secs">--</span><span class="lbl">ثانیه</span></div>
+      <div class="countdown-unit"><span class="num" id="cd-days">--</span><span class="lbl" data-i18n="unitDays">روز</span></div>
+      <div class="countdown-unit"><span class="num" id="cd-hours">--</span><span class="lbl" data-i18n="unitHours">ساعت</span></div>
+      <div class="countdown-unit"><span class="num" id="cd-mins">--</span><span class="lbl" data-i18n="unitMins">دقیقه</span></div>
+      <div class="countdown-unit"><span class="num" id="cd-secs">--</span><span class="lbl" data-i18n="unitSecs">ثانیه</span></div>
     </div>
-    <div class="countdown-foot" id="cd-foot">سه‌شنبه، ساعت ۲۱:۰۰</div>
+    <div class="countdown-foot" data-i18n="cdFoot">سه‌شنبه، ساعت ۲۱:۰۰</div>
   </div>
 
-  <div class="group-label reveal">دنبال کنید</div>
+  <div class="group-label reveal" data-i18n="groupFollow">دنبال کنید</div>
   <div class="links reveal">
 
     <a class="link-card eitaa" href="https://eitaa.com/kazemiuon1381" target="_blank" rel="noopener">
@@ -429,7 +686,7 @@
           <svg viewBox="0 0 24 24" fill="none"><path d="M4 12c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8c-1.1 0-2.1-.2-3-.6L5 20l1-4.4c-1.2-1-2-2.6-2-4.4z" fill="#fff"/><circle cx="9" cy="12" r="1.3" fill="#e05b1e"/><circle cx="12" cy="12" r="1.3" fill="#e05b1e"/><circle cx="15" cy="12" r="1.3" fill="#e05b1e"/></svg>
         </div>
         <div class="link-label">
-          <span class="fa-title">کاظمیون در ایتا</span>
+          <span class="fa-title" data-i18n="eitaaTitle">کاظمیون در ایتا</span>
           <span class="fa-sub">eitaa.com/kazemiuon1381</span>
         </div>
       </div>
@@ -442,7 +699,7 @@
           <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7.5 4.3v9.4L12 21l-7.5-4.3V7.3L12 3z" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 8l3 1.7v3.6L12 15l-3-1.7V9.7L12 8z" fill="#fff"/></svg>
         </div>
         <div class="link-label">
-          <span class="fa-title">کاظمیون در روبیکا</span>
+          <span class="fa-title" data-i18n="rubikaTitle">کاظمیون در روبیکا</span>
           <span class="fa-sub">rubika.ir/page/kazemiuon1381</span>
         </div>
       </div>
@@ -455,7 +712,7 @@
           <svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="#fff" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="#fff" stroke-width="1.6"/><circle cx="17.2" cy="6.8" r="1.1" fill="#fff"/></svg>
         </div>
         <div class="link-label">
-          <span class="fa-title">کاظمیون در اینستاگرام</span>
+          <span class="fa-title" data-i18n="instaTitle">کاظمیون در اینستاگرام</span>
           <span class="fa-sub">@kazemiuon1381</span>
         </div>
       </div>
@@ -464,7 +721,7 @@
 
   </div>
 
-  <div class="group-label reveal">مسیر رسیدن به هیئت</div>
+  <div class="group-label reveal" data-i18n="groupRoute">مسیر رسیدن به هیئت</div>
   <div class="links reveal">
 
     <a class="link-card neshan" href="https://nshn.ir/rbSnvSY5047L" target="_blank" rel="noopener">
@@ -473,7 +730,7 @@
           <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.1 7-11.5C19 5.4 15.9 3 12 3S5 5.4 5 9.5C5 14.9 12 21 12 21z" fill="#fff"/><circle cx="12" cy="9.5" r="2.4" fill="#0c8f7f"/></svg>
         </div>
         <div class="link-label">
-          <span class="fa-title">مسیریابی با نشان</span>
+          <span class="fa-title" data-i18n="neshanTitle">مسیریابی با نشان</span>
           <span class="fa-sub">nshn.ir</span>
         </div>
       </div>
@@ -486,7 +743,7 @@
           <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.1 7-11.5C19 5.4 15.9 3 12 3S5 5.4 5 9.5C5 14.9 12 21 12 21z" fill="#fff"/><circle cx="12" cy="9.5" r="2.4" fill="#1e6fb8"/></svg>
         </div>
         <div class="link-label">
-          <span class="fa-title">مسیریابی با بلد</span>
+          <span class="fa-title" data-i18n="baladTitle">مسیریابی با بلد</span>
           <span class="fa-sub">balad.ir</span>
         </div>
       </div>
@@ -495,19 +752,290 @@
 
   </div>
 
+  <div class="share-block reveal">
+    <div class="share-label" data-i18n="shareLabel">این صفحه رو با دوستان به اشتراک بگذارید</div>
+    <div class="share-buttons">
+      <a class="share-btn whatsapp" id="share-wa" target="_blank" rel="noopener" aria-label="اشتراک‌گذاری در واتساپ">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2z" fill="#fff"/><path d="M8.3 7.6c.2-.5.4-.5.6-.5h.5c.2 0 .4 0 .5.4l.8 1.9c.1.2 0 .4-.1.6l-.5.6c-.1.2-.2.3 0 .6.2.3.8 1.2 1.7 2 1.1 1 2 1.3 2.3 1.4.3.1.4.1.6-.1l.7-.8c.2-.2.4-.2.6-.1l1.7.8c.2.1.4.2.4.4 0 .5-.1 1-.4 1.4-.3.4-.9.7-1.4.7-.9 0-2.3-.3-4-1.8-2-1.8-3.3-4-3.5-4.4-.2-.4-1-1.6-.9-2.9 0-.6.3-.9.4-1.1z" fill="#128c46"/></svg>
+      </a>
+      <a class="share-btn telegram" id="share-tg" target="_blank" rel="noopener" aria-label="اشتراک‌گذاری در تلگرام">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M21.2 4.4L2.8 11.5c-1 .4-1 1 .1 1.3l4.7 1.5 1.8 5.6c.2.6.3.8.9.8.4 0 .6-.2.9-.5l2.1-2 4.4 3.2c.8.5 1.4.2 1.6-.7l3-14c.3-1.2-.4-1.7-1.1-1.3z" fill="#fff"/></svg>
+      </a>
+    </div>
+  </div>
+
   <footer class="reveal">
     <svg class="flame" viewBox="0 0 14 20"><path d="M7 0c1 3-3 4-3 8a3 3 0 0 0 6 0c0-1-.5-1.5-1-2 .3 1.5-.5 2-1 2-1 0-1.5-.7-1-2 .8-2 1-3.5 0-6z" fill="#e2593f"/></svg>
-    <span class="ya">یا ابا الفضل العباس</span>
-    <span class="sub">کانال رسمی هیئت کاظمیون خرم‌آباد</span>
+    <span class="ya" data-i18n="footerYa">یا ابا الفضل العباس</span>
+    <span class="sub" data-i18n="footerSub">کانال رسمی هیئت کاظمیون خرم‌آباد</span>
   </footer>
 
 </div>
 
 <script>
-  // Persian digits
-  function toFa(n){
-    const fa = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
-    return String(n).replace(/\d/g, d => fa[d]).padStart(2, fa[0]);
+  // ---------------- arabesque motif ring (item 2) ----------------
+  (function buildMotifRing(){
+    const svg = document.getElementById('motif-ring');
+    const ns = 'http://www.w3.org/2000/svg';
+    const cx = 120, cy = 120, r = 112;
+    const count = 28;
+    // base circles for structure
+    const base = document.createElementNS(ns, 'circle');
+    base.setAttribute('cx', cx); base.setAttribute('cy', cy); base.setAttribute('r', 118);
+    base.setAttribute('fill', 'none');
+    base.setAttribute('stroke', 'currentColor');
+    base.setAttribute('stroke-width', '1');
+    base.setAttribute('opacity', '0.35');
+    svg.appendChild(base);
+
+    for(let i = 0; i < count; i++){
+      const angle = (360 / count) * i;
+      const g = document.createElementNS(ns, 'g');
+      g.setAttribute('transform', `rotate(${angle} ${cx} ${cy}) translate(${cx} ${cy - r})`);
+      // small four-point motif (arabesque petal)
+      const petal = document.createElementNS(ns, 'path');
+      petal.setAttribute('d', 'M0,-4 C1.6,-1.6 1.6,1.6 0,4 C-1.6,1.6 -1.6,-1.6 0,-4 Z');
+      petal.setAttribute('fill', 'currentColor');
+      petal.setAttribute('opacity', '0.55');
+      g.appendChild(petal);
+      svg.appendChild(g);
+    }
+  })();
+
+  // ---------------- parallax on emblem (item 1) ----------------
+  (function parallax(){
+    const emblem = document.getElementById('emblem');
+    if(!emblem) return;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduceMotion) return;
+
+    let ready = false;
+    setTimeout(() => {
+      emblem.style.animation = 'none'; // hand off control to JS-driven transform
+      ready = true;
+    }, 1300);
+
+    let scrollTick = false;
+    window.addEventListener('scroll', () => {
+      if(!ready) return;
+      if(!scrollTick){
+        window.requestAnimationFrame(() => {
+          const y = window.scrollY || 0;
+          const shift = Math.min(y * 0.06, 14);
+          emblem.style.setProperty('--parallax-y', shift + 'px');
+          applyTransform();
+          scrollTick = false;
+        });
+        scrollTick = true;
+      }
+    }, { passive:true });
+
+    let tiltX = 0, tiltY = 0;
+    function applyTransform(){
+      if(!ready) return;
+      const y = parseFloat(emblem.style.getPropertyValue('--parallax-y')) || 0;
+      emblem.style.transform = `translateY(${-y}px) rotateX(${tiltY}deg) rotateY(${tiltX}deg)`;
+    }
+
+    if(window.DeviceOrientationEvent){
+      window.addEventListener('deviceorientation', (e) => {
+        if(!ready) return;
+        if(e.beta === null || e.gamma === null) return;
+        tiltX = Math.max(-6, Math.min(6, (e.gamma || 0) * 0.15));
+        tiltY = Math.max(-6, Math.min(6, ((e.beta || 0) - 45) * 0.08));
+        applyTransform();
+      }, true);
+    }
+  })();
+
+  // ---------------- scroll progress bar (item 8) ----------------
+  (function scrollProgress(){
+    const bar = document.getElementById('progress-bar');
+    if(!bar) return;
+    function update(){
+      const h = document.documentElement;
+      const scrolled = h.scrollTop;
+      const max = h.scrollHeight - h.clientHeight;
+      const pct = max > 0 ? (scrolled / max) * 100 : 0;
+      bar.style.width = pct + '%';
+    }
+    window.addEventListener('scroll', update, { passive:true });
+    update();
+  })();
+
+  // ---------------- day / night auto mode (item 7) ----------------
+  (function dayNightMode(){
+    const hour = new Date().getHours();
+    const isDay = hour >= 6 && hour < 18;
+    document.body.classList.toggle('mode-day', isDay);
+  })();
+
+  // ---------------- gentle click sound + mute toggle (item 6) ----------------
+  const soundState = { muted: true, ctx: null };
+  function ensureAudioCtx(){
+    if(!soundState.ctx){
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if(AC) soundState.ctx = new AC();
+    }
+    return soundState.ctx;
+  }
+  function playTick(){
+    if(soundState.muted) return;
+    const ctx = ensureAudioCtx();
+    if(!ctx) return;
+    const t0 = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(720, t0);
+    osc.frequency.exponentialRampToValueAtTime(420, t0 + 0.09);
+    gain.gain.setValueAtTime(0.0001, t0);
+    gain.gain.exponentialRampToValueAtTime(0.05, t0 + 0.012);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.14);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(t0);
+    osc.stop(t0 + 0.16);
+  }
+  document.querySelectorAll('.link-card, .share-btn, .lang-switch button').forEach(el => {
+    el.addEventListener('click', playTick);
+  });
+  const soundToggle = document.getElementById('sound-toggle');
+  if(soundToggle){
+    soundToggle.addEventListener('click', () => {
+      soundState.muted = !soundState.muted;
+      soundToggle.setAttribute('aria-pressed', String(!soundState.muted));
+      soundToggle.querySelector('.icon-sound-on').style.display = soundState.muted ? 'none' : 'block';
+      soundToggle.querySelector('.icon-sound-off').style.display = soundState.muted ? 'block' : 'none';
+      if(!soundState.muted){ ensureAudioCtx(); playTick(); }
+    });
+  }
+
+  // ---------------- loader (item 12) ----------------
+  (function pageLoader(){
+    const loader = document.getElementById('loader');
+    if(!loader) return;
+    const fontsReady = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+    const winLoaded = new Promise(resolve => {
+      if(document.readyState === 'complete') resolve();
+      else window.addEventListener('load', resolve, { once:true });
+    });
+    Promise.all([fontsReady, winLoaded]).then(() => {
+      setTimeout(() => loader.classList.add('hide'), 250);
+    });
+    // safety fallback in case fonts never resolve
+    setTimeout(() => loader.classList.add('hide'), 3500);
+  })();
+
+  // ---------------- i18n ----------------
+  const translations = {
+    fa: {
+      bismillah: "بسم الله الرحمن الرحیم",
+      tag: "هیئـت عزاداری",
+      title: "هیئت کاظمیون خرم‌آباد",
+      meta: 'برگزاری هر هفته، <b>سه‌شنبه‌ها ساعت ۲۱</b><br>قاضی‌آباد، خیابان نهم، مسجد حضرت قائم «عج»',
+      cdLabel: "تا شروع مجلس بعدی",
+      unitDays: "روز", unitHours: "ساعت", unitMins: "دقیقه", unitSecs: "ثانیه",
+      cdFoot: "سه‌شنبه، ساعت ۲۱:۰۰",
+      groupFollow: "دنبال کنید",
+      groupRoute: "مسیر رسیدن به هیئت",
+      eitaaTitle: "کاظمیون در ایتا",
+      rubikaTitle: "کاظمیون در روبیکا",
+      instaTitle: "کاظمیون در اینستاگرام",
+      neshanTitle: "مسیریابی با نشان",
+      baladTitle: "مسیریابی با بلد",
+      shareLabel: "این صفحه رو با دوستان به اشتراک بگذارید",
+      shareMsg: "دعوت به هیئت کاظمیون خرم‌آباد 🕯",
+      footerYa: "یا ابا الفضل العباس",
+      footerSub: "کانال رسمی هیئت کاظمیون خرم‌آباد"
+    },
+    ar: {
+      bismillah: "بسم الله الرحمن الرحيم",
+      tag: "موكب عزاء",
+      title: "موكب الكاظميون خرم‌آباد",
+      meta: 'يقام أسبوعياً، <b>الثلاثاء الساعة ۲۱</b><br>قاضي‌آباد، الشارع التاسع، مسجد الإمام القائم (عج)',
+      cdLabel: "حتى بدء المجلس القادم",
+      unitDays: "يوم", unitHours: "ساعة", unitMins: "دقيقة", unitSecs: "ثانية",
+      cdFoot: "الثلاثاء، الساعة ۲۱:۰۰",
+      groupFollow: "تابعونا",
+      groupRoute: "الطريق إلى الموكب",
+      eitaaTitle: "الكاظميون على إيتا",
+      rubikaTitle: "الكاظميون على روبيكا",
+      instaTitle: "الكاظميون على إنستغرام",
+      neshanTitle: "الاتجاهات عبر نشان",
+      baladTitle: "الاتجاهات عبر بلد",
+      shareLabel: "شارك هذه الصفحة مع أصدقائك",
+      shareMsg: "دعوة لموكب الكاظميون خرم‌آباد 🕯",
+      footerYa: "يا أبا الفضل العباس",
+      footerSub: "القناة الرسمية لموكب الكاظميون خرم‌آباد"
+    },
+    en: {
+      bismillah: "In the Name of Allah",
+      tag: "MOURNING COUNCIL",
+      title: "Heyat-e Kazemiyoon, Khorramabad",
+      meta: 'Held weekly, <b>Tuesdays at 9:00 PM</b><br>Ghazi-abad, 9th Street, Emam Ghaem Mosque',
+      cdLabel: "Until Next Session",
+      unitDays: "Days", unitHours: "Hours", unitMins: "Mins", unitSecs: "Secs",
+      cdFoot: "Tuesday, 9:00 PM",
+      groupFollow: "Follow Us",
+      groupRoute: "Directions",
+      eitaaTitle: "Kazemiyoon on Eitaa",
+      rubikaTitle: "Kazemiyoon on Rubika",
+      instaTitle: "Kazemiyoon on Instagram",
+      neshanTitle: "Directions via Neshan",
+      baladTitle: "Directions via Balad",
+      shareLabel: "Share this page with friends",
+      shareMsg: "Join Heyat-e Kazemiyoon Khorramabad 🕯",
+      footerYa: "Ya Aba al-Fadl al-Abbas",
+      footerSub: "Official channel of Heyat-e Kazemiyoon Khorramabad"
+    }
+  };
+
+  let currentLang = 'fa';
+
+  function buildShareLinks(){
+    const msg = translations[currentLang].shareMsg;
+    const url = window.location.href;
+    document.getElementById('share-wa').href =
+      'https://wa.me/?text=' + encodeURIComponent(msg + ' ' + url);
+    document.getElementById('share-tg').href =
+      'https://t.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(msg);
+  }
+
+  function setLang(lang){
+    if(!translations[lang]) return;
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = (lang === 'en') ? 'ltr' : 'rtl';
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if(translations[lang][key] !== undefined){
+        el.innerHTML = translations[lang][key];
+      }
+    });
+    document.querySelectorAll('.lang-switch button').forEach(b => {
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
+    buildShareLinks();
+  }
+
+  document.querySelectorAll('.lang-switch button').forEach(btn => {
+    btn.addEventListener('click', () => setLang(btn.dataset.lang));
+  });
+
+  buildShareLinks();
+
+  // locale-aware digits
+  function toLocaleDigits(n){
+    const s = String(n).padStart(2, '0');
+    if(currentLang === 'fa'){
+      const fa = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+      return s.replace(/\d/g, d => fa[d]);
+    }
+    if(currentLang === 'ar'){
+      const ar = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+      return s.replace(/\d/g, d => ar[d]);
+    }
+    return s;
   }
 
   function nextSession(){
@@ -531,10 +1059,10 @@
     const hours = Math.floor((ms % 86400000) / 3600000);
     const mins = Math.floor((ms % 3600000) / 60000);
     const secs = Math.floor((ms % 60000) / 1000);
-    document.getElementById('cd-days').textContent = toFa(days);
-    document.getElementById('cd-hours').textContent = toFa(hours);
-    document.getElementById('cd-mins').textContent = toFa(mins);
-    document.getElementById('cd-secs').textContent = toFa(secs);
+    document.getElementById('cd-days').textContent = toLocaleDigits(days);
+    document.getElementById('cd-hours').textContent = toLocaleDigits(hours);
+    document.getElementById('cd-mins').textContent = toLocaleDigits(mins);
+    document.getElementById('cd-secs').textContent = toLocaleDigits(secs);
   }
   updateCountdown();
   setInterval(updateCountdown, 1000);
