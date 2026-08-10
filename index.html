@@ -99,7 +99,7 @@
 
   /* ---------------- background texture + embers ---------------- */
   .noise{
-    position:fixed; inset:0; pointer-events:none; z-index:0; opacity:0.05; mix-blend-mode:overlay;
+    position:fixed; inset:0; pointer-events:none; z-index:0; opacity:0.035;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
   .embers{ position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
@@ -224,6 +224,66 @@
     border-color:var(--gold-soft);
     color:var(--parchment);
   }
+
+  /* ---------------- Tehran clock ---------------- */
+  .tehran-clock{
+    display:flex; align-items:center; gap:5px;
+    font-size:11.5px; font-weight:700;
+    font-variant-numeric:tabular-nums;
+    color:var(--gold);
+    background:rgba(255,255,255,0.02);
+    border:1px solid var(--line);
+    padding:6px 12px;
+    border-radius:999px;
+    white-space:nowrap;
+  }
+  .tehran-clock svg{ width:13px; height:13px; opacity:0.85; flex:none; }
+
+  /* ---------------- language dropdown (با پرچم) ---------------- */
+  .lang-switch-wrap{ position:relative; }
+  .lang-toggle{
+    display:flex; align-items:center; gap:6px;
+    font-family:'Vazirmatn', sans-serif;
+    font-size:11.5px;
+    font-weight:600;
+    letter-spacing:0.04em;
+    color:var(--parchment-dim);
+    background:rgba(255,255,255,0.02);
+    border:1px solid var(--line);
+    padding:6px 14px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:all 0.2s ease;
+  }
+  .lang-toggle:hover{ border-color:var(--gold-soft); color:var(--parchment); }
+  .lang-toggle .lang-flag{ font-size:14px; line-height:1; }
+  .lang-popover{
+    position:absolute; top:38px; left:50%;
+    transform:translateY(-6px) translateX(-50%);
+    min-width:150px;
+    background:var(--void-2, var(--void));
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:6px;
+    display:flex; flex-direction:column; gap:4px;
+    box-shadow:0 12px 26px rgba(0,0,0,0.5);
+    opacity:0; visibility:hidden;
+    transition:opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+    z-index:50;
+  }
+  .lang-popover.show{ opacity:1; visibility:visible; transform:translateY(0) translateX(-50%); }
+  .lang-opt{
+    display:flex; align-items:center; gap:8px;
+    font-family:'Vazirmatn', sans-serif;
+    font-size:12.5px; font-weight:600;
+    color:var(--parchment-dim);
+    background:transparent; border:1px solid transparent;
+    padding:8px 10px; border-radius:9px; cursor:pointer; text-align:right;
+    transition:all 0.15s ease;
+  }
+  .lang-opt .lang-flag{ font-size:15px; line-height:1; flex:none; }
+  .lang-opt.active{ color:var(--void); background:var(--gold); }
+  .lang-opt:not(.active):hover{ border-color:var(--gold-soft); color:var(--parchment); }
 
   /* ---------------- share buttons ---------------- */
   .share-block{
@@ -419,10 +479,8 @@
     border-radius:20px;
     border:1px solid var(--line);
     background:
-      linear-gradient(180deg, rgba(140,21,24,0.12), rgba(140,21,24,0.02)),
-      var(--glass);
-    backdrop-filter:blur(14px) saturate(160%);
-    -webkit-backdrop-filter:blur(14px) saturate(160%);
+      linear-gradient(180deg, rgba(140,21,24,0.14), rgba(140,21,24,0.03)),
+      var(--void);
     box-shadow:
       0 1px 0 rgba(255,255,255,0.06) inset,
       0 18px 36px rgba(0,0,0,0.35),
@@ -507,9 +565,7 @@
     text-decoration:none;
     position:relative;
     border:1px solid var(--line);
-    background:linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.005));
-    backdrop-filter:blur(12px) saturate(160%);
-    -webkit-backdrop-filter:blur(12px) saturate(160%);
+    background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)), var(--void);
     box-shadow:
       0 1px 0 rgba(255,255,255,0.05) inset,
       0 10px 24px rgba(0,0,0,0.28);
@@ -605,6 +661,331 @@
     h1{ font-size:23px; }
     .countdown-unit{ min-width:50px; }
   }
+
+  /* ============================================================
+     THEME SYSTEM (پیش‌فرض / روشن / تاریک)
+  ============================================================ */
+  body.theme-dark{
+    --void:#000000; --void-2:#0a0a0a;
+    --crimson:#6e1013; --crimson-bright:#9c2320; --crimson-deep:#220506;
+    --ember:#c4502f; --ember-soft:#c4502f55;
+    --gold:#a3853a; --gold-soft:#6f5d33; --gold-dim:#453a22;
+    --parchment:#d8d0bf; --parchment-dim:#83786a;
+    --line:rgba(163,133,58,0.14); --glass:rgba(255,255,255,0.03);
+  }
+  body.theme-light{
+    --void:#f5eee0; --void-2:#efe6d4;
+    --crimson:#8c1518; --crimson-bright:#a81d1a; --crimson-deep:#e3c3ba;
+    --ember:#c94a2f; --ember-soft:#c94a2f33;
+    --gold:#9c7a1e; --gold-soft:#7a611c; --gold-dim:#8a742f;
+    --parchment:#241b12; --parchment-dim:#5c503f;
+    --line:rgba(140,90,20,0.18); --glass:rgba(0,0,0,0.035);
+  }
+
+  /* تم تاریک: پس‌زمینه کاملا مشکی، بدون هاله قرمز (که قبلا با رنگ ثابت rgba(140,21,24..) حتی در تم تاریک هم دیده می‌شد) */
+  body.theme-dark{
+    background:#000000;
+  }
+  body.theme-dark .emblem .glow{
+    background:radial-gradient(circle, rgba(35,10,10,0.55) 0%, rgba(35,10,10,0.18) 45%, transparent 72%);
+  }
+  body.theme-dark .countdown-card{
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005)),
+      #050505;
+  }
+  body.theme-dark .countdown-card::before{
+    background:radial-gradient(circle, rgba(35,10,10,0.35), transparent 70%);
+  }
+
+  .theme-switch-wrap{ position:relative; }
+  .theme-popover{
+    position:absolute; top:38px; left:50%;
+    transform:translateY(-6px) translateX(-50%);
+    min-width:126px;
+    background:var(--void-2, var(--void));
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:6px;
+    display:flex; flex-direction:column; gap:4px;
+    box-shadow:0 12px 26px rgba(0,0,0,0.5);
+    opacity:0; visibility:hidden;
+    transition:opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+    z-index:50;
+  }
+  .theme-popover.show{ opacity:1; visibility:visible; transform:translateY(0) translateX(-50%); }
+  .theme-opt{
+    font-family:'Vazirmatn', sans-serif;
+    font-size:12px; font-weight:600;
+    color:var(--parchment-dim);
+    background:transparent; border:1px solid transparent;
+    padding:8px 10px; border-radius:9px; cursor:pointer; text-align:center;
+    transition:all 0.15s ease;
+  }
+  .theme-opt.active{ color:var(--void); background:var(--gold); }
+  .theme-opt:not(.active):hover{ border-color:var(--gold-soft); color:var(--parchment); }
+
+  /* ============================================================
+     ANNOUNCEMENT MODAL (صفحه کوچک اعلان ویژه)
+  ============================================================ */
+  .modal-overlay{
+    position:fixed; inset:0; z-index:300;
+    background:rgba(3,1,1,0.72);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    display:flex; align-items:flex-end; justify-content:center;
+    opacity:0; visibility:hidden;
+    transition:opacity 0.25s ease, visibility 0.25s ease;
+  }
+  .modal-overlay.show{ opacity:1; visibility:visible; }
+  .modal-sheet{
+    position:relative;
+    width:100%; max-width:500px;
+    max-height:82vh; overflow-y:auto;
+    background:var(--void-2, var(--void));
+    border:1px solid var(--gold-soft);
+    border-bottom:none;
+    border-radius:26px 26px 0 0;
+    padding:14px 24px 32px;
+    text-align:center;
+    box-shadow:0 -12px 40px rgba(0,0,0,0.5);
+    transform:translateY(100%);
+    transition:transform 0.32s cubic-bezier(0.22,1,0.36,1);
+  }
+  .modal-overlay.show .modal-sheet{ transform:translateY(0); }
+  .modal-handle{
+    width:38px; height:4px; border-radius:999px;
+    background:var(--line);
+    margin:6px auto 18px;
+  }
+  .modal-close{
+    position:absolute; top:14px; left:16px;
+    width:32px; height:32px; border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.03);
+    color:var(--parchment-dim);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+  }
+  .modal-close svg{ width:14px; height:14px; }
+  .modal-close:hover{ border-color:var(--gold-soft); color:var(--gold); }
+  .modal-ribbon{
+    display:inline-block;
+    font-size:10.5px; font-weight:700; letter-spacing:0.14em;
+    color:var(--void); background:var(--gold);
+    padding:4px 14px; border-radius:999px;
+    margin-bottom:16px;
+  }
+  .modal-title{
+    font-size:17px; font-weight:800; line-height:1.9;
+    color:var(--parchment);
+  }
+  .modal-row{
+    display:flex; justify-content:center; gap:6px;
+    font-size:13.5px; margin-top:14px;
+  }
+  .modal-label{ color:var(--gold-soft); font-weight:600; }
+  .modal-value{ color:var(--parchment); font-weight:600; }
+  .modal-divider{
+    height:1px; margin:18px auto; width:70%;
+    background:linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  }
+  .modal-time{
+    font-size:14px; color:var(--parchment); line-height:2; font-weight:500;
+  }
+  .modal-note{
+    margin-top:14px; font-size:12.5px; color:var(--parchment-dim);
+  }
+  .modal-tag{
+    margin-top:12px; font-size:11px; color:var(--gold-soft);
+    letter-spacing:0.05em; font-weight:600;
+  }
+
+  /* ============================================================
+     DATE / CALENDAR CARD
+  ============================================================ */
+  .date-card{
+    margin:26px 0 8px;
+    padding:20px 20px 18px;
+    border-radius:20px;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)), var(--void);
+    box-shadow:0 1px 0 rgba(255,255,255,0.05) inset, 0 10px 24px rgba(0,0,0,0.28);
+  }
+  .date-card-title{
+    text-align:center; font-size:12.5px; font-weight:600;
+    color:var(--gold); letter-spacing:0.06em; margin-bottom:14px;
+  }
+  .date-card-title .prayer-city{
+    display:block; margin-top:4px; font-size:10.5px; font-weight:500;
+    color:var(--parchment-dim); letter-spacing:0.02em;
+  }
+  .date-row{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:9px 4px; border-bottom:1px solid var(--line);
+    font-size:13px;
+  }
+  .date-row:last-of-type{ border-bottom:none; }
+  .date-label{ color:var(--parchment-dim); font-weight:600; }
+  .date-value{ color:var(--parchment); font-weight:700; }
+  .ghaybat-box{
+    margin-top:14px; padding:12px 14px; border-radius:14px;
+    background:rgba(0,0,0,0.22);
+    border:1px solid var(--line);
+    text-align:center;
+  }
+  .ghaybat-label{
+    display:block; font-size:11.5px; color:var(--gold-soft); font-weight:600; margin-bottom:6px;
+  }
+  .ghaybat-value{
+    display:block; font-size:14px; color:var(--parchment); font-weight:700; line-height:1.9;
+  }
+
+  /* ============================================================
+     HADITH CARD
+  ============================================================ */
+  .hadith-card{
+    margin:26px 0 8px;
+    padding:20px 20px 18px;
+    border-radius:20px;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)), var(--void);
+    box-shadow:0 1px 0 rgba(255,255,255,0.05) inset, 0 10px 24px rgba(0,0,0,0.28);
+  }
+  .hadith-header{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    font-size:12.5px; font-weight:600; color:var(--gold);
+    letter-spacing:0.06em; margin-bottom:14px;
+  }
+  .hadith-header svg{ width:15px; height:15px; }
+  .hadith-narrator{
+    text-align:center; font-size:12.5px; color:var(--gold-soft); font-weight:700; margin-bottom:10px;
+  }
+  .hadith-arabic{
+    font-family:'Amiri', serif;
+    font-size:16.5px; line-height:2.1; color:var(--parchment);
+    text-align:center; margin-bottom:12px;
+  }
+  .hadith-fa{
+    font-size:13.5px; line-height:2; color:var(--parchment-dim);
+    text-align:center; margin-bottom:12px;
+  }
+  .hadith-source{
+    text-align:center; font-size:11px; color:var(--gold-dim); font-weight:600;
+  }
+
+  /* ============================================================
+     CONTACT (EITAA ID) CARD
+  ============================================================ */
+  .contact-card{
+    display:flex; align-items:center; justify-content:space-between; gap:14px;
+    padding:16px 18px; border-radius:18px;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)), var(--void);
+    box-shadow:0 1px 0 rgba(255,255,255,0.05) inset, 0 10px 24px rgba(0,0,0,0.28);
+  }
+  .contact-left{ display:flex; align-items:center; gap:14px; }
+  .contact-id{
+    font-size:14.5px; font-weight:700; color:var(--parchment);
+    direction:ltr; letter-spacing:0.01em;
+  }
+  .copy-btn{
+    width:38px; height:38px; min-width:38px;
+    border-radius:12px;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.02);
+    color:var(--gold-soft);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:all 0.18s ease;
+  }
+  .copy-btn svg{ width:16px; height:16px; }
+  .copy-btn:hover{ border-color:var(--gold-soft); color:var(--gold); }
+  .copy-btn:active{ transform:scale(0.92); }
+
+  /* share copy-link button (replaces WhatsApp) */
+  .share-btn.copy-link{
+    background:linear-gradient(135deg, var(--gold-dim), var(--gold-soft));
+    color:var(--void);
+    border:none;
+    cursor:pointer;
+  }
+  .share-btn.copy-link svg{ color:var(--void); }
+
+  /* ============================================================
+     TOAST
+  ============================================================ */
+  .toast{
+    position:fixed; bottom:24px; left:50%;
+    transform:translateX(-50%) translateY(10px);
+    background:var(--gold); color:var(--void);
+    font-size:12.5px; font-weight:700;
+    padding:10px 18px; border-radius:999px;
+    box-shadow:0 10px 24px rgba(0,0,0,0.4);
+    opacity:0; visibility:hidden; pointer-events:none;
+    transition:opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;
+    z-index:200;
+  }
+  .toast.show{ opacity:1; visibility:visible; transform:translateX(-50%) translateY(0); }
+
+  /* ============================================================
+     ANNOUNCEMENT TICKER (نوار متحرک اعلان)
+  ============================================================ */
+  .ticker-bar{
+    display:flex; align-items:center; gap:10px;
+    width:100%;
+    margin-bottom:24px;
+    padding:6px;
+    border-radius:999px;
+    border:1px solid var(--gold-soft);
+    background:linear-gradient(90deg, var(--crimson-deep), rgba(140,21,24,0.22));
+    text-decoration:none;
+    overflow:hidden;
+    position:relative;
+    box-shadow:0 8px 20px rgba(0,0,0,0.3);
+    cursor:pointer;
+    font-family:inherit;
+  }
+  .ticker-badge{
+    flex:none;
+    display:flex; align-items:center; gap:6px;
+    padding:7px 13px;
+    border-radius:999px;
+    background:var(--gold);
+    color:var(--void);
+    font-size:10.5px; font-weight:800; letter-spacing:0.08em;
+  }
+  .ticker-dot{
+    width:6px; height:6px; border-radius:50%;
+    background:var(--void);
+    animation:ticker-blink 1.4s ease-in-out infinite;
+  }
+  @keyframes ticker-blink{ 0%,100%{ opacity:1; } 50%{ opacity:0.25; } }
+  .ticker-track{
+    flex:1; min-width:0;
+    overflow:hidden;
+    direction:ltr;
+    -webkit-mask-image:linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    mask-image:linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  }
+  .ticker-track-inner{
+    display:flex; gap:56px; width:max-content;
+    animation:ticker-scroll 16s linear infinite reverse;
+  }
+  .ticker-bar:hover .ticker-track-inner{ animation-play-state:paused; }
+  @keyframes ticker-scroll{
+    from{ transform:translateX(0); }
+    to{ transform:translateX(-50%); }
+  }
+  .ticker-text{
+    direction:rtl; unicode-bidi:isolate;
+    font-size:12.5px; font-weight:600; color:var(--parchment);
+    white-space:nowrap;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .ticker-track-inner{ animation:none; }
+    .ticker-track{ overflow-x:auto; }
+  }
 </style>
 </head>
 <body>
@@ -618,19 +999,84 @@
 <div class="progress-bar" id="progress-bar"></div>
 <div class="noise"></div>
 <div class="embers" id="embers"></div>
+<div class="toast" id="toast"></div>
 
 <div class="page">
 
   <div class="top-controls">
-    <div class="lang-switch" role="tablist" aria-label="زبان صفحه">
-      <button type="button" data-lang="fa" class="active">فا</button>
-      <button type="button" data-lang="ar">عربي</button>
-      <button type="button" data-lang="en">EN</button>
+    <div class="tehran-clock" id="tehran-clock" aria-label="ساعت به وقت تهران">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.6"/><path d="M12 7.5V12l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span id="tehran-clock-time">--:--</span>
+    </div>
+    <div class="lang-switch-wrap">
+      <button type="button" id="lang-toggle" class="lang-toggle" aria-haspopup="true" aria-expanded="false" aria-label="انتخاب زبان">
+        <span class="lang-flag" id="lang-toggle-flag">🇮🇷</span>
+        <span id="lang-toggle-code">فا</span>
+      </button>
+      <div class="lang-popover" id="lang-popover" role="menu">
+        <button type="button" class="lang-opt active" data-lang="fa" data-flag="🇮🇷" data-code="فا">
+          <span class="lang-flag">🇮🇷</span><span>فارسی</span>
+        </button>
+        <button type="button" class="lang-opt" data-lang="ar" data-flag="🇮🇶" data-code="عربي">
+          <span class="lang-flag">🇮🇶</span><span>العربية</span>
+        </button>
+        <button type="button" class="lang-opt" data-lang="en" data-flag="🇬🇧" data-code="EN">
+          <span class="lang-flag">🇬🇧</span><span>English</span>
+        </button>
+      </div>
     </div>
     <button type="button" id="sound-toggle" class="sound-toggle" aria-label="قطع/وصل صدا" aria-pressed="false">
       <svg class="icon-sound-on" viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a4 4 0 0 1 0 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M18.5 6a7.5 7.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/></svg>
       <svg class="icon-sound-off" viewBox="0 0 24 24" fill="none" style="display:none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M15.5 9.5l5 5M20.5 9.5l-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
     </button>
+    <div class="theme-switch-wrap">
+      <button type="button" id="theme-toggle" class="sound-toggle" aria-label="تغییر تم" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 9 9c0-.5-.04-1-.12-1.47a5.5 5.5 0 0 1-7.41-7.41A9 9 0 0 0 12 3z" fill="currentColor"/></svg>
+      </button>
+      <div class="theme-popover" id="theme-popover" role="menu">
+        <button type="button" class="theme-opt active" data-theme="default">پیش‌فرض</button>
+        <button type="button" class="theme-opt" data-theme="light">روشن</button>
+        <button type="button" class="theme-opt" data-theme="dark">تاریک</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- نوار متحرک اعلان: با تغییر annTitle/annTime، متن tickerText هم به‌روز شود -->
+  <button type="button" class="ticker-bar reveal" id="ticker-open" aria-label="مشاهده جزئیات اعلان ویژه" aria-haspopup="dialog">
+    <span class="ticker-badge">
+      <span class="ticker-dot"></span>
+      <span data-i18n="annBadge">ویژه</span>
+    </span>
+    <span class="ticker-track" dir="ltr">
+      <span class="ticker-track-inner">
+        <span class="ticker-text" data-i18n="tickerText">مراسم شهادت پیامبر اعظم، امام حسن مجتبی (ع) و امام رضا (ع) — سخنرانی سید مجید موسوی — از سه‌شنبه به مدت ۳ شب، ساعت ۲۰:۴۵ — قاضی‌آباد، مسجد قائم (عج)</span>
+        <span class="ticker-text" aria-hidden="true" data-i18n="tickerText">مراسم شهادت پیامبر اعظم، امام حسن مجتبی (ع) و امام رضا (ع) — سخنرانی سید مجید موسوی — از سه‌شنبه به مدت ۳ شب، ساعت ۲۰:۴۵ — قاضی‌آباد، مسجد قائم (عج)</span>
+      </span>
+    </span>
+  </button>
+
+  <!-- صفحه کوچک (مودال) اعلان ویژه: با تغییر متن اعلان، کلیدهای ann* در translations.fa بروزرسانی شود -->
+  <div class="modal-overlay" id="announce-modal-overlay">
+    <div class="modal-sheet" role="dialog" aria-modal="true" aria-label="جزئیات اعلان ویژه">
+      <button type="button" class="modal-close" id="announce-modal-close" aria-label="بستن">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <div class="modal-handle"></div>
+      <div class="modal-ribbon" data-i18n="annBadge">ویژه</div>
+      <div class="modal-title" data-i18n="annTitle">مراسم شهادت پیامبر اعظم، امام حسن مجتبی (ع) و امام رضا (ع)</div>
+      <div class="modal-row">
+        <span class="modal-label" data-i18n="annSpeakerLabel">سخنران:</span>
+        <span class="modal-value" data-i18n="annSpeaker">سید مجید موسوی</span>
+      </div>
+      <div class="modal-row">
+        <span class="modal-label" data-i18n="annVoiceLabel">با نوای:</span>
+        <span class="modal-value" data-i18n="annVoice">ذاکرین اهل بیت (ع)</span>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="modal-time" data-i18n="annTime">از سه‌شنبه به مدت ۳ شب، ساعت ۲۰:۴۵<br>قاضی‌آباد، خیابان نهم، مسجد قائم (عج)</div>
+      <div class="modal-note" data-i18n="annNote">بعد از مراسم در تجمعات شرکت خواهیم کرد</div>
+      <div class="modal-tag" data-i18n="annTag">ویژه برادران و خواهران</div>
+    </div>
   </div>
 
   <div class="bismillah-wrap">
@@ -666,7 +1112,7 @@
   </div>
 
   <div class="countdown-card reveal">
-    <div class="countdown-label" data-i18n="cdLabel">تا شروع مجلس بعدی</div>
+    <div class="countdown-label" data-i18n="cdLabel">شروع تا جلسه بعدی</div>
     <div class="countdown-grid">
       <div class="countdown-unit"><span class="num" id="cd-days">--</span><span class="lbl" data-i18n="unitDays">روز</span></div>
       <div class="countdown-unit"><span class="num" id="cd-hours">--</span><span class="lbl" data-i18n="unitHours">ساعت</span></div>
@@ -674,6 +1120,65 @@
       <div class="countdown-unit"><span class="num" id="cd-secs">--</span><span class="lbl" data-i18n="unitSecs">ثانیه</span></div>
     </div>
     <div class="countdown-foot" data-i18n="cdFoot">سه‌شنبه، ساعت ۲۱:۰۰</div>
+  </div>
+
+  <div class="date-card reveal">
+    <div class="date-card-title" data-i18n="calTitle">تقویم امروز</div>
+    <div class="date-row">
+      <span class="date-label" data-i18n="calShamsiLabel">شمسی</span>
+      <span class="date-value" id="date-shamsi">--</span>
+    </div>
+    <div class="date-row">
+      <span class="date-label" data-i18n="calQamariLabel">قمری</span>
+      <span class="date-value" id="date-qamari">--</span>
+    </div>
+    <div class="date-row">
+      <span class="date-label" data-i18n="calMiladiLabel">میلادی</span>
+      <span class="date-value" id="date-miladi">--</span>
+    </div>
+    <div class="ghaybat-box">
+      <span class="ghaybat-label" data-i18n="ghaybatLabel">تقویم غیبت صاحب‌الزمان (عج)</span>
+      <span class="ghaybat-value" id="ghaybat-value">--</span>
+    </div>
+  </div>
+
+  <div class="date-card reveal">
+    <div class="date-card-title" data-i18n="prayerTitle">اوقات شرعی <span class="prayer-city" data-i18n="prayerCity">(خرم‌آباد، لرستان)</span></div>
+    <div class="date-row">
+      <span class="date-label" data-i18n="prayerFajr">اذان صبح</span>
+      <span class="date-value" id="prayer-fajr">--</span>
+    </div>
+    <div class="date-row">
+      <span class="date-label" data-i18n="prayerSunrise">طلوع آفتاب</span>
+      <span class="date-value" id="prayer-sunrise">--</span>
+    </div>
+    <div class="date-row">
+      <span class="date-label" data-i18n="prayerDhuhr">اذان ظهر</span>
+      <span class="date-value" id="prayer-dhuhr">--</span>
+    </div>
+    <div class="date-row">
+      <span class="date-label" data-i18n="prayerSunset">غروب آفتاب</span>
+      <span class="date-value" id="prayer-sunset">--</span>
+    </div>
+    <div class="date-row">
+      <span class="date-label" data-i18n="prayerMaghrib">اذان مغرب</span>
+      <span class="date-value" id="prayer-maghrib">--</span>
+    </div>
+    <div class="date-row">
+      <span class="date-label" data-i18n="prayerMidnight">نیمه‌شب شرعی</span>
+      <span class="date-value" id="prayer-midnight">--</span>
+    </div>
+  </div>
+
+  <div class="hadith-card reveal">
+    <div class="hadith-header">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H19v15H6.5A2.5 2.5 0 0 0 4 20.5v-15z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M4 17.5A2.5 2.5 0 0 1 6.5 15H19" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      <span data-i18n="hadithTitle">حدیث روز</span>
+    </div>
+    <div class="hadith-narrator" id="hadith-narrator">--</div>
+    <div class="hadith-arabic" id="hadith-arabic">--</div>
+    <div class="hadith-fa" id="hadith-fa">--</div>
+    <div class="hadith-source" id="hadith-source">--</div>
   </div>
 
   <div class="group-label reveal" data-i18n="groupFollow">دنبال کنید</div>
@@ -720,6 +1225,19 @@
 
   </div>
 
+  <div class="group-label reveal" data-i18n="groupContact">ارتباط با ما در ایتا</div>
+  <div class="contact-card reveal">
+    <div class="contact-left">
+      <div class="icon-box eitaa">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 12c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8c-1.1 0-2.1-.2-3-.6L5 20l1-4.4c-1.2-1-2-2.6-2-4.4z" fill="#fff"/><circle cx="9" cy="12" r="1.3" fill="#e05b1e"/><circle cx="12" cy="12" r="1.3" fill="#e05b1e"/><circle cx="15" cy="12" r="1.3" fill="#e05b1e"/></svg>
+      </div>
+      <span class="contact-id" id="eitaa-id">@Kazemiuon_pv</span>
+    </div>
+    <button type="button" class="copy-btn" id="copy-eitaa-id" aria-label="کپی آیدی">
+      <svg viewBox="0 0 24 24" fill="none"><rect x="8" y="8" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" stroke="currentColor" stroke-width="1.6"/></svg>
+    </button>
+  </div>
+
   <div class="group-label reveal" data-i18n="groupRoute">مسیر رسیدن به هیئت</div>
   <div class="links reveal">
 
@@ -754,18 +1272,17 @@
   <div class="share-block reveal">
     <div class="share-label" data-i18n="shareLabel">این صفحه رو با دوستان به اشتراک بگذارید</div>
     <div class="share-buttons">
-      <a class="share-btn whatsapp" id="share-wa" target="_blank" rel="noopener" aria-label="اشتراک‌گذاری در واتساپ">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2z" fill="#fff"/><path d="M8.3 7.6c.2-.5.4-.5.6-.5h.5c.2 0 .4 0 .5.4l.8 1.9c.1.2 0 .4-.1.6l-.5.6c-.1.2-.2.3 0 .6.2.3.8 1.2 1.7 2 1.1 1 2 1.3 2.3 1.4.3.1.4.1.6-.1l.7-.8c.2-.2.4-.2.6-.1l1.7.8c.2.1.4.2.4.4 0 .5-.1 1-.4 1.4-.3.4-.9.7-1.4.7-.9 0-2.3-.3-4-1.8-2-1.8-3.3-4-3.5-4.4-.2-.4-1-1.6-.9-2.9 0-.6.3-.9.4-1.1z" fill="#128c46"/></svg>
-      </a>
       <a class="share-btn telegram" id="share-tg" target="_blank" rel="noopener" aria-label="اشتراک‌گذاری در تلگرام">
         <svg viewBox="0 0 24 24" fill="none"><path d="M21.2 4.4L2.8 11.5c-1 .4-1 1 .1 1.3l4.7 1.5 1.8 5.6c.2.6.3.8.9.8.4 0 .6-.2.9-.5l2.1-2 4.4 3.2c.8.5 1.4.2 1.6-.7l3-14c.3-1.2-.4-1.7-1.1-1.3z" fill="#fff"/></svg>
       </a>
+      <button type="button" class="share-btn copy-link" id="share-copy" aria-label="کپی لینک صفحه">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="5" cy="12" r="1.9" fill="currentColor"/><circle cx="12" cy="12" r="1.9" fill="currentColor"/><circle cx="19" cy="12" r="1.9" fill="currentColor"/></svg>
+      </button>
     </div>
   </div>
 
   <footer class="reveal">
     <svg class="flame" viewBox="0 0 14 20"><path d="M7 0c1 3-3 4-3 8a3 3 0 0 0 6 0c0-1-.5-1.5-1-2 .3 1.5-.5 2-1 2-1 0-1.5-.7-1-2 .8-2 1-3.5 0-6z" fill="#e2593f"/></svg>
-    <span class="ya" data-i18n="footerYa">یا ابا الفضل العباس</span>
     <span class="sub" data-i18n="footerSub">کانال رسمی هیئت کاظمیون خرم‌آباد</span>
   </footer>
 
@@ -849,11 +1366,70 @@
     update();
   })();
 
-  // ---------------- day / night auto mode (item 7) ----------------
-  (function dayNightMode(){
-    const hour = new Date().getHours();
-    const isDay = hour >= 6 && hour < 18;
-    document.body.classList.toggle('mode-day', isDay);
+  // ---------------- theme switcher (پیش‌فرض / روشن / تاریک) ----------------
+  (function themeSwitcher(){
+    const toggle = document.getElementById('theme-toggle');
+    const popover = document.getElementById('theme-popover');
+    if(!toggle || !popover) return;
+    const opts = popover.querySelectorAll('.theme-opt');
+
+    function applyTheme(theme){
+      document.body.classList.remove('theme-light', 'theme-dark');
+      if(theme === 'light') document.body.classList.add('theme-light');
+      else if(theme === 'dark') document.body.classList.add('theme-dark');
+      opts.forEach(b => b.classList.toggle('active', b.dataset.theme === theme));
+      try{ localStorage.setItem('kazemiuon-theme', theme); }catch(e){}
+    }
+
+    let saved = 'default';
+    try{ saved = localStorage.getItem('kazemiuon-theme') || 'default'; }catch(e){}
+    applyTheme(saved);
+
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const show = !popover.classList.contains('show');
+      popover.classList.toggle('show', show);
+      toggle.setAttribute('aria-expanded', String(show));
+    });
+    opts.forEach(btn => {
+      btn.addEventListener('click', () => {
+        applyTheme(btn.dataset.theme);
+        popover.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+    document.addEventListener('click', (e) => {
+      if(!popover.contains(e.target) && e.target !== toggle){
+        popover.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+
+  // ---------------- اعلان ویژه: باز/بسته شدن صفحه کوچک ----------------
+  (function announceModal(){
+    const openBtn = document.getElementById('ticker-open');
+    const overlay = document.getElementById('announce-modal-overlay');
+    const closeBtn = document.getElementById('announce-modal-close');
+    if(!openBtn || !overlay || !closeBtn) return;
+
+    function openModal(){
+      overlay.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(){
+      overlay.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    openBtn.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e) => {
+      if(e.target === overlay) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape' && overlay.classList.contains('show')) closeModal();
+    });
   })();
 
   // ---------------- gentle click sound + mute toggle (item 6) ----------------
@@ -882,7 +1458,7 @@
     osc.start(t0);
     osc.stop(t0 + 0.16);
   }
-  document.querySelectorAll('.link-card, .share-btn, .lang-switch button').forEach(el => {
+  document.querySelectorAll('.link-card, .share-btn, .lang-opt, .lang-toggle').forEach(el => {
     el.addEventListener('click', playTick);
   });
   const soundToggle = document.getElementById('sound-toggle');
@@ -919,10 +1495,35 @@
       tag: "هیئـت عزاداری",
       title: "هیئت کاظمیون خرم‌آباد",
       meta: 'برگزاری هر هفته، <b>سه‌شنبه‌ها ساعت ۲۱</b><br>قاضی‌آباد، خیابان نهم، مسجد حضرت قائم «عج»',
-      cdLabel: "تا شروع مجلس بعدی",
+      cdLabel: "شروع تا جلسه بعدی",
       unitDays: "روز", unitHours: "ساعت", unitMins: "دقیقه", unitSecs: "ثانیه",
       cdFoot: "سه‌شنبه، ساعت ۲۱:۰۰",
+      annBadge: "ویژه",
+      annTitle: "مراسم شهادت پیامبر اعظم، امام حسن مجتبی (ع) و امام رضا (ع)",
+      annSpeakerLabel: "سخنران:",
+      annSpeaker: "سید مجید موسوی",
+      annVoiceLabel: "با نوای:",
+      annVoice: "ذاکرین اهل بیت (ع)",
+      annTime: 'از سه‌شنبه به مدت ۳ شب، ساعت ۲۰:۴۵<br>قاضی‌آباد، خیابان نهم، مسجد قائم (عج)',
+      annNote: "بعد از مراسم در تجمعات شرکت خواهیم کرد",
+      annTag: "ویژه برادران و خواهران",
+      tickerText: "مراسم شهادت پیامبر اعظم، امام حسن مجتبی (ع) و امام رضا (ع) — سخنرانی سید مجید موسوی — از سه‌شنبه به مدت ۳ شب، ساعت ۲۰:۴۵ — قاضی‌آباد، مسجد قائم (عج)",
+      calTitle: "تقویم امروز",
+      calShamsiLabel: "شمسی",
+      calQamariLabel: "قمری",
+      calMiladiLabel: "میلادی",
+      ghaybatLabel: "تقویم غیبت صاحب‌الزمان (عج)",
+      prayerTitle: "اوقات شرعی",
+      prayerCity: "(خرم‌آباد، لرستان)",
+      prayerFajr: "اذان صبح",
+      prayerSunrise: "طلوع آفتاب",
+      prayerDhuhr: "اذان ظهر",
+      prayerSunset: "غروب آفتاب",
+      prayerMaghrib: "اذان مغرب",
+      prayerMidnight: "نیمه‌شب شرعی",
+      hadithTitle: "حدیث روز",
       groupFollow: "دنبال کنید",
+      groupContact: "ارتباط با ما در ایتا",
       groupRoute: "مسیر رسیدن به هیئت",
       eitaaTitle: "کاظمیون در ایتا",
       rubikaTitle: "کاظمیون در روبیکا",
@@ -931,7 +1532,6 @@
       baladTitle: "مسیریابی با بلد",
       shareLabel: "این صفحه رو با دوستان به اشتراک بگذارید",
       shareMsg: "دعوت به هیئت کاظمیون خرم‌آباد 🕯",
-      footerYa: "یا ابا الفضل العباس",
       footerSub: "کانال رسمی هیئت کاظمیون خرم‌آباد"
     },
     ar: {
@@ -942,7 +1542,32 @@
       cdLabel: "حتى بدء المجلس القادم",
       unitDays: "يوم", unitHours: "ساعة", unitMins: "دقيقة", unitSecs: "ثانية",
       cdFoot: "الثلاثاء، الساعة ۲۱:۰۰",
+      annBadge: "خاص",
+      annTitle: "مراسم استشهاد النبي الأعظم والإمام الحسن المجتبى (ع) والإمام الرضا (ع)",
+      annSpeakerLabel: "الخطيب:",
+      annSpeaker: "السيد مجید موسوی",
+      annVoiceLabel: "بصوت:",
+      annVoice: "ذاكري أهل البيت (ع)",
+      annTime: 'من الثلاثاء لمدة ۳ ليالٍ، الساعة ۲۰:۴۵<br>قاضي‌آباد، الشارع التاسع، مسجد الإمام القائم (عج)',
+      annNote: "بعد المراسم سنشارك في التجمعات",
+      annTag: "خاص بالإخوة والأخوات",
+      tickerText: "مراسم استشهاد النبي الأعظم والإمام الحسن المجتبى (ع) والإمام الرضا (ع) — الخطيب السيد مجید موسوی — من الثلاثاء لمدة ۳ ليالٍ، الساعة ۲۰:۴۵ — قاضي‌آباد، مسجد الإمام القائم (عج)",
+      calTitle: "تقويم اليوم",
+      calShamsiLabel: "شمسي",
+      calQamariLabel: "قمري",
+      calMiladiLabel: "ميلادي",
+      ghaybatLabel: "تقويم غيبة صاحب الزمان (عج)",
+      prayerTitle: "المواقيت الشرعية",
+      prayerCity: "(خرم‌آباد، محافظة لرستان)",
+      prayerFajr: "أذان الصبح",
+      prayerSunrise: "شروق الشمس",
+      prayerDhuhr: "أذان الظهر",
+      prayerSunset: "غروب الشمس",
+      prayerMaghrib: "أذان المغرب",
+      prayerMidnight: "منتصف الليل الشرعي",
+      hadithTitle: "حديث اليوم",
       groupFollow: "تابعونا",
+      groupContact: "تواصلوا معنا عبر إيتا",
       groupRoute: "الطريق إلى الموكب",
       eitaaTitle: "الكاظميون على إيتا",
       rubikaTitle: "الكاظميون على روبيكا",
@@ -951,7 +1576,6 @@
       baladTitle: "الاتجاهات عبر بلد",
       shareLabel: "شارك هذه الصفحة مع أصدقائك",
       shareMsg: "دعوة لموكب الكاظميون خرم‌آباد 🕯",
-      footerYa: "يا أبا الفضل العباس",
       footerSub: "القناة الرسمية لموكب الكاظميون خرم‌آباد"
     },
     en: {
@@ -962,7 +1586,32 @@
       cdLabel: "Until Next Session",
       unitDays: "Days", unitHours: "Hours", unitMins: "Mins", unitSecs: "Secs",
       cdFoot: "Tuesday, 9:00 PM",
+      annBadge: "Special",
+      annTitle: "Martyrdom Ceremony of the Prophet, Imam Hasan al-Mujtaba (AS) & Imam Reza (AS)",
+      annSpeakerLabel: "Speaker:",
+      annSpeaker: "Seyyed Majid Mousavi",
+      annVoiceLabel: "Eulogy by:",
+      annVoice: "Zakerin Ahl al-Bayt (AS)",
+      annTime: 'From Tuesday, for 3 nights, at 8:45 PM<br>Ghazi-abad, 9th Street, Emam Ghaem Mosque',
+      annNote: "We will join the gatherings after the ceremony",
+      annTag: "For brothers and sisters",
+      tickerText: "Martyrdom ceremony of the Prophet, Imam Hasan al-Mujtaba (AS) & Imam Reza (AS) — Speaker: Seyyed Majid Mousavi — From Tuesday, 3 nights, 8:45 PM — Ghazi-abad, Emam Ghaem Mosque",
+      calTitle: "Today's Calendar",
+      calShamsiLabel: "Solar (Shamsi)",
+      calQamariLabel: "Lunar (Hijri)",
+      calMiladiLabel: "Gregorian",
+      ghaybatLabel: "Occultation Calendar of Sahib al-Zaman (AS)",
+      prayerTitle: "Prayer Times",
+      prayerCity: "(Khorramabad, Lorestan)",
+      prayerFajr: "Fajr",
+      prayerSunrise: "Sunrise",
+      prayerDhuhr: "Dhuhr",
+      prayerSunset: "Sunset",
+      prayerMaghrib: "Maghrib",
+      prayerMidnight: "Islamic Midnight",
+      hadithTitle: "Hadith of the Day",
       groupFollow: "Follow Us",
+      groupContact: "Contact Us on Eitaa",
       groupRoute: "Directions",
       eitaaTitle: "Kazemiyoon on Eitaa",
       rubikaTitle: "Kazemiyoon on Rubika",
@@ -971,7 +1620,6 @@
       baladTitle: "Directions via Balad",
       shareLabel: "Share this page with friends",
       shareMsg: "Join Heyat-e Kazemiyoon Khorramabad 🕯",
-      footerYa: "Ya Aba al-Fadl al-Abbas",
       footerSub: "Official channel of Heyat-e Kazemiyoon Khorramabad"
     }
   };
@@ -981,11 +1629,56 @@
   function buildShareLinks(){
     const msg = translations[currentLang].shareMsg;
     const url = window.location.href;
-    document.getElementById('share-wa').href =
-      'https://wa.me/?text=' + encodeURIComponent(msg + ' ' + url);
-    document.getElementById('share-tg').href =
-      'https://t.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(msg);
+    const tg = document.getElementById('share-tg');
+    if(tg){
+      tg.href = 'https://t.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(msg);
+    }
   }
+
+  // ---------------- toast ----------------
+  function showToast(msg){
+    const t = document.getElementById('toast');
+    if(!t) return;
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => t.classList.remove('show'), 1800);
+  }
+
+  async function copyText(text, successMsg){
+    try{
+      await navigator.clipboard.writeText(text);
+      showToast(successMsg);
+    }catch(e){
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try{ document.execCommand('copy'); showToast(successMsg); }catch(e2){}
+      document.body.removeChild(ta);
+    }
+  }
+
+  // ---------------- copy: share link ----------------
+  (function shareCopy(){
+    const btn = document.getElementById('share-copy');
+    if(!btn) return;
+    btn.addEventListener('click', () => {
+      copyText(window.location.href, 'لینک کپی شد');
+    });
+  })();
+
+  // ---------------- copy: eitaa id ----------------
+  (function eitaaCopy(){
+    const btn = document.getElementById('copy-eitaa-id');
+    const idEl = document.getElementById('eitaa-id');
+    if(!btn || !idEl) return;
+    btn.addEventListener('click', () => {
+      copyText(idEl.textContent.trim(), 'آیدی کپی شد');
+    });
+  })();
 
   function setLang(lang){
     if(!translations[lang]) return;
@@ -998,15 +1691,47 @@
         el.innerHTML = translations[lang][key];
       }
     });
-    document.querySelectorAll('.lang-switch button').forEach(b => {
+    const activeOpt = document.querySelector('.lang-opt[data-lang="' + lang + '"]');
+    document.querySelectorAll('.lang-opt').forEach(b => {
       b.classList.toggle('active', b.dataset.lang === lang);
     });
+    const toggleFlag = document.getElementById('lang-toggle-flag');
+    const toggleCode = document.getElementById('lang-toggle-code');
+    if(activeOpt && toggleFlag && toggleCode){
+      toggleFlag.textContent = activeOpt.dataset.flag;
+      toggleCode.textContent = activeOpt.dataset.code;
+    }
     buildShareLinks();
+    updateTehranClock();
   }
 
-  document.querySelectorAll('.lang-switch button').forEach(btn => {
-    btn.addEventListener('click', () => setLang(btn.dataset.lang));
-  });
+  // ---------------- انتخاب زبان (پرچم‌دار) ----------------
+  (function langSwitcher(){
+    const toggle = document.getElementById('lang-toggle');
+    const popover = document.getElementById('lang-popover');
+    if(!toggle || !popover) return;
+    const opts = popover.querySelectorAll('.lang-opt');
+
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const show = !popover.classList.contains('show');
+      popover.classList.toggle('show', show);
+      toggle.setAttribute('aria-expanded', String(show));
+    });
+    opts.forEach(btn => {
+      btn.addEventListener('click', () => {
+        setLang(btn.dataset.lang);
+        popover.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+    document.addEventListener('click', (e) => {
+      if(!popover.contains(e.target) && e.target !== toggle){
+        popover.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
 
   buildShareLinks();
 
@@ -1053,11 +1778,196 @@
   updateCountdown();
   setInterval(updateCountdown, 1000);
 
+  // ---------------- ساعت به وقت تهران ----------------
+  function updateTehranClock(){
+    const el = document.getElementById('tehran-clock-time');
+    if(!el) return;
+    const parts = new Intl.DateTimeFormat('en-GB', { timeZone:'Asia/Tehran', hour:'2-digit', minute:'2-digit', hour12:false }).formatToParts(new Date());
+    const hh = parts.find(p => p.type === 'hour').value;
+    const mm = parts.find(p => p.type === 'minute').value;
+    el.textContent = toLocaleDigits(hh) + ':' + toLocaleDigits(mm);
+  }
+  updateTehranClock();
+  setInterval(updateTehranClock, 1000);
+
+  // ---------------- date card: شمسی / قمری / میلادی + تقویم غیبت ----------------
+  (function dateCard(){
+    const elShamsi = document.getElementById('date-shamsi');
+    const elQamari = document.getElementById('date-qamari');
+    const elMiladi = document.getElementById('date-miladi');
+    const elGhaybat = document.getElementById('ghaybat-value');
+    if(!elShamsi || !elQamari || !elMiladi || !elGhaybat) return;
+
+    const now = new Date();
+
+    function fmt(locale, opts){
+      try{
+        return new Intl.DateTimeFormat(locale, opts).format(now);
+      }catch(e){ return '--'; }
+    }
+
+    function hijriYear(){
+      try{
+        const parts = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', { year:'numeric' }).formatToParts(now);
+        const y = parts.find(p => p.type === 'year');
+        if(y) return parseInt(y.value, 10);
+      }catch(e){}
+      try{
+        const parts = new Intl.DateTimeFormat('en-u-ca-islamic', { year:'numeric' }).formatToParts(now);
+        const y = parts.find(p => p.type === 'year');
+        if(y) return parseInt(y.value, 10);
+      }catch(e){}
+      return null;
+    }
+
+    elShamsi.textContent = fmt('fa-IR-u-ca-persian', { year:'numeric', month:'long', day:'numeric' });
+    elQamari.textContent = fmt('fa-IR-u-ca-islamic-umalqura', { year:'numeric', month:'long', day:'numeric' });
+    elMiladi.textContent = fmt('fa-IR-u-ca-gregory', { year:'numeric', month:'long', day:'numeric' });
+
+    const GHAYBAT_KUBRA_START_AH = 329; // آغاز غیبت کبری امام زمان (عج)
+    const hYear = hijriYear();
+    if(hYear){
+      const years = hYear - GHAYBAT_KUBRA_START_AH;
+      elGhaybat.textContent = toLocaleDigits(years) + ' سال قمری';
+    } else {
+      elGhaybat.textContent = '--';
+    }
+  })();
+
+  // ---------------- اوقات شرعی به افق خرم‌آباد، استان لرستان ----------------
+  (function prayerTimes(){
+    const els = {
+      fajr: document.getElementById('prayer-fajr'),
+      sunrise: document.getElementById('prayer-sunrise'),
+      dhuhr: document.getElementById('prayer-dhuhr'),
+      sunset: document.getElementById('prayer-sunset'),
+      maghrib: document.getElementById('prayer-maghrib'),
+      midnight: document.getElementById('prayer-midnight')
+    };
+    if(!els.fajr || !els.sunrise || !els.dhuhr || !els.sunset || !els.maghrib || !els.midnight) return;
+
+    // مختصات خرم‌آباد، استان لرستان + وقت رسمی ایران (بدون تغییر ساعت، ثابت UTC+3:30)
+    const LAT = 33.4869, LON = 48.3557, TZ = 3.5;
+
+    function mod(a, n){ return a - n * Math.floor(a / n); }
+    function toRad(d){ return d * Math.PI / 180; }
+    function toDeg(r){ return r * 180 / Math.PI; }
+
+    function julianDate(year, month, day){
+      if(month <= 2){ year -= 1; month += 12; }
+      const A = Math.floor(year / 100);
+      const B = 2 - A + Math.floor(A / 4);
+      return Math.floor(365.25 * (year + 4716)) + Math.floor(30.6001 * (month + 1)) + day + B - 1524.5;
+    }
+
+    function sunPosition(JD){
+      const D = JD - 2451545.0;
+      const g = mod(357.529 + 0.98560028 * D, 360);
+      const q = mod(280.459 + 0.98564736 * D, 360);
+      const L = mod(q + 1.915 * Math.sin(toRad(g)) + 0.020 * Math.sin(toRad(2 * g)), 360);
+      const e = 23.439 - 0.00000036 * D;
+      const RA = mod(toDeg(Math.atan2(Math.cos(toRad(e)) * Math.sin(toRad(L)), Math.cos(toRad(L)))) / 15, 24);
+      const decl = toDeg(Math.asin(Math.sin(toRad(e)) * Math.sin(toRad(L))));
+      const eqt = q / 15 - RA;
+      return { decl, eqt };
+    }
+
+    function hourAngle(lat, decl, angle){
+      const num = -Math.sin(toRad(angle)) - Math.sin(toRad(lat)) * Math.sin(toRad(decl));
+      const den = Math.cos(toRad(lat)) * Math.cos(toRad(decl));
+      let val = num / den;
+      val = Math.max(-1, Math.min(1, val));
+      return toDeg(Math.acos(val)) / 15;
+    }
+
+    function fajrTimeFor(y, m, d){
+      const { decl, eqt } = sunPosition(julianDate(y, m, d));
+      const dhuhr = 12 + TZ - LON / 15 - eqt;
+      const Hfajr = hourAngle(LAT, decl, 17.7);
+      return dhuhr - Hfajr;
+    }
+
+    function fmtTime(hours){
+      hours = mod(hours, 24);
+      let h = Math.floor(hours);
+      let m = Math.round((hours - h) * 60);
+      if(m === 60){ m = 0; h += 1; }
+      h = h % 24;
+      return toLocaleDigits(h) + ':' + toLocaleDigits(String(m).padStart(2, '0'));
+    }
+
+    const now = new Date();
+    const y = now.getFullYear(), mo = now.getMonth() + 1, d = now.getDate();
+    const JD = julianDate(y, mo, d);
+    const { decl, eqt } = sunPosition(JD);
+    const dhuhr = 12 + TZ - LON / 15 - eqt;
+    const Hsun = hourAngle(LAT, decl, 0.833);   // طلوع/غروب
+    const Hfajr = hourAngle(LAT, decl, 17.7);   // اذان صبح
+    const Hmaghrib = hourAngle(LAT, decl, 4.5); // اذان مغرب (احتیاط شرعی)
+    const Hisha = hourAngle(LAT, decl, 14);
+
+    const fajr = dhuhr - Hfajr;
+    const sunrise = dhuhr - Hsun;
+    const sunset = dhuhr + Hsun;
+    const maghrib = dhuhr + Hmaghrib;
+
+    // نیمه‌شب شرعی: نقطه میانی بین اذان مغرب امشب و اذان صبح فردا
+    const tomorrow = new Date(now); tomorrow.setDate(now.getDate() + 1);
+    const fajrTomorrow = fajrTimeFor(tomorrow.getFullYear(), tomorrow.getMonth() + 1, tomorrow.getDate());
+    const midnight = maghrib + ((fajrTomorrow + 24) - maghrib) / 2;
+
+    els.fajr.textContent = fmtTime(fajr);
+    els.sunrise.textContent = fmtTime(sunrise);
+    els.dhuhr.textContent = fmtTime(dhuhr);
+    els.sunset.textContent = fmtTime(sunset);
+    els.maghrib.textContent = fmtTime(maghrib);
+    els.midnight.textContent = fmtTime(midnight);
+  })();
+
+  // ---------------- حدیث روز ----------------
+  (function hadithOfDay(){
+    const elNarrator = document.getElementById('hadith-narrator');
+    const elArabic = document.getElementById('hadith-arabic');
+    const elFa = document.getElementById('hadith-fa');
+    const elSource = document.getElementById('hadith-source');
+    if(!elNarrator || !elArabic || !elFa || !elSource) return;
+
+    const hadiths = [
+      { narrator:"امیرالمؤمنین امام علی (ع)", ar:"كُن مَشغُولاً بِما أنتَ عَنهُ مَسئُولٌ", fa:"به كارى مشغول باش كه از آن پرسيده خواهى شد.", src:"غررالحکم، جلد ۴، صفحه ۶۰۱" },
+      { narrator:"امیرالمؤمنین امام علی (ع)", ar:"اَلاْنَ فَاعْمَلُوا، وَالْأَلْسُنُ مُطْلَقَةٌ، وَالْأَبْدَانُ صَحِيحَةٌ، وَالْأَعْضَاءُ لَدْنَةٌ، وَالْمُنْقَلَبُ فَسِيحٌ، وَالْمَجَالُ عَريضٌ", fa:"هم‌اكنون عمل كنيد، كه زبان‌ها باز و رهاست، و بدن‌ها سالم و اندام‌ها نرم و انعطاف‌پذير، و زمينه دگرگونى گسترده، و مجال، گسترده و وسيع است.", src:"نهج‌البلاغه، صفحه ۳۱۱" },
+      { narrator:"امام سجاد (ع)", ar:"إنَّ اللّه َ يُحِبُّ كُلَّ قَلبٍ حَزينٍ", fa:"خداوند دل‌هاى حزين را دوست دارد.", src:"الکافی، جلد ۲، صفحه ۹۹، حدیث ۳۰" },
+      { narrator:"امیرالمؤمنین امام علی (ع)", ar:"مَن يَطلُبِ الهِدايَةَ مِن غَيرِ أهلِها يَضِلَّ", fa:"هركس هدايت را از كسى كه اهل آن نيست بخواهد، گمراه شود.", src:"غررالحکم، حدیث ۸۵۰۱" },
+      { narrator:"امیرالمؤمنین امام علی (ع)", ar:"جاهِدْ نَفْسَكَ و حاسِبْها مُحاسَبةَ الشَّريكِ شَريكَهُ، و طالِبْها بِحُقوقِ اللّه ِ مُطالَبَةَ الخَصْمِ خَصْمَهُ", fa:"با نفْس خود جهاد كن و از او حساب كِش، همچنان كه شريک از شريكش حساب مى‌كِشد، و حقوق خداوند را از او مطالبه كن، همچنان كه طرف دعوا، حقوق خود را از ديگرى مطالبه مى‌كند.", src:"غررالحکم، حدیث ۴۷۶۲" },
+      { narrator:"امیرالمؤمنین امام علی (ع)", ar:"مَن ساءَ خُلُقُهُ عَذَّبَ نَفسَهُ", fa:"هر كه بداخلاق باشد، خود را شكنجه دهد.", src:"گزیده تحف‌العقول، حدیث ۱۹۶" },
+      { narrator:"امیرالمؤمنین امام علی (ع)", ar:"اَلتَّبْذيرُ عُنْوانُ الْفاقَةِ", fa:"زياده‌روى مقدمه فقر و تنگدستى است.", src:"میزان‌الحکمه، جلد ۱، حدیث ۱۶۵۹" },
+      { narrator:"امیرالمؤمنین امام علی (ع)", ar:"اَلاِْفْراطُ فِى الْمَلامَةِ يَشُبُّ نيرانَ اللَّجاجِ", fa:"زياده‌روى در سرزنش كردن، آتش لجاجت را شعله‌ور مى‌سازد.", src:"تحف‌العقول، صفحه ۸۴" },
+      { narrator:"امیرالمؤمنین امام علی (ع)", ar:"اِطرَحْ عَنكَ وارِداتِ الهُمومِ بعَزائمِ الصَّبرِ و حُسنِ اليَقينِ", fa:"غم و اندوه‌هايى را كه به تو مى‌رسد، با نيروى شكيبايى و يقين نيكو از خود دور كن.", src:"نهج‌البلاغه، الكتاب ۳۱" },
+      { narrator:"امیرالمؤمنین امام علی (ع)", ar:"لَيْسَ عَمَلٌ اَحَبَّ اِلَى اللّه ِ عَزَّوَجَلَّ مِنَ الصَّلاةِ، فَلا يَشْغَلَـنَّـكُمْ عَنْ اَوقاتِها شَىْ ءٌ مِنْ اُمورِ الدُّنيا", fa:"هيچ عملى نزد خداوند، محبوب‌تر از نماز نيست، پس هيچ كار دنيايى شما را در وقت نماز به خود مشغول ندارد.", src:"خصال، صفحه ۶۲۱، حدیث ۱۰" },
+      { narrator:"امام کاظم (ع)", ar:"ما مِن شَى ءٍ تَراهُ عَيناكَ إلاّ و فيهِ مَوعِظَةٌ", fa:"در هر چيزى كه چشمانت مى‌بيند، موعظه‌اى است.", src:"بحارالأنوار، جلد ۷۸، صفحه ۳۱۹" },
+      { narrator:"امام باقر (ع)", ar:"يَأْتى عَلَى النّاسِ زَمانٌ يَغيبُ عَنْهُمْ اِمامُهُمْ فَيا طُوبى لِلثّابِتينَ عَلى اَمْرِنا فى ذلِكَ الزَّمانِ", fa:"زمانى بر مردم مى‌آيد كه امام و پيشواى آنان غيبت مى‌كند، پس خوشا به حال كسانى كه در آن زمان بر فرمان ما استوار و ثابت قدم باشند.", src:"بحارالأنوار، جلد ۵۲، صفحه ۱۴۵" },
+      { narrator:"امیرالمؤمنین امام علی (ع)", ar:"الغِيبَةُ جُهدُ العاجِزِ", fa:"غيبت كردن، كار شخص ناتوان است.", src:"نهج‌البلاغه، حکمت ۴۶۱" },
+      { narrator:"امام صادق (ع)", ar:"أي مَفَضَّلُ، قُل لِشيعَتِنا: كونوا دُعاةً إلَينا بِالكَفِّ عَن مَحارِمِ اللّه ِ وَاجتِنابِ مَعاصيهِ وَاتِّباعِ رِضوانِ الله، فَإِنَّهُم إذا كانوا كَذلِكَ كانَ النّاسُ إلَينا مُسارِعينَ", fa:"اى مفضّل! به شيعيان ما بگو: با خويشتن‌دارى از حرام‌هاى خدا و دورى از گناهان و در پى [جلب] خشنودى خدا بودن، دعوتگر (مردم) به سوى ما باشيد؛ زيرا اگر چنين باشند مردم، خود به جانب ما مى‌شتابند.", src:"دعائم‌الاسلام، جلد یک، صفحه ۵۸" },
+      { narrator:"پیامبر اکرم (ص)", ar:"صِلُوا اَرْحامَكُمْ فِى الدُّنْيا وَلَوْبِسَلامٍ", fa:"در دنيا صله رحم كنيد اگر چه فقط با سلام باشد.", src:"بحارالأنوار، جلد ۷۴، حدیث ۱۰۴" },
+      { narrator:"امام صادق (ع)", ar:"اِنَّما شيعَةُ عَلىٍّ مَنْ عَفَّ بَطْنَهُ وَفَرْجَهُ وَاشْتَدَّ جهادُهُ وَعَمِلَ لِخالِقِهِ وَرَجا ثَوابَهُ وَخافَ عِقابَهُ", fa:"همانا شيعه على عليه‌السلام كسى است كه شكم و شهوت خويش را عفيف نگه‌دارد و جهاد و تلاش او شديد باشد، براى آفريدگارش كار كند، به ثواب خدا اميدوار باشد و از كيفر او بترسد.", src:"اصول‌کافی، جلد ۲، صفحه ۲۳۳" },
+      { narrator:"امام جواد (ع)", ar:"اِنَّ لَهُ غَيْبَةٌ يَكْثُرُ اَيّامُها، وَيَطْوُلُ اَمَدُها يَنْتَظِرُ خُرُوجَهُ الُمخْلِصُونَ وَ يُنْكِرُهُ الْمُرْتابُونَ", fa:"حضرت داراى غيبتى است كه روزهايش زياد و مدّتش طولانى است. پس افراد مخلص منتظر ظهور او هستند و افراد شكّاك مُنكر او هستند.", src:"منتخب الاثر، صفحه ۲۲۴" },
+      { narrator:"امیرالمؤمنین امام علی (ع)", ar:"أفضلُ الأدبِ ما بدَأتَ بهِ نفسَكَ", fa:"بهترين ادب آن است كه از خود آغاز كنى.", src:"میزان‌الحکمه، حدیث ۳۶۹" },
+      { narrator:"امام حسن مجتبی (ع)", ar:"النّاسُ فِي دارِ سَهْوٍ وَ غَفْلَةٍ يَعْمَلُونَ وَلا يَعْلَمُونَ فَاِذا صارُوا إلى الآخِرَةِ صارُوا اِلى دارِ يَقينٍ يَعْلَمُونَ وَ لا يَعْمَلُونَ", fa:"مردم (در اين دنيا) در خانه بى‌خبرى و غفلت به‌سر مى‌برند، پس هر كارى را انجام می‌دهند، نمى‌دانند (ثمرش را) و چون به خانه آخرت روند، به وادى يقين در آيند و همه چيز را بدانند و لكن نتوانند عمل سودمندى را در آنجا براى خويش انجام دهند.", src:"مصابیح الأنوار، جلد ۲، صفحه ۲۷۱" },
+      { narrator:"امیرالمؤمنین امام علی (ع)", ar:"اِكتَسِبُوا العِلمَ يَكسِبكُمُ الحَياةَ", fa:"دانش به‌دست آورید تا به شما زندگى بخشد.", src:"غرر، حدیث ۲۴۸۶" }
+    ];
+
+    const dayIndex = Math.floor(Date.now() / 86400000) % hadiths.length;
+    const today = hadiths[dayIndex];
+    elNarrator.textContent = today.narrator;
+    elArabic.textContent = today.ar;
+    elFa.textContent = today.fa;
+    elSource.textContent = today.src;
+  })();
+
   // ember particles
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(!reduceMotion){
     const wrap = document.getElementById('embers');
-    const count = 16;
+    const count = 8;
     for(let i=0;i<count;i++){
       const s = document.createElement('div');
       s.className = 'ember-spark';
