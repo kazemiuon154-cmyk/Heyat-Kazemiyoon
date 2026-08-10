@@ -316,6 +316,7 @@
   .emblem-wrap{
     display:flex; justify-content:center; margin-bottom:32px;
     perspective:800px;
+    will-change:transform;
   }
   .emblem{
     position:relative;
@@ -639,7 +640,7 @@
   </div>
   <div class="eyebrow-tag" data-i18n="tag">هیئـت عزاداری</div>
 
-  <div class="emblem-wrap">
+  <div class="emblem-wrap" id="emblem-wrap">
     <div class="emblem" id="emblem">
       <div class="glow"></div>
       <svg class="frame" id="motif-ring" viewBox="0 0 240 240"></svg>
@@ -802,48 +803,33 @@
 
   // ---------------- parallax on emblem (item 1) ----------------
   (function parallax(){
-    const emblem = document.getElementById('emblem');
-    if(!emblem) return;
+    const wrap = document.getElementById('emblem-wrap');
+    if(!wrap) return;
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if(reduceMotion) return;
 
-    let ready = false;
-    setTimeout(() => {
-      emblem.style.animation = 'none'; // hand off control to JS-driven transform
-      emblem.style.opacity = '1';
-      emblem.style.transform = 'translateY(0) rotateX(0deg) rotateY(0deg)';
-      ready = true;
-    }, 1300);
+    let scrollY = 0, tiltX = 0, tiltY = 0, tick = false;
 
-    let scrollTick = false;
-    window.addEventListener('scroll', () => {
-      if(!ready) return;
-      if(!scrollTick){
-        window.requestAnimationFrame(() => {
-          const y = window.scrollY || 0;
-          const shift = Math.min(y * 0.06, 14);
-          emblem.style.setProperty('--parallax-y', shift + 'px');
-          applyTransform();
-          scrollTick = false;
-        });
-        scrollTick = true;
-      }
-    }, { passive:true });
-
-    let tiltX = 0, tiltY = 0;
-    function applyTransform(){
-      if(!ready) return;
-      const y = parseFloat(emblem.style.getPropertyValue('--parallax-y')) || 0;
-      emblem.style.transform = `translateY(${-y}px) rotateX(${tiltY}deg) rotateY(${tiltX}deg)`;
+    function apply(){
+      wrap.style.transform = `translateY(${-scrollY}px) rotateX(${tiltY}deg) rotateY(${tiltX}deg)`;
     }
+
+    window.addEventListener('scroll', () => {
+      if(tick) return;
+      tick = true;
+      window.requestAnimationFrame(() => {
+        scrollY = Math.min((window.scrollY || 0) * 0.06, 14);
+        apply();
+        tick = false;
+      });
+    }, { passive:true });
 
     if(window.DeviceOrientationEvent){
       window.addEventListener('deviceorientation', (e) => {
-        if(!ready) return;
         if(e.beta === null || e.gamma === null) return;
         tiltX = Math.max(-6, Math.min(6, (e.gamma || 0) * 0.15));
         tiltY = Math.max(-6, Math.min(6, ((e.beta || 0) - 45) * 0.08));
-        applyTransform();
+        apply();
       }, true);
     }
   })();
