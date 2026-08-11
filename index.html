@@ -867,26 +867,29 @@
 
   .theme-switch-wrap{ position:relative; }
   .theme-popover{
-    position:absolute; top:38px; left:50%;
-    transform:translateY(-6px) translateX(-50%);
-    min-width:126px;
+    position:fixed;
+    width:max-content;
+    max-width:min(260px, calc(100vw - 20px));
     background:var(--void-2, var(--void));
     border:1px solid var(--line);
     border-radius:14px;
     padding:6px;
-    display:flex; flex-direction:column; gap:4px;
+    display:flex; flex-direction:row; flex-wrap:wrap;
+    gap:4px;
     box-shadow:0 12px 26px rgba(0,0,0,0.5);
     opacity:0; visibility:hidden;
+    transform:translateY(-6px);
     transition:opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
     z-index:50;
   }
-  .theme-popover.show{ opacity:1; visibility:visible; transform:translateY(0) translateX(-50%); }
+  .theme-popover.show{ opacity:1; visibility:visible; transform:translateY(0); }
   .theme-opt{
     font-family:'Vazirmatn', sans-serif;
-    font-size:12px; font-weight:600;
+    font-size:11.5px; font-weight:600;
     color:var(--parchment-dim);
     background:transparent; border:1px solid transparent;
-    padding:8px 10px; border-radius:9px; cursor:pointer; text-align:center;
+    padding:8px 9px; border-radius:9px; cursor:pointer; text-align:center;
+    white-space:nowrap;
     transition:all 0.15s ease;
   }
   .theme-opt.active{ color:var(--void); background:var(--gold); }
@@ -1158,6 +1161,9 @@
      PWA INSTALL BUTTON
   ============================================================ */
   .pwa-install-btn{
+    position:fixed;
+    top:14px; left:14px;
+    z-index:60;
     display:none;
     align-items:center; gap:8px;
     padding:8px 12px;
@@ -1167,6 +1173,8 @@
     color:#000;
     box-shadow:0 6px 16px rgba(0,0,0,0.35);
     cursor:pointer;
+    transition:padding 0.25s ease, border-radius 0.25s ease, gap 0.25s ease,
+      opacity 0.25s ease, visibility 0.25s ease, transform 0.2s ease;
   }
   .pwa-install-btn.show{ display:flex; }
   .pwa-install-btn svg{ width:16px; height:16px; flex:none; color:#000; }
@@ -1174,10 +1182,17 @@
     display:flex; flex-direction:column; align-items:flex-start; line-height:1.25;
     font-family:'B Titr', 'BTitr', 'Vazirmatn', sans-serif;
     color:#000;
+    max-width:160px;
+    overflow:hidden;
+    white-space:nowrap;
+    transition:max-width 0.25s ease, opacity 0.2s ease;
   }
   .pwa-install-btn .install-text .line1{ font-size:11px; font-weight:700; }
   .pwa-install-btn .install-text .line2{ font-size:9.5px; font-weight:600; opacity:0.85; }
   .pwa-install-btn:active{ transform:scale(0.95); }
+  .pwa-install-btn.compact{ padding:10px; gap:0; border-radius:50%; }
+  .pwa-install-btn.compact .install-text{ max-width:0; opacity:0; }
+  .pwa-install-btn.hide-for-modal{ opacity:0; visibility:hidden; pointer-events:none; }
 </style>
 </head>
 <body>
@@ -1472,7 +1487,13 @@
   <div class="bottom-controls reveal">
     <div class="theme-switch-wrap">
       <button type="button" id="theme-toggle" class="sound-toggle" aria-label="تغییر تم" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 9 9c0-.5-.04-1-.12-1.47a5.5 5.5 0 0 1-7.41-7.41A9 9 0 0 0 12 3z" fill="currentColor"/></svg>
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M12 3.5c-4.7 0-8.5 3.6-8.5 8 0 3 2 4.3 3.6 4.3.8 0 1.1-.4 1.6-.9.5-.5.9-.9 1.7-.9 1.5 0 1.9 1 1.9 2.1 0 .9-.4 1.6-.4 2.2 0 .8.6 1.2 1.7 1.2 4.6 0 8.4-3.9 8.4-8.4 0-4.8-3.9-7.6-10-7.6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          <circle cx="8.2" cy="9.3" r="1.15" fill="currentColor"/>
+          <circle cx="12.2" cy="7.1" r="1.15" fill="currentColor"/>
+          <circle cx="16.3" cy="9.3" r="1.15" fill="currentColor"/>
+          <circle cx="17.3" cy="13.6" r="1.15" fill="currentColor"/>
+        </svg>
       </button>
       <div class="theme-popover" id="theme-popover" role="menu">
         <button type="button" class="theme-opt" data-theme="fest">مذهبی ۱</button>
@@ -1612,6 +1633,11 @@
     if(!toggle || !popover) return;
     const opts = popover.querySelectorAll('.theme-opt');
 
+    // برای جلوگیری از تداخل با transform والدها (که containing block پوزیشن fixed را
+    // تغییر می‌دهد و باعث می‌شود منو در پایین صفحه ظاهر شود)، پاپ‌آپ را مستقیماً
+    // زیر body قرار می‌دهیم.
+    document.body.appendChild(popover);
+
     function applyTheme(theme){
       document.body.classList.remove('theme-light', 'theme-dark', 'theme-fest');
       if(theme === 'light') document.body.classList.add('theme-light');
@@ -1625,12 +1651,33 @@
     try{ saved = localStorage.getItem('kazemiuon-theme') || 'default'; }catch(e){}
     applyTheme(saved);
 
+    function positionThemePopover(){
+      const margin = 10;
+      const rect = toggle.getBoundingClientRect();
+      const pw = popover.offsetWidth || 132;
+      let left = rect.left + rect.width / 2 - pw / 2;
+      left = Math.max(margin, Math.min(left, window.innerWidth - pw - margin));
+      const top = rect.top - popover.offsetHeight - 8; // بالای دکمه باز می‌شود
+      popover.style.left = left + 'px';
+      popover.style.top = Math.max(margin, top) + 'px';
+    }
+
     toggle.addEventListener('click', (e) => {
       e.stopPropagation();
       const show = !popover.classList.contains('show');
-      popover.classList.toggle('show', show);
+      if(show){
+        popover.style.visibility = 'hidden';
+        popover.classList.add('show');
+        positionThemePopover();
+        popover.style.visibility = '';
+      }else{
+        popover.classList.remove('show');
+      }
       toggle.setAttribute('aria-expanded', String(show));
     });
+    window.addEventListener('resize', () => {
+      if(popover.classList.contains('show')) positionThemePopover();
+    }, { passive:true });
     opts.forEach(btn => {
       btn.addEventListener('click', () => {
         applyTheme(btn.dataset.theme);
@@ -2513,6 +2560,23 @@
       installBtn.classList.remove('show');
       deferredPrompt = null;
     });
+
+    // با اسکرول، متن جمع می‌شود و فقط آیکون باقی می‌ماند
+    function updateCompact(){
+      const scrolled = document.documentElement.scrollTop || document.body.scrollTop;
+      installBtn.classList.toggle('compact', scrolled > 24);
+    }
+    window.addEventListener('scroll', updateCompact, { passive:true });
+    updateCompact();
+
+    // هنگام باز بودن صفحه‌ی اعلان ویژه، دکمه نصب مخفی شود تا رویش نیفتد
+    const announceOverlay = document.getElementById('announce-modal-overlay');
+    if(announceOverlay){
+      const modalObserver = new MutationObserver(() => {
+        installBtn.classList.toggle('hide-for-modal', announceOverlay.classList.contains('show'));
+      });
+      modalObserver.observe(announceOverlay, { attributes:true, attributeFilter:['class'] });
+    }
   })();
 </script>
 
