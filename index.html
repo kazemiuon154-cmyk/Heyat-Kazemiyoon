@@ -401,8 +401,8 @@
   .lang-toggle:hover{ border-color:var(--gold-soft); color:var(--parchment); }
   .lang-toggle .lang-flag{ font-size:14px; line-height:1; }
   .lang-popover{
-    position:absolute; top:38px; left:50%;
-    transform:translateY(-6px) translateX(-50%);
+    position:fixed;
+    transform:translateY(-6px);
     min-width:150px;
     background:var(--void-2, var(--void));
     border:1px solid var(--line);
@@ -412,9 +412,9 @@
     box-shadow:0 12px 26px rgba(0,0,0,0.5);
     opacity:0; visibility:hidden;
     transition:opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
-    z-index:50;
+    z-index:70;
   }
-  .lang-popover.show{ opacity:1; visibility:visible; transform:translateY(0) translateX(-50%); }
+  .lang-popover.show{ opacity:1; visibility:visible; transform:translateY(0); }
   .lang-opt{
     display:flex; align-items:center; gap:8px;
     font-family:'Vazirmatn', sans-serif;
@@ -880,7 +880,7 @@
     opacity:0; visibility:hidden;
     transform:translateY(-6px);
     transition:opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
-    z-index:50;
+    z-index:70;
   }
   .theme-popover.show{ opacity:1; visibility:visible; transform:translateY(0); }
   .theme-opt{
@@ -1162,7 +1162,7 @@
   ============================================================ */
   .pwa-install-btn{
     position:fixed;
-    top:14px; left:14px;
+    bottom:18px; right:14px;
     z-index:60;
     display:none;
     align-items:center; gap:8px;
@@ -1193,6 +1193,61 @@
   .pwa-install-btn.compact{ padding:10px; gap:0; border-radius:50%; }
   .pwa-install-btn.compact .install-text{ max-width:0; opacity:0; }
   .pwa-install-btn.hide-for-modal{ opacity:0; visibility:hidden; pointer-events:none; }
+
+  /* ============================================================
+     QUICK MENU (سه‌خط بالا سمت چپ: صدا / زبان / تم)
+  ============================================================ */
+  .quick-menu{
+    position:fixed;
+    top:14px; left:14px;
+    z-index:65;
+  }
+  .quick-menu-btn{
+    width:36px; height:36px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(20,14,10,0.75);
+    color:var(--parchment-dim);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:all 0.2s ease;
+    -webkit-backdrop-filter:blur(6px);
+    backdrop-filter:blur(6px);
+  }
+  .quick-menu-btn svg{ width:17px; height:17px; }
+  .quick-menu-btn:hover{ border-color:var(--gold-soft); color:var(--gold); }
+  .quick-menu-btn.active{ border-color:var(--gold-soft); color:var(--gold); }
+  .quick-menu-panel{
+    position:absolute;
+    top:44px; left:0;
+    display:flex; flex-direction:column;
+    align-items:stretch;
+    gap:8px;
+    min-width:168px;
+    padding:12px;
+    background:var(--void-2, var(--void));
+    border:1px solid var(--line);
+    border-radius:16px;
+    box-shadow:0 12px 26px rgba(0,0,0,0.5);
+    opacity:0; visibility:hidden;
+    transform:translateY(-8px);
+    transition:opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+    z-index:65;
+  }
+  .quick-menu-panel.show{ opacity:1; visibility:visible; transform:translateY(0); }
+  .quick-menu-row{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:10px;
+  }
+  .quick-menu-row .quick-menu-label{ order:2; }
+  .quick-menu-row > .theme-switch-wrap,
+  .quick-menu-row > .lang-switch-wrap,
+  .quick-menu-row > #sound-toggle{ order:1; }
+  .quick-menu-row .quick-menu-label{
+    font-family:'Vazirmatn', sans-serif;
+    font-size:11.5px; font-weight:600;
+    color:var(--parchment-dim);
+  }
 </style>
 </head>
 <body>
@@ -1210,6 +1265,61 @@
 <button type="button" id="back-to-top" class="back-to-top" aria-label="بازگشت به بالا">
   <svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5M12 5l-6 6M12 5l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </button>
+
+<div class="quick-menu" id="quick-menu">
+  <button type="button" id="quick-menu-btn" class="quick-menu-btn" aria-haspopup="true" aria-expanded="false" aria-label="منوی تنظیمات: صدا، زبان و تم">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+  <div class="quick-menu-panel" id="quick-menu-panel" role="menu">
+    <div class="quick-menu-row">
+      <span class="quick-menu-label" data-i18n="quickMenuTheme">تم</span>
+      <div class="theme-switch-wrap">
+        <button type="button" id="theme-toggle" class="sound-toggle" aria-label="تغییر تم" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 3.5c-4.7 0-8.5 3.6-8.5 8 0 3 2 4.3 3.6 4.3.8 0 1.1-.4 1.6-.9.5-.5.9-.9 1.7-.9 1.5 0 1.9 1 1.9 2.1 0 .9-.4 1.6-.4 2.2 0 .8.6 1.2 1.7 1.2 4.6 0 8.4-3.9 8.4-8.4 0-4.8-3.9-7.6-10-7.6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <circle cx="8.2" cy="9.3" r="1.15" fill="currentColor"/>
+            <circle cx="12.2" cy="7.1" r="1.15" fill="currentColor"/>
+            <circle cx="16.3" cy="9.3" r="1.15" fill="currentColor"/>
+            <circle cx="17.3" cy="13.6" r="1.15" fill="currentColor"/>
+          </svg>
+        </button>
+        <div class="theme-popover" id="theme-popover" role="menu">
+          <button type="button" class="theme-opt" data-theme="fest">مذهبی ۱</button>
+          <button type="button" class="theme-opt active" data-theme="default">مذهبی ۲</button>
+          <button type="button" class="theme-opt" data-theme="light">سبز فسفری</button>
+          <button type="button" class="theme-opt" data-theme="dark">تاریک</button>
+        </div>
+      </div>
+    </div>
+    <div class="quick-menu-row">
+      <span class="quick-menu-label" data-i18n="quickMenuLang">زبان</span>
+      <div class="lang-switch-wrap">
+        <button type="button" id="lang-toggle" class="lang-toggle" aria-haspopup="true" aria-expanded="false" aria-label="انتخاب زبان">
+          <span class="lang-flag" id="lang-toggle-flag">🇮🇷</span>
+          <span id="lang-toggle-code">فا</span>
+        </button>
+        <div class="lang-popover" id="lang-popover" role="menu">
+          <button type="button" class="lang-opt active" data-lang="fa" data-flag="🇮🇷" data-code="فا">
+            <span class="lang-flag">🇮🇷</span><span>فارسی</span>
+          </button>
+          <button type="button" class="lang-opt" data-lang="ar" data-flag="🇮🇶" data-code="عربي">
+            <span class="lang-flag">🇮🇶</span><span>العربية</span>
+          </button>
+          <button type="button" class="lang-opt" data-lang="en" data-flag="🇬🇧" data-code="EN">
+            <span class="lang-flag">🇬🇧</span><span>English</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="quick-menu-row">
+      <span class="quick-menu-label" data-i18n="quickMenuSound">صدا</span>
+      <button type="button" id="sound-toggle" class="sound-toggle" aria-label="قطع/وصل صدا" aria-pressed="false">
+        <svg class="icon-sound-on" viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a4 4 0 0 1 0 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M18.5 6a7.5 7.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/></svg>
+        <svg class="icon-sound-off" viewBox="0 0 24 24" fill="none" style="display:none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M15.5 9.5l5 5M20.5 9.5l-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
 
 <div class="page">
 
@@ -1485,44 +1595,6 @@
   </div>
 
   <div class="bottom-controls reveal">
-    <div class="theme-switch-wrap">
-      <button type="button" id="theme-toggle" class="sound-toggle" aria-label="تغییر تم" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="none">
-          <path d="M12 3.5c-4.7 0-8.5 3.6-8.5 8 0 3 2 4.3 3.6 4.3.8 0 1.1-.4 1.6-.9.5-.5.9-.9 1.7-.9 1.5 0 1.9 1 1.9 2.1 0 .9-.4 1.6-.4 2.2 0 .8.6 1.2 1.7 1.2 4.6 0 8.4-3.9 8.4-8.4 0-4.8-3.9-7.6-10-7.6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-          <circle cx="8.2" cy="9.3" r="1.15" fill="currentColor"/>
-          <circle cx="12.2" cy="7.1" r="1.15" fill="currentColor"/>
-          <circle cx="16.3" cy="9.3" r="1.15" fill="currentColor"/>
-          <circle cx="17.3" cy="13.6" r="1.15" fill="currentColor"/>
-        </svg>
-      </button>
-      <div class="theme-popover" id="theme-popover" role="menu">
-        <button type="button" class="theme-opt" data-theme="fest">مذهبی ۱</button>
-        <button type="button" class="theme-opt active" data-theme="default">مذهبی ۲</button>
-        <button type="button" class="theme-opt" data-theme="light">سبز فسفری</button>
-        <button type="button" class="theme-opt" data-theme="dark">تاریک</button>
-      </div>
-    </div>
-    <div class="lang-switch-wrap">
-      <button type="button" id="lang-toggle" class="lang-toggle" aria-haspopup="true" aria-expanded="false" aria-label="انتخاب زبان">
-        <span class="lang-flag" id="lang-toggle-flag">🇮🇷</span>
-        <span id="lang-toggle-code">فا</span>
-      </button>
-      <div class="lang-popover" id="lang-popover" role="menu">
-        <button type="button" class="lang-opt active" data-lang="fa" data-flag="🇮🇷" data-code="فا">
-          <span class="lang-flag">🇮🇷</span><span>فارسی</span>
-        </button>
-        <button type="button" class="lang-opt" data-lang="ar" data-flag="🇮🇶" data-code="عربي">
-          <span class="lang-flag">🇮🇶</span><span>العربية</span>
-        </button>
-        <button type="button" class="lang-opt" data-lang="en" data-flag="🇬🇧" data-code="EN">
-          <span class="lang-flag">🇬🇧</span><span>English</span>
-        </button>
-      </div>
-    </div>
-    <button type="button" id="sound-toggle" class="sound-toggle" aria-label="قطع/وصل صدا" aria-pressed="false">
-      <svg class="icon-sound-on" viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a4 4 0 0 1 0 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M18.5 6a7.5 7.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/></svg>
-      <svg class="icon-sound-off" viewBox="0 0 24 24" fill="none" style="display:none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M15.5 9.5l5 5M20.5 9.5l-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-    </button>
     <a class="sound-toggle telegram-mini" id="share-tg" target="_blank" rel="noopener" aria-label="اشتراک‌گذاری در تلگرام">
       <img src="telegram-1.png" alt="تلگرام" width="30" height="30" loading="lazy">
     </a>
@@ -2014,12 +2086,41 @@
     if(!toggle || !popover) return;
     const opts = popover.querySelectorAll('.lang-opt');
 
+    // مثل پاپ‌آپ تم، مستقیم زیر body قرار می‌گیرد تا تحت تاثیر
+    // stacking context یا اندازه‌ی محدود پنل همبرگری قرار نگیرد و از کادر بیرون نزند.
+    document.body.appendChild(popover);
+
+    function positionLangPopover(){
+      const margin = 10;
+      const rect = toggle.getBoundingClientRect();
+      const pw = popover.offsetWidth || 150;
+      let left = rect.left + rect.width / 2 - pw / 2;
+      left = Math.max(margin, Math.min(left, window.innerWidth - pw - margin));
+      const ph = popover.offsetHeight || 140;
+      let top = rect.bottom + 8;
+      if(top + ph > window.innerHeight - margin){
+        top = rect.top - ph - 8; // اگر پایین جا نبود، بالای دکمه باز شود
+      }
+      popover.style.left = left + 'px';
+      popover.style.top = Math.max(margin, top) + 'px';
+    }
+
     toggle.addEventListener('click', (e) => {
       e.stopPropagation();
       const show = !popover.classList.contains('show');
-      popover.classList.toggle('show', show);
+      if(show){
+        popover.style.visibility = 'hidden';
+        popover.classList.add('show');
+        positionLangPopover();
+        popover.style.visibility = '';
+      }else{
+        popover.classList.remove('show');
+      }
       toggle.setAttribute('aria-expanded', String(show));
     });
+    window.addEventListener('resize', () => {
+      if(popover.classList.contains('show')) positionLangPopover();
+    }, { passive:true });
     opts.forEach(btn => {
       btn.addEventListener('click', () => {
         setLang(btn.dataset.lang);
@@ -2535,6 +2636,42 @@
       navigator.serviceWorker.register('service-worker.js').catch(() => {});
     });
   }
+
+  // ---------------- منوی همبرگری (صدا / زبان / تم) ----------------
+  (function quickMenu(){
+    const btn = document.getElementById('quick-menu-btn');
+    const panel = document.getElementById('quick-menu-panel');
+    if(!btn || !panel) return;
+
+    function closePanel(){
+      panel.classList.remove('show');
+      btn.classList.remove('active');
+      btn.setAttribute('aria-expanded', 'false');
+      // بستن زیرمنوهای تم و زبان در صورت باز بودن
+      const themePop = document.getElementById('theme-popover');
+      const langPop = document.getElementById('lang-popover');
+      if(themePop) themePop.classList.remove('show');
+      if(langPop) langPop.classList.remove('show');
+    }
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const show = !panel.classList.contains('show');
+      panel.classList.toggle('show', show);
+      btn.classList.toggle('active', show);
+      btn.setAttribute('aria-expanded', String(show));
+    });
+
+    document.addEventListener('click', (e) => {
+      if(!panel.contains(e.target) && e.target !== btn && !btn.contains(e.target)){
+        closePanel();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape') closePanel();
+    });
+  })();
 
   // ---------------- PWA: دکمه نصب (نمایش خودکار پرامپت مرورگر Android/Chrome) ----------------
   (function installPrompt(){
