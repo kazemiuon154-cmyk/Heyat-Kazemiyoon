@@ -1165,40 +1165,26 @@
   }
 
   /* ============================================================
-     PWA INSTALL BUTTON
+     PWA INSTALL BUTTON (بین همبرگری و دما، داخل ردیف بالای صفحه)
   ============================================================ */
   .pwa-install-btn{
-    position:fixed;
-    bottom:18px; right:14px;
-    z-index:60;
     display:none;
-    align-items:center; gap:8px;
-    padding:8px 12px;
-    border-radius:14px;
+    align-items:center; justify-content:center;
+    gap:6px;
+    width:36px; height:36px;
+    flex:none;
+    border-radius:50%;
     border:1px solid #9fd600;
     background:linear-gradient(135deg, #b8f000, #d4ff33);
     color:#000;
-    box-shadow:0 6px 16px rgba(0,0,0,0.35);
+    box-shadow:0 3px 10px rgba(0,0,0,0.3);
     cursor:pointer;
-    transition:padding 0.25s ease, border-radius 0.25s ease, gap 0.25s ease,
-      opacity 0.25s ease, visibility 0.25s ease, transform 0.2s ease;
+    transition:transform 0.2s ease, opacity 0.2s ease, visibility 0.2s ease;
   }
   .pwa-install-btn.show{ display:flex; }
-  .pwa-install-btn svg{ width:16px; height:16px; flex:none; color:#000; }
-  .pwa-install-btn .install-text{
-    display:flex; flex-direction:column; align-items:flex-start; line-height:1.25;
-    font-family:'B Titr', 'BTitr', 'Vazirmatn', sans-serif;
-    color:#000;
-    max-width:160px;
-    overflow:hidden;
-    white-space:nowrap;
-    transition:max-width 0.25s ease, opacity 0.2s ease;
-  }
-  .pwa-install-btn .install-text .line1{ font-size:11px; font-weight:700; }
-  .pwa-install-btn .install-text .line2{ font-size:9.5px; font-weight:600; opacity:0.85; }
-  .pwa-install-btn:active{ transform:scale(0.95); }
-  .pwa-install-btn.compact{ padding:10px; gap:0; border-radius:50%; }
-  .pwa-install-btn.compact .install-text{ max-width:0; opacity:0; }
+  .pwa-install-btn svg{ width:17px; height:17px; flex:none; color:#000; }
+  .pwa-install-btn .install-text{ display:none; }
+  .pwa-install-btn:active{ transform:scale(0.9); }
   .pwa-install-btn.hide-for-modal{ opacity:0; visibility:hidden; pointer-events:none; }
 
   /* ============================================================
@@ -1332,6 +1318,13 @@
 
   <div class="top-controls">
     <div class="top-controls-left">
+      <button type="button" id="pwa-install-btn" class="pwa-install-btn" aria-label="نصب اپلیکیشن تحت وب هیئت کاظمیون">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="install-text">
+          <span class="line1">نصب اپلیکیشن تحت وب</span>
+          <span class="line2">هیئت کاظمیون</span>
+        </span>
+      </button>
       <div class="tehran-clock" id="tehran-clock" role="button" tabindex="0" aria-label="ساعت به وقت تهران؛ برای نمایش ثانیه و ساعت کربلا ضربه بزنید" aria-pressed="false">
         <div class="clock-row main-row">
           <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.6"/><path d="M12 7.5V12l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1361,15 +1354,6 @@
           <span class="weather-temp" id="weather-temp-najaf">--°C</span>
         </div>
       </div>
-    </div>
-    <div class="top-controls-right">
-      <button type="button" id="pwa-install-btn" class="pwa-install-btn" aria-label="نصب اپلیکیشن تحت وب هیئت کاظمیون">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span class="install-text">
-          <span class="line1">نصب اپلیکیشن تحت وب</span>
-          <span class="line2">هیئت کاظمیون</span>
-        </span>
-      </button>
     </div>
   </div>
 
@@ -2704,18 +2688,6 @@
       installBtn.classList.remove('show');
       deferredPrompt = null;
     });
-
-    // با اسکرول به پایین، متن محو شده و فقط آیکون باقی می‌ماند
-    // این حالت یک‌طرفه است: با برگشت به بالا دیگر متن باز نمی‌شود،
-    // مگر اینکه کاربر روی دکمه بزند و بخواهد نصب را انجام دهد
-    function updateCompact(){
-      const scrolled = document.documentElement.scrollTop || document.body.scrollTop;
-      if(scrolled > 24){
-        installBtn.classList.add('compact');
-      }
-    }
-    window.addEventListener('scroll', updateCompact, { passive:true });
-    updateCompact();
 
     // هنگام باز بودن صفحه‌ی اعلان ویژه، دکمه نصب مخفی شود تا رویش نیفتد
     const announceOverlay = document.getElementById('announce-modal-overlay');
