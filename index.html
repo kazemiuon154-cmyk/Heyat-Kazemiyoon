@@ -731,7 +731,7 @@
   .icon-box img{ width:100%; height:100%; object-fit:cover; display:block; }
 
   .rubika .icon-box{ background:#fff; }
-  .eitaa .icon-box{ background:linear-gradient(135deg,#e05b1e,#f28a3c); }
+  .eitaa .icon-box{ background:var(--void); }
   .instagram .icon-box{ background:linear-gradient(135deg,#4f5bd5,#962fbf 30%,#d62976 60%,#fa7e1e 85%,#feda75); }
   .neshan .icon-box{ background:linear-gradient(135deg,#0c8f7f,#1cb8a3); }
   .balad .icon-box{ background:linear-gradient(135deg,#1e6fb8,#3a9be0); }
@@ -1956,16 +1956,46 @@
     return s;
   }
 
+  // ---------------- کمکی مشترک: ساعت/تاریخ رسمی تهران، مستقل از تایم‌زون مرورگر بازدیدکننده ----------------
+  function getTehranOffsetHours(date){
+    try{
+      const parts = new Intl.DateTimeFormat('en-US', { timeZone:'Asia/Tehran', timeZoneName:'shortOffset' }).formatToParts(date);
+      const tzPart = parts.find(p => p.type === 'timeZoneName');
+      if(tzPart){
+        const m = tzPart.value.match(/GMT([+-]\d+)(?::(\d+))?/);
+        if(m){
+          const h = parseInt(m[1], 10);
+          const mins = m[2] ? parseInt(m[2], 10) : 0;
+          return h + (h < 0 ? -mins / 60 : mins / 60);
+        }
+      }
+    }catch(e){}
+    return 3.5; // fallback: ساعت رسمی ایران بدون تغییر ساعت فصلی (از ۱۴۰۱ به بعد)
+  }
+  function getTehranParts(date){
+    const fmt = new Intl.DateTimeFormat('en-US', {
+      timeZone:'Asia/Tehran', year:'numeric', month:'2-digit', day:'2-digit',
+      hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false, weekday:'short'
+    });
+    const map = {};
+    fmt.formatToParts(date).forEach(p => { map[p.type] = p.value; });
+    return map;
+  }
+
+  // شروع جلسه بعدی (سه‌شنبه ساعت ۲۱:۰۰ به وقت تهران) به‌صورت timestamp واقعی UTC
+  // محاسبه می‌شود تا برای بازدیدکنندگان خارج از ایران هم شمارش معکوس درست باشد
   function nextSession(){
     const now = new Date();
-    const target = new Date(now);
-    let day = now.getDay(); // Sun=0 ... Tue=2
+    const offset = getTehranOffsetHours(now);
+    const p = getTehranParts(now);
+    const weekdayMap = { Sun:0, Mon:1, Tue:2, Wed:3, Thu:4, Fri:5, Sat:6 };
+    const day = weekdayMap[p.weekday];
+    const curHour = parseInt(p.hour, 10) + parseInt(p.minute, 10) / 60;
     let diff = (2 - day + 7) % 7;
-    target.setHours(21,0,0,0);
-    if(diff === 0 && now >= target) diff = 7;
-    target.setDate(now.getDate() + diff);
-    target.setHours(21,0,0,0);
-    return target;
+    if(diff === 0 && curHour >= 21) diff = 7;
+    const y = parseInt(p.year, 10), mo = parseInt(p.month, 10), d = parseInt(p.day, 10);
+    const targetUTC = Date.UTC(y, mo - 1, d + diff, 21, 0, 0) - offset * 3600000;
+    return new Date(targetUTC);
   }
 
   function updateCountdown(){
@@ -2124,10 +2154,11 @@
     if(!elShamsi || !elQamari || !elMiladi || !elGhaybat) return;
 
     const now = new Date();
+    const tehranYMD = getTehranParts(now); // تاریخ بر اساس تقویم/ساعت تهران، مستقل از تایم‌زون بازدیدکننده
 
     function fmt(locale, opts){
       try{
-        return new Intl.DateTimeFormat(locale, opts).format(now);
+        return new Intl.DateTimeFormat(locale, Object.assign({ timeZone:'Asia/Tehran' }, opts)).format(now);
       }catch(e){ return '--'; }
     }
 
@@ -2156,18 +2187,18 @@
     }
 
     function hijriManual(){
-      const jdn = gregorianToJDN(now.getFullYear(), now.getMonth() + 1, now.getDate());
+      const jdn = gregorianToJDN(parseInt(tehranYMD.year, 10), parseInt(tehranYMD.month, 10), parseInt(tehranYMD.day, 10));
       return jdnToHijriManual(jdn);
     }
 
     function hijriYear(){
       try{
-        const parts = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', { year:'numeric' }).formatToParts(now);
+        const parts = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', { timeZone:'Asia/Tehran', year:'numeric' }).formatToParts(now);
         const y = parts.find(p => p.type === 'year');
         if(y) return parseInt(y.value, 10);
       }catch(e){}
       try{
-        const parts = new Intl.DateTimeFormat('en-u-ca-islamic', { year:'numeric' }).formatToParts(now);
+        const parts = new Intl.DateTimeFormat('en-u-ca-islamic', { timeZone:'Asia/Tehran', year:'numeric' }).formatToParts(now);
         const y = parts.find(p => p.type === 'year');
         if(y) return parseInt(y.value, 10);
       }catch(e){}
