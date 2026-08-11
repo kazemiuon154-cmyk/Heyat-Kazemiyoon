@@ -6,7 +6,8 @@ const CORE_ASSETS = [
   './index.html',
   './manifest.json',
   './logo.jpg',
-  './logo.webp'
+  './logo.webp',
+  './telegram-1.png'
 ];
 
 // نصب: فایل‌های اصلی را از قبل کش کن
