@@ -2705,10 +2705,14 @@
       deferredPrompt = null;
     });
 
-    // با اسکرول، متن جمع می‌شود و فقط آیکون باقی می‌ماند
+    // با اسکرول به پایین، متن محو شده و فقط آیکون باقی می‌ماند
+    // این حالت یک‌طرفه است: با برگشت به بالا دیگر متن باز نمی‌شود،
+    // مگر اینکه کاربر روی دکمه بزند و بخواهد نصب را انجام دهد
     function updateCompact(){
       const scrolled = document.documentElement.scrollTop || document.body.scrollTop;
-      installBtn.classList.toggle('compact', scrolled > 24);
+      if(scrolled > 24){
+        installBtn.classList.add('compact');
+      }
     }
     window.addEventListener('scroll', updateCompact, { passive:true });
     updateCompact();
