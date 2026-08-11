@@ -197,6 +197,13 @@
     -webkit-backdrop-filter:blur(8px);
     backdrop-filter:blur(8px);
   }
+  .top-controls-left{
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+    flex-wrap:wrap;
+    min-width:0;
+  }
   .top-controls-right{
     display:flex;
     align-items:center;
@@ -255,9 +262,9 @@
     color:var(--parchment);
   }
 
-  /* ---------------- Tehran clock ---------------- */
+  /* ---------------- Tehran / Karbala clock ---------------- */
   .tehran-clock{
-    display:flex; align-items:center; gap:7px;
+    display:flex; flex-direction:column; align-items:stretch; gap:6px;
     font-size:15px; font-weight:700;
     font-variant-numeric:tabular-nums;
     color:var(--gold);
@@ -266,8 +273,82 @@
     padding:9px 16px;
     border-radius:999px;
     white-space:nowrap;
+    cursor:pointer;
+    user-select:none;
+    transition:all 0.28s cubic-bezier(.2,.8,.2,1);
   }
-  .tehran-clock svg{ width:17px; height:17px; opacity:0.85; flex:none; }
+  .tehran-clock .clock-row{ display:flex; align-items:center; gap:7px; }
+  .tehran-clock svg{ width:17px; height:17px; opacity:0.85; flex:none; transition:all 0.28s ease; }
+  .tehran-clock .clock-city{
+    font-size:10.5px; font-weight:700; color:var(--gold-soft);
+    letter-spacing:0.02em; opacity:0; max-width:0; overflow:hidden;
+    transition:opacity 0.2s ease, max-width 0.28s ease;
+  }
+  .tehran-clock .karbala-row{
+    max-height:0; opacity:0; overflow:hidden;
+    transition:max-height 0.28s ease, opacity 0.22s ease, margin-top 0.28s ease;
+  }
+  .tehran-clock:active{ transform:scale(0.96); }
+  .tehran-clock.expanded{
+    font-size:22px;
+    padding:14px 22px;
+    border-radius:22px;
+    border-color:var(--gold-soft);
+    background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01)), var(--void);
+    box-shadow:0 10px 24px rgba(0,0,0,0.35);
+  }
+  .tehran-clock.expanded svg{ width:20px; height:20px; }
+  .tehran-clock.expanded .clock-city{ opacity:1; max-width:60px; }
+  .tehran-clock.expanded .karbala-row{ max-height:40px; opacity:1; margin-top:2px; }
+  .tehran-clock.expanded .karbala-row svg{ color:var(--ember); }
+  .tehran-clock.expanded #karbala-clock-time{ color:var(--parchment); }
+
+  @media (max-width:380px){
+    .tehran-clock.expanded{ font-size:18px; padding:11px 16px; }
+  }
+
+  /* ---------------- Weather widget (خرم‌آباد / کربلا / نجف) ---------------- */
+  .weather-widget{
+    display:flex; flex-direction:column; align-items:stretch; gap:6px;
+    font-size:14px; font-weight:700;
+    font-variant-numeric:tabular-nums;
+    color:var(--gold);
+    background:rgba(255,255,255,0.02);
+    border:1px solid var(--line);
+    padding:9px 14px;
+    border-radius:999px;
+    white-space:nowrap;
+    cursor:pointer;
+    user-select:none;
+    transition:all 0.28s cubic-bezier(.2,.8,.2,1);
+  }
+  .weather-widget .weather-row{ display:flex; align-items:center; gap:7px; }
+  .weather-widget .weather-icon{ font-size:16px; line-height:1; flex:none; }
+  .weather-widget .weather-city{
+    font-size:10.5px; font-weight:700; color:var(--gold-soft);
+    letter-spacing:0.02em; opacity:0; max-width:0; overflow:hidden;
+    transition:opacity 0.2s ease, max-width 0.28s ease;
+  }
+  .weather-widget .extra-row{
+    max-height:0; opacity:0; overflow:hidden;
+    transition:max-height 0.28s ease, opacity 0.22s ease, margin-top 0.28s ease;
+  }
+  .weather-widget:active{ transform:scale(0.96); }
+  .weather-widget.expanded{
+    font-size:15px;
+    padding:14px 18px;
+    border-radius:20px;
+    border-color:var(--gold-soft);
+    background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01)), var(--void);
+    box-shadow:0 10px 24px rgba(0,0,0,0.35);
+  }
+  .weather-widget.expanded .weather-city{ opacity:1; max-width:60px; }
+  .weather-widget.expanded .extra-row{ max-height:40px; opacity:1; margin-top:2px; }
+  .weather-widget.expanded .extra-row .weather-temp{ color:var(--parchment); }
+
+  @media (max-width:380px){
+    .weather-widget.expanded{ font-size:13px; padding:11px 14px; }
+  }
 
   /* ---------------- language dropdown (با پرچم) ---------------- */
   .lang-switch-wrap{ position:relative; }
@@ -1024,7 +1105,7 @@
   }
   .ticker-track-inner{
     display:flex; gap:56px; width:max-content;
-    animation:ticker-scroll 16s linear infinite reverse;
+    animation:ticker-scroll 34s linear infinite reverse;
   }
   .ticker-bar:hover .ticker-track-inner{ animation-play-state:paused; }
   @keyframes ticker-scroll{
@@ -1083,9 +1164,36 @@
 <div class="page">
 
   <div class="top-controls">
-    <div class="tehran-clock" id="tehran-clock" aria-label="ساعت به وقت تهران">
-      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.6"/><path d="M12 7.5V12l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span id="tehran-clock-time">--:--</span>
+    <div class="top-controls-left">
+      <div class="tehran-clock" id="tehran-clock" role="button" tabindex="0" aria-label="ساعت به وقت تهران؛ برای نمایش ثانیه و ساعت کربلا ضربه بزنید" aria-pressed="false">
+        <div class="clock-row main-row">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.6"/><path d="M12 7.5V12l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="clock-city" data-i18n="clockTehran">تهران</span>
+          <span id="tehran-clock-time">--:--</span>
+        </div>
+        <div class="clock-row karbala-row">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.6"/><path d="M12 7.5V12l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="clock-city" data-i18n="clockKarbala">کربلا</span>
+          <span id="karbala-clock-time">--:--</span>
+        </div>
+      </div>
+      <div class="weather-widget" id="weather-widget" role="button" tabindex="0" aria-label="وضعیت آب و هوا؛ برای نمایش خرم‌آباد، کربلا و نجف ضربه بزنید" aria-pressed="false">
+        <div class="weather-row main-row">
+          <span class="weather-icon" id="weather-icon-main">⛅</span>
+          <span class="weather-city" data-i18n="weatherKhorramabad">خرم‌آباد</span>
+          <span class="weather-temp" id="weather-temp-main">--°C</span>
+        </div>
+        <div class="weather-row extra-row">
+          <span class="weather-icon" id="weather-icon-karbala">⛅</span>
+          <span class="weather-city" data-i18n="weatherKarbala">کربلا</span>
+          <span class="weather-temp" id="weather-temp-karbala">--°C</span>
+        </div>
+        <div class="weather-row extra-row">
+          <span class="weather-icon" id="weather-icon-najaf">⛅</span>
+          <span class="weather-city" data-i18n="weatherNajaf">نجف</span>
+          <span class="weather-temp" id="weather-temp-najaf">--°C</span>
+        </div>
+      </div>
     </div>
     <div class="top-controls-right">
       <button type="button" id="pwa-install-btn" class="pwa-install-btn" aria-label="نصب اپلیکیشن تحت وب هیئت کاظمیون">
@@ -1172,10 +1280,10 @@
   <div class="countdown-card reveal">
     <div class="countdown-label" data-i18n="cdLabel">شروع تا جلسه بعدی</div>
     <div class="countdown-grid">
-      <div class="countdown-unit"><span class="num" id="cd-days">--</span><span class="lbl" data-i18n="unitDays">روز</span></div>
-      <div class="countdown-unit"><span class="num" id="cd-hours">--</span><span class="lbl" data-i18n="unitHours">ساعت</span></div>
-      <div class="countdown-unit"><span class="num" id="cd-mins">--</span><span class="lbl" data-i18n="unitMins">دقیقه</span></div>
       <div class="countdown-unit"><span class="num" id="cd-secs">--</span><span class="lbl" data-i18n="unitSecs">ثانیه</span></div>
+      <div class="countdown-unit"><span class="num" id="cd-mins">--</span><span class="lbl" data-i18n="unitMins">دقیقه</span></div>
+      <div class="countdown-unit"><span class="num" id="cd-hours">--</span><span class="lbl" data-i18n="unitHours">ساعت</span></div>
+      <div class="countdown-unit"><span class="num" id="cd-days">--</span><span class="lbl" data-i18n="unitDays">روز</span></div>
     </div>
     <div class="countdown-foot" data-i18n="cdFoot">سه‌شنبه، ساعت ۲۱:۰۰</div>
   </div>
@@ -1579,6 +1687,11 @@
       tag: "هیئـت عزاداری",
       title: "هیئت کاظمیون خرم‌آباد",
       meta: 'مراسم هفتگی: <b>سه‌شنبه‌ها ساعت ۲۱</b><br>قاضی‌آباد، خیابان نهم، مسجد حضرت قائم «عج»',
+      clockTehran: "تهران",
+      clockKarbala: "کربلا",
+      weatherKhorramabad: "خرم‌آباد",
+      weatherKarbala: "کربلا",
+      weatherNajaf: "نجف",
       cdLabel: "شروع تا جلسه بعدی",
       unitDays: "روز", unitHours: "ساعت", unitMins: "دقیقه", unitSecs: "ثانیه",
       cdFoot: "سه‌شنبه، ساعت ۲۱:۰۰",
@@ -1623,6 +1736,11 @@
       tag: "موكب عزاء",
       title: "موكب الكاظميون خرم‌آباد",
       meta: 'يقام أسبوعياً، <b>الثلاثاء الساعة ۲۱</b><br>قاضي‌آباد، الشارع التاسع، مسجد الإمام القائم (عج)',
+      clockTehran: "طهران",
+      clockKarbala: "كربلاء",
+      weatherKhorramabad: "خرم‌آباد",
+      weatherKarbala: "كربلاء",
+      weatherNajaf: "النجف",
       cdLabel: "حتى بدء المجلس القادم",
       unitDays: "يوم", unitHours: "ساعة", unitMins: "دقيقة", unitSecs: "ثانية",
       cdFoot: "الثلاثاء، الساعة ۲۱:۰۰",
@@ -1667,6 +1785,11 @@
       tag: "MOURNING COUNCIL",
       title: "Heyat-e Kazemiyoon, Khorramabad",
       meta: 'Held weekly, <b>Tuesdays at 9:00 PM</b><br>Ghazi-abad, 9th Street, Emam Ghaem Mosque',
+      clockTehran: "Tehran",
+      clockKarbala: "Karbala",
+      weatherKhorramabad: "Khorramabad",
+      weatherKarbala: "Karbala",
+      weatherNajaf: "Najaf",
       cdLabel: "Until Next Session",
       unitDays: "Days", unitHours: "Hours", unitMins: "Mins", unitSecs: "Secs",
       cdFoot: "Tuesday, 9:00 PM",
@@ -1870,20 +1993,127 @@
     setInterval(updateCountdown, 1000);
   }
 
-  // ---------------- ساعت به وقت تهران ----------------
+  // ---------------- ساعت به وقت تهران و کربلا ----------------
   const tehranFormatter = new Intl.DateTimeFormat('en-GB', { timeZone:'Asia/Tehran', hour:'2-digit', minute:'2-digit', hour12:false });
+  const tehranFormatterSec = new Intl.DateTimeFormat('en-GB', { timeZone:'Asia/Tehran', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false });
+  const karbalaFormatterSec = new Intl.DateTimeFormat('en-GB', { timeZone:'Asia/Baghdad', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false });
   const tehranClockEl = document.getElementById('tehran-clock-time');
+  const karbalaClockEl = document.getElementById('karbala-clock-time');
+  const tehranClockWrap = document.getElementById('tehran-clock');
+  let clockExpanded = false;
   function updateTehranClock(){
     if(!tehranClockEl) return;
-    const parts = tehranFormatter.formatToParts(new Date());
+    const now = new Date();
+    const formatter = clockExpanded ? tehranFormatterSec : tehranFormatter;
+    const parts = formatter.formatToParts(now);
     const hh = parts.find(p => p.type === 'hour').value;
     const mm = parts.find(p => p.type === 'minute').value;
-    tehranClockEl.textContent = toLocaleDigits(hh) + ':' + toLocaleDigits(mm);
+    if(clockExpanded){
+      const ss = parts.find(p => p.type === 'second').value;
+      tehranClockEl.textContent = toLocaleDigits(hh) + ':' + toLocaleDigits(mm) + ':' + toLocaleDigits(ss);
+      if(karbalaClockEl){
+        const kParts = karbalaFormatterSec.formatToParts(now);
+        const khh = kParts.find(p => p.type === 'hour').value;
+        const kmm = kParts.find(p => p.type === 'minute').value;
+        const kss = kParts.find(p => p.type === 'second').value;
+        karbalaClockEl.textContent = toLocaleDigits(khh) + ':' + toLocaleDigits(kmm) + ':' + toLocaleDigits(kss);
+      }
+    } else {
+      tehranClockEl.textContent = toLocaleDigits(hh) + ':' + toLocaleDigits(mm);
+    }
+  }
+  function toggleClockExpanded(){
+    clockExpanded = !clockExpanded;
+    if(tehranClockWrap){
+      tehranClockWrap.classList.toggle('expanded', clockExpanded);
+      tehranClockWrap.setAttribute('aria-pressed', String(clockExpanded));
+    }
+    updateTehranClock();
+  }
+  if(tehranClockWrap){
+    tehranClockWrap.addEventListener('click', toggleClockExpanded);
+    tehranClockWrap.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        toggleClockExpanded();
+      }
+    });
   }
   if(tehranClockEl){
     updateTehranClock();
     setInterval(updateTehranClock, 1000);
   }
+
+  // ---------------- وضعیت آب و هوا: خرم‌آباد، کربلا، نجف ----------------
+  (function weatherWidgetInit(){
+    const weatherWidget = document.getElementById('weather-widget');
+    if(!weatherWidget) return;
+
+    const WEATHER_LOCATIONS = [
+      { id:'main',    lat:33.4869, lon:48.3557 }, // خرم‌آباد، لرستان، ایران
+      { id:'karbala', lat:32.6160, lon:44.0250 }, // کربلا، عراق
+      { id:'najaf',   lat:31.9958, lon:44.3107 }  // نجف، عراق
+    ];
+
+    function weatherIcon(code){
+      if(code === 0) return '☀️';
+      if(code === 1 || code === 2) return '🌤';
+      if(code === 3) return '☁️';
+      if(code === 45 || code === 48) return '🌫';
+      if([51,53,55,56,57].includes(code)) return '🌦';
+      if([61,63,65,66,67,80,81,82].includes(code)) return '🌧';
+      if([71,73,75,77,85,86].includes(code)) return '🌨';
+      if([95,96,99].includes(code)) return '⛈';
+      return '⛅';
+    }
+
+    async function loadWeather(){
+      try{
+        const lats = WEATHER_LOCATIONS.map(l => l.lat).join(',');
+        const lons = WEATHER_LOCATIONS.map(l => l.lon).join(',');
+        const url = 'https://api.open-meteo.com/v1/forecast?latitude=' + lats + '&longitude=' + lons + '&current=temperature_2m,weather_code&timezone=auto';
+        const timeoutPromise = new Promise((_, reject) => {
+          setTimeout(() => reject(new Error('timeout')), 8000);
+        });
+        const res = await Promise.race([fetch(url), timeoutPromise]);
+        if(!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        const list = Array.isArray(data) ? data : [data];
+        WEATHER_LOCATIONS.forEach((loc, i) => {
+          const d = list[i];
+          if(!d || !d.current) return;
+          const temp = Math.round(d.current.temperature_2m);
+          const icon = weatherIcon(d.current.weather_code);
+          const tempEl = document.getElementById('weather-temp-' + loc.id);
+          const iconEl = document.getElementById('weather-icon-' + loc.id);
+          if(tempEl) tempEl.textContent = toLocaleDigits(temp) + '°C';
+          if(iconEl) iconEl.textContent = icon;
+        });
+      }catch(e){
+        // در صورت خطا (قطعی اینترنت یا محدودیت شبکه)، خطا در کنسول ثبت می‌شود
+        // و مقادیر قبلی (یا --) روی صفحه باقی می‌مانند تا کاربر با ضربه‌ی بعدی دوباره تلاش کند
+        console.warn('Weather fetch failed:', e);
+      }
+    }
+
+    let weatherExpanded = false;
+    function toggleWeatherExpanded(){
+      weatherExpanded = !weatherExpanded;
+      weatherWidget.classList.toggle('expanded', weatherExpanded);
+      weatherWidget.setAttribute('aria-pressed', String(weatherExpanded));
+      if(weatherExpanded) loadWeather(); // تلاش مجدد برای دریافت هنگام باز کردن ویجت
+    }
+    weatherWidget.addEventListener('click', toggleWeatherExpanded);
+    weatherWidget.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        toggleWeatherExpanded();
+      }
+    });
+
+    loadWeather();
+    setInterval(loadWeather, 15 * 60 * 1000); // هر ۱۵ دقیقه به‌روزرسانی می‌شود
+  })();
 
   // ---------------- date card: شمسی / قمری / میلادی + تقویم غیبت ----------------
   (function dateCard(){
@@ -1901,6 +2131,35 @@
       }catch(e){ return '--'; }
     }
 
+    // محاسبه دستی تاریخ قمری (تقویم مدنی/کویتی) — آخرین fallback وقتی Intl از
+    // تقویم اسلامی پشتیبانی نکند (مثلاً برخی مرورگرهای اندرویدی قدیمی)
+    const HIJRI_MONTHS = ['محرم','صفر','ربیع‌الاول','ربیع‌الثانی','جمادی‌الاول','جمادی‌الثانی','رجب','شعبان','رمضان','شوال','ذی‌القعده','ذی‌الحجه'];
+
+    function gregorianToJDN(y, m, d){
+      const a = Math.floor((14 - m) / 12);
+      const y2 = y + 4800 - a;
+      const m2 = m + 12 * a - 3;
+      return d + Math.floor((153 * m2 + 2) / 5) + 365 * y2 + Math.floor(y2 / 4) - Math.floor(y2 / 100) + Math.floor(y2 / 400) - 32045;
+    }
+
+    function jdnToHijriManual(jdn){
+      const epoch = 1948440; // آغاز تقویم قمری مدنی (۱ محرم سال ۱ ه‍.ق)
+      const l1 = jdn - epoch + 10632;
+      const n = Math.floor((l1 - 1) / 10631);
+      const l2 = l1 - 10631 * n + 354;
+      const j = Math.floor((10985 - l2) / 5316) * Math.floor((50 * l2) / 17719) + Math.floor(l2 / 5670) * Math.floor((43 * l2) / 15238);
+      const l3 = l2 - Math.floor((30 - j) / 15) * Math.floor((17719 * j) / 50) - Math.floor(j / 16) * Math.floor((15238 * j) / 43) + 29;
+      const month = Math.floor((24 * l3) / 709);
+      const day = l3 - Math.floor((709 * month) / 24);
+      const year = 30 * n + j - 30;
+      return { year, month, day };
+    }
+
+    function hijriManual(){
+      const jdn = gregorianToJDN(now.getFullYear(), now.getMonth() + 1, now.getDate());
+      return jdnToHijriManual(jdn);
+    }
+
     function hijriYear(){
       try{
         const parts = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', { year:'numeric' }).formatToParts(now);
@@ -1912,11 +2171,26 @@
         const y = parts.find(p => p.type === 'year');
         if(y) return parseInt(y.value, 10);
       }catch(e){}
+      try{
+        return hijriManual().year;
+      }catch(e){}
       return null;
     }
 
     elShamsi.textContent = fmt('fa-IR-u-ca-persian', { year:'numeric', month:'long', day:'numeric' });
-    elQamari.textContent = fmt('fa-IR-u-ca-islamic-umalqura', { year:'numeric', month:'long', day:'numeric' });
+
+    const qamariText = fmt('fa-IR-u-ca-islamic-umalqura', { year:'numeric', month:'long', day:'numeric' });
+    if(qamariText !== '--'){
+      elQamari.textContent = qamariText;
+    } else {
+      try{
+        const h = hijriManual();
+        elQamari.textContent = toLocaleDigits(h.day) + ' ' + HIJRI_MONTHS[h.month - 1] + ' ' + toLocaleDigits(h.year);
+      }catch(e){
+        elQamari.textContent = '--';
+      }
+    }
+
     elMiladi.textContent = fmt('fa-IR-u-ca-gregory', { year:'numeric', month:'long', day:'numeric' });
 
     const GHAYBAT_KUBRA_START_AH = 329; // آغاز غیبت کبری امام زمان (عج)
@@ -1941,8 +2215,27 @@
     };
     if(!els.fajr || !els.sunrise || !els.dhuhr || !els.sunset || !els.maghrib || !els.midnight) return;
 
-    // مختصات خرم‌آباد، استان لرستان + وقت رسمی ایران (بدون تغییر ساعت، ثابت UTC+3:30)
-    const LAT = 33.4869, LON = 48.3557, TZ = 3.5;
+    // مختصات خرم‌آباد، استان لرستان
+    const LAT = 33.4869, LON = 48.3557;
+
+    // افست ساعت رسمی ایران به‌صورت پویا از Intl خوانده می‌شود (نه هاردکد)
+    // تا اگر در آینده سیاست تغییر ساعت ایران دوباره تغییر کرد، محاسبات خودکار درست بمانند
+    function getTehranOffsetHours(date){
+      try{
+        const parts = new Intl.DateTimeFormat('en-US', { timeZone:'Asia/Tehran', timeZoneName:'shortOffset' }).formatToParts(date);
+        const tzPart = parts.find(p => p.type === 'timeZoneName');
+        if(tzPart){
+          const m = tzPart.value.match(/GMT([+-]\d+)(?::(\d+))?/);
+          if(m){
+            const h = parseInt(m[1], 10);
+            const mins = m[2] ? parseInt(m[2], 10) : 0;
+            return h + (h < 0 ? -mins / 60 : mins / 60);
+          }
+        }
+      }catch(e){}
+      return 3.5; // fallback: ساعت رسمی ایران بدون تغییر ساعت فصلی (از ۱۴۰۱ به بعد)
+    }
+    const TZ = getTehranOffsetHours(new Date());
 
     function mod(a, n){ return a - n * Math.floor(a / n); }
     function toRad(d){ return d * Math.PI / 180; }
