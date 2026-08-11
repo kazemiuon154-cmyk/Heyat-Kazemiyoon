@@ -206,9 +206,15 @@
     display:flex;
     align-items:center;
     justify-content:center;
+    flex-wrap:wrap;
     gap:10px;
     margin:34px 0 18px;
   }
+  .sound-toggle.telegram-mini{
+    background:transparent; border-color:transparent; overflow:hidden; padding:0;
+    text-decoration:none;
+  }
+  .sound-toggle.telegram-mini img{ width:100%; height:100%; object-fit:cover; display:block; }
   .sound-toggle{
     width:30px; height:30px;
     border-radius:50%;
@@ -251,17 +257,17 @@
 
   /* ---------------- Tehran clock ---------------- */
   .tehran-clock{
-    display:flex; align-items:center; gap:5px;
-    font-size:11.5px; font-weight:700;
+    display:flex; align-items:center; gap:7px;
+    font-size:15px; font-weight:700;
     font-variant-numeric:tabular-nums;
     color:var(--gold);
     background:rgba(255,255,255,0.02);
     border:1px solid var(--line);
-    padding:6px 12px;
+    padding:9px 16px;
     border-radius:999px;
     white-space:nowrap;
   }
-  .tehran-clock svg{ width:13px; height:13px; opacity:0.85; flex:none; }
+  .tehran-clock svg{ width:17px; height:17px; opacity:0.85; flex:none; }
 
   /* ---------------- language dropdown (با پرچم) ---------------- */
   .lang-switch-wrap{ position:relative; }
@@ -337,8 +343,6 @@
   .share-btn svg{ width:21px; height:21px; }
   .share-btn:active{ transform:scale(0.92); }
   .share-btn.whatsapp{ background:linear-gradient(135deg,#25d366,#128c46); }
-  .share-btn.telegram{ background:transparent; border-color:transparent; overflow:hidden; padding:0; }
-  .share-btn.telegram img{ width:100%; height:100%; object-fit:cover; display:block; }
   @media (hover:hover){
     .share-btn:hover{ box-shadow:0 6px 18px rgba(0,0,0,0.4); transform:translateY(-2px); }
   }
@@ -1084,17 +1088,6 @@
       <span id="tehran-clock-time">--:--</span>
     </div>
     <div class="top-controls-right">
-      <div class="theme-switch-wrap">
-        <button type="button" id="theme-toggle" class="sound-toggle" aria-label="تغییر تم" aria-expanded="false">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 9 9c0-.5-.04-1-.12-1.47a5.5 5.5 0 0 1-7.41-7.41A9 9 0 0 0 12 3z" fill="currentColor"/></svg>
-        </button>
-        <div class="theme-popover" id="theme-popover" role="menu">
-          <button type="button" class="theme-opt" data-theme="fest">مذهبی ۱</button>
-          <button type="button" class="theme-opt active" data-theme="default">مذهبی ۲</button>
-          <button type="button" class="theme-opt" data-theme="light">سبز فسفری</button>
-          <button type="button" class="theme-opt" data-theme="dark">تاریک</button>
-        </div>
-      </div>
       <button type="button" id="pwa-install-btn" class="pwa-install-btn" aria-label="نصب اپلیکیشن تحت وب هیئت کاظمیون">
         <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span class="install-text">
@@ -1327,9 +1320,6 @@
   <div class="share-block reveal">
     <div class="share-label" data-i18n="shareLabel">این صفحه رو با دوستان به اشتراک بگذارید</div>
     <div class="share-buttons">
-      <a class="share-btn telegram" id="share-tg" target="_blank" rel="noopener" aria-label="اشتراک‌گذاری در تلگرام">
-        <img src="telegram.png" alt="تلگرام" width="46" height="46" loading="lazy">
-      </a>
       <button type="button" class="share-btn copy-link" id="share-copy" aria-label="کپی لینک صفحه">
         <svg viewBox="0 0 24 24" fill="none"><circle cx="5" cy="12" r="1.9" fill="currentColor"/><circle cx="12" cy="12" r="1.9" fill="currentColor"/><circle cx="19" cy="12" r="1.9" fill="currentColor"/></svg>
       </button>
@@ -1337,6 +1327,17 @@
   </div>
 
   <div class="bottom-controls reveal">
+    <div class="theme-switch-wrap">
+      <button type="button" id="theme-toggle" class="sound-toggle" aria-label="تغییر تم" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 9 9c0-.5-.04-1-.12-1.47a5.5 5.5 0 0 1-7.41-7.41A9 9 0 0 0 12 3z" fill="currentColor"/></svg>
+      </button>
+      <div class="theme-popover" id="theme-popover" role="menu">
+        <button type="button" class="theme-opt" data-theme="fest">مذهبی ۱</button>
+        <button type="button" class="theme-opt active" data-theme="default">مذهبی ۲</button>
+        <button type="button" class="theme-opt" data-theme="light">سبز فسفری</button>
+        <button type="button" class="theme-opt" data-theme="dark">تاریک</button>
+      </div>
+    </div>
     <div class="lang-switch-wrap">
       <button type="button" id="lang-toggle" class="lang-toggle" aria-haspopup="true" aria-expanded="false" aria-label="انتخاب زبان">
         <span class="lang-flag" id="lang-toggle-flag">🇮🇷</span>
@@ -1358,6 +1359,9 @@
       <svg class="icon-sound-on" viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a4 4 0 0 1 0 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M18.5 6a7.5 7.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/></svg>
       <svg class="icon-sound-off" viewBox="0 0 24 24" fill="none" style="display:none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M15.5 9.5l5 5M20.5 9.5l-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
     </button>
+    <a class="sound-toggle telegram-mini" id="share-tg" target="_blank" rel="noopener" aria-label="اشتراک‌گذاری در تلگرام">
+      <img src="telegram.png" alt="تلگرام" width="30" height="30" loading="lazy">
+    </a>
   </div>
 
   <footer class="reveal">
@@ -1538,7 +1542,7 @@
     osc.start(t0);
     osc.stop(t0 + 0.16);
   }
-  document.querySelectorAll('.link-card, .share-btn, .lang-opt, .lang-toggle').forEach(el => {
+  document.querySelectorAll('.link-card, .share-btn, .lang-opt, .lang-toggle, .telegram-mini').forEach(el => {
     el.addEventListener('click', playTick);
   });
   const soundToggle = document.getElementById('sound-toggle');
