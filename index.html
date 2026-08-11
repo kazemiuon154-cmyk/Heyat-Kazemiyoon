@@ -129,7 +129,7 @@
   .page{
     width:100%;
     max-width:500px;
-    padding:104px 22px 70px;
+    padding:0 22px 70px;
     position:relative;
     z-index:1;
   }
@@ -183,16 +183,15 @@
 
   /* ---------------- top controls ---------------- */
   .top-controls{
-    position:fixed;
-    top:0; left:50%;
-    transform:translateX(-50%);
-    width:100%; max-width:500px;
+    position:relative;
+    width:100%;
+    margin:0 -22px;
+    padding:14px 22px;
     display:flex;
     align-items:center;
     justify-content:space-between;
     gap:10px;
-    padding:14px 22px;
-    z-index:80;
+    z-index:2;
     background:linear-gradient(180deg, rgba(14,9,6,0.94), rgba(14,9,6,0.82) 65%, transparent);
     -webkit-backdrop-filter:blur(8px);
     backdrop-filter:blur(8px);
@@ -209,6 +208,37 @@
     align-items:center;
     gap:8px;
   }
+
+  /* ---------------- back to top ---------------- */
+  .back-to-top{
+    position:fixed;
+    bottom:18px;
+    left:18px;
+    width:34px; height:34px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(20,14,10,0.75);
+    color:var(--parchment-dim);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    z-index:70;
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(8px);
+    transition:opacity 0.25s ease, transform 0.25s ease, visibility 0.25s, border-color 0.2s ease, color 0.2s ease;
+    -webkit-backdrop-filter:blur(6px);
+    backdrop-filter:blur(6px);
+  }
+  .back-to-top svg{ width:16px; height:16px; }
+  .back-to-top.show{
+    opacity:1;
+    visibility:visible;
+    transform:translateY(0);
+  }
+  .back-to-top:hover{ border-color:var(--gold-soft); color:var(--gold); }
+
   .bottom-controls{
     display:flex;
     align-items:center;
@@ -1162,6 +1192,9 @@
 <div class="noise"></div>
 <div class="embers" id="embers"></div>
 <div class="toast" id="toast"></div>
+<button type="button" id="back-to-top" class="back-to-top" aria-label="بازگشت به بالا">
+  <svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5M12 5l-6 6M12 5l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
 
 <div class="page">
 
@@ -1559,7 +1592,20 @@
     update();
   })();
 
-  // ---------------- theme switcher (پیش‌فرض / روشن / تاریک) ----------------
+  // ---------------- back to top ----------------
+  (function backToTop(){
+    const btn = document.getElementById('back-to-top');
+    if(!btn) return;
+    function update(){
+      const scrolled = document.documentElement.scrollTop || document.body.scrollTop;
+      btn.classList.toggle('show', scrolled > 400);
+    }
+    window.addEventListener('scroll', update, { passive:true });
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top:0, behavior:'smooth' });
+    });
+    update();
+  })();
   (function themeSwitcher(){
     const toggle = document.getElementById('theme-toggle');
     const popover = document.getElementById('theme-popover');
@@ -2376,12 +2422,31 @@
       { narrator:"امیرالمؤمنین امام علی (ع)", ar:"اِكتَسِبُوا العِلمَ يَكسِبكُمُ الحَياةَ", fa:"دانش به‌دست آورید تا به شما زندگى بخشد.", src:"غرر، حدیث ۲۴۸۶" }
     ];
 
-    const dayIndex = Math.floor(Date.now() / 86400000) % hadiths.length;
-    const today = hadiths[dayIndex];
-    elNarrator.textContent = today.narrator;
-    elArabic.textContent = today.ar;
-    elFa.textContent = today.fa;
-    elSource.textContent = today.src;
+    // ایندکس بر اساس تاریخ محلی تهران محاسبه می‌شود (نه UTC) تا تعویض حدیث
+    // دقیقا با نیمه‌شب ایران هماهنگ باشد، نه ساعت ۳:۳۰ بامداد.
+    function tehranDayNumber(date){
+      const p = getTehranParts(date);
+      const y = parseInt(p.year, 10), mo = parseInt(p.month, 10), d = parseInt(p.day, 10);
+      // روزشمار پایدار بر اساس تاریخ میلادی تهران (بدون وابستگی به منطقه زمانی مرورگر)
+      return Math.floor(Date.UTC(y, mo - 1, d) / 86400000);
+    }
+
+    let currentIndex = null;
+    function renderHadith(){
+      const dayIndex = ((tehranDayNumber(new Date()) % hadiths.length) + hadiths.length) % hadiths.length;
+      if(dayIndex === currentIndex) return; // تغییری نکرده، نیازی به رندر دوباره نیست
+      currentIndex = dayIndex;
+      const today = hadiths[dayIndex];
+      elNarrator.textContent = today.narrator;
+      elArabic.textContent = today.ar;
+      elFa.textContent = today.fa;
+      elSource.textContent = today.src;
+    }
+
+    renderHadith();
+    // هر چند دقیقه یک‌بار چک می‌کند که آیا روز (به وقت تهران) عوض شده یا نه،
+    // تا بدون نیاز به رفرش دستی صفحه، حدیث به‌موقع آپدیت شود.
+    setInterval(renderHadith, 5 * 60 * 1000);
   })();
 
   // ember particles
