@@ -53,6 +53,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
+<!-- ===== Leaflet (نقشه تعاملی) ===== -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+
 <!-- ===== PWA ===== -->
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0e0906">
@@ -831,6 +834,74 @@
   .instagram .icon-box{ background:linear-gradient(135deg,#4f5bd5,#962fbf 30%,#d62976 60%,#fa7e1e 85%,#feda75); }
   .neshan .icon-box{ background:linear-gradient(135deg,#0c8f7f,#1cb8a3); }
   .balad .icon-box{ background:linear-gradient(135deg,#1e6fb8,#3a9be0); }
+
+  /* ---------------- MAP ---------------- */
+  .map-card{
+    position:relative;
+    border-radius:18px;
+    overflow:hidden;
+    border:1px solid var(--line);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.05) inset,
+      0 10px 24px rgba(0,0,0,0.28);
+    background:var(--void);
+  }
+  .location-map{
+    width:100%;
+    height:220px;
+    background:var(--void-2);
+  }
+  .leaflet-container{ font-family:'Vazirmatn', sans-serif; background:var(--void-2); }
+  .leaflet-control-attribution{
+    background:rgba(14,9,6,0.72) !important;
+    color:var(--parchment-dim) !important;
+    font-size:9px !important;
+    backdrop-filter:blur(4px);
+  }
+  .leaflet-control-attribution a{ color:var(--gold-soft) !important; }
+  .leaflet-control-zoom a{
+    background:rgba(20,14,10,0.85) !important;
+    color:var(--parchment) !important;
+    border-color:var(--line) !important;
+  }
+  .map-popup{ font-family:'Vazirmatn', sans-serif; text-align:center; direction:rtl; }
+  .map-popup .mp-title{ font-weight:700; font-size:13px; color:var(--void); margin-bottom:6px; }
+  .map-popup .mp-actions{ display:flex; gap:6px; justify-content:center; }
+  .map-popup .mp-btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    padding:5px 10px; border-radius:8px; font-size:11px; font-weight:600;
+    text-decoration:none; color:#fff; white-space:nowrap;
+  }
+  .map-popup .mp-btn.neshan-btn{ background:linear-gradient(135deg,#0c8f7f,#1cb8a3); }
+  .map-popup .mp-btn.balad-btn{ background:linear-gradient(135deg,#1e6fb8,#3a9be0); }
+
+  /* ---------------- ROUTE LINKS: افقی، کشیده و کوچک ---------------- */
+  .links-row.route-strip{ gap:8px; margin-top:10px; }
+  .links-row.route-strip .link-card{
+    flex-direction:row;
+    justify-content:center;
+    align-items:center;
+    padding:9px 12px;
+    gap:8px;
+    border-radius:12px;
+  }
+  .links-row.route-strip .link-left{
+    flex-direction:row;
+    align-items:center;
+    gap:8px;
+    text-align:start;
+  }
+  .links-row.route-strip .link-label{ align-items:flex-start; }
+  .links-row.route-strip .fa-title{
+    font-size:12.5px;
+    font-weight:600;
+    white-space:nowrap;
+  }
+  .links-row.route-strip .icon-box{
+    width:26px; height:26px; min-width:26px;
+    border-radius:8px;
+  }
+  .links-row.route-strip .icon-box svg{ width:14px; height:14px; }
 
   .go-arrow{
     color:var(--gold-dim);
@@ -1854,7 +1925,12 @@
   </div>
 
   <div class="group-label reveal" data-i18n="groupRoute">مسیر رسیدن به هیئت</div>
-  <div class="links links-row reveal">
+
+  <div class="map-card reveal">
+    <div id="location-map" class="location-map" role="img" aria-label="نقشه موقعیت مسجد حضرت قائم (عج)"></div>
+  </div>
+
+  <div class="links links-row route-strip reveal">
 
     <a class="link-card neshan" href="https://nshn.ir/rbSnvSY5047L" target="_blank" rel="noopener">
       <div class="link-left">
@@ -1901,6 +1977,9 @@
   </footer>
 
 </div>
+
+<!-- ===== Leaflet (نقشه تعاملی) ===== -->
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 <script>
   // ---------------- arabesque motif ring (item 2) ----------------
@@ -3171,6 +3250,56 @@
       mo.observe(overlay, { attributes:true, attributeFilter:['class'] });
     });
     syncPlayerVisibility();
+  })();
+
+  // ---------------- نقشه تعاملی موقعیت هیئت (نشان / بلد) ----------------
+  (function locationMap(){
+    const el = document.getElementById('location-map');
+    if(!el || typeof L === 'undefined') return;
+
+    const LAT = 33.471360;
+    const LON = 48.355532;
+    const NESHAN_URL = 'https://nshn.ir/rbSnvSY5047L';
+    const BALAD_URL = 'https://balad.ir/location?latitude=33.471360&longitude=48.355532&zoom=16.500000';
+
+    const map = L.map(el, {
+      center: [LAT, LON],
+      zoom: 16,
+      scrollWheelZoom: false,
+      attributionControl: true
+    });
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 19
+    }).addTo(map);
+
+    const flameIcon = L.divIcon({
+      className: 'map-flame-marker',
+      html: '<svg width="30" height="42" viewBox="0 0 24 34" fill="none"><path d="M12 33s9-8 9-17.5C21 6.9 17.1 3 12 3S3 6.9 3 15.5C3 24.6 12 33 12 33z" fill="#8c1518" stroke="#c9a227" stroke-width="1.3"/><circle cx="12" cy="15" r="4.2" fill="#f1e7d8"/></svg>',
+      iconSize: [30, 42],
+      iconAnchor: [15, 40],
+      popupAnchor: [0, -38]
+    });
+
+    const marker = L.marker([LAT, LON], { icon: flameIcon }).addTo(map);
+    marker.bindPopup(
+      '<div class="map-popup">' +
+        '<div class="mp-title">مسجد حضرت قائم (عج)</div>' +
+        '<div class="mp-actions">' +
+          '<a class="mp-btn neshan-btn" href="' + NESHAN_URL + '" target="_blank" rel="noopener">نشان</a>' +
+          '<a class="mp-btn balad-btn" href="' + BALAD_URL + '" target="_blank" rel="noopener">بلد</a>' +
+        '</div>' +
+      '</div>',
+      { closeButton: false }
+    );
+
+    // باز نگه‌داشتن اسکرول صفحه هنگام لمس نقشه در موبایل با یک تاچ فعال شود
+    map.once('focus', () => map.scrollWheelZoom.enable());
+    el.addEventListener('click', () => marker.openPopup(), { once:true });
+
+    setTimeout(() => map.invalidateSize(), 300);
   })();
 </script>
 
