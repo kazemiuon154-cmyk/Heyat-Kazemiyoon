@@ -685,6 +685,64 @@
     position:relative;
   }
 
+  /* ---------------- POSTER (تصویر ویژه + کپشن) ---------------- */
+  .poster-card{
+    position:relative;
+    margin:20px 0 8px;
+    border-radius:20px;
+    overflow:hidden;
+    border:1px solid var(--line);
+    background:var(--void);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.06) inset,
+      0 18px 36px rgba(0,0,0,0.35),
+      0 2px 8px rgba(0,0,0,0.25);
+  }
+  .poster-card img{
+    width:100%;
+    height:auto;
+    display:block;
+  }
+  .poster-caption{
+    position:relative;
+    padding:16px 18px 20px;
+    text-align:center;
+    background:
+      linear-gradient(180deg, rgba(var(--crimson-rgb),0.14), rgba(var(--crimson-rgb),0.03)),
+      var(--void);
+  }
+  .poster-caption-title{
+    font-size:13.5px;
+    color:var(--gold);
+    letter-spacing:0.02em;
+    font-weight:700;
+    margin-bottom:10px;
+  }
+  .poster-caption-names{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .poster-caption-names span{
+    font-size:13.5px;
+    color:var(--parchment);
+    font-weight:600;
+    padding:6px 14px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:rgba(0,0,0,0.28);
+  }
+  body.theme-dark .poster-card{
+    background:#050505;
+  }
+  body.theme-dark .poster-caption{
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005)),
+      #050505;
+  }
+
   /* ---------------- GROUP LABEL ---------------- */
   .group-label{
     font-size:12px;
@@ -1668,6 +1726,17 @@
     </div>
   </div>
 
+  <div class="poster-card reveal">
+    <img src="speakers.jpg" alt="با حضور مداحان اهل بیت؛ کربلایی رضا دارایی و کربلایی عرفان سلیمی" loading="lazy" width="808" height="1280">
+    <div class="poster-caption">
+      <div class="poster-caption-title" data-i18n="posterTitle">با حضور مداحان اهل بیت</div>
+      <div class="poster-caption-names">
+        <span data-i18n="posterName1">کربلایی رضا دارایی</span>
+        <span data-i18n="posterName2">کربلایی عرفان سلیمی</span>
+      </div>
+    </div>
+  </div>
+
   <div class="countdown-card reveal">
     <div class="countdown-label" data-i18n="cdLabel">شروع تا جلسه بعدی</div>
     <div class="countdown-grid">
@@ -2139,6 +2208,9 @@
       cdLabel: "شروع تا جلسه بعدی",
       unitDays: "روز", unitHours: "ساعت", unitMins: "دقیقه", unitSecs: "ثانیه",
       cdFoot: "سه‌شنبه، ساعت ۲۱:۰۰",
+      posterTitle: "با حضور مداحان اهل بیت",
+      posterName1: "کربلایی رضا دارایی",
+      posterName2: "کربلایی عرفان سلیمی",
       annBadge: "ویژه",
       annTitle: "مراسم شهادت پیامبر اعظم، امام حسن مجتبی (ع) و امام رضا (ع)",
       annSpeakerLabel: "سخنران:",
@@ -2188,6 +2260,9 @@
       cdLabel: "حتى بدء المجلس القادم",
       unitDays: "يوم", unitHours: "ساعة", unitMins: "دقيقة", unitSecs: "ثانية",
       cdFoot: "الثلاثاء، الساعة ۲۱:۰۰",
+      posterTitle: "بحضور مداحي أهل البيت",
+      posterName1: "كربلائي رضا دارایی",
+      posterName2: "كربلائي عرفان سليمي",
       annBadge: "خاص",
       annTitle: "مراسم استشهاد النبي الأعظم والإمام الحسن المجتبى (ع) والإمام الرضا (ع)",
       annSpeakerLabel: "الخطيب:",
@@ -2237,6 +2312,9 @@
       cdLabel: "Until Next Session",
       unitDays: "Days", unitHours: "Hours", unitMins: "Mins", unitSecs: "Secs",
       cdFoot: "Tuesday, 9:00 PM",
+      posterTitle: "Featuring Ahl al-Bayt Eulogists",
+      posterName1: "Karbalaei Reza Daraei",
+      posterName2: "Karbalaei Erfan Salimi",
       annBadge: "Special",
       annTitle: "Martyrdom Ceremony of the Prophet, Imam Hasan al-Mujtaba (AS) & Imam Reza (AS)",
       annSpeakerLabel: "Speaker:",
