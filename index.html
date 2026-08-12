@@ -1308,6 +1308,120 @@
     font-size:11.5px; font-weight:600;
     color:var(--parchment-dim);
   }
+
+  /* ============================================================
+     پخش‌کننده مداحی پس‌زمینه (نوار شناور پایین صفحه)
+  ============================================================ */
+  .madahi-player{
+    position:fixed;
+    left:50%;
+    bottom:calc(84px + env(safe-area-inset-bottom, 0px));
+    transform:translateX(-50%) translateY(0);
+    z-index:55;
+    width:calc(100% - 44px);
+    max-width:340px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    padding:6px 8px;
+    border-radius:14px;
+    background:rgba(20,14,10,0.9);
+    border:1px solid var(--line);
+    box-shadow:0 10px 24px rgba(0,0,0,0.45);
+    -webkit-backdrop-filter:blur(10px);
+    backdrop-filter:blur(10px);
+    transition:transform 0.35s ease, opacity 0.35s ease;
+  }
+  .madahi-player.collapsed{
+    transform:translateX(-50%) translateY(calc(100% + 20px));
+    opacity:0;
+    pointer-events:none;
+  }
+  .madahi-btn{
+    flex:none;
+    width:26px; height:26px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.04);
+    color:var(--parchment);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:all 0.18s ease;
+  }
+  .madahi-btn:hover{ border-color:var(--gold-soft); color:var(--gold); }
+  .madahi-btn:active{ transform:scale(0.9); }
+  .madahi-btn svg{ width:12px; height:12px; }
+  .madahi-btn-play{
+    width:30px; height:30px;
+    background:linear-gradient(135deg, var(--crimson-bright), var(--crimson-deep));
+    border:1px solid rgba(var(--crimson-rgb),0.5);
+    color:var(--parchment);
+  }
+  .madahi-btn-play svg{ width:13px; height:13px; }
+  .madahi-btn-play .icon-pause{ display:none; }
+  .madahi-player.playing .madahi-btn-play .icon-play{ display:none; }
+  .madahi-player.playing .madahi-btn-play .icon-pause{ display:flex; }
+  .madahi-mid{
+    flex:1;
+    min-width:0;
+    display:flex;
+    flex-direction:column;
+  }
+  .madahi-title{ display:none; }
+  .madahi-seek-row{
+    display:flex; align-items:center; gap:5px;
+  }
+  .madahi-time{
+    font-size:9px; font-variant-numeric:tabular-nums;
+    color:var(--parchment-dim);
+    flex:none;
+    min-width:24px;
+    text-align:center;
+  }
+  .madahi-seek{
+    flex:1;
+    -webkit-appearance:none;
+    appearance:none;
+    height:3px;
+    border-radius:3px;
+    background:linear-gradient(90deg, var(--gold) 0%, var(--gold) var(--pct,0%), rgba(255,255,255,0.12) var(--pct,0%), rgba(255,255,255,0.12) 100%);
+    outline:none;
+    cursor:pointer;
+    margin:0;
+  }
+  .madahi-seek::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    appearance:none;
+    width:10px; height:10px;
+    border-radius:50%;
+    background:var(--gold);
+    box-shadow:0 0 0 2px rgba(20,14,10,0.9);
+    cursor:pointer;
+  }
+  .madahi-seek::-moz-range-thumb{
+    width:10px; height:10px;
+    border:none;
+    border-radius:50%;
+    background:var(--gold);
+    box-shadow:0 0 0 2px rgba(20,14,10,0.9);
+    cursor:pointer;
+  }
+  .madahi-hint{
+    position:fixed;
+    left:50%; bottom:calc(122px + env(safe-area-inset-bottom, 0px));
+    transform:translateX(-50%);
+    z-index:55;
+    background:rgba(20,14,10,0.92);
+    border:1px solid var(--line);
+    color:var(--parchment);
+    font-size:10.5px; font-weight:600;
+    padding:6px 12px;
+    border-radius:10px;
+    white-space:nowrap;
+    opacity:0; visibility:hidden;
+    transition:opacity 0.3s ease, visibility 0.3s ease;
+  }
+  .madahi-hint.show{ opacity:1; visibility:visible; }
 </style>
 </head>
 <body>
@@ -1399,6 +1513,39 @@
         <svg class="icon-sound-on" viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a4 4 0 0 1 0 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M18.5 6a7.5 7.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/></svg>
         <svg class="icon-sound-off" viewBox="0 0 24 24" fill="none" style="display:none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M15.5 9.5l5 5M20.5 9.5l-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
       </button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     پخش‌کننده مداحی پس‌زمینه: خودکار پخش می‌شود (پس از اولین
+     تعامل کاربر با صفحه، به‌دلیل محدودیت مرورگرها برای autoplay
+     صدادار) و کاربر می‌تواند توقف/پخش، ۱۰ ثانیه جلو/عقب و جابه‌جایی
+     روی نوار پیشرفت را خودش انجام دهد.
+============================================================ -->
+<audio id="madahi-audio" src="madahi.mp3" loop preload="auto"></audio>
+
+<div class="madahi-hint" id="madahi-hint">برای پخش مداحی، صفحه را لمس کنید</div>
+
+<div class="madahi-player" id="madahi-player" role="region" aria-label="پخش‌کننده مداحی">
+  <button type="button" class="madahi-btn" id="madahi-back" aria-label="۱۰ ثانیه عقب">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 5V2L7 6l5 4V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z" fill="currentColor"/><text x="12" y="15.5" font-size="7" font-family="Vazirmatn, sans-serif" font-weight="700" text-anchor="middle" fill="currentColor" stroke="none">10</text></svg>
+  </button>
+
+  <button type="button" class="madahi-btn madahi-btn-play" id="madahi-toggle" aria-label="پخش / توقف مداحی" aria-pressed="false">
+    <svg class="icon-play" viewBox="0 0 24 24" fill="none"><path d="M7 5v14l12-7L7 5z" fill="currentColor"/></svg>
+    <svg class="icon-pause" viewBox="0 0 24 24" fill="none" style="display:none"><rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor"/><rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor"/></svg>
+  </button>
+
+  <button type="button" class="madahi-btn" id="madahi-forward" aria-label="۱۰ ثانیه جلو">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 5V2l5 4-5 4V7a5 5 0 1 0 5 5h2a7 7 0 1 1-7-7z" fill="currentColor"/><text x="12" y="15.5" font-size="7" font-family="Vazirmatn, sans-serif" font-weight="700" text-anchor="middle" fill="currentColor" stroke="none">10</text></svg>
+  </button>
+
+  <div class="madahi-mid">
+    <div class="madahi-seek-row">
+      <span class="madahi-time" id="madahi-current">۰۰:۰۰</span>
+      <input type="range" class="madahi-seek" id="madahi-seek" min="0" max="100" value="0" step="0.1" aria-label="نوار پیشرفت مداحی">
+      <span class="madahi-time" id="madahi-duration">۰۰:۰۰</span>
     </div>
   </div>
 </div>
@@ -2832,6 +2979,121 @@
       });
       modalObserver.observe(announceOverlay, { attributes:true, attributeFilter:['class'] });
     }
+  })();
+
+  // ---------------- پخش‌کننده مداحی پس‌زمینه ----------------
+  (function madahiPlayer(){
+    const audio   = document.getElementById('madahi-audio');
+    const player  = document.getElementById('madahi-player');
+    const hint    = document.getElementById('madahi-hint');
+    const btnPlay = document.getElementById('madahi-toggle');
+    const btnBack = document.getElementById('madahi-back');
+    const btnFwd  = document.getElementById('madahi-forward');
+    const seek    = document.getElementById('madahi-seek');
+    const curEl   = document.getElementById('madahi-current');
+    const durEl   = document.getElementById('madahi-duration');
+    if(!audio || !player) return;
+
+    const faDigits = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+    function toFa(str){ return String(str).replace(/[0-9]/g, d => faDigits[d]); }
+    function fmt(sec){
+      if(!isFinite(sec) || sec < 0) sec = 0;
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return toFa(String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0'));
+    }
+
+    let userSeeking = false;
+
+    function updatePlayIcon(){
+      const playing = !audio.paused && !audio.ended;
+      player.classList.toggle('playing', playing);
+      btnPlay.setAttribute('aria-pressed', String(playing));
+    }
+
+    function updateProgress(){
+      if(userSeeking) return;
+      const dur = audio.duration || 0;
+      const pct = dur ? (audio.currentTime / dur) * 100 : 0;
+      seek.value = pct;
+      seek.style.setProperty('--pct', pct + '%');
+      curEl.textContent = fmt(audio.currentTime);
+      if(dur) durEl.textContent = fmt(dur);
+    }
+
+    // تلاش برای پخش خودکار به‌محض بارگذاری صفحه
+    function tryAutoplay(){
+      const p = audio.play();
+      if(p && p.catch){
+        p.then(() => { hint.classList.remove('show'); })
+         .catch(() => {
+           // مرورگر پخش خودکار صدادار را مسدود کرده؛ منتظر اولین تعامل کاربر می‌مانیم
+           hint.classList.add('show');
+         });
+      }
+    }
+
+    function startOnFirstInteraction(){
+      if(!audio.paused) { cleanup(); return; }
+      audio.play().then(() => { hint.classList.remove('show'); cleanup(); }).catch(()=>{});
+    }
+    function cleanup(){
+      document.removeEventListener('click', startOnFirstInteraction);
+      document.removeEventListener('touchstart', startOnFirstInteraction);
+      hint.classList.remove('show');
+    }
+    document.addEventListener('click', startOnFirstInteraction);
+    document.addEventListener('touchstart', startOnFirstInteraction, { passive:true });
+
+    window.addEventListener('load', tryAutoplay);
+    // اگر بارگذاری صفحه پیش‌تر انجام شده باشد (اسکریپت انتهای body)
+    tryAutoplay();
+
+    audio.addEventListener('play', updatePlayIcon);
+    audio.addEventListener('pause', updatePlayIcon);
+    audio.addEventListener('ended', updatePlayIcon);
+    audio.addEventListener('timeupdate', updateProgress);
+    audio.addEventListener('loadedmetadata', updateProgress);
+
+    btnPlay.addEventListener('click', () => {
+      if(audio.paused){ audio.play().catch(()=>{}); }
+      else{ audio.pause(); }
+      hint.classList.remove('show');
+    });
+
+    btnBack.addEventListener('click', () => {
+      audio.currentTime = Math.max(0, audio.currentTime - 10);
+    });
+    btnFwd.addEventListener('click', () => {
+      audio.currentTime = Math.min(audio.duration || audio.currentTime + 10, audio.currentTime + 10);
+    });
+
+    seek.addEventListener('input', () => {
+      userSeeking = true;
+      seek.style.setProperty('--pct', seek.value + '%');
+    });
+    seek.addEventListener('change', () => {
+      const dur = audio.duration || 0;
+      if(dur) audio.currentTime = (seek.value / 100) * dur;
+      userSeeking = false;
+    });
+
+    // وقتی مودال اعلان ویژه یا پیام موقت ورود باز است، پلیر زیر آن پنهان شود
+    const overlaysToWatch = [
+      document.getElementById('announce-modal-overlay'),
+      document.getElementById('entry-notice-overlay')
+    ].filter(Boolean);
+
+    function syncPlayerVisibility(){
+      const anyOpen = overlaysToWatch.some(o => o.classList.contains('show'));
+      player.classList.toggle('collapsed', anyOpen);
+      if(anyOpen) hint.classList.remove('show');
+    }
+    overlaysToWatch.forEach(overlay => {
+      const mo = new MutationObserver(syncPlayerVisibility);
+      mo.observe(overlay, { attributes:true, attributeFilter:['class'] });
+    });
+    syncPlayerVisibility();
   })();
 </script>
 
