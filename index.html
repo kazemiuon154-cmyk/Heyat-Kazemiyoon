@@ -1313,6 +1313,9 @@
      پخش‌کننده مداحی پس‌زمینه (نوار شناور پایین صفحه)
   ============================================================ */
   .madahi-player{
+    --madahi-purple:#a855f7;
+    --madahi-purple-bright:#c084fc;
+    --madahi-purple-deep:#6d28d9;
     position:fixed;
     left:50%;
     bottom:calc(84px + env(safe-area-inset-bottom, 0px));
@@ -1349,13 +1352,15 @@
     transition:all 0.18s ease;
   }
   .madahi-btn:hover{ border-color:var(--gold-soft); color:var(--gold); }
+  .madahi-btn-play:hover{ border-color:rgba(168,85,247,0.9); color:#fff; }
   .madahi-btn:active{ transform:scale(0.9); }
   .madahi-btn svg{ width:12px; height:12px; }
   .madahi-btn-play{
     width:30px; height:30px;
-    background:linear-gradient(135deg, var(--crimson-bright), var(--crimson-deep));
-    border:1px solid rgba(var(--crimson-rgb),0.5);
-    color:var(--parchment);
+    background:linear-gradient(135deg, var(--madahi-purple-bright), var(--madahi-purple-deep));
+    border:1px solid rgba(168,85,247,0.6);
+    box-shadow:0 0 10px rgba(168,85,247,0.5);
+    color:#fff;
   }
   .madahi-btn-play svg{ width:13px; height:13px; }
   .madahi-btn-play .icon-pause{ display:none; }
@@ -1382,9 +1387,10 @@
     flex:1;
     -webkit-appearance:none;
     appearance:none;
-    height:3px;
+    direction:ltr;
+    height:4px;
     border-radius:3px;
-    background:linear-gradient(90deg, var(--gold) 0%, var(--gold) var(--pct,0%), rgba(255,255,255,0.12) var(--pct,0%), rgba(255,255,255,0.12) 100%);
+    background:linear-gradient(90deg, var(--madahi-purple) 0%, var(--madahi-purple) var(--pct,0%), rgba(255,255,255,0.15) var(--pct,0%), rgba(255,255,255,0.15) 100%);
     outline:none;
     cursor:pointer;
     margin:0;
@@ -1392,18 +1398,18 @@
   .madahi-seek::-webkit-slider-thumb{
     -webkit-appearance:none;
     appearance:none;
-    width:10px; height:10px;
+    width:12px; height:12px;
     border-radius:50%;
-    background:var(--gold);
-    box-shadow:0 0 0 2px rgba(20,14,10,0.9);
+    background:var(--madahi-purple-bright);
+    box-shadow:0 0 0 2px rgba(20,14,10,0.9), 0 0 8px rgba(168,85,247,0.7);
     cursor:pointer;
   }
   .madahi-seek::-moz-range-thumb{
-    width:10px; height:10px;
+    width:12px; height:12px;
     border:none;
     border-radius:50%;
-    background:var(--gold);
-    box-shadow:0 0 0 2px rgba(20,14,10,0.9);
+    background:var(--madahi-purple-bright);
+    box-shadow:0 0 0 2px rgba(20,14,10,0.9), 0 0 8px rgba(168,85,247,0.7);
     cursor:pointer;
   }
   .madahi-hint{
@@ -1534,7 +1540,7 @@
 
   <button type="button" class="madahi-btn madahi-btn-play" id="madahi-toggle" aria-label="پخش / توقف مداحی" aria-pressed="false">
     <svg class="icon-play" viewBox="0 0 24 24" fill="none"><path d="M7 5v14l12-7L7 5z" fill="currentColor"/></svg>
-    <svg class="icon-pause" viewBox="0 0 24 24" fill="none" style="display:none"><rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor"/><rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor"/></svg>
+    <svg class="icon-pause" viewBox="0 0 24 24" fill="none"><rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor"/><rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor"/></svg>
   </button>
 
   <button type="button" class="madahi-btn" id="madahi-forward" aria-label="۱۰ ثانیه جلو">
