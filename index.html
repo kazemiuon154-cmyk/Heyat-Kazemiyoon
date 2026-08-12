@@ -903,6 +903,73 @@
   .theme-opt:not(.active):hover{ border-color:var(--gold-soft); color:var(--parchment); }
 
   /* ============================================================
+     ENTRY NOTICE (پیام موقت ورود کاربر - مستقل از اعلان ویژه)
+     این بخش کاملاً جدا از modal اعلان ویژه است و طبق منطق خودش
+     (۲۴ ساعت از لحظه انتشار) در جاوااسکریپت مدیریت می‌شود.
+  ============================================================ */
+  .entry-notice-overlay{
+    position:fixed; inset:0; z-index:350;
+    background:rgba(3,1,1,0.78);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    display:flex; align-items:center; justify-content:center;
+    padding:20px;
+    opacity:0; visibility:hidden;
+    transition:opacity 0.3s ease, visibility 0.3s ease;
+  }
+  .entry-notice-overlay.show{ opacity:1; visibility:visible; }
+  .entry-notice-card{
+    position:relative;
+    width:100%; max-width:440px;
+    max-height:86vh; overflow-y:auto;
+    background:var(--void-2, var(--void));
+    border:1px solid var(--gold-soft);
+    border-radius:20px;
+    padding:30px 24px 26px;
+    text-align:center;
+    box-shadow:0 20px 50px rgba(0,0,0,0.55);
+    transform:scale(0.92) translateY(10px);
+    transition:transform 0.32s cubic-bezier(0.22,1,0.36,1);
+  }
+  .entry-notice-overlay.show .entry-notice-card{ transform:scale(1) translateY(0); }
+  .entry-notice-close{
+    position:absolute; top:12px; left:12px;
+    width:30px; height:30px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.03);
+    color:var(--parchment-dim);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:all 0.2s ease;
+  }
+  .entry-notice-close svg{ width:15px; height:15px; }
+  .entry-notice-close:hover{ border-color:var(--gold-soft); color:var(--gold); }
+  .entry-notice-salawat{
+    font-family:'Amiri', serif;
+    font-size:16px;
+    line-height:2.1;
+    color:var(--gold);
+    text-shadow:0 0 14px rgba(201,162,39,0.35);
+    margin-bottom:16px;
+  }
+  .entry-notice-divider-top{
+    width:52px; height:2px; margin:0 auto 18px;
+    background:linear-gradient(90deg, transparent, var(--crimson-bright), transparent);
+  }
+  .entry-notice-text{
+    font-size:14.5px;
+    line-height:2.05;
+    color:var(--parchment);
+  }
+  .entry-notice-ornament{
+    margin-top:20px;
+    font-size:14px;
+    letter-spacing:0.02em;
+    color:var(--gold-soft);
+  }
+
+  /* ============================================================
      ANNOUNCEMENT MODAL (صفحه کوچک اعلان ویژه)
   ============================================================ */
   .modal-overlay{
@@ -1254,6 +1321,28 @@
 <div class="progress-bar" id="progress-bar"></div>
 <div class="noise"></div>
 <div class="embers" id="embers"></div>
+
+<!-- پیام موقت ورود کاربر: کاملاً مستقل از ticker/مودال اعلان ویژه است.
+     منطق نمایش (۲۴ ساعت از لحظه انتشار + بستن با ضربدر) در JS، بخش
+     «entryNotice» مدیریت می‌شود. برای تغییر متن، فقط داخل entry-notice-text
+     و entry-notice-salawat ویرایش کنید. -->
+<div class="entry-notice-overlay" id="entry-notice-overlay">
+  <div class="entry-notice-card" role="dialog" aria-modal="true" aria-label="پیام تسلیت">
+    <button type="button" class="entry-notice-close" id="entry-notice-close" aria-label="بستن">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <div class="entry-notice-salawat">
+      ◼️ اَلسَّلامُ عَلَیْکَ یا نَبِیَّ اللّهِ، یا رَسولَ اللّه<br>
+      اَلسَّلامُ عَلَیْکَ یا أبا مُحَمَّدٍ الْحَسَنَ بْنَ عَلِی<br>
+      اَلسَّلامُ عَلَیْکَ یا عَلِیَّ بْنَ مُوسَى الرِّضَا
+    </div>
+    <div class="entry-notice-divider-top"></div>
+    <div class="entry-notice-text">
+      فرا رسیدن ایام سوگ خاندان عصمت و طهارت، هم‌زمان با سالروز شهادت جانگداز پیامبر مهر و رحمت، حضرت محمد مصطفی (ص)، و نیز شهادت مظلومانه و غریبانهٔ دو امام همام، حضرت امام حسن مجتبی (ع) و حضرت علی بن موسی الرضا (ع)، یادآور غربت دیرینهٔ خاندان نبوّت و برگ‌هایی آکنده از اندوه در دفتر تاریخ اسلام است. این مصائب سنگین، دلها را می‌سوزاند و چشمان هر شیفتهٔ ولایت را نمناک می‌سازد. بدین‌سان، فراگیری این غمِ بزرگ را به همهٔ دلدادگان و سوگواران اهل بیت رسالت تسلیت عرض می‌نماییم.
+    </div>
+    <div class="entry-notice-ornament">┈┈•✾❀🍃 🇮🇷 🍃❀✾•┈┈</div>
+  </div>
+</div>
 <div class="toast" id="toast"></div>
 <button type="button" id="back-to-top" class="back-to-top" aria-label="بازگشت به بالا">
   <svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5M12 5l-6 6M12 5l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1836,6 +1925,52 @@
     });
     // safety fallback in case fonts never resolve
     setTimeout(() => loader.classList.add('hide'), 3500);
+  })();
+
+  // ---------------- پیام موقت ورود کاربر (entry notice) ----------------
+  // این بخش کاملاً مستقل از ticker / مودال اعلان ویژه است.
+  // EXPIRES_AT: لحظه‌ی دقیقی که این پیام دیگر برای هیچ‌کس نمایش داده نمی‌شود
+  // (۲۴ ساعت پس از انتشار). اگر خواستید بازه را عوض کنید، فقط همین عدد را
+  // با timestamp جدید (میلی‌ثانیه) جایگزین کنید.
+  (function entryNotice(){
+    const EXPIRES_AT = 1786610202632; // 2026-08-13T12:06:42+03:30 (24 ساعت پس از انتشار)
+    const STORAGE_KEY = 'kazemiuon-entry-notice-closed';
+
+    if(Date.now() >= EXPIRES_AT) return; // بازه ۲۴ ساعته تمام شده
+
+    let alreadyClosed = false;
+    try{ alreadyClosed = localStorage.getItem(STORAGE_KEY) === '1'; }catch(e){}
+    if(alreadyClosed) return;
+
+    const overlay = document.getElementById('entry-notice-overlay');
+    const closeBtn = document.getElementById('entry-notice-close');
+    if(!overlay || !closeBtn) return;
+
+    function closeNotice(){
+      overlay.classList.remove('show');
+      try{ localStorage.setItem(STORAGE_KEY, '1'); }catch(e){}
+    }
+
+    closeBtn.addEventListener('click', closeNotice);
+    overlay.addEventListener('click', (e) => {
+      if(e.target === overlay) closeNotice();
+    });
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape' && overlay.classList.contains('show')) closeNotice();
+    });
+
+    // نمایش کمی پس از پنهان‌شدن لودر تا با هم تداخل نداشته باشند
+    const loaderEl = document.getElementById('loader');
+    const showNotice = () => setTimeout(() => overlay.classList.add('show'), 400);
+    if(loaderEl){
+      const winLoaded = new Promise(resolve => {
+        if(document.readyState === 'complete') resolve();
+        else window.addEventListener('load', resolve, { once:true });
+      });
+      winLoaded.then(showNotice);
+    } else {
+      showNotice();
+    }
   })();
 
   // ---------------- i18n ----------------
