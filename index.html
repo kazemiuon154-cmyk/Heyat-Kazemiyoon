@@ -1275,6 +1275,35 @@
   .copy-btn:hover{ border-color:var(--gold-soft); color:var(--gold); }
   .copy-btn:active{ transform:scale(0.92); }
 
+  /* ============================================================
+     PAGE 2 TRIGGER (دکمه بیضی باریک بالای لوگو)
+  ============================================================ */
+  .page2-trigger-wrap{
+    display:flex;
+    justify-content:center;
+    margin:2px 0 10px;
+  }
+  .page2-trigger{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:6px 26px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)), var(--void);
+    color:var(--gold-soft);
+    font-family:'Vazirmatn', sans-serif;
+    font-size:11.5px;
+    font-weight:600;
+    letter-spacing:0.03em;
+    cursor:pointer;
+    text-decoration:none;
+    box-shadow:0 1px 0 rgba(255,255,255,0.05) inset, 0 6px 14px rgba(0,0,0,0.25);
+    transition:all 0.2s ease;
+  }
+  .page2-trigger:hover{ border-color:var(--gold-soft); color:var(--gold); }
+  .page2-trigger:active{ transform:scale(0.95); }
+
   /* share copy-link button (replaces WhatsApp) */
   .share-btn.copy-link{
     background:linear-gradient(135deg, var(--gold-dim), var(--gold-soft));
@@ -1727,7 +1756,6 @@
     </div>
   </div>
 
-
   <!-- نوار متحرک اعلان: با تغییر annTitle/annTime، متن tickerText هم به‌روز شود -->
   <button type="button" class="ticker-bar reveal" id="ticker-open" aria-label="مشاهده جزئیات اعلان ویژه" aria-haspopup="dialog">
     <span class="ticker-badge">
@@ -1771,6 +1799,13 @@
     <div class="eyebrow" data-i18n="bismillah">بسم الله الرحمن الرحیم</div>
     <svg viewBox="0 0 10 10"><path d="M5 0 L10 5 L5 10 L0 5 Z" fill="currentColor" style="color:var(--gold-dim)"/></svg>
   </div>
+
+  <div class="page2-trigger-wrap">
+    <a href="page2.html" class="page2-trigger" id="page2-trigger">
+      <span>صفحه دوم</span>
+    </a>
+  </div>
+
   <div class="emblem-wrap" id="emblem-wrap">
     <div class="emblem" id="emblem">
       <div class="glow"></div>
