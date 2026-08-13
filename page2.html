@@ -584,6 +584,13 @@
     flex-shrink:0;
     border-bottom:1px solid var(--line);
   }
+  .doa-audio-status{
+    font-size:11.5px;
+    color:var(--parchment-dim);
+    text-align:center;
+    min-height:16px;
+    margin-top:4px;
+  }
   .doa-audio-hint{
     font-size:12.5px;
     color:var(--gold-soft);
@@ -953,8 +960,8 @@
         <input type="range" class="doa-audio-seek" id="doa-audio-seek" min="0" max="100" value="0" step="0.1">
         <span class="doa-audio-time" id="doa-audio-duration" dir="ltr">۰۰:۰۰</span>
       </div>
-      <!-- TODO: جایگزینی src با فایل صوتی زیارت عاشورا -->
       <audio id="doa-audio-el" src="ziarat-ashura.mp3" preload="none"></audio>
+      <div class="doa-audio-status" id="doa-audio-status" aria-live="polite"></div>
     </div>
 
     <div class="doa-modal-body">
@@ -1092,11 +1099,43 @@
 
     let userSeeking = false;
 
+    const statusEl = document.getElementById('doa-audio-status');
+    function setStatus(msg){ if(statusEl) statusEl.textContent = msg || ''; }
+
+    // به‌محض باز شدن مودال صوت، بارگذاری فایل را زودتر شروع کن
+    // (به‌جای اینکه صبر کنیم کاربر دکمهٔ پخش را بزند)
+    const audioModal = document.getElementById('doa-modal-audio');
+    if(audioModal){
+      const startPreload = () => {
+        if(audio.preload !== 'auto'){
+          audio.preload = 'auto';
+          audio.load();
+        }
+      };
+      // اگر مودال از قبل با کلاس show باز است یا بعداً باز شود
+      const modalObserver = new MutationObserver(() => {
+        if(audioModal.classList.contains('show')) startPreload();
+      });
+      modalObserver.observe(audioModal, { attributes:true, attributeFilter:['class'] });
+      if(audioModal.classList.contains('show')) startPreload();
+    }
+
     btn.addEventListener('click', () => {
-      if(audio.paused){ audio.play().catch(()=>{}); }
-      else{ audio.pause(); }
+      if(audio.paused){
+        setStatus('در حال بارگذاری…');
+        audio.play().then(() => setStatus('')).catch(() => {
+          setStatus('پخش صوت با مشکل مواجه شد. اتصال اینترنت یا فایل صوتی را بررسی کنید.');
+        });
+      } else {
+        audio.pause();
+      }
     });
-    audio.addEventListener('play',  () => { btn.classList.add('playing'); if(wrap) wrap.classList.add('playing'); btn.setAttribute('aria-pressed','true'); });
+    audio.addEventListener('waiting', () => setStatus('در حال بارگذاری…'));
+    audio.addEventListener('canplay', () => setStatus(''));
+    audio.addEventListener('error', () => {
+      setStatus('فایل صوتی یافت نشد یا قابل پخش نیست.');
+    });
+    audio.addEventListener('play',  () => { setStatus(''); btn.classList.add('playing'); if(wrap) wrap.classList.add('playing'); btn.setAttribute('aria-pressed','true'); });
     audio.addEventListener('pause', () => { btn.classList.remove('playing'); if(wrap) wrap.classList.remove('playing'); btn.setAttribute('aria-pressed','false'); });
     audio.addEventListener('ended', () => { btn.classList.remove('playing'); if(wrap) wrap.classList.remove('playing'); btn.setAttribute('aria-pressed','false'); });
 
