@@ -631,8 +631,9 @@
     appearance:none;
     height:4px;
     border-radius:999px;
-    background:linear-gradient(90deg, var(--gold) var(--pct,0%), var(--line) var(--pct,0%));
+    background:linear-gradient(to left, var(--gold) var(--pct,0%), var(--line) var(--pct,0%));
     outline:none;
+    transition:box-shadow 0.25s ease;
   }
   .doa-audio-seek::-webkit-slider-thumb{
     -webkit-appearance:none;
@@ -640,12 +641,71 @@
     background:var(--gold);
     box-shadow:0 0 0 3px rgba(201,162,39,0.2);
     cursor:pointer;
+    transition:box-shadow 0.25s ease, transform 0.15s ease;
   }
   .doa-audio-seek::-moz-range-thumb{
     width:13px; height:13px; border-radius:50%;
     background:var(--gold); border:none;
     box-shadow:0 0 0 3px rgba(201,162,39,0.2);
     cursor:pointer;
+    transition:box-shadow 0.25s ease, transform 0.15s ease;
+  }
+  .doa-audio-wrap.playing .doa-audio-seek::-webkit-slider-thumb{
+    box-shadow:0 0 0 3px rgba(201,162,39,0.28), 0 0 10px 2px rgba(201,162,39,0.55);
+    transform:scale(1.12);
+  }
+  .doa-audio-wrap.playing .doa-audio-seek::-moz-range-thumb{
+    box-shadow:0 0 0 3px rgba(201,162,39,0.28), 0 0 10px 2px rgba(201,162,39,0.55);
+    transform:scale(1.12);
+  }
+
+  /* ---------------- افکت پخش صوت (هاله + اکولایزر) ---------------- */
+  .doa-audio-btn{ position:relative; }
+  .doa-audio-btn::before,
+  .doa-audio-btn::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    border:1px solid var(--gold);
+    opacity:0;
+    pointer-events:none;
+  }
+  .doa-audio-btn.playing::before,
+  .doa-audio-btn.playing::after{
+    animation:doa-audio-pulse 1.8s ease-out infinite;
+  }
+  .doa-audio-btn.playing::after{ animation-delay:0.6s; }
+  @keyframes doa-audio-pulse{
+    0%{ transform:scale(1); opacity:0.55; }
+    100%{ transform:scale(1.55); opacity:0; }
+  }
+  .doa-audio-btn.playing{
+    box-shadow:0 0 16px 2px rgba(var(--crimson-rgb),0.45);
+  }
+  .doa-audio-eq{
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+    gap:3px;
+    height:16px;
+    margin-inline-start:2px;
+  }
+  .doa-audio-wrap.playing .doa-audio-eq{ display:flex; }
+  .doa-audio-eq span{
+    display:block;
+    width:3px;
+    border-radius:2px;
+    background:var(--gold);
+    animation:doa-audio-eq-bounce 0.9s ease-in-out infinite;
+  }
+  .doa-audio-eq span:nth-child(1){ animation-delay:0s; }
+  .doa-audio-eq span:nth-child(2){ animation-delay:0.2s; }
+  .doa-audio-eq span:nth-child(3){ animation-delay:0.4s; }
+  .doa-audio-eq span:nth-child(4){ animation-delay:0.15s; }
+  @keyframes doa-audio-eq-bounce{
+    0%, 100%{ height:4px; }
+    50%{ height:16px; }
   }
 
   /* ---------------- toast ---------------- */
@@ -886,6 +946,7 @@
           <svg class="icon-play" viewBox="0 0 24 24" fill="none"><path d="M9 6.5v11l9-5.5-9-5.5z" fill="currentColor"/></svg>
           <svg class="icon-pause" viewBox="0 0 24 24" fill="none"><rect x="7" y="6" width="3.4" height="12" rx="1" fill="currentColor"/><rect x="13.6" y="6" width="3.4" height="12" rx="1" fill="currentColor"/></svg>
         </button>
+        <span class="doa-audio-eq" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
       </div>
       <div class="doa-audio-seek-row">
         <span class="doa-audio-time" id="doa-audio-current" dir="ltr">۰۰:۰۰</span>
@@ -1017,6 +1078,7 @@
     const seek   = document.getElementById('doa-audio-seek');
     const curEl  = document.getElementById('doa-audio-current');
     const durEl  = document.getElementById('doa-audio-duration');
+    const wrap   = document.querySelector('.doa-audio-wrap');
     if(!audio || !btn) return;
 
     const faDigits = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
@@ -1034,9 +1096,9 @@
       if(audio.paused){ audio.play().catch(()=>{}); }
       else{ audio.pause(); }
     });
-    audio.addEventListener('play',  () => { btn.classList.add('playing'); btn.setAttribute('aria-pressed','true'); });
-    audio.addEventListener('pause', () => { btn.classList.remove('playing'); btn.setAttribute('aria-pressed','false'); });
-    audio.addEventListener('ended', () => { btn.classList.remove('playing'); btn.setAttribute('aria-pressed','false'); });
+    audio.addEventListener('play',  () => { btn.classList.add('playing'); if(wrap) wrap.classList.add('playing'); btn.setAttribute('aria-pressed','true'); });
+    audio.addEventListener('pause', () => { btn.classList.remove('playing'); if(wrap) wrap.classList.remove('playing'); btn.setAttribute('aria-pressed','false'); });
+    audio.addEventListener('ended', () => { btn.classList.remove('playing'); if(wrap) wrap.classList.remove('playing'); btn.setAttribute('aria-pressed','false'); });
 
     audio.addEventListener('timeupdate', () => {
       if(userSeeking) return;
