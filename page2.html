@@ -13,17 +13,17 @@
 
 <style>
   :root{
-    --void:#0e0906;
-    --void-2:#150e0a;
-    --crimson:#8c1518;
-    --crimson-rgb:140,21,24;
-    --crimson-bright:#b8241f;
-    --gold:#c9a227;
-    --gold-soft:#8a7040;
-    --gold-dim:#5c4a28;
-    --parchment:#f1e7d8;
-    --parchment-dim:#a99c8a;
-    --line:rgba(201,162,39,0.16);
+    --void:#071710;
+    --void-2:#0e2419;
+    --crimson:#0e9b62;
+    --crimson-rgb:14,155,98;
+    --crimson-bright:#22c17f;
+    --gold:#ffcb3d;
+    --gold-soft:#d1a52a;
+    --gold-dim:#8a6e1e;
+    --parchment:#f3ead0;
+    --parchment-dim:#a99b78;
+    --line:rgba(255,203,61,0.22);
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -50,7 +50,9 @@
   }
 
   /* ============================================================
-     THEME SYSTEM (مذهبی ۱ / مذهبی ۲ / روشن / تاریک)
+     THEME SYSTEM (پیش‌فرض: طلایی‌وزمردی / سرخ‌وطلایی /
+     صورتی‌وفیروزه‌ای / صورتی‌ویاسی / فیروزه‌ای‌وغروبی /
+     کهربایی‌وکرمی / آبی‌آسمانی / سبز فسفری / تاریک)
      همان تعریف رنگ‌های index.html تا در دو صفحه هماهنگ بماند
   ============================================================ */
   body.theme-dark{
@@ -74,6 +76,41 @@
     --gold:#ffca28; --gold-soft:#e0a72a; --gold-dim:#b8860b;
     --parchment:#fff6e0; --parchment-dim:#d8c9a3;
     --line:rgba(255,202,40,0.25);
+  }
+  body.theme-crimson{
+    --void:#0e0906; --void-2:#150e0a;
+    --crimson:#8c1518; --crimson-rgb:140,21,24; --crimson-bright:#b8241f;
+    --gold:#c9a227; --gold-soft:#8a7040; --gold-dim:#5c4a28;
+    --parchment:#f1e7d8; --parchment-dim:#a99c8a;
+    --line:rgba(201,162,39,0.16);
+  }
+  body.theme-lilac{
+    --void:#160a1e; --void-2:#1f1029;
+    --crimson:#c65bd6; --crimson-rgb:198,91,214; --crimson-bright:#e28ae8;
+    --gold:#f0c94e; --gold-soft:#caa53a; --gold-dim:#8a6f28;
+    --parchment:#fbeefc; --parchment-dim:#c3a8c9;
+    --line:rgba(240,201,78,0.22);
+  }
+  body.theme-sunset{
+    --void:#071c22; --void-2:#0d2a32;
+    --crimson:#ff7a45; --crimson-rgb:255,122,69; --crimson-bright:#ff9d6e;
+    --gold:#ffcf6b; --gold-soft:#dba63e; --gold-dim:#8f6c22;
+    --parchment:#fff3e6; --parchment-dim:#c8b39c;
+    --line:rgba(32,196,196,0.25);
+  }
+  body.theme-amber{
+    --void:#1c130a; --void-2:#241a0e;
+    --crimson:#c8752b; --crimson-rgb:200,117,43; --crimson-bright:#e29344;
+    --gold:#f0c14b; --gold-soft:#cb9f33; --gold-dim:#836a20;
+    --parchment:#fbf1dc; --parchment-dim:#c9b998;
+    --line:rgba(240,193,75,0.22);
+  }
+  body.theme-sky{
+    --void:#081521; --void-2:#0e2032;
+    --crimson:#2f8ce0; --crimson-rgb:47,140,224; --crimson-bright:#5fadf5;
+    --gold:#ffd35c; --gold-soft:#d9ac3c; --gold-dim:#8f7126;
+    --parchment:#f0f8ff; --parchment-dim:#a9c2d6;
+    --line:rgba(127,212,255,0.22);
   }
 
   /* ---------------- منوی سریع (همبرگری: تم) ---------------- */
@@ -780,8 +817,13 @@
           </svg>
         </button>
         <div class="theme-popover" id="theme-popover" role="menu">
-          <button type="button" class="theme-opt" data-theme="fest">مذهبی ۱</button>
-          <button type="button" class="theme-opt active" data-theme="default">مذهبی ۲</button>
+          <button type="button" class="theme-opt active" data-theme="default">طلایی و زمردی</button>
+          <button type="button" class="theme-opt" data-theme="crimson">سرخ و طلایی</button>
+          <button type="button" class="theme-opt" data-theme="fest">صورتی و فیروزه‌ای</button>
+          <button type="button" class="theme-opt" data-theme="lilac">صورتی و یاسی</button>
+          <button type="button" class="theme-opt" data-theme="sunset">فیروزه‌ای و غروبی</button>
+          <button type="button" class="theme-opt" data-theme="amber">کهربایی و کرمی</button>
+          <button type="button" class="theme-opt" data-theme="sky">آبی آسمانی</button>
           <button type="button" class="theme-opt" data-theme="light">سبز فسفری</button>
           <button type="button" class="theme-opt" data-theme="dark">تاریک</button>
         </div>
@@ -1185,11 +1227,10 @@
 
     document.body.appendChild(popover);
 
+    const THEME_CLASSES = ['theme-light', 'theme-dark', 'theme-fest', 'theme-crimson', 'theme-lilac', 'theme-sunset', 'theme-amber', 'theme-sky'];
     function applyTheme(theme){
-      document.body.classList.remove('theme-light', 'theme-dark', 'theme-fest');
-      if(theme === 'light') document.body.classList.add('theme-light');
-      else if(theme === 'dark') document.body.classList.add('theme-dark');
-      else if(theme === 'fest') document.body.classList.add('theme-fest');
+      document.body.classList.remove(...THEME_CLASSES);
+      if(THEME_CLASSES.includes('theme-' + theme)) document.body.classList.add('theme-' + theme);
       opts.forEach(b => b.classList.toggle('active', b.dataset.theme === theme));
       try{ localStorage.setItem('kazemiuon-theme', theme); }catch(e){}
     }

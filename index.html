@@ -68,21 +68,21 @@
 
 <style>
   :root{
-    --void:#0e0906;
-    --void-2:#150e0a;
-    --crimson:#8c1518;
-    --crimson-rgb:140,21,24;
-    --crimson-bright:#b8241f;
-    --crimson-deep:#33070a;
-    --ember:#e2593f;
-    --ember-soft:#e2593f66;
-    --gold:#c9a227;
-    --gold-soft:#8a7040;
-    --gold-dim:#5c4a28;
-    --parchment:#f1e7d8;
-    --parchment-dim:#a99c8a;
-    --line:rgba(201,162,39,0.16);
-    --glass:rgba(255,255,255,0.045);
+    --void:#071710;
+    --void-2:#0e2419;
+    --crimson:#0e9b62;
+    --crimson-rgb:14,155,98;
+    --crimson-bright:#22c17f;
+    --crimson-deep:#053d27;
+    --ember:#ffd166;
+    --ember-soft:#ffd16666;
+    --gold:#ffcb3d;
+    --gold-soft:#d1a52a;
+    --gold-dim:#8a6e1e;
+    --parchment:#f3ead0;
+    --parchment-dim:#a99b78;
+    --line:rgba(255,203,61,0.22);
+    --glass:rgba(255,255,255,0.05);
   }
 
   *{margin:0;padding:0;box-sizing:border-box;}
@@ -954,7 +954,9 @@
   }
 
   /* ============================================================
-     THEME SYSTEM (مذهبی ۱ / مذهبی ۲ / روشن / تاریک)
+     THEME SYSTEM (پیش‌فرض: طلایی‌وزمردی / سرخ‌وطلایی /
+     صورتی‌وفیروزه‌ای / صورتی‌ویاسی / فیروزه‌ای‌وغروبی /
+     کهربایی‌وکرمی / آبی‌آسمانی / سبز فسفری / تاریک)
   ============================================================ */
   body.theme-dark{
     --void:#000000; --void-2:#0a0a0a;
@@ -974,7 +976,7 @@
     --line:rgba(57,255,20,0.28); --glass:rgba(57,255,20,0.06);
   }
 
-  /* تم جشن (مذهبی ۱) — رنگ‌های شاد برای مناسبت‌های جشن و اعیاد */
+  /* تم جشن (صورتی و فیروزه‌ای) — رنگ‌های شاد برای مناسبت‌های جشن و اعیاد */
   body.theme-fest{
     --void:#0c1220; --void-2:#121a2e;
     --crimson:#d81b60; --crimson-rgb:216,27,96; --crimson-bright:#ff4081; --crimson-deep:#6a0f38;
@@ -982,6 +984,56 @@
     --gold:#ffca28; --gold-soft:#e0a72a; --gold-dim:#b8860b;
     --parchment:#fff6e0; --parchment-dim:#d8c9a3;
     --line:rgba(255,202,40,0.25); --glass:rgba(255,255,255,0.07);
+  }
+
+  /* تم سرخ و طلایی — پالت اصلی سابق سایت (قرمز تیره و طلایی) */
+  body.theme-crimson{
+    --void:#0e0906; --void-2:#150e0a;
+    --crimson:#8c1518; --crimson-rgb:140,21,24; --crimson-bright:#b8241f; --crimson-deep:#33070a;
+    --ember:#e2593f; --ember-soft:#e2593f66;
+    --gold:#c9a227; --gold-soft:#8a7040; --gold-dim:#5c4a28;
+    --parchment:#f1e7d8; --parchment-dim:#a99c8a;
+    --line:rgba(201,162,39,0.16); --glass:rgba(255,255,255,0.045);
+  }
+
+  /* تم صورتی و یاسی — بنفش و صورتی ملایم با طلایی، حس لطیف و جشن‌گونه */
+  body.theme-lilac{
+    --void:#160a1e; --void-2:#1f1029;
+    --crimson:#c65bd6; --crimson-rgb:198,91,214; --crimson-bright:#e28ae8; --crimson-deep:#5b1a63;
+    --ember:#f2a6d6; --ember-soft:#f2a6d666;
+    --gold:#f0c94e; --gold-soft:#caa53a; --gold-dim:#8a6f28;
+    --parchment:#fbeefc; --parchment-dim:#c3a8c9;
+    --line:rgba(240,201,78,0.22); --glass:rgba(255,255,255,0.06);
+  }
+
+  /* تم فیروزه‌ای و غروبی — فیروزه‌ای و نارنجی ملایم، پرانرژی و گرم */
+  body.theme-sunset{
+    --void:#071c22; --void-2:#0d2a32;
+    --crimson:#ff7a45; --crimson-rgb:255,122,69; --crimson-bright:#ff9d6e; --crimson-deep:#8a2f10;
+    --ember:#20c4c4; --ember-soft:#20c4c466;
+    --gold:#ffcf6b; --gold-soft:#dba63e; --gold-dim:#8f6c22;
+    --parchment:#fff3e6; --parchment-dim:#c8b39c;
+    --line:rgba(32,196,196,0.25); --glass:rgba(255,255,255,0.05);
+  }
+
+  /* تم کهربایی و کرمی — کرم روشن و کهربایی، حس گرم و آرام، مناسب اعیاد */
+  body.theme-amber{
+    --void:#1c130a; --void-2:#241a0e;
+    --crimson:#c8752b; --crimson-rgb:200,117,43; --crimson-bright:#e29344; --crimson-deep:#5e330f;
+    --ember:#e8a951; --ember-soft:#e8a95166;
+    --gold:#f0c14b; --gold-soft:#cb9f33; --gold-dim:#836a20;
+    --parchment:#fbf1dc; --parchment-dim:#c9b998;
+    --line:rgba(240,193,75,0.22); --glass:rgba(255,255,255,0.05);
+  }
+
+  /* تم آبی آسمانی و سفید — آبی روشن و سفید با طلایی، حس صاف و باز */
+  body.theme-sky{
+    --void:#081521; --void-2:#0e2032;
+    --crimson:#2f8ce0; --crimson-rgb:47,140,224; --crimson-bright:#5fadf5; --crimson-deep:#0e3866;
+    --ember:#7fd4ff; --ember-soft:#7fd4ff66;
+    --gold:#ffd35c; --gold-soft:#d9ac3c; --gold-dim:#8f7126;
+    --parchment:#f0f8ff; --parchment-dim:#a9c2d6;
+    --line:rgba(127,212,255,0.22); --glass:rgba(255,255,255,0.06);
   }
 
   /* تم تاریک: پس‌زمینه کاملا مشکی، بدون هاله قرمز (که قبلا با رنگ ثابت rgba(140,21,24..) حتی در تم تاریک هم دیده می‌شد) */
@@ -1029,73 +1081,6 @@
   }
   .theme-opt.active{ color:var(--void); background:var(--gold); }
   .theme-opt:not(.active):hover{ border-color:var(--gold-soft); color:var(--parchment); }
-
-  /* ============================================================
-     ENTRY NOTICE (پیام موقت ورود کاربر - مستقل از اعلان ویژه)
-     این بخش کاملاً جدا از modal اعلان ویژه است و طبق منطق خودش
-     (۲۴ ساعت از لحظه انتشار) در جاوااسکریپت مدیریت می‌شود.
-  ============================================================ */
-  .entry-notice-overlay{
-    position:fixed; inset:0; z-index:350;
-    background:rgba(3,1,1,0.78);
-    backdrop-filter:blur(6px);
-    -webkit-backdrop-filter:blur(6px);
-    display:flex; align-items:center; justify-content:center;
-    padding:20px;
-    opacity:0; visibility:hidden;
-    transition:opacity 0.3s ease, visibility 0.3s ease;
-  }
-  .entry-notice-overlay.show{ opacity:1; visibility:visible; }
-  .entry-notice-card{
-    position:relative;
-    width:100%; max-width:440px;
-    max-height:86vh; overflow-y:auto;
-    background:var(--void-2, var(--void));
-    border:1px solid var(--gold-soft);
-    border-radius:20px;
-    padding:30px 24px 26px;
-    text-align:center;
-    box-shadow:0 20px 50px rgba(0,0,0,0.55);
-    transform:scale(0.92) translateY(10px);
-    transition:transform 0.32s cubic-bezier(0.22,1,0.36,1);
-  }
-  .entry-notice-overlay.show .entry-notice-card{ transform:scale(1) translateY(0); }
-  .entry-notice-close{
-    position:absolute; top:12px; left:12px;
-    width:30px; height:30px;
-    border-radius:50%;
-    border:1px solid var(--line);
-    background:rgba(255,255,255,0.03);
-    color:var(--parchment-dim);
-    display:flex; align-items:center; justify-content:center;
-    cursor:pointer;
-    transition:all 0.2s ease;
-  }
-  .entry-notice-close svg{ width:15px; height:15px; }
-  .entry-notice-close:hover{ border-color:var(--gold-soft); color:var(--gold); }
-  .entry-notice-salawat{
-    font-family:'Amiri', serif;
-    font-size:16px;
-    line-height:2.1;
-    color:var(--gold);
-    text-shadow:0 0 14px rgba(201,162,39,0.35);
-    margin-bottom:16px;
-  }
-  .entry-notice-divider-top{
-    width:52px; height:2px; margin:0 auto 18px;
-    background:linear-gradient(90deg, transparent, var(--crimson-bright), transparent);
-  }
-  .entry-notice-text{
-    font-size:14.5px;
-    line-height:2.05;
-    color:var(--parchment);
-  }
-  .entry-notice-ornament{
-    margin-top:20px;
-    font-size:14px;
-    letter-spacing:0.02em;
-    color:var(--gold-soft);
-  }
 
   /* ============================================================
      ANNOUNCEMENT MODAL (صفحه کوچک اعلان ویژه)
@@ -1613,27 +1598,6 @@
 <div class="noise"></div>
 <div class="embers" id="embers"></div>
 
-<!-- پیام موقت ورود کاربر: کاملاً مستقل از ticker/مودال اعلان ویژه است.
-     منطق نمایش (۲۴ ساعت از لحظه انتشار + بستن با ضربدر) در JS، بخش
-     «entryNotice» مدیریت می‌شود. برای تغییر متن، فقط داخل entry-notice-text
-     و entry-notice-salawat ویرایش کنید. -->
-<div class="entry-notice-overlay" id="entry-notice-overlay">
-  <div class="entry-notice-card" role="dialog" aria-modal="true" aria-label="پیام تسلیت">
-    <button type="button" class="entry-notice-close" id="entry-notice-close" aria-label="بستن">
-      <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-    </button>
-    <div class="entry-notice-salawat">
-      ◼️ اَلسَّلامُ عَلَیْکَ یا نَبِیَّ اللّهِ، یا رَسولَ اللّه<br>
-      اَلسَّلامُ عَلَیْکَ یا أبا مُحَمَّدٍ الْحَسَنَ بْنَ عَلِی<br>
-      اَلسَّلامُ عَلَیْکَ یا عَلِیَّ بْنَ مُوسَى الرِّضَا
-    </div>
-    <div class="entry-notice-divider-top"></div>
-    <div class="entry-notice-text">
-      فرا رسیدن ایام سوگ خاندان عصمت و طهارت، هم‌زمان با سالروز شهادت جانگداز پیامبر مهر و رحمت، حضرت محمد مصطفی (ص)، و نیز شهادت مظلومانه و غریبانهٔ دو امام همام، حضرت امام حسن مجتبی (ع) و حضرت علی بن موسی الرضا (ع)، یادآور غربت دیرینهٔ خاندان نبوّت و برگ‌هایی آکنده از اندوه در دفتر تاریخ اسلام است. این مصائب سنگین، دلها را می‌سوزاند و چشمان هر شیفتهٔ ولایت را نمناک می‌سازد. بدین‌سان، فراگیری این غمِ بزرگ را به همهٔ دلدادگان و سوگواران اهل بیت رسالت تسلیت عرض می‌نماییم.
-    </div>
-    <div class="entry-notice-ornament">┈┈•✾❀🍃 🇮🇷 🍃❀✾•┈┈</div>
-  </div>
-</div>
 <div class="toast" id="toast"></div>
 <button type="button" id="back-to-top" class="back-to-top" aria-label="بازگشت به بالا">
   <svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5M12 5l-6 6M12 5l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1657,8 +1621,13 @@
           </svg>
         </button>
         <div class="theme-popover" id="theme-popover" role="menu">
-          <button type="button" class="theme-opt" data-theme="fest">مذهبی ۱</button>
-          <button type="button" class="theme-opt active" data-theme="default">مذهبی ۲</button>
+          <button type="button" class="theme-opt active" data-theme="default">طلایی و زمردی</button>
+          <button type="button" class="theme-opt" data-theme="crimson">سرخ و طلایی</button>
+          <button type="button" class="theme-opt" data-theme="fest">صورتی و فیروزه‌ای</button>
+          <button type="button" class="theme-opt" data-theme="lilac">صورتی و یاسی</button>
+          <button type="button" class="theme-opt" data-theme="sunset">فیروزه‌ای و غروبی</button>
+          <button type="button" class="theme-opt" data-theme="amber">کهربایی و کرمی</button>
+          <button type="button" class="theme-opt" data-theme="sky">آبی آسمانی</button>
           <button type="button" class="theme-opt" data-theme="light">سبز فسفری</button>
           <button type="button" class="theme-opt" data-theme="dark">تاریک</button>
         </div>
@@ -1778,8 +1747,8 @@
     </span>
     <span class="ticker-track" dir="ltr">
       <span class="ticker-track-inner">
-        <span class="ticker-text" data-i18n="tickerText">مراسم شهادت پیامبر اعظم، امام حسن مجتبی (ع) و امام رضا (ع) — سخنرانی سید مجید موسوی — از سه‌شنبه به مدت ۳ شب، ساعت ۲۰:۴۵ — قاضی‌آباد، مسجد قائم (عج)</span>
-        <span class="ticker-text" aria-hidden="true" data-i18n="tickerText">مراسم شهادت پیامبر اعظم، امام حسن مجتبی (ع) و امام رضا (ع) — سخنرانی سید مجید موسوی — از سه‌شنبه به مدت ۳ شب، ساعت ۲۰:۴۵ — قاضی‌آباد، مسجد قائم (عج)</span>
+        <span class="ticker-text" data-i18n="tickerText">آغاز ماه ربیع الاول ماه سرور اهل بیت(ع) و شادی دل‌های مؤمنان بر همگان مبارک باد.</span>
+        <span class="ticker-text" aria-hidden="true" data-i18n="tickerText">آغاز ماه ربیع الاول ماه سرور اهل بیت(ع) و شادی دل‌های مؤمنان بر همگان مبارک باد.</span>
       </span>
     </span>
   </button>
@@ -1792,19 +1761,7 @@
       </button>
       <div class="modal-handle"></div>
       <div class="modal-ribbon" data-i18n="annBadge">ویژه</div>
-      <div class="modal-title" data-i18n="annTitle">مراسم شهادت پیامبر اعظم، امام حسن مجتبی (ع) و امام رضا (ع)</div>
-      <div class="modal-row">
-        <span class="modal-label" data-i18n="annSpeakerLabel">سخنران:</span>
-        <span class="modal-value" data-i18n="annSpeaker">سید مجید موسوی</span>
-      </div>
-      <div class="modal-row">
-        <span class="modal-label" data-i18n="annVoiceLabel">با نوای:</span>
-        <span class="modal-value" data-i18n="annVoice">ذاکرین اهل بیت (ع)</span>
-      </div>
-      <div class="modal-divider"></div>
-      <div class="modal-time" data-i18n="annTime">از سه‌شنبه به مدت ۳ شب، ساعت ۲۰:۴۵<br>قاضی‌آباد، خیابان نهم، مسجد قائم (عج)</div>
-      <div class="modal-note" data-i18n="annNote">بعد از مراسم در تجمعات شرکت خواهیم کرد</div>
-      <div class="modal-tag" data-i18n="annTag">ویژه برادران و خواهران</div>
+      <div class="modal-title" data-i18n="annTitle">آغاز ماه ربیع الاول ماه سرور اهل بیت(ع) و شادی دل‌های مؤمنان بر همگان مبارک باد.</div>
     </div>
   </div>
 
@@ -2134,11 +2091,10 @@
     // زیر body قرار می‌دهیم.
     document.body.appendChild(popover);
 
+    const THEME_CLASSES = ['theme-light', 'theme-dark', 'theme-fest', 'theme-crimson', 'theme-lilac', 'theme-sunset', 'theme-amber', 'theme-sky'];
     function applyTheme(theme){
-      document.body.classList.remove('theme-light', 'theme-dark', 'theme-fest');
-      if(theme === 'light') document.body.classList.add('theme-light');
-      else if(theme === 'dark') document.body.classList.add('theme-dark');
-      else if(theme === 'fest') document.body.classList.add('theme-fest');
+      document.body.classList.remove(...THEME_CLASSES);
+      if(THEME_CLASSES.includes('theme-' + theme)) document.body.classList.add('theme-' + theme);
       opts.forEach(b => b.classList.toggle('active', b.dataset.theme === theme));
       try{ localStorage.setItem('kazemiuon-theme', theme); }catch(e){}
     }
@@ -2271,52 +2227,6 @@
     setTimeout(() => loader.classList.add('hide'), 3500);
   })();
 
-  // ---------------- پیام موقت ورود کاربر (entry notice) ----------------
-  // این بخش کاملاً مستقل از ticker / مودال اعلان ویژه است.
-  // EXPIRES_AT: لحظه‌ی دقیقی که این پیام دیگر برای هیچ‌کس نمایش داده نمی‌شود
-  // (۲۴ ساعت پس از انتشار). اگر خواستید بازه را عوض کنید، فقط همین عدد را
-  // با timestamp جدید (میلی‌ثانیه) جایگزین کنید.
-  (function entryNotice(){
-    const EXPIRES_AT = 1786610202632; // 2026-08-13T12:06:42+03:30 (24 ساعت پس از انتشار)
-    const STORAGE_KEY = 'kazemiuon-entry-notice-closed';
-
-    if(Date.now() >= EXPIRES_AT) return; // بازه ۲۴ ساعته تمام شده
-
-    let alreadyClosed = false;
-    try{ alreadyClosed = localStorage.getItem(STORAGE_KEY) === '1'; }catch(e){}
-    if(alreadyClosed) return;
-
-    const overlay = document.getElementById('entry-notice-overlay');
-    const closeBtn = document.getElementById('entry-notice-close');
-    if(!overlay || !closeBtn) return;
-
-    function closeNotice(){
-      overlay.classList.remove('show');
-      try{ localStorage.setItem(STORAGE_KEY, '1'); }catch(e){}
-    }
-
-    closeBtn.addEventListener('click', closeNotice);
-    overlay.addEventListener('click', (e) => {
-      if(e.target === overlay) closeNotice();
-    });
-    document.addEventListener('keydown', (e) => {
-      if(e.key === 'Escape' && overlay.classList.contains('show')) closeNotice();
-    });
-
-    // نمایش کمی پس از پنهان‌شدن لودر تا با هم تداخل نداشته باشند
-    const loaderEl = document.getElementById('loader');
-    const showNotice = () => setTimeout(() => overlay.classList.add('show'), 400);
-    if(loaderEl){
-      const winLoaded = new Promise(resolve => {
-        if(document.readyState === 'complete') resolve();
-        else window.addEventListener('load', resolve, { once:true });
-      });
-      winLoaded.then(showNotice);
-    } else {
-      showNotice();
-    }
-  })();
-
   // ---------------- i18n ----------------
   const translations = {
     fa: {
@@ -2337,15 +2247,8 @@
       posterName1: "کربلایی رضا دارایی",
       posterName2: "کربلایی عرفان سلیمی",
       annBadge: "ویژه",
-      annTitle: "مراسم شهادت پیامبر اعظم، امام حسن مجتبی (ع) و امام رضا (ع)",
-      annSpeakerLabel: "سخنران:",
-      annSpeaker: "سید مجید موسوی",
-      annVoiceLabel: "با نوای:",
-      annVoice: "ذاکرین اهل بیت (ع)",
-      annTime: 'از سه‌شنبه به مدت ۳ شب، ساعت ۲۰:۴۵<br>قاضی‌آباد، خیابان نهم، مسجد قائم (عج)',
-      annNote: "بعد از مراسم در تجمعات شرکت خواهیم کرد",
-      annTag: "ویژه برادران و خواهران",
-      tickerText: "مراسم شهادت پیامبر اعظم، امام حسن مجتبی (ع) و امام رضا (ع) — سخنرانی سید مجید موسوی — از سه‌شنبه به مدت ۳ شب، ساعت ۲۰:۴۵ — قاضی‌آباد، مسجد قائم (عج)",
+      annTitle: "آغاز ماه ربیع الاول ماه سرور اهل بیت(ع) و شادی دل‌های مؤمنان بر همگان مبارک باد.",
+      tickerText: "آغاز ماه ربیع الاول ماه سرور اهل بیت(ع) و شادی دل‌های مؤمنان بر همگان مبارک باد.",
       calTitle: "تقویم امروز",
       calShamsiLabel: "شمسی",
       calQamariLabel: "قمری",
@@ -2390,15 +2293,8 @@
       posterName1: "كربلائي رضا دارایی",
       posterName2: "كربلائي عرفان سليمي",
       annBadge: "خاص",
-      annTitle: "مراسم استشهاد النبي الأعظم والإمام الحسن المجتبى (ع) والإمام الرضا (ع)",
-      annSpeakerLabel: "الخطيب:",
-      annSpeaker: "السيد مجید موسوی",
-      annVoiceLabel: "بصوت:",
-      annVoice: "ذاكري أهل البيت (ع)",
-      annTime: 'من الثلاثاء لمدة ۳ ليالٍ، الساعة ۲۰:۴۵<br>قاضي‌آباد، الشارع التاسع، مسجد الإمام القائم (عج)',
-      annNote: "بعد المراسم سنشارك في التجمعات",
-      annTag: "خاص بالإخوة والأخوات",
-      tickerText: "مراسم استشهاد النبي الأعظم والإمام الحسن المجتبى (ع) والإمام الرضا (ع) — الخطيب السيد مجید موسوی — من الثلاثاء لمدة ۳ ليالٍ، الساعة ۲۰:۴۵ — قاضي‌آباد، مسجد الإمام القائم (عج)",
+      annTitle: "حلول شهر ربيع الأول، شهر سرور أهل البيت (ع) وفرحة قلوب المؤمنين، مبارك على الجميع.",
+      tickerText: "حلول شهر ربيع الأول، شهر سرور أهل البيت (ع) وفرحة قلوب المؤمنين، مبارك على الجميع.",
       calTitle: "تقويم اليوم",
       calShamsiLabel: "شمسي",
       calQamariLabel: "قمري",
@@ -2443,15 +2339,8 @@
       posterName1: "Karbalaei Reza Daraei",
       posterName2: "Karbalaei Erfan Salimi",
       annBadge: "Special",
-      annTitle: "Martyrdom Ceremony of the Prophet, Imam Hasan al-Mujtaba (AS) & Imam Reza (AS)",
-      annSpeakerLabel: "Speaker:",
-      annSpeaker: "Seyyed Majid Mousavi",
-      annVoiceLabel: "Eulogy by:",
-      annVoice: "Zakerin Ahl al-Bayt (AS)",
-      annTime: 'From Tuesday, for 3 nights, at 8:45 PM<br>Ghazi-abad, 9th Street, Emam Ghaem Mosque',
-      annNote: "We will join the gatherings after the ceremony",
-      annTag: "For brothers and sisters",
-      tickerText: "Martyrdom ceremony of the Prophet, Imam Hasan al-Mujtaba (AS) & Imam Reza (AS) — Speaker: Seyyed Majid Mousavi — From Tuesday, 3 nights, 8:45 PM — Ghazi-abad, Emam Ghaem Mosque",
+      annTitle: "The beginning of the month of Rabi al-Awwal — the month of joy for Ahl al-Bayt (AS) and happiness for the hearts of the faithful — is blessed to all.",
+      tickerText: "The beginning of the month of Rabi al-Awwal — the month of joy for Ahl al-Bayt (AS) and happiness for the hearts of the faithful — is blessed to all.",
       calTitle: "Today's Calendar",
       calShamsiLabel: "Solar (Shamsi)",
       calQamariLabel: "Lunar (Hijri)",
@@ -3287,10 +3176,9 @@
       userSeeking = false;
     });
 
-    // وقتی مودال اعلان ویژه یا پیام موقت ورود باز است، پلیر زیر آن پنهان شود
+    // وقتی مودال اعلان ویژه باز است، پلیر زیر آن پنهان شود
     const overlaysToWatch = [
-      document.getElementById('announce-modal-overlay'),
-      document.getElementById('entry-notice-overlay')
+      document.getElementById('announce-modal-overlay')
     ].filter(Boolean);
 
     function syncPlayerVisibility(){
