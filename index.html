@@ -1281,28 +1281,42 @@
   .page2-trigger-wrap{
     display:flex;
     justify-content:center;
-    margin:2px 0 10px;
+    margin:4px 0 14px;
   }
   .page2-trigger{
+    position:relative;
     display:inline-flex;
     align-items:center;
     justify-content:center;
-    padding:6px 26px;
+    gap:8px;
+    padding:11px 30px;
     border-radius:999px;
-    border:1px solid var(--line);
-    background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)), var(--void);
-    color:var(--gold-soft);
+    border:1px solid rgba(255,255,255,0.25);
+    background:linear-gradient(135deg, var(--gold-bright, var(--gold)), var(--crimson-bright));
+    background-size:200% 200%;
+    color:#1a0f04;
     font-family:'Vazirmatn', sans-serif;
-    font-size:11.5px;
-    font-weight:600;
-    letter-spacing:0.03em;
+    font-size:13.5px;
+    font-weight:800;
+    letter-spacing:0.02em;
     cursor:pointer;
     text-decoration:none;
-    box-shadow:0 1px 0 rgba(255,255,255,0.05) inset, 0 6px 14px rgba(0,0,0,0.25);
+    box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 20px rgba(var(--crimson-rgb),0.45), 0 0 0 4px rgba(var(--crimson-rgb),0.12);
     transition:all 0.2s ease;
+    animation:page2Pulse 2.6s ease-in-out infinite, page2Shine 5s linear infinite;
   }
-  .page2-trigger:hover{ border-color:var(--gold-soft); color:var(--gold); }
+  .page2-trigger svg{ width:15px; height:15px; flex:none; }
+  .page2-trigger:hover{ transform:translateY(-1px) scale(1.03); box-shadow:0 2px 0 rgba(255,255,255,0.4) inset, 0 10px 24px rgba(var(--crimson-rgb),0.55), 0 0 0 5px rgba(var(--crimson-rgb),0.18); }
   .page2-trigger:active{ transform:scale(0.95); }
+  @keyframes page2Pulse{
+    0%,100%{ box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 20px rgba(var(--crimson-rgb),0.45), 0 0 0 4px rgba(var(--crimson-rgb),0.12); }
+    50%{ box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 26px rgba(var(--crimson-rgb),0.65), 0 0 0 8px rgba(var(--crimson-rgb),0.05); }
+  }
+  @keyframes page2Shine{
+    0%{ background-position:0% 50%; }
+    50%{ background-position:100% 50%; }
+    100%{ background-position:0% 50%; }
+  }
 
   /* share copy-link button (replaces WhatsApp) */
   .share-btn.copy-link{
@@ -1802,7 +1816,8 @@
 
   <div class="page2-trigger-wrap">
     <a href="page2.html" class="page2-trigger" id="page2-trigger">
-      <span>صفحه دوم</span>
+      <span data-i18n="page2Trigger">صفحه دوم</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
     </a>
   </div>
 
@@ -2306,6 +2321,7 @@
   const translations = {
     fa: {
       bismillah: "بسم الله الرحمن الرحیم",
+      page2Trigger: "صفحه دوم",
       tag: "هیئـت عزاداری",
       title: "هیئت کاظمیون خرم‌آباد",
       meta: 'مراسم هفتگی: <b>سه‌شنبه‌ها ساعت ۲۱</b><br>قاضی‌آباد، خیابان نهم، مسجد حضرت قائم «عج»',
@@ -2358,6 +2374,7 @@
     },
     ar: {
       bismillah: "بسم الله الرحمن الرحيم",
+      page2Trigger: "الصفحة الثانية",
       tag: "موكب عزاء",
       title: "موكب الكاظميون خرم‌آباد",
       meta: 'يقام أسبوعياً، <b>الثلاثاء الساعة ۲۱</b><br>قاضي‌آباد، الشارع التاسع، مسجد الإمام القائم (عج)',
@@ -2410,6 +2427,7 @@
     },
     en: {
       bismillah: "In the Name of Allah",
+      page2Trigger: "Page Two",
       tag: "MOURNING COUNCIL",
       title: "Heyat-e Kazemiyoon, Khorramabad",
       meta: 'Held weekly, <b>Tuesdays at 9:00 PM</b><br>Ghazi-abad, 9th Street, Emam Ghaem Mosque',
