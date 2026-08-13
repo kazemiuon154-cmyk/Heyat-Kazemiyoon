@@ -9,7 +9,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
 <style>
   :root{
@@ -290,47 +290,362 @@
     height:1px;
     background:var(--line);
   }
+  .group-label.group-label-lg{
+    font-size:23px;
+    color:var(--gold);
+    letter-spacing:0.04em;
+    font-weight:800;
+  }
 
-  /* ---------------- نذورات card ---------------- */
+  /* ---------------- نذورات card (کارت بانکی) ---------------- */
   .nazr-card{
-    padding:22px 18px;
-    border-radius:18px;
-    border:1px solid var(--line);
-    background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)), var(--void);
-    box-shadow:0 1px 0 rgba(255,255,255,0.05) inset, 0 10px 24px rgba(0,0,0,0.28);
+    position:relative;
+    padding:24px 20px 20px;
+    border-radius:20px;
+    border:1px solid rgba(201,162,39,0.35);
+    background:
+      radial-gradient(120% 140% at 100% 0%, rgba(255,255,255,0.10), transparent 55%),
+      linear-gradient(135deg, #7a1216 0%, #5c0f14 45%, #2c0a0d 100%);
+    box-shadow:0 1px 0 rgba(255,255,255,0.08) inset, 0 14px 30px rgba(0,0,0,0.4);
     text-align:center;
+    overflow:hidden;
+  }
+  .nazr-card::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(60% 60% at 90% 100%, rgba(201,162,39,0.18), transparent 70%);
+    pointer-events:none;
+  }
+  .nazr-card-title{
+    font-size:14px;
+    font-weight:700;
+    color:var(--gold);
+    letter-spacing:0.02em;
+    margin-bottom:16px;
+    position:relative;
+    line-height:1.6;
+  }
+  .nazr-chip{
+    width:38px; height:28px;
+    border-radius:6px;
+    background:linear-gradient(135deg, #e8d28a, #b6923a);
+    margin:0 auto 16px;
+    position:relative;
+    box-shadow:0 1px 2px rgba(0,0,0,0.4) inset;
+  }
+  .nazr-chip::before{
+    content:'';
+    position:absolute;
+    top:50%; left:4px; right:4px;
+    height:1px;
+    background:rgba(0,0,0,0.25);
   }
   .nazr-number-row{
     display:flex;
     align-items:center;
     justify-content:center;
     gap:12px;
-    margin-bottom:14px;
+    margin-bottom:16px;
     flex-wrap:wrap;
+    position:relative;
   }
   .nazr-number{
-    font-size:17px;
+    font-size:19px;
     font-weight:700;
-    color:var(--gold);
-    letter-spacing:0.03em;
+    color:var(--parchment);
+    letter-spacing:0.06em;
+    text-shadow:0 1px 2px rgba(0,0,0,0.35);
   }
   .copy-btn{
     width:38px; height:38px; min-width:38px;
     border-radius:12px;
-    border:1px solid var(--line);
-    background:rgba(255,255,255,0.02);
-    color:var(--gold-soft);
+    border:1px solid rgba(255,255,255,0.25);
+    background:rgba(255,255,255,0.06);
+    color:var(--gold);
     display:flex; align-items:center; justify-content:center;
     cursor:pointer;
     transition:all 0.18s ease;
   }
   .copy-btn svg{ width:16px; height:16px; }
-  .copy-btn:hover{ border-color:var(--gold-soft); color:var(--gold); }
+  .copy-btn:hover{ border-color:var(--gold); color:var(--gold); }
   .copy-btn:active{ transform:scale(0.92); }
   .nazr-name{
-    font-size:13.5px;
+    font-size:15px;
+    color:var(--gold);
+    font-weight:700;
+    letter-spacing:0.03em;
+    position:relative;
+  }
+
+  /* ============================================================
+     ادعیه (زیارت عاشورا و ...)
+  ============================================================ */
+  .doa-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .doa-item{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:16px 18px;
+    border-radius:16px;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)), var(--void);
+    box-shadow:0 1px 0 rgba(255,255,255,0.05) inset, 0 10px 24px rgba(0,0,0,0.28);
+    color:var(--parchment);
+    font-family:inherit;
+    cursor:pointer;
+    text-align:right;
+    transition:border-color 0.2s ease;
+  }
+  html[dir="ltr"] .doa-item{ text-align:left; }
+  .doa-item:hover{ border-color:var(--gold-soft); }
+  .doa-item-icon{
+    width:36px; height:36px; min-width:36px;
+    border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(var(--crimson-rgb),0.16);
+    color:var(--gold);
+  }
+  .doa-item-icon svg{ width:18px; height:18px; }
+  .doa-item-name{
+    flex:1;
+    font-size:14.5px;
+    font-weight:700;
+  }
+  .doa-item-chevron{
+    width:18px; height:18px;
+    color:var(--gold-soft);
+    transition:transform 0.25s ease;
+    flex-shrink:0;
+  }
+  .doa-item.open .doa-item-chevron{ transform:rotate(180deg); }
+
+  .doa-sub-panel{
+    display:grid;
+    grid-template-rows:0fr;
+    opacity:0;
+    transition:grid-template-rows 0.3s ease, opacity 0.25s ease, margin 0.3s ease;
+    margin-top:0;
+  }
+  .doa-sub-panel.open{
+    grid-template-rows:1fr;
+    opacity:1;
+    margin-top:2px;
+  }
+  .doa-sub-panel-inner{
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    padding:2px 4px 4px;
+  }
+  .doa-sub-btn{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:13px 16px;
+    border-radius:13px;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.02);
     color:var(--parchment-dim);
+    font-family:inherit;
+    font-size:13px;
     font-weight:600;
+    cursor:pointer;
+    text-align:right;
+    transition:all 0.18s ease;
+  }
+  html[dir="ltr"] .doa-sub-btn{ text-align:left; }
+  .doa-sub-btn:hover{ border-color:var(--gold-soft); color:var(--parchment); }
+  .doa-sub-btn svg{ width:15px; height:15px; color:var(--gold-soft); flex-shrink:0; }
+  .doa-sub-btn:hover svg{ color:var(--gold); }
+
+  /* ---------------- مودال متن دعا ---------------- */
+  .doa-modal-overlay{
+    position:fixed; inset:0; z-index:300;
+    background:rgba(3,1,1,0.72);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    display:flex; align-items:flex-end; justify-content:center;
+    opacity:0; visibility:hidden;
+    transition:opacity 0.25s ease, visibility 0.25s ease;
+  }
+  .doa-modal-overlay.show{ opacity:1; visibility:visible; }
+  .doa-modal-sheet{
+    position:relative;
+    width:100%; max-width:500px;
+    height:86vh;
+    display:flex;
+    flex-direction:column;
+    background:var(--void);
+    border:1px solid var(--gold-soft);
+    border-bottom:none;
+    border-radius:26px 26px 0 0;
+    box-shadow:0 -12px 40px rgba(0,0,0,0.5);
+    transform:translateY(100%);
+    transition:transform 0.32s cubic-bezier(0.22,1,0.36,1);
+  }
+  .doa-modal-overlay.show .doa-modal-sheet{ transform:translateY(0); }
+  .doa-modal-handle{
+    width:38px; height:4px; border-radius:999px;
+    background:var(--line);
+    margin:12px auto 4px;
+    flex-shrink:0;
+  }
+  .doa-modal-head{
+    position:relative;
+    display:flex; align-items:center; justify-content:center;
+    padding:10px 50px 14px;
+    flex-shrink:0;
+    border-bottom:1px solid var(--line);
+  }
+  .doa-modal-title{
+    font-size:15.5px; font-weight:800; color:var(--parchment);
+  }
+  .doa-modal-close{
+    position:absolute; top:6px; left:16px;
+    width:32px; height:32px; border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.03);
+    color:var(--parchment-dim);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+  }
+  html[dir="ltr"] .doa-modal-close{ left:auto; right:16px; }
+  .doa-modal-close svg{ width:14px; height:14px; }
+  .doa-modal-close:hover{ border-color:var(--gold-soft); color:var(--gold); }
+
+  .doa-modal-body{
+    flex:1;
+    min-height:0;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    padding:22px 22px 40px;
+  }
+  .doa-text-arabic{
+    font-family:'Amiri', serif;
+    font-size:21px;
+    line-height:2.5;
+    text-align:center;
+    color:var(--parchment);
+    direction:rtl;
+  }
+  .doa-text-fa{
+    font-family:'Vazirmatn', sans-serif;
+    font-size:14.5px;
+    line-height:2.3;
+    text-align:justify;
+    color:var(--parchment);
+    direction:rtl;
+  }
+  .doa-text-placeholder{
+    text-align:center;
+    color:var(--parchment-dim);
+    font-size:13px;
+    padding:30px 10px;
+    line-height:2;
+  }
+  .doa-text-arabic p{ margin:0 0 18px; }
+  .doa-text-arabic p:last-child{ margin-bottom:0; }
+  .doa-text-arabic p.doa-text-note{
+    font-family:'Vazirmatn', sans-serif;
+    font-size:13px;
+    font-weight:600;
+    color:var(--gold);
+    line-height:1.8;
+    margin:6px 0 4px;
+  }
+  .doa-text-fa p{ margin:0 0 16px; }
+  .doa-text-fa p:last-child{ margin-bottom:0; }
+  .doa-text-fa p.doa-text-note{
+    font-weight:700;
+    color:var(--gold);
+    text-align:center;
+    margin:4px 0;
+  }
+  .doa-text-fa p.doa-text-source{
+    font-size:12px;
+    color:var(--parchment-dim);
+    text-align:center;
+    margin-top:8px;
+  }
+
+  /* ---------------- پخش صوت زیارت ---------------- */
+  .doa-audio-wrap{
+    padding:26px 22px 10px;
+    text-align:center;
+    flex-shrink:0;
+    border-bottom:1px solid var(--line);
+  }
+  .doa-audio-hint{
+    font-size:12.5px;
+    color:var(--gold-soft);
+    font-weight:600;
+    margin-bottom:16px;
+  }
+  .doa-audio-controls{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+  }
+  .doa-audio-btn{
+    width:56px; height:56px; min-width:56px;
+    border-radius:50%;
+    border:1px solid var(--gold-soft);
+    background:linear-gradient(180deg, rgba(var(--crimson-rgb),0.35), rgba(var(--crimson-rgb),0.12));
+    color:var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:transform 0.15s ease, border-color 0.15s ease;
+  }
+  .doa-audio-btn:hover{ border-color:var(--gold); }
+  .doa-audio-btn:active{ transform:scale(0.92); }
+  .doa-audio-btn svg{ width:22px; height:22px; }
+  .doa-audio-btn .icon-pause{ display:none; }
+  .doa-audio-btn.playing .icon-play{ display:none; }
+  .doa-audio-btn.playing .icon-pause{ display:flex; }
+  .doa-audio-seek-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:14px;
+    max-width:340px;
+    margin-left:auto; margin-right:auto;
+  }
+  .doa-audio-time{
+    font-size:11px; color:var(--parchment-dim);
+    min-width:34px;
+    font-variant-numeric:tabular-nums;
+  }
+  .doa-audio-seek{
+    flex:1;
+    -webkit-appearance:none;
+    appearance:none;
+    height:4px;
+    border-radius:999px;
+    background:linear-gradient(90deg, var(--gold) var(--pct,0%), var(--line) var(--pct,0%));
+    outline:none;
+  }
+  .doa-audio-seek::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width:13px; height:13px; border-radius:50%;
+    background:var(--gold);
+    box-shadow:0 0 0 3px rgba(201,162,39,0.2);
+    cursor:pointer;
+  }
+  .doa-audio-seek::-moz-range-thumb{
+    width:13px; height:13px; border-radius:50%;
+    background:var(--gold); border:none;
+    box-shadow:0 0 0 3px rgba(201,162,39,0.2);
+    cursor:pointer;
   }
 
   /* ---------------- toast ---------------- */
@@ -439,17 +754,45 @@
   </div>
 
   <div class="group-label">
-    <span data-i18n="nazrTitle">نذورات</span>
+    <span data-i18n="doaTitle">ادعیه</span>
+  </div>
+
+  <div class="doa-list">
+    <button type="button" class="doa-item" id="doa-ashura-btn" aria-expanded="false" aria-controls="doa-ashura-panel">
+      <span class="doa-item-icon">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-8.5-5.2-11.3-10.4C-1 6.9 1 3.3 4.9 3.3c2.4 0 4.2 1.3 5 3.1.9-1.8 2.7-3.1 5.1-3.1 3.9 0 5.9 3.6 4.2 7.3C20.5 15.8 12 21 12 21z" fill="currentColor"/></svg>
+      </span>
+      <span class="doa-item-name" data-i18n="doaAshuraName">زیارت عاشورا</span>
+      <svg class="doa-item-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="doa-sub-panel" id="doa-ashura-panel">
+      <div class="doa-sub-panel-inner">
+        <button type="button" class="doa-sub-btn" data-open-modal="doa-modal-arabic">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h10M4 18h13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <span data-i18n="doaArabicText">متن عربی</span>
+        </button>
+        <button type="button" class="doa-sub-btn" data-open-modal="doa-modal-translation">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h10M4 18h13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <span data-i18n="doaTranslationText">ترجمه</span>
+        </button>
+        <button type="button" class="doa-sub-btn" data-open-modal="doa-modal-audio">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M10 8.5l6 3.5-6 3.5v-7z" fill="currentColor"/></svg>
+          <span data-i18n="doaAudioText">صوت + متن عربی</span>
+        </button>
+      </div>
+    </div>
   </div>
 
   <div class="nazr-card">
+    <div class="nazr-card-title" data-i18n="nazrTitle">واریز نذورات نقدی به شماره کارت ذیل</div>
+    <div class="nazr-chip"></div>
     <div class="nazr-number-row">
       <span class="nazr-number" id="nazr-number" dir="ltr">6104&nbsp;3311&nbsp;3307&nbsp;0012</span>
       <button type="button" class="copy-btn" id="copy-nazr-number" aria-label="کپی شماره کارت">
         <svg viewBox="0 0 24 24" fill="none"><rect x="8" y="8" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" stroke="currentColor" stroke-width="1.6"/></svg>
       </button>
     </div>
-    <div class="nazr-name" data-i18n="nazrName">به نام: مسعود زندیه شیرازی</div>
+    <div class="nazr-name" data-i18n="nazrName">مسعود زندیه شیرازی</div>
   </div>
 
   <footer data-i18n="footerSub">پایگاه اطلاع‌رسانی هیئت کاظمیون خرم‌آباد</footer>
@@ -457,6 +800,125 @@
 </div>
 
 <div class="toast" id="toast"></div>
+
+<!-- ================= مودال: متن عربی زیارت عاشورا ================= -->
+<div class="doa-modal-overlay" id="doa-modal-arabic">
+  <div class="doa-modal-sheet">
+    <div class="doa-modal-handle"></div>
+    <div class="doa-modal-head">
+      <button type="button" class="doa-modal-close" data-close-modal aria-label="بستن">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <span class="doa-modal-title" data-i18n="doaAshuraArabicTitle">زیارت عاشورا | متن عربی</span>
+    </div>
+    <div class="doa-modal-body">
+      <div class="doa-text-arabic" id="doa-arabic-text-content">
+        <p>السَّلامُ عَلَیْکَ یَا أَبا عَبْدِاللّٰهِ، السَّلامُ عَلَیْکَ یَا ابْنَ رَسُولِ اللّٰهِ، السَّلامُ عَلَیْکَ یا خِیَرَةَ اللّٰهِ وَابْنَ خِیرَتِهِ، السَّلامُ عَلَیْکَ یَا ابْنَ أَمِیرِ الْمُؤْمِنِینَ، وَابْنَ سَیِّدِ الْوَصِیِّینَ، اَلسَّلامُ عَلَیْکَ یَابْنَ فاطِمَةَ سَیِّدَةِ نِساءِ الْعالَمینَ، اَلسَّلامُ عَلَیْکَ یا ثارَ اللّهِ وَ ابْنَ ثارِه، وَ الْوِتْرَ الْمَوْتُورَ، اَلسَّلامُ عَلَیْکَ وَ عَلَى الْاَرْواحِ الَّتى حَلَّتْ بِفِنائِکَ، عَلَیْکُمْ مِنّى جَمیعًا سَلامُ اللّهِ اَبَدًا ما بَقیتُ وَ بَقِىَ اللَّیْلُ وَ النَّهارُ، یا اَبا عَبْدِ اللّهِ</p>
+        <p>لَقَدْ عَظُمَتِ الرَّزِیَّةُ، وَ جَلَّتْ وَ عَظُمَتِ الْمُصیبَةُ بِکَ عَلَیْنا وَ عَلى جَمیعِ اَهْلِ الْاِسْلامِ، وَ جَلَّتْ وَ عَظُمَتْ مُصیبَتُکَ فِى السَّماواتِ عَلى جَمیعِ اَهْلِ السَّماواتِ، فَلَعَنَ اللّهُ اُمَّةً اَسَّسَتْ اَساسَ الظُّلْمِ وَ الْجَوْرِ عَلَیْکُمْ اَهْلَ الْبَیْتِ، وَ لَعَنَ اللّهُ اُمَّةً دَفَعَتْکُمْ عَنْ مَقامِکُمْ، وَ اَزالَتْکُمْ عَنْ مَراتِبِکُمُ الَّتى رَتَّبَکُمُ اللّهُ فیها، وَ لَعَنَ اللّهُ اُمَّةً قَتَلَتْکُمْ، وَ لَعَنَ اللّهُ الْمُمَهِّدینَ لَهُمْ بِـالَّتمْکینِ مِنْ قِتالِکُمْ، بَرِئْتُ اِلَى اللّهِ وَ اِلَیْکُمْ مِنْهُمْ وَ مِنْ اَشْیاعِهِمْ وَ اَتْباعِهِمْ وَ اَوْلِیائِهِمْ. یا اَبا عَبْدِ اللّهِ</p>
+        <p>اِنّى سِلْمٌ لِمَنْ سالَمَکُمْ وَ حَرْبٌ لِمَنْ حارَبَکُمْ اِلى یَوْمِ الْقِیامَةِ، وَ لَعَنَ اللّهُ آلَ زیادٍ وَ آلَ مَرْوانَ، وَ لَعَنَ اللّهُ بَنى اُمَیَّهَ قاطِبَهً، وَ لَعَنَ اللّهُ ابْنَ مَرْجانَهَ، وَ لَعَنَ اللّهُ عُمَرَ بْنَ سَعْدٍ، وَ لَعَنَ اللّهُ شِمْراً، وَ لَعَنَ اللّهُ اُمَّةً اَسْرَجَتْ وَ اَلجَمَتْ وَ تَنَقَّبَتْ لِقِتالِکَ. بِاَبى اَنْتَ وَ اُمّى لَقَدْ عَظُمَ مُصابى بِکَ، فَاَسْاَلُ اللّهَ الَّذى اَکْرَمَ مَقامَکَ وَ اَکْرَمَنى بِکَ، اَنْ یَرْزُقَنى طَلَبَ ثارِکَ مَعَ اِمامٍ مَنْصُورٍ مِنْ اَهْلِ بَیْتِ مُحَمَّدٍ صَلَّى اللّهُ عَلَیْهِ وَ آلِه. اَللّهُمَّ اجْعَلْنى عِنْدَکَ وَجیهًا بِـالْحُسَیْنِ عَلَیْهِ السّلامُ فِى الدُّنْیا وَ الاْخِرَةِ. یا اَبا عَبْدِ اللّهِ</p>
+        <p>اِنّى اَتَقَرَّبُ اِلَى اللّهِ وَ اِلى رَسُولِه وَ اِلى اَمیرِالْمُؤْمِنینَ، وَ اِلى فاطِمَةَ وَ اِلَى الْحَسَنِ وَ اِلَیْکَ بِمُوالاتِکَ، وَ بِالْبَرآئَةِ مِمَّنْ قاتَلَکَ وَ نَصَبَ لَکَ الْحَرْبَ، وَ بِالْبَرآئَةِ مِمَّنْ اَسَّسَ اَساسَ الظُّلْمِ وَ الْجَوْرِ عَلَیْکُمْ، وَ اَبْرَاُ اِلَى اللّهِ وَ اِلى رَسُولِه مِمَّنْ اَسَّسَ اَساسَ ذلِکَ، وَ بَنى عَلَیْهِ بُنْیانَهُ، وَ جَرى فى ظُلْمِه وَ جَوْرِه عَلَیْکُمْ وَ عَلى اَشْیاعِکُمْ</p>
+        <p>بَرِئْتُ اِلَى اللّهِ وَ اِلَیْکُمْ مِنْهُمْ، وَ اَتَقَرَّبُ اِلَى اللّهِ ثُمَّ اِلَیْکُمْ بِمُوالاتِکُمْ وَ مُوالاةِ وَلیِّکُمْ، وَ بِالْبَرآئَةِ مِنْ اَعْدائِکُمْ وَ النّاصِبینَ لَکُمُ الْحَرْبَ، وَ بِالْبَرآئَةِ مِنْ اَشْیاعِهِمْ وَ اَتْباعِهِمْ. اِنّى سِلْمٌ لِمَنْ سالَمَکُمْ وَ حَرْبٌ لِمَنْ حارَبَکُمْ، وَ وَلِىٌّ لِمَنْ والاکُمْ وَ عَدُوٌّ لِمَـنْ عـاداکُمْ، فَاَسْـاَلُ اللّهَ الَّذى اَکْرَمَنى بِمَعْرِفَتِکُمْ وَ مَعْرِفَةِ اَوْلِیائِکُمْ، وَ رَزَقَنِـى الْبَرائَـةَ مِنْ اَعْدائِکُـمْ، اَنْ یَجْعَلَنى مَعَکُمْ فِى الدُّنْیا وَ الاْخِرَةِ، وَ اَنْ یُثَبِّتَ لى عِنْدَکُمْ قَدَمَ صِدْقٍ فِى الدُّنْیا وَ الاْخِرَةِ</p>
+        <p>وَ اَسْاَلُهُ اَنْ یُبَلِّغَنِى الْمَقامَ الْمَحْمُودَ لَکُمْ عِنْدَ اللّهِ، وَ اَنْ یَرْزُقَنى طَلَبَ ثارى (ثارِکُمْ) مَعَ اِمامٍ هُدًى (مَهْدىٍّ) ظاهِرٍ ناطِقٍ بِـالْحَقِّ مِنْکُمْ، وَ اَسْاَلُ اللّهَ بِحَقِّکُمْ وَ بِالشَّأْنِ الَّذى لَکُمْ عِنْدَهُ، اَنْ یُعْطِیَنى بِمُصابى بِکُمْ اَفْضَلَ ما یُعْطى مُصابًا بِمُـصیبَتِه؛ مُصیبَةً ما اَعْظَمَها وَ اَعْظَمَ رَزِیَّتَها فِى الْاِسْلامِ وَ فى جَمیعِ السَّماواتِ وَ الْاَرْضِ. اَللّهُمَّ اجْعَلْنى فى مَقامى هذا مِمَّنْ تَنالُهُ مِنْکَ صَلَواتٌ وَ رَحْمَةٌ وَ مَغْفِرَةٌ. اَللّهُمَّ اجْعَلْ مَحْیاىَ مَحْیا مُحَمَّدٍ وَ آلِ مُحَمَّدٍ، وَ مَماتى مَماتَ مُحَمَّدٍ وَ آلِ مُحَمَّدٍ</p>
+        <p>اَللّهُمَّ اِنَّ هذا یَوْمٌ تَبَرَّکَتْ بِه بَنُو اُمَیَّهَ، وَ ابْنُ آکِلَةِ الْاَ کْبادِ، اَللَّعینُ ابْنُ اللَّعینِ، عَلى لِسانِکَ وَ لِسانِ نَبِیِّکَ صَلَّى اللّهُ عَلَیْهِ وَ آلِه، فى کُلِّ مَوْطِنٍ وَ مَوْقِفٍ وَقَفَ فیهِ نَبِیُّکَ صَلَّى اللّهُ عَلَیْهِ وَ آلِه.</p>
+        <p>اَللّهُمَّ الْعَنْ اَباسُفْیانَ وَ مُعاوِیَةَ وَ یَزیدَ بْنَ مُعاویَةَ، عَلَیْهِمْ مِنْکَ اللَّعْنَةُ اَبَدَ الاْبِدینَ، وَ هذا یَوْمٌ فَرِحَتْ بِه آلُ‌ زیادٍ وَ آلُ‌ مَرْوانَ بِقَتْلِهِمُ الْحُسَیْنَ صَلَواتُ اللّهِ عَلَیْهِ. اَللّهُمَّ فَضاعِفْ عَلَیْهِمُ اللَّعْنَ مِنْکَ وَ الْعَذابَ الاَلیمَ. اَللّهُمَّ اِنّى اَتَقَرَّبُ اِلَیْکَ فى هذَا الْیَوْمِ، وَ فى مَوْقِفى هذا، وَ اَیّامِ حَیاتى، بِـالْبَرائَةِ مِنْهُمْ وَ اللَّعْنَةِ عَلَیْهِـمْ، وَ بِـالْمُوالاةِ لِنَبِیِّکَ وَ آلِ نَبِیِّکَ عَلَیْهِ وَ عَلَیْهِمُ السَّلامُ</p>
+        <p class="doa-text-note">«صد مرتبه می‌گویی»</p>
+        <p>اَللّهُمَّ الْعَنْ اَوَّلَ ظالِمٍ ظَلَمَ حَقَّ مُحَمَّدٍ وَ آلِ مُحَمَّدٍ، وَ آخِرَ تابِعٍ لَهُ عَلى ذلِکَ. اَللّهُمَّ الْعَنِ الْعِصابَةَ الَّتى جاهَدَتِ الْحُسَیْنَ، وَ شایَعَتْ وَ بایَعَتْ وَ تابَعَتْ عَلى قَتْلِه. اَللّهُمَّ الْعَنْهُمْ جَمیعًا</p>
+        <p class="doa-text-note">«صد مرتبه می‌گویی»</p>
+        <p>اَلسَّلامُ عَلَیْکَ یا اَبا عَبْدِ اللّهِ، وَ عَلَى الْاَرْواحِ الَّتى حَلَّتْ بِفِنائِکَ، عَلَیْکَ مِنّى سَلامُ اللّهِ اَبَدًا ما بَقیتُ وَ بَقِىَ اللَّیْلُ وَ النَّهارُ، وَ لا جَعَلَهُ اللّهُ آخِرَ الْعَهْدِ مِنّى لِزِیارَتِکُمْ.</p>
+        <p>اَلسَّلامُ عَلَى الْحُسَیْنِ وَ عَلى عَلىِّ بْنِ الْحُسَیْنِ وَ عَلى اَوْلادِ الْحُسَیْنِ وَ عَلى اَصْحابِ الْحُسَیْنِ</p>
+        <p class="doa-text-note">«سپس می‌گویی»</p>
+        <p>اَللّهُمَّ خُصَّ اَنْتَ اَوَّلَ ظالِمٍ بِاللَّعْنِ مِنّى، وَ ابْدَاْ بِه اَوَّلاً ثُمَّ الْعَنِ الثّانِىَ وَ الثّالِثَ وَ الرّابِعَ. اَللّهُمَّ الْعَنْ یَزیدَ خامِساً، وَ الْعَنْ عُبَیْدَ اللّهِ بْنَ زیادٍ وَ ابْنَ مَرْجانَهَ، وَ عُمَرَ بْنَ سَعْدٍ وَ شِمْراً، وَ آلَ اَبى سُفْیانَ وَ آلَ زیادٍ وَ آلَ مَرْوانَ اِلى یَوْمِ الْقِیامَةِ</p>
+        <p class="doa-text-note">«در حالت سجده می‌گویی»</p>
+        <p>اَللّهُمَّ لَکَ الْحَمْدُ حَمْدَ الشّاکِرینَ لَکَ عَلى مُصابِهِمْ، اَلحَمْدُ لِلّهِ عَلى عَظیمِ رَزِیَّتى. اَللّهُمَّ ارْزُقْنى شَفاعَةَ الْحُسَیْنِ یَوْمَ الْوُرُودِ، وَ ثَبِّتْ لى قَدَمَ صِدْقٍ عِنْدَکَ مَعَ الْحُسَیْنِ وَ اَصْحابِ الْحُسَیْنِ، اَلَّذینَ بَذَلُوا مُهَجَهُمْ دُونَ الْحُسَیْنِ عَلَیْهِ السَّلامُ</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= مودال: ترجمه فارسی زیارت عاشورا ================= -->
+<div class="doa-modal-overlay" id="doa-modal-translation">
+  <div class="doa-modal-sheet">
+    <div class="doa-modal-handle"></div>
+    <div class="doa-modal-head">
+      <button type="button" class="doa-modal-close" data-close-modal aria-label="بستن">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <span class="doa-modal-title" data-i18n="doaAshuraTranslationTitle">زیارت عاشورا | ترجمه</span>
+    </div>
+    <div class="doa-modal-body">
+      <div class="doa-text-fa" id="doa-translation-text-content">
+        <p>سلام بر تو اى ابا عبداللّه، سلام بر تو اى فرزند رسول خدا، سلام بر تو اى برگزیده خدا و فرزند برگزیده‌اش، سلام بر تو اى فرزند امیر مؤمنان و فرزند آقاى اوصیاء، سلام بر تو اى فرزند فاطمه بانوى زنان جهانیان، سلام بر تو اى که خدا خونخواهی‌اش کند و فرزند چنین کسى، و اى کشته‌اى که انتقام کشته‌گانت نگرفتى، سلام بر تو و بر روان‌هایى که فرود آمدند به آستانت، بر شما همگى از جانب من سلام خدا باد همیشه تا من برجایم و برجا است شب و روز، اى ابا عبداللّه</p>
+        <p>براستى بزرگ شد سوگوارى تو و گران و عظیم گشت مصیبت تو بر ما و بر همه اهل اسلام، و گران و عظیم گشت مصیبت تو در آسمان‌ها بر همه اهل آسمان‌ها؛ پس خدا لعنت کند مردمى را که ریختند شالوده ستم و بیدادگرى را بر شما خاندان، و خدا لعنت کند مردمى را که کنار زدند شما را از مقام مخصوصتان و دور کردند شما را از آن مرتبه‌هایى که خداوند آن رتبه‌ها را به شما داده بود، و خدا لعنت کند مردمى که شما را کشتند، و خدا لعنت کند آنانکه تهیه اسباب کردند براى کشندگان شما تا آنها توانستند با شما بجنگند؛ بیزارى جویم به‌سوى خدا و به‌سوى شما از ایشان و از پیروان و دنبال‌روندگانشان و دوستانشان، اى اباعبداللّه</p>
+        <p>من تسلیمم و در صلحم با کسى که با شما در صلح است و در جنگم با هر کس که با شما در جنگ است تا روز قیامت، و خدا لعنت کند خاندان زیاد و خاندان مروان را، و خدا لعنت کند بنی‌امیه را همگى، و خدا لعنت کند فرزند مرجانه (ابن زیاد) را، و خدا لعنت کند عمر بن سعد را، و خدا لعنت کند شمر را، و خدا لعنت کند مردمى را که اسب‌ها را زین کردند و دهنه زدند و به راه افتادند براى پیکار با تو؛ پدر و مادرم به فدایت که براستى بزرگ شد مصیبت تو بر من، پس می‌خواهم از آن خدایى که گرامى داشت مقام تو را و گرامى داشت مرا به‌خاطر تو، که روزی‌ام گرداند خونخواهى تو را در رکاب آن امام یارى‌شده از خاندان محمد صلى اللّه علیه و آله؛ خدایا قرار ده مرا نزد خودت آبرومند به‌وسیله حسین علیه السلام در دنیا و آخرت، اى ابا عبداللّه</p>
+        <p>من تقرب جویم به درگاه خدا و پیشگاه رسولش و امیرالمؤمنین و فاطمه و حسن و شما به‌وسیله دوستى تو، و به‌وسیله بیزارى از کسى که با تو مقاتله کرد و جنگ با تو را برپا کرد، و به بیزارى جستن از کسى که شالوده ستم و ظلم بر شما را ریخت؛ و بیزارى جویم به‌سوى خدا و به‌سوى رسولش از کسى‌که پی‌ریزى کرد شالوده این کار را و پایه‌گذارى کرد بر آن بنیانش را و دنبال کرد ستم و ظلمش را بر شما و بر پیروان شما</p>
+        <p>بیزارى جویم به درگاه خدا و به پیشگاه شما از ایشان، و تقرب جویم به‌سوى خدا سپس به شما به‌وسیله دوستی‌تان و دوستى دوستان شما، و به بیزارى از دشمنانتان و برپاکنندگان (و آتش‌افروزان) جنگ با شما و به بیزارى از یاران و پیروانشان؛ من در صلح و سازشم با کسى که با شما در صلح است و در جنگم با کسى که با شما در جنگ است، و دوستم با کسى که شما را دوست دارد و دشمنم با کسى که شما را دشمن دارد؛ و درخواست کنم از خدایى که مرا گرامى داشت به‌وسیله معرفت شما و معرفت دوستانتان، و روزی‌ام کند بیزارى جستن از دشمنانتان را، به اینکه قرار دهد مرا با شما در دنیا و آخرت، و پابرجا دارد براى من در پیش شما گام راست و درستى (و ثبات قدمى) در دنیا و آخرت</p>
+        <p>و از او خواهم که برساند مرا به مقام پسندیده شما در پیش خدا، و روزی‌ام کند خونخواهى شما را با امام راهنماى آشکار گویاى [به حق] که از شما (خاندان) است، و از خدا خواهم به حق شما و بدان منزلتى که شما نزد او دارید که عطا کند به من به‌وسیله مصیبتى که از ناحیه شما به من رسیده بهترین پاداشى را که می‌دهد به یک مصیبت‌زده از مصیبتى که دیده؛ براستى چه مصیبت بزرگى و چه داغ گرانى بود در اسلام و در تمام آسمان‌ها و زمین؛ خدایا چنانم کن در اینجا که ایستاده‌ام از کسانى باشم که برسد بدو از ناحیه تو درود و رحمت و آمرزشى؛ خدایا قرار ده زندگیم را زندگى محمد و آل محمد و مرگم را مرگ محمد و آل محمد</p>
+        <p>خدایا این روز روزى است که مبارک و میمون دانستند آن را بنی‌امیه و پسر آن زن جگرخوار (معاویه)، آن ملعون پسر ملعون (که لعن شده) بر زبان تو و زبان پیامبرت - که درود خدا بر او و آلش باد - در هر جا و هر مکانى که توقف کرد در آن مکان پیامبرت صلی اللّه علیه و آله؛ خدایا لعنت کن ابوسفیان و معاویه و یزید بن معاویه را که لعنت بر ایشان باد از جانب تو براى همیشه، و این روز روزى است که شادمان شدند به این روز دودمان زیاد و دودمان مروان به‌خاطر کشتنشان حضرت حسین صلوات اللّه علیه را؛ خدایا پس چندین برابر کن بر آنها لعنت خود و عذاب دردناک را؛ خدایا من تقرب جویم به‌سوى تو در این روز و در این جایى که هستم و در تمام دوران زندگی‌ام به بیزارى جستن از اینها و لعنت فرستادن بر ایشان و به‌وسیله دوست داشتن پیامبرت و خاندان پیامبرت که بر او و بر ایشان سلام باد...</p>
+        <p class="doa-text-note">صد مرتبه می‌گویى:</p>
+        <p>خدایا لعنت کن نخستین ستمگرى را که به‌زور گرفت حق محمد و آل محمد را و آخرین کسى که او را در این زور و ستم پیروى کرد؛ خدایا لعنت کن بر گروهى که پیکار کردند با حسین علیه السلام و همراهى کردند و پیمان بستند و از هم پیروى کردند براى کشتن آن حضرت؛ خدایا لعنت کن همه آنها را...</p>
+        <p class="doa-text-note">سپس صد مرتبه می‌گویى:</p>
+        <p>سلام بر تو اى ابا عبداللّه و بر روان‌هایى که فرود آمدند به آستانت، بر تو از جانب من سلام خدا باد همیشه تا من زنده‌ام و برپا است شب و روز، و قرار ندهد این زیارت را خداوند آخرین بار زیارت من از شما؛ سلام بر حسین و بر على بن الحسین و بر فرزندان حسین و بر اصحاب و یاران حسین...</p>
+        <p class="doa-text-note">بعد از آن می‌گویى:</p>
+        <p>خدایا مخصوص گردان نخستین ستمگر را به لعنت من و آغاز کن بدان لعن اولى را و سپس دومى و سومى و چهارمى را؛ خدایا لعنت کن یزید را در مرتبه پنجم و لعنت کن عبیداللّه پسر زیاد و پسر مرجانه را و عمر بن سعد و شمر و دودمان ابوسفیان و دودمان زیاد و دودمان مروان را تا روز قیامت...</p>
+        <p class="doa-text-note">سپس به سجده رفته و می‌گویى:</p>
+        <p>خدایا مخصوص تو است ستایش سپاسگزاران تو بر مصیبت‌زدگى آنها، ستایش خداى را بر بزرگى مصیبتم؛ خدایا روزی‌ام گردان شفاعت حسین علیه السلام را در روز ورود (به صحراى قیامت) و ثابت بدار گام راستیم را در نزد خودت با حسین علیه السلام و یاران حسین، آنانکه بی‌دریغ دادند جان خود را در راه حسین علیه السلام</p>
+        <p class="doa-text-source">📚 مصباح المتهجد، الشیخ الطوسی، صفحه ۷۷۳ – ۷۷۴؛ معجم رجال الحدیث، السید الخوئی، جلد ۹، صفحه ۳۸۳</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= مودال: صوت + متن عربی زیارت عاشورا ================= -->
+<div class="doa-modal-overlay" id="doa-modal-audio">
+  <div class="doa-modal-sheet">
+    <div class="doa-modal-handle"></div>
+    <div class="doa-modal-head">
+      <button type="button" class="doa-modal-close" data-close-modal aria-label="بستن">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <span class="doa-modal-title" data-i18n="doaAshuraAudioTitle">زیارت عاشورا | صوت</span>
+    </div>
+
+    <div class="doa-audio-wrap">
+      <div class="doa-audio-hint" data-i18n="doaAudioHint">برای پخش صوت ضربه بزنید</div>
+      <div class="doa-audio-controls">
+        <button type="button" class="doa-audio-btn" id="doa-audio-toggle" aria-label="پخش / توقف صوت" aria-pressed="false">
+          <svg class="icon-play" viewBox="0 0 24 24" fill="none"><path d="M9 6.5v11l9-5.5-9-5.5z" fill="currentColor"/></svg>
+          <svg class="icon-pause" viewBox="0 0 24 24" fill="none"><rect x="7" y="6" width="3.4" height="12" rx="1" fill="currentColor"/><rect x="13.6" y="6" width="3.4" height="12" rx="1" fill="currentColor"/></svg>
+        </button>
+      </div>
+      <div class="doa-audio-seek-row">
+        <span class="doa-audio-time" id="doa-audio-current" dir="ltr">۰۰:۰۰</span>
+        <input type="range" class="doa-audio-seek" id="doa-audio-seek" min="0" max="100" value="0" step="0.1">
+        <span class="doa-audio-time" id="doa-audio-duration" dir="ltr">۰۰:۰۰</span>
+      </div>
+      <!-- TODO: جایگزینی src با فایل صوتی زیارت عاشورا -->
+      <audio id="doa-audio-el" src="ziarat-ashura.mp3" preload="none"></audio>
+    </div>
+
+    <div class="doa-modal-body">
+      <div class="doa-text-arabic" id="doa-audio-arabic-text-content">
+        <p>السَّلامُ عَلَیْکَ یَا أَبا عَبْدِاللّٰهِ، السَّلامُ عَلَیْکَ یَا ابْنَ رَسُولِ اللّٰهِ، السَّلامُ عَلَیْکَ یا خِیَرَةَ اللّٰهِ وَابْنَ خِیرَتِهِ، السَّلامُ عَلَیْکَ یَا ابْنَ أَمِیرِ الْمُؤْمِنِینَ، وَابْنَ سَیِّدِ الْوَصِیِّینَ، اَلسَّلامُ عَلَیْکَ یَابْنَ فاطِمَةَ سَیِّدَةِ نِساءِ الْعالَمینَ، اَلسَّلامُ عَلَیْکَ یا ثارَ اللّهِ وَ ابْنَ ثارِه، وَ الْوِتْرَ الْمَوْتُورَ، اَلسَّلامُ عَلَیْکَ وَ عَلَى الْاَرْواحِ الَّتى حَلَّتْ بِفِنائِکَ، عَلَیْکُمْ مِنّى جَمیعًا سَلامُ اللّهِ اَبَدًا ما بَقیتُ وَ بَقِىَ اللَّیْلُ وَ النَّهارُ، یا اَبا عَبْدِ اللّهِ</p>
+        <p>لَقَدْ عَظُمَتِ الرَّزِیَّةُ، وَ جَلَّتْ وَ عَظُمَتِ الْمُصیبَةُ بِکَ عَلَیْنا وَ عَلى جَمیعِ اَهْلِ الْاِسْلامِ، وَ جَلَّتْ وَ عَظُمَتْ مُصیبَتُکَ فِى السَّماواتِ عَلى جَمیعِ اَهْلِ السَّماواتِ، فَلَعَنَ اللّهُ اُمَّةً اَسَّسَتْ اَساسَ الظُّلْمِ وَ الْجَوْرِ عَلَیْکُمْ اَهْلَ الْبَیْتِ، وَ لَعَنَ اللّهُ اُمَّةً دَفَعَتْکُمْ عَنْ مَقامِکُمْ، وَ اَزالَتْکُمْ عَنْ مَراتِبِکُمُ الَّتى رَتَّبَکُمُ اللّهُ فیها، وَ لَعَنَ اللّهُ اُمَّةً قَتَلَتْکُمْ، وَ لَعَنَ اللّهُ الْمُمَهِّدینَ لَهُمْ بِـالَّتمْکینِ مِنْ قِتالِکُمْ، بَرِئْتُ اِلَى اللّهِ وَ اِلَیْکُمْ مِنْهُمْ وَ مِنْ اَشْیاعِهِمْ وَ اَتْباعِهِمْ وَ اَوْلِیائِهِمْ. یا اَبا عَبْدِ اللّهِ</p>
+        <p>اِنّى سِلْمٌ لِمَنْ سالَمَکُمْ وَ حَرْبٌ لِمَنْ حارَبَکُمْ اِلى یَوْمِ الْقِیامَةِ، وَ لَعَنَ اللّهُ آلَ زیادٍ وَ آلَ مَرْوانَ، وَ لَعَنَ اللّهُ بَنى اُمَیَّهَ قاطِبَهً، وَ لَعَنَ اللّهُ ابْنَ مَرْجانَهَ، وَ لَعَنَ اللّهُ عُمَرَ بْنَ سَعْدٍ، وَ لَعَنَ اللّهُ شِمْراً، وَ لَعَنَ اللّهُ اُمَّةً اَسْرَجَتْ وَ اَلجَمَتْ وَ تَنَقَّبَتْ لِقِتالِکَ. بِاَبى اَنْتَ وَ اُمّى لَقَدْ عَظُمَ مُصابى بِکَ، فَاَسْاَلُ اللّهَ الَّذى اَکْرَمَ مَقامَکَ وَ اَکْرَمَنى بِکَ، اَنْ یَرْزُقَنى طَلَبَ ثارِکَ مَعَ اِمامٍ مَنْصُورٍ مِنْ اَهْلِ بَیْتِ مُحَمَّدٍ صَلَّى اللّهُ عَلَیْهِ وَ آلِه. اَللّهُمَّ اجْعَلْنى عِنْدَکَ وَجیهًا بِـالْحُسَیْنِ عَلَیْهِ السّلامُ فِى الدُّنْیا وَ الاْخِرَةِ. یا اَبا عَبْدِ اللّهِ</p>
+        <p>اِنّى اَتَقَرَّبُ اِلَى اللّهِ وَ اِلى رَسُولِه وَ اِلى اَمیرِالْمُؤْمِنینَ، وَ اِلى فاطِمَةَ وَ اِلَى الْحَسَنِ وَ اِلَیْکَ بِمُوالاتِکَ، وَ بِالْبَرآئَةِ مِمَّنْ قاتَلَکَ وَ نَصَبَ لَکَ الْحَرْبَ، وَ بِالْبَرآئَةِ مِمَّنْ اَسَّسَ اَساسَ الظُّلْمِ وَ الْجَوْرِ عَلَیْکُمْ، وَ اَبْرَاُ اِلَى اللّهِ وَ اِلى رَسُولِه مِمَّنْ اَسَّسَ اَساسَ ذلِکَ، وَ بَنى عَلَیْهِ بُنْیانَهُ، وَ جَرى فى ظُلْمِه وَ جَوْرِه عَلَیْکُمْ وَ عَلى اَشْیاعِکُمْ</p>
+        <p>بَرِئْتُ اِلَى اللّهِ وَ اِلَیْکُمْ مِنْهُمْ، وَ اَتَقَرَّبُ اِلَى اللّهِ ثُمَّ اِلَیْکُمْ بِمُوالاتِکُمْ وَ مُوالاةِ وَلیِّکُمْ، وَ بِالْبَرآئَةِ مِنْ اَعْدائِکُمْ وَ النّاصِبینَ لَکُمُ الْحَرْبَ، وَ بِالْبَرآئَةِ مِنْ اَشْیاعِهِمْ وَ اَتْباعِهِمْ. اِنّى سِلْمٌ لِمَنْ سالَمَکُمْ وَ حَرْبٌ لِمَنْ حارَبَکُمْ، وَ وَلِىٌّ لِمَنْ والاکُمْ وَ عَدُوٌّ لِمَـنْ عـاداکُمْ، فَاَسْـاَلُ اللّهَ الَّذى اَکْرَمَنى بِمَعْرِفَتِکُمْ وَ مَعْرِفَةِ اَوْلِیائِکُمْ، وَ رَزَقَنِـى الْبَرائَـةَ مِنْ اَعْدائِکُـمْ، اَنْ یَجْعَلَنى مَعَکُمْ فِى الدُّنْیا وَ الاْخِرَةِ، وَ اَنْ یُثَبِّتَ لى عِنْدَکُمْ قَدَمَ صِدْقٍ فِى الدُّنْیا وَ الاْخِرَةِ</p>
+        <p>وَ اَسْاَلُهُ اَنْ یُبَلِّغَنِى الْمَقامَ الْمَحْمُودَ لَکُمْ عِنْدَ اللّهِ، وَ اَنْ یَرْزُقَنى طَلَبَ ثارى (ثارِکُمْ) مَعَ اِمامٍ هُدًى (مَهْدىٍّ) ظاهِرٍ ناطِقٍ بِـالْحَقِّ مِنْکُمْ، وَ اَسْاَلُ اللّهَ بِحَقِّکُمْ وَ بِالشَّأْنِ الَّذى لَکُمْ عِنْدَهُ، اَنْ یُعْطِیَنى بِمُصابى بِکُمْ اَفْضَلَ ما یُعْطى مُصابًا بِمُـصیبَتِه؛ مُصیبَةً ما اَعْظَمَها وَ اَعْظَمَ رَزِیَّتَها فِى الْاِسْلامِ وَ فى جَمیعِ السَّماواتِ وَ الْاَرْضِ. اَللّهُمَّ اجْعَلْنى فى مَقامى هذا مِمَّنْ تَنالُهُ مِنْکَ صَلَواتٌ وَ رَحْمَةٌ وَ مَغْفِرَةٌ. اَللّهُمَّ اجْعَلْ مَحْیاىَ مَحْیا مُحَمَّدٍ وَ آلِ مُحَمَّدٍ، وَ مَماتى مَماتَ مُحَمَّدٍ وَ آلِ مُحَمَّدٍ</p>
+        <p>اَللّهُمَّ اِنَّ هذا یَوْمٌ تَبَرَّکَتْ بِه بَنُو اُمَیَّهَ، وَ ابْنُ آکِلَةِ الْاَ کْبادِ، اَللَّعینُ ابْنُ اللَّعینِ، عَلى لِسانِکَ وَ لِسانِ نَبِیِّکَ صَلَّى اللّهُ عَلَیْهِ وَ آلِه، فى کُلِّ مَوْطِنٍ وَ مَوْقِفٍ وَقَفَ فیهِ نَبِیُّکَ صَلَّى اللّهُ عَلَیْهِ وَ آلِه.</p>
+        <p>اَللّهُمَّ الْعَنْ اَباسُفْیانَ وَ مُعاوِیَةَ وَ یَزیدَ بْنَ مُعاویَةَ، عَلَیْهِمْ مِنْکَ اللَّعْنَةُ اَبَدَ الاْبِدینَ، وَ هذا یَوْمٌ فَرِحَتْ بِه آلُ‌ زیادٍ وَ آلُ‌ مَرْوانَ بِقَتْلِهِمُ الْحُسَیْنَ صَلَواتُ اللّهِ عَلَیْهِ. اَللّهُمَّ فَضاعِفْ عَلَیْهِمُ اللَّعْنَ مِنْکَ وَ الْعَذابَ الاَلیمَ. اَللّهُمَّ اِنّى اَتَقَرَّبُ اِلَیْکَ فى هذَا الْیَوْمِ، وَ فى مَوْقِفى هذا، وَ اَیّامِ حَیاتى، بِـالْبَرائَةِ مِنْهُمْ وَ اللَّعْنَةِ عَلَیْهِـمْ، وَ بِـالْمُوالاةِ لِنَبِیِّکَ وَ آلِ نَبِیِّکَ عَلَیْهِ وَ عَلَیْهِمُ السَّلامُ</p>
+        <p class="doa-text-note">«صد مرتبه می‌گویی»</p>
+        <p>اَللّهُمَّ الْعَنْ اَوَّلَ ظالِمٍ ظَلَمَ حَقَّ مُحَمَّدٍ وَ آلِ مُحَمَّدٍ، وَ آخِرَ تابِعٍ لَهُ عَلى ذلِکَ. اَللّهُمَّ الْعَنِ الْعِصابَةَ الَّتى جاهَدَتِ الْحُسَیْنَ، وَ شایَعَتْ وَ بایَعَتْ وَ تابَعَتْ عَلى قَتْلِه. اَللّهُمَّ الْعَنْهُمْ جَمیعًا</p>
+        <p class="doa-text-note">«صد مرتبه می‌گویی»</p>
+        <p>اَلسَّلامُ عَلَیْکَ یا اَبا عَبْدِ اللّهِ، وَ عَلَى الْاَرْواحِ الَّتى حَلَّتْ بِفِنائِکَ، عَلَیْکَ مِنّى سَلامُ اللّهِ اَبَدًا ما بَقیتُ وَ بَقِىَ اللَّیْلُ وَ النَّهارُ، وَ لا جَعَلَهُ اللّهُ آخِرَ الْعَهْدِ مِنّى لِزِیارَتِکُمْ.</p>
+        <p>اَلسَّلامُ عَلَى الْحُسَیْنِ وَ عَلى عَلىِّ بْنِ الْحُسَیْنِ وَ عَلى اَوْلادِ الْحُسَیْنِ وَ عَلى اَصْحابِ الْحُسَیْنِ</p>
+        <p class="doa-text-note">«سپس می‌گویی»</p>
+        <p>اَللّهُمَّ خُصَّ اَنْتَ اَوَّلَ ظالِمٍ بِاللَّعْنِ مِنّى، وَ ابْدَاْ بِه اَوَّلاً ثُمَّ الْعَنِ الثّانِىَ وَ الثّالِثَ وَ الرّابِعَ. اَللّهُمَّ الْعَنْ یَزیدَ خامِساً، وَ الْعَنْ عُبَیْدَ اللّهِ بْنَ زیادٍ وَ ابْنَ مَرْجانَهَ، وَ عُمَرَ بْنَ سَعْدٍ وَ شِمْراً، وَ آلَ اَبى سُفْیانَ وَ آلَ زیادٍ وَ آلَ مَرْوانَ اِلى یَوْمِ الْقِیامَةِ</p>
+        <p class="doa-text-note">«در حالت سجده می‌گویی»</p>
+        <p>اَللّهُمَّ لَکَ الْحَمْدُ حَمْدَ الشّاکِرینَ لَکَ عَلى مُصابِهِمْ، اَلحَمْدُ لِلّهِ عَلى عَظیمِ رَزِیَّتى. اَللّهُمَّ ارْزُقْنى شَفاعَةَ الْحُسَیْنِ یَوْمَ الْوُرُودِ، وَ ثَبِّتْ لى قَدَمَ صِدْقٍ عِنْدَکَ مَعَ الْحُسَیْنِ وَ اَصْحابِ الْحُسَیْنِ، اَلَّذینَ بَذَلُوا مُهَجَهُمْ دُونَ الْحُسَیْنِ عَلَیْهِ السَّلامُ</p>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
   function showToast(msg){
@@ -491,6 +953,112 @@
     btn.addEventListener('click', () => {
       const digitsOnly = numEl.textContent.replace(/[^0-9]/g, '');
       copyText(digitsOnly, 'شماره کارت کپی شد');
+    });
+  })();
+
+  // ---------------- بخش ادعیه: باز/بسته شدن آکاردئون ----------------
+  (function doaAccordion(){
+    const btn   = document.getElementById('doa-ashura-btn');
+    const panel = document.getElementById('doa-ashura-panel');
+    if(!btn || !panel) return;
+    btn.addEventListener('click', () => {
+      const open = !btn.classList.contains('open');
+      btn.classList.toggle('open', open);
+      panel.classList.toggle('open', open);
+      btn.setAttribute('aria-expanded', String(open));
+    });
+  })();
+
+  // ---------------- بخش ادعیه: باز/بسته شدن مودال‌ها ----------------
+  (function doaModals(){
+    const openBtns  = document.querySelectorAll('[data-open-modal]');
+    const closeBtns = document.querySelectorAll('[data-close-modal]');
+
+    function openModal(id){
+      const overlay = document.getElementById(id);
+      if(!overlay) return;
+      overlay.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(overlay){
+      overlay.classList.remove('show');
+      document.body.style.overflow = '';
+      // توقف صوت در صورت بسته‌شدن مودال صوت
+      if(overlay.id === 'doa-modal-audio'){
+        const audio = document.getElementById('doa-audio-el');
+        if(audio && !audio.paused) audio.pause();
+      }
+    }
+
+    openBtns.forEach(b => {
+      b.addEventListener('click', () => openModal(b.getAttribute('data-open-modal')));
+    });
+    closeBtns.forEach(b => {
+      b.addEventListener('click', () => {
+        const overlay = b.closest('.doa-modal-overlay');
+        if(overlay) closeModal(overlay);
+      });
+    });
+    document.querySelectorAll('.doa-modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', (e) => {
+        if(e.target === overlay) closeModal(overlay);
+      });
+    });
+    document.addEventListener('keydown', (e) => {
+      if(e.key !== 'Escape') return;
+      document.querySelectorAll('.doa-modal-overlay.show').forEach(closeModal);
+    });
+  })();
+
+  // ---------------- بخش ادعیه: پخش‌کننده صوت زیارت عاشورا ----------------
+  (function doaAudioPlayer(){
+    const audio  = document.getElementById('doa-audio-el');
+    const btn    = document.getElementById('doa-audio-toggle');
+    const seek   = document.getElementById('doa-audio-seek');
+    const curEl  = document.getElementById('doa-audio-current');
+    const durEl  = document.getElementById('doa-audio-duration');
+    if(!audio || !btn) return;
+
+    const faDigits = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+    function toFa(str){ return String(str).replace(/[0-9]/g, d => faDigits[d]); }
+    function fmt(sec){
+      if(!isFinite(sec) || sec < 0) sec = 0;
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return toFa(String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0'));
+    }
+
+    let userSeeking = false;
+
+    btn.addEventListener('click', () => {
+      if(audio.paused){ audio.play().catch(()=>{}); }
+      else{ audio.pause(); }
+    });
+    audio.addEventListener('play',  () => { btn.classList.add('playing'); btn.setAttribute('aria-pressed','true'); });
+    audio.addEventListener('pause', () => { btn.classList.remove('playing'); btn.setAttribute('aria-pressed','false'); });
+    audio.addEventListener('ended', () => { btn.classList.remove('playing'); btn.setAttribute('aria-pressed','false'); });
+
+    audio.addEventListener('timeupdate', () => {
+      if(userSeeking) return;
+      const dur = audio.duration || 0;
+      const pct = dur ? (audio.currentTime / dur) * 100 : 0;
+      seek.value = pct;
+      seek.style.setProperty('--pct', pct + '%');
+      curEl.textContent = fmt(audio.currentTime);
+      if(dur) durEl.textContent = fmt(dur);
+    });
+    audio.addEventListener('loadedmetadata', () => {
+      durEl.textContent = fmt(audio.duration);
+    });
+
+    seek.addEventListener('input', () => {
+      userSeeking = true;
+      seek.style.setProperty('--pct', seek.value + '%');
+    });
+    seek.addEventListener('change', () => {
+      const dur = audio.duration || 0;
+      if(dur) audio.currentTime = (seek.value / 100) * dur;
+      userSeeking = false;
     });
   })();
 
@@ -598,8 +1166,20 @@
     fa: {
       backBtn: 'بازگشت',
       pageTitle: 'صفحه دوم',
-      nazrTitle: 'نذورات',
-      nazrName: 'به نام: مسعود زندیه شیرازی',
+      doaTitle: 'ادعیه',
+      doaAshuraName: 'زیارت عاشورا',
+      doaArabicText: 'متن عربی',
+      doaTranslationText: 'ترجمه',
+      doaAudioText: 'صوت + متن عربی',
+      doaAshuraArabicTitle: 'زیارت عاشورا | متن عربی',
+      doaAshuraTranslationTitle: 'زیارت عاشورا | ترجمه',
+      doaAshuraAudioTitle: 'زیارت عاشورا | صوت',
+      doaAudioHint: 'برای پخش صوت ضربه بزنید',
+      doaPlaceholderArabic: 'متن کامل زیارت عاشورا (عربی) به‌زودی اینجا قرار می‌گیرد.',
+      doaPlaceholderArabic2: 'متن کامل زیارت عاشورا (عربی) به‌زودی اینجا قرار می‌گیرد.',
+      doaPlaceholderFa: 'ترجمه کامل زیارت عاشورا به‌زودی اینجا قرار می‌گیرد.',
+      nazrTitle: 'واریز نذورات نقدی به شماره کارت ذیل',
+      nazrName: 'مسعود زندیه شیرازی',
       footerSub: 'پایگاه اطلاع‌رسانی هیئت کاظمیون خرم‌آباد',
       quickMenuTheme: 'تم',
       quickMenuLang: 'زبان',
@@ -608,8 +1188,20 @@
     ar: {
       backBtn: 'رجوع',
       pageTitle: 'الصفحة الثانية',
-      nazrTitle: 'النذور',
-      nazrName: 'باسم: مسعود زنديه شيرازي',
+      doaTitle: 'الأدعية',
+      doaAshuraName: 'زيارة عاشوراء',
+      doaArabicText: 'النص العربي',
+      doaTranslationText: 'الترجمة',
+      doaAudioText: 'الصوت + النص العربي',
+      doaAshuraArabicTitle: 'زيارة عاشوراء | النص العربي',
+      doaAshuraTranslationTitle: 'زيارة عاشوراء | الترجمة',
+      doaAshuraAudioTitle: 'زيارة عاشوراء | الصوت',
+      doaAudioHint: 'اضغط لتشغيل الصوت',
+      doaPlaceholderArabic: 'سيتم إضافة النص الكامل لزيارة عاشوراء قريبًا.',
+      doaPlaceholderArabic2: 'سيتم إضافة النص الكامل لزيارة عاشوراء قريبًا.',
+      doaPlaceholderFa: 'ستتم إضافة الترجمة الكاملة قريبًا.',
+      nazrTitle: 'إيداع النذور النقدية إلى رقم البطاقة أدناه',
+      nazrName: 'مسعود زنديه شيرازي',
       footerSub: 'القناة الرسمية لموكب الكاظميون خرم‌آباد',
       quickMenuTheme: 'المظهر',
       quickMenuLang: 'اللغة',
@@ -618,8 +1210,20 @@
     en: {
       backBtn: 'Back',
       pageTitle: 'Page Two',
-      nazrTitle: 'Donations',
-      nazrName: 'In the name of: Masoud Zandiyeh Shirazi',
+      doaTitle: 'Prayers',
+      doaAshuraName: 'Ziarat Ashura',
+      doaArabicText: 'Arabic Text',
+      doaTranslationText: 'Translation',
+      doaAudioText: 'Audio + Arabic Text',
+      doaAshuraArabicTitle: 'Ziarat Ashura | Arabic Text',
+      doaAshuraTranslationTitle: 'Ziarat Ashura | Translation',
+      doaAshuraAudioTitle: 'Ziarat Ashura | Audio',
+      doaAudioHint: 'Tap to play the audio',
+      doaPlaceholderArabic: 'The full Arabic text of Ziarat Ashura will be added soon.',
+      doaPlaceholderArabic2: 'The full Arabic text of Ziarat Ashura will be added soon.',
+      doaPlaceholderFa: 'The full translation will be added soon.',
+      nazrTitle: 'Deposit cash donations to the card number below',
+      nazrName: 'Masoud Zandiyeh Shirazi',
       footerSub: 'Official channel of Heyat-e Kazemiyoon Khorramabad',
       quickMenuTheme: 'Theme',
       quickMenuLang: 'Language',
