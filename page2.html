@@ -594,46 +594,35 @@
     left:16px;
     bottom:calc(20px + env(safe-area-inset-bottom, 0px));
     z-index:56;
-    width:44px; height:44px;
-    border-radius:50%;
+    display:flex; align-items:center; gap:9px;
+    padding:12px 20px 12px 16px;
+    border-radius:999px;
     border:1px solid var(--gold-soft);
     background:linear-gradient(135deg, var(--gold), var(--gold-dim));
     color:var(--void);
-    display:flex; align-items:center; justify-content:center;
     cursor:pointer;
     box-shadow:0 6px 18px rgba(0,0,0,0.45), 0 0 0 0 rgba(255,203,61,0.5);
     animation:downloads-fab-pulse 2.6s ease-in-out infinite;
     transition:transform 0.18s ease, opacity 0.25s ease, visibility 0.25s ease;
+    white-space:nowrap;
   }
-  .downloads-fab:active{ transform:scale(0.92); }
+  .downloads-fab:active{ transform:scale(0.95); }
   .downloads-fab.collapsed{
     opacity:0; visibility:hidden;
     transform:scale(0.8);
     pointer-events:none;
   }
-  .downloads-fab svg{ width:20px; height:20px; }
+  .downloads-fab svg{ width:19px; height:19px; flex:none; }
+  .downloads-fab-label{
+    font-family:'Vazirmatn', sans-serif;
+    font-size:12.5px;
+    font-weight:800;
+    letter-spacing:-0.2px;
+  }
   @keyframes downloads-fab-pulse{
     0%,100%{ box-shadow:0 6px 18px rgba(0,0,0,0.45), 0 0 0 0 rgba(255,203,61,0.45); }
     50%{ box-shadow:0 6px 18px rgba(0,0,0,0.45), 0 0 0 9px rgba(255,203,61,0); }
   }
-  .downloads-hint{
-    position:fixed;
-    left:16px;
-    bottom:calc(68px + env(safe-area-inset-bottom, 0px));
-    z-index:56;
-    max-width:190px;
-    background:rgba(20,14,10,0.94);
-    border:1px solid var(--line);
-    color:var(--parchment);
-    font-size:10.5px; font-weight:600;
-    line-height:1.6;
-    padding:8px 10px;
-    border-radius:10px;
-    opacity:0; visibility:hidden;
-    transform:translateY(6px);
-    transition:opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-  }
-  .downloads-hint.show{ opacity:1; visibility:visible; transform:translateY(0); }
 
   .downloads-list{
     display:flex; flex-direction:column; gap:10px;
@@ -916,8 +905,8 @@
 
 <button type="button" class="downloads-fab" id="downloads-fab" data-open-modal="downloads-modal" aria-label="دانلود فایل‌های صوتی" aria-haspopup="dialog">
   <svg viewBox="0 0 24 24" fill="none"><path d="M4 13v-1a8 8 0 0 1 16 0v1M4 13v4a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2H4zm16 0v4a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h3z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span class="downloads-fab-label">دانلود فایل‌های صوتی</span>
 </button>
-<div class="downloads-hint" id="downloads-hint">فایل‌های صوتی (زیارت عاشورا، مداحی و ...) رو از اینجا دانلود کن</div>
 
 <div class="doa-modal-overlay" id="downloads-modal">
   <div class="doa-modal-sheet">
@@ -1273,7 +1262,6 @@
   (function downloadsSection(){
     const fab    = document.getElementById('downloads-fab');
     const listEl = document.getElementById('downloads-list');
-    const hint   = document.getElementById('downloads-hint');
     if(!fab || !listEl) return;
 
     // برای افزودن فایل جدید، یک آبجکت مشابه زیر اضافه کن.
@@ -1400,33 +1388,19 @@
       if(file) downloadFile(btn, file, idx);
     });
 
-    fab.addEventListener('click', () => { if(hint) hint.classList.remove('show'); });
+    fab.addEventListener('click', () => {});
 
     // وقتی هر مودالی (متن عربی، ترجمه، صوت زیارت، دانلود و ...) باز است، دکمه شناور پنهان شود
     const modalOverlays = document.querySelectorAll('.doa-modal-overlay');
     function syncFabVisibility(){
       const anyOpen = Array.from(modalOverlays).some(o => o.classList.contains('show'));
       fab.classList.toggle('collapsed', anyOpen);
-      if(anyOpen && hint) hint.classList.remove('show');
     }
     modalOverlays.forEach(overlay => {
       const mo = new MutationObserver(syncFabVisibility);
       mo.observe(overlay, { attributes:true, attributeFilter:['class'] });
     });
     syncFabVisibility();
-
-    // هر بار کاربر وارد سایت می‌شود، راهنما نشان داده شود و تا وقتی صفحه را لمس نکرده باقی می‌ماند
-    if(hint){
-      const showTimer = setTimeout(() => hint.classList.add('show'), 1600);
-      function hideHintOnTouch(){
-        hint.classList.remove('show');
-        clearTimeout(showTimer);
-        document.removeEventListener('click', hideHintOnTouch);
-        document.removeEventListener('touchstart', hideHintOnTouch);
-      }
-      document.addEventListener('click', hideHintOnTouch);
-      document.addEventListener('touchstart', hideHintOnTouch, { passive:true });
-    }
   })();
 
   // ---------------- بخش ادعیه: پخش‌کننده صوت زیارت عاشورا ----------------
