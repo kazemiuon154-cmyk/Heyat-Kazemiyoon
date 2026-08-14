@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- ===== Security hardening ===== -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.tile.openstreetmap.org; media-src 'self'; connect-src 'self' https://*.tile.openstreetmap.org; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.tile.openstreetmap.org; media-src 'self'; connect-src 'self' https://*.tile.openstreetmap.org https://api.open-meteo.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
@@ -1793,6 +1793,11 @@
   .download-btn.loading .dl-icon{ animation:dl-spin 0.9s linear infinite; }
   @keyframes dl-spin{ to{ transform:rotate(360deg); } }
   .download-btn.done{ border-color:var(--crimson-bright); color:var(--crimson-bright); background:rgba(34,193,127,0.12); }
+  .download-btn.loading{ border-color:rgba(255,90,90,0.55); color:#ff8a8a; cursor:pointer; }
+  .download-btn.loading:hover{ background:rgba(255,90,90,0.14); }
+  .download-btn .dl-icon-cancel{ display:none; }
+  .download-btn.loading .dl-icon{ display:none; }
+  .download-btn.loading .dl-icon-cancel{ display:block; animation:none; }
 </style>
 </head>
 <body>
@@ -3643,6 +3648,7 @@
             '</div>' +
             '<button type="button" class="download-btn" data-idx="' + i + '" aria-label="دانلود ' + f.title + '">' +
               '<svg class="dl-icon" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 19h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+              '<svg class="dl-icon-cancel" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
               '<span class="dl-label">دانلود</span>' +
             '</button>' +
           '</div>' +
@@ -3652,18 +3658,33 @@
     }
     renderList();
 
-    async function downloadFile(btn, file){
-      if(btn.classList.contains('loading')) return;
+    // کنترلر لغو هر دانلود، بر اساس اندیس فایل نگه‌داری می‌شود
+    const controllers = {};
+
+    function cancelDownload(btn, idx){
+      const controller = controllers[idx];
+      if(controller) controller.abort();
+    }
+
+    async function downloadFile(btn, file, idx){
+      if(btn.classList.contains('loading')){
+        // دانلود در حال انجام است؛ با ضربه دوباره روی دکمه، لغو شود
+        cancelDownload(btn, idx);
+        return;
+      }
       const row   = btn.closest('.download-item');
       const label = btn.querySelector('.dl-label');
       const fill  = row ? row.querySelector('.download-progress-fill') : null;
+      const controller = new AbortController();
+      controllers[idx] = controller;
       btn.classList.add('loading');
       btn.classList.remove('done');
+      btn.setAttribute('aria-label', 'لغو دانلود ' + file.title);
       if(row) row.classList.add('loading');
       if(fill) fill.style.width = '0%';
-      label.textContent = 'در حال دانلود...';
+      label.textContent = 'در حال دانلود... (برای لغو ضربه بزنید)';
       try{
-        const res = await fetch(file.url);
+        const res = await fetch(file.url, { signal: controller.signal });
         if(!res.ok) throw new Error('فایل یافت نشد');
 
         const total = Number(res.headers.get('Content-Length')) || 0;
@@ -3699,6 +3720,7 @@
 
         btn.classList.remove('loading');
         btn.classList.add('done');
+        btn.setAttribute('aria-label', 'دانلود ' + file.title);
         if(row) row.classList.remove('loading');
         label.textContent = 'دانلود شد';
         setTimeout(() => { btn.classList.remove('done'); label.textContent = 'دانلود'; if(fill) fill.style.width = '0%'; }, 2500);
@@ -3709,9 +3731,17 @@
         }
       }catch(err){
         btn.classList.remove('loading');
+        btn.setAttribute('aria-label', 'دانلود ' + file.title);
         if(row) row.classList.remove('loading');
-        label.textContent = 'خطا، تلاش مجدد';
+        if(fill) fill.style.width = '0%';
+        if(err && err.name === 'AbortError'){
+          label.textContent = 'لغو شد';
+        } else {
+          label.textContent = 'خطا، تلاش مجدد';
+        }
         setTimeout(() => { label.textContent = 'دانلود'; }, 2500);
+      } finally {
+        delete controllers[idx];
       }
     }
 
@@ -3720,7 +3750,7 @@
       if(!btn) return;
       const idx = Number(btn.getAttribute('data-idx'));
       const file = files[idx];
-      if(file) downloadFile(btn, file);
+      if(file) downloadFile(btn, file, idx);
     });
 
     function openModal(){
