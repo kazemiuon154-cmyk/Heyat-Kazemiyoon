@@ -586,6 +586,102 @@
   .doa-modal-close svg{ width:14px; height:14px; }
   .doa-modal-close:hover{ border-color:var(--gold-soft); color:var(--gold); }
 
+  /* ============================================================
+     دکمه شناور دانلود فایل‌های صوتی (زیارت عاشورا، مداحی و ...)
+  ============================================================ */
+  .downloads-fab{
+    position:fixed;
+    left:16px;
+    bottom:calc(20px + env(safe-area-inset-bottom, 0px));
+    z-index:56;
+    width:44px; height:44px;
+    border-radius:50%;
+    border:1px solid var(--gold-soft);
+    background:linear-gradient(135deg, var(--gold), var(--gold-dim));
+    color:var(--void);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    box-shadow:0 6px 18px rgba(0,0,0,0.45), 0 0 0 0 rgba(255,203,61,0.5);
+    animation:downloads-fab-pulse 2.6s ease-in-out infinite;
+    transition:transform 0.18s ease, opacity 0.25s ease, visibility 0.25s ease;
+  }
+  .downloads-fab:active{ transform:scale(0.92); }
+  .downloads-fab.collapsed{
+    opacity:0; visibility:hidden;
+    transform:scale(0.8);
+    pointer-events:none;
+  }
+  .downloads-fab svg{ width:20px; height:20px; }
+  @keyframes downloads-fab-pulse{
+    0%,100%{ box-shadow:0 6px 18px rgba(0,0,0,0.45), 0 0 0 0 rgba(255,203,61,0.45); }
+    50%{ box-shadow:0 6px 18px rgba(0,0,0,0.45), 0 0 0 9px rgba(255,203,61,0); }
+  }
+  .downloads-hint{
+    position:fixed;
+    left:16px;
+    bottom:calc(68px + env(safe-area-inset-bottom, 0px));
+    z-index:56;
+    max-width:190px;
+    background:rgba(20,14,10,0.94);
+    border:1px solid var(--line);
+    color:var(--parchment);
+    font-size:10.5px; font-weight:600;
+    line-height:1.6;
+    padding:8px 10px;
+    border-radius:10px;
+    opacity:0; visibility:hidden;
+    transform:translateY(6px);
+    transition:opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+  }
+  .downloads-hint.show{ opacity:1; visibility:visible; transform:translateY(0); }
+
+  .downloads-list{
+    display:flex; flex-direction:column; gap:10px;
+    text-align:right;
+  }
+  .download-item{
+    display:flex; flex-direction:column; gap:8px;
+    padding:10px 12px;
+    border:1px solid var(--line);
+    border-radius:12px;
+    background:var(--glass);
+  }
+  .download-item-row{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+  }
+  .download-progress{
+    height:3px; border-radius:2px; overflow:hidden;
+    background:rgba(255,255,255,0.1);
+    display:none;
+  }
+  .download-item.loading .download-progress{ display:block; }
+  .download-progress-fill{
+    display:block; height:100%; width:0%;
+    background:linear-gradient(90deg, var(--gold), var(--crimson-bright));
+    transition:width 0.2s ease;
+  }
+  .download-item-title{ font-size:13px; font-weight:700; color:var(--parchment); }
+  .download-item-sub{ font-size:10.5px; color:var(--parchment-dim); margin-top:2px; }
+  .download-btn{
+    flex:none;
+    display:flex; align-items:center; gap:6px;
+    padding:8px 12px;
+    border-radius:999px;
+    border:1px solid var(--gold-soft);
+    background:rgba(255,203,61,0.08);
+    color:var(--gold);
+    font-family:'Vazirmatn', sans-serif;
+    font-size:11px; font-weight:700;
+    cursor:pointer;
+    transition:all 0.18s ease;
+    white-space:nowrap;
+  }
+  .download-btn:hover{ background:rgba(255,203,61,0.16); }
+  .download-btn .dl-icon{ width:14px; height:14px; }
+  .download-btn.loading .dl-icon{ animation:dl-spin 0.9s linear infinite; }
+  @keyframes dl-spin{ to{ transform:rotate(360deg); } }
+  .download-btn.done{ border-color:var(--crimson-bright); color:var(--crimson-bright); background:rgba(34,193,127,0.12); }
+
   .doa-modal-body{
     flex:1;
     min-height:0;
@@ -812,6 +908,27 @@
 </style>
 </head>
 <body>
+
+<button type="button" class="downloads-fab" id="downloads-fab" data-open-modal="downloads-modal" aria-label="دانلود فایل‌های صوتی" aria-haspopup="dialog">
+  <svg viewBox="0 0 24 24" fill="none"><path d="M4 13v-1a8 8 0 0 1 16 0v1M4 13v4a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2H4zm16 0v4a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h3z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+<div class="downloads-hint" id="downloads-hint">فایل‌های صوتی (زیارت عاشورا، مداحی و ...) رو از اینجا دانلود کن</div>
+
+<div class="doa-modal-overlay" id="downloads-modal">
+  <div class="doa-modal-sheet">
+    <div class="doa-modal-handle"></div>
+    <div class="doa-modal-head">
+      <button type="button" class="doa-modal-close" data-close-modal aria-label="بستن">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <span class="doa-modal-title">دانلود فایل‌های صوتی</span>
+    </div>
+    <div class="doa-modal-body">
+      <div class="downloads-list" id="downloads-list"></div>
+    </div>
+  </div>
+</div>
+
 
 <div class="quick-menu" id="quick-menu">
   <button type="button" id="quick-menu-btn" class="quick-menu-btn" aria-haspopup="true" aria-expanded="false" aria-label="منوی تنظیمات تم">
@@ -1145,6 +1262,141 @@
       if(e.key !== 'Escape') return;
       document.querySelectorAll('.doa-modal-overlay.show').forEach(closeModal);
     });
+  })();
+
+  // ---------------- دانلود فایل‌های صوتی (زیارت عاشورا، مداحی و ...) ----------------
+  (function downloadsSection(){
+    const fab    = document.getElementById('downloads-fab');
+    const listEl = document.getElementById('downloads-list');
+    const hint   = document.getElementById('downloads-hint');
+    if(!fab || !listEl) return;
+
+    // برای افزودن فایل جدید، یک آبجکت مشابه زیر اضافه کن.
+    // url: مسیر فایل صوتی روی همین ریپازیتوری (مثلا madahi.mp3 یا audio/ziarat-ashura.mp3)
+    // filename: نامی که هنگام دانلود روی گوشی/کامپیوتر کاربر ذخیره می‌شود
+    const files = [
+      { title:'زیارت عاشورا', subtitle:'صوت کامل زیارت', url:'ziarat-ashura.mp3', filename:'ziarat-ashura.mp3' },
+      { title:'مداحی هیئت کاظمیون', subtitle:'نمونه مداحی', url:'madahi.mp3', filename:'madahi-kazemiyoon.mp3' }
+    ];
+
+    const faDigits = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+    function toFaNum(n){ return String(n).replace(/[0-9]/g, d => faDigits[d]); }
+
+    function renderList(){
+      listEl.innerHTML = '';
+      files.forEach((f, i) => {
+        const row = document.createElement('div');
+        row.className = 'download-item';
+        row.innerHTML =
+          '<div class="download-item-row">' +
+            '<div class="download-item-info">' +
+              '<div class="download-item-title">' + f.title + '</div>' +
+              '<div class="download-item-sub">' + (f.subtitle || '') + '</div>' +
+            '</div>' +
+            '<button type="button" class="download-btn" data-idx="' + i + '" aria-label="دانلود ' + f.title + '">' +
+              '<svg class="dl-icon" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 19h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+              '<span class="dl-label">دانلود</span>' +
+            '</button>' +
+          '</div>' +
+          '<div class="download-progress"><span class="download-progress-fill"></span></div>';
+        listEl.appendChild(row);
+      });
+    }
+    renderList();
+
+    async function downloadFile(btn, file){
+      if(btn.classList.contains('loading')) return;
+      const row   = btn.closest('.download-item');
+      const label = btn.querySelector('.dl-label');
+      const fill  = row ? row.querySelector('.download-progress-fill') : null;
+      btn.classList.add('loading');
+      btn.classList.remove('done');
+      if(row) row.classList.add('loading');
+      if(fill) fill.style.width = '0%';
+      label.textContent = 'در حال دانلود...';
+      try{
+        const res = await fetch(file.url);
+        if(!res.ok) throw new Error('فایل یافت نشد');
+
+        const total = Number(res.headers.get('Content-Length')) || 0;
+        let blob;
+        if(res.body && res.body.getReader && total){
+          const reader = res.body.getReader();
+          const chunks = [];
+          let loaded = 0;
+          while(true){
+            const { done, value } = await reader.read();
+            if(done) break;
+            chunks.push(value);
+            loaded += value.length;
+            const pct = Math.min(100, Math.round((loaded / total) * 100));
+            label.textContent = 'در حال دانلود... ' + toFaNum(pct) + '٪';
+            if(fill) fill.style.width = pct + '%';
+          }
+          blob = new Blob(chunks);
+        } else {
+          // مرورگر از استریم پشتیبانی نمی‌کند یا حجم فایل مشخص نیست؛ بدون درصد دانلود شود
+          blob = await res.blob();
+          if(fill) fill.style.width = '100%';
+        }
+
+        const blobUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = file.filename || file.url.split('/').pop();
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 4000);
+
+        btn.classList.remove('loading');
+        btn.classList.add('done');
+        if(row) row.classList.remove('loading');
+        label.textContent = 'دانلود شد';
+        setTimeout(() => { btn.classList.remove('done'); label.textContent = 'دانلود'; if(fill) fill.style.width = '0%'; }, 2500);
+      }catch(err){
+        btn.classList.remove('loading');
+        if(row) row.classList.remove('loading');
+        label.textContent = 'خطا، تلاش مجدد';
+        setTimeout(() => { label.textContent = 'دانلود'; }, 2500);
+      }
+    }
+
+    listEl.addEventListener('click', (e) => {
+      const btn = e.target.closest('.download-btn');
+      if(!btn) return;
+      const idx = Number(btn.getAttribute('data-idx'));
+      const file = files[idx];
+      if(file) downloadFile(btn, file);
+    });
+
+    fab.addEventListener('click', () => { if(hint) hint.classList.remove('show'); });
+
+    // وقتی هر مودالی (متن عربی، ترجمه، صوت زیارت، دانلود و ...) باز است، دکمه شناور پنهان شود
+    const modalOverlays = document.querySelectorAll('.doa-modal-overlay');
+    function syncFabVisibility(){
+      const anyOpen = Array.from(modalOverlays).some(o => o.classList.contains('show'));
+      fab.classList.toggle('collapsed', anyOpen);
+      if(anyOpen && hint) hint.classList.remove('show');
+    }
+    modalOverlays.forEach(overlay => {
+      const mo = new MutationObserver(syncFabVisibility);
+      mo.observe(overlay, { attributes:true, attributeFilter:['class'] });
+    });
+    syncFabVisibility();
+
+    // هر بار کاربر وارد سایت می‌شود، راهنما نشان داده شود و تا وقتی صفحه را لمس نکرده باقی می‌ماند
+    if(hint){
+      const showTimer = setTimeout(() => hint.classList.add('show'), 1600);
+      function hideHintOnTouch(){
+        hint.classList.remove('show');
+        clearTimeout(showTimer);
+        document.removeEventListener('click', hideHintOnTouch);
+        document.removeEventListener('touchstart', hideHintOnTouch);
+      }
+      document.addEventListener('click', hideHintOnTouch);
+      document.addEventListener('touchstart', hideHintOnTouch, { passive:true });
+    }
   })();
 
   // ---------------- بخش ادعیه: پخش‌کننده صوت زیارت عاشورا ----------------
