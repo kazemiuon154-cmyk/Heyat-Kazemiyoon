@@ -47,7 +47,14 @@
     justify-content:center;
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
+    animation:page2FadeIn 0.4s ease both;
+    transition:opacity 0.28s ease, transform 0.28s ease;
   }
+  @keyframes page2FadeIn{
+    from{ opacity:0; transform:translateY(8px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  body.page-exit{ opacity:0; transform:translateY(-8px); }
   .page{
     width:100%;
     max-width:500px;
@@ -869,7 +876,7 @@
 <div class="page">
 
   <div class="page2-header">
-    <a href="index.html" class="page2-back" aria-label="بازگشت به صفحه اول">
+    <a href="index.html" class="page2-back" id="page2-back" aria-label="بازگشت به صفحه اول">
       <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span data-i18n="backBtn">بازگشت</span>
     </a>
@@ -1510,6 +1517,50 @@
       btn.querySelector('.icon-sound-on').style.display = soundState.muted ? 'none' : 'block';
       btn.querySelector('.icon-sound-off').style.display = soundState.muted ? 'block' : 'none';
       if(!soundState.muted){ ensureAudioCtx(); playTick(); }
+    });
+  })();
+
+  // ---------------- انتقال نرم به صفحه اول (پیش‌بارگذاری + بدون پرش) ----------------
+  (function backSmoothNav(){
+    const trigger = document.getElementById('page2-back');
+    if(!trigger) return;
+    const targetHref = trigger.getAttribute('href');
+
+    function prefetchTarget(){
+      if(document.getElementById('page2-prefetch-link')) return;
+      const link = document.createElement('link');
+      link.id = 'page2-prefetch-link';
+      link.rel = 'prefetch';
+      link.as = 'document';
+      link.href = targetHref;
+      document.head.appendChild(link);
+    }
+
+    // وقتی کاربر با اسکرول به دکمه بازگشت نزدیک می‌شود، صفحه اول از قبل بارگذاری شود
+    if('IntersectionObserver' in window){
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if(entry.isIntersecting){
+            prefetchTarget();
+            io.disconnect();
+          }
+        });
+      }, { root:null, rootMargin:'500px 0px', threshold:0 });
+      io.observe(trigger);
+    } else {
+      prefetchTarget();
+    }
+
+    trigger.addEventListener('pointerenter', prefetchTarget, { once:true });
+    trigger.addEventListener('touchstart', prefetchTarget, { once:true, passive:true });
+    trigger.addEventListener('focus', prefetchTarget, { once:true });
+
+    trigger.addEventListener('click', function(e){
+      if(e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      prefetchTarget();
+      document.body.classList.add('page-exit');
+      setTimeout(() => { window.location.href = targetHref; }, 240);
     });
   })();
 </script>

@@ -108,8 +108,9 @@
     justify-content:center;
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
-    transition:background 0.8s ease, color 0.8s ease;
+    transition:background 0.8s ease, color 0.8s ease, opacity 0.28s ease, transform 0.28s ease;
   }
+  body.page-exit{ opacity:0; transform:translateY(-8px); }
 
   /* ---------------- background texture + embers ---------------- */
   .noise{
@@ -254,6 +255,79 @@
     transform:translateY(0);
   }
   .back-to-top:hover{ border-color:var(--gold-soft); color:var(--gold); }
+
+  /* ---------------- back to top: پیش‌نمایش هوشمند ---------------- */
+  .top-preview{
+    position:fixed;
+    left:18px;
+    bottom:60px;
+    z-index:71;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:8px 14px 8px 9px;
+    border-radius:16px;
+    border:1px solid var(--line);
+    background:rgba(14,20,16,0.88);
+    box-shadow:0 8px 24px rgba(0,0,0,0.35), 0 0 0 1px rgba(var(--crimson-rgb),0.06);
+    -webkit-backdrop-filter:blur(10px);
+    backdrop-filter:blur(10px);
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(10px) scale(0.94);
+    transform-origin:bottom left;
+    transition:opacity 0.24s ease, transform 0.24s ease, visibility 0.24s;
+    pointer-events:none;
+    max-width:min(72vw, 230px);
+  }
+  .top-preview.show{
+    opacity:1;
+    visibility:visible;
+    transform:translateY(0) scale(1);
+  }
+  .top-preview-thumb{
+    flex:none;
+    width:34px; height:34px;
+    border-radius:50%;
+    overflow:hidden;
+    border:1px solid var(--line);
+    box-shadow:0 0 0 3px rgba(var(--crimson-rgb),0.10);
+  }
+  .top-preview-thumb img{
+    width:100%; height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .top-preview-text{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    min-width:0;
+  }
+  .top-preview-label{
+    font-size:10.5px;
+    color:var(--parchment-dim);
+    white-space:nowrap;
+  }
+  .top-preview-title{
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--parchment);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .top-preview-arrow{
+    position:absolute;
+    bottom:-6px;
+    left:24px;
+    width:12px; height:12px;
+    background:rgba(14,20,16,0.88);
+    border-left:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    transform:rotate(-45deg);
+  }
+
 
   .sound-toggle{
     width:30px; height:30px;
@@ -1638,6 +1712,14 @@
 <div class="embers" id="embers"></div>
 
 <div class="toast" id="toast"></div>
+<div class="top-preview" id="top-preview" role="status" aria-hidden="true">
+  <span class="top-preview-arrow"></span>
+  <span class="top-preview-thumb"><img src="logo.jpg" alt="" loading="lazy" width="34" height="34"></span>
+  <span class="top-preview-text">
+    <span class="top-preview-label" data-i18n="topPreviewLabel">در حال بازگشت به</span>
+    <span class="top-preview-title" data-i18n="title">هیئت کاظمیون خرم‌آباد</span>
+  </span>
+</div>
 <button type="button" id="back-to-top" class="back-to-top" aria-label="بازگشت به بالا">
   <svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5M12 5l-6 6M12 5l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </button>
@@ -2138,18 +2220,67 @@
     update();
   })();
 
-  // ---------------- back to top ----------------
+  // ---------------- back to top (با پیش‌نمایش هوشمند) ----------------
   (function backToTop(){
     const btn = document.getElementById('back-to-top');
+    const preview = document.getElementById('top-preview');
     if(!btn) return;
+
     function update(){
       const scrolled = document.documentElement.scrollTop || document.body.scrollTop;
-      btn.classList.toggle('show', scrolled > 400);
+      const visible = scrolled > 400;
+      btn.classList.toggle('show', visible);
+      if(!visible) hidePreview();
     }
     window.addEventListener('scroll', update, { passive:true });
+
+    let hideTimer = null;
+    let debounceTimer = null;
+    let maxTimer = null;
+    let returning = false;
+
+    function showPreview(){
+      if(!preview) return;
+      clearTimeout(hideTimer);
+      preview.classList.add('show');
+      preview.setAttribute('aria-hidden', 'false');
+    }
+    function hidePreview(){
+      if(!preview) return;
+      preview.classList.remove('show');
+      preview.setAttribute('aria-hidden', 'true');
+    }
+    function scheduleHide(delay){
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(hidePreview, delay);
+    }
+
+    // وقتی اسکرول به بالا در حال انجام است، با توقف اسکرول پیش‌نمایش را نرم مخفی کن
+    function onScrollDuringReturn(){
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(finishReturn, 100);
+    }
+    function finishReturn(){
+      window.removeEventListener('scroll', onScrollDuringReturn);
+      clearTimeout(maxTimer);
+      returning = false;
+      scheduleHide(300);
+    }
+
+    // پیش‌نمایش سریع هنگام هاور (دسکتاپ) یا لمس دکمه (موبایل) پیش از رها شدن
+    btn.addEventListener('pointerenter', showPreview);
+    btn.addEventListener('pointerdown', showPreview);
+    btn.addEventListener('pointerleave', () => { if(!returning) scheduleHide(180); });
+
     btn.addEventListener('click', () => {
+      showPreview();
+      returning = true;
       window.scrollTo({ top:0, behavior:'smooth' });
+      window.addEventListener('scroll', onScrollDuringReturn, { passive:true });
+      clearTimeout(maxTimer);
+      maxTimer = setTimeout(finishReturn, 1500); // پشتیبان اطمینان در صورت عدم رخداد رویداد اسکرول
     });
+
     update();
   })();
   (function themeSwitcher(){
@@ -2303,6 +2434,7 @@
   const translations = {
     fa: {
       bismillah: "بسم الله الرحمن الرحیم",
+      topPreviewLabel: "در حال بازگشت به",
       page2Trigger: "صفحه دوم",
       tag: "هیئـت عزاداری",
       title: "هیئت کاظمیون خرم‌آباد",
@@ -2356,6 +2488,7 @@
     },
     ar: {
       bismillah: "بسم الله الرحمن الرحيم",
+      topPreviewLabel: "جارٍ العودة إلى",
       page2Trigger: "الصفحة الثانية",
       tag: "موكب عزاء",
       title: "موكب الكاظميون خرم‌آباد",
@@ -2409,6 +2542,7 @@
     },
     en: {
       bismillah: "In the Name of Allah",
+      topPreviewLabel: "Returning to",
       page2Trigger: "Page Two",
       tag: "MOURNING COUNCIL",
       title: "Heyat-e Kazemiyoon, Khorramabad",
@@ -3436,6 +3570,52 @@
     el.addEventListener('click', () => marker.openPopup(), { once:true });
 
     setTimeout(() => map.invalidateSize(), 300);
+  })();
+
+  // ---------------- انتقال نرم به صفحه دوم (پیش‌بارگذاری + بدون پرش) ----------------
+  (function page2SmoothNav(){
+    const trigger = document.getElementById('page2-trigger');
+    if(!trigger) return;
+    const targetHref = trigger.getAttribute('href');
+
+    function prefetchTarget(){
+      if(document.getElementById('page2-prefetch-link')) return;
+      const link = document.createElement('link');
+      link.id = 'page2-prefetch-link';
+      link.rel = 'prefetch';
+      link.as = 'document';
+      link.href = targetHref;
+      document.head.appendChild(link);
+    }
+
+    // وقتی کاربر با اسکرول به دکمه نزدیک می‌شود، صفحه دوم از قبل بارگذاری شود
+    if('IntersectionObserver' in window){
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if(entry.isIntersecting){
+            prefetchTarget();
+            io.disconnect();
+          }
+        });
+      }, { root:null, rootMargin:'500px 0px', threshold:0 });
+      io.observe(trigger);
+    } else {
+      prefetchTarget();
+    }
+
+    // پشتیبان: همین‌که انگشت/ماوس نزدیک دکمه شد هم پیش‌بارگذاری کن
+    trigger.addEventListener('pointerenter', prefetchTarget, { once:true });
+    trigger.addEventListener('touchstart', prefetchTarget, { once:true, passive:true });
+    trigger.addEventListener('focus', prefetchTarget, { once:true });
+
+    // هنگام کلیک، یک محو نرم انجام بده و بعد منتقل شو تا انتقال بدون پرش باشد
+    trigger.addEventListener('click', function(e){
+      if(e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      prefetchTarget();
+      document.body.classList.add('page-exit');
+      setTimeout(() => { window.location.href = targetHref; }, 240);
+    });
   })();
 </script>
 
