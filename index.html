@@ -704,10 +704,22 @@
   h1{
     font-size:26px;
     font-weight:800;
-    color:var(--parchment);
     line-height:1.5;
     margin-bottom:12px;
+    background:linear-gradient(100deg, var(--parchment) 42%, var(--gold) 50%, var(--parchment) 58%);
+    background-size:260% 100%;
+    background-position:200% 0;
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:var(--parchment);
+    -webkit-text-fill-color:transparent;
     text-shadow:0 0 24px rgba(var(--crimson-rgb),0.25);
+    animation:title-shimmer 7s ease-in-out infinite;
+    will-change:background-position;
+  }
+  @keyframes title-shimmer{
+    0%, 15%{ background-position:200% 0; }
+    65%, 100%{ background-position:-60% 0; }
   }
   .meta-line{
     font-size:14.5px;
@@ -1058,6 +1070,8 @@
     .emblem .glow, .emblem svg.frame, .flame path, .reveal{ animation:none !important; transition:none !important; }
     .reveal{ opacity:1; transform:none; }
     .ember-spark{ display:none; }
+    h1{ animation:none !important; background-position:0 0 !important; }
+    .page2-trigger::before{ animation:none !important; opacity:0 !important; }
   }
 
   @media (max-width:360px){
@@ -1423,21 +1437,47 @@
     pointer-events:none;
     will-change:transform, opacity;
   }
-  .page2-trigger-emoji{ font-size:15px; line-height:1; }
+  /* جلوه نور کوچیک که هر چند ثانیه یک‌بار روی هر دکمه می‌گذرد (سبک، فقط CSS) */
+  .page2-trigger::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:inherit;
+    background:linear-gradient(115deg, transparent 35%, rgba(255,255,255,0.65) 50%, transparent 65%);
+    background-size:220% 220%;
+    background-position:200% 200%;
+    opacity:0;
+    pointer-events:none;
+    animation:page2-shimmer 6.5s ease-in-out infinite;
+    will-change:background-position, opacity;
+  }
+  @keyframes page2-shimmer{
+    0%, 6%{ background-position:200% 200%; opacity:0; }
+    16%{ opacity:0.85; }
+    38%, 100%{ background-position:-40% -40%; opacity:0; }
+  }
+  .page2-trigger-emoji{ font-size:12px; line-height:1; }
   .page2-trigger:hover{ transform:translateY(-2px) scale(1.03); box-shadow:0 2px 0 rgba(255,255,255,0.4) inset, 0 10px 22px rgba(var(--crimson-rgb),0.55), 0 0 0 4px rgba(var(--crimson-rgb),0.16); }
   .page2-trigger:active{ transform:scale(0.95); }
   .page2-trigger-alt{
     background:linear-gradient(135deg, #e8d28a, var(--gold-soft));
   }
   .page2-trigger-alt::after{ animation-delay:0.25s; }
+  .page2-trigger-alt::before{ animation-delay:1.6s; }
   .page2-trigger-alt2{
     background:linear-gradient(135deg, var(--crimson-bright), var(--gold-soft));
   }
   .page2-trigger-alt2::after{ animation-delay:0.5s; }
+  .page2-trigger-alt2::before{ animation-delay:3.2s; }
   .page2-trigger-alt3{
     background:linear-gradient(135deg, var(--gold-soft), var(--crimson-bright));
   }
   .page2-trigger-alt3::after{ animation-delay:0.75s; }
+  .page2-trigger-alt3::before{ animation-delay:4.8s; }
+  .page2-trigger-alt4{
+    background:linear-gradient(135deg, var(--crimson-bright), var(--gold-bright, var(--gold)));
+  }
+  .page2-trigger-alt4::after{ animation-delay:1s; }
   @keyframes page2PulseRing{
     0%,100%{ opacity:0.55; transform:scale(1); }
     50%{ opacity:0; transform:scale(1.06); }
@@ -1559,6 +1599,7 @@
     z-index:65;
   }
   .quick-menu-btn{
+    position:relative;
     width:36px; height:36px;
     border-radius:50%;
     border:1px solid var(--line);
@@ -1573,6 +1614,83 @@
   .quick-menu-btn svg{ width:17px; height:17px; }
   .quick-menu-btn:hover{ border-color:var(--gold-soft); color:var(--gold); }
   .quick-menu-btn.active{ border-color:var(--gold-soft); color:var(--gold); }
+
+  /* نشانگر توجه روی دکمه همبرگر: تا وقتی کاربر منو را باز نکرده نمایش داده می‌شود */
+  .quick-menu-badge{
+    position:absolute;
+    top:-2px; left:-2px;
+    width:11px; height:11px;
+    border-radius:50%;
+    background:var(--gold);
+    border:2px solid var(--void);
+    box-shadow:0 0 6px 1px rgba(255,203,61,0.6);
+    animation:quick-menu-badge-pulse 1.8s ease-in-out infinite;
+  }
+  .quick-menu-badge.hide{ display:none; }
+  @keyframes quick-menu-badge-pulse{
+    0%,100%{ transform:scale(1); opacity:1; }
+    50%{ transform:scale(1.25); opacity:0.75; }
+  }
+
+  /* حباب راهنمایی یک‌باره: به کاربر نشان می‌دهد راهنمای سایت داخل همین منوست */
+  .quick-menu-hint{
+    position:fixed;
+    top:56px; left:14px;
+    z-index:66;
+    max-width:216px;
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+    padding:10px 12px;
+    border-radius:14px;
+    border:1px solid var(--gold-soft);
+    background:linear-gradient(135deg, rgba(30,20,8,0.97), rgba(14,9,6,0.97));
+    box-shadow:0 8px 22px rgba(0,0,0,0.5);
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(-6px);
+    transition:opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+  }
+  .quick-menu-hint.show{ opacity:1; visibility:visible; transform:translateY(0); }
+  .quick-menu-hint::before{
+    content:'';
+    position:absolute;
+    top:-6px; left:16px;
+    width:11px; height:11px;
+    background:inherit;
+    border-top:1px solid var(--gold-soft);
+    border-right:1px solid var(--gold-soft);
+    transform:rotate(-45deg);
+  }
+  .quick-menu-hint-text{
+    font-family:'Vazirmatn', sans-serif;
+    font-size:12px;
+    font-weight:600;
+    line-height:1.5;
+    color:var(--parchment);
+    flex:1;
+  }
+  .quick-menu-hint-close{
+    flex:none;
+    width:18px; height:18px;
+    border-radius:50%;
+    border:none;
+    background:rgba(255,255,255,0.08);
+    color:var(--parchment-dim);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+  }
+  .quick-menu-hint-close svg{ width:10px; height:10px; }
+  html[dir="ltr"] .quick-menu-hint{ left:auto; right:14px; }
+  html[dir="ltr"] .quick-menu-hint::before{ left:auto; right:16px; }
+
+  /* ردیف راهنمای سایت داخل منوی تنظیمات */
+  .guide-fab{
+    color:var(--gold-soft);
+    text-decoration:none;
+  }
+  .guide-fab svg{ width:15px; height:15px; }
+
   .quick-menu-panel{
     position:absolute;
     top:44px; left:0;
@@ -1642,7 +1760,14 @@
     transform:scale(0.8);
     pointer-events:none;
   }
-  .downloads-fab svg{ width:19px; height:19px; flex:none; }
+  .downloads-fab-badge{
+    display:flex; align-items:center; justify-content:center;
+    width:26px; height:26px; flex:none;
+    border-radius:50%;
+    background:radial-gradient(120% 120% at 30% 20%, rgba(255,255,255,0.55), rgba(255,255,255,0.08) 60%), rgba(14,9,6,0.16);
+    box-shadow:0 1px 0 rgba(255,255,255,0.5) inset, 0 2px 5px rgba(0,0,0,0.22);
+  }
+  .downloads-fab-badge svg{ width:15px; height:15px; flex:none; }
   .downloads-fab-label{
     font-family:'Vazirmatn', sans-serif;
     font-size:12.5px;
@@ -1733,9 +1858,16 @@
 </button>
 
 <div class="quick-menu" id="quick-menu">
-  <button type="button" id="quick-menu-btn" class="quick-menu-btn" aria-haspopup="true" aria-expanded="false" aria-label="منوی تنظیمات: صدا، زبان و تم">
+  <button type="button" id="quick-menu-btn" class="quick-menu-btn" aria-haspopup="true" aria-expanded="false" aria-label="منوی تنظیمات: صدا، زبان، تم و راهنمای سایت">
     <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    <span class="quick-menu-badge" id="quick-menu-badge"></span>
   </button>
+  <div class="quick-menu-hint" id="quick-menu-hint" role="status">
+    <span class="quick-menu-hint-text" data-i18n="guideHint">راهنمای سایت رو از همین منو پیدا می‌کنید 👋</span>
+    <button type="button" class="quick-menu-hint-close" id="quick-menu-hint-close" aria-label="بستن">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+    </button>
+  </div>
   <div class="quick-menu-panel" id="quick-menu-panel" role="menu">
     <div class="quick-menu-row">
       <span class="quick-menu-label" data-i18n="quickMenuTheme">تم</span>
@@ -1789,11 +1921,23 @@
         <svg class="icon-sound-off" viewBox="0 0 24 24" fill="none" style="display:none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M15.5 9.5l5 5M20.5 9.5l-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
       </button>
     </div>
+    <div class="quick-menu-row">
+      <span class="quick-menu-label" data-i18n="guideTrigger">راهنمای سایت</span>
+      <a href="guide.html" id="guide-trigger" class="sound-toggle guide-fab" aria-label="راهنمای سایت" data-prefetch-nav>
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M9.3 9.3a2.7 2.7 0 1 1 3.8 2.5c-.7.35-1.1.7-1.1 1.5v.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="16.6" r="0.9" fill="currentColor"/></svg>
+      </a>
+    </div>
   </div>
 </div>
 
 <button type="button" class="downloads-fab" id="downloads-fab" aria-label="مرکز دانلود؛ تصاویر، مداحی و زیارت‌نامه‌های سایت" aria-haspopup="dialog">
-  <svg viewBox="0 0 24 24" fill="none"><path d="M4 13v-1a8 8 0 0 1 16 0v1M4 13v4a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2H4zm16 0v4a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h3z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span class="downloads-fab-badge">
+    <svg viewBox="0 0 24 24" fill="none">
+      <path d="M3.5 6.3c0-1 .8-1.8 1.8-1.8h13.4c1 0 1.8.8 1.8 1.8v2.2c0 1-.8 1.8-1.8 1.8H5.3c-1 0-1.8-.8-1.8-1.8V6.3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+      <path d="M4.8 10.3v7.4c0 1.1.9 2 2 2h10.4c1.1 0 2-.9 2-2v-7.4" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+      <path d="M9.8 13.6h4.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+    </svg>
+  </span>
   <span class="downloads-fab-label">مرکز دانلود سایت</span>
 </button>
 
@@ -2444,7 +2588,8 @@
       nazrTrigger: "نذورات",
       madahiTrigger: "مداحی و مولودی",
       galleryTrigger: "گالری تصاویر",
-      tag: "هیئـت عزاداری",
+      guideTrigger: "راهنمای سایت",
+      guideHint: "راهنمای سایت رو از همین منو پیدا می‌کنید 👋",
       title: "هیئت کاظمیون خرم‌آباد",
       meta: 'مراسم هفتگی: <b>سه‌شنبه‌ها ساعت ۲۱</b><br>قاضی‌آباد، خیابان نهم، مسجد حضرت قائم «عج»',
       clockTehran: "تهران",
@@ -2501,6 +2646,8 @@
       nazrTrigger: "النذور",
       madahiTrigger: "المدائح والموالید",
       galleryTrigger: "معرض الصور",
+      guideTrigger: "دليل الموقع",
+      guideHint: "ستجد دليل الموقع من نفس هذه القائمة 👋",
       tag: "موكب عزاء",
       title: "موكب الكاظميون خرم‌آباد",
       meta: 'يقام أسبوعياً، <b>الثلاثاء الساعة ۲۱</b><br>قاضي‌آباد، الشارع التاسع، مسجد الإمام القائم (عج)',
@@ -2558,6 +2705,8 @@
       nazrTrigger: "Votive Offerings",
       madahiTrigger: "Eulogies & Chants",
       galleryTrigger: "Photo Gallery",
+      guideTrigger: "Site Guide",
+      guideHint: "Find the site guide in this menu 👋",
       tag: "MOURNING COUNCIL",
       title: "Heyat-e Kazemiyoon, Khorramabad",
       meta: 'Held weekly, <b>Tuesdays at 9:00 PM</b><br>Ghazi-abad, 9th Street, Emam Ghaem Mosque',
@@ -3373,6 +3522,35 @@
     document.addEventListener('keydown', (e) => {
       if(e.key === 'Escape') closePanel();
     });
+  })();
+
+  // ---------------- حباب راهنمایی یک‌باره: نشان می‌دهد راهنمای سایت داخل منوی همبرگری است ----------------
+  (function quickMenuGuideHint(){
+    const badge = document.getElementById('quick-menu-badge');
+    const hint  = document.getElementById('quick-menu-hint');
+    const closeBtn = document.getElementById('quick-menu-hint-close');
+    const btn = document.getElementById('quick-menu-btn');
+    if(!badge || !hint || !btn) return;
+
+    const STORAGE_KEY = 'kazemiuon-guide-hint-seen';
+    if(localStorage.getItem(STORAGE_KEY) === '1'){
+      badge.classList.add('hide');
+      return;
+    }
+
+    function dismissHint(){
+      hint.classList.remove('show');
+      badge.classList.add('hide');
+      try{ localStorage.setItem(STORAGE_KEY, '1'); }catch(e){}
+    }
+
+    // پس از چند ثانیه از بارگذاری صفحه، حباب راهنما نمایش داده می‌شود
+    setTimeout(() => { hint.classList.add('show'); }, 1800);
+    // پس از مدتی به‌صورت خودکار بسته می‌شود (اما نشانگر روی دکمه باقی می‌ماند تا کاربر منو را باز کند)
+    setTimeout(() => { hint.classList.remove('show'); }, 9000);
+
+    if(closeBtn) closeBtn.addEventListener('click', (e) => { e.stopPropagation(); dismissHint(); });
+    btn.addEventListener('click', dismissHint, { once:true });
   })();
 
   // ---------------- PWA: دکمه نصب (نمایش خودکار پرامپت مرورگر Android/Chrome) ----------------
