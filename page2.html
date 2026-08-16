@@ -10,7 +10,7 @@
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
 
-<title>صفحه دوم | هیئت کاظمیون خرم‌آباد</title>
+<title>📖 ادعیه و زیارت نامه‌ها | هیئت کاظمیون خرم‌آباد</title>
 <meta name="robots" content="noindex, follow">
 <link rel="icon" href="logo.jpg">
 
@@ -278,13 +278,13 @@
   .page2-header{
     display:flex;
     align-items:center;
-    justify-content:center;
-    position:relative;
+    justify-content:space-between;
+    gap:8px;
     padding:20px 0 8px;
   }
   .page2-back{
-    position:absolute;
-    right:0;
+    position:static;
+    flex:none;
     display:flex;
     align-items:center;
     gap:7px;
@@ -304,9 +304,10 @@
     transition:all 0.2s ease;
     animation:page2Pulse 2.6s ease-in-out infinite, page2Shine 5s linear infinite;
   }
-  .page2-back svg{ width:16px; height:16px; }
+  .page2-back svg{ width:16px; height:16px; flex:none; }
   .page2-back:hover{ transform:translateY(-1px) scale(1.03); box-shadow:0 2px 0 rgba(255,255,255,0.4) inset, 0 10px 24px rgba(var(--crimson-rgb),0.55), 0 0 0 5px rgba(var(--crimson-rgb),0.18); }
   .page2-back:active{ transform:scale(0.94); }
+  .page2-back-spacer{ visibility:hidden; pointer-events:none; }
   @keyframes page2Pulse{
     0%,100%{ box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 20px rgba(var(--crimson-rgb),0.45), 0 0 0 4px rgba(var(--crimson-rgb),0.12); }
     50%{ box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 26px rgba(var(--crimson-rgb),0.65), 0 0 0 8px rgba(var(--crimson-rgb),0.05); }
@@ -317,9 +318,13 @@
     100%{ background-position:0% 50%; }
   }
   .page2-header-title{
+    flex:1;
+    min-width:0;
+    text-align:center;
     font-size:15px;
     font-weight:700;
     color:var(--parchment);
+    overflow-wrap:break-word;
   }
 
   /* ---------------- logo mini ---------------- */
@@ -359,88 +364,6 @@
     color:var(--gold);
     letter-spacing:0.04em;
     font-weight:800;
-  }
-
-  /* ---------------- نذورات card (کارت بانکی) ---------------- */
-  .nazr-card{
-    position:relative;
-    padding:24px 20px 20px;
-    border-radius:20px;
-    border:1px solid rgba(201,162,39,0.35);
-    background:
-      radial-gradient(120% 140% at 100% 0%, rgba(255,255,255,0.10), transparent 55%),
-      linear-gradient(135deg, #7a1216 0%, #5c0f14 45%, #2c0a0d 100%);
-    box-shadow:0 1px 0 rgba(255,255,255,0.08) inset, 0 14px 30px rgba(0,0,0,0.4);
-    text-align:center;
-    overflow:hidden;
-  }
-  .nazr-card::before{
-    content:'';
-    position:absolute;
-    inset:0;
-    background:
-      radial-gradient(60% 60% at 90% 100%, rgba(201,162,39,0.18), transparent 70%);
-    pointer-events:none;
-  }
-  .nazr-card-title{
-    font-size:14px;
-    font-weight:700;
-    color:var(--gold);
-    letter-spacing:0.02em;
-    margin-bottom:16px;
-    position:relative;
-    line-height:1.6;
-  }
-  .nazr-chip{
-    width:38px; height:28px;
-    border-radius:6px;
-    background:linear-gradient(135deg, #e8d28a, #b6923a);
-    margin:0 auto 16px;
-    position:relative;
-    box-shadow:0 1px 2px rgba(0,0,0,0.4) inset;
-  }
-  .nazr-chip::before{
-    content:'';
-    position:absolute;
-    top:50%; left:4px; right:4px;
-    height:1px;
-    background:rgba(0,0,0,0.25);
-  }
-  .nazr-number-row{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:12px;
-    margin-bottom:16px;
-    flex-wrap:wrap;
-    position:relative;
-  }
-  .nazr-number{
-    font-size:19px;
-    font-weight:700;
-    color:var(--parchment);
-    letter-spacing:0.06em;
-    text-shadow:0 1px 2px rgba(0,0,0,0.35);
-  }
-  .copy-btn{
-    width:38px; height:38px; min-width:38px;
-    border-radius:12px;
-    border:1px solid rgba(255,255,255,0.25);
-    background:rgba(255,255,255,0.06);
-    color:var(--gold);
-    display:flex; align-items:center; justify-content:center;
-    cursor:pointer;
-    transition:all 0.18s ease;
-  }
-  .copy-btn svg{ width:16px; height:16px; }
-  .copy-btn:hover{ border-color:var(--gold); color:var(--gold); }
-  .copy-btn:active{ transform:scale(0.92); }
-  .nazr-name{
-    font-size:15px;
-    color:var(--gold);
-    font-weight:700;
-    letter-spacing:0.03em;
-    position:relative;
   }
 
   /* ============================================================
@@ -585,96 +508,6 @@
   html[dir="ltr"] .doa-modal-close{ left:auto; right:16px; }
   .doa-modal-close svg{ width:14px; height:14px; }
   .doa-modal-close:hover{ border-color:var(--gold-soft); color:var(--gold); }
-
-  /* ============================================================
-     دکمه شناور دانلود فایل‌های صوتی (زیارت عاشورا، مداحی و ...)
-  ============================================================ */
-  .downloads-fab{
-    position:fixed;
-    left:16px;
-    bottom:calc(20px + env(safe-area-inset-bottom, 0px));
-    z-index:56;
-    display:flex; align-items:center; gap:9px;
-    padding:12px 20px 12px 16px;
-    border-radius:999px;
-    border:1px solid var(--gold-soft);
-    background:linear-gradient(135deg, var(--gold), var(--gold-dim));
-    color:var(--void);
-    cursor:pointer;
-    box-shadow:0 6px 18px rgba(0,0,0,0.45), 0 0 0 0 rgba(255,203,61,0.5);
-    animation:downloads-fab-pulse 2.6s ease-in-out infinite;
-    transition:transform 0.18s ease, opacity 0.25s ease, visibility 0.25s ease;
-    white-space:nowrap;
-  }
-  .downloads-fab:active{ transform:scale(0.95); }
-  .downloads-fab.collapsed{
-    opacity:0; visibility:hidden;
-    transform:scale(0.8);
-    pointer-events:none;
-  }
-  .downloads-fab svg{ width:19px; height:19px; flex:none; }
-  .downloads-fab-label{
-    font-family:'Vazirmatn', sans-serif;
-    font-size:12.5px;
-    font-weight:800;
-    letter-spacing:-0.2px;
-  }
-  @keyframes downloads-fab-pulse{
-    0%,100%{ box-shadow:0 6px 18px rgba(0,0,0,0.45), 0 0 0 0 rgba(255,203,61,0.45); }
-    50%{ box-shadow:0 6px 18px rgba(0,0,0,0.45), 0 0 0 9px rgba(255,203,61,0); }
-  }
-
-  .downloads-list{
-    display:flex; flex-direction:column; gap:10px;
-    text-align:right;
-  }
-  .download-item{
-    display:flex; flex-direction:column; gap:8px;
-    padding:10px 12px;
-    border:1px solid var(--line);
-    border-radius:12px;
-    background:var(--glass);
-  }
-  .download-item-row{
-    display:flex; align-items:center; justify-content:space-between; gap:10px;
-  }
-  .download-progress{
-    height:3px; border-radius:2px; overflow:hidden;
-    background:rgba(255,255,255,0.1);
-    display:none;
-  }
-  .download-item.loading .download-progress{ display:block; }
-  .download-progress-fill{
-    display:block; height:100%; width:0%;
-    background:linear-gradient(90deg, var(--gold), var(--crimson-bright));
-    transition:width 0.2s ease;
-  }
-  .download-item-title{ font-size:13px; font-weight:700; color:var(--parchment); }
-  .download-item-sub{ font-size:10.5px; color:var(--parchment-dim); margin-top:2px; }
-  .download-btn{
-    flex:none;
-    display:flex; align-items:center; gap:6px;
-    padding:8px 12px;
-    border-radius:999px;
-    border:1px solid var(--gold-soft);
-    background:rgba(255,203,61,0.08);
-    color:var(--gold);
-    font-family:'Vazirmatn', sans-serif;
-    font-size:11px; font-weight:700;
-    cursor:pointer;
-    transition:all 0.18s ease;
-    white-space:nowrap;
-  }
-  .download-btn:hover{ background:rgba(255,203,61,0.16); }
-  .download-btn .dl-icon{ width:14px; height:14px; }
-  .download-btn.loading .dl-icon{ animation:dl-spin 0.9s linear infinite; }
-  @keyframes dl-spin{ to{ transform:rotate(360deg); } }
-  .download-btn.done{ border-color:var(--crimson-bright); color:var(--crimson-bright); background:rgba(34,193,127,0.12); }
-  .download-btn.loading{ border-color:rgba(255,90,90,0.55); color:#ff8a8a; cursor:pointer; }
-  .download-btn.loading:hover{ background:rgba(255,90,90,0.14); }
-  .download-btn .dl-icon-cancel{ display:none; }
-  .download-btn.loading .dl-icon{ display:none; }
-  .download-btn.loading .dl-icon-cancel{ display:block; animation:none; }
 
   .doa-modal-body{
     flex:1;
@@ -903,25 +736,6 @@
 </head>
 <body>
 
-<button type="button" class="downloads-fab" id="downloads-fab" data-open-modal="downloads-modal" aria-label="دانلود فایل‌های صوتی" aria-haspopup="dialog">
-  <svg viewBox="0 0 24 24" fill="none"><path d="M4 13v-1a8 8 0 0 1 16 0v1M4 13v4a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2H4zm16 0v4a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h3z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  <span class="downloads-fab-label">دانلود فایل‌های صوتی</span>
-</button>
-
-<div class="doa-modal-overlay" id="downloads-modal">
-  <div class="doa-modal-sheet">
-    <div class="doa-modal-handle"></div>
-    <div class="doa-modal-head">
-      <button type="button" class="doa-modal-close" data-close-modal aria-label="بستن">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-      </button>
-      <span class="doa-modal-title">دانلود فایل‌های صوتی</span>
-    </div>
-    <div class="doa-modal-body">
-      <div class="downloads-list" id="downloads-list"></div>
-    </div>
-  </div>
-</div>
 
 
 <div class="quick-menu" id="quick-menu">
@@ -991,7 +805,11 @@
       <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span data-i18n="backBtn">بازگشت</span>
     </a>
-    <div class="page2-header-title" data-i18n="pageTitle">صفحه دوم</div>
+    <div class="page2-header-title" data-i18n="pageTitle">📖 ادعیه و زیارت نامه‌ها</div>
+    <span class="page2-back page2-back-spacer" aria-hidden="true" tabindex="-1">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span data-i18n="backBtn">بازگشت</span>
+    </span>
   </div>
 
   <div class="mini-logo-wrap">
@@ -1028,18 +846,6 @@
         </button>
       </div>
     </div>
-  </div>
-
-  <div class="nazr-card">
-    <div class="nazr-card-title" data-i18n="nazrTitle">واریز نذورات نقدی به شماره کارت ذیل</div>
-    <div class="nazr-chip"></div>
-    <div class="nazr-number-row">
-      <span class="nazr-number" id="nazr-number" dir="ltr">6104&nbsp;3311&nbsp;3307&nbsp;0012</span>
-      <button type="button" class="copy-btn" id="copy-nazr-number" aria-label="کپی شماره کارت">
-        <svg viewBox="0 0 24 24" fill="none"><rect x="8" y="8" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" stroke="currentColor" stroke-width="1.6"/></svg>
-      </button>
-    </div>
-    <div class="nazr-name" data-i18n="nazrName">مسعود زندیه شیرازی</div>
   </div>
 
   <footer data-i18n="footerSub">پایگاه اطلاع‌رسانی هیئت کاظمیون خرم‌آباد</footer>
@@ -1194,16 +1000,6 @@
     }
   }
 
-  (function nazrCopy(){
-    const btn = document.getElementById('copy-nazr-number');
-    const numEl = document.getElementById('nazr-number');
-    if(!btn || !numEl) return;
-    btn.addEventListener('click', () => {
-      const digitsOnly = numEl.textContent.replace(/[^0-9]/g, '');
-      copyText(digitsOnly, 'شماره کارت کپی شد');
-    });
-  })();
-
   // ---------------- بخش ادعیه: باز/بسته شدن آکاردئون ----------------
   (function doaAccordion(){
     const btn   = document.getElementById('doa-ashura-btn');
@@ -1256,151 +1052,6 @@
       if(e.key !== 'Escape') return;
       document.querySelectorAll('.doa-modal-overlay.show').forEach(closeModal);
     });
-  })();
-
-  // ---------------- دانلود فایل‌های صوتی (زیارت عاشورا، مداحی و ...) ----------------
-  (function downloadsSection(){
-    const fab    = document.getElementById('downloads-fab');
-    const listEl = document.getElementById('downloads-list');
-    if(!fab || !listEl) return;
-
-    // برای افزودن فایل جدید، یک آبجکت مشابه زیر اضافه کن.
-    // url: مسیر فایل صوتی روی همین ریپازیتوری (مثلا madahi.mp3 یا audio/ziarat-ashura.mp3)
-    // filename: نامی که هنگام دانلود روی گوشی/کامپیوتر کاربر ذخیره می‌شود
-    const files = [
-      { title:'زیارت عاشورا', subtitle:'صوت کامل زیارت', url:'ziarat-ashura.mp3', filename:'ziarat-ashura.mp3' },
-      { title:'مداحی هیئت کاظمیون', subtitle:'نمونه مداحی', url:'madahi.mp3', filename:'madahi-kazemiyoon.mp3' }
-    ];
-
-    const faDigits = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
-    function toFaNum(n){ return String(n).replace(/[0-9]/g, d => faDigits[d]); }
-
-    function renderList(){
-      listEl.innerHTML = '';
-      files.forEach((f, i) => {
-        const row = document.createElement('div');
-        row.className = 'download-item';
-        row.innerHTML =
-          '<div class="download-item-row">' +
-            '<div class="download-item-info">' +
-              '<div class="download-item-title">' + f.title + '</div>' +
-              '<div class="download-item-sub">' + (f.subtitle || '') + '</div>' +
-            '</div>' +
-            '<button type="button" class="download-btn" data-idx="' + i + '" aria-label="دانلود ' + f.title + '">' +
-              '<svg class="dl-icon" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 19h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
-              '<svg class="dl-icon-cancel" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
-              '<span class="dl-label">دانلود</span>' +
-            '</button>' +
-          '</div>' +
-          '<div class="download-progress"><span class="download-progress-fill"></span></div>';
-        listEl.appendChild(row);
-      });
-    }
-    renderList();
-
-    // کنترلر لغو هر دانلود، بر اساس اندیس فایل نگه‌داری می‌شود
-    const controllers = {};
-
-    function cancelDownload(btn, idx){
-      const controller = controllers[idx];
-      if(controller) controller.abort();
-    }
-
-    async function downloadFile(btn, file, idx){
-      if(btn.classList.contains('loading')){
-        // دانلود در حال انجام است؛ با ضربه دوباره روی دکمه، لغو شود
-        cancelDownload(btn, idx);
-        return;
-      }
-      const row   = btn.closest('.download-item');
-      const label = btn.querySelector('.dl-label');
-      const fill  = row ? row.querySelector('.download-progress-fill') : null;
-      const controller = new AbortController();
-      controllers[idx] = controller;
-      btn.classList.add('loading');
-      btn.classList.remove('done');
-      btn.setAttribute('aria-label', 'لغو دانلود ' + file.title);
-      if(row) row.classList.add('loading');
-      if(fill) fill.style.width = '0%';
-      label.textContent = 'در حال دانلود... (برای لغو ضربه بزنید)';
-      try{
-        const res = await fetch(file.url, { signal: controller.signal });
-        if(!res.ok) throw new Error('فایل یافت نشد');
-
-        const total = Number(res.headers.get('Content-Length')) || 0;
-        let blob;
-        if(res.body && res.body.getReader && total){
-          const reader = res.body.getReader();
-          const chunks = [];
-          let loaded = 0;
-          while(true){
-            const { done, value } = await reader.read();
-            if(done) break;
-            chunks.push(value);
-            loaded += value.length;
-            const pct = Math.min(100, Math.round((loaded / total) * 100));
-            label.textContent = 'در حال دانلود... ' + toFaNum(pct) + '٪';
-            if(fill) fill.style.width = pct + '%';
-          }
-          blob = new Blob(chunks);
-        } else {
-          // مرورگر از استریم پشتیبانی نمی‌کند یا حجم فایل مشخص نیست؛ بدون درصد دانلود شود
-          blob = await res.blob();
-          if(fill) fill.style.width = '100%';
-        }
-
-        const blobUrl = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = blobUrl;
-        a.download = file.filename || file.url.split('/').pop();
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        setTimeout(() => URL.revokeObjectURL(blobUrl), 4000);
-
-        btn.classList.remove('loading');
-        btn.classList.add('done');
-        btn.setAttribute('aria-label', 'دانلود ' + file.title);
-        if(row) row.classList.remove('loading');
-        label.textContent = 'دانلود شد';
-        setTimeout(() => { btn.classList.remove('done'); label.textContent = 'دانلود'; if(fill) fill.style.width = '0%'; }, 2500);
-      }catch(err){
-        btn.classList.remove('loading');
-        btn.setAttribute('aria-label', 'دانلود ' + file.title);
-        if(row) row.classList.remove('loading');
-        if(fill) fill.style.width = '0%';
-        if(err && err.name === 'AbortError'){
-          label.textContent = 'لغو شد';
-        } else {
-          label.textContent = 'خطا، تلاش مجدد';
-        }
-        setTimeout(() => { label.textContent = 'دانلود'; }, 2500);
-      } finally {
-        delete controllers[idx];
-      }
-    }
-
-    listEl.addEventListener('click', (e) => {
-      const btn = e.target.closest('.download-btn');
-      if(!btn) return;
-      const idx = Number(btn.getAttribute('data-idx'));
-      const file = files[idx];
-      if(file) downloadFile(btn, file, idx);
-    });
-
-    fab.addEventListener('click', () => {});
-
-    // وقتی هر مودالی (متن عربی، ترجمه، صوت زیارت، دانلود و ...) باز است، دکمه شناور پنهان شود
-    const modalOverlays = document.querySelectorAll('.doa-modal-overlay');
-    function syncFabVisibility(){
-      const anyOpen = Array.from(modalOverlays).some(o => o.classList.contains('show'));
-      fab.classList.toggle('collapsed', anyOpen);
-    }
-    modalOverlays.forEach(overlay => {
-      const mo = new MutationObserver(syncFabVisibility);
-      mo.observe(overlay, { attributes:true, attributeFilter:['class'] });
-    });
-    syncFabVisibility();
   })();
 
   // ---------------- بخش ادعیه: پخش‌کننده صوت زیارت عاشورا ----------------
@@ -1590,7 +1241,7 @@
   const translations = {
     fa: {
       backBtn: 'بازگشت',
-      pageTitle: 'صفحه دوم',
+      pageTitle: '📖 ادعیه و زیارت نامه‌ها',
       doaTitle: 'ادعیه',
       doaAshuraName: 'زیارت عاشورا',
       doaArabicText: 'متن عربی',
@@ -1603,8 +1254,6 @@
       doaPlaceholderArabic: 'متن کامل زیارت عاشورا (عربی) به‌زودی اینجا قرار می‌گیرد.',
       doaPlaceholderArabic2: 'متن کامل زیارت عاشورا (عربی) به‌زودی اینجا قرار می‌گیرد.',
       doaPlaceholderFa: 'ترجمه کامل زیارت عاشورا به‌زودی اینجا قرار می‌گیرد.',
-      nazrTitle: 'واریز نذورات نقدی به شماره کارت ذیل',
-      nazrName: 'مسعود زندیه شیرازی',
       footerSub: 'پایگاه اطلاع‌رسانی هیئت کاظمیون خرم‌آباد',
       quickMenuTheme: 'تم',
       quickMenuLang: 'زبان',
@@ -1612,7 +1261,7 @@
     },
     ar: {
       backBtn: 'رجوع',
-      pageTitle: 'الصفحة الثانية',
+      pageTitle: '📖 الأدعية والزيارات',
       doaTitle: 'الأدعية',
       doaAshuraName: 'زيارة عاشوراء',
       doaArabicText: 'النص العربي',
@@ -1625,8 +1274,6 @@
       doaPlaceholderArabic: 'سيتم إضافة النص الكامل لزيارة عاشوراء قريبًا.',
       doaPlaceholderArabic2: 'سيتم إضافة النص الكامل لزيارة عاشوراء قريبًا.',
       doaPlaceholderFa: 'ستتم إضافة الترجمة الكاملة قريبًا.',
-      nazrTitle: 'إيداع النذور النقدية إلى رقم البطاقة أدناه',
-      nazrName: 'مسعود زنديه شيرازي',
       footerSub: 'القناة الرسمية لموكب الكاظميون خرم‌آباد',
       quickMenuTheme: 'المظهر',
       quickMenuLang: 'اللغة',
@@ -1634,7 +1281,7 @@
     },
     en: {
       backBtn: 'Back',
-      pageTitle: 'Page Two',
+      pageTitle: '📖 Prayers & Ziyarat',
       doaTitle: 'Prayers',
       doaAshuraName: 'Ziarat Ashura',
       doaArabicText: 'Arabic Text',
@@ -1647,8 +1294,6 @@
       doaPlaceholderArabic: 'The full Arabic text of Ziarat Ashura will be added soon.',
       doaPlaceholderArabic2: 'The full Arabic text of Ziarat Ashura will be added soon.',
       doaPlaceholderFa: 'The full translation will be added soon.',
-      nazrTitle: 'Deposit cash donations to the card number below',
-      nazrName: 'Masoud Zandiyeh Shirazi',
       footerSub: 'Official channel of Heyat-e Kazemiyoon Khorramabad',
       quickMenuTheme: 'Theme',
       quickMenuLang: 'Language',

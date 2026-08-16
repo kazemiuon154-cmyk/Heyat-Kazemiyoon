@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ===== Security hardening ===== -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+
+<title>🎙️ مداحی و مولودی | هیئت کاظمیون خرم‌آباد</title>
+<meta name="robots" content="noindex, follow">
+<link rel="icon" href="logo.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --void:#071710;
+    --void-2:#0e2419;
+    --crimson:#0e9b62;
+    --crimson-rgb:14,155,98;
+    --crimson-bright:#22c17f;
+    --gold:#ffcb3d;
+    --gold-soft:#d1a52a;
+    --gold-dim:#8a6e1e;
+    --parchment:#f3ead0;
+    --parchment-dim:#a99b78;
+    --line:rgba(255,203,61,0.22);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:
+      radial-gradient(ellipse 120% 70% at 50% -8%, rgba(var(--crimson-rgb),0.30), transparent 55%),
+      radial-gradient(ellipse 90% 50% at 15% 40%, rgba(var(--crimson-rgb),0.10), transparent 60%),
+      radial-gradient(ellipse 90% 50% at 85% 75%, rgba(var(--crimson-rgb),0.12), transparent 60%),
+      var(--void);
+    color:var(--parchment);
+    font-family:'Vazirmatn', sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    animation:page2FadeIn 0.4s ease both;
+    transition:opacity 0.28s ease, transform 0.28s ease;
+  }
+  @keyframes page2FadeIn{
+    from{ opacity:0; transform:translateY(8px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  body.page-exit{ opacity:0; transform:translateY(-8px); }
+  .page{
+    width:100%;
+    max-width:500px;
+    padding:0 22px 60px;
+    position:relative;
+    z-index:1;
+  }
+
+  /* ============================================================
+     THEME SYSTEM (پیش‌فرض: طلایی‌وزمردی / سرخ‌وطلایی /
+     صورتی‌وفیروزه‌ای / صورتی‌ویاسی / فیروزه‌ای‌وغروبی /
+     کهربایی‌وکرمی / آبی‌آسمانی / سبز فسفری / تاریک)
+     همان تعریف رنگ‌های index.html تا در دو صفحه هماهنگ بماند
+  ============================================================ */
+  body.theme-dark{
+    --void:#000000; --void-2:#0a0a0a;
+    --crimson:#6e1013; --crimson-bright:#9c2320;
+    --gold:#a3853a; --gold-soft:#6f5d33; --gold-dim:#453a22;
+    --parchment:#d8d0bf; --parchment-dim:#83786a;
+    --line:rgba(163,133,58,0.14);
+    background:#000000;
+  }
+  body.theme-light{
+    --void:#04120a; --void-2:#071c11;
+    --crimson:#39ff14; --crimson-rgb:57,255,20; --crimson-bright:#7dffb0;
+    --gold:#b6ff2e; --gold-soft:#7fd11a; --gold-dim:#4a7a1e;
+    --parchment:#e9ffee; --parchment-dim:#8fc79f;
+    --line:rgba(57,255,20,0.28);
+  }
+  body.theme-fest{
+    --void:#0c1220; --void-2:#121a2e;
+    --crimson:#d81b60; --crimson-rgb:216,27,96; --crimson-bright:#ff4081;
+    --gold:#ffca28; --gold-soft:#e0a72a; --gold-dim:#b8860b;
+    --parchment:#fff6e0; --parchment-dim:#d8c9a3;
+    --line:rgba(255,202,40,0.25);
+  }
+  body.theme-crimson{
+    --void:#0e0906; --void-2:#150e0a;
+    --crimson:#8c1518; --crimson-rgb:140,21,24; --crimson-bright:#b8241f;
+    --gold:#c9a227; --gold-soft:#8a7040; --gold-dim:#5c4a28;
+    --parchment:#f1e7d8; --parchment-dim:#a99c8a;
+    --line:rgba(201,162,39,0.16);
+  }
+  body.theme-lilac{
+    --void:#160a1e; --void-2:#1f1029;
+    --crimson:#c65bd6; --crimson-rgb:198,91,214; --crimson-bright:#e28ae8;
+    --gold:#f0c94e; --gold-soft:#caa53a; --gold-dim:#8a6f28;
+    --parchment:#fbeefc; --parchment-dim:#c3a8c9;
+    --line:rgba(240,201,78,0.22);
+  }
+  body.theme-sunset{
+    --void:#071c22; --void-2:#0d2a32;
+    --crimson:#ff7a45; --crimson-rgb:255,122,69; --crimson-bright:#ff9d6e;
+    --gold:#ffcf6b; --gold-soft:#dba63e; --gold-dim:#8f6c22;
+    --parchment:#fff3e6; --parchment-dim:#c8b39c;
+    --line:rgba(32,196,196,0.25);
+  }
+  body.theme-amber{
+    --void:#1c130a; --void-2:#241a0e;
+    --crimson:#c8752b; --crimson-rgb:200,117,43; --crimson-bright:#e29344;
+    --gold:#f0c14b; --gold-soft:#cb9f33; --gold-dim:#836a20;
+    --parchment:#fbf1dc; --parchment-dim:#c9b998;
+    --line:rgba(240,193,75,0.22);
+  }
+  body.theme-sky{
+    --void:#081521; --void-2:#0e2032;
+    --crimson:#2f8ce0; --crimson-rgb:47,140,224; --crimson-bright:#5fadf5;
+    --gold:#ffd35c; --gold-soft:#d9ac3c; --gold-dim:#8f7126;
+    --parchment:#f0f8ff; --parchment-dim:#a9c2d6;
+    --line:rgba(127,212,255,0.22);
+  }
+
+  /* ---------------- منوی سریع (همبرگری: تم) ---------------- */
+  .quick-menu{
+    position:fixed;
+    top:14px; left:14px;
+    z-index:65;
+  }
+  .quick-menu-btn{
+    width:36px; height:36px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(20,14,10,0.75);
+    color:var(--parchment-dim);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:all 0.2s ease;
+    -webkit-backdrop-filter:blur(6px);
+    backdrop-filter:blur(6px);
+  }
+  .quick-menu-btn svg{ width:17px; height:17px; }
+  .quick-menu-btn:hover, .quick-menu-btn.active{ border-color:var(--gold-soft); color:var(--gold); }
+  .quick-menu-panel{
+    position:absolute;
+    top:44px; left:0;
+    display:flex; flex-direction:column;
+    align-items:stretch;
+    gap:8px;
+    min-width:168px;
+    padding:12px;
+    background:var(--void-2, var(--void));
+    border:1px solid var(--line);
+    border-radius:16px;
+    box-shadow:0 12px 26px rgba(0,0,0,0.5);
+    opacity:0; visibility:hidden;
+    transform:translateY(-8px);
+    transition:opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+    z-index:65;
+  }
+  .quick-menu-panel.show{ opacity:1; visibility:visible; transform:translateY(0); }
+  .quick-menu-row{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:10px;
+  }
+  .quick-menu-label{
+    font-family:'Vazirmatn', sans-serif;
+    font-size:11.5px; font-weight:600;
+    color:var(--parchment-dim);
+  }
+  .theme-switch-wrap{ position:relative; }
+  .theme-toggle-btn{
+    width:30px; height:30px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.02);
+    color:var(--parchment-dim);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:all 0.2s ease;
+  }
+  .theme-toggle-btn svg{ width:15px; height:15px; }
+  .theme-toggle-btn:hover{ border-color:var(--gold-soft); color:var(--gold); }
+  .theme-popover{
+    position:fixed;
+    width:max-content;
+    max-width:min(260px, calc(100vw - 20px));
+    background:var(--void-2, var(--void));
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:6px;
+    display:flex; flex-direction:row; flex-wrap:wrap;
+    gap:4px;
+    box-shadow:0 12px 26px rgba(0,0,0,0.5);
+    opacity:0; visibility:hidden;
+    transform:translateY(-6px);
+    transition:opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+    z-index:70;
+  }
+  .theme-popover.show{ opacity:1; visibility:visible; transform:translateY(0); }
+  .theme-opt{
+    font-family:'Vazirmatn', sans-serif;
+    font-size:11.5px; font-weight:600;
+    color:var(--parchment-dim);
+    background:transparent; border:1px solid transparent;
+    padding:8px 9px; border-radius:9px; cursor:pointer; text-align:center;
+    white-space:nowrap;
+    transition:all 0.15s ease;
+  }
+  .theme-opt.active{ color:var(--void); background:var(--gold); }
+  .theme-opt:not(.active):hover{ border-color:var(--gold-soft); color:var(--parchment); }
+
+  .lang-switch-wrap{ position:relative; }
+  .lang-toggle{
+    display:flex; align-items:center; gap:6px;
+    font-family:'Vazirmatn', sans-serif;
+    font-size:11.5px;
+    font-weight:600;
+    letter-spacing:0.04em;
+    color:var(--parchment-dim);
+    background:rgba(255,255,255,0.02);
+    border:1px solid var(--line);
+    padding:6px 14px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:all 0.2s ease;
+  }
+  .lang-toggle:hover{ border-color:var(--gold-soft); color:var(--parchment); }
+  .lang-toggle .lang-flag{ font-size:14px; line-height:1; }
+  .lang-popover{
+    position:fixed;
+    transform:translateY(-6px);
+    min-width:150px;
+    background:var(--void-2, var(--void));
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:6px;
+    display:flex; flex-direction:column; gap:4px;
+    box-shadow:0 12px 26px rgba(0,0,0,0.5);
+    opacity:0; visibility:hidden;
+    transition:opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+    z-index:70;
+  }
+  .lang-popover.show{ opacity:1; visibility:visible; transform:translateY(0); }
+  .lang-opt{
+    display:flex; align-items:center; gap:8px;
+    font-family:'Vazirmatn', sans-serif;
+    font-size:12.5px; font-weight:600;
+    color:var(--parchment-dim);
+    background:transparent; border:1px solid transparent;
+    padding:8px 10px; border-radius:9px; cursor:pointer; text-align:right;
+    transition:all 0.15s ease;
+  }
+  .lang-opt .lang-flag{ font-size:15px; line-height:1; flex:none; }
+  .lang-opt.active{ color:var(--void); background:var(--gold); }
+  .lang-opt:not(.active):hover{ border-color:var(--gold-soft); color:var(--parchment); }
+
+  .sound-toggle{
+    width:30px; height:30px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.02);
+    color:var(--parchment-dim);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:all 0.2s ease;
+  }
+  .sound-toggle svg{ width:15px; height:15px; }
+  .sound-toggle:hover{ border-color:var(--gold-soft); color:var(--gold); }
+
+  /* ---------------- header ---------------- */
+  .page2-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    padding:20px 0 8px;
+  }
+  .page2-back{
+    position:static;
+    flex:none;
+    display:flex;
+    align-items:center;
+    gap:7px;
+    padding:10px 20px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,0.25);
+    background:linear-gradient(135deg, var(--gold-bright, var(--gold)), var(--crimson-bright));
+    background-size:200% 200%;
+    color:#1a0f04;
+    font-family:'Vazirmatn', sans-serif;
+    font-size:12.5px;
+    font-weight:800;
+    letter-spacing:0.02em;
+    text-decoration:none;
+    cursor:pointer;
+    box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 20px rgba(var(--crimson-rgb),0.45), 0 0 0 4px rgba(var(--crimson-rgb),0.12);
+    transition:all 0.2s ease;
+    animation:page2Pulse 2.6s ease-in-out infinite, page2Shine 5s linear infinite;
+  }
+  .page2-back svg{ width:16px; height:16px; flex:none; }
+  .page2-back:hover{ transform:translateY(-1px) scale(1.03); box-shadow:0 2px 0 rgba(255,255,255,0.4) inset, 0 10px 24px rgba(var(--crimson-rgb),0.55), 0 0 0 5px rgba(var(--crimson-rgb),0.18); }
+  .page2-back:active{ transform:scale(0.94); }
+  .page2-back-spacer{ visibility:hidden; pointer-events:none; }
+  @keyframes page2Pulse{
+    0%,100%{ box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 20px rgba(var(--crimson-rgb),0.45), 0 0 0 4px rgba(var(--crimson-rgb),0.12); }
+    50%{ box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 26px rgba(var(--crimson-rgb),0.65), 0 0 0 8px rgba(var(--crimson-rgb),0.05); }
+  }
+  @keyframes page2Shine{
+    0%{ background-position:0% 50%; }
+    50%{ background-position:100% 50%; }
+    100%{ background-position:0% 50%; }
+  }
+  .page2-header-title{
+    flex:1;
+    min-width:0;
+    text-align:center;
+    font-size:15px;
+    font-weight:700;
+    color:var(--parchment);
+    overflow-wrap:break-word;
+  }
+
+  /* ---------------- logo mini ---------------- */
+  .mini-logo-wrap{
+    display:flex;
+    justify-content:center;
+    margin:18px 0 6px;
+  }
+  .mini-logo{
+    width:64px; height:64px;
+    border-radius:50%;
+    overflow:hidden;
+    border:1px solid var(--line);
+    box-shadow:0 8px 20px rgba(0,0,0,0.35);
+  }
+  .mini-logo img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+  /* ---------------- group label ---------------- */
+  .group-label{
+    font-size:12px;
+    color:var(--gold-soft);
+    letter-spacing:0.1em;
+    margin:26px 4px 14px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .group-label::after{
+    content:'';
+    flex:1;
+    height:1px;
+    background:var(--line);
+  }
+  .group-label.group-label-lg{
+    font-size:23px;
+    color:var(--gold);
+    letter-spacing:0.04em;
+    font-weight:800;
+  }
+
+  /* ---------------- لیست مداحی و مولودی ---------------- */
+  .track-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .track-item{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:16px 18px;
+    border-radius:16px;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)), var(--void);
+    box-shadow:0 1px 0 rgba(255,255,255,0.05) inset, 0 10px 24px rgba(0,0,0,0.28);
+    color:var(--parchment);
+    font-family:inherit;
+    cursor:pointer;
+    text-align:right;
+    transition:border-color 0.2s ease;
+  }
+  html[dir="ltr"] .track-item{ text-align:left; }
+  .track-item:hover{ border-color:var(--gold-soft); }
+  .track-item-icon{
+    width:36px; height:36px; min-width:36px;
+    border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(var(--crimson-rgb),0.16);
+    color:var(--gold);
+  }
+  .track-item-icon svg{ width:18px; height:18px; }
+  .track-item-info{ flex:1; min-width:0; }
+  .track-item-name{
+    font-size:14.5px;
+    font-weight:700;
+  }
+  .track-item-sub{
+    font-size:11.5px;
+    color:var(--parchment-dim);
+    margin-top:2px;
+  }
+  .track-item-chevron{
+    width:18px; height:18px;
+    color:var(--gold-soft);
+    transition:transform 0.25s ease;
+    flex-shrink:0;
+  }
+  .track-item.open .track-item-chevron{ transform:rotate(180deg); }
+
+  .track-sub-panel{
+    display:grid;
+    grid-template-rows:0fr;
+    opacity:0;
+    transition:grid-template-rows 0.3s ease, opacity 0.25s ease, margin 0.3s ease;
+    margin-top:0;
+  }
+  .track-sub-panel.open{
+    grid-template-rows:1fr;
+    opacity:1;
+    margin-top:2px;
+  }
+  .track-sub-panel-inner{ overflow:hidden; }
+
+  /* ---------------- پخش‌کننده صوت مداحی/مولودی ---------------- */
+  .track-audio-wrap{
+    padding:18px 18px 16px;
+    border-radius:16px;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.02);
+    text-align:center;
+  }
+  .track-audio-status{
+    font-size:11.5px;
+    color:var(--parchment-dim);
+    text-align:center;
+    min-height:16px;
+    margin-top:8px;
+  }
+  .track-audio-controls{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+  }
+  .track-audio-btn{
+    width:52px; height:52px; min-width:52px;
+    border-radius:50%;
+    border:1px solid var(--gold-soft);
+    background:linear-gradient(180deg, rgba(var(--crimson-rgb),0.35), rgba(var(--crimson-rgb),0.12));
+    color:var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:transform 0.15s ease, border-color 0.15s ease;
+    position:relative;
+  }
+  .track-audio-btn:hover{ border-color:var(--gold); }
+  .track-audio-btn:active{ transform:scale(0.92); }
+  .track-audio-btn svg{ width:20px; height:20px; }
+  .track-audio-btn .icon-pause{ display:none; }
+  .track-audio-btn.playing .icon-play{ display:none; }
+  .track-audio-btn.playing .icon-pause{ display:flex; }
+  .track-audio-btn::before,
+  .track-audio-btn::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    border:1px solid var(--gold);
+    opacity:0;
+    pointer-events:none;
+  }
+  .track-audio-btn.playing::before,
+  .track-audio-btn.playing::after{
+    animation:track-audio-pulse 1.8s ease-out infinite;
+  }
+  .track-audio-btn.playing::after{ animation-delay:0.6s; }
+  @keyframes track-audio-pulse{
+    0%{ transform:scale(1); opacity:0.55; }
+    100%{ transform:scale(1.55); opacity:0; }
+  }
+  .track-audio-btn.playing{
+    box-shadow:0 0 16px 2px rgba(var(--crimson-rgb),0.45);
+  }
+  .track-audio-eq{
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+    gap:3px;
+    height:16px;
+    margin-inline-start:2px;
+  }
+  .track-audio-wrap.playing .track-audio-eq{ display:flex; }
+  .track-audio-eq span{
+    display:block;
+    width:3px;
+    border-radius:2px;
+    background:var(--gold);
+    animation:track-audio-eq-bounce 0.9s ease-in-out infinite;
+  }
+  .track-audio-eq span:nth-child(1){ animation-delay:0s; }
+  .track-audio-eq span:nth-child(2){ animation-delay:0.2s; }
+  .track-audio-eq span:nth-child(3){ animation-delay:0.4s; }
+  .track-audio-eq span:nth-child(4){ animation-delay:0.15s; }
+  @keyframes track-audio-eq-bounce{
+    0%, 100%{ height:4px; }
+    50%{ height:16px; }
+  }
+  .track-audio-seek-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:14px;
+  }
+  .track-audio-time{
+    font-size:11px; color:var(--parchment-dim);
+    min-width:34px;
+    font-variant-numeric:tabular-nums;
+  }
+  .track-audio-seek{
+    flex:1;
+    -webkit-appearance:none;
+    appearance:none;
+    height:4px;
+    border-radius:999px;
+    background:linear-gradient(to left, var(--gold) var(--pct,0%), var(--line) var(--pct,0%));
+    outline:none;
+    transition:box-shadow 0.25s ease;
+  }
+  .track-audio-seek::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width:13px; height:13px; border-radius:50%;
+    background:var(--gold);
+    box-shadow:0 0 0 3px rgba(201,162,39,0.2);
+    cursor:pointer;
+    transition:box-shadow 0.25s ease, transform 0.15s ease;
+  }
+  .track-audio-seek::-moz-range-thumb{
+    width:13px; height:13px; border-radius:50%;
+    background:var(--gold); border:none;
+    box-shadow:0 0 0 3px rgba(201,162,39,0.2);
+    cursor:pointer;
+    transition:box-shadow 0.25s ease, transform 0.15s ease;
+  }
+  .track-audio-wrap.playing .track-audio-seek::-webkit-slider-thumb{
+    box-shadow:0 0 0 3px rgba(201,162,39,0.28), 0 0 10px 2px rgba(201,162,39,0.55);
+    transform:scale(1.12);
+  }
+  .track-audio-wrap.playing .track-audio-seek::-moz-range-thumb{
+    box-shadow:0 0 0 3px rgba(201,162,39,0.28), 0 0 10px 2px rgba(201,162,39,0.55);
+    transform:scale(1.12);
+  }
+
+  /* ---------------- دکمه دانلود هر تراک ---------------- */
+  .track-download-btn{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    margin-top:14px;
+    padding:11px 16px;
+    border-radius:13px;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.02);
+    color:var(--parchment-dim);
+    font-family:inherit;
+    font-size:12.5px;
+    font-weight:600;
+    cursor:pointer;
+    transition:all 0.18s ease;
+  }
+  .track-download-btn:hover{ border-color:var(--gold-soft); color:var(--parchment); }
+  .track-download-btn svg{ width:15px; height:15px; color:var(--gold-soft); flex-shrink:0; }
+  .track-download-btn:hover svg{ color:var(--gold); }
+  .track-download-btn .dl-icon-cancel{ display:none; }
+  .track-download-btn.loading .dl-icon{ display:none; }
+  .track-download-btn.loading .dl-icon-cancel{ display:block; }
+  .track-download-progress{
+    height:3px;
+    border-radius:999px;
+    background:var(--line);
+    margin-top:8px;
+    overflow:hidden;
+  }
+  .track-download-progress-fill{
+    display:block;
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg, var(--crimson), var(--gold));
+    transition:width 0.15s ease-out;
+  }
+
+  /* ---------------- toast ---------------- */
+  .toast{
+    position:fixed;
+    bottom:26px;
+    left:50%;
+    transform:translateX(-50%) translateY(20px);
+    background:rgba(20,14,10,0.95);
+    color:var(--parchment);
+    border:1px solid var(--line);
+    padding:10px 20px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:600;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.25s ease, transform 0.25s ease;
+    z-index:200;
+    box-shadow:0 10px 24px rgba(0,0,0,0.4);
+  }
+  .toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+  }
+
+  footer{
+    text-align:center;
+    margin-top:40px;
+    font-size:11.5px;
+    color:var(--gold-dim);
+  }
+
+</style>
+</head>
+<body>
+
+<div class="quick-menu" id="quick-menu">
+  <button type="button" id="quick-menu-btn" class="quick-menu-btn" aria-haspopup="true" aria-expanded="false" aria-label="منوی تنظیمات تم">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+  <div class="quick-menu-panel" id="quick-menu-panel" role="menu">
+    <div class="quick-menu-row">
+      <span class="quick-menu-label" data-i18n="quickMenuTheme">تم</span>
+      <div class="theme-switch-wrap">
+        <button type="button" id="theme-toggle" class="theme-toggle-btn" aria-label="تغییر تم" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 3.5c-4.7 0-8.5 3.6-8.5 8 0 3 2 4.3 3.6 4.3.8 0 1.1-.4 1.6-.9.5-.5.9-.9 1.7-.9 1.5 0 1.9 1 1.9 2.1 0 .9-.4 1.6-.4 2.2 0 .8.6 1.2 1.7 1.2 4.6 0 8.4-3.9 8.4-8.4 0-4.8-3.9-7.6-10-7.6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <circle cx="8.2" cy="9.3" r="1.15" fill="currentColor"/>
+            <circle cx="12.2" cy="7.1" r="1.15" fill="currentColor"/>
+            <circle cx="16.3" cy="9.3" r="1.15" fill="currentColor"/>
+            <circle cx="17.3" cy="13.6" r="1.15" fill="currentColor"/>
+          </svg>
+        </button>
+        <div class="theme-popover" id="theme-popover" role="menu">
+          <button type="button" class="theme-opt active" data-theme="default">طلایی و زمردی</button>
+          <button type="button" class="theme-opt" data-theme="crimson">سرخ و طلایی</button>
+          <button type="button" class="theme-opt" data-theme="fest">صورتی و فیروزه‌ای</button>
+          <button type="button" class="theme-opt" data-theme="lilac">صورتی و یاسی</button>
+          <button type="button" class="theme-opt" data-theme="sunset">فیروزه‌ای و غروبی</button>
+          <button type="button" class="theme-opt" data-theme="amber">کهربایی و کرمی</button>
+          <button type="button" class="theme-opt" data-theme="sky">آبی آسمانی</button>
+          <button type="button" class="theme-opt" data-theme="light">سبز فسفری</button>
+          <button type="button" class="theme-opt" data-theme="dark">تاریک</button>
+        </div>
+      </div>
+    </div>
+    <div class="quick-menu-row">
+      <span class="quick-menu-label" data-i18n="quickMenuLang">زبان</span>
+      <div class="lang-switch-wrap">
+        <button type="button" id="lang-toggle" class="lang-toggle" aria-haspopup="true" aria-expanded="false" aria-label="انتخاب زبان">
+          <span class="lang-flag" id="lang-toggle-flag">🇮🇷</span>
+          <span id="lang-toggle-code">فا</span>
+        </button>
+        <div class="lang-popover" id="lang-popover" role="menu">
+          <button type="button" class="lang-opt active" data-lang="fa" data-flag="🇮🇷" data-code="فا">
+            <span class="lang-flag">🇮🇷</span><span>فارسی</span>
+          </button>
+          <button type="button" class="lang-opt" data-lang="ar" data-flag="🇮🇶" data-code="عربي">
+            <span class="lang-flag">🇮🇶</span><span>العربية</span>
+          </button>
+          <button type="button" class="lang-opt" data-lang="en" data-flag="🇬🇧" data-code="EN">
+            <span class="lang-flag">🇬🇧</span><span>English</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="quick-menu-row">
+      <span class="quick-menu-label" data-i18n="quickMenuSound">صدا</span>
+      <button type="button" id="sound-toggle" class="sound-toggle" aria-label="قطع/وصل صدا" aria-pressed="false">
+        <svg class="icon-sound-on" viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a4 4 0 0 1 0 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M18.5 6a7.5 7.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/></svg>
+        <svg class="icon-sound-off" viewBox="0 0 24 24" fill="none" style="display:none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M15.5 9.5l5 5M20.5 9.5l-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+  <div class="page2-header">
+    <a href="index.html" class="page2-back" id="page2-back" aria-label="بازگشت به صفحه اول">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span data-i18n="backBtn">بازگشت</span>
+    </a>
+    <div class="page2-header-title" data-i18n="pageTitle">🎙️ مداحی و مولودی</div>
+    <span class="page2-back page2-back-spacer" aria-hidden="true" tabindex="-1">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span data-i18n="backBtn">بازگشت</span>
+    </span>
+  </div>
+
+  <div class="mini-logo-wrap">
+    <div class="mini-logo">
+      <img src="logo.jpg" alt="نشان هیئت کاظمیون خرم‌آباد">
+    </div>
+  </div>
+
+  <div class="group-label">
+    <span data-i18n="madahiGroupLabel">مداحی و مولودی</span>
+  </div>
+
+  <div class="track-list" id="track-list">
+    <!-- آیتم‌ها به‌صورت خودکار توسط اسکریپت ساخته می‌شوند -->
+  </div>
+
+  <footer data-i18n="footerSub">پایگاه اطلاع‌رسانی هیئت کاظمیون خرم‌آباد</footer>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  function showToast(msg){
+    const t = document.getElementById('toast');
+    if(!t) return;
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => t.classList.remove('show'), 1800);
+  }
+
+  async function copyText(text, successMsg){
+    try{
+      await navigator.clipboard.writeText(text);
+      showToast(successMsg);
+    }catch(e){
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try{ document.execCommand('copy'); showToast(successMsg); }catch(e2){}
+      document.body.removeChild(ta);
+    }
+  }
+
+  // ---------------- لیست مداحی و مولودی (پخش صوت + دانلود) ----------------
+  (function madahiTracks(){
+    const listEl = document.getElementById('track-list');
+    if(!listEl) return;
+
+    // برای افزودن مداحی/مولودی جدید، یک آبجکت مشابه زیر اضافه کن.
+    // url: مسیر فایل صوتی روی همین ریپازیتوری
+    // filename: نامی که هنگام دانلود روی گوشی/کامپیوتر کاربر ذخیره می‌شود
+    const tracks = [
+      {
+        id: 'madahi-kazemiyoon',
+        title: 'تن بی سر',
+        subtitle: 'کربلایی رضا دارایی',
+        url: 'madahi.mp3',
+        filename: 'tane-bi-sar-reza-daraei.mp3'
+      },
+      {
+        id: 'molodi-wiladat',
+        title: 'مولودی‌خوانی ولادت',
+        subtitle: 'به‌زودی تکمیل می‌شود',
+        url: 'molodi.mp3',
+        filename: 'molodi-wiladat.mp3'
+      }
+    ];
+
+    const micIconSvg = '<svg viewBox="0 0 24 24" fill="none"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 11a6 6 0 0 0 12 0M12 19v3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    const chevronSvg = '<svg class="track-item-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    const downloadIconSvg = '<svg class="dl-icon" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 19h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    const cancelIconSvg = '<svg class="dl-icon-cancel" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+    // ---- رندر لیست ----
+    tracks.forEach((track) => {
+      const item = document.createElement('div');
+      item.className = 'track-item-wrap';
+      item.innerHTML =
+        '<button type="button" class="track-item" data-track-id="' + track.id + '" aria-expanded="false">' +
+          '<span class="track-item-icon">' + micIconSvg + '</span>' +
+          '<span class="track-item-info">' +
+            '<span class="track-item-name">' + track.title + '</span>' +
+            '<span class="track-item-sub">' + (track.subtitle || '') + '</span>' +
+          '</span>' +
+          chevronSvg +
+        '</button>' +
+        '<div class="track-sub-panel" data-panel-id="' + track.id + '">' +
+          '<div class="track-sub-panel-inner">' +
+            '<div class="track-audio-wrap" data-audio-wrap="' + track.id + '">' +
+              '<div class="track-audio-controls">' +
+                '<button type="button" class="track-audio-btn" data-audio-toggle="' + track.id + '" aria-label="پخش / توقف">' +
+                  '<svg class="icon-play" viewBox="0 0 24 24" fill="none"><path d="M9 6.5v11l9-5.5-9-5.5z" fill="currentColor"/></svg>' +
+                  '<svg class="icon-pause" viewBox="0 0 24 24" fill="none"><rect x="7" y="6" width="3.4" height="12" rx="1" fill="currentColor"/><rect x="13.6" y="6" width="3.4" height="12" rx="1" fill="currentColor"/></svg>' +
+                '</button>' +
+                '<span class="track-audio-eq" aria-hidden="true"><span></span><span></span><span></span><span></span></span>' +
+              '</div>' +
+              '<div class="track-audio-seek-row">' +
+                '<span class="track-audio-time" data-time-current="' + track.id + '" dir="ltr">۰۰:۰۰</span>' +
+                '<input type="range" class="track-audio-seek" data-seek="' + track.id + '" min="0" max="100" value="0" step="0.1">' +
+                '<span class="track-audio-time" data-time-duration="' + track.id + '" dir="ltr">۰۰:۰۰</span>' +
+              '</div>' +
+              '<audio class="track-audio-el" data-audio-el="' + track.id + '" src="' + track.url + '" preload="none"></audio>' +
+              '<div class="track-audio-status" data-status="' + track.id + '" aria-live="polite"></div>' +
+            '</div>' +
+            '<button type="button" class="track-download-btn" data-download="' + track.id + '">' +
+              downloadIconSvg + cancelIconSvg +
+              '<span class="dl-label">دانلود این فایل</span>' +
+            '</button>' +
+            '<div class="track-download-progress"><span class="track-download-progress-fill" data-progress="' + track.id + '"></span></div>' +
+          '</div>' +
+        '</div>';
+      listEl.appendChild(item);
+    });
+
+    // ---- آکاردئون باز/بسته ----
+    listEl.querySelectorAll('.track-item').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-track-id');
+        const panel = listEl.querySelector('.track-sub-panel[data-panel-id="' + id + '"]');
+        const open = !btn.classList.contains('open');
+        // بستن سایر آیتم‌های باز
+        listEl.querySelectorAll('.track-item.open').forEach((b) => {
+          if(b !== btn){
+            b.classList.remove('open');
+            b.setAttribute('aria-expanded', 'false');
+            const p = listEl.querySelector('.track-sub-panel[data-panel-id="' + b.getAttribute('data-track-id') + '"]');
+            if(p) p.classList.remove('open');
+          }
+        });
+        btn.classList.toggle('open', open);
+        btn.setAttribute('aria-expanded', String(open));
+        if(panel) panel.classList.toggle('open', open);
+      });
+    });
+
+    // ---- پخش‌کننده صوت هر تراک ----
+    const faDigits = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+    function toFa(str){ return String(str).replace(/[0-9]/g, d => faDigits[d]); }
+    function fmt(sec){
+      if(!isFinite(sec) || sec < 0) sec = 0;
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return toFa(String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0'));
+    }
+
+    const allAudios = Array.from(listEl.querySelectorAll('.track-audio-el'));
+
+    tracks.forEach((track) => {
+      const audio = listEl.querySelector('[data-audio-el="' + track.id + '"]');
+      const btn   = listEl.querySelector('[data-audio-toggle="' + track.id + '"]');
+      const seek  = listEl.querySelector('[data-seek="' + track.id + '"]');
+      const curEl = listEl.querySelector('[data-time-current="' + track.id + '"]');
+      const durEl = listEl.querySelector('[data-time-duration="' + track.id + '"]');
+      const wrap  = listEl.querySelector('[data-audio-wrap="' + track.id + '"]');
+      const statusEl = listEl.querySelector('[data-status="' + track.id + '"]');
+      if(!audio || !btn) return;
+
+      function setStatus(msg){ if(statusEl) statusEl.textContent = msg || ''; }
+      let userSeeking = false;
+
+      btn.addEventListener('click', () => {
+        if(audio.paused){
+          // توقف پخش سایر تراک‌ها
+          allAudios.forEach((a) => { if(a !== audio && !a.paused) a.pause(); });
+          setStatus('در حال بارگذاری…');
+          audio.play().then(() => setStatus('')).catch(() => {
+            setStatus('پخش صوت با مشکل مواجه شد. اتصال اینترنت یا فایل صوتی را بررسی کنید.');
+          });
+        } else {
+          audio.pause();
+        }
+      });
+      audio.addEventListener('waiting', () => setStatus('در حال بارگذاری…'));
+      audio.addEventListener('canplay', () => setStatus(''));
+      audio.addEventListener('error', () => setStatus('فایل صوتی یافت نشد یا قابل پخش نیست.'));
+      audio.addEventListener('play',  () => { setStatus(''); btn.classList.add('playing'); if(wrap) wrap.classList.add('playing'); btn.setAttribute('aria-pressed','true'); });
+      audio.addEventListener('pause', () => { btn.classList.remove('playing'); if(wrap) wrap.classList.remove('playing'); btn.setAttribute('aria-pressed','false'); });
+      audio.addEventListener('ended', () => { btn.classList.remove('playing'); if(wrap) wrap.classList.remove('playing'); btn.setAttribute('aria-pressed','false'); });
+
+      audio.addEventListener('timeupdate', () => {
+        if(userSeeking) return;
+        const dur = audio.duration || 0;
+        const pct = dur ? (audio.currentTime / dur) * 100 : 0;
+        if(seek){ seek.value = pct; seek.style.setProperty('--pct', pct + '%'); }
+        if(curEl) curEl.textContent = fmt(audio.currentTime);
+        if(dur && durEl) durEl.textContent = fmt(dur);
+      });
+      audio.addEventListener('loadedmetadata', () => { if(durEl) durEl.textContent = fmt(audio.duration); });
+
+      if(seek){
+        seek.addEventListener('input', () => {
+          userSeeking = true;
+          seek.style.setProperty('--pct', seek.value + '%');
+        });
+        seek.addEventListener('change', () => {
+          const dur = audio.duration || 0;
+          if(dur) audio.currentTime = (seek.value / 100) * dur;
+          userSeeking = false;
+        });
+      }
+    });
+
+    // ---- دانلود هر تراک با نوار پیشرفت ----
+    const controllers = {};
+    function toFaNum(n){ return String(n).replace(/[0-9]/g, d => faDigits[d]); }
+
+    async function downloadTrack(btn, track){
+      if(btn.classList.contains('loading')){
+        const c = controllers[track.id];
+        if(c) c.abort();
+        return;
+      }
+      const label = btn.querySelector('.dl-label');
+      const fill  = listEl.querySelector('[data-progress="' + track.id + '"]');
+      const controller = new AbortController();
+      controllers[track.id] = controller;
+      btn.classList.add('loading');
+      btn.classList.remove('done');
+      if(fill) fill.style.width = '0%';
+      label.textContent = 'در حال دانلود... (برای لغو ضربه بزنید)';
+      try{
+        const res = await fetch(track.url, { signal: controller.signal });
+        if(!res.ok) throw new Error('فایل یافت نشد');
+
+        const total = Number(res.headers.get('Content-Length')) || 0;
+        let blob;
+        if(res.body && res.body.getReader && total){
+          const reader = res.body.getReader();
+          const chunks = [];
+          let loaded = 0;
+          while(true){
+            const { done, value } = await reader.read();
+            if(done) break;
+            chunks.push(value);
+            loaded += value.length;
+            const pct = Math.min(100, Math.round((loaded / total) * 100));
+            label.textContent = 'در حال دانلود... ' + toFaNum(pct) + '٪';
+            if(fill) fill.style.width = pct + '%';
+          }
+          blob = new Blob(chunks);
+        } else {
+          blob = await res.blob();
+          if(fill) fill.style.width = '100%';
+        }
+
+        const blobUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = track.filename || track.url.split('/').pop();
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 4000);
+
+        btn.classList.remove('loading');
+        btn.classList.add('done');
+        label.textContent = 'دانلود شد';
+        setTimeout(() => { btn.classList.remove('done'); label.textContent = 'دانلود این فایل'; if(fill) fill.style.width = '0%'; }, 2500);
+      }catch(err){
+        btn.classList.remove('loading');
+        if(fill) fill.style.width = '0%';
+        label.textContent = (err && err.name === 'AbortError') ? 'لغو شد' : 'خطا، تلاش مجدد';
+        setTimeout(() => { label.textContent = 'دانلود این فایل'; }, 2500);
+      } finally {
+        delete controllers[track.id];
+      }
+    }
+
+    listEl.querySelectorAll('.track-download-btn').forEach((btn) => {
+      const id = btn.getAttribute('data-download');
+      const track = tracks.find((t) => t.id === id);
+      if(!track) return;
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        downloadTrack(btn, track);
+      });
+    });
+  })();
+
+  // ---------------- تغییر و همگام‌سازی تم با صفحه اول ----------------
+  (function themeSwitcher(){
+    const toggle = document.getElementById('theme-toggle');
+    const popover = document.getElementById('theme-popover');
+    if(!toggle || !popover) return;
+    const opts = popover.querySelectorAll('.theme-opt');
+
+    document.body.appendChild(popover);
+
+    const THEME_CLASSES = ['theme-light', 'theme-dark', 'theme-fest', 'theme-crimson', 'theme-lilac', 'theme-sunset', 'theme-amber', 'theme-sky'];
+    function applyTheme(theme){
+      document.body.classList.remove(...THEME_CLASSES);
+      if(THEME_CLASSES.includes('theme-' + theme)) document.body.classList.add('theme-' + theme);
+      opts.forEach(b => b.classList.toggle('active', b.dataset.theme === theme));
+      try{ localStorage.setItem('kazemiuon-theme', theme); }catch(e){}
+    }
+
+    let saved = 'default';
+    try{ saved = localStorage.getItem('kazemiuon-theme') || 'default'; }catch(e){}
+    applyTheme(saved);
+
+    function positionThemePopover(){
+      const margin = 10;
+      const rect = toggle.getBoundingClientRect();
+      const pw = popover.offsetWidth || 132;
+      let left = rect.left + rect.width / 2 - pw / 2;
+      left = Math.max(margin, Math.min(left, window.innerWidth - pw - margin));
+      const top = rect.top - popover.offsetHeight - 8;
+      popover.style.left = left + 'px';
+      popover.style.top = Math.max(margin, top) + 'px';
+    }
+
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const show = !popover.classList.contains('show');
+      if(show){
+        popover.style.visibility = 'hidden';
+        popover.classList.add('show');
+        positionThemePopover();
+        popover.style.visibility = '';
+      }else{
+        popover.classList.remove('show');
+      }
+      toggle.setAttribute('aria-expanded', String(show));
+    });
+    window.addEventListener('resize', () => {
+      if(popover.classList.contains('show')) positionThemePopover();
+    }, { passive:true });
+    opts.forEach(b => {
+      b.addEventListener('click', () => {
+        applyTheme(b.dataset.theme);
+        popover.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+    document.addEventListener('click', (e) => {
+      if(!popover.contains(e.target) && e.target !== toggle){
+        popover.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+
+  // ---------------- باز/بسته شدن منوی همبرگری ----------------
+  (function quickMenu(){
+    const btn = document.getElementById('quick-menu-btn');
+    const panel = document.getElementById('quick-menu-panel');
+    if(!btn || !panel) return;
+
+    function closePanel(){
+      panel.classList.remove('show');
+      btn.classList.remove('active');
+      btn.setAttribute('aria-expanded', 'false');
+      const themePop = document.getElementById('theme-popover');
+      const langPop = document.getElementById('lang-popover');
+      if(themePop) themePop.classList.remove('show');
+      if(langPop) langPop.classList.remove('show');
+    }
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const show = !panel.classList.contains('show');
+      panel.classList.toggle('show', show);
+      btn.classList.toggle('active', show);
+      btn.setAttribute('aria-expanded', String(show));
+    });
+
+    document.addEventListener('click', (e) => {
+      if(!panel.contains(e.target) && e.target !== btn && !btn.contains(e.target)){
+        closePanel();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape') closePanel();
+    });
+  })();
+
+  // ---------------- ترجمه‌ها ----------------
+  const translations = {
+    fa: {
+      backBtn: 'بازگشت',
+      pageTitle: '🎙️ مداحی و مولودی',
+      madahiGroupLabel: 'مداحی و مولودی',
+      footerSub: 'پایگاه اطلاع‌رسانی هیئت کاظمیون خرم‌آباد',
+      quickMenuTheme: 'تم',
+      quickMenuLang: 'زبان',
+      quickMenuSound: 'صدا'
+    },
+    ar: {
+      backBtn: 'رجوع',
+      pageTitle: '🎙️ المدائح والموالید',
+      madahiGroupLabel: 'المدائح والموالید',
+      footerSub: 'القناة الرسمية لموكب الكاظميون خرم‌آباد',
+      quickMenuTheme: 'المظهر',
+      quickMenuLang: 'اللغة',
+      quickMenuSound: 'الصوت'
+    },
+    en: {
+      backBtn: 'Back',
+      pageTitle: '🎙️ Eulogies & Chants',
+      madahiGroupLabel: 'Eulogies & Chants',
+      footerSub: 'Official channel of Heyat-e Kazemiyoon Khorramabad',
+      quickMenuTheme: 'Theme',
+      quickMenuLang: 'Language',
+      quickMenuSound: 'Sound'
+    }
+  };
+
+  let currentLang = 'fa';
+
+  function setLang(lang){
+    if(!translations[lang]) return;
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = (lang === 'en') ? 'ltr' : 'rtl';
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if(translations[lang][key] !== undefined){
+        el.textContent = translations[lang][key];
+      }
+    });
+    const activeOpt = document.querySelector('.lang-opt[data-lang="' + lang + '"]');
+    document.querySelectorAll('.lang-opt').forEach(b => {
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
+    if(activeOpt){
+      const flagEl = document.getElementById('lang-toggle-flag');
+      const codeEl = document.getElementById('lang-toggle-code');
+      if(flagEl) flagEl.textContent = activeOpt.dataset.flag;
+      if(codeEl) codeEl.textContent = activeOpt.dataset.code;
+    }
+  }
+
+  // ---------------- تغییر زبان ----------------
+  (function langSwitcher(){
+    const toggle = document.getElementById('lang-toggle');
+    const popover = document.getElementById('lang-popover');
+    if(!toggle || !popover) return;
+    const opts = popover.querySelectorAll('.lang-opt');
+
+    document.body.appendChild(popover);
+
+    function positionLangPopover(){
+      const margin = 10;
+      const rect = toggle.getBoundingClientRect();
+      const pw = popover.offsetWidth || 150;
+      let left = rect.left + rect.width / 2 - pw / 2;
+      left = Math.max(margin, Math.min(left, window.innerWidth - pw - margin));
+      const ph = popover.offsetHeight || 140;
+      let top = rect.bottom + 8;
+      if(top + ph > window.innerHeight - margin){
+        top = rect.top - ph - 8;
+      }
+      popover.style.left = left + 'px';
+      popover.style.top = Math.max(margin, top) + 'px';
+    }
+
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const show = !popover.classList.contains('show');
+      if(show){
+        popover.style.visibility = 'hidden';
+        popover.classList.add('show');
+        positionLangPopover();
+        popover.style.visibility = '';
+      }else{
+        popover.classList.remove('show');
+      }
+      toggle.setAttribute('aria-expanded', String(show));
+    });
+    window.addEventListener('resize', () => {
+      if(popover.classList.contains('show')) positionLangPopover();
+    }, { passive:true });
+    opts.forEach(b => {
+      b.addEventListener('click', () => {
+        setLang(b.dataset.lang);
+        popover.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+    document.addEventListener('click', (e) => {
+      if(!popover.contains(e.target) && e.target !== toggle){
+        popover.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+
+  // ---------------- دکمه صدا (افکت تیک کلیک) ----------------
+  (function soundToggle(){
+    const soundState = { muted: true, ctx: null };
+    function ensureAudioCtx(){
+      if(!soundState.ctx){
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if(AC) soundState.ctx = new AC();
+      }
+      return soundState.ctx;
+    }
+    function playTick(){
+      if(soundState.muted) return;
+      const ctx = ensureAudioCtx();
+      if(!ctx) return;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      const t0 = ctx.currentTime;
+      osc.frequency.setValueAtTime(720, t0);
+      osc.frequency.exponentialRampToValueAtTime(420, t0 + 0.09);
+      gain.gain.setValueAtTime(0.0001, t0);
+      gain.gain.exponentialRampToValueAtTime(0.05, t0 + 0.012);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.14);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(t0);
+      osc.stop(t0 + 0.16);
+    }
+    document.querySelectorAll('.lang-opt, .lang-toggle, .theme-opt, .copy-btn').forEach(el => {
+      el.addEventListener('click', playTick);
+    });
+    const btn = document.getElementById('sound-toggle');
+    if(!btn) return;
+    btn.addEventListener('click', () => {
+      soundState.muted = !soundState.muted;
+      btn.setAttribute('aria-pressed', String(!soundState.muted));
+      btn.querySelector('.icon-sound-on').style.display = soundState.muted ? 'none' : 'block';
+      btn.querySelector('.icon-sound-off').style.display = soundState.muted ? 'block' : 'none';
+      if(!soundState.muted){ ensureAudioCtx(); playTick(); }
+    });
+  })();
+
+  // ---------------- انتقال نرم به صفحه اول (پیش‌بارگذاری + بدون پرش) ----------------
+  (function backSmoothNav(){
+    const trigger = document.getElementById('page2-back');
+    if(!trigger) return;
+    const targetHref = trigger.getAttribute('href');
+
+    function prefetchTarget(){
+      if(document.getElementById('page2-prefetch-link')) return;
+      const link = document.createElement('link');
+      link.id = 'page2-prefetch-link';
+      link.rel = 'prefetch';
+      link.as = 'document';
+      link.href = targetHref;
+      document.head.appendChild(link);
+    }
+
+    // وقتی کاربر با اسکرول به دکمه بازگشت نزدیک می‌شود، صفحه اول از قبل بارگذاری شود
+    if('IntersectionObserver' in window){
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if(entry.isIntersecting){
+            prefetchTarget();
+            io.disconnect();
+          }
+        });
+      }, { root:null, rootMargin:'500px 0px', threshold:0 });
+      io.observe(trigger);
+    } else {
+      prefetchTarget();
+    }
+
+    trigger.addEventListener('pointerenter', prefetchTarget, { once:true });
+    trigger.addEventListener('touchstart', prefetchTarget, { once:true, passive:true });
+    trigger.addEventListener('focus', prefetchTarget, { once:true });
+
+    trigger.addEventListener('click', function(e){
+      if(e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      prefetchTarget();
+      document.body.classList.add('page-exit');
+      setTimeout(() => { window.location.href = targetHref; }, 240);
+    });
+  })();
+</script>
+
+</body>
+</html>

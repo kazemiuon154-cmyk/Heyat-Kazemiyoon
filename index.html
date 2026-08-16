@@ -1250,6 +1250,12 @@
     font-size:17px; font-weight:800; line-height:1.9;
     color:var(--parchment);
   }
+  .downloads-modal-desc{
+    font-size:11.5px;
+    color:var(--parchment-dim);
+    margin-top:4px;
+    line-height:1.7;
+  }
   .modal-row{
     display:flex; justify-content:center; gap:6px;
     font-size:13.5px; margin-top:14px;
@@ -1374,46 +1380,67 @@
   .copy-btn:active{ transform:scale(0.92); }
 
   /* ============================================================
-     PAGE 2 TRIGGER (دکمه بیضی باریک بالای لوگو)
+     PAGE TRIGGERS (دکمه‌های ورود به زیرصفحات: ادعیه / نذورات / مداحی)
   ============================================================ */
   .page2-trigger-wrap{
-    display:flex;
-    justify-content:center;
-    margin:4px 0 14px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(106px, 1fr));
+    gap:9px;
+    margin:4px 0 16px;
   }
   .page2-trigger{
     position:relative;
-    display:inline-flex;
+    display:flex;
     align-items:center;
     justify-content:center;
-    gap:8px;
-    padding:11px 30px;
-    border-radius:999px;
+    flex-direction:column;
+    gap:4px;
+    padding:11px 8px 9px;
+    border-radius:18px;
     border:1px solid rgba(255,255,255,0.25);
     background:linear-gradient(135deg, var(--gold-bright, var(--gold)), var(--crimson-bright));
-    background-size:200% 200%;
     color:#1a0f04;
     font-family:'Vazirmatn', sans-serif;
-    font-size:13.5px;
+    font-size:12px;
     font-weight:800;
-    letter-spacing:0.02em;
+    letter-spacing:0.01em;
+    line-height:1.35;
+    text-align:center;
     cursor:pointer;
     text-decoration:none;
-    box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 20px rgba(var(--crimson-rgb),0.45), 0 0 0 4px rgba(var(--crimson-rgb),0.12);
-    transition:all 0.2s ease;
-    animation:page2Pulse 2.6s ease-in-out infinite, page2Shine 5s linear infinite;
+    box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 18px rgba(var(--crimson-rgb),0.4), 0 0 0 3px rgba(var(--crimson-rgb),0.1);
+    transition:transform 0.2s ease, box-shadow 0.2s ease;
   }
-  .page2-trigger svg{ width:15px; height:15px; flex:none; }
-  .page2-trigger:hover{ transform:translateY(-1px) scale(1.03); box-shadow:0 2px 0 rgba(255,255,255,0.4) inset, 0 10px 24px rgba(var(--crimson-rgb),0.55), 0 0 0 5px rgba(var(--crimson-rgb),0.18); }
+  .page2-trigger::after{
+    content:'';
+    position:absolute;
+    inset:-3px;
+    border-radius:inherit;
+    border:1.5px solid rgba(var(--crimson-rgb),0.55);
+    opacity:0.5;
+    transform:scale(1);
+    animation:page2PulseRing 2.6s ease-in-out infinite;
+    pointer-events:none;
+    will-change:transform, opacity;
+  }
+  .page2-trigger-emoji{ font-size:15px; line-height:1; }
+  .page2-trigger:hover{ transform:translateY(-2px) scale(1.03); box-shadow:0 2px 0 rgba(255,255,255,0.4) inset, 0 10px 22px rgba(var(--crimson-rgb),0.55), 0 0 0 4px rgba(var(--crimson-rgb),0.16); }
   .page2-trigger:active{ transform:scale(0.95); }
-  @keyframes page2Pulse{
-    0%,100%{ box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 20px rgba(var(--crimson-rgb),0.45), 0 0 0 4px rgba(var(--crimson-rgb),0.12); }
-    50%{ box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 26px rgba(var(--crimson-rgb),0.65), 0 0 0 8px rgba(var(--crimson-rgb),0.05); }
+  .page2-trigger-alt{
+    background:linear-gradient(135deg, #e8d28a, var(--gold-soft));
   }
-  @keyframes page2Shine{
-    0%{ background-position:0% 50%; }
-    50%{ background-position:100% 50%; }
-    100%{ background-position:0% 50%; }
+  .page2-trigger-alt::after{ animation-delay:0.25s; }
+  .page2-trigger-alt2{
+    background:linear-gradient(135deg, var(--crimson-bright), var(--gold-soft));
+  }
+  .page2-trigger-alt2::after{ animation-delay:0.5s; }
+  .page2-trigger-alt3{
+    background:linear-gradient(135deg, var(--gold-soft), var(--crimson-bright));
+  }
+  .page2-trigger-alt3::after{ animation-delay:0.75s; }
+  @keyframes page2PulseRing{
+    0%,100%{ opacity:0.55; transform:scale(1); }
+    50%{ opacity:0; transform:scale(1.06); }
   }
 
   /* share copy-link button (replaces WhatsApp) */
@@ -1579,132 +1606,12 @@
   }
 
   /* ============================================================
-     پخش‌کننده مداحی پس‌زمینه (نوار شناور پایین صفحه)
-  ============================================================ */
-  .madahi-player{
-    --madahi-purple:#a855f7;
-    --madahi-purple-bright:#c084fc;
-    --madahi-purple-deep:#6d28d9;
-    position:fixed;
-    left:50%;
-    bottom:calc(84px + env(safe-area-inset-bottom, 0px));
-    transform:translateX(-50%) translateY(0);
-    z-index:55;
-    width:calc(100% - 44px);
-    max-width:340px;
-    display:flex;
-    align-items:center;
-    gap:6px;
-    padding:6px 8px;
-    border-radius:14px;
-    background:rgba(20,14,10,0.9);
-    border:1px solid var(--line);
-    box-shadow:0 10px 24px rgba(0,0,0,0.45);
-    -webkit-backdrop-filter:blur(10px);
-    backdrop-filter:blur(10px);
-    transition:transform 0.35s ease, opacity 0.35s ease;
-  }
-  .madahi-player.collapsed{
-    transform:translateX(-50%) translateY(calc(100% + 20px));
-    opacity:0;
-    pointer-events:none;
-  }
-  .madahi-btn{
-    flex:none;
-    width:26px; height:26px;
-    border-radius:50%;
-    border:1px solid var(--line);
-    background:rgba(255,255,255,0.04);
-    color:var(--parchment);
-    display:flex; align-items:center; justify-content:center;
-    cursor:pointer;
-    transition:all 0.18s ease;
-  }
-  .madahi-btn:hover{ border-color:var(--gold-soft); color:var(--gold); }
-  .madahi-btn-play:hover{ border-color:rgba(168,85,247,0.9); color:#fff; }
-  .madahi-btn:active{ transform:scale(0.9); }
-  .madahi-btn svg{ width:12px; height:12px; }
-  .madahi-btn-play{
-    width:30px; height:30px;
-    background:linear-gradient(135deg, var(--madahi-purple-bright), var(--madahi-purple-deep));
-    border:1px solid rgba(168,85,247,0.6);
-    box-shadow:0 0 10px rgba(168,85,247,0.5);
-    color:#fff;
-  }
-  .madahi-btn-play svg{ width:13px; height:13px; }
-  .madahi-btn-play .icon-pause{ display:none; }
-  .madahi-player.playing .madahi-btn-play .icon-play{ display:none; }
-  .madahi-player.playing .madahi-btn-play .icon-pause{ display:flex; }
-  .madahi-mid{
-    flex:1;
-    min-width:0;
-    display:flex;
-    flex-direction:column;
-  }
-  .madahi-title{ display:none; }
-  .madahi-seek-row{
-    display:flex; align-items:center; gap:5px;
-  }
-  .madahi-time{
-    font-size:9px; font-variant-numeric:tabular-nums;
-    color:var(--parchment-dim);
-    flex:none;
-    min-width:24px;
-    text-align:center;
-  }
-  .madahi-seek{
-    flex:1;
-    -webkit-appearance:none;
-    appearance:none;
-    direction:ltr;
-    height:4px;
-    border-radius:3px;
-    background:linear-gradient(90deg, var(--madahi-purple) 0%, var(--madahi-purple) var(--pct,0%), rgba(255,255,255,0.15) var(--pct,0%), rgba(255,255,255,0.15) 100%);
-    outline:none;
-    cursor:pointer;
-    margin:0;
-  }
-  .madahi-seek::-webkit-slider-thumb{
-    -webkit-appearance:none;
-    appearance:none;
-    width:12px; height:12px;
-    border-radius:50%;
-    background:var(--madahi-purple-bright);
-    box-shadow:0 0 0 2px rgba(20,14,10,0.9), 0 0 8px rgba(168,85,247,0.7);
-    cursor:pointer;
-  }
-  .madahi-seek::-moz-range-thumb{
-    width:12px; height:12px;
-    border:none;
-    border-radius:50%;
-    background:var(--madahi-purple-bright);
-    box-shadow:0 0 0 2px rgba(20,14,10,0.9), 0 0 8px rgba(168,85,247,0.7);
-    cursor:pointer;
-  }
-  .madahi-hint{
-    position:fixed;
-    left:50%; bottom:calc(122px + env(safe-area-inset-bottom, 0px));
-    transform:translateX(-50%);
-    z-index:55;
-    background:rgba(20,14,10,0.92);
-    border:1px solid var(--line);
-    color:var(--parchment);
-    font-size:10.5px; font-weight:600;
-    padding:6px 12px;
-    border-radius:10px;
-    white-space:nowrap;
-    opacity:0; visibility:hidden;
-    transition:opacity 0.3s ease, visibility 0.3s ease;
-  }
-  .madahi-hint.show{ opacity:1; visibility:visible; }
-
-  /* ============================================================
-     دکمه شناور دانلود فایل‌های صوتی (زیارت عاشورا، مداحی و ...)
+     دکمه شناور مرکز دانلود سایت (تصاویر، مداحی، زیارت‌نامه‌ها و ...)
   ============================================================ */
   .downloads-fab{
     position:fixed;
     left:16px;
-    bottom:calc(150px + env(safe-area-inset-bottom, 0px));
+    bottom:calc(20px + env(safe-area-inset-bottom, 0px));
     z-index:56;
     display:flex; align-items:center; gap:9px;
     padding:12px 20px 12px 16px;
@@ -1713,10 +1620,21 @@
     background:linear-gradient(135deg, var(--gold), var(--gold-dim));
     color:var(--void);
     cursor:pointer;
-    box-shadow:0 6px 18px rgba(0,0,0,0.45), 0 0 0 0 rgba(255,203,61,0.5);
-    animation:downloads-fab-pulse 2.6s ease-in-out infinite;
+    box-shadow:0 6px 18px rgba(0,0,0,0.45);
     transition:transform 0.18s ease, opacity 0.25s ease, visibility 0.25s ease;
     white-space:nowrap;
+  }
+  .downloads-fab::after{
+    content:'';
+    position:absolute;
+    inset:-2px;
+    border-radius:inherit;
+    border:1.5px solid rgba(255,203,61,0.55);
+    opacity:0.55;
+    transform:scale(1);
+    animation:downloads-fab-pulse 2.6s ease-in-out infinite;
+    pointer-events:none;
+    will-change:transform, opacity;
   }
   .downloads-fab:active{ transform:scale(0.95); }
   .downloads-fab.collapsed{
@@ -1732,8 +1650,8 @@
     letter-spacing:-0.2px;
   }
   @keyframes downloads-fab-pulse{
-    0%,100%{ box-shadow:0 6px 18px rgba(0,0,0,0.45), 0 0 0 0 rgba(255,203,61,0.45); }
-    50%{ box-shadow:0 6px 18px rgba(0,0,0,0.45), 0 0 0 9px rgba(255,203,61,0); }
+    0%,100%{ opacity:0.55; transform:scale(1); }
+    50%{ opacity:0; transform:scale(1.08); }
   }
 
   .downloads-list{
@@ -1874,52 +1792,20 @@
   </div>
 </div>
 
-<!-- ============================================================
-     پخش‌کننده مداحی پس‌زمینه: خودکار پخش می‌شود (پس از اولین
-     تعامل کاربر با صفحه، به‌دلیل محدودیت مرورگرها برای autoplay
-     صدادار) و کاربر می‌تواند توقف/پخش، ۱۰ ثانیه جلو/عقب و جابه‌جایی
-     روی نوار پیشرفت را خودش انجام دهد.
-============================================================ -->
-<audio id="madahi-audio" src="madahi.mp3" loop preload="auto"></audio>
-
-<div class="madahi-hint" id="madahi-hint">برای پخش مداحی، صفحه را لمس کنید</div>
-
-<div class="madahi-player" id="madahi-player" role="region" aria-label="پخش‌کننده مداحی">
-  <button type="button" class="madahi-btn" id="madahi-back" aria-label="۱۰ ثانیه عقب">
-    <svg viewBox="0 0 24 24" fill="none"><path d="M12 5V2L7 6l5 4V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z" fill="currentColor"/><text x="12" y="15.5" font-size="7" font-family="Vazirmatn, sans-serif" font-weight="700" text-anchor="middle" fill="currentColor" stroke="none">10</text></svg>
-  </button>
-
-  <button type="button" class="madahi-btn madahi-btn-play" id="madahi-toggle" aria-label="پخش / توقف مداحی" aria-pressed="false">
-    <svg class="icon-play" viewBox="0 0 24 24" fill="none"><path d="M7 5v14l12-7L7 5z" fill="currentColor"/></svg>
-    <svg class="icon-pause" viewBox="0 0 24 24" fill="none"><rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor"/><rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor"/></svg>
-  </button>
-
-  <button type="button" class="madahi-btn" id="madahi-forward" aria-label="۱۰ ثانیه جلو">
-    <svg viewBox="0 0 24 24" fill="none"><path d="M12 5V2l5 4-5 4V7a5 5 0 1 0 5 5h2a7 7 0 1 1-7-7z" fill="currentColor"/><text x="12" y="15.5" font-size="7" font-family="Vazirmatn, sans-serif" font-weight="700" text-anchor="middle" fill="currentColor" stroke="none">10</text></svg>
-  </button>
-
-  <div class="madahi-mid">
-    <div class="madahi-seek-row">
-      <span class="madahi-time" id="madahi-current">۰۰:۰۰</span>
-      <input type="range" class="madahi-seek" id="madahi-seek" min="0" max="100" value="0" step="0.1" aria-label="نوار پیشرفت مداحی">
-      <span class="madahi-time" id="madahi-duration">۰۰:۰۰</span>
-    </div>
-  </div>
-</div>
-
-<button type="button" class="downloads-fab" id="downloads-fab" aria-label="دانلود فایل‌های صوتی" aria-haspopup="dialog">
+<button type="button" class="downloads-fab" id="downloads-fab" aria-label="مرکز دانلود؛ تصاویر، مداحی و زیارت‌نامه‌های سایت" aria-haspopup="dialog">
   <svg viewBox="0 0 24 24" fill="none"><path d="M4 13v-1a8 8 0 0 1 16 0v1M4 13v4a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2H4zm16 0v4a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h3z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  <span class="downloads-fab-label">دانلود فایل‌های صوتی</span>
+  <span class="downloads-fab-label">مرکز دانلود سایت</span>
 </button>
 
 <div class="modal-overlay" id="downloads-modal-overlay">
-  <div class="modal-sheet downloads-sheet" role="dialog" aria-modal="true" aria-label="دانلود فایل‌های صوتی">
+  <div class="modal-sheet downloads-sheet" role="dialog" aria-modal="true" aria-label="مرکز دانلود سایت">
     <button type="button" class="modal-close" id="downloads-modal-close" aria-label="بستن">
       <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
     </button>
     <div class="modal-handle"></div>
     <div class="modal-ribbon">دانلود</div>
-    <div class="modal-title">فایل‌های صوتی</div>
+    <div class="modal-title">مرکز دانلود سایت</div>
+    <div class="downloads-modal-desc">همه‌چیز در یک‌جا؛ تصاویر گالری، مداحی و مولودی، و زیارت‌نامه‌ها</div>
     <div class="downloads-list" id="downloads-list"></div>
   </div>
 </div>
@@ -2000,9 +1886,21 @@
   </div>
 
   <div class="page2-trigger-wrap">
-    <a href="page2.html" class="page2-trigger" id="page2-trigger">
-      <span data-i18n="page2Trigger">صفحه دوم</span>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+    <a href="page2.html" class="page2-trigger" id="page2-trigger" data-prefetch-nav>
+      <span class="page2-trigger-emoji" aria-hidden="true">📖</span>
+      <span data-i18n="libraryTrigger">ادعیه و زیارت نامه‌ها</span>
+    </a>
+    <a href="nazr.html" class="page2-trigger page2-trigger-alt" id="nazr-trigger" data-prefetch-nav>
+      <span class="page2-trigger-emoji" aria-hidden="true">🕯️</span>
+      <span data-i18n="nazrTrigger">نذورات</span>
+    </a>
+    <a href="madahi.html" class="page2-trigger page2-trigger-alt2" id="madahi-trigger" data-prefetch-nav>
+      <span class="page2-trigger-emoji" aria-hidden="true">🎙️</span>
+      <span data-i18n="madahiTrigger">مداحی و مولودی</span>
+    </a>
+    <a href="gallery.html" class="page2-trigger page2-trigger-alt3" id="gallery-trigger" data-prefetch-nav>
+      <span class="page2-trigger-emoji" aria-hidden="true">🖼️</span>
+      <span data-i18n="galleryTrigger">گالری تصاویر</span>
     </a>
   </div>
 
@@ -2542,7 +2440,10 @@
     fa: {
       bismillah: "بسم الله الرحمن الرحیم",
       topPreviewLabel: "در حال بازگشت به",
-      page2Trigger: "صفحه دوم",
+      libraryTrigger: "ادعیه و زیارت نامه‌ها",
+      nazrTrigger: "نذورات",
+      madahiTrigger: "مداحی و مولودی",
+      galleryTrigger: "گالری تصاویر",
       tag: "هیئـت عزاداری",
       title: "هیئت کاظمیون خرم‌آباد",
       meta: 'مراسم هفتگی: <b>سه‌شنبه‌ها ساعت ۲۱</b><br>قاضی‌آباد، خیابان نهم، مسجد حضرت قائم «عج»',
@@ -2596,7 +2497,10 @@
     ar: {
       bismillah: "بسم الله الرحمن الرحيم",
       topPreviewLabel: "جارٍ العودة إلى",
-      page2Trigger: "الصفحة الثانية",
+      libraryTrigger: "الأدعية والزيارات",
+      nazrTrigger: "النذور",
+      madahiTrigger: "المدائح والموالید",
+      galleryTrigger: "معرض الصور",
       tag: "موكب عزاء",
       title: "موكب الكاظميون خرم‌آباد",
       meta: 'يقام أسبوعياً، <b>الثلاثاء الساعة ۲۱</b><br>قاضي‌آباد، الشارع التاسع، مسجد الإمام القائم (عج)',
@@ -2650,7 +2554,10 @@
     en: {
       bismillah: "In the Name of Allah",
       topPreviewLabel: "Returning to",
-      page2Trigger: "Page Two",
+      libraryTrigger: "Prayers & Ziyarat",
+      nazrTrigger: "Votive Offerings",
+      madahiTrigger: "Eulogies & Chants",
+      galleryTrigger: "Photo Gallery",
       tag: "MOURNING COUNCIL",
       title: "Heyat-e Kazemiyoon, Khorramabad",
       meta: 'Held weekly, <b>Tuesdays at 9:00 PM</b><br>Ghazi-abad, 9th Street, Emam Ghaem Mosque',
@@ -3503,106 +3410,28 @@
     }
   })();
 
-  // ---------------- پخش‌کننده مداحی پس‌زمینه ----------------
-  (function madahiPlayer(){
-    const audio   = document.getElementById('madahi-audio');
-    const player  = document.getElementById('madahi-player');
-    const hint    = document.getElementById('madahi-hint');
-    const btnPlay = document.getElementById('madahi-toggle');
-    const btnBack = document.getElementById('madahi-back');
-    const btnFwd  = document.getElementById('madahi-forward');
-    const seek    = document.getElementById('madahi-seek');
-    const curEl   = document.getElementById('madahi-current');
-    const durEl   = document.getElementById('madahi-duration');
-    if(!audio || !player) return;
+  // ---------------- پنهان‌سازی دکمه دانلود هنگام باز بودن مودال‌ها ----------------
+  (function syncDownloadsFabVisibility(){
+    const dlFab = document.getElementById('downloads-fab');
+    if(!dlFab) return;
 
-    const faDigits = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
-    function toFa(str){ return String(str).replace(/[0-9]/g, d => faDigits[d]); }
-    function fmt(sec){
-      if(!isFinite(sec) || sec < 0) sec = 0;
-      const m = Math.floor(sec / 60);
-      const s = Math.floor(sec % 60);
-      return toFa(String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0'));
-    }
-
-    let userSeeking = false;
-
-    function updatePlayIcon(){
-      const playing = !audio.paused && !audio.ended;
-      player.classList.toggle('playing', playing);
-      btnPlay.setAttribute('aria-pressed', String(playing));
-    }
-
-    function updateProgress(){
-      if(userSeeking) return;
-      const dur = audio.duration || 0;
-      const pct = dur ? (audio.currentTime / dur) * 100 : 0;
-      seek.value = pct;
-      seek.style.setProperty('--pct', pct + '%');
-      curEl.textContent = fmt(audio.currentTime);
-      if(dur) durEl.textContent = fmt(dur);
-    }
-
-    // پخش خودکار مداحی هنگام بارگذاری صفحه غیرفعال است؛
-    // پخش فقط با دکمه پلی یا به‌صورت خودکار بعد از دانلود فایل مداحی انجام می‌شود
-    // (فراخوانی از بخش دانلود، پایین‌تر در همین اسکریپت: window.playMadahi())
-    window.playMadahi = function(){
-      if(audio.paused){
-        audio.play().then(() => { hint.classList.remove('show'); }).catch(() => {});
-      }
-    };
-
-    audio.addEventListener('play', updatePlayIcon);
-    audio.addEventListener('pause', updatePlayIcon);
-    audio.addEventListener('ended', updatePlayIcon);
-    audio.addEventListener('timeupdate', updateProgress);
-    audio.addEventListener('loadedmetadata', updateProgress);
-
-    btnPlay.addEventListener('click', () => {
-      if(audio.paused){ audio.play().catch(()=>{}); }
-      else{ audio.pause(); }
-      hint.classList.remove('show');
-    });
-
-    btnBack.addEventListener('click', () => {
-      audio.currentTime = Math.max(0, audio.currentTime - 10);
-    });
-    btnFwd.addEventListener('click', () => {
-      audio.currentTime = Math.min(audio.duration || audio.currentTime + 10, audio.currentTime + 10);
-    });
-
-    seek.addEventListener('input', () => {
-      userSeeking = true;
-      seek.style.setProperty('--pct', seek.value + '%');
-    });
-    seek.addEventListener('change', () => {
-      const dur = audio.duration || 0;
-      if(dur) audio.currentTime = (seek.value / 100) * dur;
-      userSeeking = false;
-    });
-
-    // وقتی مودال اعلان ویژه باز است، پلیر زیر آن پنهان شود
     const overlaysToWatch = [
       document.getElementById('announce-modal-overlay'),
       document.getElementById('downloads-modal-overlay')
     ].filter(Boolean);
 
-    const dlFab  = document.getElementById('downloads-fab');
-
-    function syncPlayerVisibility(){
+    function syncVisibility(){
       const anyOpen = overlaysToWatch.some(o => o.classList.contains('show'));
-      player.classList.toggle('collapsed', anyOpen);
-      if(anyOpen) hint.classList.remove('show');
-      if(dlFab) dlFab.classList.toggle('collapsed', anyOpen);
+      dlFab.classList.toggle('collapsed', anyOpen);
     }
     overlaysToWatch.forEach(overlay => {
-      const mo = new MutationObserver(syncPlayerVisibility);
+      const mo = new MutationObserver(syncVisibility);
       mo.observe(overlay, { attributes:true, attributeFilter:['class'] });
     });
-    syncPlayerVisibility();
+    syncVisibility();
   })();
 
-  // ---------------- دانلود فایل‌های صوتی (زیارت عاشورا، مداحی و ...) ----------------
+  // ---------------- مرکز دانلود سایت (تصاویر، مداحی، زیارت‌نامه‌ها) ----------------
   (function downloadsSection(){
     const fab      = document.getElementById('downloads-fab');
     const overlay  = document.getElementById('downloads-modal-overlay');
@@ -3610,12 +3439,15 @@
     const listEl   = document.getElementById('downloads-list');
     if(!fab || !overlay || !closeBtn || !listEl) return;
 
+    // این بخش، مرکز دانلود کل سایت است و فایل‌های همه بخش‌ها را یک‌جا نشان می‌دهد.
     // برای افزودن فایل جدید، یک آبجکت مشابه زیر اضافه کن.
-    // url: مسیر فایل صوتی روی همین ریپازیتوری (مثلا madahi.mp3 یا audio/ziarat-ashura.mp3)
+    // url: مسیر فایل روی همین ریپازیتوری (صوتی مثل madahi.mp3 یا تصویر مثل logo.jpg)
     // filename: نامی که هنگام دانلود روی گوشی/کامپیوتر کاربر ذخیره می‌شود
     const files = [
-      { title:'زیارت عاشورا', subtitle:'صوت کامل زیارت', url:'ziarat-ashura.mp3', filename:'ziarat-ashura.mp3' },
-      { title:'مداحی هیئت کاظمیون', subtitle:'نمونه مداحی', url:'madahi.mp3', filename:'madahi-kazemiyoon.mp3' }
+      { title:'زیارت عاشورا', subtitle:'صوت کامل زیارت — بخش ادعیه و زیارت‌ها', url:'ziarat-ashura.mp3', filename:'ziarat-ashura.mp3' },
+      { title:'تن بی سر', subtitle:'کربلایی رضا دارایی — بخش مداحی و مولودی', url:'madahi.mp3', filename:'tane-bi-sar-reza-daraei.mp3' },
+      { title:'با حضور مداحان اهل بیت', subtitle:'تصویر — بخش گالری', url:'speakers-1.jpg', filename:'با-حضور-مداحان-اهل-بیت.jpg' },
+      { title:'نشان هیئت کاظمیون خرم‌آباد', subtitle:'تصویر — بخش گالری', url:'logo.jpg', filename:'نشان-هیئت-کاظمیون.jpg' }
     ];
 
     const faDigits = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
@@ -3710,11 +3542,6 @@
         if(row) row.classList.remove('loading');
         label.textContent = 'دانلود شد';
         setTimeout(() => { btn.classList.remove('done'); label.textContent = 'دانلود'; if(fill) fill.style.width = '0%'; }, 2500);
-
-        // بعد از دانلود فایل مداحی، پخش‌کننده پس‌زمینه به‌صورت خودکار شروع به پخش کند
-        if(file.url === 'madahi.mp3' && typeof window.playMadahi === 'function'){
-          window.playMadahi();
-        }
       }catch(err){
         btn.classList.remove('loading');
         btn.setAttribute('aria-label', 'دانلود ' + file.title);
@@ -3814,51 +3641,56 @@
     setTimeout(() => map.invalidateSize(), 300);
   })();
 
-  // ---------------- انتقال نرم به صفحه دوم (پیش‌بارگذاری + بدون پرش) ----------------
-  (function page2SmoothNav(){
-    const trigger = document.getElementById('page2-trigger');
-    if(!trigger) return;
-    const targetHref = trigger.getAttribute('href');
+  // ---------------- انتقال نرم به صفحات داخلی (پیش‌بارگذاری + بدون پرش) ----------------
+  (function pageTriggersSmoothNav(){
+    const triggers = document.querySelectorAll('[data-prefetch-nav]');
+    if(!triggers.length) return;
 
-    function prefetchTarget(){
-      if(document.getElementById('page2-prefetch-link')) return;
-      const link = document.createElement('link');
-      link.id = 'page2-prefetch-link';
-      link.rel = 'prefetch';
-      link.as = 'document';
-      link.href = targetHref;
-      document.head.appendChild(link);
-    }
+    triggers.forEach(trigger => {
+      const targetHref = trigger.getAttribute('href');
+      const linkId = 'prefetch-link-' + targetHref.replace(/[^a-zA-Z0-9]/g, '');
 
-    // وقتی کاربر با اسکرول به دکمه نزدیک می‌شود، صفحه دوم از قبل بارگذاری شود
-    if('IntersectionObserver' in window){
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if(entry.isIntersecting){
-            prefetchTarget();
-            io.disconnect();
-          }
-        });
-      }, { root:null, rootMargin:'500px 0px', threshold:0 });
-      io.observe(trigger);
-    } else {
-      prefetchTarget();
-    }
+      function prefetchTarget(){
+        if(document.getElementById(linkId)) return;
+        const link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'prefetch';
+        link.as = 'document';
+        link.href = targetHref;
+        document.head.appendChild(link);
+      }
 
-    // پشتیبان: همین‌که انگشت/ماوس نزدیک دکمه شد هم پیش‌بارگذاری کن
-    trigger.addEventListener('pointerenter', prefetchTarget, { once:true });
-    trigger.addEventListener('touchstart', prefetchTarget, { once:true, passive:true });
-    trigger.addEventListener('focus', prefetchTarget, { once:true });
+      // وقتی کاربر با اسکرول به دکمه نزدیک می‌شود، صفحه مقصد از قبل بارگذاری شود
+      if('IntersectionObserver' in window){
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if(entry.isIntersecting){
+              prefetchTarget();
+              io.disconnect();
+            }
+          });
+        }, { root:null, rootMargin:'500px 0px', threshold:0 });
+        io.observe(trigger);
+      } else {
+        prefetchTarget();
+      }
 
-    // هنگام کلیک، یک محو نرم انجام بده و بعد منتقل شو تا انتقال بدون پرش باشد
-    trigger.addEventListener('click', function(e){
-      if(e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      e.preventDefault();
-      prefetchTarget();
-      document.body.classList.add('page-exit');
-      setTimeout(() => { window.location.href = targetHref; }, 240);
+      // پشتیبان: همین‌که انگشت/ماوس نزدیک دکمه شد هم پیش‌بارگذاری کن
+      trigger.addEventListener('pointerenter', prefetchTarget, { once:true });
+      trigger.addEventListener('touchstart', prefetchTarget, { once:true, passive:true });
+      trigger.addEventListener('focus', prefetchTarget, { once:true });
+
+      // هنگام کلیک، یک محو نرم انجام بده و بعد منتقل شو تا انتقال بدون پرش باشد
+      trigger.addEventListener('click', function(e){
+        if(e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        e.preventDefault();
+        prefetchTarget();
+        document.body.classList.add('page-exit');
+        setTimeout(() => { window.location.href = targetHref; }, 240);
+      });
     });
   })();
+
 </script>
 
 </body>
