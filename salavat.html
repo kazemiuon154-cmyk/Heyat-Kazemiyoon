@@ -14,6 +14,7 @@
 <meta name="description" content="صلوات‌شمار آنلاین هیئت کاظمیون خرم‌آباد؛ شمارش اللهم صل علی محمد و آل محمد و اللهم عجل لولیک الفرج با ذخیره‌سازی خودکار.">
 <meta name="robots" content="noindex, follow">
 <link rel="icon" href="logo.jpg">
+<meta name="theme-color" content="#0e9b62">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -662,14 +663,25 @@
 
   .salavat-actions{
     display:flex;
-    align-items:center;
-    justify-content:center;
+    flex-direction:column;
+    align-items:stretch;
     gap:10px;
     margin-top:18px;
+  }
+  .salavat-actions-row{
+    display:flex;
+    align-items:stretch;
+    justify-content:center;
+    gap:10px;
+  }
+  .salavat-actions-row .salavat-action-btn{
+    flex:1;
+    justify-content:center;
   }
   .salavat-action-btn{
     display:flex;
     align-items:center;
+    justify-content:center;
     gap:6px;
     padding:9px 16px;
     border-radius:999px;
@@ -679,12 +691,14 @@
     font-family:'Vazirmatn', sans-serif;
     font-size:12px;
     font-weight:700;
+    white-space:nowrap;
     cursor:pointer;
     transition:all 0.18s ease;
   }
-  .salavat-action-btn svg{ width:14px; height:14px; }
+  .salavat-action-btn svg{ width:14px; height:14px; flex:none; }
   .salavat-action-btn:hover{ border-color:var(--gold-soft); color:var(--parchment); }
   .salavat-action-btn.danger:hover{ border-color:#c0453f; color:#e0665f; }
+  .salavat-action-btn[disabled]{ opacity:0.55; pointer-events:none; }
 
   .salavat-milestone-note{
     text-align:center;
@@ -1016,14 +1030,16 @@
     </div>
 
     <div class="salavat-actions">
-      <button type="button" class="salavat-action-btn" id="salavat-undo-btn">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M9 14L4 9l5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 9h10a6 6 0 0 1 6 6v0a6 6 0 0 1-6 6h-1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span data-i18n="salavatUndoBtn">یکی کم کن</span>
-      </button>
-      <button type="button" class="salavat-action-btn danger" id="salavat-reset-btn">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2m2 0-.8 12.1A2 2 0 0 1 16.2 21H7.8a2 2 0 0 1-2-1.9L5 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span data-i18n="salavatResetBtn">بازنشانی</span>
-      </button>
+      <div class="salavat-actions-row">
+        <button type="button" class="salavat-action-btn" id="salavat-undo-btn">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M9 14L4 9l5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 9h10a6 6 0 0 1 6 6v0a6 6 0 0 1-6 6h-1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-i18n="salavatUndoBtn">یکی کم کن</span>
+        </button>
+        <button type="button" class="salavat-action-btn danger" id="salavat-reset-btn">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2m2 0-.8 12.1A2 2 0 0 1 16.2 21H7.8a2 2 0 0 1-2-1.9L5 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-i18n="salavatResetBtn">بازنشانی</span>
+        </button>
+      </div>
     </div>
 
     <div class="salavat-milestone-note" data-i18n="salavatFooterNote">شمارش‌ها به‌صورت خودکار روی همین دستگاه ذخیره می‌شوند؛ هر بار صفحه را باز کنید از همان‌جا ادامه پیدا می‌کند.</div>
@@ -1619,7 +1635,7 @@
       quickMenuTheme: 'تم',
       quickMenuRoundSize: 'اندازه دور',
       quickMenuLang: 'زبان',
-      quickMenuSound: 'صدا'
+      quickMenuSound: 'صدا',
     },
     ar: {
       backBtn: 'رجوع',
@@ -1642,7 +1658,7 @@
       quickMenuTheme: 'المظهر',
       quickMenuRoundSize: 'حجم الدورة',
       quickMenuLang: 'اللغة',
-      quickMenuSound: 'الصوت'
+      quickMenuSound: 'الصوت',
     },
     en: {
       backBtn: 'Back',
@@ -1665,7 +1681,7 @@
       quickMenuTheme: 'Theme',
       quickMenuRoundSize: 'Round size',
       quickMenuLang: 'Language',
-      quickMenuSound: 'Sound'
+      quickMenuSound: 'Sound',
     }
   };
 
