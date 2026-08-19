@@ -49,14 +49,7 @@
     display:flex;
     justify-content:center;
     -webkit-font-smoothing:antialiased;
-    animation:page2FadeIn 0.4s ease both;
-    transition:opacity 0.28s ease, transform 0.28s ease;
   }
-  @keyframes page2FadeIn{
-    from{ opacity:0; transform:translateY(8px); }
-    to{ opacity:1; transform:translateY(0); }
-  }
-  body.page-exit{ opacity:0; transform:translateY(-8px); }
 
   /* ---------------- ذرات ریز طلایی پس‌زمینه ---------------- */
   .embers{ position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
@@ -551,7 +544,7 @@
   }
   .salavat-tap-btn:active{ transform:scale(0.96); }
   .salavat-tap-btn.pulse{
-    box-shadow:0 10px 26px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.03) inset, 0 0 30px 5px rgba(255,203,61,0.4);
+    box-shadow:0 10px 26px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.03) inset, 0 0 14px 2px rgba(255,203,61,0.22);
   }
   .salavat-count{
     font-size:44px;
@@ -596,11 +589,11 @@
     will-change:transform, opacity;
   }
   .salavat-ripple span.go{
-    animation:salavatRipple 0.55s cubic-bezier(.16,1,.3,1);
+    animation:salavatRipple 0.32s cubic-bezier(.16,1,.3,1);
   }
   @keyframes salavatRipple{
-    0%{ transform:scale(0.88); opacity:0.75; }
-    100%{ transform:scale(1.32); opacity:0; }
+    0%{ transform:scale(0.92); opacity:0.45; }
+    100%{ transform:scale(1.14); opacity:0; }
   }
 
   .salavat-substats{
@@ -1137,13 +1130,36 @@
     }
     window.updateSalavatRoundLabel = updateRoundLabel;
 
-    function getCount(key){
-      try{ return parseInt(localStorage.getItem(DHIKR[key].storeKey), 10) || 0; }catch(e){ return 0; }
+    /* شمارش‌ها یک‌بار در حافظه بارگذاری می‌شوند و از همان‌جا خوانده می‌شوند؛
+       نوشتن در localStorage روی هر تک‌ضربه انجام نمی‌شود (کند و هم‌زمان/بلاک‌کننده
+       است)، بلکه با تأخیر کوتاه دسته‌بندی می‌شود تا در ضربه‌های پیاپی فقط یک بار
+       روی دیسک نوشته شود. پیش از بسته‌شدن یا مخفی‌شدن صفحه، فوراً ذخیره می‌شود
+       تا هیچ شمارشی از دست نرود. */
+    const countsCache = {};
+    Object.keys(DHIKR).forEach(k => {
+      try{ countsCache[k] = parseInt(localStorage.getItem(DHIKR[k].storeKey), 10) || 0; }
+      catch(e){ countsCache[k] = 0; }
+    });
+    let persistTimer = null;
+    function persistCounts(){
+      persistTimer = null;
+      try{
+        Object.keys(DHIKR).forEach(k => localStorage.setItem(DHIKR[k].storeKey, String(countsCache[k])));
+      }catch(e){}
     }
+    function schedulePersist(){
+      clearTimeout(persistTimer);
+      persistTimer = setTimeout(persistCounts, 260);
+    }
+    function getCount(key){ return countsCache[key] || 0; }
     function setCount(key, val){
-      const v = Math.max(0, val);
-      try{ localStorage.setItem(DHIKR[key].storeKey, String(v)); }catch(e){}
+      countsCache[key] = Math.max(0, val);
+      schedulePersist();
     }
+    document.addEventListener('visibilitychange', () => {
+      if(document.visibilityState === 'hidden' && persistTimer){ clearTimeout(persistTimer); persistCounts(); }
+    });
+    window.addEventListener('pagehide', () => { if(persistTimer){ clearTimeout(persistTimer); persistCounts(); } });
 
     let activeKey = 'salawat';
     try{
@@ -1151,17 +1167,47 @@
       if(saved && DHIKR[saved]) activeKey = saved;
     }catch(e){}
 
+    /* دسترسی مستقیم به گره‌های مربوط به هر ذکر، به‌جای querySelectorAll مکرر
+       روی هر ضربه (که خودش یکی از منابع کندی بود) */
+    const pickBtnEls = {}, pickCountEls = {};
+    picker.querySelectorAll('.salavat-pick-btn').forEach(b => { pickBtnEls[b.dataset.key] = b; });
+    picker.querySelectorAll('[data-count-for]').forEach(el => { pickCountEls[el.getAttribute('data-count-for')] = el; });
+
+    function restartAnim(el, cls){
+      el.classList.remove(cls);
+      /* به‌جای خواندن offsetWidth (که چیدمان کل صفحه را فوراً و هم‌زمان
+         مجبور به محاسبه می‌کند)، یک فریم صبر می‌کنیم تا مرورگر خودش،
+         بدون بلاک‌شدن ترد اصلی، حذف کلاس را اعمال کند و بعد کلاس برگردد. */
+      requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add(cls)));
+    }
+
+    /* مسیر سبک: فقط چیزهایی که واقعاً روی هر ضربه تغییر می‌کنند به‌روزرسانی
+       می‌شوند (حلقه، عدد، دور کامل، مجموع ذکر فعال). این تابع روی هر تک‌ضربه
+       اجرا می‌شود و عمداً هیچ querySelectorAll یا toggle روی دکمه‌های انتخاب
+       (که تغییر نمی‌کنند) انجام نمی‌دهد. */
+    function renderTap(){
+      const count = getCount(activeKey);
+      const mod = count % roundSize;
+      const offset = CIRC - (mod / roundSize) * CIRC;
+      ringFg.style.strokeDashoffset = String(count === 0 ? CIRC : offset);
+      countEl.textContent = toFaNum(count);
+      restartAnim(countEl, 'pop');
+      roundEl.querySelector('bdi').textContent = toFaNum(Math.floor(count / roundSize));
+      const totalEl = totalEls[activeKey];
+      if(totalEl) totalEl.querySelector('bdi').textContent = toFaNum(count);
+      const pickCountEl = pickCountEls[activeKey];
+      if(pickCountEl) pickCountEl.textContent = toFaNum(count);
+    }
+
+    /* مسیر کامل: برای بارگذاری اولیه، تعویض ذکر، واگرد و بازنشانی که در آن‌ها
+       باید همه‌چیز (شامل حالت active دکمه‌های انتخاب) دوباره ساخته شود. */
     function render(pop){
       const count = getCount(activeKey);
       const mod = count % roundSize;
       const offset = CIRC - (mod / roundSize) * CIRC;
       ringFg.style.strokeDashoffset = String(count === 0 ? CIRC : offset);
       countEl.textContent = toFaNum(count);
-      if(pop){
-        countEl.classList.remove('pop');
-        void countEl.offsetWidth; /* ریست انیمیشن برای اجرای دوباره در ضربه‌های سریع */
-        countEl.classList.add('pop');
-      }
+      if(pop) restartAnim(countEl, 'pop');
       roundEl.querySelector('bdi').textContent = toFaNum(Math.floor(count / roundSize));
       /* مجموع هر ذکر کاملاً جدا محاسبه و نمایش داده می‌شود تا با ذکر دیگر قاطی نشود */
       Object.keys(DHIKR).forEach(k => {
@@ -1171,28 +1217,26 @@
         el.closest('.salavat-substat').classList.toggle('is-active', k === activeKey);
       });
       activeTextEl.textContent = DHIKR[activeKey].text;
-      picker.querySelectorAll('.salavat-pick-btn').forEach(b => {
-        b.classList.toggle('active', b.dataset.key === activeKey);
-      });
-      picker.querySelectorAll('[data-count-for]').forEach(el => {
-        el.textContent = toFaNum(getCount(el.getAttribute('data-count-for')));
-      });
+      Object.keys(pickBtnEls).forEach(k => pickBtnEls[k].classList.toggle('active', k === activeKey));
+      Object.keys(pickCountEls).forEach(k => { pickCountEls[k].textContent = toFaNum(getCount(k)); });
     }
 
+    /* یک گره «موج» ثابت به‌جای ساخت/حذف پیاپی span روی هر ضربه استفاده می‌شود؛
+       ساخت و حذف مکرر گره‌های DOM روی هر تک‌ضربه یکی از منابع اصلی کندی بود. */
+    let rippleEl = ripple.querySelector('span');
+    if(!rippleEl){
+      rippleEl = document.createElement('span');
+      ripple.appendChild(rippleEl);
+    }
     function fireRipple(){
-      const span = document.createElement('span');
-      ripple.appendChild(span);
-      requestAnimationFrame(() => span.classList.add('go'));
-      setTimeout(() => span.remove(), 600);
+      restartAnim(rippleEl, 'go');
     }
 
     let pulseTimer = null;
     function pulseTapBtn(){
-      tapBtn.classList.remove('pulse');
-      void tapBtn.offsetWidth; /* ریست انیمیشن برای ضربه‌های پیاپی */
-      tapBtn.classList.add('pulse');
+      restartAnim(tapBtn, 'pulse');
       clearTimeout(pulseTimer);
-      pulseTimer = setTimeout(() => tapBtn.classList.remove('pulse'), 250);
+      pulseTimer = setTimeout(() => tapBtn.classList.remove('pulse'), 200);
     }
 
     function vibrateNow(pattern){
@@ -1235,8 +1279,8 @@
          باعث layout/reflow شوند، نه یکی‌یکی (علت اصلی کندی روی موبایل) */
       const fragment = document.createDocumentFragment();
 
-      /* ترکش کانفتی طلایی از مرکز دکمه */
-      const confettiCount = 26;
+      /* ترکش کانفتی طلایی از مرکز دکمه (تعداد کم‌تر شد تا در دورهای پیاپی سنگین نشود) */
+      const confettiCount = 14;
       for(let i = 0; i < confettiCount; i++){
         const el = document.createElement('span');
         el.className = 'salavat-confetti';
@@ -1256,8 +1300,8 @@
         fragment.appendChild(el);
       }
 
-      /* بادکنک‌های رنگارنگ در سراسر صفحه، رو به بالا، سبک و رها */
-      const balloonCount = 26;
+      /* بادکنک‌های رنگارنگ در سراسر صفحه، رو به بالا، سبک و رها (تعداد کم‌تر شد) */
+      const balloonCount = 12;
       for(let i = 0; i < balloonCount; i++){
         const el = document.createElement('span');
         el.className = 'salavat-balloon';
@@ -1299,7 +1343,7 @@
       const before = getCount(activeKey);
       const after = before + 1;
       setCount(activeKey, after);
-      render(true);
+      renderTap();
 
       if(after % roundSize === 0){
         vibrateNow([12,45,12,45,18]);
@@ -1784,14 +1828,9 @@
     trigger.addEventListener('pointerenter', prefetchTarget, { once:true });
     trigger.addEventListener('touchstart', prefetchTarget, { once:true, passive:true });
     trigger.addEventListener('focus', prefetchTarget, { once:true });
-
-    trigger.addEventListener('click', function(e){
-      if(e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      e.preventDefault();
-      prefetchTarget();
-      document.body.classList.add('page-exit');
-      setTimeout(() => { window.location.href = targetHref; }, 240);
-    });
+    /* لینک بازگشت الان یک لینک عادی است و بی‌درنگ باز می‌شود؛ پیش‌بارگذاری
+       بالا هنوز فعال است تا صفحه اول سریع‌تر لود شود، اما دیگر منتظر
+       انیمیشن محو شدن نمی‌مانیم که باعث لگ می‌شد. */
   })();
 
   // ذرات ریز طلایی پس‌زمینه (امبر)
