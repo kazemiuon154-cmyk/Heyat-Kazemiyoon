@@ -410,6 +410,9 @@
     gap:9px;
     margin:4px 0 22px;
   }
+  .salavat-picker .salavat-pick-btn:nth-child(3):last-child{
+    grid-column:1 / -1;
+  }
   .salavat-pick-btn{
     position:relative;
     display:flex;
@@ -974,6 +977,11 @@
       <span class="sp-label" data-i18n="salavatPickFaraj">تعجیل در فرج</span>
       <span class="sp-count"><span class="sp-count-num" data-count-for="faraj">۰</span> <span data-i18n="salavatCountUnit">بار</span></span>
     </button>
+    <button type="button" class="salavat-pick-btn" data-key="estighfar">
+      <span class="sp-arabic">أَسْتَغْفِرُ ٱللَّٰهَ رَبِّي وَأَتُوبُ إِلَيْهِ</span>
+      <span class="sp-label" data-i18n="salavatPickEstighfar">استغفار</span>
+      <span class="sp-count"><span class="sp-count-num" data-count-for="estighfar">۰</span> <span data-i18n="salavatCountUnit">بار</span></span>
+    </button>
   </div>
 
   <div class="salavat-stage">
@@ -1010,6 +1018,10 @@
       <div class="salavat-substat">
         <b id="salavat-total-faraj"><bdi>۰</bdi></b>
         <span data-i18n="salavatTotalFarajLabel">مجموع تعجیل در فرج</span>
+      </div>
+      <div class="salavat-substat">
+        <b id="salavat-total-estighfar"><bdi>۰</bdi></b>
+        <span data-i18n="salavatTotalEstighfarLabel">مجموع استغفار</span>
       </div>
     </div>
 
@@ -1101,7 +1113,7 @@
     const ripple    = document.getElementById('salavat-ripple');
     const countEl   = document.getElementById('salavat-count');
     const roundEl   = document.getElementById('salavat-round');
-    const totalEls  = { salawat: document.getElementById('salavat-total-salawat'), faraj: document.getElementById('salavat-total-faraj') };
+    const totalEls  = { salawat: document.getElementById('salavat-total-salawat'), faraj: document.getElementById('salavat-total-faraj'), estighfar: document.getElementById('salavat-total-estighfar') };
     const activeTextEl = document.getElementById('salavat-active-text');
     const picker    = document.getElementById('salavat-picker');
     const undoBtn   = document.getElementById('salavat-undo-btn');
@@ -1113,7 +1125,8 @@
 
     const DHIKR = {
       salawat: { text: 'اللَّهُمَّ صَلِّ عَلَی مُحَمَّدٍ وَ آلِ مُحَمَّد', storeKey: 'kazemiuon-salavat-count-salawat' },
-      faraj:   { text: 'اَللّهُمَّ عَجِّل لِوَلیِّکَ الفَرَج',            storeKey: 'kazemiuon-salavat-count-faraj' }
+      faraj:   { text: 'اَللّهُمَّ عَجِّل لِوَلیِّکَ الفَرَج',            storeKey: 'kazemiuon-salavat-count-faraj' },
+      estighfar: { text: 'أَسْتَغْفِرُ ٱللَّٰهَ رَبِّي وَأَتُوبُ إِلَيْهِ', storeKey: 'kazemiuon-salavat-count-estighfar' }
     };
     const ACTIVE_KEY_STORE = 'kazemiuon-salavat-active';
     const ROUND_SIZE_STORE = 'kazemiuon-salavat-round-size';
@@ -1620,10 +1633,12 @@
       salavatGroupLabel: 'صلوات‌شمار',
       salavatPickSalawat: 'صلوات',
       salavatPickFaraj: 'تعجیل در فرج',
+      salavatPickEstighfar: 'استغفار',
       salavatCountUnit: 'بار',
       salavatTapHint: 'برای شمارش لمس کنید',
       salavatTotalSalawatLabel: 'مجموع صلوات',
       salavatTotalFarajLabel: 'مجموع تعجیل در فرج',
+      salavatTotalEstighfarLabel: 'مجموع استغفار',
       salavatUndoBtn: 'یکی کم کن',
       salavatResetBtn: 'بازنشانی',
       salavatFooterNote: 'شمارش‌ها به‌صورت خودکار روی همین دستگاه ذخیره می‌شوند؛ هر بار صفحه را باز کنید از همان‌جا ادامه پیدا می‌کند.',
@@ -1643,10 +1658,12 @@
       salavatGroupLabel: 'عداد الصلوات',
       salavatPickSalawat: 'الصلوات',
       salavatPickFaraj: 'تعجيل الفرج',
+      salavatPickEstighfar: 'الاستغفار',
       salavatCountUnit: 'مرة',
       salavatTapHint: 'المس للعد',
       salavatTotalSalawatLabel: 'مجموع الصلوات',
       salavatTotalFarajLabel: 'مجموع الفرج',
+      salavatTotalEstighfarLabel: 'مجموع الاستغفار',
       salavatUndoBtn: 'إنقاص واحد',
       salavatResetBtn: 'إعادة تعيين',
       salavatFooterNote: 'يُحفظ العدّاد تلقائياً على هذا الجهاز؛ عند فتح الصفحة مجدداً يستمر من حيث توقفت.',
@@ -1666,10 +1683,12 @@
       salavatGroupLabel: 'Salawat Counter',
       salavatPickSalawat: 'Salawat',
       salavatPickFaraj: 'Hasten Relief',
+      salavatPickEstighfar: 'Istighfar',
       salavatCountUnit: 'times',
       salavatTapHint: 'Tap to count',
       salavatTotalSalawatLabel: 'Total Salawat',
       salavatTotalFarajLabel: 'Total Faraj',
+      salavatTotalEstighfarLabel: 'Total Istighfar',
       salavatUndoBtn: 'Undo one',
       salavatResetBtn: 'Reset',
       salavatFooterNote: 'Counts are saved automatically on this device; reopening the page picks up right where you left off.',
