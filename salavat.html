@@ -1,0 +1,1821 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ===== Security hardening ===== -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+
+<title>📿 صلوات‌شمار | هیئت کاظمیون خرم‌آباد</title>
+<meta name="description" content="صلوات‌شمار آنلاین هیئت کاظمیون خرم‌آباد؛ شمارش اللهم صل علی محمد و آل محمد و اللهم عجل لولیک الفرج با ذخیره‌سازی خودکار.">
+<meta name="robots" content="noindex, follow">
+<link rel="icon" href="logo.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --void:#071710;
+    --void-2:#0e2419;
+    --crimson:#0e9b62;
+    --crimson-rgb:14,155,98;
+    --crimson-bright:#22c17f;
+    --gold:#ffcb3d;
+    --gold-soft:#d1a52a;
+    --gold-dim:#8a6e1e;
+    --parchment:#f3ead0;
+    --parchment-dim:#a99b78;
+    --line:rgba(255,203,61,0.22);
+    --ember:#ffd166;
+    --ember-soft:#ffd16666;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth; overflow-x:hidden;}
+  body{
+    background:
+      radial-gradient(ellipse 120% 70% at 50% -8%, rgba(var(--crimson-rgb),0.30), transparent 55%),
+      radial-gradient(ellipse 90% 50% at 15% 40%, rgba(var(--crimson-rgb),0.10), transparent 60%),
+      radial-gradient(ellipse 90% 50% at 85% 75%, rgba(var(--crimson-rgb),0.12), transparent 60%),
+      var(--void);
+    color:var(--parchment);
+    font-family:'Vazirmatn', sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    -webkit-font-smoothing:antialiased;
+    animation:page2FadeIn 0.4s ease both;
+    transition:opacity 0.28s ease, transform 0.28s ease;
+  }
+  @keyframes page2FadeIn{
+    from{ opacity:0; transform:translateY(8px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  body.page-exit{ opacity:0; transform:translateY(-8px); }
+
+  /* ---------------- ذرات ریز طلایی پس‌زمینه ---------------- */
+  .embers{ position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+  .ember-spark{
+    position:absolute;
+    bottom:-10px;
+    width:3px; height:3px;
+    border-radius:50%;
+    background:var(--ember);
+    box-shadow:0 0 6px 1px var(--ember-soft);
+    opacity:0;
+    animation-name:rise;
+    animation-timing-function:ease-in;
+    animation-iteration-count:infinite;
+  }
+  @keyframes rise{
+    0%{ transform:translateY(0) translateX(0); opacity:0; }
+    8%{ opacity:0.9; }
+    80%{ opacity:0.5; }
+    100%{ transform:translateY(-100vh) translateX(var(--drift,20px)); opacity:0; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .ember-spark{ display:none; }
+  }
+  .page{
+    width:100%;
+    max-width:500px;
+    padding:0 22px 60px;
+    position:relative;
+    z-index:1;
+  }
+
+  /* ============================================================
+     THEME SYSTEM (پیش‌فرض: طلایی‌وزمردی / سرخ‌وطلایی /
+     صورتی‌وفیروزه‌ای / صورتی‌ویاسی / فیروزه‌ای‌وغروبی /
+     کهربایی‌وکرمی / آبی‌آسمانی / سبز فسفری / تاریک)
+     همان تعریف رنگ‌های index.html تا در دو صفحه هماهنگ بماند
+  ============================================================ */
+  body.theme-dark{
+    --void:#000000; --void-2:#0a0a0a;
+    --crimson:#6e1013; --crimson-bright:#9c2320;
+    --gold:#a3853a; --gold-soft:#6f5d33; --gold-dim:#453a22;
+    --parchment:#d8d0bf; --parchment-dim:#83786a;
+    --line:rgba(163,133,58,0.14);
+    background:#000000;
+  }
+  body.theme-light{
+    --void:#04120a; --void-2:#071c11;
+    --crimson:#39ff14; --crimson-rgb:57,255,20; --crimson-bright:#7dffb0;
+    --gold:#b6ff2e; --gold-soft:#7fd11a; --gold-dim:#4a7a1e;
+    --parchment:#e9ffee; --parchment-dim:#8fc79f;
+    --line:rgba(57,255,20,0.28);
+  }
+  body.theme-fest{
+    --void:#0c1220; --void-2:#121a2e;
+    --crimson:#d81b60; --crimson-rgb:216,27,96; --crimson-bright:#ff4081;
+    --gold:#ffca28; --gold-soft:#e0a72a; --gold-dim:#b8860b;
+    --parchment:#fff6e0; --parchment-dim:#d8c9a3;
+    --line:rgba(255,202,40,0.25);
+  }
+  body.theme-crimson{
+    --void:#0e0906; --void-2:#150e0a;
+    --crimson:#8c1518; --crimson-rgb:140,21,24; --crimson-bright:#b8241f;
+    --gold:#c9a227; --gold-soft:#8a7040; --gold-dim:#5c4a28;
+    --parchment:#f1e7d8; --parchment-dim:#a99c8a;
+    --line:rgba(201,162,39,0.16);
+  }
+  body.theme-lilac{
+    --void:#160a1e; --void-2:#1f1029;
+    --crimson:#c65bd6; --crimson-rgb:198,91,214; --crimson-bright:#e28ae8;
+    --gold:#f0c94e; --gold-soft:#caa53a; --gold-dim:#8a6f28;
+    --parchment:#fbeefc; --parchment-dim:#c3a8c9;
+    --line:rgba(240,201,78,0.22);
+  }
+  body.theme-sunset{
+    --void:#071c22; --void-2:#0d2a32;
+    --crimson:#ff7a45; --crimson-rgb:255,122,69; --crimson-bright:#ff9d6e;
+    --gold:#ffcf6b; --gold-soft:#dba63e; --gold-dim:#8f6c22;
+    --parchment:#fff3e6; --parchment-dim:#c8b39c;
+    --line:rgba(32,196,196,0.25);
+  }
+  body.theme-amber{
+    --void:#1c130a; --void-2:#241a0e;
+    --crimson:#c8752b; --crimson-rgb:200,117,43; --crimson-bright:#e29344;
+    --gold:#f0c14b; --gold-soft:#cb9f33; --gold-dim:#836a20;
+    --parchment:#fbf1dc; --parchment-dim:#c9b998;
+    --line:rgba(240,193,75,0.22);
+  }
+  body.theme-sky{
+    --void:#081521; --void-2:#0e2032;
+    --crimson:#2f8ce0; --crimson-rgb:47,140,224; --crimson-bright:#5fadf5;
+    --gold:#ffd35c; --gold-soft:#d9ac3c; --gold-dim:#8f7126;
+    --parchment:#f0f8ff; --parchment-dim:#a9c2d6;
+    --line:rgba(127,212,255,0.22);
+  }
+
+  /* ---------------- منوی سریع (همبرگری: تم) ---------------- */
+  .quick-menu{
+    position:fixed;
+    top:14px; left:14px;
+    z-index:65;
+  }
+  .quick-menu-btn{
+    width:36px; height:36px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(20,14,10,0.75);
+    color:var(--parchment-dim);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:all 0.2s ease;
+    -webkit-backdrop-filter:blur(6px);
+    backdrop-filter:blur(6px);
+  }
+  .quick-menu-btn svg{ width:17px; height:17px; }
+  .quick-menu-btn:hover, .quick-menu-btn.active{ border-color:var(--gold-soft); color:var(--gold); }
+  .quick-menu-panel{
+    position:absolute;
+    top:44px; left:0;
+    display:flex; flex-direction:column;
+    align-items:stretch;
+    gap:8px;
+    min-width:168px;
+    padding:12px;
+    background:var(--void-2, var(--void));
+    border:1px solid var(--line);
+    border-radius:16px;
+    box-shadow:0 12px 26px rgba(0,0,0,0.5);
+    opacity:0; visibility:hidden;
+    transform:translateY(-8px);
+    transition:opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+    z-index:65;
+  }
+  .quick-menu-panel.show{ opacity:1; visibility:visible; transform:translateY(0); }
+  .quick-menu-row{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:10px;
+  }
+  .quick-menu-label{
+    font-family:'Vazirmatn', sans-serif;
+    font-size:11.5px; font-weight:600;
+    color:var(--parchment-dim);
+  }
+  .theme-switch-wrap{ position:relative; }
+  .theme-toggle-btn{
+    width:30px; height:30px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.02);
+    color:var(--parchment-dim);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:all 0.2s ease;
+  }
+  .theme-toggle-btn svg{ width:15px; height:15px; }
+  .theme-toggle-btn:hover{ border-color:var(--gold-soft); color:var(--gold); }
+  .theme-popover{
+    position:fixed;
+    width:max-content;
+    max-width:min(260px, calc(100vw - 20px));
+    background:var(--void-2, var(--void));
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:6px;
+    display:flex; flex-direction:row; flex-wrap:wrap;
+    gap:4px;
+    box-shadow:0 12px 26px rgba(0,0,0,0.5);
+    opacity:0; visibility:hidden;
+    transform:translate3d(0,-6px,0);
+    transition:opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+    z-index:70;
+  }
+  .theme-popover.show{ opacity:1; visibility:visible; transform:translate3d(0,0,0); }
+  .theme-opt{
+    font-family:'Vazirmatn', sans-serif;
+    font-size:11.5px; font-weight:600;
+    color:var(--parchment-dim);
+    background:transparent; border:1px solid transparent;
+    padding:8px 9px; border-radius:9px; cursor:pointer; text-align:center;
+    white-space:nowrap;
+    transition:all 0.15s ease;
+  }
+  .theme-opt.active{ color:var(--void); background:var(--gold); }
+  .theme-opt:not(.active):hover{ border-color:var(--gold-soft); color:var(--parchment); }
+
+  .lang-switch-wrap{ position:relative; }
+  .lang-toggle{
+    display:flex; align-items:center; gap:6px;
+    font-family:'Vazirmatn', sans-serif;
+    font-size:11.5px;
+    font-weight:600;
+    letter-spacing:0.04em;
+    color:var(--parchment-dim);
+    background:rgba(255,255,255,0.02);
+    border:1px solid var(--line);
+    padding:6px 14px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:all 0.2s ease;
+  }
+  .lang-toggle:hover{ border-color:var(--gold-soft); color:var(--parchment); }
+  .lang-toggle .lang-flag{ font-size:14px; line-height:1; }
+  .lang-popover{
+    position:fixed;
+    transform:translate3d(0,-6px,0);
+    min-width:150px;
+    background:var(--void-2, var(--void));
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:6px;
+    display:flex; flex-direction:column; gap:4px;
+    box-shadow:0 12px 26px rgba(0,0,0,0.5);
+    opacity:0; visibility:hidden;
+    transition:opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+    z-index:70;
+  }
+  .lang-popover.show{ opacity:1; visibility:visible; transform:translate3d(0,0,0); }
+  .lang-opt{
+    display:flex; align-items:center; gap:8px;
+    font-family:'Vazirmatn', sans-serif;
+    font-size:12.5px; font-weight:600;
+    color:var(--parchment-dim);
+    background:transparent; border:1px solid transparent;
+    padding:8px 10px; border-radius:9px; cursor:pointer; text-align:right;
+    transition:all 0.15s ease;
+  }
+  .lang-opt .lang-flag{ font-size:15px; line-height:1; flex:none; }
+  .lang-opt.active{ color:var(--void); background:var(--gold); }
+  .lang-opt:not(.active):hover{ border-color:var(--gold-soft); color:var(--parchment); }
+
+  .sound-toggle{
+    width:30px; height:30px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.02);
+    color:var(--parchment-dim);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:all 0.2s ease;
+  }
+  .sound-toggle svg{ width:15px; height:15px; }
+  .sound-toggle:hover{ border-color:var(--gold-soft); color:var(--gold); }
+
+  /* ---------------- header ---------------- */
+  .page2-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    padding:20px 0 8px;
+  }
+  .page2-back{
+    flex:none;
+    display:flex;
+    align-items:center;
+    gap:7px;
+    padding:10px 20px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,0.25);
+    background:linear-gradient(135deg, var(--gold-bright, var(--gold)), var(--crimson-bright));
+    background-size:200% 200%;
+    color:#1a0f04;
+    font-family:'Vazirmatn', sans-serif;
+    font-size:12.5px;
+    font-weight:800;
+    letter-spacing:0.02em;
+    text-decoration:none;
+    cursor:pointer;
+    box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 20px rgba(var(--crimson-rgb),0.45), 0 0 0 4px rgba(var(--crimson-rgb),0.12);
+    transition:all 0.2s ease;
+    animation:page2Pulse 2.6s ease-in-out infinite, page2Shine 5s linear infinite;
+    position:relative;
+    overflow:hidden;
+  }
+  .page2-back::after{
+    content:'';
+    position:absolute;
+    top:0; left:-60%;
+    width:35%; height:100%;
+    background:linear-gradient(115deg, transparent, rgba(255,255,255,0.6), transparent);
+    transform:skewX(-20deg);
+    animation:page2Sweep 3.6s ease-in-out infinite;
+    pointer-events:none;
+  }
+  @keyframes page2Sweep{
+    0%{ left:-60%; }
+    38%{ left:130%; }
+    100%{ left:130%; }
+  }
+  .page2-back svg{ width:16px; height:16px; flex:none; }
+  .page2-back:hover{ transform:translateY(-1px) scale(1.03); box-shadow:0 2px 0 rgba(255,255,255,0.4) inset, 0 10px 24px rgba(var(--crimson-rgb),0.55), 0 0 0 5px rgba(var(--crimson-rgb),0.18); }
+  .page2-back:active{ transform:scale(0.94); }
+  .page2-back-spacer{ visibility:hidden; pointer-events:none; }
+  @keyframes page2Pulse{
+    0%,100%{ box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 20px rgba(var(--crimson-rgb),0.45), 0 0 0 4px rgba(var(--crimson-rgb),0.12); }
+    50%{ box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 26px rgba(var(--crimson-rgb),0.65), 0 0 0 8px rgba(var(--crimson-rgb),0.05); }
+  }
+  @keyframes page2Shine{
+    0%{ background-position:0% 50%; }
+    50%{ background-position:100% 50%; }
+    100%{ background-position:0% 50%; }
+  }
+  .page2-header-title{
+    flex:1;
+    min-width:0;
+    text-align:center;
+    font-size:15px;
+    font-weight:700;
+    color:var(--parchment);
+    overflow-wrap:break-word;
+  }
+
+  /* ---------------- logo mini ---------------- */
+  .mini-logo-wrap{
+    display:flex;
+    justify-content:center;
+    margin:18px 0 6px;
+  }
+  .mini-logo{
+    width:64px; height:64px;
+    border-radius:50%;
+    overflow:hidden;
+    border:1px solid var(--line);
+    box-shadow:0 8px 20px rgba(0,0,0,0.35);
+  }
+  .mini-logo img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+  /* ---------------- group label ---------------- */
+  .group-label{
+    font-size:12px;
+    color:var(--gold-soft);
+    letter-spacing:0.1em;
+    margin:26px 4px 14px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .group-label::after{
+    content:'';
+    flex:1;
+    height:1px;
+    background:var(--line);
+  }
+  .group-label.group-label-lg{
+    font-size:23px;
+    color:var(--gold);
+    letter-spacing:0.04em;
+    font-weight:800;
+  }
+
+
+  /* ---------------- انتخاب‌گر ذکر ---------------- */
+  .salavat-picker{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+    margin:4px 0 22px;
+  }
+  .salavat-pick-btn{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    padding:14px 10px;
+    border-radius:18px;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)), var(--void);
+    color:var(--parchment-dim);
+    font-family:'Vazirmatn', sans-serif;
+    cursor:pointer;
+    text-align:center;
+    transition:all 0.2s ease;
+    overflow:hidden;
+  }
+  .salavat-pick-btn .sp-arabic{
+    font-family:'Amiri', serif;
+    font-size:14.5px;
+    font-weight:700;
+    color:var(--parchment);
+    line-height:1.6;
+  }
+  .salavat-pick-btn .sp-label{
+    font-size:10.5px;
+    font-weight:700;
+    letter-spacing:0.03em;
+    color:var(--gold-dim);
+  }
+  .salavat-pick-btn .sp-count{
+    font-size:11px;
+    font-weight:700;
+    color:var(--parchment-dim);
+    font-variant-numeric:tabular-nums;
+  }
+  .salavat-pick-btn:hover{ border-color:var(--gold-soft); }
+  .salavat-pick-btn.active{
+    border-color:var(--gold);
+    background:linear-gradient(180deg, rgba(var(--crimson-rgb),0.22), rgba(var(--crimson-rgb),0.04)), var(--void);
+    box-shadow:0 0 0 3px rgba(var(--crimson-rgb),0.16), 0 10px 22px rgba(0,0,0,0.3);
+  }
+  .salavat-pick-btn.active .sp-arabic{ color:var(--gold); }
+  .salavat-pick-btn.active .sp-label{ color:var(--gold-soft); }
+  .salavat-pick-btn.active .sp-count{ color:var(--gold-soft); }
+  .salavat-pick-btn.active::after{
+    content:'';
+    position:absolute;
+    top:8px; inset-inline-end:8px;
+    width:7px; height:7px;
+    border-radius:50%;
+    background:var(--gold);
+    box-shadow:0 0 8px 1px var(--gold-soft);
+  }
+
+  /* ---------------- کارت اصلی شمارنده ---------------- */
+  .salavat-stage{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:26px 18px 22px;
+    border-radius:26px;
+    border:1px solid rgba(201,162,39,0.3);
+    background:
+      radial-gradient(120% 140% at 50% 0%, rgba(255,255,255,0.07), transparent 55%),
+      linear-gradient(160deg, #102a1d 0%, #0b1f15 55%, #071710 100%);
+    box-shadow:0 1px 0 rgba(255,255,255,0.06) inset, 0 16px 34px rgba(0,0,0,0.45);
+    position:relative;
+    overflow:hidden;
+  }
+  .salavat-active-text{
+    font-family:'Amiri', serif;
+    font-size:19px;
+    font-weight:700;
+    color:var(--parchment);
+    text-align:center;
+    line-height:2;
+    max-width:320px;
+    margin-bottom:22px;
+    min-height:76px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:opacity 0.16s ease, transform 0.16s ease;
+  }
+
+  .salavat-ring-wrap{
+    position:relative;
+    width:min(230px, 62vw);
+    height:min(230px, 62vw);
+    flex:none;
+    -webkit-tap-highlight-color:transparent;
+    touch-action:manipulation;
+  }
+  .salavat-ring-wrap svg{ width:100%; height:100%; transform:rotate(-90deg); display:block; }
+  .salavat-ring-bg{
+    fill:none;
+    stroke:var(--line);
+    stroke-width:7;
+  }
+  .salavat-ring-fg{
+    fill:none;
+    stroke:url(#salavatGoldGrad);
+    stroke-width:7;
+    stroke-linecap:round;
+    transition:stroke-dashoffset 0.28s cubic-bezier(.16,1,.3,1);
+    will-change:stroke-dashoffset;
+  }
+  .salavat-tap-btn{
+    position:absolute;
+    inset:14px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,0.14);
+    background:
+      radial-gradient(60% 60% at 50% 30%, rgba(255,255,255,0.10), transparent 65%),
+      radial-gradient(120% 120% at 50% 100%, rgba(var(--crimson-rgb),0.35), transparent 60%),
+      var(--void-2, var(--void));
+    color:var(--parchment);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:2px;
+    cursor:pointer;
+    box-shadow:0 10px 26px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.03) inset;
+    transition:transform 0.1s cubic-bezier(.34,1.2,.4,1), box-shadow 0.22s ease;
+    -webkit-user-select:none;
+    user-select:none;
+    touch-action:manipulation;
+    -webkit-tap-highlight-color:transparent;
+    will-change:transform;
+  }
+  .salavat-tap-btn:active{ transform:scale(0.96); }
+  .salavat-tap-btn.pulse{
+    box-shadow:0 10px 26px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.03) inset, 0 0 30px 5px rgba(255,203,61,0.4);
+  }
+  .salavat-count{
+    font-size:44px;
+    font-weight:800;
+    color:var(--gold);
+    font-variant-numeric:tabular-nums;
+    letter-spacing:0.01em;
+    line-height:1;
+    display:inline-block;
+    will-change:transform;
+  }
+  .salavat-count.pop{
+    animation:salavatCountPop 0.32s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes salavatCountPop{
+    0%{ transform:scale(1); }
+    38%{ transform:scale(1.22); }
+    100%{ transform:scale(1); }
+  }
+  .salavat-tap-hint{
+    font-size:10.5px;
+    font-weight:600;
+    color:var(--parchment-dim);
+    letter-spacing:0.04em;
+    margin-top:8px;
+  }
+
+  /* --- افکت موج هنگام لمس --- */
+  .salavat-ripple{
+    position:absolute;
+    inset:14px;
+    border-radius:50%;
+    pointer-events:none;
+  }
+  .salavat-ripple span{
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    border:1.5px solid var(--gold);
+    background:radial-gradient(circle, rgba(255,203,61,0.16), transparent 72%);
+    opacity:0;
+    will-change:transform, opacity;
+  }
+  .salavat-ripple span.go{
+    animation:salavatRipple 0.55s cubic-bezier(.16,1,.3,1);
+  }
+  @keyframes salavatRipple{
+    0%{ transform:scale(0.88); opacity:0.75; }
+    100%{ transform:scale(1.32); opacity:0; }
+  }
+
+  .salavat-substats{
+    display:flex;
+    align-items:stretch;
+    justify-content:center;
+    gap:8px;
+    width:100%;
+    max-width:360px;
+    margin-top:22px;
+  }
+  .salavat-substat{
+    flex:1;
+    min-width:0;
+    text-align:center;
+    padding:10px 4px;
+    border-radius:14px;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.03);
+    transition:border-color 0.2s ease, background 0.2s ease;
+  }
+  .salavat-substat b{
+    display:block;
+    font-size:16px;
+    font-weight:800;
+    color:var(--parchment);
+    font-variant-numeric:tabular-nums;
+  }
+  .salavat-substat span{
+    display:block;
+    font-size:9.5px;
+    color:var(--parchment-dim);
+    font-weight:600;
+    line-height:1.4;
+    margin-top:2px;
+  }
+  .salavat-substat.is-active{
+    border-color:var(--gold-soft);
+    background:rgba(var(--crimson-rgb),0.10);
+  }
+  .salavat-substat.is-active b{ color:var(--gold); }
+
+  .salavat-substat-btn{
+    position:relative;
+    cursor:pointer;
+    font-family:'Vazirmatn', sans-serif;
+    -webkit-tap-highlight-color:transparent;
+    touch-action:manipulation;
+  }
+  .salavat-substat-btn:hover,
+  .salavat-substat-btn.open{
+    border-color:var(--gold-soft);
+    background:rgba(255,203,61,0.08);
+  }
+  .salavat-substat-btn:active{ transform:scale(0.97); }
+  .round-edit-hint{
+    width:11px; height:11px;
+    color:var(--gold-dim);
+    margin-top:4px;
+    opacity:0.75;
+  }
+  .roundsize-popover{
+    display:flex; flex-direction:row; flex-wrap:wrap;
+    max-width:min(280px, calc(100vw - 20px));
+  }
+
+  .salavat-actions{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    margin-top:18px;
+  }
+  .salavat-action-btn{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    padding:9px 16px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.03);
+    color:var(--parchment-dim);
+    font-family:'Vazirmatn', sans-serif;
+    font-size:12px;
+    font-weight:700;
+    cursor:pointer;
+    transition:all 0.18s ease;
+  }
+  .salavat-action-btn svg{ width:14px; height:14px; }
+  .salavat-action-btn:hover{ border-color:var(--gold-soft); color:var(--parchment); }
+  .salavat-action-btn.danger:hover{ border-color:#c0453f; color:#e0665f; }
+
+  .salavat-milestone-note{
+    text-align:center;
+    font-size:11.5px;
+    color:var(--gold-dim);
+    margin-top:16px;
+    line-height:1.9;
+  }
+
+  /* ---------------- تایید بازنشانی (مودال) ---------------- */
+  .confirm-overlay{
+    position:fixed; inset:0; z-index:150;
+    background:rgba(4,8,6,0.68);
+    -webkit-backdrop-filter:blur(3px);
+    backdrop-filter:blur(3px);
+    display:flex; align-items:center; justify-content:center;
+    padding:22px;
+    opacity:0; visibility:hidden;
+    transition:opacity 0.2s ease, visibility 0.2s ease;
+  }
+  .confirm-overlay.show{ opacity:1; visibility:visible; }
+  .confirm-sheet{
+    width:100%; max-width:320px;
+    background:var(--void-2, var(--void));
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:22px 20px 18px;
+    text-align:center;
+    box-shadow:0 20px 40px rgba(0,0,0,0.5);
+    transform:translateY(10px);
+    transition:transform 0.2s ease;
+  }
+  .confirm-overlay.show .confirm-sheet{ transform:translateY(0); }
+  .confirm-title{
+    font-size:14.5px;
+    font-weight:700;
+    color:var(--parchment);
+    line-height:1.7;
+    margin-bottom:18px;
+  }
+  .confirm-row{ display:flex; gap:10px; }
+  .confirm-btn{
+    flex:1;
+    padding:10px 8px;
+    border-radius:12px;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.03);
+    color:var(--parchment-dim);
+    font-family:'Vazirmatn', sans-serif;
+    font-size:12.5px;
+    font-weight:700;
+    cursor:pointer;
+    transition:all 0.15s ease;
+  }
+  .confirm-btn:hover{ border-color:var(--gold-soft); color:var(--parchment); }
+  .confirm-btn.confirm-danger{
+    background:linear-gradient(135deg, #8c2b26, #5c1714);
+    border-color:rgba(255,255,255,0.15);
+    color:#f3ead0;
+  }
+  .confirm-btn.confirm-danger:hover{ filter:brightness(1.1); }
+
+  /* ---------------- toast ---------------- */
+  .toast{
+    position:fixed;
+    bottom:26px;
+    left:50%;
+    transform:translateX(-50%) translateY(20px);
+    background:rgba(20,14,10,0.95);
+    color:var(--parchment);
+    border:1px solid var(--line);
+    padding:10px 20px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:600;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.25s ease, transform 0.25s ease;
+    z-index:200;
+    box-shadow:0 10px 24px rgba(0,0,0,0.4);
+  }
+  .toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+  }
+
+  .guide-link{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    width:max-content;
+    margin:30px auto 0;
+    padding:9px 18px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.03);
+    color:var(--gold-soft);
+    font-family:'Vazirmatn', sans-serif;
+    font-size:12px;
+    font-weight:700;
+    text-decoration:none;
+    transition:all 0.18s ease;
+  }
+  .guide-link:hover{ border-color:var(--gold-soft); color:var(--gold); background:rgba(255,255,255,0.06); }
+  .guide-link svg{ width:14px; height:14px; flex:none; }
+
+  footer{
+    text-align:center;
+    margin-top:40px;
+    font-size:11.5px;
+    color:var(--gold-dim);
+  }
+
+  /* ---------------- افکت جشن هنگام تکمیل دور ---------------- */
+  .salavat-celebrate{
+    position:fixed;
+    top:0; left:0; right:0; bottom:0;
+    pointer-events:none;
+    z-index:300;
+    overflow:hidden;
+    contain:layout paint;
+    transform:translateZ(0);
+    -webkit-transform:translateZ(0);
+    will-change:transform;
+  }
+  .salavat-confetti{
+    position:absolute;
+    width:7px; height:7px;
+    border-radius:2px;
+    opacity:0;
+    will-change:transform, opacity;
+    animation:salavatConfettiBurst 1.15s cubic-bezier(.16,1,.3,1) forwards;
+  }
+  @keyframes salavatConfettiBurst{
+    0%{ transform:translate(0,0) rotate(0deg) scale(1); opacity:1; }
+    100%{ transform:translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(0.35); opacity:0; }
+  }
+  .salavat-balloon{
+    position:absolute;
+    width:16px; height:20px;
+    border-radius:50% 50% 48% 48% / 58% 58% 42% 42%;
+    opacity:0;
+    will-change:transform, opacity;
+    animation:salavatBalloonFloat 3.6s cubic-bezier(.22,.7,.3,1) forwards;
+  }
+  .salavat-balloon::after{
+    content:'';
+    position:absolute;
+    left:50%; top:100%;
+    width:1px; height:16px;
+    background:rgba(255,255,255,0.25);
+    transform:translateX(-50%);
+  }
+  @keyframes salavatBalloonFloat{
+    0%{ transform:translate(0,0) scale(0.5); opacity:0; }
+    10%{ opacity:0.95; }
+    85%{ opacity:0.9; }
+    100%{ transform:translate(var(--bx), var(--by)) scale(1); opacity:0; }
+  }
+  .salavat-milestone-flash{
+    position:absolute;
+    inset:14px;
+    border-radius:50%;
+    pointer-events:none;
+    background:radial-gradient(circle, rgba(255,203,61,0.55), transparent 70%);
+    opacity:0;
+    animation:salavatMilestoneFlash 0.9s ease-out forwards;
+  }
+  @keyframes salavatMilestoneFlash{
+    0%{ opacity:0; transform:scale(0.7); }
+    30%{ opacity:0.85; transform:scale(1.05); }
+    100%{ opacity:0; transform:scale(1.5); }
+  }
+</style>
+</head>
+<body>
+
+<div class="embers" id="embers"></div>
+
+<div class="quick-menu" id="quick-menu">
+  <button type="button" id="quick-menu-btn" class="quick-menu-btn" aria-haspopup="true" aria-expanded="false" aria-label="منوی تنظیمات تم">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+  <div class="quick-menu-panel" id="quick-menu-panel" role="menu">
+    <div class="quick-menu-row">
+      <span class="quick-menu-label" data-i18n="quickMenuTheme">تم</span>
+      <div class="theme-switch-wrap">
+        <button type="button" id="theme-toggle" class="theme-toggle-btn" aria-label="تغییر تم" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 3.5c-4.7 0-8.5 3.6-8.5 8 0 3 2 4.3 3.6 4.3.8 0 1.1-.4 1.6-.9.5-.5.9-.9 1.7-.9 1.5 0 1.9 1 1.9 2.1 0 .9-.4 1.6-.4 2.2 0 .8.6 1.2 1.7 1.2 4.6 0 8.4-3.9 8.4-8.4 0-4.8-3.9-7.6-10-7.6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <circle cx="8.2" cy="9.3" r="1.15" fill="currentColor"/>
+            <circle cx="12.2" cy="7.1" r="1.15" fill="currentColor"/>
+            <circle cx="16.3" cy="9.3" r="1.15" fill="currentColor"/>
+            <circle cx="17.3" cy="13.6" r="1.15" fill="currentColor"/>
+          </svg>
+        </button>
+        <div class="theme-popover" id="theme-popover" role="menu">
+          <button type="button" class="theme-opt active" data-theme="default">طلایی و زمردی</button>
+          <button type="button" class="theme-opt" data-theme="crimson">سرخ و طلایی</button>
+          <button type="button" class="theme-opt" data-theme="fest">صورتی و فیروزه‌ای</button>
+          <button type="button" class="theme-opt" data-theme="lilac">صورتی و یاسی</button>
+          <button type="button" class="theme-opt" data-theme="sunset">فیروزه‌ای و غروبی</button>
+          <button type="button" class="theme-opt" data-theme="amber">کهربایی و کرمی</button>
+          <button type="button" class="theme-opt" data-theme="sky">آبی آسمانی</button>
+          <button type="button" class="theme-opt" data-theme="light">سبز فسفری</button>
+          <button type="button" class="theme-opt" data-theme="dark">تاریک</button>
+        </div>
+      </div>
+    </div>
+    <div class="quick-menu-row">
+      <span class="quick-menu-label" data-i18n="quickMenuLang">زبان</span>
+      <div class="lang-switch-wrap">
+        <button type="button" id="lang-toggle" class="lang-toggle" aria-haspopup="true" aria-expanded="false" aria-label="انتخاب زبان">
+          <span class="lang-flag" id="lang-toggle-flag">🇮🇷</span>
+          <span id="lang-toggle-code">فا</span>
+        </button>
+        <div class="lang-popover" id="lang-popover" role="menu">
+          <button type="button" class="lang-opt active" data-lang="fa" data-flag="🇮🇷" data-code="فا">
+            <span class="lang-flag">🇮🇷</span><span>فارسی</span>
+          </button>
+          <button type="button" class="lang-opt" data-lang="ar" data-flag="🇮🇶" data-code="عربي">
+            <span class="lang-flag">🇮🇶</span><span>العربية</span>
+          </button>
+          <button type="button" class="lang-opt" data-lang="en" data-flag="🇬🇧" data-code="EN">
+            <span class="lang-flag">🇬🇧</span><span>English</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="quick-menu-row">
+      <span class="quick-menu-label" data-i18n="quickMenuSound">صدا</span>
+      <button type="button" id="sound-toggle" class="sound-toggle" aria-label="قطع/وصل صدا" aria-pressed="false">
+        <svg class="icon-sound-on" viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a4 4 0 0 1 0 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M18.5 6a7.5 7.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/></svg>
+        <svg class="icon-sound-off" viewBox="0 0 24 24" fill="none" style="display:none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M15.5 9.5l5 5M20.5 9.5l-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+  <div class="page2-header">
+    <a href="index.html" class="page2-back" id="page2-back" aria-label="بازگشت به صفحه اول">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span data-i18n="backBtn">بازگشت</span>
+    </a>
+    <div class="page2-header-title" data-i18n="pageTitle">📿 صلوات‌شمار</div>
+    <span class="page2-back page2-back-spacer" aria-hidden="true" tabindex="-1">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span data-i18n="backBtn">بازگشت</span>
+    </span>
+  </div>
+
+  <div class="mini-logo-wrap">
+    <div class="mini-logo">
+      <img src="logo.jpg" alt="نشان هیئت کاظمیون خرم‌آباد">
+    </div>
+  </div>
+
+  <div class="group-label">
+    <span data-i18n="salavatGroupLabel">صلوات‌شمار</span>
+  </div>
+
+  <div class="salavat-picker" id="salavat-picker">
+    <button type="button" class="salavat-pick-btn active" data-key="salawat">
+      <span class="sp-arabic">اللَّهُمَّ صَلِّ عَلَی مُحَمَّدٍ وَ آلِ مُحَمَّد</span>
+      <span class="sp-label" data-i18n="salavatPickSalawat">صلوات</span>
+      <span class="sp-count"><span class="sp-count-num" data-count-for="salawat">۰</span> <span data-i18n="salavatCountUnit">بار</span></span>
+    </button>
+    <button type="button" class="salavat-pick-btn" data-key="faraj">
+      <span class="sp-arabic">اَللّهُمَّ عَجِّل لِوَلیِّکَ الفَرَج</span>
+      <span class="sp-label" data-i18n="salavatPickFaraj">تعجیل در فرج</span>
+      <span class="sp-count"><span class="sp-count-num" data-count-for="faraj">۰</span> <span data-i18n="salavatCountUnit">بار</span></span>
+    </button>
+  </div>
+
+  <div class="salavat-stage">
+    <div class="salavat-active-text" id="salavat-active-text">اللَّهُمَّ صَلِّ عَلَی مُحَمَّدٍ وَ آلِ مُحَمَّد</div>
+
+    <div class="salavat-ring-wrap" id="salavat-ring-wrap" role="button" tabindex="0" aria-label="شمارش صلوات">
+      <svg viewBox="0 0 220 220" aria-hidden="true">
+        <defs>
+          <linearGradient id="salavatGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ffd166"/>
+            <stop offset="100%" stop-color="#c9a227"/>
+          </linearGradient>
+        </defs>
+        <circle class="salavat-ring-bg" cx="110" cy="110" r="100"/>
+        <circle class="salavat-ring-fg" id="salavat-ring-fg" cx="110" cy="110" r="100"/>
+      </svg>
+      <div class="salavat-ripple" id="salavat-ripple"></div>
+      <button type="button" class="salavat-tap-btn" id="salavat-tap-btn" aria-label="افزودن یک شمارش">
+        <span class="salavat-count" id="salavat-count">۰</span>
+        <span class="salavat-tap-hint" data-i18n="salavatTapHint">برای شمارش لمس کنید</span>
+      </button>
+    </div>
+
+    <div class="salavat-substats">
+      <div class="salavat-substat salavat-substat-btn" id="salavat-round-stat" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false" aria-label="تغییر اندازه دور">
+        <b id="salavat-round"><bdi>۰</bdi></b>
+        <span id="salavat-round-label">دور کامل (هر ۱۰۰)</span>
+        <svg class="round-edit-hint" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.4"/></svg>
+      </div>
+      <div class="salavat-substat">
+        <b id="salavat-total-salawat"><bdi>۰</bdi></b>
+        <span data-i18n="salavatTotalSalawatLabel">مجموع صلوات</span>
+      </div>
+      <div class="salavat-substat">
+        <b id="salavat-total-faraj"><bdi>۰</bdi></b>
+        <span data-i18n="salavatTotalFarajLabel">مجموع تعجیل در فرج</span>
+      </div>
+    </div>
+
+    <div class="theme-popover roundsize-popover" id="roundsize-popover" role="menu">
+      <button type="button" class="theme-opt" data-round="5">۵</button>
+      <button type="button" class="theme-opt" data-round="10">۱۰</button>
+      <button type="button" class="theme-opt" data-round="50">۵۰</button>
+      <button type="button" class="theme-opt active" data-round="100">۱۰۰</button>
+      <button type="button" class="theme-opt" data-round="200">۲۰۰</button>
+      <button type="button" class="theme-opt" data-round="300">۳۰۰</button>
+      <button type="button" class="theme-opt" data-round="400">۴۰۰</button>
+      <button type="button" class="theme-opt" data-round="500">۵۰۰</button>
+      <button type="button" class="theme-opt" data-round="600">۶۰۰</button>
+      <button type="button" class="theme-opt" data-round="700">۷۰۰</button>
+      <button type="button" class="theme-opt" data-round="800">۸۰۰</button>
+      <button type="button" class="theme-opt" data-round="900">۹۰۰</button>
+      <button type="button" class="theme-opt" data-round="1000">۱۰۰۰</button>
+    </div>
+
+    <div class="salavat-actions">
+      <button type="button" class="salavat-action-btn" id="salavat-undo-btn">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M9 14L4 9l5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 9h10a6 6 0 0 1 6 6v0a6 6 0 0 1-6 6h-1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span data-i18n="salavatUndoBtn">یکی کم کن</span>
+      </button>
+      <button type="button" class="salavat-action-btn danger" id="salavat-reset-btn">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2m2 0-.8 12.1A2 2 0 0 1 16.2 21H7.8a2 2 0 0 1-2-1.9L5 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span data-i18n="salavatResetBtn">بازنشانی</span>
+      </button>
+    </div>
+
+    <div class="salavat-milestone-note" data-i18n="salavatFooterNote">شمارش‌ها به‌صورت خودکار روی همین دستگاه ذخیره می‌شوند؛ هر بار صفحه را باز کنید از همان‌جا ادامه پیدا می‌کند.</div>
+  </div>
+
+  <a href="guide.html" class="guide-link">
+    <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M9.5 9.3a2.5 2.5 0 1 1 3.4 2.3c-.7.3-1.2.9-1.2 1.7V14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="16.8" r="0.9" fill="currentColor"/></svg>
+    <span data-i18n="guideLinkText">راهنمای سایت</span>
+  </a>
+
+  <footer data-i18n="footerSub">پایگاه اطلاع‌رسانی هیئت کاظمیون خرم‌آباد</footer>
+
+</div>
+
+<div class="confirm-overlay" id="salavat-confirm-overlay">
+  <div class="confirm-sheet">
+    <div class="confirm-title" data-i18n="salavatConfirmTitle">آیا از بازنشانی شمارش این ذکر مطمئن هستید؟ این عمل قابل بازگشت نیست.</div>
+    <div class="confirm-row">
+      <button type="button" class="confirm-btn" id="salavat-confirm-cancel" data-i18n="salavatConfirmCancel">انصراف</button>
+      <button type="button" class="confirm-btn confirm-danger" id="salavat-confirm-ok" data-i18n="salavatConfirmOk">بله، بازنشانی کن</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="salavat-celebrate" id="salavat-celebrate"></div>
+
+<script>
+  function showToast(msg){
+    const t = document.getElementById('toast');
+    if(!t) return;
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => t.classList.remove('show'), 1800);
+  }
+
+  async function copyText(text, successMsg){
+    try{
+      await navigator.clipboard.writeText(text);
+      showToast(successMsg);
+    }catch(e){
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try{ document.execCommand('copy'); showToast(successMsg); }catch(e2){}
+      document.body.removeChild(ta);
+    }
+  }
+
+  // ---------------- صلوات‌شمار ----------------
+  (function salavatCounter(){
+    const ringWrap  = document.getElementById('salavat-ring-wrap');
+    const tapBtn    = document.getElementById('salavat-tap-btn');
+    const ringFg    = document.getElementById('salavat-ring-fg');
+    const ripple    = document.getElementById('salavat-ripple');
+    const countEl   = document.getElementById('salavat-count');
+    const roundEl   = document.getElementById('salavat-round');
+    const totalEls  = { salawat: document.getElementById('salavat-total-salawat'), faraj: document.getElementById('salavat-total-faraj') };
+    const activeTextEl = document.getElementById('salavat-active-text');
+    const picker    = document.getElementById('salavat-picker');
+    const undoBtn   = document.getElementById('salavat-undo-btn');
+    const resetBtn  = document.getElementById('salavat-reset-btn');
+    const confirmOverlay = document.getElementById('salavat-confirm-overlay');
+    const confirmOk = document.getElementById('salavat-confirm-ok');
+    const confirmCancel = document.getElementById('salavat-confirm-cancel');
+    if(!ringWrap || !tapBtn) return;
+
+    const DHIKR = {
+      salawat: { text: 'اللَّهُمَّ صَلِّ عَلَی مُحَمَّدٍ وَ آلِ مُحَمَّد', storeKey: 'kazemiuon-salavat-count-salawat' },
+      faraj:   { text: 'اَللّهُمَّ عَجِّل لِوَلیِّکَ الفَرَج',            storeKey: 'kazemiuon-salavat-count-faraj' }
+    };
+    const ACTIVE_KEY_STORE = 'kazemiuon-salavat-active';
+    const ROUND_SIZE_STORE = 'kazemiuon-salavat-round-size';
+    const ROUND_SIZES = [5,10,50,100,200,300,400,500,600,700,800,900,1000];
+    const RADIUS = 100;
+    const CIRC = 2 * Math.PI * RADIUS;
+    ringFg.style.strokeDasharray = String(CIRC);
+
+    const faDigits = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+    function toFaNum(n){ return String(n).replace(/[0-9]/g, d => faDigits[d]); }
+
+    let roundSize = 100;
+    try{
+      const savedSize = parseInt(localStorage.getItem(ROUND_SIZE_STORE), 10);
+      if(ROUND_SIZES.includes(savedSize)) roundSize = savedSize;
+    }catch(e){}
+
+    const ROUND_LABEL_TPL = {
+      fa: 'دور کامل (هر {n})',
+      ar: 'دورة كاملة (كل {n})',
+      en: 'Complete rounds (every {n})'
+    };
+    const roundLabelEl = document.getElementById('salavat-round-label');
+    function updateRoundLabel(){
+      if(!roundLabelEl) return;
+      const lang = document.documentElement.lang || 'fa';
+      const tpl = ROUND_LABEL_TPL[lang] || ROUND_LABEL_TPL.fa;
+      const nStr = (lang === 'en') ? String(roundSize) : toFaNum(roundSize);
+      roundLabelEl.textContent = tpl.replace('{n}', nStr);
+    }
+    window.updateSalavatRoundLabel = updateRoundLabel;
+
+    function getCount(key){
+      try{ return parseInt(localStorage.getItem(DHIKR[key].storeKey), 10) || 0; }catch(e){ return 0; }
+    }
+    function setCount(key, val){
+      const v = Math.max(0, val);
+      try{ localStorage.setItem(DHIKR[key].storeKey, String(v)); }catch(e){}
+    }
+
+    let activeKey = 'salawat';
+    try{
+      const saved = localStorage.getItem(ACTIVE_KEY_STORE);
+      if(saved && DHIKR[saved]) activeKey = saved;
+    }catch(e){}
+
+    function render(pop){
+      const count = getCount(activeKey);
+      const mod = count % roundSize;
+      const offset = CIRC - (mod / roundSize) * CIRC;
+      ringFg.style.strokeDashoffset = String(count === 0 ? CIRC : offset);
+      countEl.textContent = toFaNum(count);
+      if(pop){
+        countEl.classList.remove('pop');
+        void countEl.offsetWidth; /* ریست انیمیشن برای اجرای دوباره در ضربه‌های سریع */
+        countEl.classList.add('pop');
+      }
+      roundEl.querySelector('bdi').textContent = toFaNum(Math.floor(count / roundSize));
+      /* مجموع هر ذکر کاملاً جدا محاسبه و نمایش داده می‌شود تا با ذکر دیگر قاطی نشود */
+      Object.keys(DHIKR).forEach(k => {
+        const el = totalEls[k];
+        if(!el) return;
+        el.querySelector('bdi').textContent = toFaNum(getCount(k));
+        el.closest('.salavat-substat').classList.toggle('is-active', k === activeKey);
+      });
+      activeTextEl.textContent = DHIKR[activeKey].text;
+      picker.querySelectorAll('.salavat-pick-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.key === activeKey);
+      });
+      picker.querySelectorAll('[data-count-for]').forEach(el => {
+        el.textContent = toFaNum(getCount(el.getAttribute('data-count-for')));
+      });
+    }
+
+    function fireRipple(){
+      const span = document.createElement('span');
+      ripple.appendChild(span);
+      requestAnimationFrame(() => span.classList.add('go'));
+      setTimeout(() => span.remove(), 600);
+    }
+
+    let pulseTimer = null;
+    function pulseTapBtn(){
+      tapBtn.classList.remove('pulse');
+      void tapBtn.offsetWidth; /* ریست انیمیشن برای ضربه‌های پیاپی */
+      tapBtn.classList.add('pulse');
+      clearTimeout(pulseTimer);
+      pulseTimer = setTimeout(() => tapBtn.classList.remove('pulse'), 250);
+    }
+
+    function vibrateNow(pattern){
+      if(!navigator.vibrate) return;
+      try{ navigator.vibrate(pattern); }catch(e){}
+    }
+
+    /* لایه جشن از ابتدای بارگذاری صفحه در HTML ساخته شده (نه با جاوااسکریپت)
+       تا موقعیت fixed آن از همان لحظه اول توسط مرورگر (به‌ویژه سافاری) درست
+       محاسبه شود؛ ساخت دیرهنگام لایه با appendChild باعث می‌شد در برخی مرورگرها
+       لایه بالای صفحه (خارج از دید کاربر) رندر شود. */
+    const celebrateLayer = document.getElementById('salavat-celebrate');
+    let celebrateCleanupTimer = null;
+
+    const CELEBRATE_COLORS = ['#ffd166','#ffcb3d','#c9a227','#22c17f','#f3ead0'];
+    const BALLOON_COLORS = ['#ffd166','#ffcb3d','#c9a227','#22c17f','#f3ead0','#e2593f','#ff6b9d','#4fc3f7','#ab6dff','#ff9f43','#2ecc71','#f368e0'];
+
+    function celebrateMilestone(){
+      showToast(toFaNum(roundSize) + ' ذکر کامل شد 🌹');
+
+      /* درخشش طلایی دور خود دکمه، سریع و سبک */
+      const flash = document.createElement('div');
+      flash.className = 'salavat-milestone-flash';
+      ringWrap.appendChild(flash);
+      setTimeout(() => flash.remove(), 950);
+
+      if(!celebrateLayer || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      /* جلوگیری از انباشته‌شدن افکت‌های قبلی اگر کاربر خیلی سریع چند دور را کامل کند */
+      if(celebrateCleanupTimer) clearTimeout(celebrateCleanupTimer);
+      celebrateLayer.textContent = '';
+
+      const rect = tapBtn.getBoundingClientRect();
+      const originX = rect.left + rect.width / 2;
+      const originY = rect.top + rect.height / 2;
+      const viewportW = window.innerWidth;
+      const viewportH = window.innerHeight;
+
+      /* تمام گره‌های DOM یک‌جا در یک fragment ساخته می‌شوند تا فقط یک بار
+         باعث layout/reflow شوند، نه یکی‌یکی (علت اصلی کندی روی موبایل) */
+      const fragment = document.createDocumentFragment();
+
+      /* ترکش کانفتی طلایی از مرکز دکمه */
+      const confettiCount = 26;
+      for(let i = 0; i < confettiCount; i++){
+        const el = document.createElement('span');
+        el.className = 'salavat-confetti';
+        const angle = Math.random() * Math.PI * 2;
+        const dist = 85 + Math.random() * 130;
+        const tx = (Math.cos(angle) * dist).toFixed(1);
+        const ty = (Math.sin(angle) * dist - 30).toFixed(1);
+        const rot = (Math.random() * 720 - 360).toFixed(0);
+        const color = CELEBRATE_COLORS[Math.floor(Math.random() * CELEBRATE_COLORS.length)];
+        const radius = (Math.random() > 0.5) ? '50%' : '2px';
+        const delay = (Math.random() * 0.08).toFixed(2);
+        el.style.cssText =
+          '--tx:' + tx + 'px;--ty:' + ty + 'px;--rot:' + rot + 'deg;' +
+          'left:' + originX + 'px;top:' + originY + 'px;' +
+          'background:' + color + ';border-radius:' + radius + ';' +
+          'animation-delay:' + delay + 's;';
+        fragment.appendChild(el);
+      }
+
+      /* بادکنک‌های رنگارنگ در سراسر صفحه، رو به بالا، سبک و رها */
+      const balloonCount = 26;
+      for(let i = 0; i < balloonCount; i++){
+        const el = document.createElement('span');
+        el.className = 'salavat-balloon';
+        /* شروع پراکنده در سراسر عرض و ارتفاع صفحه، نه فقط نزدیک دکمه */
+        const startX = (Math.random() * viewportW).toFixed(1);
+        const startY = (viewportH * (0.35 + Math.random() * 0.65)).toFixed(1);
+        const bx = (Math.random() * 140 - 70).toFixed(1);
+        const by = (-(parseFloat(startY) + 120 + Math.random() * 220)).toFixed(1);
+        const size = 13 + Math.random() * 10;
+        const color = BALLOON_COLORS[Math.floor(Math.random() * BALLOON_COLORS.length)];
+        const duration = (3.2 + Math.random() * 1.4).toFixed(2);
+        const delay = (Math.random() * 0.4).toFixed(2);
+        el.style.cssText =
+          '--bx:' + bx + 'px;--by:' + by + 'px;' +
+          'left:' + startX + 'px;top:' + startY + 'px;' +
+          'width:' + size.toFixed(1) + 'px;height:' + (size * 1.27).toFixed(1) + 'px;' +
+          'background:radial-gradient(circle at 34% 28%, rgba(255,255,255,0.65), ' + color + ');' +
+          'animation-duration:' + duration + 's;animation-delay:' + delay + 's;';
+        fragment.appendChild(el);
+      }
+
+      celebrateLayer.appendChild(fragment);
+
+      /* پاکسازی یک‌جای لایه پس از پایان طولانی‌ترین انیمیشن، به‌جای یک تایمر
+         جداگانه برای هر ذره (که خودش منبع دیگری از کندی بود) */
+      celebrateCleanupTimer = setTimeout(() => {
+        celebrateLayer.textContent = '';
+        celebrateCleanupTimer = null;
+      }, 5200);
+    }
+
+    function increment(){
+      /* بازخورد لمسی و بصری همین اول اجرا می‌شود تا هیچ تاخیری حس نشود،
+         پیش از هر محاسبه یا نوشتن در حافظه */
+      vibrateNow(10);
+      fireRipple();
+      pulseTapBtn();
+
+      const before = getCount(activeKey);
+      const after = before + 1;
+      setCount(activeKey, after);
+      render(true);
+
+      if(after % roundSize === 0){
+        vibrateNow([12,45,12,45,18]);
+        celebrateMilestone();
+      }
+    }
+
+    tapBtn.addEventListener('click', increment, { passive:true });
+    ringWrap.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        increment();
+      }
+    });
+
+    picker.querySelectorAll('.salavat-pick-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if(btn.dataset.key === activeKey) return;
+        vibrateNow(8);
+        activeKey = btn.dataset.key;
+        try{ localStorage.setItem(ACTIVE_KEY_STORE, activeKey); }catch(e){}
+        /* محو نرم متن و حلقه هنگام تعویض ذکر، سپس نمایش مقدار جدید */
+        activeTextEl.style.opacity = '0';
+        activeTextEl.style.transform = 'translateY(4px)';
+        setTimeout(() => {
+          ringFg.style.transition = 'none';
+          render();
+          void ringFg.getBoundingClientRect(); /* اجبار به رندر فوری پیش از بازگرداندن ترنزیشن */
+          ringFg.style.transition = '';
+          activeTextEl.style.opacity = '1';
+          activeTextEl.style.transform = 'translateY(0)';
+        }, 150);
+      });
+    });
+
+    undoBtn.addEventListener('click', () => {
+      const before = getCount(activeKey);
+      if(before <= 0) return;
+      setCount(activeKey, before - 1);
+      render();
+    });
+
+    resetBtn.addEventListener('click', () => {
+      confirmOverlay.classList.add('show');
+    });
+    confirmCancel.addEventListener('click', () => {
+      confirmOverlay.classList.remove('show');
+    });
+    confirmOk.addEventListener('click', () => {
+      setCount(activeKey, 0);
+      render();
+      confirmOverlay.classList.remove('show');
+      showToast('شمارش بازنشانی شد');
+    });
+    confirmOverlay.addEventListener('click', (e) => {
+      if(e.target === confirmOverlay) confirmOverlay.classList.remove('show');
+    });
+
+    // ---------------- انتخاب اندازه دور (با لمس روی خود کارت «دور کامل») ----------------
+    (function roundSizePicker(){
+      const toggle = document.getElementById('salavat-round-stat');
+      const popover = document.getElementById('roundsize-popover');
+      if(!toggle || !popover) return;
+      const opts = popover.querySelectorAll('.theme-opt');
+
+      document.body.appendChild(popover);
+
+      function markActive(){
+        opts.forEach(b => b.classList.toggle('active', parseInt(b.dataset.round, 10) === roundSize));
+      }
+      markActive();
+
+      function positionPopover(){
+        const margin = 10;
+        const rect = toggle.getBoundingClientRect();
+        const pw = popover.offsetWidth || 240;
+        let left = rect.left + rect.width / 2 - pw / 2;
+        left = Math.max(margin, Math.min(left, window.innerWidth - pw - margin));
+        let top = rect.bottom + 8;
+        const ph = popover.offsetHeight || 160;
+        if(top + ph > window.innerHeight - margin){
+          top = rect.top - ph - 8;
+        }
+        popover.style.left = left + 'px';
+        popover.style.top = Math.max(margin, top) + 'px';
+      }
+
+      function openPopover(){
+        popover.style.visibility = 'hidden';
+        popover.classList.add('show');
+        toggle.classList.add('open');
+        toggle.setAttribute('aria-expanded', 'true');
+        /* در برخی مرورگرهای موبایل (به‌ویژه وب‌ویوهای درون‌برنامه‌ای)، اگر
+           موقعیت یک عنصر position:fixed بلافاصله بعد از تغییر کلاس محاسبه شود،
+           مرورگر هنوز چیدمان را نهایی نکرده و مختصات اشتباه (نسبت به کل صفحه
+           به‌جای صفحه‌نمایش قابل‌دید) برمی‌گرداند. با دو فریم تأخیر مطمئن
+           می‌شویم چیدمان کاملاً نهایی شده قبل از محاسبه موقعیت. */
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            positionPopover();
+            popover.style.visibility = '';
+          });
+        });
+      }
+      function closePopover(){
+        popover.classList.remove('show');
+        toggle.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if(popover.classList.contains('show')) closePopover(); else openPopover();
+      });
+      toggle.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          if(popover.classList.contains('show')) closePopover(); else openPopover();
+        }else if(e.key === 'Escape'){
+          closePopover();
+        }
+      });
+      window.addEventListener('resize', () => {
+        if(popover.classList.contains('show')) positionPopover();
+      }, { passive:true });
+      opts.forEach(b => {
+        b.addEventListener('click', () => {
+          const val = parseInt(b.dataset.round, 10);
+          if(!ROUND_SIZES.includes(val)) return;
+          roundSize = val;
+          try{ localStorage.setItem(ROUND_SIZE_STORE, String(val)); }catch(e){}
+          markActive();
+          updateRoundLabel();
+          render();
+          closePopover();
+        });
+      });
+      document.addEventListener('click', (e) => {
+        if(!popover.contains(e.target) && e.target !== toggle && !toggle.contains(e.target)){
+          closePopover();
+        }
+      });
+    })();
+
+    updateRoundLabel();
+    render();
+  })();
+
+  // ---------------- تغییر و همگام‌سازی تم با صفحه اول ----------------
+  (function themeSwitcher(){
+    const toggle = document.getElementById('theme-toggle');
+    const popover = document.getElementById('theme-popover');
+    if(!toggle || !popover) return;
+    const opts = popover.querySelectorAll('.theme-opt');
+
+    document.body.appendChild(popover);
+
+    const THEME_CLASSES = ['theme-light', 'theme-dark', 'theme-fest', 'theme-crimson', 'theme-lilac', 'theme-sunset', 'theme-amber', 'theme-sky'];
+    function applyTheme(theme){
+      document.body.classList.remove(...THEME_CLASSES);
+      if(THEME_CLASSES.includes('theme-' + theme)) document.body.classList.add('theme-' + theme);
+      opts.forEach(b => b.classList.toggle('active', b.dataset.theme === theme));
+      try{ localStorage.setItem('kazemiuon-theme', theme); }catch(e){}
+    }
+
+    let saved = 'default';
+    try{ saved = localStorage.getItem('kazemiuon-theme') || 'default'; }catch(e){}
+    applyTheme(saved);
+
+    function positionThemePopover(){
+      const margin = 10;
+      const rect = toggle.getBoundingClientRect();
+      const pw = popover.offsetWidth || 132;
+      let left = rect.left + rect.width / 2 - pw / 2;
+      left = Math.max(margin, Math.min(left, window.innerWidth - pw - margin));
+      const top = rect.top - popover.offsetHeight - 8;
+      popover.style.left = left + 'px';
+      popover.style.top = Math.max(margin, top) + 'px';
+    }
+
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const show = !popover.classList.contains('show');
+      if(show){
+        popover.style.visibility = 'hidden';
+        popover.classList.add('show');
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            positionThemePopover();
+            popover.style.visibility = '';
+          });
+        });
+      }else{
+        popover.classList.remove('show');
+      }
+      toggle.setAttribute('aria-expanded', String(show));
+    });
+    window.addEventListener('resize', () => {
+      if(popover.classList.contains('show')) positionThemePopover();
+    }, { passive:true });
+    opts.forEach(b => {
+      b.addEventListener('click', () => {
+        applyTheme(b.dataset.theme);
+        popover.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+    document.addEventListener('click', (e) => {
+      if(!popover.contains(e.target) && e.target !== toggle){
+        popover.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+
+  // ---------------- باز/بسته شدن منوی همبرگری ----------------
+  (function quickMenu(){
+    const btn = document.getElementById('quick-menu-btn');
+    const panel = document.getElementById('quick-menu-panel');
+    if(!btn || !panel) return;
+
+    function closePanel(){
+      panel.classList.remove('show');
+      btn.classList.remove('active');
+      btn.setAttribute('aria-expanded', 'false');
+      const themePop = document.getElementById('theme-popover');
+      const langPop = document.getElementById('lang-popover');
+      const roundPop = document.getElementById('roundsize-popover');
+      if(themePop) themePop.classList.remove('show');
+      if(langPop) langPop.classList.remove('show');
+      if(roundPop) roundPop.classList.remove('show');
+    }
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const show = !panel.classList.contains('show');
+      panel.classList.toggle('show', show);
+      btn.classList.toggle('active', show);
+      btn.setAttribute('aria-expanded', String(show));
+    });
+
+    document.addEventListener('click', (e) => {
+      if(!panel.contains(e.target) && e.target !== btn && !btn.contains(e.target)){
+        closePanel();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape') closePanel();
+    });
+  })();
+
+  // ---------------- ترجمه‌ها ----------------
+  const translations = {
+    fa: {
+      backBtn: 'بازگشت',
+      pageTitle: '📿 صلوات‌شمار',
+      salavatGroupLabel: 'صلوات‌شمار',
+      salavatPickSalawat: 'صلوات',
+      salavatPickFaraj: 'تعجیل در فرج',
+      salavatCountUnit: 'بار',
+      salavatTapHint: 'برای شمارش لمس کنید',
+      salavatTotalSalawatLabel: 'مجموع صلوات',
+      salavatTotalFarajLabel: 'مجموع تعجیل در فرج',
+      salavatUndoBtn: 'یکی کم کن',
+      salavatResetBtn: 'بازنشانی',
+      salavatFooterNote: 'شمارش‌ها به‌صورت خودکار روی همین دستگاه ذخیره می‌شوند؛ هر بار صفحه را باز کنید از همان‌جا ادامه پیدا می‌کند.',
+      salavatConfirmTitle: 'آیا از بازنشانی شمارش این ذکر مطمئن هستید؟ این عمل قابل بازگشت نیست.',
+      salavatConfirmCancel: 'انصراف',
+      salavatConfirmOk: 'بله، بازنشانی کن',
+      guideLinkText: 'راهنمای سایت',
+      footerSub: 'پایگاه اطلاع‌رسانی هیئت کاظمیون خرم‌آباد',
+      quickMenuTheme: 'تم',
+      quickMenuRoundSize: 'اندازه دور',
+      quickMenuLang: 'زبان',
+      quickMenuSound: 'صدا'
+    },
+    ar: {
+      backBtn: 'رجوع',
+      pageTitle: '📿 عداد الصلوات',
+      salavatGroupLabel: 'عداد الصلوات',
+      salavatPickSalawat: 'الصلوات',
+      salavatPickFaraj: 'تعجيل الفرج',
+      salavatCountUnit: 'مرة',
+      salavatTapHint: 'المس للعد',
+      salavatTotalSalawatLabel: 'مجموع الصلوات',
+      salavatTotalFarajLabel: 'مجموع الفرج',
+      salavatUndoBtn: 'إنقاص واحد',
+      salavatResetBtn: 'إعادة تعيين',
+      salavatFooterNote: 'يُحفظ العدّاد تلقائياً على هذا الجهاز؛ عند فتح الصفحة مجدداً يستمر من حيث توقفت.',
+      salavatConfirmTitle: 'هل أنت متأكد من إعادة تعيين عداد هذا الذكر؟ لا يمكن التراجع عن هذا الإجراء.',
+      salavatConfirmCancel: 'إلغاء',
+      salavatConfirmOk: 'نعم، إعادة التعيين',
+      guideLinkText: 'دليل الموقع',
+      footerSub: 'القناة الرسمية لموكب الكاظميون خرم‌آباد',
+      quickMenuTheme: 'المظهر',
+      quickMenuRoundSize: 'حجم الدورة',
+      quickMenuLang: 'اللغة',
+      quickMenuSound: 'الصوت'
+    },
+    en: {
+      backBtn: 'Back',
+      pageTitle: '📿 Salawat Counter',
+      salavatGroupLabel: 'Salawat Counter',
+      salavatPickSalawat: 'Salawat',
+      salavatPickFaraj: 'Hasten Relief',
+      salavatCountUnit: 'times',
+      salavatTapHint: 'Tap to count',
+      salavatTotalSalawatLabel: 'Total Salawat',
+      salavatTotalFarajLabel: 'Total Faraj',
+      salavatUndoBtn: 'Undo one',
+      salavatResetBtn: 'Reset',
+      salavatFooterNote: 'Counts are saved automatically on this device; reopening the page picks up right where you left off.',
+      salavatConfirmTitle: 'Reset the counter for this dhikr? This cannot be undone.',
+      salavatConfirmCancel: 'Cancel',
+      salavatConfirmOk: 'Yes, reset it',
+      guideLinkText: 'Site Guide',
+      footerSub: 'Official channel of Heyat-e Kazemiyoon Khorramabad',
+      quickMenuTheme: 'Theme',
+      quickMenuRoundSize: 'Round size',
+      quickMenuLang: 'Language',
+      quickMenuSound: 'Sound'
+    }
+  };
+
+  let currentLang = 'fa';
+
+  function setLang(lang){
+    if(!translations[lang]) return;
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = (lang === 'en') ? 'ltr' : 'rtl';
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if(translations[lang][key] !== undefined){
+        el.textContent = translations[lang][key];
+      }
+    });
+    if(typeof window.updateSalavatRoundLabel === 'function') window.updateSalavatRoundLabel();
+    const activeOpt = document.querySelector('.lang-opt[data-lang="' + lang + '"]');
+    document.querySelectorAll('.lang-opt').forEach(b => {
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
+    if(activeOpt){
+      const flagEl = document.getElementById('lang-toggle-flag');
+      const codeEl = document.getElementById('lang-toggle-code');
+      if(flagEl) flagEl.textContent = activeOpt.dataset.flag;
+      if(codeEl) codeEl.textContent = activeOpt.dataset.code;
+    }
+  }
+
+  // ---------------- تغییر زبان ----------------
+  (function langSwitcher(){
+    const toggle = document.getElementById('lang-toggle');
+    const popover = document.getElementById('lang-popover');
+    if(!toggle || !popover) return;
+    const opts = popover.querySelectorAll('.lang-opt');
+
+    document.body.appendChild(popover);
+
+    function positionLangPopover(){
+      const margin = 10;
+      const rect = toggle.getBoundingClientRect();
+      const pw = popover.offsetWidth || 150;
+      let left = rect.left + rect.width / 2 - pw / 2;
+      left = Math.max(margin, Math.min(left, window.innerWidth - pw - margin));
+      const ph = popover.offsetHeight || 140;
+      let top = rect.bottom + 8;
+      if(top + ph > window.innerHeight - margin){
+        top = rect.top - ph - 8;
+      }
+      popover.style.left = left + 'px';
+      popover.style.top = Math.max(margin, top) + 'px';
+    }
+
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const show = !popover.classList.contains('show');
+      if(show){
+        popover.style.visibility = 'hidden';
+        popover.classList.add('show');
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            positionLangPopover();
+            popover.style.visibility = '';
+          });
+        });
+      }else{
+        popover.classList.remove('show');
+      }
+      toggle.setAttribute('aria-expanded', String(show));
+    });
+    window.addEventListener('resize', () => {
+      if(popover.classList.contains('show')) positionLangPopover();
+    }, { passive:true });
+    opts.forEach(b => {
+      b.addEventListener('click', () => {
+        setLang(b.dataset.lang);
+        popover.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+    document.addEventListener('click', (e) => {
+      if(!popover.contains(e.target) && e.target !== toggle){
+        popover.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+
+  // ---------------- دکمه صدا (افکت تیک کلیک) ----------------
+  (function soundToggle(){
+    const soundState = { muted: true, ctx: null };
+    function ensureAudioCtx(){
+      if(!soundState.ctx){
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if(AC) soundState.ctx = new AC();
+      }
+      return soundState.ctx;
+    }
+    function playTick(){
+      if(soundState.muted) return;
+      const ctx = ensureAudioCtx();
+      if(!ctx) return;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      const t0 = ctx.currentTime;
+      osc.frequency.setValueAtTime(720, t0);
+      osc.frequency.exponentialRampToValueAtTime(420, t0 + 0.09);
+      gain.gain.setValueAtTime(0.0001, t0);
+      gain.gain.exponentialRampToValueAtTime(0.05, t0 + 0.012);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.14);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(t0);
+      osc.stop(t0 + 0.16);
+    }
+    document.querySelectorAll('.lang-opt, .lang-toggle, .theme-opt, .copy-btn').forEach(el => {
+      el.addEventListener('click', playTick);
+    });
+    const btn = document.getElementById('sound-toggle');
+    if(!btn) return;
+    btn.addEventListener('click', () => {
+      soundState.muted = !soundState.muted;
+      btn.setAttribute('aria-pressed', String(!soundState.muted));
+      btn.querySelector('.icon-sound-on').style.display = soundState.muted ? 'none' : 'block';
+      btn.querySelector('.icon-sound-off').style.display = soundState.muted ? 'block' : 'none';
+      if(!soundState.muted){ ensureAudioCtx(); playTick(); }
+    });
+  })();
+
+  // ---------------- انتقال نرم به صفحه اول (پیش‌بارگذاری + بدون پرش) ----------------
+  (function backSmoothNav(){
+    const trigger = document.getElementById('page2-back');
+    if(!trigger) return;
+    const targetHref = trigger.getAttribute('href');
+
+    function prefetchTarget(){
+      if(document.getElementById('page2-prefetch-link')) return;
+      const link = document.createElement('link');
+      link.id = 'page2-prefetch-link';
+      link.rel = 'prefetch';
+      link.as = 'document';
+      link.href = targetHref;
+      document.head.appendChild(link);
+    }
+
+    // وقتی کاربر با اسکرول به دکمه بازگشت نزدیک می‌شود، صفحه اول از قبل بارگذاری شود
+    if('IntersectionObserver' in window){
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if(entry.isIntersecting){
+            prefetchTarget();
+            io.disconnect();
+          }
+        });
+      }, { root:null, rootMargin:'500px 0px', threshold:0 });
+      io.observe(trigger);
+    } else {
+      prefetchTarget();
+    }
+
+    trigger.addEventListener('pointerenter', prefetchTarget, { once:true });
+    trigger.addEventListener('touchstart', prefetchTarget, { once:true, passive:true });
+    trigger.addEventListener('focus', prefetchTarget, { once:true });
+
+    trigger.addEventListener('click', function(e){
+      if(e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      prefetchTarget();
+      document.body.classList.add('page-exit');
+      setTimeout(() => { window.location.href = targetHref; }, 240);
+    });
+  })();
+
+  // ذرات ریز طلایی پس‌زمینه (امبر)
+  (function embers(){
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduceMotion) return;
+    var wrap = document.getElementById('embers');
+    if(!wrap) return;
+    var count = 8;
+    for(var i=0;i<count;i++){
+      var s = document.createElement('div');
+      s.className = 'ember-spark';
+      var left = Math.random()*100;
+      var delay = Math.random()*10;
+      var dur = 6 + Math.random()*6;
+      var drift = (Math.random()*60 - 30) + 'px';
+      s.style.left = left + 'vw';
+      s.style.animationDelay = delay + 's';
+      s.style.animationDuration = dur + 's';
+      s.style.setProperty('--drift', drift);
+      wrap.appendChild(s);
+    }
+  })();
+</script>
+
+</body>
+</html>
