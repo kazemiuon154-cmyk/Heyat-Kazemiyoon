@@ -10,7 +10,8 @@
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
 
-<title>❓ راهنمای سایت | هیئت کاظمیون خرم‌آباد</title>
+<title>❓ دستیار سایت | هیئت کاظمیون خرم‌آباد</title>
+<meta name="description" content="پرسش و پاسخ سریع هیئت کاظمیون خرم‌آباد؛ کافیست روی سوال موردنظرت بزنی تا بلافاصله جواب رو ببینی.">
 <meta name="robots" content="noindex, follow">
 <link rel="icon" href="logo.jpg">
 <link rel="manifest" href="manifest.json">
@@ -411,18 +412,148 @@
     font-weight:800;
   }
 
-  /* ---------------- معرفی کوتاه راهنما ---------------- */
-  .guide-intro{
-    font-size:13px;
-    line-height:2;
-    color:var(--parchment-dim);
-    text-align:center;
-    padding:0 6px;
-    margin-bottom:6px;
+  /* ---------------- کارت گفتگوی پرسش و پاسخ ---------------- */
+  .faq-card{
+    position:relative;
+    border-radius:22px;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01)), var(--void-2, var(--void));
+    box-shadow:0 1px 0 rgba(255,255,255,0.06) inset, 0 14px 30px rgba(0,0,0,0.35);
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
   }
+  .faq-chat-scroll{
+    flex:1;
+    min-height:280px;
+    max-height:52vh;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    padding:18px 16px 14px;
+    scroll-behavior:smooth;
+  }
+  .faq-msg{
+    max-width:84%;
+    padding:11px 15px;
+    border-radius:16px;
+    font-size:13.3px;
+    line-height:1.85;
+  }
+  .faq-msg.bot{
+    align-self:flex-start;
+    background:linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025));
+    border:1px solid var(--line);
+    border-right:2px solid var(--gold-soft);
+    color:var(--parchment);
+    border-bottom-left-radius:5px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.22);
+    animation:faqMsgInBot 0.32s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  .faq-msg.user{
+    align-self:flex-end;
+    background:linear-gradient(135deg, var(--gold), var(--crimson-bright));
+    color:#1a0f04;
+    font-weight:700;
+    border-bottom-right-radius:5px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.22);
+    animation:faqMsgInUser 0.24s ease both;
+  }
+  @keyframes faqMsgInBot{
+    from{ opacity:0; transform:translate(8px,10px) scale(0.94); }
+    to{ opacity:1; transform:translate(0,0) scale(1); }
+  }
+  @keyframes faqMsgInUser{
+    from{ opacity:0; transform:translate(-8px,8px) scale(0.96); }
+    to{ opacity:1; transform:translate(0,0) scale(1); }
+  }
+  .faq-msg-link{
+    align-self:flex-start;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:7px 13px;
+    border-radius:999px;
+    border:1px solid var(--gold-soft);
+    background:rgba(255,255,255,0.03);
+    color:var(--gold);
+    font-size:12px;
+    font-weight:700;
+    text-decoration:none;
+    animation:faqMsgInBot 0.28s cubic-bezier(.34,1.56,.64,1) both;
+    transition:background 0.15s ease, transform 0.12s ease;
+  }
+  .faq-msg-link:hover{ background:rgba(255,255,255,0.08); }
+  .faq-msg-link:active{ transform:scale(0.95); }
+  .faq-msg-link svg{ width:12px; height:12px; flex:none; }
+  .faq-typing{
+    align-self:flex-start;
+    display:flex;
+    align-items:center;
+    gap:5px;
+    padding:13px 16px;
+    border-radius:16px;
+    border-bottom-left-radius:5px;
+    background:rgba(255,255,255,0.045);
+    border:1px solid var(--line);
+    animation:faqMsgInBot 0.24s ease both;
+  }
+  .faq-typing span{
+    width:6px; height:6px; border-radius:50%;
+    background:var(--gold-soft);
+    animation:faqTypingBounce 1.1s ease-in-out infinite;
+    box-shadow:0 0 6px rgba(212,175,55,0.5);
+  }
+  .faq-typing span:nth-child(2){ animation-delay:0.15s; }
+  .faq-typing span:nth-child(3){ animation-delay:0.3s; }
+  @keyframes faqTypingBounce{
+    0%,60%,100%{ transform:translateY(0); opacity:0.5; }
+    30%{ transform:translateY(-4px); opacity:1; }
+  }
+  .faq-replies-wrap{
+    flex:none;
+    border-top:1px solid var(--line);
+    padding:14px 16px calc(16px + env(safe-area-inset-bottom, 0px));
+    background:rgba(0,0,0,0.12);
+  }
+  .faq-replies-label{
+    font-size:10.5px;
+    color:var(--parchment-dim);
+    margin-bottom:10px;
+    letter-spacing:0.03em;
+  }
+  .faq-quick-replies{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .faq-chip{
+    display:flex; align-items:center; gap:6px;
+    padding:10px 15px;
+    border-radius:999px;
+    border:1px solid var(--gold-soft);
+    background:rgba(255,203,61,0.07);
+    color:var(--gold);
+    font-family:'Vazirmatn', sans-serif;
+    font-size:12.5px;
+    font-weight:700;
+    cursor:pointer;
+    text-align:right;
+    transition:all 0.16s ease;
+  }
+  .faq-chip:hover{ background:rgba(255,203,61,0.15); border-color:var(--gold); }
+  .faq-chip:active{ transform:scale(0.96); }
+  .faq-chip.faq-chip-back{
+    border-color:var(--line);
+    background:rgba(255,255,255,0.03);
+    color:var(--parchment-dim);
+  }
+  .faq-chip.faq-chip-back:hover{ color:var(--parchment); border-color:var(--parchment-dim); }
 
   /* ============================================================
-     بخش‌های راهنما (آکاردئون)
+     ادعیه (زیارت عاشورا و ...)
   ============================================================ */
   .doa-list{
     display:flex;
@@ -492,17 +623,410 @@
     gap:8px;
     padding:2px 4px 4px;
   }
-  .guide-desc{
-    padding:14px 16px;
+  .doa-sub-btn{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:13px 16px;
     border-radius:13px;
     border:1px solid var(--line);
     background:rgba(255,255,255,0.02);
     color:var(--parchment-dim);
+    font-family:inherit;
     font-size:13px;
-    line-height:2.05;
-    text-align:justify;
+    font-weight:600;
+    cursor:pointer;
+    text-align:right;
+    transition:all 0.18s ease;
   }
-  html[dir="ltr"] .guide-desc{ text-align:left; }
+  html[dir="ltr"] .doa-sub-btn{ text-align:left; }
+  .doa-sub-btn:hover{ border-color:var(--gold-soft); color:var(--parchment); }
+  .doa-sub-btn svg{ width:15px; height:15px; color:var(--gold-soft); flex-shrink:0; }
+  .doa-sub-btn:hover svg{ color:var(--gold); }
+
+  /* ---------------- مودال متن دعا ---------------- */
+  .doa-modal-overlay{
+    position:fixed; inset:0; z-index:300;
+    background:rgba(3,1,1,0.72);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    display:flex; align-items:flex-end; justify-content:center;
+    opacity:0; visibility:hidden;
+    transition:opacity 0.25s ease, visibility 0.25s ease;
+  }
+  .doa-modal-overlay.show{ opacity:1; visibility:visible; }
+  .doa-modal-sheet{
+    position:relative;
+    width:100%; max-width:500px;
+    height:86vh;
+    display:flex;
+    flex-direction:column;
+    background:var(--void);
+    border:1px solid var(--gold-soft);
+    border-bottom:none;
+    border-radius:26px 26px 0 0;
+    box-shadow:0 -12px 40px rgba(0,0,0,0.5);
+    transform:translateY(100%);
+    transition:transform 0.32s cubic-bezier(0.22,1,0.36,1);
+  }
+  .doa-modal-overlay.show .doa-modal-sheet{ transform:translateY(0); }
+  .doa-modal-handle{
+    width:38px; height:4px; border-radius:999px;
+    background:var(--line);
+    margin:12px auto 4px;
+    flex-shrink:0;
+  }
+  .doa-modal-head{
+    position:relative;
+    display:flex; align-items:center; justify-content:center;
+    padding:10px 50px 14px;
+    flex-shrink:0;
+    border-bottom:1px solid var(--line);
+  }
+  .doa-modal-title{
+    font-size:15.5px; font-weight:800; color:var(--parchment);
+  }
+  .doa-modal-close{
+    position:absolute; top:6px; left:16px;
+    width:32px; height:32px; border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.03);
+    color:var(--parchment-dim);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+  }
+  html[dir="ltr"] .doa-modal-close{ left:auto; right:16px; }
+  .doa-modal-close svg{ width:14px; height:14px; }
+  .doa-modal-close:hover{ border-color:var(--gold-soft); color:var(--gold); }
+
+  /* ============================================================
+     دکمه شناور دانلود فایل‌های صوتی (زیارت عاشورا، مداحی و ...)
+  ============================================================ */
+  .downloads-fab{
+    position:fixed;
+    left:16px;
+    bottom:calc(20px + env(safe-area-inset-bottom, 0px));
+    z-index:56;
+    display:flex; align-items:center; gap:9px;
+    padding:12px 20px 12px 16px;
+    border-radius:999px;
+    border:1px solid var(--gold-soft);
+    background:linear-gradient(135deg, var(--gold), var(--gold-dim));
+    color:var(--void);
+    cursor:pointer;
+    box-shadow:0 6px 18px rgba(0,0,0,0.45), 0 0 0 0 rgba(255,203,61,0.5);
+    animation:downloads-fab-pulse 2.6s ease-in-out infinite;
+    transition:transform 0.18s ease, opacity 0.25s ease, visibility 0.25s ease;
+    white-space:nowrap;
+  }
+  .downloads-fab:active{ transform:scale(0.95); }
+  .downloads-fab.collapsed{
+    opacity:0; visibility:hidden;
+    transform:scale(0.8);
+    pointer-events:none;
+  }
+  .downloads-fab svg{ width:19px; height:19px; flex:none; }
+  .downloads-fab-label{
+    font-family:'Vazirmatn', sans-serif;
+    font-size:12.5px;
+    font-weight:800;
+    letter-spacing:-0.2px;
+  }
+  @keyframes downloads-fab-pulse{
+    0%,100%{ box-shadow:0 6px 18px rgba(0,0,0,0.45), 0 0 0 0 rgba(255,203,61,0.45); }
+    50%{ box-shadow:0 6px 18px rgba(0,0,0,0.45), 0 0 0 9px rgba(255,203,61,0); }
+  }
+
+  .downloads-list{
+    display:flex; flex-direction:column; gap:10px;
+    text-align:right;
+  }
+  .download-item{
+    display:flex; flex-direction:column; gap:8px;
+    padding:10px 12px;
+    border:1px solid var(--line);
+    border-radius:12px;
+    background:var(--glass);
+  }
+  .download-item-row{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+  }
+  .download-progress{
+    height:3px; border-radius:2px; overflow:hidden;
+    background:rgba(255,255,255,0.1);
+    display:none;
+  }
+  .download-item.loading .download-progress{ display:block; }
+  .download-progress-fill{
+    display:block; height:100%; width:0%;
+    background:linear-gradient(90deg, var(--gold), var(--crimson-bright));
+    transition:width 0.2s ease;
+  }
+  .download-item-title{ font-size:13px; font-weight:700; color:var(--parchment); }
+  .download-item-sub{ font-size:10.5px; color:var(--parchment-dim); margin-top:2px; }
+  .download-btn{
+    flex:none;
+    display:flex; align-items:center; gap:6px;
+    padding:8px 12px;
+    border-radius:999px;
+    border:1px solid var(--gold-soft);
+    background:rgba(255,203,61,0.08);
+    color:var(--gold);
+    font-family:'Vazirmatn', sans-serif;
+    font-size:11px; font-weight:700;
+    cursor:pointer;
+    transition:all 0.18s ease;
+    white-space:nowrap;
+  }
+  .download-btn:hover{ background:rgba(255,203,61,0.16); }
+  .download-btn .dl-icon{ width:14px; height:14px; }
+  .download-btn.loading .dl-icon{ animation:dl-spin 0.9s linear infinite; }
+  @keyframes dl-spin{ to{ transform:rotate(360deg); } }
+  .download-btn.done{ border-color:var(--crimson-bright); color:var(--crimson-bright); background:rgba(34,193,127,0.12); }
+  .download-btn.loading{ border-color:rgba(255,90,90,0.55); color:#ff8a8a; cursor:pointer; }
+  .download-btn.loading:hover{ background:rgba(255,90,90,0.14); }
+  .download-btn .dl-icon-cancel{ display:none; }
+  .download-btn.loading .dl-icon{ display:none; }
+  .download-btn.loading .dl-icon-cancel{ display:block; animation:none; }
+
+  .doa-modal-body{
+    flex:1;
+    min-height:0;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    padding:22px 22px 40px;
+  }
+  .doa-text-arabic{
+    font-family:'Amiri', serif;
+    font-size:21px;
+    line-height:2.5;
+    text-align:center;
+    color:var(--parchment);
+    direction:rtl;
+  }
+  .doa-text-fa{
+    font-family:'Vazirmatn', sans-serif;
+    font-size:14.5px;
+    line-height:2.3;
+    text-align:justify;
+    color:var(--parchment);
+    direction:rtl;
+  }
+  .doa-text-placeholder{
+    text-align:center;
+    color:var(--parchment-dim);
+    font-size:13px;
+    padding:30px 10px;
+    line-height:2;
+  }
+  .doa-text-arabic p{ margin:0 0 18px; }
+  .doa-text-arabic p:last-child{ margin-bottom:0; }
+  .doa-text-arabic p.doa-text-note{
+    font-family:'Vazirmatn', sans-serif;
+    font-size:13px;
+    font-weight:600;
+    color:var(--gold);
+    line-height:1.8;
+    margin:6px 0 4px;
+  }
+  .doa-text-fa p{ margin:0 0 16px; }
+  .doa-text-fa p:last-child{ margin-bottom:0; }
+  .doa-text-fa p.doa-text-note{
+    font-weight:700;
+    color:var(--gold);
+    text-align:center;
+    margin:4px 0;
+  }
+  .doa-text-fa p.doa-text-source{
+    font-size:12px;
+    color:var(--parchment-dim);
+    text-align:center;
+    margin-top:8px;
+  }
+
+  /* ---------------- پخش صوت زیارت ---------------- */
+  .doa-audio-wrap{
+    padding:26px 22px 10px;
+    text-align:center;
+    flex-shrink:0;
+    border-bottom:1px solid var(--line);
+  }
+  .doa-audio-status{
+    font-size:11.5px;
+    color:var(--parchment-dim);
+    text-align:center;
+    min-height:16px;
+    margin-top:4px;
+  }
+  .doa-audio-hint{
+    font-size:12.5px;
+    color:var(--gold-soft);
+    font-weight:600;
+    margin-bottom:16px;
+  }
+  .doa-audio-controls{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+  }
+  .doa-audio-btn{
+    width:56px; height:56px; min-width:56px;
+    border-radius:50%;
+    border:1px solid var(--gold-soft);
+    background:linear-gradient(180deg, rgba(var(--crimson-rgb),0.35), rgba(var(--crimson-rgb),0.12));
+    color:var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:transform 0.15s ease, border-color 0.15s ease;
+  }
+  .doa-audio-btn:hover{ border-color:var(--gold); }
+  .doa-audio-btn:active{ transform:scale(0.92); }
+  .doa-audio-btn svg{ width:22px; height:22px; }
+  .doa-audio-btn .icon-pause{ display:none; }
+  .doa-audio-btn.playing .icon-play{ display:none; }
+  .doa-audio-btn.playing .icon-pause{ display:flex; }
+  .doa-audio-seek-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:14px;
+    max-width:340px;
+    margin-left:auto; margin-right:auto;
+  }
+  .doa-audio-time{
+    font-size:11px; color:var(--parchment-dim);
+    min-width:34px;
+    font-variant-numeric:tabular-nums;
+  }
+  .doa-audio-seek{
+    flex:1;
+    -webkit-appearance:none;
+    appearance:none;
+    height:4px;
+    border-radius:999px;
+    background:linear-gradient(to left, var(--gold) var(--pct,0%), var(--line) var(--pct,0%));
+    outline:none;
+    transition:box-shadow 0.25s ease;
+  }
+  .doa-audio-seek::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width:13px; height:13px; border-radius:50%;
+    background:var(--gold);
+    box-shadow:0 0 0 3px rgba(201,162,39,0.2);
+    cursor:pointer;
+    transition:box-shadow 0.25s ease, transform 0.15s ease;
+  }
+  .doa-audio-seek::-moz-range-thumb{
+    width:13px; height:13px; border-radius:50%;
+    background:var(--gold); border:none;
+    box-shadow:0 0 0 3px rgba(201,162,39,0.2);
+    cursor:pointer;
+    transition:box-shadow 0.25s ease, transform 0.15s ease;
+  }
+  .doa-audio-wrap.playing .doa-audio-seek::-webkit-slider-thumb{
+    box-shadow:0 0 0 3px rgba(201,162,39,0.28), 0 0 10px 2px rgba(201,162,39,0.55);
+    transform:scale(1.12);
+  }
+  .doa-audio-wrap.playing .doa-audio-seek::-moz-range-thumb{
+    box-shadow:0 0 0 3px rgba(201,162,39,0.28), 0 0 10px 2px rgba(201,162,39,0.55);
+    transform:scale(1.12);
+  }
+
+  /* ---------------- افکت پخش صوت (هاله + اکولایزر) ---------------- */
+  .doa-audio-btn{ position:relative; }
+  .doa-audio-btn::before,
+  .doa-audio-btn::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    border:1px solid var(--gold);
+    opacity:0;
+    pointer-events:none;
+  }
+  .doa-audio-btn.playing::before,
+  .doa-audio-btn.playing::after{
+    animation:doa-audio-pulse 1.8s ease-out infinite;
+  }
+  .doa-audio-btn.playing::after{ animation-delay:0.6s; }
+  @keyframes doa-audio-pulse{
+    0%{ transform:scale(1); opacity:0.55; }
+    100%{ transform:scale(1.55); opacity:0; }
+  }
+  .doa-audio-btn.playing{
+    box-shadow:0 0 16px 2px rgba(var(--crimson-rgb),0.45);
+  }
+  .doa-audio-eq{
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+    gap:3px;
+    height:16px;
+    margin-inline-start:2px;
+  }
+  .doa-audio-wrap.playing .doa-audio-eq{ display:flex; }
+  .doa-audio-eq span{
+    display:block;
+    width:3px;
+    border-radius:2px;
+    background:var(--gold);
+    animation:doa-audio-eq-bounce 0.9s ease-in-out infinite;
+  }
+  .doa-audio-eq span:nth-child(1){ animation-delay:0s; }
+  .doa-audio-eq span:nth-child(2){ animation-delay:0.2s; }
+  .doa-audio-eq span:nth-child(3){ animation-delay:0.4s; }
+  .doa-audio-eq span:nth-child(4){ animation-delay:0.15s; }
+  @keyframes doa-audio-eq-bounce{
+    0%, 100%{ height:4px; }
+    50%{ height:16px; }
+  }
+
+  /* ---------------- toast ---------------- */
+  .toast{
+    position:fixed;
+    bottom:26px;
+    left:50%;
+    transform:translateX(-50%) translateY(20px);
+    background:rgba(20,14,10,0.95);
+    color:var(--parchment);
+    border:1px solid var(--line);
+    padding:10px 20px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:600;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.25s ease, transform 0.25s ease;
+    z-index:200;
+    box-shadow:0 10px 24px rgba(0,0,0,0.4);
+  }
+  .toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+  }
+
+  .guide-link{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    width:max-content;
+    margin:30px auto 0;
+    padding:9px 18px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.03);
+    color:var(--gold-soft);
+    font-family:'Vazirmatn', sans-serif;
+    font-size:12px;
+    font-weight:700;
+    text-decoration:none;
+    transition:all 0.18s ease;
+  }
+  .guide-link:hover{ border-color:var(--gold-soft); color:var(--gold); background:rgba(255,255,255,0.06); }
+  .guide-link svg{ width:14px; height:14px; flex:none; }
 
   footer{
     text-align:center;
@@ -589,7 +1113,7 @@
       <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span data-i18n="backBtn">بازگشت</span>
     </a>
-    <div class="page2-header-title" data-i18n="pageTitle">❓ راهنمای سایت</div>
+    <div class="page2-header-title" data-i18n="pageTitle">❓ دستیار سایت</div>
     <span class="page2-back page2-back-spacer" aria-hidden="true" tabindex="-1">
       <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span data-i18n="backBtn">بازگشت</span>
@@ -602,221 +1126,211 @@
     </div>
   </div>
 
-  <div class="guide-intro" data-i18n="guideIntro">با این سایت آشنا شوید؛ روی هر بخش ضربه بزنید تا توضیح کامل آن باز شود.</div>
-
   <div class="group-label">
-    <span data-i18n="guideGroupHome">صفحه اول</span>
+    <span data-i18n="faqGroupLabel">دستیار سایت</span>
   </div>
 
-  <div class="doa-list">
-
-    <button type="button" class="doa-item" data-guide-toggle aria-expanded="false" aria-controls="guide-panel-clock">
-      <span class="doa-item-icon">
-        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.6"/><path d="M12 7.5V12l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </span>
-      <span class="doa-item-name" data-i18n="guideClockName">ساعت تهران و کربلا</span>
-      <svg class="doa-item-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <div class="doa-sub-panel" id="guide-panel-clock">
-      <div class="doa-sub-panel-inner">
-        <div class="guide-desc" data-i18n="guideClockDesc">در بالای صفحه‌ی اول، ساعت به‌وقت تهران نمایش داده می‌شود. با ضربه‌زدن روی آن، ساعت شهر کربلای معلی و دمای هوا نیز به آن اضافه می‌شود؛ با ضربه‌ی دوباره، به حالت اول برمی‌گردد.</div>
-      </div>
+  <div class="faq-card">
+    <div class="faq-chat-scroll" id="faq-chat-scroll"></div>
+    <div class="faq-replies-wrap">
+      <div class="faq-replies-label" id="faq-replies-label">یکی از دسته‌ها رو انتخاب کن:</div>
+      <div class="faq-quick-replies" id="faq-quick-replies"></div>
     </div>
-
-    <button type="button" class="doa-item" data-guide-toggle aria-expanded="false" aria-controls="guide-panel-pwa">
-      <span class="doa-item-icon">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </span>
-      <span class="doa-item-name" data-i18n="guidePwaName">نصب اپلیکیشن تحت وب</span>
-      <svg class="doa-item-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <div class="doa-sub-panel" id="guide-panel-pwa">
-      <div class="doa-sub-panel-inner">
-        <div class="guide-desc" data-i18n="guidePwaDesc">دکمه‌ی «نصب اپلیکیشن تحت وب» در بالای صفحه، سایت را مانند یک اپلیکیشن روی صفحه‌ی اصلی گوشی یا کامپیوترتان نصب می‌کند تا بدون نیاز به جست‌وجوی دوباره در مرورگر، سریع‌تر به آن دسترسی داشته باشید.</div>
-      </div>
-    </div>
-
-    <button type="button" class="doa-item" data-guide-toggle aria-expanded="false" aria-controls="guide-panel-menu">
-      <span class="doa-item-icon">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-      </span>
-      <span class="doa-item-name" data-i18n="guideMenuName">منوی تنظیمات (تم، زبان، صدا)</span>
-      <svg class="doa-item-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <div class="doa-sub-panel" id="guide-panel-menu">
-      <div class="doa-sub-panel-inner">
-        <div class="guide-desc" data-i18n="guideMenuDesc">با ضربه‌زدن روی آیکون ☰ در گوشه‌ی بالا سمت چپ هر صفحه، منویی باز می‌شود که در آن می‌توانید پوسته‌ی رنگی سایت را از میان چند تم مختلف انتخاب کنید، زبان سایت را بین فارسی، عربی و انگلیسی تغییر دهید و صدای کلیک‌ها را روشن یا خاموش کنید.</div>
-      </div>
-    </div>
-
-    <button type="button" class="doa-item" data-guide-toggle aria-expanded="false" aria-controls="guide-panel-announce">
-      <span class="doa-item-icon">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5a5.5 5.5 0 0 0-5.5 5.5v3.2c0 .6-.2 1.2-.6 1.7L4.5 15.5c-.5.6-.1 1.5.7 1.5h13.6c.8 0 1.2-.9.7-1.5l-1.4-1.6a2.6 2.6 0 0 1-.6-1.7V9A5.5 5.5 0 0 0 12 3.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9.5 19a2.5 2.5 0 0 0 5 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-      </span>
-      <span class="doa-item-name" data-i18n="guideAnnounceName">اعلان‌های ویژه</span>
-      <svg class="doa-item-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <div class="doa-sub-panel" id="guide-panel-announce">
-      <div class="doa-sub-panel-inner">
-        <div class="guide-desc" data-i18n="guideAnnounceDesc">هرگاه مناسبت یا خبر مهمی وجود داشته باشد، پیام کوتاهی بالای صفحه‌ی اول نمایش داده می‌شود؛ برای خواندن متن کامل، روی همان پیام ضربه بزنید.</div>
-      </div>
-    </div>
-
-    <button type="button" class="doa-item" data-guide-toggle aria-expanded="false" aria-controls="guide-panel-map">
-      <span class="doa-item-icon">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-6.5-7-11.5A7 7 0 0 1 19 9.5C19 14.5 12 21 12 21z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="9.3" r="2.3" stroke="currentColor" stroke-width="1.6"/></svg>
-      </span>
-      <span class="doa-item-name" data-i18n="guideMapName">نقشه و مسیریابی</span>
-      <svg class="doa-item-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <div class="doa-sub-panel" id="guide-panel-map">
-      <div class="doa-sub-panel-inner">
-        <div class="guide-desc" data-i18n="guideMapDesc">نقشه‌ی تعاملی، موقعیت دقیق مسجد حضرت قائم (عج)، محل برگزاری مجلس هفتگی را نشان می‌دهد. با ضربه روی نشانگر روی نقشه، دو دکمه‌ی «نشان» و «بلد» ظاهر می‌شود که مسیر را مستقیم در اپلیکیشن نقشه‌ی مورد نظرتان باز می‌کند.</div>
-      </div>
-    </div>
-
-    <button type="button" class="doa-item" data-guide-toggle aria-expanded="false" aria-controls="guide-panel-social">
-      <span class="doa-item-icon">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v9a1.5 1.5 0 0 1-1.5 1.5H9l-4 3v-3H5.5A1.5 1.5 0 0 1 4 14.5v-9z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-      </span>
-      <span class="doa-item-name" data-i18n="guideSocialName">شبکه‌های اجتماعی</span>
-      <svg class="doa-item-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <div class="doa-sub-panel" id="guide-panel-social">
-      <div class="doa-sub-panel-inner">
-        <div class="guide-desc" data-i18n="guideSocialDesc">کارت‌های ایتا، روبیکا و اینستاگرام شما را مستقیم به صفحه‌ی رسمی هیئت در همان پیام‌رسان می‌برد. با ضربه روی آیکون کپی هم می‌توانید آیدی کانال را کپی کنید تا در هر پیام‌رسانی به‌راحتی هیئت را پیدا کنید.</div>
-      </div>
-    </div>
-
-    <button type="button" class="doa-item" data-guide-toggle aria-expanded="false" aria-controls="guide-panel-pages">
-      <span class="doa-item-icon">
-        <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="4" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.6"/></svg>
-      </span>
-      <span class="doa-item-name" data-i18n="guidePagesName">دسترسی به بخش‌های سایت</span>
-      <svg class="doa-item-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <div class="doa-sub-panel" id="guide-panel-pages">
-      <div class="doa-sub-panel-inner">
-        <div class="guide-desc" data-i18n="guidePagesDesc">در پایین صفحه‌ی اول، هفت کارت وجود دارد: «ادعیه و زیارت‌نامه‌ها»، «نذورات»، «مداحی و مولودی»، «گالری تصاویر»، «صلوات‌شمار»، «دستیار سایت» و «تبدیل تاریخ». با ضربه روی هرکدام، به صفحه‌ی مخصوص همان بخش منتقل می‌شوید و با دکمه‌ی «بازگشت» بالای هر صفحه، دوباره به صفحه‌ی اول برمی‌گردید.</div>
-      </div>
-    </div>
-
-    <button type="button" class="doa-item" data-guide-toggle aria-expanded="false" aria-controls="guide-panel-downloads">
-      <span class="doa-item-icon">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M12 4v9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M7.8 10.2L12 14.5L16.2 10.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 17.2v1A2.3 2.3 0 0 0 7.3 20.5h9.4A2.3 2.3 0 0 0 19 18.2v-1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </span>
-      <span class="doa-item-name" data-i18n="guideDownloadsName">مرکز دانلود سایت</span>
-      <svg class="doa-item-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <div class="doa-sub-panel" id="guide-panel-downloads">
-      <div class="doa-sub-panel-inner">
-        <div class="guide-desc" data-i18n="guideDownloadsDesc">دکمه‌ی طلایی شناور در پایین‌سمت‌چپ صفحه‌ی اول، مرکز دانلود کل سایت است. با باز کردن آن، فهرست همه‌ی فایل‌های قابل‌دانلود (زیارت عاشورا، تصاویر گالری، مداحی‌ها و...) را یک‌جا می‌بینید و می‌توانید هرکدام را با نمایش درصد پیشرفت دانلود کنید یا در حین دانلود لغو کنید.</div>
-      </div>
-    </div>
-
   </div>
 
-  <div class="group-label" style="margin-top:32px;">
-    <span data-i18n="guideGroupPages">صفحات داخلی سایت</span>
-  </div>
+  <a href="guide.html" class="guide-link">
+    <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M9.5 9.3a2.5 2.5 0 1 1 3.4 2.3c-.7.3-1.2.9-1.2 1.7V14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="16.8" r="0.9" fill="currentColor"/></svg>
+    <span data-i18n="guideLinkText">راهنمای سایت</span>
+  </a>
 
-  <div class="doa-list">
-
-    <button type="button" class="doa-item" data-guide-toggle aria-expanded="false" aria-controls="guide-panel-library">
-      <span class="doa-item-icon">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M4 5.2A1.2 1.2 0 0 1 5.2 4H11v16H5.2A1.2 1.2 0 0 1 4 18.8V5.2z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M20 5.2A1.2 1.2 0 0 0 18.8 4H13v16h5.8a1.2 1.2 0 0 0 1.2-1.2V5.2z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-      </span>
-      <span class="doa-item-name" data-i18n="guideLibraryName">📖 ادعیه و زیارت‌نامه‌ها (کتابخانه)</span>
-      <svg class="doa-item-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <div class="doa-sub-panel" id="guide-panel-library">
-      <div class="doa-sub-panel-inner">
-        <div class="guide-desc" data-i18n="guideLibraryDesc">در این صفحه می‌توانید متن زیارت عاشورا و دیگر ادعیه را بخوانید یا صوت آن را گوش دهید. روی عنوان هر دعا ضربه بزنید تا باز شود؛ دکمه‌ی پخش و دانلود صدا هم در همان بخش در دسترس است.</div>
-      </div>
-    </div>
-
-    <button type="button" class="doa-item" data-guide-toggle aria-expanded="false" aria-controls="guide-panel-nazr">
-      <span class="doa-item-icon">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s6-3.5 6-9V6.5L12 4 6 6.5V12c0 5.5 6 9 6 9z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-      </span>
-      <span class="doa-item-name" data-i18n="guideNazrName">🕯️ نذورات</span>
-      <svg class="doa-item-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <div class="doa-sub-panel" id="guide-panel-nazr">
-      <div class="doa-sub-panel-inner">
-        <div class="guide-desc" data-i18n="guideNazrDesc">این صفحه شماره‌کارت بانکی برای واریز نذورات نقدی هیئت را نشان می‌دهد. با ضربه روی آیکون کپی، شماره‌کارت را می‌توانید مستقیم کپی کرده و در اپلیکیشن بانکی خود جای‌گذاری کنید.</div>
-      </div>
-    </div>
-
-    <button type="button" class="doa-item" data-guide-toggle aria-expanded="false" aria-controls="guide-panel-madahi">
-      <span class="doa-item-icon">
-        <svg viewBox="0 0 24 24" fill="none"><rect x="9" y="3" width="6" height="11" rx="3" stroke="currentColor" stroke-width="1.6"/><path d="M6 11.5a6 6 0 0 0 12 0M12 17.5V21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-      </span>
-      <span class="doa-item-name" data-i18n="guideMadahiName">🎙️ مداحی و مولودی</span>
-      <svg class="doa-item-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <div class="doa-sub-panel" id="guide-panel-madahi">
-      <div class="doa-sub-panel-inner">
-        <div class="guide-desc" data-i18n="guideMadahiDesc">فهرست فایل‌های صوتی مداحی و مولودی در این صفحه قرار دارد. هر فایل را می‌توانید مستقیم در همان صفحه پخش کنید یا با دکمه‌ی دانلود روی گوشی/کامپیوتر خود ذخیره کنید.</div>
-      </div>
-    </div>
-
-    <button type="button" class="doa-item" data-guide-toggle aria-expanded="false" aria-controls="guide-panel-gallery">
-      <span class="doa-item-icon">
-        <svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5" width="17" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><circle cx="8.5" cy="10" r="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M4 16.5l4.5-4 3 2.5 3.5-4L20 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </span>
-      <span class="doa-item-name" data-i18n="guideGalleryName">🖼️ گالری تصاویر</span>
-      <svg class="doa-item-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <div class="doa-sub-panel" id="guide-panel-gallery">
-      <div class="doa-sub-panel-inner">
-        <div class="guide-desc" data-i18n="guideGalleryDesc">تصاویر مراسم و برنامه‌های هیئت را نمایش می‌دهد. با ضربه روی هر تصویر، نسخه‌ی بزرگ آن باز می‌شود و دکمه‌ی دانلود همان تصویر هم در دسترس است.</div>
-      </div>
-    </div>
-
-    <button type="button" class="doa-item" data-guide-toggle aria-expanded="false" aria-controls="guide-panel-faq">
-      <span class="doa-item-icon">
-        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M9.5 9.3a2.5 2.5 0 1 1 3.4 2.3c-.7.3-1.2.9-1.2 1.7V14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="16.8" r="0.9" fill="currentColor"/></svg>
-      </span>
-      <span class="doa-item-name" data-i18n="guideFaqName">❓ دستیار سایت</span>
-      <svg class="doa-item-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <div class="doa-sub-panel" id="guide-panel-faq">
-      <div class="doa-sub-panel-inner">
-        <div class="guide-desc" data-i18n="guideFaqDesc">در این صفحه یک دستیار گفتگومحور قرار دارد که سوال‌های پرتکرار درباره‌ی هیئت را دسته‌بندی‌شده نشان می‌دهد. یک دسته (مثلاً «نذورات و کمک مالی») را انتخاب کنید، سوال موردنظرتان را بزنید تا پاسخ به‌صورت پیام ظاهر شود؛ اگر پاسخ به بخش دیگری از سایت مربوط باشد، دکمه‌ای برای رفتن مستقیم به همان بخش هم زیر پاسخ نمایش داده می‌شود.</div>
-      </div>
-    </div>
-
-    <button type="button" class="doa-item" data-guide-toggle aria-expanded="false" aria-controls="guide-panel-convert">
-      <span class="doa-item-icon">
-        <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="15" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M4 9.5h16M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-      </span>
-      <span class="doa-item-name" data-i18n="guideConvertName">📅 تبدیل تاریخ</span>
-      <svg class="doa-item-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <div class="doa-sub-panel" id="guide-panel-convert">
-      <div class="doa-sub-panel-inner">
-        <div class="guide-desc" data-i18n="guideConvertDesc">این صفحه تاریخ را بین سه تقویم شمسی، میلادی و قمری تبدیل می‌کند. از تب‌های بالای صفحه تقویم مبدأ را انتخاب کنید، تاریخ را با اسکرول‌کردن روز/ماه/سال وارد کنید تا نتیجه در هر سه تقویم هم‌زمان نمایش داده شود؛ با دکمه‌ی کپی کنار هر نتیجه هم می‌توانید همان تاریخ را کپی کنید.</div>
-      </div>
-    </div>
-
-  </div>
+  <footer data-i18n="footerSub">پایگاه اطلاع‌رسانی هیئت کاظمیون خرم‌آباد</footer>
 
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
-  // ---------------- باز/بسته شدن آکاردئون راهنما ----------------
-  (function guideAccordion(){
-    document.querySelectorAll('.doa-item[data-guide-toggle]').forEach(btn => {
-      const panel = document.getElementById(btn.getAttribute('aria-controls'));
-      if(!panel) return;
-      btn.addEventListener('click', () => {
-        const open = !btn.classList.contains('open');
-        btn.classList.toggle('open', open);
-        panel.classList.toggle('open', open);
-        btn.setAttribute('aria-expanded', String(open));
+  function showToast(msg){
+    const t = document.getElementById('toast');
+    if(!t) return;
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => t.classList.remove('show'), 1800);
+  }
+
+  async function copyText(text, successMsg){
+    try{
+      await navigator.clipboard.writeText(text);
+      showToast(successMsg);
+    }catch(e){
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try{ document.execCommand('copy'); showToast(successMsg); }catch(e2){}
+      document.body.removeChild(ta);
+    }
+  }
+
+  (function faqChat(){
+    const scrollEl = document.getElementById('faq-chat-scroll');
+    const repliesEl = document.getElementById('faq-quick-replies');
+    const labelEl = document.getElementById('faq-replies-label');
+    if(!scrollEl || !repliesEl) return;
+
+    const FAQ_DATA = [
+      { id:'time', icon:'⏰', label:'زمان و مکان مراسم', questions:[
+        { q:'مراسم هیئت چه زمانی و کجا برگزار می‌شه؟', a:'مراسم هفتگی هیئت کاظمیون هر سه‌شنبه ساعت ۲۱ در مسجد حضرت قائم (عج)، محله قاضی‌آباد خرم‌آباد برگزار می‌شه. برای دیدن شمارش معکوس تا مراسم بعدی و مسیریابی روی نقشه، کافیه سری به صفحه اول سایت بزنی.', url:'index.html', linkLabel:'مشاهده شمارش معکوس و نقشه' },
+        { q:'در ایام محرم و صفر، برنامه و ساعت مراسم فرق می‌کنه؟', a:'بله؛ در ایام خاصی مثل محرم و صفر معمولاً برنامه و ساعت برگزاری تغییر می‌کنه و ممکنه مراسم اضافه‌ای هم برگزار بشه. برای اطلاع دقیق و به‌روز، اعلان‌های بالای صفحه اول سایت رو دنبال کن.', url:'index.html', linkLabel:'مشاهده اعلان‌های سایت' }
+      ]},
+      { id:'nazr', icon:'🕯️', label:'نذورات و کمک مالی', questions:[
+        { q:'چطور می‌تونم نذر نقدی یا غیرنقدی بدم؟', a:'برای نذر نقدی، وارد صفحه «نذورات» شو؛ شماره کارت اونجا با یک ضربه قابل کپی کردنه. برای نذورات غیرنقدی مثل غذا یا لوازم، از طریق کانال‌های رسمی ایتا یا روبیکای هیئت هماهنگ کن تا محل و زمان تحویل مشخص بشه.', url:'nazr.html', linkLabel:'رفتن به بخش نذورات' },
+        { q:'نذورات صرف چه کارهایی می‌شه و آیا گزارش مالی هم منتشر می‌شه؟', a:'نذورات صرف برگزاری مراسم عزاداری، پذیرایی هیئتی‌ها و هزینه‌های جاری هیئت می‌شه. برای اطلاع از وضعیت مالی و شفافیت نذورات، می‌تونی از طریق کانال رسمی هیئت درخواست گزارش بدی.' }
+      ]},
+      { id:'religious', icon:'📿', label:'محتوای مذهبی سایت', questions:[
+        { q:'دعا، زیارت‌نامه و مداحی‌های هیئت رو از کجای سایت پیدا کنم؟', a:'در صفحه «کتابخانه» متن عربی، ترجمه فارسی و پخش صوتی زیارت عاشورا و چند دعای دیگه موجوده. مداحی‌ها و مولودی‌خوانی‌ها هم در صفحه «مداحی و مولودی» به‌صورت فهرست صوتی در دسترسن.', links:[ { url:'page2.html', label:'رفتن به کتابخانه (ادعیه و زیارت‌نامه‌ها)' }, { url:'madahi.html', label:'رفتن به مداحی و مولودی' } ] },
+        { q:'صلوات‌شمار و حدیث روز چه ابزارهایی هستن؟', a:'صلوات‌شمار ابزاری برای شمارش آنلاین صلوات با ذخیره‌سازی خودکار روی گوشیته و در صفحه «صلوات‌شمار» قرار داره. حدیث روز هم در صفحه اول سایت، هر بار یک حدیث از معصومین (ع) رو به‌صورت خودکار نشون می‌ده.', url:'salavat.html', linkLabel:'رفتن به صلوات‌شمار' }
+      ]},
+      { id:'gallery', icon:'🖼️', label:'گالری و دانلود', questions:[
+        { q:'چطور عکس‌ها و فایل‌های صوتی مراسم رو ببینم و دانلود کنم؟', a:'در صفحه «گالری تصاویر»، آرشیو عکس‌های مراسم‌های مختلف دسته‌بندی شده؛ روی عکس بزن و از دکمه دانلود گوشه لایت‌باکس استفاده کن. برای فایل‌های صوتی هم دکمه شناور «دانلود» پایین صفحه در دسترسه.', url:'gallery.html', linkLabel:'رفتن به گالری تصاویر' }
+      ]},
+      { id:'settings', icon:'⚙️', label:'امکانات و تنظیمات سایت', questions:[
+        { q:'چطور زبان و تم رنگی سایت رو عوض کنم یا اون رو مثل اپ نصب کنم؟', a:'از منوی سریع بالای صفحه (آیکون همبرگری)، بخش «زبان» رو باز کن و فارسی، عربی یا انگلیسی رو انتخاب کن؛ از بخش «تم» هم می‌تونی پالت رنگی سایت رو عوض کنی. برای نصب سایت مثل اپلیکیشن، گزینه «نصب اپ» رو بزن (در مرورگرهایی که این قابلیت رو پشتیبانی می‌کنن).' },
+        { q:'چطور سایت رو با دوستام به اشتراک بذارم؟', a:'از دکمه اشتراک‌گذاری در صفحه اول، می‌تونی لینک سایت رو در ایتا، روبیکا، سروش، بله یا تلگرام بفرستی.' }
+      ]},
+      { id:'contact', icon:'📞', label:'ارتباط با هیئت', questions:[
+        { q:'چطور با مسئولان هیئت در ارتباط باشم یا داوطلب همکاری بشم؟', a:'از طریق کانال‌های رسمی ایتا یا روبیکا که در صفحه اول معرفی شدن، می‌تونی پیام بدی. برای همکاری هم در پیام خصوصی همون کانال‌ها اعلام آمادگی کن؛ به‌محض آماده شدن فرم ثبت‌نام خادمین، از همون کانال‌ها اطلاع‌رسانی می‌شه.', url:'index.html', linkLabel:'مشاهده کانال‌های ارتباطی' }
+      ]}
+    ];
+
+    let state = { view:'categories', categoryId:null };
+
+    function scrollToBottom(){
+      requestAnimationFrame(() => { scrollEl.scrollTop = scrollEl.scrollHeight; });
+    }
+
+    function addMessage(text, who){
+      const el = document.createElement('div');
+      el.className = 'faq-msg ' + who;
+      el.textContent = text;
+      scrollEl.appendChild(el);
+      scrollToBottom();
+      return el;
+    }
+
+    function prefetchPage(href){
+      const linkId = 'faq-prefetch-' + href.replace(/[^a-zA-Z0-9]/g, '');
+      if(document.getElementById(linkId)) return;
+      const link = document.createElement('link');
+      link.id = linkId;
+      link.rel = 'prefetch';
+      link.as = 'document';
+      link.href = href;
+      document.head.appendChild(link);
+    }
+
+    function addLinkButton(url, label){
+      const a = document.createElement('a');
+      a.className = 'faq-msg-link';
+      a.href = url;
+      a.innerHTML = '<svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+        '<span>' + label + '</span>';
+      a.addEventListener('pointerenter', () => prefetchPage(url), { once:true });
+      a.addEventListener('touchstart', () => prefetchPage(url), { once:true, passive:true });
+      a.addEventListener('click', function(e){
+        if(e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        e.preventDefault();
+        prefetchPage(url);
+        document.body.classList.add('page-exit');
+        setTimeout(() => { window.location.href = url; }, 240);
       });
-    });
+      scrollEl.appendChild(a);
+      scrollToBottom();
+      prefetchPage(url);
+    }
+
+    function addTypingThenMessage(text, onDone){
+      const typing = document.createElement('div');
+      typing.className = 'faq-typing';
+      typing.innerHTML = '<span></span><span></span><span></span>';
+      scrollEl.appendChild(typing);
+      scrollToBottom();
+      setTimeout(() => {
+        typing.remove();
+        addMessage(text, 'bot');
+        if(typeof onDone === 'function') onDone();
+      }, 550 + Math.random() * 350);
+    }
+
+    function clearReplies(){ repliesEl.innerHTML = ''; }
+
+    function addChip(text, onClick, isBack){
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'faq-chip' + (isBack ? ' faq-chip-back' : '');
+      chip.textContent = text;
+      chip.addEventListener('click', onClick);
+      repliesEl.appendChild(chip);
+    }
+
+    function renderCategories(){
+      state = { view:'categories', categoryId:null };
+      labelEl.textContent = 'یکی از دسته‌ها رو انتخاب کن:';
+      clearReplies();
+      FAQ_DATA.forEach(cat => {
+        addChip(cat.icon + ' ' + cat.label, () => selectCategory(cat.id));
+      });
+    }
+
+    function selectCategory(catId){
+      const cat = FAQ_DATA.find(c => c.id === catId);
+      if(!cat) return;
+      addMessage(cat.icon + ' ' + cat.label, 'user');
+      addTypingThenMessage('بفرما، کدوم سوال برات مهمه؟ 🙂');
+      state = { view:'questions', categoryId:catId };
+      renderQuestionChips(cat);
+    }
+
+    function renderQuestionChips(cat){
+      labelEl.textContent = 'یکی از سوال‌های زیر رو انتخاب کن:';
+      clearReplies();
+      cat.questions.forEach(item => {
+        addChip(item.q, () => askQuestion(cat, item));
+      });
+      addChip('🔙 بازگشت به دسته‌ها', renderCategories, true);
+    }
+
+    function renderRelated(cat, currentItem){
+      const others = cat.questions.filter(q => q !== currentItem);
+      clearReplies();
+      if(others.length){
+        labelEl.textContent = 'سوال‌های مرتبط دیگه:';
+        others.forEach(item => addChip(item.q, () => askQuestion(cat, item)));
+      } else {
+        labelEl.textContent = 'سوال دیگه‌ای داری؟';
+      }
+      addChip('🔙 بازگشت به دسته‌ها', renderCategories, true);
+      state = { view:'questions', categoryId:cat.id };
+    }
+
+    function askQuestion(cat, item){
+      addMessage(item.q, 'user');
+      addTypingThenMessage(item.a, () => {
+        if(Array.isArray(item.links)){
+          item.links.forEach(l => addLinkButton(l.url, l.label || 'مشاهده در صفحه اصلی'));
+        } else if(item.url){
+          addLinkButton(item.url, item.linkLabel || 'مشاهده در صفحه اصلی');
+        }
+        renderRelated(cat, item);
+      });
+    }
+
+    // پیام خوش‌آمد اولیه
+    addMessage('سلام! 👋 من دستیار سایت هیئت کاظمیونم. یکی از دسته‌های زیر رو انتخاب کن تا سوال‌های مرتبط رو ببینی.', 'bot');
+    renderCategories();
   })();
 
   // ---------------- تغییر و همگام‌سازی تم با صفحه اول ----------------
@@ -921,38 +1435,9 @@
   const translations = {
     fa: {
       backBtn: 'بازگشت',
-      pageTitle: '❓ راهنمای سایت',
-      guideIntro: 'با این سایت آشنا شوید؛ روی هر بخش ضربه بزنید تا توضیح کامل آن باز شود.',
-      guideGroupHome: 'صفحه اول',
-      guideGroupPages: 'صفحات داخلی سایت',
-      guideClockName: 'ساعت تهران و کربلا',
-      guideClockDesc: 'در بالای صفحه‌ی اول، ساعت به‌وقت تهران نمایش داده می‌شود. با ضربه‌زدن روی آن، ساعت شهر کربلای معلی و دمای هوا نیز به آن اضافه می‌شود؛ با ضربه‌ی دوباره، به حالت اول برمی‌گردد.',
-      guidePwaName: 'نصب اپلیکیشن تحت وب',
-      guidePwaDesc: 'دکمه‌ی «نصب اپلیکیشن تحت وب» در بالای صفحه، سایت را مانند یک اپلیکیشن روی صفحه‌ی اصلی گوشی یا کامپیوترتان نصب می‌کند تا بدون نیاز به جست‌وجوی دوباره در مرورگر، سریع‌تر به آن دسترسی داشته باشید.',
-      guideMenuName: 'منوی تنظیمات (تم، زبان، صدا)',
-      guideMenuDesc: 'با ضربه‌زدن روی آیکون ☰ در گوشه‌ی بالا سمت چپ هر صفحه، منویی باز می‌شود که در آن می‌توانید پوسته‌ی رنگی سایت را از میان چند تم مختلف انتخاب کنید، زبان سایت را بین فارسی، عربی و انگلیسی تغییر دهید و صدای کلیک‌ها را روشن یا خاموش کنید.',
-      guideAnnounceName: 'اعلان‌های ویژه',
-      guideAnnounceDesc: 'هرگاه مناسبت یا خبر مهمی وجود داشته باشد، پیام کوتاهی بالای صفحه‌ی اول نمایش داده می‌شود؛ برای خواندن متن کامل، روی همان پیام ضربه بزنید.',
-      guideMapName: 'نقشه و مسیریابی',
-      guideMapDesc: 'نقشه‌ی تعاملی، موقعیت دقیق مسجد حضرت قائم (عج)، محل برگزاری مجلس هفتگی را نشان می‌دهد. با ضربه روی نشانگر روی نقشه، دو دکمه‌ی «نشان» و «بلد» ظاهر می‌شود که مسیر را مستقیم در اپلیکیشن نقشه‌ی مورد نظرتان باز می‌کند.',
-      guideSocialName: 'شبکه‌های اجتماعی',
-      guideSocialDesc: 'کارت‌های ایتا، روبیکا و اینستاگرام شما را مستقیم به صفحه‌ی رسمی هیئت در همان پیام‌رسان می‌برد. با ضربه روی آیکون کپی هم می‌توانید آیدی کانال را کپی کنید تا در هر پیام‌رسانی به‌راحتی هیئت را پیدا کنید.',
-      guidePagesName: 'دسترسی به بخش‌های سایت',
-      guidePagesDesc: 'در پایین صفحه‌ی اول، هفت کارت وجود دارد: «ادعیه و زیارت‌نامه‌ها»، «نذورات»، «مداحی و مولودی»، «گالری تصاویر»، «صلوات‌شمار»، «دستیار سایت» و «تبدیل تاریخ». با ضربه روی هرکدام، به صفحه‌ی مخصوص همان بخش منتقل می‌شوید و با دکمه‌ی «بازگشت» بالای هر صفحه، دوباره به صفحه‌ی اول برمی‌گردید.',
-      guideDownloadsName: 'مرکز دانلود سایت',
-      guideDownloadsDesc: 'دکمه‌ی طلایی شناور در پایین‌سمت‌چپ صفحه‌ی اول، مرکز دانلود کل سایت است. با باز کردن آن، فهرست همه‌ی فایل‌های قابل‌دانلود (زیارت عاشورا، تصاویر گالری، مداحی‌ها و...) را یک‌جا می‌بینید و می‌توانید هرکدام را با نمایش درصد پیشرفت دانلود کنید یا در حین دانلود لغو کنید.',
-      guideLibraryName: '📖 ادعیه و زیارت‌نامه‌ها (کتابخانه)',
-      guideLibraryDesc: 'در این صفحه می‌توانید متن زیارت عاشورا و دیگر ادعیه را بخوانید یا صوت آن را گوش دهید. روی عنوان هر دعا ضربه بزنید تا باز شود؛ دکمه‌ی پخش و دانلود صدا هم در همان بخش در دسترس است.',
-      guideNazrName: '🕯️ نذورات',
-      guideNazrDesc: 'این صفحه شماره‌کارت بانکی برای واریز نذورات نقدی هیئت را نشان می‌دهد. با ضربه روی آیکون کپی، شماره‌کارت را می‌توانید مستقیم کپی کرده و در اپلیکیشن بانکی خود جای‌گذاری کنید.',
-      guideMadahiName: '🎙️ مداحی و مولودی',
-      guideMadahiDesc: 'فهرست فایل‌های صوتی مداحی و مولودی در این صفحه قرار دارد. هر فایل را می‌توانید مستقیم در همان صفحه پخش کنید یا با دکمه‌ی دانلود روی گوشی/کامپیوتر خود ذخیره کنید.',
-      guideGalleryName: '🖼️ گالری تصاویر',
-      guideGalleryDesc: 'تصاویر مراسم و برنامه‌های هیئت را نمایش می‌دهد. با ضربه روی هر تصویر، نسخه‌ی بزرگ آن باز می‌شود و دکمه‌ی دانلود همان تصویر هم در دسترس است.',
-      guideFaqName: '❓ دستیار سایت',
-      guideFaqDesc: 'در این صفحه یک دستیار گفتگومحور قرار دارد که سوال‌های پرتکرار درباره‌ی هیئت را دسته‌بندی‌شده نشان می‌دهد. یک دسته (مثلاً «نذورات و کمک مالی») را انتخاب کنید، سوال موردنظرتان را بزنید تا پاسخ به‌صورت پیام ظاهر شود؛ اگر پاسخ به بخش دیگری از سایت مربوط باشد، دکمه‌ای برای رفتن مستقیم به همان بخش هم زیر پاسخ نمایش داده می‌شود.',
-      guideConvertName: '📅 تبدیل تاریخ',
-      guideConvertDesc: 'این صفحه تاریخ را بین سه تقویم شمسی، میلادی و قمری تبدیل می‌کند. از تب‌های بالای صفحه تقویم مبدأ را انتخاب کنید، تاریخ را با اسکرول‌کردن روز/ماه/سال وارد کنید تا نتیجه در هر سه تقویم هم‌زمان نمایش داده شود؛ با دکمه‌ی کپی کنار هر نتیجه هم می‌توانید همان تاریخ را کپی کنید.',
+      pageTitle: '❓ دستیار سایت',
+      faqGroupLabel: 'دستیار سایت',
+      guideLinkText: 'راهنمای سایت',
       footerSub: 'پایگاه اطلاع‌رسانی هیئت کاظمیون خرم‌آباد',
       quickMenuTheme: 'تم',
       quickMenuLang: 'زبان',
@@ -961,10 +1446,9 @@
     },
     ar: {
       backBtn: 'رجوع',
-      pageTitle: '❓ دليل الموقع',
-      guideIntro: 'تعرّف على هذا الموقع؛ اضغط على أي قسم لعرض شرحه الكامل.',
-      guideGroupHome: 'الصفحة الرئيسية',
-      guideGroupPages: 'صفحات الموقع الداخلية',
+      pageTitle: '❓ مساعد الموقع',
+      faqGroupLabel: 'مساعد الموقع',
+      guideLinkText: 'دليل الموقع',
       footerSub: 'القناة الرسمية لموكب الكاظميون خرم‌آباد',
       quickMenuTheme: 'المظهر',
       quickMenuLang: 'اللغة',
@@ -973,10 +1457,9 @@
     },
     en: {
       backBtn: 'Back',
-      pageTitle: '❓ Site Guide',
-      guideIntro: 'Get to know the site — tap any section to see its full explanation.',
-      guideGroupHome: 'Home Page',
-      guideGroupPages: 'Site Pages',
+      pageTitle: '❓ Site Assistant',
+      faqGroupLabel: 'Site Assistant',
+      guideLinkText: 'Site Guide',
       footerSub: 'Official channel of Heyat-e Kazemiyoon Khorramabad',
       quickMenuTheme: 'Theme',
       quickMenuLang: 'Language',

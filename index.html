@@ -320,7 +320,7 @@
   .top-preview-arrow{
     position:absolute;
     bottom:-6px;
-    left:24px;
+    right:20px;
     width:12px; height:12px;
     background:rgba(14,20,16,0.88);
     border-left:1px solid var(--line);
@@ -1478,6 +1478,16 @@
     background:linear-gradient(135deg, var(--crimson-bright), var(--gold-bright, var(--gold)));
   }
   .page2-trigger-alt4::after{ animation-delay:1s; }
+  .page2-trigger-alt5{
+    background:linear-gradient(135deg, var(--gold-bright, var(--gold)), var(--crimson));
+  }
+  .page2-trigger-alt5::after{ animation-delay:1.25s; }
+  .page2-trigger-alt5::before{ animation-delay:2.4s; }
+  .page2-trigger-alt6{
+    background:linear-gradient(135deg, #e8d28a, var(--crimson-bright));
+  }
+  .page2-trigger-alt6::after{ animation-delay:1.5s; }
+  .page2-trigger-alt6::before{ animation-delay:5.6s; }
   @keyframes page2PulseRing{
     0%,100%{ opacity:0.55; transform:scale(1); }
     50%{ opacity:0; transform:scale(1.06); }
@@ -2056,6 +2066,14 @@
       <span class="page2-trigger-emoji" aria-hidden="true">📿</span>
       <span data-i18n="salavatTrigger">صلوات‌شمار</span>
     </a>
+    <a href="faq.html" class="page2-trigger page2-trigger-alt5" id="faq-trigger" data-prefetch-nav>
+      <span class="page2-trigger-emoji" aria-hidden="true">❓</span>
+      <span data-i18n="faqTrigger">دستیار سایت</span>
+    </a>
+    <a href="convert.html" class="page2-trigger page2-trigger-alt6" id="convert-trigger" data-prefetch-nav>
+      <span class="page2-trigger-emoji" aria-hidden="true">📅</span>
+      <span data-i18n="convertTrigger">تبدیل تاریخ</span>
+    </a>
   </div>
 
   <div class="emblem-wrap" id="emblem-wrap">
@@ -2599,6 +2617,8 @@
       madahiTrigger: "مداحی و مولودی",
       galleryTrigger: "گالری تصاویر",
       salavatTrigger: "صلوات‌شمار",
+      faqTrigger: "دستیار سایت",
+      convertTrigger: "تبدیل تاریخ",
       guideTrigger: "راهنمای سایت",
       guideHint: "راهنمای سایت رو از همین منو پیدا می‌کنید 👋",
       title: "هیئت کاظمیون خرم‌آباد",
@@ -2658,6 +2678,8 @@
       madahiTrigger: "المدائح والموالید",
       galleryTrigger: "معرض الصور",
       salavatTrigger: "عداد الصلوات",
+      faqTrigger: "مساعد الموقع",
+      convertTrigger: "تحويل التاريخ",
       guideTrigger: "دليل الموقع",
       guideHint: "ستجد دليل الموقع من نفس هذه القائمة 👋",
       tag: "موكب عزاء",
@@ -2718,6 +2740,8 @@
       madahiTrigger: "Eulogies & Chants",
       galleryTrigger: "Photo Gallery",
       salavatTrigger: "Salawat Counter",
+      faqTrigger: "Site Assistant",
+      convertTrigger: "Date Converter",
       guideTrigger: "Site Guide",
       guideHint: "Find the site guide in this menu 👋",
       tag: "MOURNING COUNCIL",
