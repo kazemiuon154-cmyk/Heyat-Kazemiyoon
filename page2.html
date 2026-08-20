@@ -13,6 +13,9 @@
 <title>📖 ادعیه و زیارت نامه‌ها | هیئت کاظمیون خرم‌آباد</title>
 <meta name="robots" content="noindex, follow">
 <link rel="icon" href="logo.jpg">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0e9b62">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -865,6 +868,12 @@
         <svg class="icon-sound-off" viewBox="0 0 24 24" fill="none" style="display:none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M15.5 9.5l5 5M20.5 9.5l-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
       </button>
     </div>
+    <div class="quick-menu-row" id="pwa-install-row" style="display:none">
+      <span class="quick-menu-label" data-i18n="quickMenuInstall">نصب اپ</span>
+      <button type="button" id="pwa-install-btn" class="theme-toggle-btn" aria-label="نصب برنامه">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0-4-4m4 4 4-4M5 19h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
   </div>
 </div>
 
@@ -1333,7 +1342,8 @@
       footerSub: 'پایگاه اطلاع‌رسانی هیئت کاظمیون خرم‌آباد',
       quickMenuTheme: 'تم',
       quickMenuLang: 'زبان',
-      quickMenuSound: 'صدا'
+      quickMenuSound: 'صدا',
+      quickMenuInstall: 'نصب اپ'
     },
     ar: {
       backBtn: 'رجوع',
@@ -1354,7 +1364,8 @@
       footerSub: 'القناة الرسمية لموكب الكاظميون خرم‌آباد',
       quickMenuTheme: 'المظهر',
       quickMenuLang: 'اللغة',
-      quickMenuSound: 'الصوت'
+      quickMenuSound: 'الصوت',
+      quickMenuInstall: 'تثبيت التطبيق'
     },
     en: {
       backBtn: 'Back',
@@ -1375,7 +1386,8 @@
       footerSub: 'Official channel of Heyat-e Kazemiyoon Khorramabad',
       quickMenuTheme: 'Theme',
       quickMenuLang: 'Language',
-      quickMenuSound: 'Sound'
+      quickMenuSound: 'Sound',
+      quickMenuInstall: 'Install App'
     }
   };
 
@@ -1566,5 +1578,36 @@
   })();
 </script>
 
+
+<script>
+  // ---------------- ثبت Service Worker و نصب PWA ----------------
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    });
+  }
+  (function pwaInstall(){
+    let deferredPrompt = null;
+    const row = document.getElementById('pwa-install-row');
+    const btn = document.getElementById('pwa-install-btn');
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if(row) row.style.display = '';
+    });
+    if(btn){
+      btn.addEventListener('click', async () => {
+        if(!deferredPrompt) return;
+        deferredPrompt.prompt();
+        await deferredPrompt.userChoice;
+        deferredPrompt = null;
+        if(row) row.style.display = 'none';
+      });
+    }
+    window.addEventListener('appinstalled', () => {
+      if(row) row.style.display = 'none';
+    });
+  })();
+</script>
 </body>
 </html>
