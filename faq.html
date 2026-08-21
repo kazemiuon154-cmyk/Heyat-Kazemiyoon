@@ -4,6 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<script>
+  // دکمه بازگشت گوشی: اگر صفحه مستقیم (بدون سابقه مرورگر) باز شده باشد،
+  // به‌جای نمایش خطا، کاربر را به صفحه اول هیئت برمی‌گرداند
+  (function(){
+    try{
+      history.pushState({kazemiyoonBackTrap:true}, '', location.href);
+      window.addEventListener('popstate', function(){
+        location.replace('index.html');
+      });
+    }catch(err){}
+  })();
+</script>
+
 <!-- ===== Security hardening ===== -->
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -53,7 +66,7 @@
     justify-content:center;
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
-    animation:page2FadeIn 0.4s ease both;
+    animation:page2FadeIn 0.4s ease;
     transition:opacity 0.28s ease, transform 0.28s ease;
   }
   @keyframes page2FadeIn{
@@ -330,9 +343,12 @@
     text-decoration:none;
     cursor:pointer;
     box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 20px rgba(var(--crimson-rgb),0.45), 0 0 0 4px rgba(var(--crimson-rgb),0.12);
-    transition:all 0.2s ease;
+    transition:all 0.2s ease, transform 0.25s ease;
     animation:page2Pulse 2.6s ease-in-out infinite, page2Shine 5s linear infinite;
-    position:relative;
+    position:fixed;
+    bottom:18px;
+    left:18px;
+    z-index:60;
     overflow:hidden;
   }
   .page2-back::after{
@@ -353,7 +369,6 @@
   .page2-back svg{ width:16px; height:16px; flex:none; }
   .page2-back:hover{ transform:translateY(-1px) scale(1.03); box-shadow:0 2px 0 rgba(255,255,255,0.4) inset, 0 10px 24px rgba(var(--crimson-rgb),0.55), 0 0 0 5px rgba(var(--crimson-rgb),0.18); }
   .page2-back:active{ transform:scale(0.94); }
-  .page2-back-spacer{ visibility:hidden; pointer-events:none; }
   @keyframes page2Pulse{
     0%,100%{ box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 20px rgba(var(--crimson-rgb),0.45), 0 0 0 4px rgba(var(--crimson-rgb),0.12); }
     50%{ box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 26px rgba(var(--crimson-rgb),0.65), 0 0 0 8px rgba(var(--crimson-rgb),0.05); }
@@ -1106,18 +1121,15 @@
   </div>
 </div>
 
+<a href="index.html" class="page2-back" id="page2-back" aria-label="بازگشت به صفحه اول">
+  <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span data-i18n="backBtn">بازگشت</span>
+</a>
+
 <div class="page">
 
-  <div class="page2-header">
-    <a href="index.html" class="page2-back" id="page2-back" aria-label="بازگشت به صفحه اول">
-      <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span data-i18n="backBtn">بازگشت</span>
-    </a>
+    <div class="page2-header">
     <div class="page2-header-title" data-i18n="pageTitle">❓ دستیار سایت</div>
-    <span class="page2-back page2-back-spacer" aria-hidden="true" tabindex="-1">
-      <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span data-i18n="backBtn">بازگشت</span>
-    </span>
   </div>
 
   <div class="mini-logo-wrap">
