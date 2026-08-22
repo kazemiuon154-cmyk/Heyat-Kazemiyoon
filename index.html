@@ -457,6 +457,53 @@
     .weather-widget.expanded{ font-size:13px; padding:11px 14px; }
   }
 
+  /* ---------------- Date widget (شمسی / قمری / میلادی / غیبت) ---------------- */
+  .date-widget{
+    display:flex; flex-direction:column; align-items:stretch; gap:0;
+    font-size:16px; font-weight:700;
+    font-variant-numeric:tabular-nums;
+    color:var(--gold);
+    background:rgba(255,255,255,0.02);
+    border:1px solid var(--line);
+    padding:9px 16px;
+    border-radius:999px;
+    white-space:nowrap;
+    cursor:pointer;
+    user-select:none;
+    transition:all 0.28s cubic-bezier(.2,.8,.2,1);
+  }
+  .date-widget .date-row-pill{ display:flex; align-items:center; justify-content:center; gap:7px; }
+  .date-widget svg{ width:17px; height:17px; opacity:0.85; flex:none; transition:all 0.28s ease; }
+  .date-widget .date-label-pill{
+    font-size:11px; font-weight:700; color:var(--gold-soft);
+    letter-spacing:0.02em; opacity:0; max-width:0; overflow:hidden;
+    transition:opacity 0.2s ease, max-width 0.28s ease;
+  }
+  .date-widget .extra-row{
+    max-height:0; opacity:0; overflow:hidden; margin-top:0;
+    transition:max-height 0.28s ease, opacity 0.22s ease, margin-top 0.28s ease;
+  }
+  .date-widget:active{ transform:scale(0.96); }
+  .date-widget.expanded{
+    font-size:15px;
+    padding:14px 18px;
+    border-radius:20px;
+    border-color:var(--gold-soft);
+    background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01)), var(--void);
+    box-shadow:0 10px 24px rgba(0,0,0,0.35);
+  }
+  .date-widget.expanded svg{ width:18px; height:18px; }
+  .date-widget.expanded .date-label-pill{ opacity:1; max-width:64px; }
+  .date-widget.expanded .extra-row{ max-height:110px; opacity:1; margin-top:6px; }
+  .date-widget.expanded .extra-row .date-value-pill{ color:var(--parchment); }
+
+  @media (max-width:380px){
+    .date-widget{ font-size:14px; padding:8px 13px; }
+    .date-widget svg{ width:15px; height:15px; }
+    .date-widget.expanded{ font-size:13px; padding:11px 14px; }
+    .date-widget.expanded svg{ width:16px; height:16px; }
+  }
+
   /* ---------------- language dropdown (با پرچم) ---------------- */
   .lang-switch-wrap{ position:relative; }
   .lang-toggle{
@@ -1292,46 +1339,6 @@
   }
 
   /* ============================================================
-     DATE / CALENDAR CARD
-  ============================================================ */
-  .date-card{
-    margin:26px 0 8px;
-    padding:20px 20px 18px;
-    border-radius:20px;
-    border:1px solid var(--line);
-    background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)), var(--void);
-    box-shadow:0 1px 0 rgba(255,255,255,0.05) inset, 0 10px 24px rgba(0,0,0,0.28);
-  }
-  .date-card-title{
-    text-align:center; font-size:12.5px; font-weight:600;
-    color:var(--gold); letter-spacing:0.06em; margin-bottom:14px;
-  }
-  .date-card-title .prayer-city{
-    display:block; margin-top:4px; font-size:10.5px; font-weight:500;
-    color:var(--parchment-dim); letter-spacing:0.02em;
-  }
-  .date-row{
-    display:flex; justify-content:space-between; align-items:center;
-    padding:9px 4px; border-bottom:1px solid var(--line);
-    font-size:13px;
-  }
-  .date-row:last-of-type{ border-bottom:none; }
-  .date-label{ color:var(--parchment-dim); font-weight:600; }
-  .date-value{ color:var(--parchment); font-weight:700; }
-  .ghaybat-box{
-    margin-top:14px; padding:12px 14px; border-radius:14px;
-    background:rgba(0,0,0,0.22);
-    border:1px solid var(--line);
-    text-align:center;
-  }
-  .ghaybat-label{
-    display:block; font-size:11.5px; color:var(--gold-soft); font-weight:600; margin-bottom:6px;
-  }
-  .ghaybat-value{
-    display:block; font-size:14px; color:var(--parchment); font-weight:700; line-height:1.9;
-  }
-
-  /* ============================================================
      HADITH CARD
   ============================================================ */
   .hadith-card{
@@ -2064,6 +2071,28 @@
           <span class="weather-temp" id="weather-temp-najaf">--°C</span>
         </div>
       </div>
+      <div class="date-widget" id="date-widget" role="button" tabindex="0" aria-label="تقویم امروز؛ برای نمایش تاریخ قمری، میلادی و غیبت ضربه بزنید" aria-pressed="false">
+        <div class="date-row-pill main-row">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5" width="17" height="15" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 9.5h17M8 3v3.5M16 3v3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <span class="date-label-pill" data-i18n="calShamsiLabel">شمسی</span>
+          <span class="date-value-pill" id="date-shamsi-pill">--</span>
+        </div>
+        <div class="date-row-pill extra-row">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M15.5 3.8A8.2 8.2 0 1 0 20.2 15 6.4 6.4 0 0 1 15.5 3.8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          <span class="date-label-pill" data-i18n="calQamariLabel">قمری</span>
+          <span class="date-value-pill" id="date-qamari-pill">--</span>
+        </div>
+        <div class="date-row-pill extra-row">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 12h17M12 3.5c2.6 2.3 4 5.3 4 8.5s-1.4 6.2-4 8.5c-2.6-2.3-4-5.3-4-8.5s1.4-6.2 4-8.5Z" stroke="currentColor" stroke-width="1.6"/></svg>
+          <span class="date-label-pill" data-i18n="calMiladiLabel">میلادی</span>
+          <span class="date-value-pill" id="date-miladi-pill">--</span>
+        </div>
+        <div class="date-row-pill extra-row">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5l2.35 5.36 5.82.5-4.4 3.86 1.33 5.7L12 16.1l-5.1 2.82 1.33-5.7-4.4-3.86 5.82-.5L12 3.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+          <span class="date-label-pill" data-i18n="ghaybatLabelShort">غیبت</span>
+          <span class="date-value-pill" id="ghaybat-value-pill">--</span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -2136,7 +2165,7 @@
         </a>
         <a href="convert.html" class="services-row services-row-alt6" id="convert-trigger" data-prefetch-nav>
           <span class="services-row-emoji" aria-hidden="true">📅</span>
-          <span data-i18n="convertTrigger">تقویم & تبدیل تاریخ</span>
+          <span data-i18n="convertTrigger">تبدیل تاریخ</span>
         </a>
         <a href="frame.html" class="services-row services-row-alt7" id="frame-trigger" data-prefetch-nav>
           <span class="services-row-emoji" aria-hidden="true">📸</span>
@@ -2191,26 +2220,6 @@
       <div class="countdown-unit"><span class="num" id="cd-days">--</span><span class="lbl" data-i18n="unitDays">روز</span></div>
     </div>
     <div class="countdown-foot" data-i18n="cdFoot">سه‌شنبه، ساعت ۲۱:۰۰</div>
-  </div>
-
-  <div class="date-card reveal">
-    <div class="date-card-title" data-i18n="calTitle">تقویم امروز</div>
-    <div class="date-row">
-      <span class="date-label" data-i18n="calShamsiLabel">شمسی</span>
-      <span class="date-value" id="date-shamsi">--</span>
-    </div>
-    <div class="date-row">
-      <span class="date-label" data-i18n="calQamariLabel">قمری</span>
-      <span class="date-value" id="date-qamari">--</span>
-    </div>
-    <div class="date-row">
-      <span class="date-label" data-i18n="calMiladiLabel">میلادی</span>
-      <span class="date-value" id="date-miladi">--</span>
-    </div>
-    <div class="ghaybat-box">
-      <span class="ghaybat-label" data-i18n="ghaybatLabel">تقویم غیبت صاحب‌الزمان (عج)</span>
-      <span class="ghaybat-value" id="ghaybat-value">--</span>
-    </div>
   </div>
 
   <div class="hadith-card reveal">
@@ -2665,7 +2674,7 @@
       galleryTrigger: "گالری تصاویر",
       salavatTrigger: "صلوات‌شمار",
       faqTrigger: "دستیار سایت",
-      convertTrigger: "تقویم & تبدیل تاریخ",
+      convertTrigger: "تبدیل تاریخ",
       frameTrigger: "فریم‌ساز عکس",
       guideTrigger: "راهنمای سایت",
       guideHint: "راهنمای سایت رو از همین منو پیدا می‌کنید 👋",
@@ -2690,6 +2699,7 @@
       calQamariLabel: "قمری",
       calMiladiLabel: "میلادی",
       ghaybatLabel: "تقویم غیبت صاحب‌الزمان (عج)",
+      ghaybatLabelShort: "غیبت",
       prayerTitle: "اوقات شرعی",
       prayerCity: "(خرم‌آباد، لرستان)",
       prayerFajr: "اذان صبح",
@@ -2728,7 +2738,7 @@
       galleryTrigger: "معرض الصور",
       salavatTrigger: "عداد الصلوات",
       faqTrigger: "مساعد الموقع",
-      convertTrigger: "التقويم وتحويل التاريخ",
+      convertTrigger: "تحويل التاريخ",
       frameTrigger: "إطار الصور",
       guideTrigger: "دليل الموقع",
       guideHint: "ستجد دليل الموقع من نفس هذه القائمة 👋",
@@ -2754,6 +2764,7 @@
       calQamariLabel: "قمري",
       calMiladiLabel: "ميلادي",
       ghaybatLabel: "تقويم غيبة صاحب الزمان (عج)",
+      ghaybatLabelShort: "الغيبة",
       prayerTitle: "المواقيت الشرعية",
       prayerCity: "(خرم‌آباد، محافظة لرستان)",
       prayerFajr: "أذان الصبح",
@@ -2792,7 +2803,7 @@
       galleryTrigger: "Photo Gallery",
       salavatTrigger: "Salawat Counter",
       faqTrigger: "Site Assistant",
-      convertTrigger: "Calendar & Date Converter",
+      convertTrigger: "Date Converter",
       frameTrigger: "Photo Frame Maker",
       guideTrigger: "Site Guide",
       guideHint: "Find the site guide in this menu 👋",
@@ -2818,6 +2829,7 @@
       calQamariLabel: "Lunar (Hijri)",
       calMiladiLabel: "Gregorian",
       ghaybatLabel: "Occultation Calendar of Sahib al-Zaman (AS)",
+      ghaybatLabelShort: "Ghaybat",
       prayerTitle: "Prayer Times",
       prayerCity: "(Khorramabad, Lorestan)",
       prayerFajr: "Fajr",
@@ -3281,12 +3293,13 @@
     setInterval(loadWeather, 15 * 60 * 1000); // هر ۱۵ دقیقه به‌روزرسانی می‌شود
   })();
 
-  // ---------------- date card: شمسی / قمری / میلادی + تقویم غیبت ----------------
+  // ---------------- ویجت تقویم: شمسی / قمری / میلادی + تقویم غیبت ----------------
   (function dateCard(){
-    const elShamsi = document.getElementById('date-shamsi');
-    const elQamari = document.getElementById('date-qamari');
-    const elMiladi = document.getElementById('date-miladi');
-    const elGhaybat = document.getElementById('ghaybat-value');
+    const elShamsi = document.getElementById('date-shamsi-pill');
+    const elQamari = document.getElementById('date-qamari-pill');
+    const elMiladi = document.getElementById('date-miladi-pill');
+    const elGhaybat = document.getElementById('ghaybat-value-pill');
+    const dateWidget = document.getElementById('date-widget');
     if(!elShamsi || !elQamari || !elMiladi || !elGhaybat) return;
 
     const now = new Date();
@@ -3367,6 +3380,22 @@
       elGhaybat.textContent = toLocaleDigits(years) + ' سال قمری';
     } else {
       elGhaybat.textContent = '--';
+    }
+
+    if(dateWidget){
+      let dateExpanded = false;
+      function toggleDateExpanded(){
+        dateExpanded = !dateExpanded;
+        dateWidget.classList.toggle('expanded', dateExpanded);
+        dateWidget.setAttribute('aria-pressed', String(dateExpanded));
+      }
+      dateWidget.addEventListener('click', toggleDateExpanded);
+      dateWidget.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          toggleDateExpanded();
+        }
+      });
     }
   })();
 

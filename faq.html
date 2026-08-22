@@ -403,6 +403,355 @@
   }
   .mini-logo img{ width:100%; height:100%; object-fit:cover; display:block; }
 
+  /* ---------------- شکلک متحرک دستیار (ساخته‌شده با کد، بدون شکلک ایموجی) ---------------- */
+  .faq-mascot-wrap{
+    display:flex;
+    justify-content:center;
+    margin:16px 0 2px;
+  }
+  .faq-mascot{
+    position:relative;
+    width:176px; height:176px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    touch-action:manipulation;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .faq-mascot-glow{
+    position:absolute;
+    inset:14px;
+    border-radius:50%;
+    background:radial-gradient(circle at 42% 32%, rgba(var(--crimson-rgb),0.38), transparent 68%);
+    filter:blur(10px);
+    animation:faqGlowPulse 3s ease-in-out infinite;
+  }
+  .faq-mascot-ring{
+    position:absolute;
+    inset:2px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    opacity:0.6;
+    animation:faqRingPulse 2.6s ease-in-out infinite;
+  }
+  .faq-mascot-sparkle{
+    position:absolute;
+    width:11px; height:11px;
+    background:var(--gold);
+    clip-path:polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    opacity:0;
+    animation:faqSparkleTwinkle 3.2s ease-in-out infinite;
+    filter:drop-shadow(0 0 4px rgba(var(--crimson-rgb),0.6));
+  }
+  .faq-mascot-sparkle.s1{ top:2%; left:10%; animation-delay:0s; }
+  .faq-mascot-sparkle.s2{ top:12%; right:4%; width:8px; height:8px; animation-delay:1.1s; }
+  .faq-mascot-sparkle.s3{ bottom:10%; left:2%; width:9px; height:9px; animation-delay:2.05s; }
+
+  .faq-mascot-body{
+    position:relative;
+    width:118px; height:118px;
+    animation:faqBodyFloat 3.4s ease-in-out infinite;
+    transition:transform 0.35s cubic-bezier(.34,1.56,.64,1);
+  }
+  .faq-mascot.happy .faq-mascot-body{
+    animation:none;
+    transform:scale(1.12) rotate(6deg);
+  }
+
+  .faq-mascot-face{
+    position:relative;
+    width:100%; height:100%;
+    border-radius:50%;
+    overflow:hidden;
+    background:
+      radial-gradient(circle at 32% 24%, rgba(255,255,255,0.55), transparent 42%),
+      linear-gradient(150deg, var(--gold) 0%, var(--gold-soft) 48%, var(--crimson-bright, var(--crimson)) 115%);
+    box-shadow:
+      0 16px 32px rgba(0,0,0,0.4),
+      inset 0 -10px 18px rgba(0,0,0,0.2),
+      inset 0 7px 12px rgba(255,255,255,0.35);
+  }
+
+  .faq-mascot-cheek{
+    position:absolute;
+    top:56%;
+    width:20px; height:11px;
+    border-radius:50%;
+    background:rgba(255,110,110,0.4);
+    filter:blur(1.5px);
+  }
+  .faq-mascot-cheek.left{ left:11%; }
+  .faq-mascot-cheek.right{ right:11%; }
+
+  .faq-mascot-eye{
+    position:absolute;
+    top:38%;
+    width:13px; height:17px;
+    border-radius:50%;
+    background:#2a1a0c;
+    animation:faqBlink 4.6s ease-in-out infinite;
+  }
+  .faq-mascot-eye.left{ left:29%; }
+  .faq-mascot-eye.right{ right:29%; }
+  .faq-mascot-eye::after{
+    content:'';
+    position:absolute;
+    top:2px; left:2px;
+    width:4px; height:4px;
+    border-radius:50%;
+    background:#fff;
+    opacity:0.9;
+  }
+
+  .faq-mascot-mouth{
+    position:absolute;
+    bottom:24%;
+    left:50%;
+    transform:translateX(-50%);
+    width:34px; height:16px;
+    border-bottom:4px solid #2a1a0c;
+    border-radius:0 0 20px 20px;
+    animation:faqMouthTalk 3.4s ease-in-out infinite;
+  }
+
+  .faq-mascot-hand{
+    position:absolute;
+    top:0%;
+    width:34px; height:42px;
+    z-index:2;
+  }
+  .faq-mascot-hand.right{
+    right:-18px;
+    transform-origin:32% 92%;
+    animation:faqHandWave 2.8s ease-in-out infinite;
+    animation-delay:0.7s;
+  }
+  .faq-mascot-hand-shape{
+    position:absolute;
+    left:2px; bottom:0;
+    width:24px; height:24px;
+    border-radius:50%;
+    background:linear-gradient(150deg, var(--gold-soft), var(--gold));
+    box-shadow:0 6px 14px rgba(0,0,0,0.4), inset 0 2px 5px rgba(255,255,255,0.4);
+  }
+  .faq-mascot-hand-shape::before{
+    content:'';
+    position:absolute;
+    bottom:2px;
+    left:-7px;
+    width:11px; height:11px;
+    border-radius:50%;
+    background:inherit;
+    box-shadow:inset 0 2px 3px rgba(255,255,255,0.3);
+  }
+  .faq-finger{
+    position:absolute;
+    width:7px; height:15px;
+    border-radius:5px;
+    background:linear-gradient(150deg, var(--gold-soft), var(--gold));
+    box-shadow:0 3px 6px rgba(0,0,0,0.35), inset 0 1px 2px rgba(255,255,255,0.4);
+    top:-11px;
+    transform-origin:50% 100%;
+  }
+  .faq-finger.f1{ left:1px;  height:12px; top:-8px;  transform:rotate(-24deg); }
+  .faq-finger.f2{ left:7px;  height:16px; top:-13px; transform:rotate(-8deg); }
+  .faq-finger.f3{ left:13px; height:16px; top:-13px; transform:rotate(8deg); }
+  .faq-finger.f4{ left:19px; height:12px; top:-8px;  transform:rotate(24deg); }
+
+  .faq-mascot-eyebrow{
+    position:absolute;
+    top:29%;
+    width:16px; height:3px;
+    border-radius:3px;
+    background:#2a1a0c;
+    opacity:0;
+    transform:translateY(0) rotate(0deg);
+    transition:opacity 0.25s ease, transform 0.25s ease;
+  }
+  .faq-mascot-eyebrow.left{ left:24%; }
+  .faq-mascot-eyebrow.right{ right:24%; }
+
+  .faq-mascot-tear{
+    position:absolute;
+    top:52%;
+    width:6px; height:9px;
+    background:#5fc8ff;
+    border-radius:0 50% 50% 50%;
+    transform:rotate(45deg);
+    opacity:0;
+    filter:drop-shadow(0 0 2px rgba(95,200,255,0.6));
+  }
+  .faq-mascot-tear.left{ left:26%; }
+  .faq-mascot-tear.right{ right:26%; }
+
+  @keyframes faqBodyFloat{
+    0%,100%{ transform:translateY(0) rotate(0deg); }
+    50%{ transform:translateY(-9px) rotate(-2.5deg); }
+  }
+  @keyframes faqGlowPulse{
+    0%,100%{ opacity:0.5; transform:scale(1); }
+    50%{ opacity:0.9; transform:scale(1.1); }
+  }
+  @keyframes faqRingPulse{
+    0%,100%{ transform:scale(1); opacity:0.6; }
+    50%{ transform:scale(1.06); opacity:0.15; }
+  }
+  @keyframes faqSparkleTwinkle{
+    0%,100%{ opacity:0; transform:scale(0.4) rotate(0deg); }
+    50%{ opacity:1; transform:scale(1) rotate(25deg); }
+  }
+  @keyframes faqBlink{
+    0%,90%,100%{ transform:scaleY(1); }
+    93%{ transform:scaleY(0.1); }
+    96%{ transform:scaleY(1); }
+  }
+  @keyframes faqMouthTalk{
+    0%,100%{ width:34px; }
+    50%{ width:26px; }
+  }
+  @keyframes faqHandWave{
+    0%,55%,100%{ transform:rotate(0deg); }
+    62%{ transform:rotate(26deg); }
+    69%{ transform:rotate(-16deg); }
+    76%{ transform:rotate(24deg); }
+    83%{ transform:rotate(-8deg); }
+    90%{ transform:rotate(10deg); }
+  }
+
+  /* ---------------- حالت‌های ری‌اکشن دستیار ---------------- */
+  .faq-mascot.laugh .faq-mascot-body{ animation:faqLaughBounce 0.45s ease-in-out infinite; }
+  .faq-mascot.laugh .faq-mascot-eye{ animation:none; transform:scaleY(0.25); }
+  .faq-mascot.laugh .faq-mascot-mouth{
+    animation:none;
+    width:28px; height:20px;
+    border:none; border-radius:6px 6px 18px 18px;
+    background:#2a1a0c;
+  }
+  .faq-mascot.laugh .faq-mascot-mouth::before{
+    content:''; position:absolute; top:0; left:2px; right:2px; height:6px;
+    background:#fff8e6; border-radius:4px 4px 0 0;
+  }
+  .faq-mascot.laugh .faq-mascot-cheek{ filter:saturate(1.6); }
+
+  .faq-mascot.cry .faq-mascot-body{ animation:none; transform:translateY(3px) rotate(-2deg); }
+  .faq-mascot.cry .faq-mascot-eye{ animation:none; transform:scaleY(0.35) translateY(3px); }
+  .faq-mascot.cry .faq-mascot-eyebrow{ opacity:1; background:#5a3d18; }
+  .faq-mascot.cry .faq-mascot-eyebrow.left{ transform:translateY(1px) rotate(-16deg); }
+  .faq-mascot.cry .faq-mascot-eyebrow.right{ transform:translateY(1px) rotate(16deg); }
+  .faq-mascot.cry .faq-mascot-mouth{
+    animation:none;
+    width:22px; height:10px;
+    border:none; border-top:4px solid #2a1a0c;
+    border-radius:14px 14px 0 0;
+    bottom:22%;
+  }
+  .faq-mascot.cry .faq-mascot-tear{ animation:faqTearFall 1s ease-in infinite; }
+  .faq-mascot.cry .faq-mascot-tear.right{ animation-delay:0.35s; }
+  .faq-mascot.cry .faq-mascot-hand.right{
+    top:24%; right:10px;
+    animation:faqWipeTear 0.5s ease-in-out infinite;
+  }
+
+
+  .faq-mascot.angry .faq-mascot-body{ animation:faqAngryShake 0.3s ease-in-out infinite; }
+  .faq-mascot.angry .faq-mascot-face{ filter:saturate(1.35) hue-rotate(-8deg) brightness(0.96); }
+  .faq-mascot.angry .faq-mascot-eye{ animation:none; transform:scaleY(0.55); }
+  .faq-mascot.angry .faq-mascot-eyebrow{ opacity:1; background:#3a1a10; }
+  .faq-mascot.angry .faq-mascot-eyebrow.left{ transform:translateY(2px) rotate(18deg); }
+  .faq-mascot.angry .faq-mascot-eyebrow.right{ transform:translateY(2px) rotate(-18deg); }
+  .faq-mascot.angry .faq-mascot-mouth{
+    animation:none;
+    width:22px; height:5px;
+    border:none; border-radius:4px;
+    background:#2a1a0c;
+    transform:translateX(-50%) rotate(3deg);
+  }
+  .faq-mascot.angry .faq-mascot-hand .faq-finger{
+    height:5px; top:-3px; opacity:0.85;
+  }
+  .faq-mascot.angry .faq-mascot-hand-shape{
+    background:linear-gradient(150deg, var(--gold-dim), var(--gold-soft));
+  }
+  .faq-mascot.angry .faq-mascot-hand.right{
+    top:52%; right:-4px;
+    animation:faqFistShake 0.22s ease-in-out infinite;
+  }
+
+
+  .faq-mascot.surprised .faq-mascot-body{ animation:none; transform:scale(1.08) translateY(-4px); }
+  .faq-mascot.surprised .faq-mascot-eye{ animation:none; transform:scale(1.3); }
+  .faq-mascot.surprised .faq-mascot-eyebrow{ opacity:1; background:#2a1a0c; }
+  .faq-mascot.surprised .faq-mascot-eyebrow.left{ transform:translateY(-4px) rotate(-4deg); }
+  .faq-mascot.surprised .faq-mascot-eyebrow.right{ transform:translateY(-4px) rotate(4deg); }
+  .faq-mascot.surprised .faq-mascot-mouth{
+    animation:none;
+    width:15px; height:15px;
+    border:none; border-radius:50%;
+    background:#2a1a0c;
+  }
+
+  .faq-mascot.shy .faq-mascot-body{ animation:none; transform:scale(0.97) rotate(-3deg); }
+  .faq-mascot.shy .faq-mascot-eye{ animation:none; transform:scaleY(0.15) translateY(2px); }
+  .faq-mascot.shy .faq-mascot-cheek{ filter:saturate(1.7); }
+  .faq-mascot.shy .faq-mascot-mouth{
+    animation:none;
+    width:18px; height:9px;
+    border-bottom:3px solid #2a1a0c;
+    border-radius:0 0 12px 12px;
+  }
+
+  .faq-mascot.think .faq-mascot-body{ animation:faqThinkSway 1.5s ease-in-out infinite; }
+  .faq-mascot.think .faq-mascot-eye{ animation:faqLookAround 1.6s ease-in-out infinite; }
+  .faq-mascot.think .faq-mascot-eyebrow.right{ opacity:1; transform:translateY(-3px) rotate(-6deg); }
+  .faq-mascot.think .faq-mascot-hand.right{ animation:none; top:44%; right:-6px; transform:rotate(6deg); }
+
+  .faq-mascot.think .faq-mascot-mouth{
+    animation:none;
+    width:14px; height:3px;
+    border:none; border-radius:3px;
+    background:#2a1a0c;
+    transform:translateX(-50%) translateX(5px);
+  }
+
+  @keyframes faqLaughBounce{
+    0%,100%{ transform:translateY(0) rotate(-4deg); }
+    50%{ transform:translateY(-10px) rotate(4deg); }
+  }
+  @keyframes faqAngryShake{
+    0%,100%{ transform:translateX(0) rotate(0deg); }
+    25%{ transform:translateX(-3px) rotate(-3deg); }
+    75%{ transform:translateX(3px) rotate(3deg); }
+  }
+  @keyframes faqThinkSway{
+    0%,100%{ transform:rotate(-4deg) translateY(0); }
+    50%{ transform:rotate(2deg) translateY(-3px); }
+  }
+  @keyframes faqTearFall{
+    0%{ opacity:0; transform:rotate(45deg) translateY(0) scale(0.6); }
+    15%{ opacity:1; transform:rotate(45deg) translateY(2px) scale(1); }
+    100%{ opacity:0; transform:rotate(45deg) translateY(22px) scale(0.8); }
+  }
+  @keyframes faqWipeTear{
+    0%,100%{ transform:translate(3px,-3px) rotate(-22deg); }
+    50%{ transform:translate(-5px,3px) rotate(12deg); }
+  }
+  @keyframes faqFistShake{
+    0%,100%{ transform:translateY(0) rotate(0deg); }
+    50%{ transform:translateY(-3px) rotate(-8deg); }
+  }
+  @keyframes faqLookAround{
+    0%,100%{ transform:translateX(0) scaleY(0.85); }
+    25%{ transform:translateX(4px) scaleY(0.85); }
+    50%{ transform:translateX(0) scaleY(0.85); }
+    75%{ transform:translateX(-4px) scaleY(0.85); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .faq-mascot-body, .faq-mascot-eye, .faq-mascot-mouth, .faq-mascot-hand, .faq-finger,
+    .faq-mascot-glow, .faq-mascot-ring, .faq-mascot-sparkle, .faq-mascot-tear{ animation:none; }
+  }
+
   /* ---------------- group label ---------------- */
   .group-label{
     font-size:12px;
@@ -1138,6 +1487,38 @@
     </div>
   </div>
 
+  <div class="faq-mascot-wrap">
+    <div class="faq-mascot" id="faq-mascot" aria-hidden="true">
+      <div class="faq-mascot-glow"></div>
+      <div class="faq-mascot-ring"></div>
+      <div class="faq-mascot-sparkle s1"></div>
+      <div class="faq-mascot-sparkle s2"></div>
+      <div class="faq-mascot-sparkle s3"></div>
+      <div class="faq-mascot-body">
+        <div class="faq-mascot-face">
+          <div class="faq-mascot-eyebrow left"></div>
+          <div class="faq-mascot-eyebrow right"></div>
+          <div class="faq-mascot-cheek left"></div>
+          <div class="faq-mascot-cheek right"></div>
+          <div class="faq-mascot-eye left"></div>
+          <div class="faq-mascot-eye right"></div>
+          <div class="faq-mascot-tear left"></div>
+          <div class="faq-mascot-tear right"></div>
+          <div class="faq-mascot-mouth"></div>
+        </div>
+        <div class="faq-mascot-hand right">
+          <div class="faq-mascot-hand-shape">
+            <span class="faq-finger f1"></span>
+            <span class="faq-finger f2"></span>
+            <span class="faq-finger f3"></span>
+            <span class="faq-finger f4"></span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <div class="group-label">
     <span data-i18n="faqGroupLabel">دستیار سایت</span>
   </div>
@@ -1196,7 +1577,8 @@
     const FAQ_DATA = [
       { id:'time', icon:'⏰', label:'زمان و مکان مراسم', questions:[
         { q:'مراسم هیئت چه زمانی و کجا برگزار می‌شه؟', a:'مراسم هفتگی هیئت کاظمیون هر سه‌شنبه ساعت ۲۱ در مسجد حضرت قائم (عج)، محله قاضی‌آباد خرم‌آباد برگزار می‌شه. برای دیدن شمارش معکوس تا مراسم بعدی و مسیریابی روی نقشه، کافیه سری به صفحه اول سایت بزنی.', url:'index.html', linkLabel:'مشاهده شمارش معکوس و نقشه' },
-        { q:'در ایام محرم و صفر، برنامه و ساعت مراسم فرق می‌کنه؟', a:'بله؛ در ایام خاصی مثل محرم و صفر معمولاً برنامه و ساعت برگزاری تغییر می‌کنه و ممکنه مراسم اضافه‌ای هم برگزار بشه. برای اطلاع دقیق و به‌روز، اعلان‌های بالای صفحه اول سایت رو دنبال کن.', url:'index.html', linkLabel:'مشاهده اعلان‌های سایت' }
+        { q:'در ایام محرم و صفر، برنامه و ساعت مراسم فرق می‌کنه؟', a:'بله؛ در ایام خاصی مثل محرم و صفر معمولاً برنامه و ساعت برگزاری تغییر می‌کنه و ممکنه مراسم اضافه‌ای هم برگزار بشه. برای اطلاع دقیق و به‌روز، اعلان‌های بالای صفحه اول سایت رو دنبال کن.', url:'index.html', linkLabel:'مشاهده اعلان‌های سایت' },
+        { q:'اوقات شرعی (اذان، طلوع و غروب آفتاب) رو از کجا ببینم؟', a:'در صفحه «اوقات شرعی» می‌تونی اذان صبح، طلوع و غروب آفتاب، اذان ظهر و مغرب و نیمه‌شب شرعی رو برای خرم‌آباد ببینی؛ از بخش «سایر شهرها» هم می‌تونی شهرهایی مثل تهران، قم، مشهد، کربلا و نجف رو انتخاب کنی.', url:'owqat.html', linkLabel:'رفتن به اوقات شرعی' }
       ]},
       { id:'nazr', icon:'🕯️', label:'نذورات و کمک مالی', questions:[
         { q:'چطور می‌تونم نذر نقدی یا غیرنقدی بدم؟', a:'برای نذر نقدی، وارد صفحه «نذورات» شو؛ شماره کارت اونجا با یک ضربه قابل کپی کردنه. برای نذورات غیرنقدی مثل غذا یا لوازم، از طریق کانال‌های رسمی ایتا یا روبیکای هیئت هماهنگ کن تا محل و زمان تحویل مشخص بشه.', url:'nazr.html', linkLabel:'رفتن به بخش نذورات' },
@@ -1211,7 +1593,9 @@
       ]},
       { id:'settings', icon:'⚙️', label:'امکانات و تنظیمات سایت', questions:[
         { q:'چطور زبان و تم رنگی سایت رو عوض کنم یا اون رو مثل اپ نصب کنم؟', a:'از منوی سریع بالای صفحه (آیکون همبرگری)، بخش «زبان» رو باز کن و فارسی، عربی یا انگلیسی رو انتخاب کن؛ از بخش «تم» هم می‌تونی پالت رنگی سایت رو عوض کنی. برای نصب سایت مثل اپلیکیشن، گزینه «نصب اپ» رو بزن (در مرورگرهایی که این قابلیت رو پشتیبانی می‌کنن).' },
-        { q:'چطور سایت رو با دوستام به اشتراک بذارم؟', a:'از دکمه اشتراک‌گذاری در صفحه اول، می‌تونی لینک سایت رو در ایتا، روبیکا، سروش، بله یا تلگرام بفرستی.' }
+        { q:'چطور سایت رو با دوستام به اشتراک بذارم؟', a:'از دکمه اشتراک‌گذاری در صفحه اول، می‌تونی لینک سایت رو در ایتا، روبیکا، سروش، بله یا تلگرام بفرستی.' },
+        { q:'چطور می‌تونم عکسم رو با قاب هیئت بسازم؟', a:'در صفحه «فریم‌ساز عکس»، عکس خودت رو بارگذاری کن، جای اون رو تنظیم و بزرگ‌نمایی کن، بعد با دکمه دانلود نسخه نهایی رو که مناسب استوری اینستاگرامه ذخیره کن.', url:'frame.html', linkLabel:'رفتن به فریم‌ساز عکس' },
+        { q:'چطور تاریخ رو بین شمسی، میلادی و قمری تبدیل کنم؟', a:'در صفحه «تبدیل تاریخ»، تقویم مبدأ رو انتخاب کن و روز/ماه/سال رو با اسکرول وارد کن؛ نتیجه هم‌زمان در هر سه تقویم نشون داده می‌شه و با دکمه کپی کنار هر نتیجه می‌تونی همون تاریخ رو کپی کنی.', url:'convert.html', linkLabel:'رفتن به تبدیل تاریخ' }
       ]},
       { id:'contact', icon:'📞', label:'ارتباط با هیئت', questions:[
         { q:'چطور با مسئولان هیئت در ارتباط باشم یا داوطلب همکاری بشم؟', a:'از طریق کانال‌های رسمی ایتا یا روبیکا که در صفحه اول معرفی شدن، می‌تونی پیام بدی. برای همکاری هم در پیام خصوصی همون کانال‌ها اعلام آمادگی کن؛ به‌محض آماده شدن فرم ثبت‌نام خادمین، از همون کانال‌ها اطلاع‌رسانی می‌شه.', url:'index.html', linkLabel:'مشاهده کانال‌های ارتباطی' }
@@ -1265,6 +1649,7 @@
     }
 
     function addTypingThenMessage(text, onDone){
+      if(window.FaqMascot) window.FaqMascot.react('think');
       const typing = document.createElement('div');
       typing.className = 'faq-typing';
       typing.innerHTML = '<span></span><span></span><span></span>';
@@ -1273,6 +1658,7 @@
       setTimeout(() => {
         typing.remove();
         addMessage(text, 'bot');
+        if(window.FaqMascot) window.FaqMascot.react(Math.random() < 0.45 ? 'laugh' : 'happy');
         if(typeof onDone === 'function') onDone();
       }, 550 + Math.random() * 350);
     }
@@ -1300,6 +1686,7 @@
     function selectCategory(catId){
       const cat = FAQ_DATA.find(c => c.id === catId);
       if(!cat) return;
+      if(window.FaqMascot) window.FaqMascot.react('happy');
       addMessage(cat.icon + ' ' + cat.label, 'user');
       addTypingThenMessage('بفرما، کدوم سوال برات مهمه؟ 🙂');
       state = { view:'questions', categoryId:catId };
@@ -1329,6 +1716,7 @@
     }
 
     function askQuestion(cat, item){
+      if(window.FaqMascot) window.FaqMascot.react('surprised');
       addMessage(item.q, 'user');
       addTypingThenMessage(item.a, () => {
         if(Array.isArray(item.links)){
@@ -1663,6 +2051,60 @@
       s.style.animationDuration = dur + 's';
       s.style.setProperty('--drift', drift);
       wrap.appendChild(s);
+    }
+  })();
+
+  // ---------------- مدیریت ری‌اکشن‌های شکلک دستیار ----------------
+  (function faqMascotInteract(){
+    var mascot = document.getElementById('faq-mascot');
+    if(!mascot) return;
+
+    var REACTIONS = ['happy', 'laugh', 'cry', 'angry', 'surprised', 'shy', 'think'];
+    var DURATIONS = { happy:700, laugh:1300, cry:1700, angry:1000, surprised:800, shy:1000, think:1700 };
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var current = null;
+    var revertTimer = null;
+
+    // اجرای یک ری‌اکشن مشخص روی شکلک؛ بعد از مدتی خودش به حالت عادی برمی‌گرده
+    function react(type, customDuration){
+      if(REACTIONS.indexOf(type) === -1) return;
+      clearTimeout(revertTimer);
+      if(current) mascot.classList.remove(current);
+      mascot.classList.add(type);
+      current = type;
+      var dur = customDuration || DURATIONS[type] || 900;
+      revertTimer = setTimeout(function(){
+        mascot.classList.remove(type);
+        if(current === type) current = null;
+      }, dur);
+    }
+
+    // در دسترس بودن برای بخش گفتگوی پرسش و پاسخ (faqChat)
+    window.FaqMascot = { react: react };
+
+    // هر بار لمس/کلیک: یک ری‌اکشن متفاوت از دفعه قبل، تصادفی
+    var lastTap = null;
+    mascot.addEventListener('click', function(){
+      var pool = REACTIONS.filter(function(r){ return r !== lastTap; });
+      var pick = pool[Math.floor(Math.random() * pool.length)];
+      lastTap = pick;
+      react(pick);
+    });
+
+    // واکنش خودکار در حالت عادی (حتی وقتی کاربر کاری نمی‌کنه، هر چند ثانیه یک ری‌اکشن کوتاه)
+    if(!reduceMotion){
+      var idlePool = ['happy', 'shy', 'surprised', 'think', 'laugh'];
+      (function scheduleIdle(){
+        var delay = 5000 + Math.random() * 4500;
+        setTimeout(function(){
+          if(!current){
+            var pick = idlePool[Math.floor(Math.random() * idlePool.length)];
+            react(pick, (DURATIONS[pick] || 900) * 0.75);
+          }
+          scheduleIdle();
+        }, delay);
+      })();
     }
   })();
 </script>
