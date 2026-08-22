@@ -1394,109 +1394,158 @@
   .copy-btn:active{ transform:scale(0.92); }
 
   /* ============================================================
-     PAGE TRIGGERS (دکمه‌های ورود به زیرصفحات: ادعیه / نذورات / مداحی)
+     PAGE TRIGGERS — منوی کشویی جمع‌شونده (دسترسی سریع به صفحات)
   ============================================================ */
-  .page2-trigger-wrap{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(106px, 1fr));
-    gap:9px;
+  .services-menu{
     margin:4px 0 16px;
+    border-radius:18px;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.012));
+    -webkit-backdrop-filter:blur(6px);
+    backdrop-filter:blur(6px);
+    overflow:hidden;
+    box-shadow:0 1px 0 rgba(255,255,255,0.05) inset, 0 6px 14px rgba(0,0,0,0.2);
   }
-  .page2-trigger{
-    position:relative;
+  .services-toggle{
+    width:100%;
     display:flex;
     align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    gap:4px;
-    padding:11px 8px 9px;
-    border-radius:18px;
-    border:1px solid rgba(255,255,255,0.25);
-    background:linear-gradient(135deg, var(--gold-bright, var(--gold)), var(--crimson-bright));
-    color:#1a0f04;
+    gap:10px;
+    padding:13px 16px;
+    border:none;
+    background:transparent;
+    color:var(--parchment);
     font-family:'Vazirmatn', sans-serif;
-    font-size:12px;
-    font-weight:800;
-    letter-spacing:0.01em;
-    line-height:1.35;
-    text-align:center;
     cursor:pointer;
+    text-align:right;
+  }
+  .services-toggle-icon{
+    width:30px; height:30px; min-width:30px;
+    border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:14px;
+    background:linear-gradient(135deg, var(--gold-bright, var(--gold)), var(--crimson-bright));
+    box-shadow:0 3px 8px rgba(var(--crimson-rgb),0.35), 0 1px 0 rgba(255,255,255,0.3) inset;
+  }
+  .services-toggle-label{ flex:1; font-size:12.5px; font-weight:700; text-align:start; }
+  .services-toggle-count{
+    font-size:10px; font-weight:700; color:var(--gold-soft);
+    background:rgba(255,203,61,0.1); border:1px solid var(--line);
+    border-radius:999px; padding:2px 7px;
+  }
+  .services-toggle-chevron{
+    width:18px; height:18px; display:flex; align-items:center; justify-content:center;
+    color:var(--parchment-dim);
+    transition:transform 0.25s ease;
+  }
+  .services-toggle-chevron svg{ width:14px; height:14px; }
+  .services-menu.open .services-toggle-chevron{ transform:rotate(180deg); }
+  .services-menu.open .services-toggle{ border-bottom:1px solid var(--line); }
+
+  .services-panel{
+    max-height:0;
+    opacity:0;
+    overflow:hidden;
+    transition:max-height 0.35s ease, opacity 0.25s ease;
+  }
+  .services-menu.open .services-panel{ opacity:1; max-height:600px; }
+
+  /* ---- گرید آیکون‌های تازه و فشرده (شبیه میان‌برهای اپ) ---- */
+  .services-list{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:9px;
+    padding:12px;
+  }
+  .services-row{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    padding:13px 4px 10px;
+    border-radius:18px;
+    color:var(--parchment);
     text-decoration:none;
-    box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 18px rgba(var(--crimson-rgb),0.4), 0 0 0 3px rgba(var(--crimson-rgb),0.1);
-    transition:transform 0.2s ease, box-shadow 0.2s ease;
+    font-family:'Vazirmatn', sans-serif;
+    font-size:10.5px;
+    font-weight:700;
+    text-align:center;
+    line-height:1.25;
+    background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
+    border:1px solid rgba(255,255,255,0.06);
+    overflow:hidden;
+    transition:transform 0.15s ease, background 0.15s ease;
   }
-  .page2-trigger::after{
-    content:'';
-    position:absolute;
-    inset:-3px;
-    border-radius:inherit;
-    border:1.5px solid rgba(var(--crimson-rgb),0.55);
-    opacity:0.5;
-    transform:scale(1);
-    animation:page2PulseRing 2.6s ease-in-out infinite;
-    pointer-events:none;
-    will-change:transform, opacity;
-  }
-  /* جلوه نور کوچیک که هر چند ثانیه یک‌بار روی هر دکمه می‌گذرد (سبک، فقط CSS) */
-  .page2-trigger::before{
-    content:'';
-    position:absolute;
-    inset:0;
-    border-radius:inherit;
-    background:linear-gradient(115deg, transparent 35%, rgba(255,255,255,0.65) 50%, transparent 65%);
-    background-size:220% 220%;
-    background-position:200% 200%;
+  .services-row::before{
+    content:"";
+    position:absolute; top:-40%; left:50%;
+    width:140%; height:140%;
+    transform:translateX(-50%);
+    background:radial-gradient(circle, rgba(var(--crimson-rgb),0.22), transparent 65%);
     opacity:0;
     pointer-events:none;
-    animation:page2-shimmer 6.5s ease-in-out infinite;
-    will-change:background-position, opacity;
   }
-  @keyframes page2-shimmer{
-    0%, 6%{ background-position:200% 200%; opacity:0; }
-    16%{ opacity:0.85; }
-    38%, 100%{ background-position:-40% -40%; opacity:0; }
+  /* جلوه‌های هاور فقط برای دستگاه‌هایی با ماوس واقعی؛ در موبایل حذف می‌شن تا لمس روی آیکون‌ها لگ نداشته باشد */
+  @media (hover:hover) and (pointer:fine){
+    .services-row{ transition:transform 0.22s cubic-bezier(.34,1.56,.64,1), background 0.2s ease, border-color 0.2s ease, box-shadow 0.25s ease, color 0.2s ease; }
+    .services-row::before{ transition:opacity 0.3s ease; }
+    .services-row:hover{
+      background:linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.02));
+      border-color:var(--line);
+      box-shadow:0 10px 20px rgba(0,0,0,0.28), 0 0 0 1px rgba(255,203,61,0.12) inset;
+      color:var(--gold);
+      transform:translateY(-3px);
+    }
+    .services-row:hover::before{ opacity:1; }
+    .services-row:hover .services-row-emoji{ transform:translateY(-2px) scale(1.08) rotate(-5deg); }
   }
-  .page2-trigger-emoji{ font-size:12px; line-height:1; }
-  .page2-trigger:hover{ transform:translateY(-2px) scale(1.03); box-shadow:0 2px 0 rgba(255,255,255,0.4) inset, 0 10px 22px rgba(var(--crimson-rgb),0.55), 0 0 0 4px rgba(var(--crimson-rgb),0.16); }
-  .page2-trigger:active{ transform:scale(0.95); }
-  .page2-trigger-alt{
-    background:linear-gradient(135deg, #e8d28a, var(--gold-soft));
+  .services-row:active{ transform:scale(0.94); background:rgba(255,255,255,0.08); }
+  .services-row-arrow{ display:none; }
+  .services-row-emoji{
+    position:relative;
+    width:40px; height:40px; min-width:40px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:13px;
+    font-size:17px; line-height:1;
+    background:linear-gradient(135deg, var(--gold-bright, var(--gold)), var(--crimson-bright));
+    box-shadow:0 4px 10px rgba(var(--crimson-rgb),0.35), 0 1px 0 rgba(255,255,255,0.35) inset;
   }
-  .page2-trigger-alt::after{ animation-delay:0.25s; }
-  .page2-trigger-alt::before{ animation-delay:1.6s; }
-  .page2-trigger-alt2{
-    background:linear-gradient(135deg, var(--crimson-bright), var(--gold-soft));
+  .services-row-emoji::after{
+    content:"";
+    position:absolute; inset:0;
+    border-radius:inherit;
+    background:linear-gradient(135deg, rgba(255,255,255,0.55), rgba(255,255,255,0) 55%);
+    opacity:0.75;
+    pointer-events:none;
   }
-  .page2-trigger-alt2::after{ animation-delay:0.5s; }
-  .page2-trigger-alt2::before{ animation-delay:3.2s; }
-  .page2-trigger-alt3{
-    background:linear-gradient(135deg, var(--gold-soft), var(--crimson-bright));
+  .services-row span:not(.services-row-emoji):not(.services-row-arrow){
+    position:relative;
+    max-width:100%;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
   }
-  .page2-trigger-alt3::after{ animation-delay:0.75s; }
-  .page2-trigger-alt3::before{ animation-delay:4.8s; }
-  .page2-trigger-alt4{
-    background:linear-gradient(135deg, var(--crimson-bright), var(--gold-bright, var(--gold)));
+  .services-row-alt .services-row-emoji{ background:linear-gradient(135deg, #e8d28a, var(--gold-soft)); }
+  .services-row-alt2 .services-row-emoji{ background:linear-gradient(135deg, var(--crimson-bright), var(--gold-soft)); }
+  .services-row-alt3 .services-row-emoji{ background:linear-gradient(135deg, var(--gold-soft), var(--crimson-bright)); }
+  .services-row-alt4 .services-row-emoji{ background:linear-gradient(135deg, var(--crimson-bright), var(--gold-bright, var(--gold))); }
+  .services-row-alt5 .services-row-emoji{ background:linear-gradient(135deg, var(--gold-bright, var(--gold)), var(--crimson)); }
+  .services-row-alt6 .services-row-emoji{ background:linear-gradient(135deg, #e8d28a, var(--crimson-bright)); }
+  .services-row-alt7 .services-row-emoji{ background:linear-gradient(135deg, var(--crimson), var(--gold-soft)); }
+  .services-row-alt8 .services-row-emoji{ background:linear-gradient(135deg, var(--gold-soft), var(--gold-bright, var(--gold))); }
+
+  @media (max-width:340px){
+    .services-list{ grid-template-columns:repeat(3, 1fr); }
   }
-  .page2-trigger-alt4::after{ animation-delay:1s; }
-  .page2-trigger-alt5{
-    background:linear-gradient(135deg, var(--gold-bright, var(--gold)), var(--crimson));
+
+  @media (prefers-reduced-motion: reduce){
+    .services-row, .services-row-emoji{ transition:none; }
   }
-  .page2-trigger-alt5::after{ animation-delay:1.25s; }
-  .page2-trigger-alt5::before{ animation-delay:2.4s; }
-  .page2-trigger-alt6{
-    background:linear-gradient(135deg, #e8d28a, var(--crimson-bright));
-  }
-  .page2-trigger-alt6::after{ animation-delay:1.5s; }
-  .page2-trigger-alt6::before{ animation-delay:5.6s; }
-  .page2-trigger-alt7{
-    background:linear-gradient(135deg, var(--crimson), var(--gold-soft));
-  }
-  .page2-trigger-alt7::after{ animation-delay:1.75s; }
-  .page2-trigger-alt7::before{ animation-delay:6.8s; }
-  @keyframes page2PulseRing{
-    0%,100%{ opacity:0.55; transform:scale(1); }
-    50%{ opacity:0; transform:scale(1.06); }
-  }
+
 
   /* share copy-link button (replaces WhatsApp) */
   .share-btn.copy-link{
@@ -2050,39 +2099,55 @@
     <svg viewBox="0 0 10 10"><path d="M5 0 L10 5 L5 10 L0 5 Z" fill="currentColor" style="color:var(--gold-dim)"/></svg>
   </div>
 
-  <div class="page2-trigger-wrap">
-    <a href="page2.html" class="page2-trigger" id="page2-trigger" data-prefetch-nav>
-      <span class="page2-trigger-emoji" aria-hidden="true">📖</span>
-      <span data-i18n="libraryTrigger">ادعیه و زیارت نامه‌ها</span>
-    </a>
-    <a href="nazr.html" class="page2-trigger page2-trigger-alt" id="nazr-trigger" data-prefetch-nav>
-      <span class="page2-trigger-emoji" aria-hidden="true">🕯️</span>
-      <span data-i18n="nazrTrigger">نذورات</span>
-    </a>
-    <a href="madahi.html" class="page2-trigger page2-trigger-alt2" id="madahi-trigger" data-prefetch-nav>
-      <span class="page2-trigger-emoji" aria-hidden="true">🎙️</span>
-      <span data-i18n="madahiTrigger">مداحی و مولودی</span>
-    </a>
-    <a href="gallery.html" class="page2-trigger page2-trigger-alt3" id="gallery-trigger" data-prefetch-nav>
-      <span class="page2-trigger-emoji" aria-hidden="true">🖼️</span>
-      <span data-i18n="galleryTrigger">گالری تصاویر</span>
-    </a>
-    <a href="salavat.html" class="page2-trigger page2-trigger-alt4" id="salavat-trigger" data-prefetch-nav>
-      <span class="page2-trigger-emoji" aria-hidden="true">📿</span>
-      <span data-i18n="salavatTrigger">صلوات‌شمار</span>
-    </a>
-    <a href="faq.html" class="page2-trigger page2-trigger-alt5" id="faq-trigger" data-prefetch-nav>
-      <span class="page2-trigger-emoji" aria-hidden="true">❓</span>
-      <span data-i18n="faqTrigger">دستیار سایت</span>
-    </a>
-    <a href="convert.html" class="page2-trigger page2-trigger-alt6" id="convert-trigger" data-prefetch-nav>
-      <span class="page2-trigger-emoji" aria-hidden="true">📅</span>
-      <span data-i18n="convertTrigger">تبدیل تاریخ</span>
-    </a>
-    <a href="frame.html" class="page2-trigger page2-trigger-alt7" id="frame-trigger" data-prefetch-nav>
-      <span class="page2-trigger-emoji" aria-hidden="true">📸</span>
-      <span data-i18n="frameTrigger">فریم‌ساز عکس</span>
-    </a>
+  <div class="services-menu" id="services-menu">
+    <button type="button" class="services-toggle" id="services-toggle" aria-expanded="false" aria-controls="services-panel">
+      <span class="services-toggle-icon" aria-hidden="true">☰</span>
+      <span class="services-toggle-label" data-i18n="servicesToggle">دسترسی سریع به صفحات</span>
+      <span class="services-toggle-count" id="services-count">8</span>
+      <span class="services-toggle-chevron" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    </button>
+    <div class="services-panel" id="services-panel">
+      <div class="services-list">
+        <a href="page2.html" class="services-row" id="page2-trigger" data-prefetch-nav>
+          <span class="services-row-emoji" aria-hidden="true">📖</span>
+          <span data-i18n="libraryTrigger">ادعیه و زیارت نامه‌ها</span>
+        </a>
+        <a href="nazr.html" class="services-row services-row-alt" id="nazr-trigger" data-prefetch-nav>
+          <span class="services-row-emoji" aria-hidden="true">🕯️</span>
+          <span data-i18n="nazrTrigger">نذورات</span>
+        </a>
+        <a href="madahi.html" class="services-row services-row-alt2" id="madahi-trigger" data-prefetch-nav>
+          <span class="services-row-emoji" aria-hidden="true">🎙️</span>
+          <span data-i18n="madahiTrigger">مداحی و مولودی</span>
+        </a>
+        <a href="gallery.html" class="services-row services-row-alt3" id="gallery-trigger" data-prefetch-nav>
+          <span class="services-row-emoji" aria-hidden="true">🖼️</span>
+          <span data-i18n="galleryTrigger">گالری تصاویر</span>
+        </a>
+        <a href="salavat.html" class="services-row services-row-alt4" id="salavat-trigger" data-prefetch-nav>
+          <span class="services-row-emoji" aria-hidden="true">📿</span>
+          <span data-i18n="salavatTrigger">صلوات‌شمار</span>
+        </a>
+        <a href="faq.html" class="services-row services-row-alt5" id="faq-trigger" data-prefetch-nav>
+          <span class="services-row-emoji" aria-hidden="true">❓</span>
+          <span data-i18n="faqTrigger">دستیار سایت</span>
+        </a>
+        <a href="convert.html" class="services-row services-row-alt6" id="convert-trigger" data-prefetch-nav>
+          <span class="services-row-emoji" aria-hidden="true">📅</span>
+          <span data-i18n="convertTrigger">تقویم & تبدیل تاریخ</span>
+        </a>
+        <a href="frame.html" class="services-row services-row-alt7" id="frame-trigger" data-prefetch-nav>
+          <span class="services-row-emoji" aria-hidden="true">📸</span>
+          <span data-i18n="frameTrigger">فریم‌ساز عکس</span>
+        </a>
+        <a href="owqat.html" class="services-row services-row-alt8" id="owqat-trigger" data-prefetch-nav>
+          <span class="services-row-emoji" aria-hidden="true">🕋</span>
+          <span data-i18n="owqatTrigger">اوقات شرعی</span>
+        </a>
+      </div>
+    </div>
   </div>
 
   <div class="emblem-wrap" id="emblem-wrap">
@@ -2145,34 +2210,6 @@
     <div class="ghaybat-box">
       <span class="ghaybat-label" data-i18n="ghaybatLabel">تقویم غیبت صاحب‌الزمان (عج)</span>
       <span class="ghaybat-value" id="ghaybat-value">--</span>
-    </div>
-  </div>
-
-  <div class="date-card reveal">
-    <div class="date-card-title" data-i18n="prayerTitle">اوقات شرعی <span class="prayer-city" data-i18n="prayerCity">(خرم‌آباد، لرستان)</span></div>
-    <div class="date-row">
-      <span class="date-label" data-i18n="prayerFajr">اذان صبح</span>
-      <span class="date-value" id="prayer-fajr">--</span>
-    </div>
-    <div class="date-row">
-      <span class="date-label" data-i18n="prayerSunrise">طلوع آفتاب</span>
-      <span class="date-value" id="prayer-sunrise">--</span>
-    </div>
-    <div class="date-row">
-      <span class="date-label" data-i18n="prayerDhuhr">اذان ظهر</span>
-      <span class="date-value" id="prayer-dhuhr">--</span>
-    </div>
-    <div class="date-row">
-      <span class="date-label" data-i18n="prayerSunset">غروب آفتاب</span>
-      <span class="date-value" id="prayer-sunset">--</span>
-    </div>
-    <div class="date-row">
-      <span class="date-label" data-i18n="prayerMaghrib">اذان مغرب</span>
-      <span class="date-value" id="prayer-maghrib">--</span>
-    </div>
-    <div class="date-row">
-      <span class="date-label" data-i18n="prayerMidnight">نیمه‌شب شرعی</span>
-      <span class="date-value" id="prayer-midnight">--</span>
     </div>
   </div>
 
@@ -2621,13 +2658,14 @@
     fa: {
       bismillah: "بسم الله الرحمن الرحیم",
       topPreviewLabel: "در حال بازگشت به",
+      servicesToggle: "دسترسی سریع به صفحات",
       libraryTrigger: "ادعیه و زیارت نامه‌ها",
       nazrTrigger: "نذورات",
       madahiTrigger: "مداحی و مولودی",
       galleryTrigger: "گالری تصاویر",
       salavatTrigger: "صلوات‌شمار",
       faqTrigger: "دستیار سایت",
-      convertTrigger: "تبدیل تاریخ",
+      convertTrigger: "تقویم & تبدیل تاریخ",
       frameTrigger: "فریم‌ساز عکس",
       guideTrigger: "راهنمای سایت",
       guideHint: "راهنمای سایت رو از همین منو پیدا می‌کنید 👋",
@@ -2683,13 +2721,14 @@
     ar: {
       bismillah: "بسم الله الرحمن الرحيم",
       topPreviewLabel: "جارٍ العودة إلى",
+      servicesToggle: "وصول سريع للصفحات",
       libraryTrigger: "الأدعية والزيارات",
       nazrTrigger: "النذور",
       madahiTrigger: "المدائح والموالید",
       galleryTrigger: "معرض الصور",
       salavatTrigger: "عداد الصلوات",
       faqTrigger: "مساعد الموقع",
-      convertTrigger: "تحويل التاريخ",
+      convertTrigger: "التقويم وتحويل التاريخ",
       frameTrigger: "إطار الصور",
       guideTrigger: "دليل الموقع",
       guideHint: "ستجد دليل الموقع من نفس هذه القائمة 👋",
@@ -2746,13 +2785,14 @@
     en: {
       bismillah: "In the Name of Allah",
       topPreviewLabel: "Returning to",
+      servicesToggle: "Quick Access to Pages",
       libraryTrigger: "Prayers & Ziyarat",
       nazrTrigger: "Votive Offerings",
       madahiTrigger: "Eulogies & Chants",
       galleryTrigger: "Photo Gallery",
       salavatTrigger: "Salawat Counter",
       faqTrigger: "Site Assistant",
-      convertTrigger: "Date Converter",
+      convertTrigger: "Calendar & Date Converter",
       frameTrigger: "Photo Frame Maker",
       guideTrigger: "Site Guide",
       guideHint: "Find the site guide in this menu 👋",
@@ -3330,115 +3370,6 @@
     }
   })();
 
-  // ---------------- اوقات شرعی به افق خرم‌آباد، استان لرستان ----------------
-  (function prayerTimes(){
-    const els = {
-      fajr: document.getElementById('prayer-fajr'),
-      sunrise: document.getElementById('prayer-sunrise'),
-      dhuhr: document.getElementById('prayer-dhuhr'),
-      sunset: document.getElementById('prayer-sunset'),
-      maghrib: document.getElementById('prayer-maghrib'),
-      midnight: document.getElementById('prayer-midnight')
-    };
-    if(!els.fajr || !els.sunrise || !els.dhuhr || !els.sunset || !els.maghrib || !els.midnight) return;
-
-    // مختصات خرم‌آباد، استان لرستان
-    const LAT = 33.4869, LON = 48.3557;
-
-    // افست ساعت رسمی ایران به‌صورت پویا از Intl خوانده می‌شود (نه هاردکد)
-    // تا اگر در آینده سیاست تغییر ساعت ایران دوباره تغییر کرد، محاسبات خودکار درست بمانند
-    function getTehranOffsetHours(date){
-      try{
-        const parts = new Intl.DateTimeFormat('en-US', { timeZone:'Asia/Tehran', timeZoneName:'shortOffset' }).formatToParts(date);
-        const tzPart = parts.find(p => p.type === 'timeZoneName');
-        if(tzPart){
-          const m = tzPart.value.match(/GMT([+-]\d+)(?::(\d+))?/);
-          if(m){
-            const h = parseInt(m[1], 10);
-            const mins = m[2] ? parseInt(m[2], 10) : 0;
-            return h + (h < 0 ? -mins / 60 : mins / 60);
-          }
-        }
-      }catch(e){}
-      return 3.5; // fallback: ساعت رسمی ایران بدون تغییر ساعت فصلی (از ۱۴۰۱ به بعد)
-    }
-    const TZ = getTehranOffsetHours(new Date());
-
-    function mod(a, n){ return a - n * Math.floor(a / n); }
-    function toRad(d){ return d * Math.PI / 180; }
-    function toDeg(r){ return r * 180 / Math.PI; }
-
-    function julianDate(year, month, day){
-      if(month <= 2){ year -= 1; month += 12; }
-      const A = Math.floor(year / 100);
-      const B = 2 - A + Math.floor(A / 4);
-      return Math.floor(365.25 * (year + 4716)) + Math.floor(30.6001 * (month + 1)) + day + B - 1524.5;
-    }
-
-    function sunPosition(JD){
-      const D = JD - 2451545.0;
-      const g = mod(357.529 + 0.98560028 * D, 360);
-      const q = mod(280.459 + 0.98564736 * D, 360);
-      const L = mod(q + 1.915 * Math.sin(toRad(g)) + 0.020 * Math.sin(toRad(2 * g)), 360);
-      const e = 23.439 - 0.00000036 * D;
-      const RA = mod(toDeg(Math.atan2(Math.cos(toRad(e)) * Math.sin(toRad(L)), Math.cos(toRad(L)))) / 15, 24);
-      const decl = toDeg(Math.asin(Math.sin(toRad(e)) * Math.sin(toRad(L))));
-      const eqt = q / 15 - RA;
-      return { decl, eqt };
-    }
-
-    function hourAngle(lat, decl, angle){
-      const num = -Math.sin(toRad(angle)) - Math.sin(toRad(lat)) * Math.sin(toRad(decl));
-      const den = Math.cos(toRad(lat)) * Math.cos(toRad(decl));
-      let val = num / den;
-      val = Math.max(-1, Math.min(1, val));
-      return toDeg(Math.acos(val)) / 15;
-    }
-
-    function fajrTimeFor(y, m, d){
-      const { decl, eqt } = sunPosition(julianDate(y, m, d));
-      const dhuhr = 12 + TZ - LON / 15 - eqt;
-      const Hfajr = hourAngle(LAT, decl, 17.7);
-      return dhuhr - Hfajr;
-    }
-
-    function fmtTime(hours){
-      hours = mod(hours, 24);
-      let h = Math.floor(hours);
-      let m = Math.round((hours - h) * 60);
-      if(m === 60){ m = 0; h += 1; }
-      h = h % 24;
-      return toLocaleDigits(h) + ':' + toLocaleDigits(String(m).padStart(2, '0'));
-    }
-
-    const now = new Date();
-    const y = now.getFullYear(), mo = now.getMonth() + 1, d = now.getDate();
-    const JD = julianDate(y, mo, d);
-    const { decl, eqt } = sunPosition(JD);
-    const dhuhr = 12 + TZ - LON / 15 - eqt;
-    const Hsun = hourAngle(LAT, decl, 0.833);   // طلوع/غروب
-    const Hfajr = hourAngle(LAT, decl, 17.7);   // اذان صبح
-    const Hmaghrib = hourAngle(LAT, decl, 4.5); // اذان مغرب (احتیاط شرعی)
-    const Hisha = hourAngle(LAT, decl, 14);
-
-    const fajr = dhuhr - Hfajr;
-    const sunrise = dhuhr - Hsun;
-    const sunset = dhuhr + Hsun;
-    const maghrib = dhuhr + Hmaghrib;
-
-    // نیمه‌شب شرعی: نقطه میانی بین اذان مغرب امشب و اذان صبح فردا
-    const tomorrow = new Date(now); tomorrow.setDate(now.getDate() + 1);
-    const fajrTomorrow = fajrTimeFor(tomorrow.getFullYear(), tomorrow.getMonth() + 1, tomorrow.getDate());
-    const midnight = maghrib + ((fajrTomorrow + 24) - maghrib) / 2;
-
-    els.fajr.textContent = fmtTime(fajr);
-    els.sunrise.textContent = fmtTime(sunrise);
-    els.dhuhr.textContent = fmtTime(dhuhr);
-    els.sunset.textContent = fmtTime(sunset);
-    els.maghrib.textContent = fmtTime(maghrib);
-    els.midnight.textContent = fmtTime(midnight);
-  })();
-
   // ---------------- حدیث روز ----------------
   (function hadithOfDay(){
     const elNarrator = document.getElementById('hadith-narrator');
@@ -3563,6 +3494,25 @@
 
     document.addEventListener('keydown', (e) => {
       if(e.key === 'Escape') closePanel();
+    });
+  })();
+
+  // ---------------- منوی کشویی دسترسی سریع به صفحات ----------------
+  (function servicesMenu(){
+    const wrap = document.getElementById('services-menu');
+    const toggle = document.getElementById('services-toggle');
+    const panel = document.getElementById('services-panel');
+    if(!wrap || !toggle || !panel) return;
+
+    toggle.addEventListener('click', () => {
+      const willOpen = !wrap.classList.contains('open');
+      wrap.classList.toggle('open', willOpen);
+      toggle.setAttribute('aria-expanded', String(willOpen));
+      if(willOpen){
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+      } else {
+        panel.style.maxHeight = '';
+      }
     });
   })();
 

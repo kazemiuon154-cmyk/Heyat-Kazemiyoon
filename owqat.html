@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  // دکمه بازگشت گوشی: اگر صفحه مستقیم (بدون سابقه مرورگر) باز شده باشد،
+  // به‌جای نمایش خطا، کاربر را به صفحه اول هیئت برمی‌گرداند
+  (function(){
+    try{
+      history.pushState({kazemiyoonBackTrap:true}, '', location.href);
+      window.addEventListener('popstate', function(){
+        location.replace('index.html');
+      });
+    }catch(err){}
+  })();
+</script>
+
+<!-- ===== Security hardening ===== -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+
+<title>اوقات شرعی | هیئت کاظمیون خرم‌آباد</title>
+
+<meta name="description" content="اوقات شرعی خرم‌آباد، تهران، قم، مشهد، کربلا و نجف؛ اذان صبح، طلوع و غروب آفتاب، اذان ظهر و مغرب، و نیمه‌شب شرعی — بر اساس محاسبات نجومی دقیق.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://kazemiuon154-cmyk.github.io/owqat.html">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0e9b62">
+<link rel="icon" href="logo.jpg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="کاظمیون">
+
+<style>
+  :root{
+    --void:#071710;
+    --crimson:#0e9b62;
+    --crimson-rgb:14,155,98;
+    --crimson-bright:#22c17f;
+    --gold:#ffcb3d;
+    --gold-soft:#d1a52a;
+    --gold-dim:#8a6e1e;
+    --parchment:#f3ead0;
+    --parchment-dim:#a99b78;
+    --line:rgba(255,203,61,0.22);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:
+      radial-gradient(ellipse 120% 70% at 50% -8%, rgba(var(--crimson-rgb),0.30), transparent 55%),
+      radial-gradient(ellipse 90% 50% at 15% 40%, rgba(var(--crimson-rgb),0.10), transparent 60%),
+      radial-gradient(ellipse 90% 50% at 85% 75%, rgba(var(--crimson-rgb),0.12), transparent 60%),
+      var(--void);
+    color:var(--parchment);
+    font-family:'Vazirmatn', sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    transition:opacity 0.28s ease, transform 0.28s ease;
+  }
+  body.page-exit{ opacity:0; transform:translateY(-8px); }
+  .page{ width:100%; max-width:500px; padding:18px 22px 70px; position:relative; z-index:1; }
+
+  .reveal{ opacity:0; transform:translateY(14px); transition:opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.show{ opacity:1; transform:translateY(0); }
+
+  .top-bar{ display:flex; align-items:center; gap:12px; margin-bottom:22px; }
+  .page2-back{
+    flex:none; display:flex; align-items:center; gap:7px;
+    padding:10px 20px; border-radius:999px;
+    border:1px solid rgba(255,255,255,0.25);
+    background:linear-gradient(135deg, var(--gold), var(--crimson-bright));
+    background-size:200% 200%;
+    color:#1a0f04; font-family:'Vazirmatn', sans-serif; font-size:12.5px; font-weight:800;
+    letter-spacing:0.02em; text-decoration:none; cursor:pointer;
+    box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 20px rgba(var(--crimson-rgb),0.45), 0 0 0 4px rgba(var(--crimson-rgb),0.12);
+    transition:all 0.2s ease, transform 0.25s ease;
+    animation:page2Pulse 2.6s ease-in-out infinite, page2Shine 5s linear infinite;
+    position:fixed; bottom:18px; left:18px; z-index:60; overflow:hidden;
+  }
+  .page2-back::after{
+    content:''; position:absolute; top:0; left:-60%; width:35%; height:100%;
+    background:linear-gradient(115deg, transparent, rgba(255,255,255,0.6), transparent);
+    transform:skewX(-20deg); animation:page2Sweep 3.6s ease-in-out infinite; pointer-events:none;
+  }
+  @keyframes page2Sweep{ 0%{ left:-60%; } 38%{ left:130%; } 100%{ left:130%; } }
+  .page2-back svg{ width:16px; height:16px; flex:none; }
+  .page2-back:hover{ transform:translateY(-1px) scale(1.03); }
+  .page2-back:active{ transform:scale(0.94); }
+  @keyframes page2Pulse{
+    0%,100%{ box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 20px rgba(var(--crimson-rgb),0.45), 0 0 0 4px rgba(var(--crimson-rgb),0.12); }
+    50%{ box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 26px rgba(var(--crimson-rgb),0.65), 0 0 0 8px rgba(var(--crimson-rgb),0.05); }
+  }
+  @keyframes page2Shine{ 0%{ background-position:0% 50%; } 50%{ background-position:100% 50%; } 100%{ background-position:0% 50%; } }
+  @media (prefers-reduced-motion: reduce){
+    .page2-back{ animation:none; }
+    .page2-back::after{ animation:none; display:none; }
+  }
+  .top-title{ font-size:16px; font-weight:800; color:var(--parchment); }
+  .top-sub{ font-size:11px; color:var(--parchment-dim); margin-top:2px; }
+
+  .badge-row{ display:flex; justify-content:center; margin:6px 0 18px; }
+  .kaaba-badge{
+    width:64px; height:64px; border-radius:20px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:28px;
+    background:linear-gradient(135deg, var(--gold), var(--crimson-bright));
+    box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 10px 22px rgba(var(--crimson-rgb),0.4);
+  }
+
+  /* ---- انتخاب‌گر شهر ---- */
+  .city-picker-primary{ display:flex; justify-content:center; margin:0 0 12px; }
+  .city-chip-primary{
+    display:flex; align-items:center; gap:8px;
+    padding:11px 26px; border-radius:999px;
+    border:1px solid rgba(255,203,61,0.4);
+    background:linear-gradient(135deg, var(--gold), var(--crimson-bright));
+    color:#1a0f04;
+    font-family:'Vazirmatn', sans-serif;
+    font-size:13.5px; font-weight:800;
+    box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 20px rgba(var(--crimson-rgb),0.4), 0 0 0 4px rgba(255,203,61,0.08);
+    transition:transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .city-chip-primary .cc-pin{ font-size:13px; opacity:0.85; }
+  .city-chip-primary .cc-tag{
+    font-size:9.5px; font-weight:700; color:rgba(26,15,4,0.6);
+    background:rgba(255,255,255,0.35); border-radius:999px; padding:2px 7px;
+    margin-inline-start:2px;
+  }
+  .city-chip-primary:hover{ transform:translateY(-1px); box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 10px 24px rgba(var(--crimson-rgb),0.5), 0 0 0 4px rgba(255,203,61,0.1); }
+  .city-chip-primary:active{ transform:scale(0.96); }
+  .city-chip-primary.dim{
+    background:rgba(255,255,255,0.03);
+    color:var(--parchment-dim);
+    box-shadow:none;
+    border-color:var(--line);
+  }
+  .city-chip-primary.dim .cc-tag{ background:rgba(255,203,61,0.1); color:var(--gold-soft); }
+
+  .city-picker-divider{
+    display:flex; align-items:center; gap:8px;
+    margin:2px 4px 10px;
+    font-size:10.5px; color:var(--parchment-dim); letter-spacing:0.04em;
+  }
+  .city-picker-divider::before, .city-picker-divider::after{ content:''; flex:1; height:1px; background:var(--line); }
+
+  .city-picker{
+    display:flex; flex-wrap:wrap; justify-content:center;
+    gap:7px; margin:0 0 18px;
+  }
+  .city-chip{
+    padding:8px 15px; border-radius:999px;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.03);
+    color:var(--parchment-dim);
+    font-family:'Vazirmatn', sans-serif;
+    font-size:12px; font-weight:700;
+    cursor:pointer;
+    transition:all 0.18s ease;
+  }
+  .city-chip:hover{ border-color:var(--gold-soft); color:var(--parchment); }
+  .city-chip.active{
+    border-color:var(--gold); color:#1a0f04;
+    background:linear-gradient(135deg, var(--gold), var(--crimson-bright));
+    box-shadow:0 0 0 3px rgba(255,203,61,0.12), 0 6px 14px rgba(var(--crimson-rgb),0.35);
+  }
+
+  .date-card{
+    margin:0 0 16px;
+    padding:20px 20px 18px;
+    border-radius:20px;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)), var(--void);
+    box-shadow:0 1px 0 rgba(255,255,255,0.05) inset, 0 10px 24px rgba(0,0,0,0.28);
+  }
+  .date-card-title{
+    text-align:center; font-size:12.5px; font-weight:600;
+    color:var(--gold); letter-spacing:0.06em; margin-bottom:14px;
+  }
+  .date-card-title .prayer-city{
+    display:block; margin-top:4px; font-size:10.5px; font-weight:500;
+    color:var(--parchment-dim); letter-spacing:0.02em;
+  }
+  .date-row{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:11px 4px; border-bottom:1px solid var(--line);
+    font-size:14px;
+  }
+  .date-row:last-of-type{ border-bottom:none; }
+  .date-label{ color:var(--parchment-dim); font-weight:600; display:flex; align-items:center; gap:8px; }
+  .date-label .di{ font-size:14px; }
+  .date-value{ color:var(--parchment); font-weight:800; font-size:15.5px; }
+
+  .note-box{
+    padding:14px 16px; border-radius:16px;
+    background:rgba(0,0,0,0.22);
+    border:1px solid var(--line);
+    text-align:center;
+    font-size:11.5px;
+    color:var(--parchment-dim);
+    line-height:1.9;
+  }
+
+  .precision-note{
+    display:flex; align-items:flex-start; gap:9px;
+    margin-top:10px;
+    padding:13px 15px; border-radius:16px;
+    background:rgba(255,203,61,0.06);
+    border:1px solid rgba(255,203,61,0.28);
+    font-size:11px; line-height:1.9; color:var(--parchment-dim);
+    text-align:right;
+  }
+  .precision-note .pn-icon{
+    flex:none; font-size:15px; margin-top:1px; filter:drop-shadow(0 0 6px rgba(255,203,61,0.4));
+  }
+  .precision-note b{ color:var(--gold-soft); font-weight:800; }
+
+  footer{ text-align:center; margin-top:28px; font-size:11px; color:var(--parchment-dim); }
+</style>
+</head>
+<body>
+
+<a href="index.html" class="page2-back" id="page2-back" aria-label="بازگشت به صفحه اول">
+  <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span>بازگشت</span>
+</a>
+
+<div class="page">
+
+  <div class="top-bar reveal">
+    <div>
+      <div class="top-title">اوقات شرعی</div>
+      <div class="top-sub">هیئت کاظمیون خرم‌آباد</div>
+    </div>
+  </div>
+
+
+  <div class="badge-row reveal">
+    <div class="kaaba-badge" aria-hidden="true">🕋</div>
+  </div>
+
+  <div class="city-picker-primary reveal">
+    <div class="city-chip-primary">
+      <span class="cc-pin">📍</span>
+      <span>خرم‌آباد</span>
+      <span class="cc-tag">شهر ما</span>
+    </div>
+  </div>
+
+  <div class="date-card reveal">
+    <div class="date-card-title">اوقات شرعی لرستان <span class="prayer-city">(خرم‌آباد)</span></div>
+    <div class="date-row">
+      <span class="date-label"><span class="di">🌄</span> اذان صبح</span>
+      <span class="date-value" id="prayer-fajr-fixed">--</span>
+    </div>
+    <div class="date-row">
+      <span class="date-label"><span class="di">☀️</span> طلوع آفتاب</span>
+      <span class="date-value" id="prayer-sunrise-fixed">--</span>
+    </div>
+    <div class="date-row">
+      <span class="date-label"><span class="di">🕛</span> اذان ظهر</span>
+      <span class="date-value" id="prayer-dhuhr-fixed">--</span>
+    </div>
+    <div class="date-row">
+      <span class="date-label"><span class="di">🌇</span> غروب آفتاب</span>
+      <span class="date-value" id="prayer-sunset-fixed">--</span>
+    </div>
+    <div class="date-row">
+      <span class="date-label"><span class="di">🌙</span> اذان مغرب</span>
+      <span class="date-value" id="prayer-maghrib-fixed">--</span>
+    </div>
+    <div class="date-row">
+      <span class="date-label"><span class="di">🌑</span> نیمه‌شب شرعی</span>
+      <span class="date-value" id="prayer-midnight-fixed">--</span>
+    </div>
+  </div>
+
+  <div class="city-picker-divider reveal">اوقات شرعی سایر شهرها</div>
+
+  <div class="city-picker reveal" id="city-picker">
+    <button type="button" class="city-chip" data-city="tehran">تهران</button>
+    <button type="button" class="city-chip" data-city="qom">قم</button>
+    <button type="button" class="city-chip" data-city="mashhad">مشهد</button>
+    <button type="button" class="city-chip" data-city="karbala">کربلا</button>
+    <button type="button" class="city-chip" data-city="najaf">نجف</button>
+  </div>
+
+  <div class="city-picker-primary reveal">
+    <div class="city-chip-primary">
+      <span class="cc-pin">📍</span>
+      <span id="selected-city-name">تهران</span>
+      <span class="cc-tag">شهر منتخب</span>
+    </div>
+  </div>
+
+  <div class="date-card reveal">
+    <div class="date-card-title">اوقات شرعی <span class="prayer-city" id="prayer-city-label">(تهران)</span></div>
+    <div class="date-row">
+      <span class="date-label"><span class="di">🌄</span> اذان صبح</span>
+      <span class="date-value" id="prayer-fajr">--</span>
+    </div>
+    <div class="date-row">
+      <span class="date-label"><span class="di">☀️</span> طلوع آفتاب</span>
+      <span class="date-value" id="prayer-sunrise">--</span>
+    </div>
+    <div class="date-row">
+      <span class="date-label"><span class="di">🕛</span> اذان ظهر</span>
+      <span class="date-value" id="prayer-dhuhr">--</span>
+    </div>
+    <div class="date-row">
+      <span class="date-label"><span class="di">🌇</span> غروب آفتاب</span>
+      <span class="date-value" id="prayer-sunset">--</span>
+    </div>
+    <div class="date-row">
+      <span class="date-label"><span class="di">🌙</span> اذان مغرب</span>
+      <span class="date-value" id="prayer-maghrib">--</span>
+    </div>
+    <div class="date-row">
+      <span class="date-label"><span class="di">🌑</span> نیمه‌شب شرعی</span>
+      <span class="date-value" id="prayer-midnight">--</span>
+    </div>
+  </div>
+
+  <div class="precision-note reveal">
+    <span class="pn-icon" aria-hidden="true">⚠️</span>
+    <span>تمام تلاش خودمان را کرده‌ایم که اوقات شرعی <b>دقیق</b> باشد؛ با این حال به منظور اطمینان از صحت اوقات، این نکته را در نظر بگیرید که امکان خطای حدود <b>۱ تا ۵ دقیقه</b> در این محاسبات وجود دارد.</span>
+  </div>
+
+  <footer>هیئت کاظمیون خرم‌آباد</footer>
+
+</div>
+
+<script>
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    setTimeout(() => el.classList.add('show'), 60 * i);
+  });
+
+  // ---------------- انتقال نرم به صفحه اول ----------------
+  (function backSmoothNav(){
+    const trigger = document.getElementById('page2-back');
+    if(!trigger) return;
+    const targetHref = trigger.getAttribute('href');
+    trigger.addEventListener('click', function(e){
+      if(e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      document.body.classList.add('page-exit');
+      setTimeout(() => { window.location.href = targetHref; }, 220);
+    });
+  })();
+
+  // ---------------- اوقات شرعی چند شهر (محاسبات نجومی دقیق) ----------------
+  (function prayerTimes(){
+    const els = {
+      fajr: document.getElementById('prayer-fajr'),
+      sunrise: document.getElementById('prayer-sunrise'),
+      dhuhr: document.getElementById('prayer-dhuhr'),
+      sunset: document.getElementById('prayer-sunset'),
+      maghrib: document.getElementById('prayer-maghrib'),
+      midnight: document.getElementById('prayer-midnight'),
+      cityLabel: document.getElementById('prayer-city-label'),
+      selectedCityName: document.getElementById('selected-city-name')
+    };
+    const fixedEls = {
+      fajr: document.getElementById('prayer-fajr-fixed'),
+      sunrise: document.getElementById('prayer-sunrise-fixed'),
+      dhuhr: document.getElementById('prayer-dhuhr-fixed'),
+      sunset: document.getElementById('prayer-sunset-fixed'),
+      maghrib: document.getElementById('prayer-maghrib-fixed'),
+      midnight: document.getElementById('prayer-midnight-fixed')
+    };
+    if(!els.fajr || !els.sunrise || !els.dhuhr || !els.sunset || !els.maghrib || !els.midnight) return;
+
+    // مختصات جغرافیایی دقیق شهرها و منطقه زمانی رسمی هرکدام
+    const CITIES = {
+      khorramabad: { label:'خرم‌آباد', region:'لرستان، ایران', lat:33.4869, lon:48.3557, tz:'Asia/Tehran' },
+      tehran:      { label:'تهران',    region:'ایران',          lat:35.6892, lon:51.3890, tz:'Asia/Tehran' },
+      qom:         { label:'قم',       region:'ایران',          lat:34.6401, lon:50.8764, tz:'Asia/Tehran' },
+      mashhad:     { label:'مشهد',     region:'خراسان رضوی، ایران', lat:36.2605, lon:59.6168, tz:'Asia/Tehran' },
+      karbala:     { label:'کربلا',    region:'عراق',           lat:32.6160, lon:44.0249, tz:'Asia/Baghdad' },
+      najaf:       { label:'نجف',      region:'عراق',           lat:31.9958, lon:44.3107, tz:'Asia/Baghdad' }
+    };
+
+    // افست ساعت رسمی هر منطقه زمانی به‌صورت پویا از Intl خوانده می‌شود (نه هاردکد)
+    function getUtcOffsetHours(date, timeZone){
+      try{
+        const parts = new Intl.DateTimeFormat('en-US', { timeZone, timeZoneName:'shortOffset' }).formatToParts(date);
+        const tzPart = parts.find(p => p.type === 'timeZoneName');
+        if(tzPart){
+          const m = tzPart.value.match(/GMT([+-]\d+)(?::(\d+))?/);
+          if(m){
+            const h = parseInt(m[1], 10);
+            const mins = m[2] ? parseInt(m[2], 10) : 0;
+            return h + (h < 0 ? -mins / 60 : mins / 60);
+          }
+        }
+      }catch(e){}
+      return timeZone === 'Asia/Baghdad' ? 3 : 3.5;
+    }
+
+    function mod(a, n){ return a - n * Math.floor(a / n); }
+    function toRad(d){ return d * Math.PI / 180; }
+    function toDeg(r){ return r * 180 / Math.PI; }
+
+    function julianDate(year, month, day){
+      if(month <= 2){ year -= 1; month += 12; }
+      const A = Math.floor(year / 100);
+      const B = 2 - A + Math.floor(A / 4);
+      return Math.floor(365.25 * (year + 4716)) + Math.floor(30.6001 * (month + 1)) + day + B - 1524.5;
+    }
+
+    function sunPosition(JD){
+      const D = JD - 2451545.0;
+      const g = mod(357.529 + 0.98560028 * D, 360);
+      const q = mod(280.459 + 0.98564736 * D, 360);
+      const L = mod(q + 1.915 * Math.sin(toRad(g)) + 0.020 * Math.sin(toRad(2 * g)), 360);
+      const e = 23.439 - 0.00000036 * D;
+      const RA = mod(toDeg(Math.atan2(Math.cos(toRad(e)) * Math.sin(toRad(L)), Math.cos(toRad(L)))) / 15, 24);
+      const decl = toDeg(Math.asin(Math.sin(toRad(e)) * Math.sin(toRad(L))));
+      const eqt = q / 15 - RA;
+      return { decl, eqt };
+    }
+
+    function hourAngle(lat, decl, angle){
+      const num = -Math.sin(toRad(angle)) - Math.sin(toRad(lat)) * Math.sin(toRad(decl));
+      const den = Math.cos(toRad(lat)) * Math.cos(toRad(decl));
+      let val = num / den;
+      val = Math.max(-1, Math.min(1, val));
+      return toDeg(Math.acos(val)) / 15;
+    }
+
+    function fajrTimeFor(y, m, d, LAT, LON, TZ){
+      const { decl, eqt } = sunPosition(julianDate(y, m, d));
+      const dhuhr = 12 + TZ - LON / 15 - eqt;
+      const Hfajr = hourAngle(LAT, decl, 17.7);
+      return dhuhr - Hfajr;
+    }
+
+    // اعداد فارسی
+    function toFaDigits(s){
+      const fa = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+      return String(s).replace(/\d/g, d => fa[d]);
+    }
+
+    function fmtTime(hours){
+      hours = mod(hours, 24);
+      let h = Math.floor(hours);
+      let m = Math.round((hours - h) * 60);
+      if(m === 60){ m = 0; h += 1; }
+      h = h % 24;
+      return toFaDigits(h) + ':' + toFaDigits(String(m).padStart(2, '0'));
+    }
+
+    function computeTimes(cityKey){
+      const city = CITIES[cityKey] || CITIES.khorramabad;
+      const LAT = city.lat, LON = city.lon;
+      const TZ = getUtcOffsetHours(new Date(), city.tz);
+
+      const now = new Date();
+      const y = now.getFullYear(), mo = now.getMonth() + 1, d = now.getDate();
+      const JD = julianDate(y, mo, d);
+      const { decl, eqt } = sunPosition(JD);
+      const dhuhr = 12 + TZ - LON / 15 - eqt;
+      const Hsun = hourAngle(LAT, decl, 0.833);   // طلوع/غروب
+      const Hfajr = hourAngle(LAT, decl, 17.7);   // اذان صبح
+      const Hmaghrib = hourAngle(LAT, decl, 4.5); // اذان مغرب (احتیاط شرعی)
+
+      const fajr = dhuhr - Hfajr;
+      const sunrise = dhuhr - Hsun;
+      const sunset = dhuhr + Hsun;
+      const maghrib = dhuhr + Hmaghrib;
+
+      // نیمه‌شب شرعی: نقطه میانی بین اذان مغرب امشب و اذان صبح فردا
+      const tomorrow = new Date(now); tomorrow.setDate(now.getDate() + 1);
+      const fajrTomorrow = fajrTimeFor(tomorrow.getFullYear(), tomorrow.getMonth() + 1, tomorrow.getDate(), LAT, LON, TZ);
+      const midnight = maghrib + ((fajrTomorrow + 24) - maghrib) / 2;
+
+      return { city, fajr, sunrise, dhuhr, sunset, maghrib, midnight };
+    }
+
+    function paintTimes(target, times){
+      target.fajr.textContent = fmtTime(times.fajr);
+      target.sunrise.textContent = fmtTime(times.sunrise);
+      target.dhuhr.textContent = fmtTime(times.dhuhr);
+      target.sunset.textContent = fmtTime(times.sunset);
+      target.maghrib.textContent = fmtTime(times.maghrib);
+      target.midnight.textContent = fmtTime(times.midnight);
+    }
+
+    // اوقات شرعی لرستان (خرم‌آباد) — ثابت، مستقل از انتخاب شهر
+    function renderFixed(){
+      if(!fixedEls.fajr) return;
+      paintTimes(fixedEls, computeTimes('khorramabad'));
+    }
+
+    // اوقات شرعی سایر شهرها — بر اساس شهر انتخاب‌شده
+    function render(cityKey){
+      const times = computeTimes(cityKey);
+      paintTimes(els, times);
+
+      if(els.cityLabel) els.cityLabel.textContent = '(' + times.city.label + '، ' + times.city.region + ')';
+      if(els.selectedCityName) els.selectedCityName.textContent = times.city.label;
+
+      document.querySelectorAll('.city-chip').forEach(chip => {
+        chip.classList.toggle('active', chip.getAttribute('data-city') === cityKey);
+      });
+
+      try{ localStorage.setItem('owqatCity', cityKey); }catch(e){}
+    }
+
+    renderFixed();
+
+    let initialCity = 'tehran';
+    try{
+      const saved = localStorage.getItem('owqatCity');
+      if(saved && CITIES[saved] && saved !== 'khorramabad') initialCity = saved;
+    }catch(e){}
+
+    render(initialCity);
+
+    document.querySelectorAll('.city-chip').forEach(chip => {
+      chip.addEventListener('click', () => render(chip.getAttribute('data-city')));
+    });
+  })();
+</script>
+
+</body>
+</html>
