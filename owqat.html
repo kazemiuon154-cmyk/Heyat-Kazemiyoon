@@ -230,6 +230,26 @@
   .precision-note b{ color:var(--gold-soft); font-weight:800; }
 
   footer{ text-align:center; margin-top:28px; font-size:11px; color:var(--parchment-dim); }
+  .guide-link{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    width:max-content;
+    margin:30px auto 0;
+    padding:9px 18px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.03);
+    color:var(--gold-soft);
+    font-family:'Vazirmatn', sans-serif;
+    font-size:12px;
+    font-weight:700;
+    text-decoration:none;
+    transition:all 0.18s ease;
+  }
+  .guide-link:hover{ border-color:var(--gold-soft); color:var(--gold); background:rgba(255,255,255,0.06); }
+  .guide-link svg{ width:14px; height:14px; flex:none; }
 </style>
 </head>
 <body>
@@ -339,6 +359,11 @@
     <span class="pn-icon" aria-hidden="true">⚠️</span>
     <span>تمام تلاش خودمان را کرده‌ایم که اوقات شرعی <b>دقیق</b> باشد؛ با این حال به منظور اطمینان از صحت اوقات، این نکته را در نظر بگیرید که امکان خطای حدود <b>۱ تا ۵ دقیقه</b> در این محاسبات وجود دارد.</span>
   </div>
+
+  <a href="guide.html" class="guide-link">
+    <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M9.5 9.3a2.5 2.5 0 1 1 3.4 2.3c-.7.3-1.2.9-1.2 1.7V14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="16.8" r="0.9" fill="currentColor"/></svg>
+    <span>راهنمای سایت</span>
+  </a>
 
   <footer>هیئت کاظمیون خرم‌آباد</footer>
 
