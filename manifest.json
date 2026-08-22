@@ -13,7 +13,7 @@
   "icons": [
     {
       "src": "logo.jpg",
-      "sizes": "480x443",
+      "sizes": "640x640",
       "type": "image/jpeg",
       "purpose": "any"
     },
