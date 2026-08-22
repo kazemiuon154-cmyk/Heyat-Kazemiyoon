@@ -1,6 +1,6 @@
 // service-worker.js — هیئت کاظمیون خرم‌آباد
 // نسخه کش را با هر تغییر مهم در سایت افزایش دهید تا کاربران نسخه جدید را بگیرند
-const CACHE_VERSION = 'kazemiuon-v2';
+const CACHE_VERSION = 'kazemiuon-v3';
 const CORE_ASSETS = [
   './',
   './index.html',
