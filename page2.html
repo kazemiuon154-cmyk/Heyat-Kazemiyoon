@@ -818,6 +818,102 @@
     font-size:11.5px;
     color:var(--gold-dim);
   }
+
+  /* ============================================================
+     ابزارهای مطالعه دعا: شب/فونت/تمام‌صفحه
+  ============================================================ */
+  :root{ --reader-scale:1; }
+
+  .doa-modal-head{ flex-wrap:wrap; row-gap:8px; }
+  .doa-reader-toolbar{
+    display:flex; align-items:center; justify-content:center;
+    gap:8px;
+    width:100%;
+    padding:8px 4px 0;
+    margin-top:4px;
+    border-top:1px solid var(--line);
+  }
+  .doa-tool-btn{
+    display:flex; align-items:center; justify-content:center;
+    gap:4px;
+    min-width:36px; height:32px; padding:0 11px;
+    border-radius:10px;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.03);
+    color:var(--parchment-dim);
+    font-family:'Vazirmatn', sans-serif;
+    font-size:12px; font-weight:800;
+    cursor:pointer;
+    transition:all 0.18s ease;
+  }
+  .doa-tool-btn svg{ width:16px; height:16px; flex:none; }
+  .doa-tool-btn:hover{ border-color:var(--gold-soft); color:var(--parchment); }
+  .doa-tool-btn.active{
+    border-color:var(--gold);
+    color:#1a0f04;
+    background:linear-gradient(135deg, var(--gold), var(--crimson-bright));
+  }
+
+  /* حالت مطالعه شبانه: کاهش نور و گرم‌ترکردن رنگ برای مطالعه طولانی */
+  body.reader-night .doa-modal-sheet{
+    background:#050b06;
+  }
+  body.reader-night .doa-modal-body{
+    filter:brightness(0.82) sepia(0.12);
+  }
+  body.reader-night .doa-text-arabic,
+  body.reader-night .doa-text-fa{
+    color:#c9b892;
+  }
+
+  /* اندازه فونت قابل تنظیم */
+  .doa-text-arabic{ font-size:calc(21px * var(--reader-scale)); }
+  .doa-text-fa{ font-size:calc(14.5px * var(--reader-scale)); }
+
+  /* پاپ‌اور تنظیمات فونت */
+  .font-popover{
+    position:fixed;
+    width:max-content;
+    max-width:min(250px, calc(100vw - 20px));
+    background:var(--void-2, var(--void));
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px;
+    display:flex; flex-direction:column; gap:12px;
+    box-shadow:0 12px 26px rgba(0,0,0,0.5);
+    opacity:0; visibility:hidden;
+    transform:translateY(-6px);
+    transition:opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+    z-index:320;
+  }
+  .font-popover.show{ opacity:1; visibility:visible; transform:translateY(0); }
+  .font-popover-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .font-popover-label{ font-size:11.5px; color:var(--parchment-dim); font-weight:700; }
+  .fsz-controls{ display:flex; align-items:center; gap:8px; }
+  .fsz-btn{
+    width:26px; height:26px; border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.03);
+    color:var(--parchment);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; font-weight:800; font-size:14px;
+  }
+  .fsz-btn:hover:not(:disabled){ border-color:var(--gold-soft); color:var(--gold); }
+  .fsz-btn:disabled{ opacity:0.3; cursor:default; }
+  .fsz-dots{ display:flex; gap:4px; }
+  .fsz-dots span{ width:6px; height:6px; border-radius:50%; background:var(--line); }
+  .fsz-dots span.on{ background:var(--gold); }
+
+  /* حالت تمام‌صفحه دعا */
+  .doa-modal-sheet.reader-fullscreen{
+    height:100dvh;
+    height:100vh;
+    max-width:none;
+    width:100%;
+    border-radius:0;
+    border-left:none; border-right:none; border-top:none;
+  }
+  .doa-modal-overlay.reader-fullscreen-active{ align-items:stretch; }
 </style>
 </head>
 <body>
@@ -959,6 +1055,27 @@
         <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
       <span class="doa-modal-title" data-i18n="doaAshuraArabicTitle">زیارت عاشورا | متن عربی</span>
+      <div class="doa-reader-toolbar">
+        <button type="button" class="doa-tool-btn" data-reader-action="night" aria-label="حالت مطالعه شبانه" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M20 14.5a8 8 0 1 1-9-10.4 6.4 6.4 0 0 0 9 10.4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+        </button>
+        <div style="position:relative">
+          <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
+          <div class="font-popover">
+            <div class="font-popover-row">
+              <span class="font-popover-label">اندازه متن</span>
+              <div class="fsz-controls">
+                <button type="button" class="fsz-btn fsz-dec" aria-label="کوچک‌تر">−</button>
+                <span class="fsz-dots"><span></span><span></span><span></span><span></span><span></span></span>
+                <button type="button" class="fsz-btn fsz-inc" aria-label="بزرگ‌تر">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="doa-tool-btn" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M9 4H5a1 1 0 0 0-1 1v4M15 4h4a1 1 0 0 1 1 1v4M9 20H5a1 1 0 0 1-1-1v-4M15 20h4a1 1 0 0 0 1-1v-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
     </div>
     <div class="doa-modal-body">
       <div class="doa-text-arabic" id="doa-arabic-text-content">
@@ -993,6 +1110,27 @@
         <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
       <span class="doa-modal-title" data-i18n="doaAshuraTranslationTitle">زیارت عاشورا | ترجمه</span>
+      <div class="doa-reader-toolbar">
+        <button type="button" class="doa-tool-btn" data-reader-action="night" aria-label="حالت مطالعه شبانه" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M20 14.5a8 8 0 1 1-9-10.4 6.4 6.4 0 0 0 9 10.4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+        </button>
+        <div style="position:relative">
+          <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
+          <div class="font-popover">
+            <div class="font-popover-row">
+              <span class="font-popover-label">اندازه متن</span>
+              <div class="fsz-controls">
+                <button type="button" class="fsz-btn fsz-dec" aria-label="کوچک‌تر">−</button>
+                <span class="fsz-dots"><span></span><span></span><span></span><span></span><span></span></span>
+                <button type="button" class="fsz-btn fsz-inc" aria-label="بزرگ‌تر">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="doa-tool-btn" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M9 4H5a1 1 0 0 0-1 1v4M15 4h4a1 1 0 0 1 1 1v4M9 20H5a1 1 0 0 1-1-1v-4M15 20h4a1 1 0 0 0 1-1v-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
     </div>
     <div class="doa-modal-body">
       <div class="doa-text-fa" id="doa-translation-text-content">
@@ -1026,6 +1164,27 @@
         <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
       <span class="doa-modal-title" data-i18n="doaAshuraAudioTitle">زیارت عاشورا | صوت</span>
+      <div class="doa-reader-toolbar">
+        <button type="button" class="doa-tool-btn" data-reader-action="night" aria-label="حالت مطالعه شبانه" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M20 14.5a8 8 0 1 1-9-10.4 6.4 6.4 0 0 0 9 10.4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+        </button>
+        <div style="position:relative">
+          <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
+          <div class="font-popover">
+            <div class="font-popover-row">
+              <span class="font-popover-label">اندازه متن</span>
+              <div class="fsz-controls">
+                <button type="button" class="fsz-btn fsz-dec" aria-label="کوچک‌تر">−</button>
+                <span class="fsz-dots"><span></span><span></span><span></span><span></span><span></span></span>
+                <button type="button" class="fsz-btn fsz-inc" aria-label="بزرگ‌تر">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="doa-tool-btn" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M9 4H5a1 1 0 0 0-1 1v4M15 4h4a1 1 0 0 1 1 1v4M9 20H5a1 1 0 0 1-1-1v-4M15 20h4a1 1 0 0 0 1-1v-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
     </div>
 
     <div class="doa-audio-wrap">
@@ -1232,6 +1391,111 @@
       const dur = audio.duration || 0;
       if(dur) audio.currentTime = (seek.value / 100) * dur;
       userSeeking = false;
+    });
+  })();
+
+  // ---------------- ابزار مطالعه دعا: شب / فونت / تمام‌صفحه ----------------
+  (function doaReaderTools(){
+    const FONT_STEPS = [0.82, 0.9, 1, 1.12, 1.26];
+    const state = { night:false, sizeIdx:2 };
+
+    try{
+      if(localStorage.getItem('doaReaderNight') === '1') state.night = true;
+      const savedSize = parseInt(localStorage.getItem('doaReaderSize'), 10);
+      if(!isNaN(savedSize) && savedSize >= 0 && savedSize < FONT_STEPS.length) state.sizeIdx = savedSize;
+    }catch(e){}
+
+    function persist(){
+      try{
+        localStorage.setItem('doaReaderNight', state.night ? '1' : '0');
+        localStorage.setItem('doaReaderSize', String(state.sizeIdx));
+      }catch(e){}
+    }
+
+    function applyGlobal(){
+      document.body.classList.toggle('reader-night', state.night);
+      document.documentElement.style.setProperty('--reader-scale', String(FONT_STEPS[state.sizeIdx]));
+      document.querySelectorAll('[data-reader-action="night"]').forEach(b => {
+        b.setAttribute('aria-pressed', String(state.night));
+        b.classList.toggle('active', state.night);
+      });
+      document.querySelectorAll('.fsz-dec').forEach(b => { b.disabled = state.sizeIdx <= 0; });
+      document.querySelectorAll('.fsz-inc').forEach(b => { b.disabled = state.sizeIdx >= FONT_STEPS.length - 1; });
+      document.querySelectorAll('.fsz-dots').forEach(dots => {
+        Array.from(dots.children).forEach((d, i) => d.classList.toggle('on', i === state.sizeIdx));
+      });
+    }
+
+    applyGlobal();
+
+    document.querySelectorAll('[data-reader-action="night"]').forEach(btn => {
+      btn.addEventListener('click', () => { state.night = !state.night; applyGlobal(); persist(); });
+    });
+
+    // پاپ‌اور فونت (هر ابزارک، پاپ‌اور مستقل خودش را دارد؛ وضعیت مشترک است)
+    document.querySelectorAll('.doa-reader-toolbar').forEach(toolbar => {
+      const fontBtn = toolbar.querySelector('[data-reader-action="font"]');
+      const popover = toolbar.querySelector('.font-popover');
+      if(!fontBtn || !popover) return;
+      document.body.appendChild(popover);
+
+      function position(){
+        const margin = 10;
+        const rect = fontBtn.getBoundingClientRect();
+        const pw = popover.offsetWidth || 220;
+        let left = rect.left + rect.width / 2 - pw / 2;
+        left = Math.max(margin, Math.min(left, window.innerWidth - pw - margin));
+        const ph = popover.offsetHeight || 120;
+        let top = rect.bottom + 8;
+        if(top + ph > window.innerHeight - margin) top = rect.top - ph - 8;
+        popover.style.left = left + 'px';
+        popover.style.top = Math.max(margin, top) + 'px';
+      }
+
+      fontBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const show = !popover.classList.contains('show');
+        document.querySelectorAll('.font-popover.show').forEach(p => { if(p !== popover) p.classList.remove('show'); });
+        if(show){
+          popover.style.visibility = 'hidden';
+          popover.classList.add('show');
+          position();
+          popover.style.visibility = '';
+        } else {
+          popover.classList.remove('show');
+        }
+        fontBtn.setAttribute('aria-expanded', String(show));
+      });
+      window.addEventListener('resize', () => { if(popover.classList.contains('show')) position(); }, { passive:true });
+
+      popover.querySelectorAll('.fsz-dec').forEach(b => b.addEventListener('click', () => {
+        if(state.sizeIdx > 0){ state.sizeIdx--; applyGlobal(); persist(); }
+      }));
+      popover.querySelectorAll('.fsz-inc').forEach(b => b.addEventListener('click', () => {
+        if(state.sizeIdx < FONT_STEPS.length - 1){ state.sizeIdx++; applyGlobal(); persist(); }
+      }));
+    });
+
+    document.addEventListener('click', (e) => {
+      document.querySelectorAll('.font-popover.show').forEach(p => {
+        if(!p.contains(e.target) && !e.target.closest('[data-reader-action="font"]')){
+          p.classList.remove('show');
+        }
+      });
+    });
+
+    // حالت تمام‌صفحه (برای هر مودال جداگانه)
+    document.querySelectorAll('[data-reader-action="fullscreen"]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const sheet = btn.closest('.doa-modal-sheet');
+        const overlay = btn.closest('.doa-modal-overlay');
+        if(!sheet) return;
+        const on = !sheet.classList.contains('reader-fullscreen');
+        sheet.classList.toggle('reader-fullscreen', on);
+        if(overlay) overlay.classList.toggle('reader-fullscreen-active', on);
+        btn.setAttribute('aria-pressed', String(on));
+        btn.classList.toggle('active', on);
+      });
     });
   })();
 
