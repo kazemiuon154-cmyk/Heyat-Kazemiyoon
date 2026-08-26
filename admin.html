@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://firestore.googleapis.com https://*.googleapis.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
+<title>پنل مدیریت اطلاعیه | هیئت کاظمیون خرم‌آباد</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#071710;
+    --void-2:#0e2419;
+    --crimson:#0e9b62;
+    --crimson-bright:#22c17f;
+    --gold:#ffcb3d;
+    --gold-soft:#d1a52a;
+    --gold-dim:#8a6e1e;
+    --parchment:#f3ead0;
+    --parchment-dim:#a99b78;
+    --line:rgba(255,203,61,0.22);
+    --glass:rgba(255,255,255,0.05);
+    --danger:#e0554f;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    font-family:'Vazirmatn', sans-serif;
+    background:radial-gradient(1200px 800px at 50% -10%, var(--void-2), var(--void) 60%);
+    color:var(--parchment);
+    min-height:100%;
+    display:flex; flex-direction:column; align-items:center;
+    padding:32px 16px 64px;
+  }
+  .wrap{ width:100%; max-width:640px; }
+  header.top{ text-align:center; margin-bottom:28px; }
+  header.top .badge{
+    display:inline-block; font-size:11px; font-weight:700; letter-spacing:0.12em;
+    color:var(--void); background:var(--gold); padding:4px 14px; border-radius:999px; margin-bottom:12px;
+  }
+  header.top h1{ font-size:19px; font-weight:800; }
+  header.top p{ font-size:12.5px; color:var(--parchment-dim); margin-top:6px; }
+
+  .card{
+    background:var(--glass);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:22px;
+    margin-bottom:18px;
+  }
+  .card h2{ font-size:14.5px; font-weight:700; margin-bottom:14px; color:var(--gold); }
+
+  label{ display:block; font-size:12.5px; color:var(--parchment-dim); margin-bottom:6px; }
+  input[type=email], input[type=password], textarea{
+    width:100%;
+    font-family:inherit; font-size:14px; color:var(--parchment);
+    background:rgba(0,0,0,0.25);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:11px 13px;
+    margin-bottom:14px;
+    resize:vertical;
+  }
+  textarea{ min-height:78px; line-height:1.8; }
+  input::placeholder, textarea::placeholder{ color:var(--parchment-dim); opacity:0.6; }
+  input:focus, textarea:focus{ outline:none; border-color:var(--gold-soft); }
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    width:100%;
+    font-family:inherit; font-size:14px; font-weight:700;
+    color:var(--void); background:var(--gold);
+    border:none; border-radius:10px;
+    padding:12px 16px; cursor:pointer;
+    transition:filter 0.15s ease;
+  }
+  .btn:hover{ filter:brightness(1.08); }
+  .btn:disabled{ opacity:0.55; cursor:not-allowed; }
+  .btn.secondary{
+    background:transparent; color:var(--parchment); border:1px solid var(--line);
+  }
+  .btn.danger{ background:var(--danger); color:#fff; }
+  .btn-row{ display:flex; gap:10px; }
+  .btn-row .btn{ width:auto; flex:1; }
+
+  .msg{ font-size:12.5px; border-radius:10px; padding:10px 12px; margin-bottom:14px; display:none; }
+  .msg.show{ display:block; }
+  .msg.error{ background:rgba(224,85,79,0.15); color:#ff8f8a; border:1px solid rgba(224,85,79,0.3); }
+  .msg.ok{ background:rgba(34,193,127,0.15); color:var(--crimson-bright); border:1px solid rgba(34,193,127,0.3); }
+
+  .lang-tabs{ display:flex; gap:8px; margin-bottom:10px; }
+  .lang-tab{
+    font-size:12px; font-weight:700; color:var(--parchment-dim);
+    background:transparent; border:1px solid var(--line); border-radius:999px;
+    padding:6px 14px; cursor:pointer;
+  }
+  .lang-tab.active{ color:var(--void); background:var(--gold); border-color:var(--gold); }
+
+  .status-row{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:14px;
+  }
+  .switch{ position:relative; width:42px; height:24px; }
+  .switch input{ opacity:0; width:0; height:0; }
+  .slider{
+    position:absolute; inset:0; background:rgba(255,255,255,0.15);
+    border-radius:999px; cursor:pointer; transition:0.2s;
+  }
+  .slider::before{
+    content:''; position:absolute; width:18px; height:18px; right:3px; top:3px;
+    background:var(--parchment); border-radius:50%; transition:0.2s;
+  }
+  .switch input:checked + .slider{ background:var(--crimson-bright); }
+  .switch input:checked + .slider::before{ transform:translateX(-18px); }
+
+  .list-item{
+    border:1px solid var(--line); border-radius:12px; padding:12px 14px; margin-bottom:10px;
+    display:flex; flex-direction:column; gap:8px;
+  }
+  .list-item .text{ font-size:13.5px; line-height:1.8; }
+  .list-item .meta{ font-size:11px; color:var(--parchment-dim); display:flex; align-items:center; gap:8px; }
+  .dot{ width:7px; height:7px; border-radius:50%; background:var(--parchment-dim); }
+  .dot.active{ background:var(--crimson-bright); }
+  .list-item .actions{ display:flex; gap:8px; }
+  .list-item .actions button{
+    font-family:inherit; font-size:11.5px; font-weight:700; cursor:pointer;
+    border-radius:8px; padding:6px 10px; border:1px solid var(--line);
+    background:transparent; color:var(--parchment-dim);
+  }
+  .list-item .actions button.act{ color:var(--crimson-bright); border-color:rgba(34,193,127,0.4); }
+  .list-item .actions button.del{ color:#ff8f8a; border-color:rgba(224,85,79,0.35); }
+  .empty{ font-size:12.5px; color:var(--parchment-dim); text-align:center; padding:14px 0; }
+
+  #app-view{ display:none; }
+  .logout-row{ text-align:left; margin-bottom:14px; }
+  .logout-row button{
+    font-family:inherit; font-size:12px; color:var(--parchment-dim);
+    background:transparent; border:none; cursor:pointer; text-decoration:underline;
+  }
+  .spinner{
+    width:16px; height:16px; border-radius:50%;
+    border:2px solid rgba(7,23,16,0.35); border-top-color:var(--void);
+    animation:spin 0.7s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <span class="badge">پنل مدیریت</span>
+    <h1>اطلاعیهٔ سایت هیئت کاظمیون</h1>
+    <p>از این‌جا متن نوار اعلان و کادر ویژهٔ صفحهٔ اصلی را بدون دست‌زدن به کد تغییر بده.</p>
+  </header>
+
+  <!-- ورود -->
+  <div id="login-view" class="card">
+    <h2>ورود</h2>
+    <div id="login-msg" class="msg error"></div>
+    <label for="login-email">ایمیل</label>
+    <input id="login-email" type="email" placeholder="admin@example.com" autocomplete="username">
+    <label for="login-pass">رمز عبور</label>
+    <input id="login-pass" type="password" placeholder="••••••••" autocomplete="current-password">
+    <button id="login-btn" class="btn">ورود</button>
+  </div>
+
+  <!-- پنل اصلی -->
+  <div id="app-view">
+    <div class="logout-row"><button id="logout-btn">خروج از حساب</button></div>
+
+    <div class="card">
+      <h2>افزودن اطلاعیهٔ جدید</h2>
+      <div id="form-msg" class="msg"></div>
+      <div class="lang-tabs">
+        <button type="button" class="lang-tab active" data-lang="fa">فارسی</button>
+        <button type="button" class="lang-tab" data-lang="ar">عربی</button>
+        <button type="button" class="lang-tab" data-lang="en">English</button>
+      </div>
+      <label id="ta-label" for="ta-fa">متن اطلاعیه (فارسی) — الزامی</label>
+      <textarea id="ta-fa" placeholder="مثلاً: مراسم شب جمعه ساعت ۲۱ در مسجد حضرت قائم(عج) برگزار می‌شود."></textarea>
+      <textarea id="ta-ar" style="display:none" placeholder="النص بالعربية (اختياري — در صورت خالی‌بودن، از متن فارسی استفاده می‌شود)"></textarea>
+      <textarea id="ta-en" style="display:none" placeholder="English text (optional — falls back to Persian if left empty)"></textarea>
+
+      <div class="status-row">
+        <label style="margin:0;">فعال‌سازی فوری روی سایت</label>
+        <label class="switch">
+          <input type="checkbox" id="new-active" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <button id="save-btn" class="btn">ذخیره و انتشار</button>
+    </div>
+
+    <div class="card">
+      <h2>اطلاعیه‌های قبلی</h2>
+      <div id="list-wrap"><div class="empty">در حال بارگذاری…</div></div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js';
+  import {
+    getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut
+  } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js';
+  import {
+    getFirestore, collection, doc, setDoc, getDoc, getDocs,
+    addDoc, deleteDoc, updateDoc, serverTimestamp, query, orderBy, writeBatch
+  } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js';
+
+  // ⚠️ همین مقادیر را از Firebase Console (Project settings → Your apps) کپی و جایگزین کن.
+  // این مقادیر عمومی هستند و امنیت واقعی از طریق Firestore Security Rules تأمین می‌شود، نه پنهان‌کردن این‌ها.
+  const firebaseConfig = {
+    apiKey: "AIzaSyDRxGiJOefzilFlkW4ELul-PL3LM6yAZnE",
+    authDomain: "kazemiuon-f8935.firebaseapp.com",
+    projectId: "kazemiuon-f8935",
+    storageBucket: "kazemiuon-f8935.firebasestorage.app",
+    messagingSenderId: "462569689670",
+    appId: "1:462569689670:web:0cd3c6d93f65dca69eb047"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  const loginView = document.getElementById('login-view');
+  const appView = document.getElementById('app-view');
+  const loginMsg = document.getElementById('login-msg');
+  const formMsg = document.getElementById('form-msg');
+
+  function showMsg(el, text, type){
+    el.textContent = text;
+    el.className = 'msg show ' + type;
+  }
+  function hideMsg(el){ el.className = 'msg'; }
+
+  // ---------------- ورود / خروج ----------------
+  document.getElementById('login-btn').addEventListener('click', async () => {
+    hideMsg(loginMsg);
+    const email = document.getElementById('login-email').value.trim();
+    const pass = document.getElementById('login-pass').value;
+    if(!email || !pass){
+      showMsg(loginMsg, 'ایمیل و رمز عبور را وارد کن.', 'error');
+      return;
+    }
+    try{
+      await signInWithEmailAndPassword(auth, email, pass);
+    }catch(err){
+      showMsg(loginMsg, 'ورود ناموفق بود. ایمیل یا رمز عبور را بررسی کن.', 'error');
+    }
+  });
+
+  document.getElementById('logout-btn').addEventListener('click', () => signOut(auth));
+
+  onAuthStateChanged(auth, (user) => {
+    if(user){
+      loginView.style.display = 'none';
+      appView.style.display = 'block';
+      loadAnnouncements();
+    }else{
+      loginView.style.display = 'block';
+      appView.style.display = 'none';
+    }
+  });
+
+  // ---------------- تب‌های زبان در فرم ----------------
+  const tabs = document.querySelectorAll('.lang-tab');
+  const areas = { fa: document.getElementById('ta-fa'), ar: document.getElementById('ta-ar'), en: document.getElementById('ta-en') };
+  const taLabel = document.getElementById('ta-label');
+  const labelText = { fa: 'متن اطلاعیه (فارسی) — الزامی', ar: 'متن اطلاعیه (عربی) — اختیاری', en: 'متن اطلاعیه (انگلیسی) — اختیاری' };
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      Object.values(areas).forEach(a => a.style.display = 'none');
+      const lang = tab.dataset.lang;
+      areas[lang].style.display = '';
+      taLabel.textContent = labelText[lang];
+    });
+  });
+
+  // ---------------- ذخیرهٔ اطلاعیهٔ جدید ----------------
+  const annCol = collection(db, 'announcements');
+  const activeDocRef = doc(db, 'settings', 'announcement');
+
+  document.getElementById('save-btn').addEventListener('click', async () => {
+    hideMsg(formMsg);
+    const fa = areas.fa.value.trim();
+    const ar = areas.ar.value.trim();
+    const en = areas.en.value.trim();
+    const makeActive = document.getElementById('new-active').checked;
+
+    if(!fa){
+      showMsg(formMsg, 'متن فارسی اطلاعیه الزامی است.', 'error');
+      return;
+    }
+
+    const saveBtn = document.getElementById('save-btn');
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'در حال ذخیره…';
+
+    try{
+      const newDoc = await addDoc(annCol, {
+        fa, ar, en,
+        active: makeActive,
+        createdAt: serverTimestamp()
+      });
+
+      if(makeActive){
+        await activateAnnouncement(newDoc.id, { fa, ar, en });
+      }
+
+      areas.fa.value = ''; areas.ar.value = ''; areas.en.value = '';
+      showMsg(formMsg, 'اطلاعیه ذخیره شد.' + (makeActive ? ' هم‌اکنون روی سایت نمایش داده می‌شود.' : ''), 'ok');
+      loadAnnouncements();
+    }catch(err){
+      showMsg(formMsg, 'خطا در ذخیره‌سازی. اتصال یا دسترسی را بررسی کن.', 'error');
+    }finally{
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'ذخیره و انتشار';
+    }
+  });
+
+  // فقط یک اطلاعیه هم‌زمان "فعال" است: هم در settings/announcement (که سایت می‌خواند)
+  // و هم به‌صورت فلگ روی خود سند، برای نمایش درست در لیست.
+  async function activateAnnouncement(id, text){
+    await setDoc(activeDocRef, { ...text, active: true, sourceId: id, updatedAt: serverTimestamp() });
+    const snap = await getDocs(annCol);
+    const batch = writeBatch(db);
+    snap.forEach(d => {
+      batch.update(doc(db, 'announcements', d.id), { active: d.id === id });
+    });
+    await batch.commit();
+  }
+
+  async function deactivateAll(){
+    await setDoc(activeDocRef, { active: false, updatedAt: serverTimestamp() }, { merge: true });
+    const snap = await getDocs(annCol);
+    const batch = writeBatch(db);
+    snap.forEach(d => batch.update(doc(db, 'announcements', d.id), { active: false }));
+    await batch.commit();
+  }
+
+  // ---------------- فهرست اطلاعیه‌های قبلی ----------------
+  async function loadAnnouncements(){
+    const listWrap = document.getElementById('list-wrap');
+    listWrap.innerHTML = '<div class="empty">در حال بارگذاری…</div>';
+    try{
+      const q = query(annCol, orderBy('createdAt', 'desc'));
+      const snap = await getDocs(q);
+      if(snap.empty){
+        listWrap.innerHTML = '<div class="empty">هنوز اطلاعیه‌ای ثبت نشده.</div>';
+        return;
+      }
+      listWrap.innerHTML = '';
+      snap.forEach(d => {
+        const data = d.data();
+        const item = document.createElement('div');
+        item.className = 'list-item';
+        const date = data.createdAt && data.createdAt.toDate ? data.createdAt.toDate().toLocaleDateString('fa-IR') : '';
+        item.innerHTML = `
+          <div class="text">${escapeHtml(data.fa || '')}</div>
+          <div class="meta"><span class="dot ${data.active ? 'active' : ''}"></span>${data.active ? 'در حال نمایش روی سایت' : 'غیرفعال'} ${date ? '· ' + date : ''}</div>
+          <div class="actions">
+            <button class="act" data-id="${d.id}">${data.active ? 'خارج‌کردن از نمایش' : 'نمایش روی سایت'}</button>
+            <button class="del" data-id="${d.id}">حذف</button>
+          </div>`;
+        listWrap.appendChild(item);
+      });
+
+      listWrap.querySelectorAll('.act').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const id = btn.dataset.id;
+          const isCurrentlyActive = btn.textContent.includes('خارج');
+          btn.disabled = true;
+          if(isCurrentlyActive){
+            await deactivateAll();
+          }else{
+            const snap = await getDoc(doc(db, 'announcements', id));
+            const data = snap.data();
+            await activateAnnouncement(id, { fa: data.fa, ar: data.ar, en: data.en });
+          }
+          loadAnnouncements();
+        });
+      });
+
+      listWrap.querySelectorAll('.del').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          if(!confirm('این اطلاعیه حذف شود؟')) return;
+          const id = btn.dataset.id;
+          btn.disabled = true;
+          await deleteDoc(doc(db, 'announcements', id));
+          loadAnnouncements();
+        });
+      });
+    }catch(err){
+      listWrap.innerHTML = '<div class="empty">خطا در بارگذاری فهرست.</div>';
+    }
+  }
+
+  function escapeHtml(str){
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+</script>
+</body>
+</html>
