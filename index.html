@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- ===== Security hardening ===== -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.tile.openstreetmap.org; media-src 'self'; connect-src 'self' https://*.tile.openstreetmap.org https://api.open-meteo.com https://firestore.googleapis.com https://*.googleapis.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.tile.openstreetmap.org; media-src 'self'; connect-src 'self' https://*.tile.openstreetmap.org https://api.open-meteo.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
@@ -4563,54 +4563,6 @@
     window.addEventListener('appinstalled', () => {
       if(row) row.style.display = 'none';
     });
-  })();
-
-  /* ============================================================
-     اطلاعیهٔ زنده (Firebase) — نوار متحرک + کادر اعلان
-     محتوا از پنل مدیریت (admin.html) در Firestore ذخیره و از اینجا خوانده می‌شود.
-     اگر اتصال برقرار نشود، همان متن پیش‌فرض داخل صفحه نمایش داده می‌ماند.
-  ============================================================ */
-  (async function liveAnnouncement(){
-    try{
-      const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js');
-      const { getFirestore, doc, getDoc } =
-        await import('https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js');
-
-      // پیکربندی پروژهٔ Firebase — این مقادیر عمومی و امن برای انتشار در کد سمت‌کاربر هستند.
-      const firebaseConfig = {
-        apiKey: "AIzaSyDRxGiJOefzilFlkW4ELul-PL3LM6yAZnE",
-        authDomain: "kazemiuon-f8935.firebaseapp.com",
-        projectId: "kazemiuon-f8935",
-        storageBucket: "kazemiuon-f8935.firebasestorage.app",
-        messagingSenderId: "462569689670",
-        appId: "1:462569689670:web:0cd3c6d93f65dca69eb047"
-      };
-
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
-
-      const snap = await getDoc(doc(db, 'settings', 'announcement'));
-      if(!snap.exists()) return;
-      const data = snap.data();
-      if(!data || data.active === false || !data.fa) return;
-
-      const perLang = {
-        fa: data.fa,
-        ar: data.ar && data.ar.trim() ? data.ar : data.fa,
-        en: data.en && data.en.trim() ? data.en : data.fa
-      };
-
-      Object.keys(perLang).forEach(lang => {
-        if(translations[lang]){
-          translations[lang].tickerText = perLang[lang];
-          translations[lang].annTitle = perLang[lang];
-        }
-      });
-
-      setLang(currentLang);
-    }catch(err){
-      // شکست بی‌صدا: متن پیش‌فرض همان چیزی می‌ماند که داخل صفحه نوشته شده
-    }
   })();
 </script>
 </body>
