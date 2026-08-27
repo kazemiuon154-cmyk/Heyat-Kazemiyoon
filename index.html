@@ -1750,6 +1750,32 @@
   #qr-main-img{ image-rendering:pixelated; image-rendering:-moz-crisp-edges; image-rendering:crisp-edges; }
   .qr-modal-caption{ text-align:center; font-size:13px; color:var(--parchment-dim); }
 
+  /* ============================================================
+     PWA INSTALL WARNING MODAL (هشدار سازگاری مرورگر)
+  ============================================================ */
+  .pwa-warn-icon-wrap{
+    width:56px; height:56px; margin:2px auto 14px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:50%;
+    background:rgba(255,159,67,0.14);
+    box-shadow:0 0 0 1px rgba(255,159,67,0.35) inset;
+  }
+  .pwa-warn-icon-wrap svg{ width:27px; height:27px; color:#ff9f43; }
+  .pwa-warn-ribbon{
+    display:inline-block;
+    font-size:10.5px; font-weight:700; letter-spacing:0.14em;
+    color:var(--void); background:#ff9f43;
+    padding:4px 14px; border-radius:999px;
+    margin-bottom:16px;
+  }
+  .pwa-warn-desc{
+    font-size:13px; line-height:1.95; color:var(--parchment-dim);
+    margin-top:10px;
+  }
+  .pwa-warn-desc b{ color:var(--parchment); font-weight:700; unicode-bidi:plaintext; }
+  .pwa-warn-actions{ margin-top:18px; }
+  .pwa-warn-actions .qr-btn{ width:100%; }
+
   .share-btn.copy-link{
     background:linear-gradient(135deg, var(--gold-dim), var(--gold-soft));
     color:var(--void);
@@ -2236,6 +2262,27 @@
     <div class="modal-title" id="qr-modal-title" data-i18n="qrChipSite">سایت هیئت</div>
     <div class="qr-modal-image"><img id="qr-modal-img" alt="QR Code"></div>
     <div class="qr-modal-caption" data-i18n="qrHint">برای بزرگ‌نمایی، روی کد لمس کنید</div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="pwa-warn-modal-overlay">
+  <div class="modal-sheet" role="dialog" aria-modal="true" aria-label="Browser install warning">
+    <button type="button" class="modal-close" id="pwa-warn-modal-close" aria-label="بستن">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <div class="modal-handle"></div>
+    <div class="pwa-warn-icon-wrap">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 3.4 21.6 20.1H2.4L12 3.4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 9.6v4.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="16.9" r="1" fill="currentColor"/></svg>
+    </div>
+    <div class="pwa-warn-ribbon" data-i18n="pwaWarnRibbon">هشدار</div>
+    <div class="modal-title" data-i18n="pwaWarnTitle">نصب مستقیم در این مرورگر پشتیبانی نمی‌شود</div>
+    <div class="pwa-warn-desc" data-i18n="pwaWarnDesc">به نظر می‌رسد از <b>Samsung Internet</b> یا <b>Microsoft Edge</b> استفاده می‌کنید؛ نصب اپلیکیشن تحت وب در این مرورگرها به‌درستی انجام نمی‌شود. لینک سایت را کپی کرده و آن را در <b>Google Chrome</b> باز کنید تا نصب کامل شود.</div>
+    <div class="pwa-warn-actions">
+      <button type="button" class="qr-btn" id="pwa-warn-copy-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="10" height="10" rx="2"/><path d="M6 15H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1"/></svg>
+        <span data-i18n="pwaWarnCopyBtn">کپی لینک سایت</span>
+      </button>
+    </div>
   </div>
 </div>
 
@@ -3043,6 +3090,11 @@
       qrDownloadBtn: "ذخیره QR",
       qrModalRibbon: "کد QR",
       qrSavedToast: "تصویر QR ذخیره شد",
+      pwaWarnRibbon: "هشدار",
+      pwaWarnTitle: "نصب مستقیم در این مرورگر پشتیبانی نمی‌شود",
+      pwaWarnDesc: "به نظر می‌رسد از <b>Samsung Internet</b> یا <b>Microsoft Edge</b> استفاده می‌کنید؛ نصب اپلیکیشن تحت وب در این مرورگرها به‌درستی انجام نمی‌شود. لینک سایت را کپی کرده و آن را در <b>Google Chrome</b> باز کنید تا نصب کامل شود.",
+      pwaWarnCopyBtn: "کپی لینک سایت",
+      pwaWarnCopyToast: "لینک سایت کپی شد",
       footerSub: "پایگاه اطلاع‌رسانی هیئت کاظمیون خرم‌آباد"
     },
     ar: {
@@ -3124,6 +3176,11 @@
       qrDownloadBtn: "حفظ الرمز",
       qrModalRibbon: "رمز QR",
       qrSavedToast: "تم حفظ صورة الرمز",
+      pwaWarnRibbon: "تنبيه",
+      pwaWarnTitle: "التثبيت المباشر غير مدعوم في هذا المتصفح",
+      pwaWarnDesc: "يبدو أنك تستخدم <b>Samsung Internet</b> أو <b>Microsoft Edge</b>؛ لا يعمل تثبيت التطبيق بشكل صحيح في هذه المتصفحات. انسخ رابط الموقع وافتحه في <b>Google Chrome</b> لإتمام عملية التثبيت.",
+      pwaWarnCopyBtn: "نسخ رابط الموقع",
+      pwaWarnCopyToast: "تم نسخ رابط الموقع",
       footerSub: "القناة الرسمية لموكب الكاظميون خرم‌آباد"
     },
     en: {
@@ -3205,6 +3262,11 @@
       qrDownloadBtn: "Save QR",
       qrModalRibbon: "QR Code",
       qrSavedToast: "QR image saved",
+      pwaWarnRibbon: "Warning",
+      pwaWarnTitle: "Direct install isn't supported in this browser",
+      pwaWarnDesc: "It looks like you're using <b>Samsung Internet</b> or <b>Microsoft Edge</b>; the web-app install doesn't work correctly in these browsers. Copy the site link and open it in <b>Google Chrome</b> to complete the installation.",
+      pwaWarnCopyBtn: "Copy site link",
+      pwaWarnCopyToast: "Site link copied",
       footerSub: "Official channel of Heyat-e Kazemiyoon Khorramabad"
     }
   };
@@ -3253,6 +3315,37 @@
       document.body.removeChild(ta);
     }
   }
+
+  // ---------------- PWA install: تشخیص مرورگرهایی که نصب در آن‌ها به‌درستی کار نمی‌کند ----------------
+  function isUnsupportedInstallBrowser(){
+    const ua = navigator.userAgent || '';
+    return /SamsungBrowser/i.test(ua) || /Edg(A|iOS)?\//i.test(ua);
+  }
+
+  const pwaWarnOverlay = document.getElementById('pwa-warn-modal-overlay');
+  function openPwaWarnModal(){
+    if(!pwaWarnOverlay) return;
+    pwaWarnOverlay.classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+  function closePwaWarnModal(){
+    if(!pwaWarnOverlay) return;
+    pwaWarnOverlay.classList.remove('show');
+    document.body.style.overflow = '';
+  }
+  (function pwaWarnModalSetup(){
+    if(!pwaWarnOverlay) return;
+    const closeBtn = document.getElementById('pwa-warn-modal-close');
+    const copyBtn = document.getElementById('pwa-warn-copy-btn');
+    if(closeBtn) closeBtn.addEventListener('click', closePwaWarnModal);
+    pwaWarnOverlay.addEventListener('click', (e) => { if(e.target === pwaWarnOverlay) closePwaWarnModal(); });
+    if(copyBtn){
+      copyBtn.addEventListener('click', () => {
+        const dict = translations[currentLang] || translations.fa;
+        copyText(window.location.href, dict.pwaWarnCopyToast || 'Link copied');
+      });
+    }
+  })();
 
   // ---------------- copy: share link ----------------
   (function shareCopy(){
@@ -3935,7 +4028,13 @@
       installBtn.classList.add('show');
     });
 
-    installBtn.addEventListener('click', async () => {
+    installBtn.addEventListener('click', async (e) => {
+      if(isUnsupportedInstallBrowser()){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        openPwaWarnModal();
+        return;
+      }
       if(!deferredPrompt) return;
       installBtn.classList.remove('show');
       deferredPrompt.prompt();
