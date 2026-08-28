@@ -1256,13 +1256,9 @@
         '<span>' + label + '</span>';
       a.addEventListener('pointerenter', () => prefetchPage(url), { once:true });
       a.addEventListener('touchstart', () => prefetchPage(url), { once:true, passive:true });
-      a.addEventListener('click', function(e){
-        if(e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-        e.preventDefault();
-        prefetchPage(url);
-        document.body.classList.add('page-exit');
-        setTimeout(() => { window.location.href = url; }, 240);
-      });
+      /* لینک عادی است و بی‌درنگ باز می‌شود؛ پیش‌بارگذاری بالا هنوز فعال است
+         تا صفحه مقصد سریع‌تر لود شود، اما دیگر منتظر انیمیشن محو شدن
+         نمی‌مانیم که باعث لگ می‌شد. */
       scrollEl.appendChild(a);
       scrollToBottom();
       prefetchPage(url);
@@ -1643,13 +1639,9 @@
     trigger.addEventListener('touchstart', prefetchTarget, { once:true, passive:true });
     trigger.addEventListener('focus', prefetchTarget, { once:true });
 
-    trigger.addEventListener('click', function(e){
-      if(e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      e.preventDefault();
-      prefetchTarget();
-      document.body.classList.add('page-exit');
-      setTimeout(() => { window.location.href = targetHref; }, 240);
-    });
+    /* لینک بازگشت الان یک لینک عادی است و بی‌درنگ باز می‌شود؛ پیش‌بارگذاری
+       بالا هنوز فعال است تا صفحه اول سریع‌تر لود شود، اما دیگر منتظر
+       انیمیشن محو شدن نمی‌مانیم که باعث لگ می‌شد. */
   })();
 
   // ذرات ریز طلایی پس‌زمینه (امبر)

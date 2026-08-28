@@ -680,12 +680,9 @@
     const trigger = document.getElementById('zekr-page-back');
     if(!trigger) return;
     const targetHref = trigger.getAttribute('href');
-    trigger.addEventListener('click', function(e){
-      if(e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      e.preventDefault();
-      document.body.classList.add('page-exit');
-      setTimeout(() => { window.location.href = targetHref; }, 240);
-    });
+    /* لینک بازگشت الان یک لینک عادی است و بی‌درنگ باز می‌شود؛ پیش‌بارگذاری
+       بالا هنوز فعال است تا صفحه اول سریع‌تر لود شود، اما دیگر منتظر
+       انیمیشن محو شدن نمی‌مانیم که باعث لگ می‌شد. */
   })();
 
   // ذرات ریز طلایی پس‌زمینه (امبر)

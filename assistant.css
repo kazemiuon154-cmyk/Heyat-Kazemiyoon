@@ -371,15 +371,15 @@
   position:fixed;
   left:12px;
   bottom:174px;
-  max-width:min(62vw,230px);
+  max-width:min(70vw,270px);
   background:linear-gradient(160deg, rgba(20,30,25,0.97), rgba(10,18,14,0.97));
   border:1px solid var(--line,rgba(255,203,61,0.22));
   border-radius:13px;
-  padding:9px 11px;
+  padding:11px 13px;
   color:var(--parchment,#f3ead0);
   font-family:'Vazirmatn',sans-serif;
-  font-size:12px;
-  line-height:1.7;
+  font-size:14.5px;
+  line-height:1.85;
   box-shadow:0 8px 22px rgba(0,0,0,0.5);
   z-index:9991;
   opacity:0;
@@ -399,7 +399,7 @@
   border-bottom:1px solid var(--line,rgba(255,203,61,0.22));
   transform:rotate(-45deg);
 }
-.kzm-bubble-title{ font-weight:700; color:var(--gold,#ffcb3d); margin-bottom:3px; font-size:12.5px; }
+.kzm-bubble-title{ font-weight:700; color:var(--gold,#ffcb3d); margin-bottom:4px; font-size:15px; }
 .kzm-bubble-text{ opacity:0.92; }
 .kzm-bubble-actions{ display:flex; gap:6px; margin-top:8px; }
 .kzm-bubble-more{
@@ -407,14 +407,14 @@
   border:1px solid rgba(var(--crimson-rgb,14,155,98),0.4);
   color:var(--parchment,#f3ead0);
   border-radius:20px;
-  padding:4px 10px;
-  font-size:10.5px;
+  padding:5px 12px;
+  font-size:12px;
   font-family:inherit;
   cursor:pointer;
 }
 .kzm-bubble-close{
   background:none; border:none; color:var(--parchment-dim,#a99b78);
-  font-size:10.5px; cursor:pointer; padding:4px 6px; font-family:inherit;
+  font-size:12px; cursor:pointer; padding:5px 7px; font-family:inherit;
 }
 
 .kzm-overlay{
@@ -441,8 +441,8 @@
 .kzm-overlay.kzm-show .kzm-overlay-card{ transform:translateY(0) scale(1); }
 .kzm-overlay-head{ display:flex; align-items:center; gap:10px; margin-bottom:14px; }
 .kzm-overlay-avatar{ width:40px; height:40px; flex-shrink:0; }
-.kzm-overlay-title{ font-weight:800; color:var(--gold,#ffcb3d); font-size:17px; }
-.kzm-overlay-text{ font-size:14.5px; line-height:2.1; opacity:0.94; white-space:pre-line; }
+.kzm-overlay-title{ font-weight:800; color:var(--gold,#ffcb3d); font-size:18.5px; }
+.kzm-overlay-text{ font-size:16.5px; line-height:2; opacity:0.94; white-space:pre-line; }
 .kzm-overlay-close{
   position:absolute; top:16px; left:16px;
   width:34px; height:34px; border-radius:50%;
