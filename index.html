@@ -2024,11 +2024,11 @@
   ============================================================ */
   .downloads-fab{
     position:fixed;
-    left:16px;
-    bottom:calc(20px + env(safe-area-inset-bottom, 0px));
+    right:14px;
+    bottom:calc(18px + env(safe-area-inset-bottom, 0px));
     z-index:56;
-    display:flex; align-items:center; gap:9px;
-    padding:12px 20px 12px 16px;
+    display:flex; align-items:center; gap:6px;
+    padding:8px 14px 8px 11px;
     border-radius:999px;
     border:1px solid var(--gold-soft);
     background:linear-gradient(135deg, var(--gold), var(--gold-dim));
@@ -2058,15 +2058,15 @@
   }
   .downloads-fab-badge{
     display:flex; align-items:center; justify-content:center;
-    width:26px; height:26px; flex:none;
+    width:20px; height:20px; flex:none;
     border-radius:50%;
     background:radial-gradient(120% 120% at 30% 20%, rgba(255,255,255,0.55), rgba(255,255,255,0.08) 60%), rgba(14,9,6,0.16);
     box-shadow:0 1px 0 rgba(255,255,255,0.5) inset, 0 2px 5px rgba(0,0,0,0.22);
   }
-  .downloads-fab-badge svg{ width:15px; height:15px; flex:none; }
+  .downloads-fab-badge svg{ width:12px; height:12px; flex:none; }
   .downloads-fab-label{
     font-family:'Vazirmatn', sans-serif;
-    font-size:12.5px;
+    font-size:11px;
     font-weight:800;
     letter-spacing:-0.2px;
   }
@@ -2127,6 +2127,7 @@
   .download-btn.loading .dl-icon{ display:none; }
   .download-btn.loading .dl-icon-cancel{ display:block; animation:none; }
 </style>
+<link rel="stylesheet" href="assistant.css">
 </head>
 <body>
 <div id="loader" class="loader">
@@ -4619,5 +4620,42 @@
     });
   })();
 </script>
+<script>
+window.KZM_ASSISTANT_CONFIG = {
+  pageKey: 'index',
+  greeting: {
+    title: 'سلام و خوش اومدی 👋',
+    short: 'من دستیار سایت هیئتم! هر جا بری، کنارتم و بخش‌ها رو برات توضیح می‌دم.',
+    full: 'سلام! به سایت هیئت کاظمیون خرم‌آباد خوش اومدی.\n\nمن دستیار همراه سایتم؛ وقتی بین بخش‌های مختلف صفحه جابه‌جا می‌شی، یه توضیح کوتاه برات نشون می‌دم و اگه دوست داشته باشی می‌تونی روی «بیشتر بدون» بزنی تا توضیح کامل‌تر رو تمام‌صفحه ببینی.\n\nهر وقت خواستی دوباره باهام صحبت کنی، کافیه روی همین شکلک بزنی.'
+  },
+  sections: [
+    { key:'services', selector:'#services-panel',
+      title:'منوی خدمات سریع',
+      short:'از اینجا به تمام بخش‌های سایت مثل مداحی، اوقات شرعی و ادعیه دسترسی داری.',
+      full:'این منو دسترسی سریع به همه‌ی خدمات سایت رو در یک‌جا جمع کرده: مداحی و مولودی‌خوانی، اوقات شرعی، صلوات‌شمار، ادعیه و زیارت‌نامه‌ها، تبدیل تاریخ، نذورات، گالری تصاویر و پرسش و پاسخ.\n\nکافیه روی هر آیکون بزنی تا مستقیم به همون صفحه بری.' },
+    { key:'prayer', selector:'#prayer-widget-card',
+      title:'اوقات شرعی',
+      short:'اذان بعدی و شمارش معکوس تا اون رو همین‌جا می‌بینی.',
+      full:'این کارت، اذان بعدی و زمان دقیق شش وقت شرعی امروز (اذان صبح، طلوع، ظهر، عصر، مغرب و عشاء) رو برای خرم‌آباد نشون می‌ده و هر لحظه به‌روز می‌شه.\n\nاگه بخوای اوقات شرعی شهرهای دیگه رو هم ببینی، روی لینک «اوقات شرعی سایر شهرها» پایین همین کارت بزن.' },
+    { key:'hadith', selector:'.hadith-card',
+      title:'حدیث روز',
+      short:'هر روز یک حدیث تازه، با متن عربی و ترجمه فارسی.',
+      full:'این بخش، حدیث روز رو به همراه نام راوی، متن عربی، ترجمه فارسی و منبع نشون می‌ده و هر روز به‌صورت خودکار عوض می‌شه.\n\nمی‌تونی هر روز سر بزنی و یک حدیث تازه بخونی.' },
+    { key:'zekr', selector:'.zekr-entry-card',
+      title:'ذکر روز',
+      short:'با یه ضربه، ذکر روز رو بشمار و رکوردت رو بساز.',
+      full:'با ورود به صفحه‌ی «ذکر روز» می‌تونی ذکر پیشنهادی امروز رو با شمارشگر لمسی بشماری، ترجمه‌ش رو ببینی، رکورد روزهای متوالیت رو دنبال کنی و در صورت اشتباه، شمارش رو برگردونی.' },
+    { key:'map', selector:'#location-map',
+      title:'موقعیت مسجد',
+      short:'آدرس و نقشه‌ی مسجد حضرت قائم (عج) همین‌جاست.',
+      full:'روی نقشه بزن تا مسیر دقیق مسجد حضرت قائم (عج) در نرم‌افزار نقشه گوشیت باز بشه و بتونی مسیر رو پیدا کنی.' },
+    { key:'downloads', selector:'#downloads-fab',
+      title:'مرکز دانلود',
+      short:'تصاویر گالری، مداحی و زیارت‌نامه‌ها رو از اینجا دانلود کن.',
+      full:'دکمه‌ی «مرکز دانلود سایت» همه‌ی فایل‌های قابل‌دانلود سایت رو یک‌جا جمع کرده: عکس‌های گالری، فایل‌های صوتی مداحی و مولودی، و متن زیارت‌نامه‌ها؛ کافیه روی دکمه بزنی و از لیست انتخاب کنی.' }
+  ]
+};
+</script>
+<script src="assistant.js"></script>
 </body>
 </html>

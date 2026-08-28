@@ -1,0 +1,457 @@
+/* ===== دستیار شناور سایت کاظمیون ===== */
+  /* ---------------- شکلک متحرک دستیار (ساخته‌شده با کد، بدون شکلک ایموجی) ---------------- */
+  .kzm-mascot-wrap{
+    display:flex;
+    justify-content:center;
+    margin:16px 0 2px;
+  }
+  .kzm-mascot{
+    position:relative;
+    width:176px; height:176px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    touch-action:manipulation;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .kzm-mascot-glow{
+    position:absolute;
+    inset:14px;
+    border-radius:50%;
+    background:radial-gradient(circle at 42% 32%, rgba(var(--crimson-rgb),0.38), transparent 68%);
+    filter:blur(10px);
+    animation:kzmGlowPulse 3s ease-in-out infinite;
+  }
+  .kzm-mascot-ring{
+    position:absolute;
+    inset:2px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    opacity:0.6;
+    animation:kzmRingPulse 2.6s ease-in-out infinite;
+  }
+  .kzm-mascot-sparkle{
+    position:absolute;
+    width:11px; height:11px;
+    background:var(--gold);
+    clip-path:polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    opacity:0;
+    animation:kzmSparkleTwinkle 3.2s ease-in-out infinite;
+    filter:drop-shadow(0 0 4px rgba(var(--crimson-rgb),0.6));
+  }
+  .kzm-mascot-sparkle.s1{ top:2%; left:10%; animation-delay:0s; }
+  .kzm-mascot-sparkle.s2{ top:12%; right:4%; width:8px; height:8px; animation-delay:1.1s; }
+  .kzm-mascot-sparkle.s3{ bottom:10%; left:2%; width:9px; height:9px; animation-delay:2.05s; }
+
+  .kzm-mascot-body{
+    position:relative;
+    width:118px; height:118px;
+    animation:kzmBodyFloat 3.4s ease-in-out infinite;
+    transition:transform 0.35s cubic-bezier(.34,1.56,.64,1);
+  }
+  .kzm-mascot.happy .kzm-mascot-body{
+    animation:none;
+    transform:scale(1.12) rotate(6deg);
+  }
+
+  .kzm-mascot-face{
+    position:relative;
+    width:100%; height:100%;
+    border-radius:50%;
+    overflow:hidden;
+    background:
+      radial-gradient(circle at 32% 24%, rgba(255,255,255,0.55), transparent 42%),
+      linear-gradient(150deg, var(--gold) 0%, var(--gold-soft) 48%, var(--crimson-bright, var(--crimson)) 115%);
+    box-shadow:
+      0 16px 32px rgba(0,0,0,0.4),
+      inset 0 -10px 18px rgba(0,0,0,0.2),
+      inset 0 7px 12px rgba(255,255,255,0.35);
+  }
+
+  .kzm-mascot-cheek{
+    position:absolute;
+    top:56%;
+    width:20px; height:11px;
+    border-radius:50%;
+    background:rgba(255,110,110,0.4);
+    filter:blur(1.5px);
+  }
+  .kzm-mascot-cheek.left{ left:11%; }
+  .kzm-mascot-cheek.right{ right:11%; }
+
+  .kzm-mascot-eye{
+    position:absolute;
+    top:38%;
+    width:13px; height:17px;
+    border-radius:50%;
+    background:#2a1a0c;
+    animation:kzmBlink 4.6s ease-in-out infinite;
+  }
+  .kzm-mascot-eye.left{ left:29%; }
+  .kzm-mascot-eye.right{ right:29%; }
+  .kzm-mascot-eye::after{
+    content:'';
+    position:absolute;
+    top:2px; left:2px;
+    width:4px; height:4px;
+    border-radius:50%;
+    background:#fff;
+    opacity:0.9;
+  }
+
+  .kzm-mascot-mouth{
+    position:absolute;
+    bottom:24%;
+    left:50%;
+    transform:translateX(-50%);
+    width:34px; height:16px;
+    border-bottom:4px solid #2a1a0c;
+    border-radius:0 0 20px 20px;
+    animation:kzmMouthTalk 3.4s ease-in-out infinite;
+  }
+
+  .kzm-mascot-hand{
+    position:absolute;
+    top:0%;
+    width:34px; height:42px;
+    z-index:2;
+  }
+  .kzm-mascot-hand.right{
+    right:-18px;
+    transform-origin:32% 92%;
+    animation:kzmHandWave 2.8s ease-in-out infinite;
+    animation-delay:0.7s;
+  }
+  .kzm-mascot-hand-shape{
+    position:absolute;
+    left:2px; bottom:0;
+    width:24px; height:24px;
+    border-radius:50%;
+    background:linear-gradient(150deg, var(--gold-soft), var(--gold));
+    box-shadow:0 6px 14px rgba(0,0,0,0.4), inset 0 2px 5px rgba(255,255,255,0.4);
+  }
+  .kzm-mascot-hand-shape::before{
+    content:'';
+    position:absolute;
+    bottom:2px;
+    left:-7px;
+    width:11px; height:11px;
+    border-radius:50%;
+    background:inherit;
+    box-shadow:inset 0 2px 3px rgba(255,255,255,0.3);
+  }
+  .kzm-finger{
+    position:absolute;
+    width:7px; height:15px;
+    border-radius:5px;
+    background:linear-gradient(150deg, var(--gold-soft), var(--gold));
+    box-shadow:0 3px 6px rgba(0,0,0,0.35), inset 0 1px 2px rgba(255,255,255,0.4);
+    top:-11px;
+    transform-origin:50% 100%;
+  }
+  .kzm-finger.f1{ left:1px;  height:12px; top:-8px;  transform:rotate(-24deg); }
+  .kzm-finger.f2{ left:7px;  height:16px; top:-13px; transform:rotate(-8deg); }
+  .kzm-finger.f3{ left:13px; height:16px; top:-13px; transform:rotate(8deg); }
+  .kzm-finger.f4{ left:19px; height:12px; top:-8px;  transform:rotate(24deg); }
+
+  .kzm-mascot-eyebrow{
+    position:absolute;
+    top:29%;
+    width:16px; height:3px;
+    border-radius:3px;
+    background:#2a1a0c;
+    opacity:0;
+    transform:translateY(0) rotate(0deg);
+    transition:opacity 0.25s ease, transform 0.25s ease;
+  }
+  .kzm-mascot-eyebrow.left{ left:24%; }
+  .kzm-mascot-eyebrow.right{ right:24%; }
+
+  .kzm-mascot-tear{
+    position:absolute;
+    top:52%;
+    width:6px; height:9px;
+    background:#5fc8ff;
+    border-radius:0 50% 50% 50%;
+    transform:rotate(45deg);
+    opacity:0;
+    filter:drop-shadow(0 0 2px rgba(95,200,255,0.6));
+  }
+  .kzm-mascot-tear.left{ left:26%; }
+  .kzm-mascot-tear.right{ right:26%; }
+
+  @keyframes kzmBodyFloat{
+    0%,100%{ transform:translateY(0) rotate(0deg); }
+    50%{ transform:translateY(-9px) rotate(-2.5deg); }
+  }
+  @keyframes kzmGlowPulse{
+    0%,100%{ opacity:0.5; transform:scale(1); }
+    50%{ opacity:0.9; transform:scale(1.1); }
+  }
+  @keyframes kzmRingPulse{
+    0%,100%{ transform:scale(1); opacity:0.6; }
+    50%{ transform:scale(1.06); opacity:0.15; }
+  }
+  @keyframes kzmSparkleTwinkle{
+    0%,100%{ opacity:0; transform:scale(0.4) rotate(0deg); }
+    50%{ opacity:1; transform:scale(1) rotate(25deg); }
+  }
+  @keyframes kzmBlink{
+    0%,90%,100%{ transform:scaleY(1); }
+    93%{ transform:scaleY(0.1); }
+    96%{ transform:scaleY(1); }
+  }
+  @keyframes kzmMouthTalk{
+    0%,100%{ width:34px; }
+    50%{ width:26px; }
+  }
+  @keyframes kzmHandWave{
+    0%,55%,100%{ transform:rotate(0deg); }
+    62%{ transform:rotate(26deg); }
+    69%{ transform:rotate(-16deg); }
+    76%{ transform:rotate(24deg); }
+    83%{ transform:rotate(-8deg); }
+    90%{ transform:rotate(10deg); }
+  }
+
+  /* ---------------- حالت‌های ری‌اکشن دستیار ---------------- */
+  .kzm-mascot.laugh .kzm-mascot-body{ animation:kzmLaughBounce 0.45s ease-in-out infinite; }
+  .kzm-mascot.laugh .kzm-mascot-eye{ animation:none; transform:scaleY(0.25); }
+  .kzm-mascot.laugh .kzm-mascot-mouth{
+    animation:none;
+    width:28px; height:20px;
+    border:none; border-radius:6px 6px 18px 18px;
+    background:#2a1a0c;
+  }
+  .kzm-mascot.laugh .kzm-mascot-mouth::before{
+    content:''; position:absolute; top:0; left:2px; right:2px; height:6px;
+    background:#fff8e6; border-radius:4px 4px 0 0;
+  }
+  .kzm-mascot.laugh .kzm-mascot-cheek{ filter:saturate(1.6); }
+
+  .kzm-mascot.cry .kzm-mascot-body{ animation:none; transform:translateY(3px) rotate(-2deg); }
+  .kzm-mascot.cry .kzm-mascot-eye{ animation:none; transform:scaleY(0.35) translateY(3px); }
+  .kzm-mascot.cry .kzm-mascot-eyebrow{ opacity:1; background:#5a3d18; }
+  .kzm-mascot.cry .kzm-mascot-eyebrow.left{ transform:translateY(1px) rotate(-16deg); }
+  .kzm-mascot.cry .kzm-mascot-eyebrow.right{ transform:translateY(1px) rotate(16deg); }
+  .kzm-mascot.cry .kzm-mascot-mouth{
+    animation:none;
+    width:22px; height:10px;
+    border:none; border-top:4px solid #2a1a0c;
+    border-radius:14px 14px 0 0;
+    bottom:22%;
+  }
+  .kzm-mascot.cry .kzm-mascot-tear{ animation:kzmTearFall 1s ease-in infinite; }
+  .kzm-mascot.cry .kzm-mascot-tear.right{ animation-delay:0.35s; }
+  .kzm-mascot.cry .kzm-mascot-hand.right{
+    top:24%; right:10px;
+    animation:kzmWipeTear 0.5s ease-in-out infinite;
+  }
+
+
+  .kzm-mascot.angry .kzm-mascot-body{ animation:kzmAngryShake 0.3s ease-in-out infinite; }
+  .kzm-mascot.angry .kzm-mascot-face{ filter:saturate(1.35) hue-rotate(-8deg) brightness(0.96); }
+  .kzm-mascot.angry .kzm-mascot-eye{ animation:none; transform:scaleY(0.55); }
+  .kzm-mascot.angry .kzm-mascot-eyebrow{ opacity:1; background:#3a1a10; }
+  .kzm-mascot.angry .kzm-mascot-eyebrow.left{ transform:translateY(2px) rotate(18deg); }
+  .kzm-mascot.angry .kzm-mascot-eyebrow.right{ transform:translateY(2px) rotate(-18deg); }
+  .kzm-mascot.angry .kzm-mascot-mouth{
+    animation:none;
+    width:22px; height:5px;
+    border:none; border-radius:4px;
+    background:#2a1a0c;
+    transform:translateX(-50%) rotate(3deg);
+  }
+  .kzm-mascot.angry .kzm-mascot-hand .kzm-finger{
+    height:5px; top:-3px; opacity:0.85;
+  }
+  .kzm-mascot.angry .kzm-mascot-hand-shape{
+    background:linear-gradient(150deg, var(--gold-dim), var(--gold-soft));
+  }
+  .kzm-mascot.angry .kzm-mascot-hand.right{
+    top:52%; right:-4px;
+    animation:kzmFistShake 0.22s ease-in-out infinite;
+  }
+
+
+  .kzm-mascot.surprised .kzm-mascot-body{ animation:none; transform:scale(1.08) translateY(-4px); }
+  .kzm-mascot.surprised .kzm-mascot-eye{ animation:none; transform:scale(1.3); }
+  .kzm-mascot.surprised .kzm-mascot-eyebrow{ opacity:1; background:#2a1a0c; }
+  .kzm-mascot.surprised .kzm-mascot-eyebrow.left{ transform:translateY(-4px) rotate(-4deg); }
+  .kzm-mascot.surprised .kzm-mascot-eyebrow.right{ transform:translateY(-4px) rotate(4deg); }
+  .kzm-mascot.surprised .kzm-mascot-mouth{
+    animation:none;
+    width:15px; height:15px;
+    border:none; border-radius:50%;
+    background:#2a1a0c;
+  }
+
+  .kzm-mascot.shy .kzm-mascot-body{ animation:none; transform:scale(0.97) rotate(-3deg); }
+  .kzm-mascot.shy .kzm-mascot-eye{ animation:none; transform:scaleY(0.15) translateY(2px); }
+  .kzm-mascot.shy .kzm-mascot-cheek{ filter:saturate(1.7); }
+  .kzm-mascot.shy .kzm-mascot-mouth{
+    animation:none;
+    width:18px; height:9px;
+    border-bottom:3px solid #2a1a0c;
+    border-radius:0 0 12px 12px;
+  }
+
+  .kzm-mascot.think .kzm-mascot-body{ animation:kzmThinkSway 1.5s ease-in-out infinite; }
+  .kzm-mascot.think .kzm-mascot-eye{ animation:kzmLookAround 1.6s ease-in-out infinite; }
+  .kzm-mascot.think .kzm-mascot-eyebrow.right{ opacity:1; transform:translateY(-3px) rotate(-6deg); }
+  .kzm-mascot.think .kzm-mascot-hand.right{ animation:none; top:44%; right:-6px; transform:rotate(6deg); }
+
+  .kzm-mascot.think .kzm-mascot-mouth{
+    animation:none;
+    width:14px; height:3px;
+    border:none; border-radius:3px;
+    background:#2a1a0c;
+    transform:translateX(-50%) translateX(5px);
+  }
+
+  @keyframes kzmLaughBounce{
+    0%,100%{ transform:translateY(0) rotate(-4deg); }
+    50%{ transform:translateY(-10px) rotate(4deg); }
+  }
+  @keyframes kzmAngryShake{
+    0%,100%{ transform:translateX(0) rotate(0deg); }
+    25%{ transform:translateX(-3px) rotate(-3deg); }
+    75%{ transform:translateX(3px) rotate(3deg); }
+  }
+  @keyframes kzmThinkSway{
+    0%,100%{ transform:rotate(-4deg) translateY(0); }
+    50%{ transform:rotate(2deg) translateY(-3px); }
+  }
+  @keyframes kzmTearFall{
+    0%{ opacity:0; transform:rotate(45deg) translateY(0) scale(0.6); }
+    15%{ opacity:1; transform:rotate(45deg) translateY(2px) scale(1); }
+    100%{ opacity:0; transform:rotate(45deg) translateY(22px) scale(0.8); }
+  }
+  @keyframes kzmWipeTear{
+    0%,100%{ transform:translate(3px,-3px) rotate(-22deg); }
+    50%{ transform:translate(-5px,3px) rotate(12deg); }
+  }
+  @keyframes kzmFistShake{
+    0%,100%{ transform:translateY(0) rotate(0deg); }
+    50%{ transform:translateY(-3px) rotate(-8deg); }
+  }
+  @keyframes kzmLookAround{
+    0%,100%{ transform:translateX(0) scaleY(0.85); }
+    25%{ transform:translateX(4px) scaleY(0.85); }
+    50%{ transform:translateX(0) scaleY(0.85); }
+    75%{ transform:translateX(-4px) scaleY(0.85); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .kzm-mascot-body, .kzm-mascot-eye, .kzm-mascot-mouth, .kzm-mascot-hand, .kzm-finger,
+    .kzm-mascot-glow, .kzm-mascot-ring, .kzm-mascot-sparkle, .kzm-mascot-tear{ animation:none; }
+  }
+
+/* ---- تبدیل شکلک دستیار به ویجت شناور روی کل سایت ---- */
+.kzm-mascot-wrap{
+  position:fixed;
+  left:6px;
+  bottom:70px; /* بالاتر از دکمه بازگشت (bottom:18px + ارتفاع دکمه) تا رویش قرار نگیرد */
+  margin:0;
+  z-index:9990;
+  transform-origin:bottom left;
+  transform:scale(0.62);
+  transition:transform .2s ease;
+}
+.kzm-mascot-wrap:hover{ transform:scale(0.68); }
+.kzm-mascot-dot{
+  position:absolute; top:34px; right:22px; width:13px; height:13px; border-radius:50%;
+  background:var(--crimson-bright,#22c17f); border:2px solid var(--void,#071710);
+  display:none; z-index:3;
+}
+.kzm-mascot-wrap.kzm-has-tip .kzm-mascot-dot{ display:block; }
+
+.kzm-bubble{
+  position:fixed;
+  left:12px;
+  bottom:174px;
+  max-width:min(62vw,230px);
+  background:linear-gradient(160deg, rgba(20,30,25,0.97), rgba(10,18,14,0.97));
+  border:1px solid var(--line,rgba(255,203,61,0.22));
+  border-radius:13px;
+  padding:9px 11px;
+  color:var(--parchment,#f3ead0);
+  font-family:'Vazirmatn',sans-serif;
+  font-size:12px;
+  line-height:1.7;
+  box-shadow:0 8px 22px rgba(0,0,0,0.5);
+  z-index:9991;
+  opacity:0;
+  transform:translateY(10px) scale(0.96);
+  pointer-events:none;
+  transition:opacity .25s ease, transform .25s ease, left .25s ease, bottom .25s ease;
+}
+.kzm-bubble.kzm-show{ opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
+.kzm-bubble::after{
+  content:'';
+  position:absolute;
+  bottom:-8px;
+  left:22px;
+  width:14px; height:14px;
+  background:rgba(10,18,14,0.97);
+  border-left:1px solid var(--line,rgba(255,203,61,0.22));
+  border-bottom:1px solid var(--line,rgba(255,203,61,0.22));
+  transform:rotate(-45deg);
+}
+.kzm-bubble-title{ font-weight:700; color:var(--gold,#ffcb3d); margin-bottom:3px; font-size:12.5px; }
+.kzm-bubble-text{ opacity:0.92; }
+.kzm-bubble-actions{ display:flex; gap:6px; margin-top:8px; }
+.kzm-bubble-more{
+  background:rgba(var(--crimson-rgb,14,155,98),0.18);
+  border:1px solid rgba(var(--crimson-rgb,14,155,98),0.4);
+  color:var(--parchment,#f3ead0);
+  border-radius:20px;
+  padding:4px 10px;
+  font-size:10.5px;
+  font-family:inherit;
+  cursor:pointer;
+}
+.kzm-bubble-close{
+  background:none; border:none; color:var(--parchment-dim,#a99b78);
+  font-size:10.5px; cursor:pointer; padding:4px 6px; font-family:inherit;
+}
+
+.kzm-overlay{
+  position:fixed; inset:0; z-index:9995;
+  background:rgba(4,8,6,0.88);
+  backdrop-filter:blur(6px);
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; pointer-events:none;
+  transition:opacity .28s ease;
+  padding:24px;
+}
+.kzm-overlay.kzm-show{ opacity:1; pointer-events:auto; }
+.kzm-overlay-card{
+  width:100%; max-width:480px; max-height:82vh; overflow-y:auto;
+  background:linear-gradient(165deg, rgba(20,30,25,0.98), rgba(9,16,12,0.98));
+  border:1px solid var(--line,rgba(255,203,61,0.22));
+  border-radius:22px;
+  padding:26px 22px;
+  color:var(--parchment,#f3ead0);
+  font-family:'Vazirmatn',sans-serif;
+  transform:translateY(16px) scale(0.97);
+  transition:transform .28s ease;
+}
+.kzm-overlay.kzm-show .kzm-overlay-card{ transform:translateY(0) scale(1); }
+.kzm-overlay-head{ display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+.kzm-overlay-avatar{ width:40px; height:40px; flex-shrink:0; }
+.kzm-overlay-title{ font-weight:800; color:var(--gold,#ffcb3d); font-size:17px; }
+.kzm-overlay-text{ font-size:14.5px; line-height:2.1; opacity:0.94; white-space:pre-line; }
+.kzm-overlay-close{
+  position:absolute; top:16px; left:16px;
+  width:34px; height:34px; border-radius:50%;
+  background:rgba(255,255,255,0.06); border:1px solid var(--line,rgba(255,203,61,0.22));
+  color:var(--parchment,#f3ead0); font-size:16px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+}
+
+@media (max-width:420px){
+  .kzm-mascot-wrap{ transform:scale(0.5); left:2px; bottom:64px; }
+  .kzm-bubble{ left:8px; bottom:152px; max-width:68vw; }
+}

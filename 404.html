@@ -107,6 +107,7 @@
   .home-btn:active{ transform:scale(0.97); }
   .home-btn svg{ width:18px; height:18px; }
 </style>
+<link rel="stylesheet" href="assistant.css">
 </head>
 <body>
 
@@ -144,5 +145,19 @@
   })();
 </script>
 
+<script>
+window.KZM_ASSISTANT_CONFIG = {
+  pageKey: '404',
+  greeting: {
+    title: 'سلام و خوش اومدی 👋',
+    short: 'من دستیار سایت هیئتم! هر جا بری، کنارتم و بخش‌ها رو برات توضیح می‌دم.',
+    full: 'سلام! به سایت هیئت کاظمیون خرم‌آباد خوش اومدی.\n\nمن دستیار همراه سایتم؛ وقتی بین بخش‌های مختلف صفحه جابه‌جا می‌شی، یه توضیح کوتاه برات نشون می‌دم و اگه دوست داشته باشی می‌تونی روی «بیشتر بدون» بزنی تا توضیح کامل‌تر رو تمام‌صفحه ببینی.\n\nهر وقت خواستی دوباره باهام صحبت کنی، کافیه روی همین شکلک بزنی.'
+  },
+  sections: [
+
+  ]
+};
+</script>
+<script src="assistant.js"></script>
 </body>
 </html>
