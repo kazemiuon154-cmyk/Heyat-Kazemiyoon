@@ -1474,6 +1474,36 @@
   }
 
   /* ============================================================
+     ZEKR ENTRY CARD (لینک به صفحه ذکر روز)
+  ============================================================ */
+  .zekr-entry-card{
+    display:flex; align-items:center; gap:14px;
+    margin:20px 0 8px;
+    padding:16px 18px;
+    border-radius:20px;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(255,203,61,0.06), rgba(255,255,255,0.01)), var(--void);
+    box-shadow:0 1px 0 rgba(255,255,255,0.05) inset, 0 10px 24px rgba(0,0,0,0.28);
+    text-decoration:none;
+    transition:background 0.2s ease, transform 0.15s ease;
+  }
+  .zekr-entry-card:active{ transform:scale(0.98); }
+  .zekr-entry-icon{
+    display:flex; align-items:center; justify-content:center;
+    width:42px; height:42px; flex:none;
+    border-radius:14px;
+    background:rgba(255,203,61,0.1);
+    color:var(--gold);
+  }
+  .zekr-entry-icon svg{ width:20px; height:20px; }
+  .zekr-entry-text{ flex:1; display:flex; flex-direction:column; gap:3px; min-width:0; }
+  .zekr-entry-title{ font-size:14px; font-weight:700; color:var(--parchment); }
+  .zekr-entry-sub{ font-size:11.5px; color:var(--parchment-dim); }
+  .zekr-entry-arrow{ color:var(--gold-soft); flex:none; }
+  .zekr-entry-arrow svg{ width:16px; height:16px; transform:scaleX(-1); }
+  html[dir="ltr"] .zekr-entry-arrow svg{ transform:none; }
+
+  /* ============================================================
      CONTACT (EITAA ID) CARD
   ============================================================ */
   .contact-card{
@@ -2340,7 +2370,7 @@
     <button type="button" class="services-toggle" id="services-toggle" aria-expanded="false" aria-controls="services-panel">
       <span class="services-toggle-icon" aria-hidden="true">☰</span>
       <span class="services-toggle-label" data-i18n="servicesToggle">دسترسی سریع به صفحات</span>
-      <span class="services-toggle-count" id="services-count">8</span>
+      <span class="services-toggle-count" id="services-count">9</span>
       <span class="services-toggle-chevron" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </span>
@@ -2382,6 +2412,10 @@
         <a href="owqat.html" class="services-row services-row-alt8" id="owqat-trigger" data-prefetch-nav>
           <span class="services-row-emoji" aria-hidden="true">🕋</span>
           <span data-i18n="owqatTrigger">اوقات شرعی</span>
+        </a>
+        <a href="zekr.html" class="services-row" id="zekr-trigger" data-prefetch-nav>
+          <span class="services-row-emoji" aria-hidden="true">📿</span>
+          <span data-i18n="zekrEntryTitle">ذکر روز</span>
         </a>
       </div>
     </div>
@@ -2476,6 +2510,19 @@
     <div class="hadith-fa" id="hadith-fa">--</div>
     <div class="hadith-source" id="hadith-source">--</div>
   </div>
+
+  <a href="zekr.html" class="zekr-entry-card reveal" data-prefetch-nav>
+    <span class="zekr-entry-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/><circle cx="5" cy="7" r="2.1" stroke="currentColor" stroke-width="1.6"/><circle cx="19" cy="7" r="2.1" stroke="currentColor" stroke-width="1.6"/><circle cx="5" cy="17" r="2.1" stroke="currentColor" stroke-width="1.6"/><circle cx="19" cy="17" r="2.1" stroke="currentColor" stroke-width="1.6"/><path d="M6.7 8.2 10 10.7M17.3 8.2 14 10.7M6.7 15.8 10 13.3M17.3 15.8 14 13.3" stroke="currentColor" stroke-width="1.4"/></svg>
+    </span>
+    <span class="zekr-entry-text">
+      <span class="zekr-entry-title" data-i18n="zekrEntryTitle">ذکر روز</span>
+      <span class="zekr-entry-sub" data-i18n="zekrEntrySub">شمارشگر، ترجمه و رکورد روزهای متوالی</span>
+    </span>
+    <span class="zekr-entry-arrow" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+  </a>
 
   <div class="group-label reveal" data-i18n="groupFollow">هیئت را در ایتا، روبیکا و اینستاگرام دنبال کنید</div>
   <div class="links links-row reveal">
@@ -3015,6 +3062,8 @@
       prayerMaghrib: "اذان مغرب",
       prayerMidnight: "نیمه‌شب شرعی",
       hadithTitle: "حدیث روز",
+      zekrEntryTitle: "ذکر روز",
+      zekrEntrySub: "شمارشگر، ترجمه و رکورد روزهای متوالی",
       groupFollow: "هیئت را در ایتا، روبیکا و اینستاگرام دنبال کنید",
       groupContact: "ارتباط با ما در ایتا",
       groupRoute: "مسیر رسیدن به هیئت",
@@ -3096,6 +3145,8 @@
       prayerMaghrib: "أذان المغرب",
       prayerMidnight: "منتصف الليل الشرعي",
       hadithTitle: "حديث اليوم",
+      zekrEntryTitle: "ذكر اليوم",
+      zekrEntrySub: "عداد وترجمة وسجل الأيام المتتالية",
       groupFollow: "تابعونا",
       groupContact: "تواصلوا معنا عبر إيتا",
       groupRoute: "الطريق إلى الموكب",
@@ -3177,6 +3228,8 @@
       prayerMaghrib: "Maghrib",
       prayerMidnight: "Islamic Midnight",
       hadithTitle: "Hadith of the Day",
+      zekrEntryTitle: "Dhikr of the Day",
+      zekrEntrySub: "Counter, translation, and streak tracking",
       groupFollow: "Follow Us",
       groupContact: "Contact Us on Eitaa",
       groupRoute: "Directions",
@@ -3805,6 +3858,7 @@
     // تا بدون نیاز به رفرش دستی صفحه، حدیث به‌موقع آپدیت شود.
     setInterval(renderHadith, 5 * 60 * 1000);
   })();
+
 
   // ember particles
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

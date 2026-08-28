@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+
+<title>ذکر روز | هیئت کاظمیون خرم‌آباد</title>
+<meta name="description" content="ذکر هر روز هفته به همراه ترجمه فارسی، شمارشگر ۱۰۰ تایی، رکورد روزهای متوالی و نوار پیشرفت روز.">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="logo.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --void:#071710;
+    --void-2:#0e2419;
+    --crimson:#0e9b62;
+    --crimson-rgb:14,155,98;
+    --crimson-bright:#22c17f;
+    --crimson-deep:#053d27;
+    --ember:#ffd166;
+    --ember-soft:#ffd16666;
+    --gold:#ffcb3d;
+    --gold-soft:#d1a52a;
+    --gold-dim:#8a6e1e;
+    --parchment:#f3ead0;
+    --parchment-dim:#a99b78;
+    --line:rgba(255,203,61,0.22);
+    --glass:rgba(255,255,255,0.05);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:
+      radial-gradient(ellipse 120% 70% at 50% -8%, rgba(var(--crimson-rgb),0.30), transparent 55%),
+      radial-gradient(ellipse 90% 50% at 15% 40%, rgba(var(--crimson-rgb),0.10), transparent 60%),
+      radial-gradient(ellipse 90% 50% at 85% 75%, rgba(var(--crimson-rgb),0.12), transparent 60%),
+      var(--void);
+    color:var(--parchment);
+    font-family:'Vazirmatn', sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    animation:zekrPageFadeIn 0.4s ease;
+    transition:opacity 0.28s ease, transform 0.28s ease;
+  }
+  @keyframes zekrPageFadeIn{
+    from{ opacity:0; transform:translateY(8px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  body.page-exit{ opacity:0; transform:translateY(-8px); }
+
+  /* ---------------- ذرات ریز طلایی پس‌زمینه ---------------- */
+  .embers{ position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+  .ember-spark{
+    position:absolute;
+    bottom:-10px;
+    width:3px; height:3px;
+    border-radius:50%;
+    background:var(--ember);
+    box-shadow:0 0 6px 1px var(--ember-soft);
+    opacity:0;
+    animation-name:rise;
+    animation-timing-function:ease-in;
+    animation-iteration-count:infinite;
+  }
+  @keyframes rise{
+    0%{ transform:translateY(0) translateX(0); opacity:0; }
+    8%{ opacity:0.9; }
+    80%{ opacity:0.5; }
+    100%{ transform:translateY(-100vh) translateX(var(--drift,20px)); opacity:0; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .ember-spark{ display:none; }
+  }
+
+  .page{
+    width:100%;
+    max-width:500px;
+    padding:0 22px 60px;
+    position:relative;
+    z-index:1;
+  }
+
+  /* ---------------- header ---------------- */
+  .zekr-page-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    padding:20px 0 8px;
+  }
+  .zekr-page-back{
+    flex:none;
+    display:flex;
+    align-items:center;
+    gap:7px;
+    padding:10px 20px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,0.25);
+    background:linear-gradient(135deg, var(--gold-bright, var(--gold)), var(--crimson-bright));
+    background-size:200% 200%;
+    color:#1a0f04;
+    font-family:'Vazirmatn', sans-serif;
+    font-size:12.5px;
+    font-weight:800;
+    letter-spacing:0.02em;
+    text-decoration:none;
+    cursor:pointer;
+    box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 20px rgba(var(--crimson-rgb),0.45), 0 0 0 4px rgba(var(--crimson-rgb),0.12);
+    transition:all 0.2s ease, transform 0.25s ease;
+    animation:zekrBackPulse 2.6s ease-in-out infinite, zekrBackShine 5s linear infinite;
+    position:fixed;
+    bottom:18px;
+    left:18px;
+    z-index:60;
+    overflow:hidden;
+  }
+  .zekr-page-back::after{
+    content:'';
+    position:absolute;
+    top:0; left:-60%;
+    width:35%; height:100%;
+    background:linear-gradient(115deg, transparent, rgba(255,255,255,0.6), transparent);
+    transform:skewX(-20deg);
+    animation:zekrBackSweep 3.6s ease-in-out infinite;
+    pointer-events:none;
+  }
+  @keyframes zekrBackSweep{
+    0%{ left:-60%; }
+    38%{ left:130%; }
+    100%{ left:130%; }
+  }
+  .zekr-page-back svg{ width:16px; height:16px; flex:none; }
+  .zekr-page-back:hover{ transform:translateY(-1px) scale(1.03); box-shadow:0 2px 0 rgba(255,255,255,0.4) inset, 0 10px 24px rgba(var(--crimson-rgb),0.55), 0 0 0 5px rgba(var(--crimson-rgb),0.18); }
+  .zekr-page-back:active{ transform:scale(0.94); }
+  @keyframes zekrBackPulse{
+    0%,100%{ box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 20px rgba(var(--crimson-rgb),0.45), 0 0 0 4px rgba(var(--crimson-rgb),0.12); }
+    50%{ box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 26px rgba(var(--crimson-rgb),0.65), 0 0 0 8px rgba(var(--crimson-rgb),0.05); }
+  }
+  @keyframes zekrBackShine{
+    0%{ background-position:0% 50%; }
+    50%{ background-position:100% 50%; }
+    100%{ background-position:0% 50%; }
+  }
+  .zekr-page-header-title{
+    flex:1;
+    min-width:0;
+    text-align:center;
+    font-size:15px;
+    font-weight:700;
+    color:var(--parchment);
+    overflow-wrap:break-word;
+  }
+
+  /* ---------------- logo mini ---------------- */
+  .mini-logo-wrap{
+    display:flex;
+    justify-content:center;
+    margin:18px 0 6px;
+  }
+  .mini-logo{
+    width:64px; height:64px;
+    border-radius:50%;
+    overflow:hidden;
+    border:1px solid var(--line);
+    box-shadow:0 8px 20px rgba(0,0,0,0.35);
+  }
+  .mini-logo img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+  /* ============================================================
+     ZEKR CARD (ذکر روز)
+  ============================================================ */
+  .zekr-card{
+    margin:0 0 8px;
+    padding:22px 20px 20px;
+    border-radius:20px;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(255,203,61,0.06), rgba(255,255,255,0.01)), var(--void);
+    box-shadow:0 1px 0 rgba(255,255,255,0.05) inset, 0 10px 24px rgba(0,0,0,0.28);
+    text-align:center;
+  }
+  .zekr-header{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    font-size:12.5px; font-weight:600; color:var(--gold);
+    letter-spacing:0.06em; margin-bottom:12px;
+  }
+  .zekr-header svg{ width:15px; height:15px; }
+  .zekr-day{
+    font-size:12.5px; color:var(--gold-soft); font-weight:700; margin-bottom:8px;
+  }
+  .zekr-phrase{
+    font-family:'Amiri', serif;
+    font-size:19px; line-height:1.9; color:var(--parchment);
+    padding:0 4px;
+  }
+  .zekr-phrase-fa{
+    font-size:12.5px; line-height:1.8; color:var(--parchment-dim);
+    padding:0 6px;
+    margin-bottom:18px;
+    margin-top:4px;
+  }
+  .zekr-counter-wrap{
+    display:flex; justify-content:center; margin-bottom:14px;
+  }
+  .zekr-ring-btn{
+    position:relative;
+    width:132px; height:132px;
+    background:none; border:none; padding:0; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    -webkit-tap-highlight-color:transparent;
+    transition:transform 0.15s cubic-bezier(.34,1.56,.64,1);
+  }
+  .zekr-ring-btn:active{ transform:scale(0.94); }
+  .zekr-ring-btn.pulse .zekr-ring-core{ animation:zekrPulse 0.4s ease; }
+  .zekr-ring-btn.pulse .zekr-ring-glow{ animation:zekrGlowPulse 0.5s ease; }
+  @keyframes zekrPulse{
+    0%{ transform:scale(1); }
+    35%{ transform:scale(1.12); }
+    100%{ transform:scale(1); }
+  }
+  @keyframes zekrGlowPulse{
+    0%{ opacity:0.35; transform:scale(0.9); }
+    50%{ opacity:0.8; transform:scale(1.15); }
+    100%{ opacity:0.45; transform:scale(1); }
+  }
+  .zekr-ring-glow{
+    position:absolute; inset:6px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(255,203,61,0.35), rgba(255,203,61,0) 70%);
+    opacity:0.45;
+    pointer-events:none;
+    transition:opacity 0.3s ease;
+  }
+  .zekr-ring{
+    position:absolute; inset:0; width:100%; height:100%;
+    transform:rotate(-90deg);
+    filter:drop-shadow(0 0 6px rgba(255,203,61,0.25));
+  }
+  .zekr-ring-bg{
+    fill:none; stroke:rgba(255,255,255,0.08); stroke-width:8;
+  }
+  .zekr-ring-fg{
+    fill:none; stroke:var(--gold); stroke-width:9; stroke-linecap:round;
+    stroke-dasharray:326.7256;
+    stroke-dashoffset:326.7256;
+    transition:stroke-dashoffset 0.35s ease;
+  }
+  .zekr-ring-fg.done{ stroke:var(--crimson-bright); filter:drop-shadow(0 0 5px rgba(255,90,90,0.5)); }
+  .zekr-ring-core{
+    position:relative;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    width:94px; height:94px;
+    border-radius:50%;
+    background:radial-gradient(circle at 50% 38%, rgba(255,255,255,0.06), rgba(0,0,0,0.15) 75%), var(--void);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.06), inset 0 -6px 14px rgba(0,0,0,0.35);
+  }
+  .zekr-count-num{
+    font-size:32px; font-weight:800; color:var(--parchment); line-height:1;
+  }
+  .zekr-count-total{
+    margin-top:2px;
+    text-align:center; font-size:11px; color:var(--parchment-dim); font-weight:600;
+  }
+
+  /* quick +N / undo row */
+  .zekr-quick-row{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    margin-bottom:14px;
+  }
+  .zekr-quick-btn{
+    background:var(--glass);
+    border:1px solid var(--line);
+    color:var(--gold-soft);
+    font-family:inherit;
+    font-size:12px; font-weight:700;
+    padding:7px 14px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:background 0.2s ease, color 0.2s ease, transform 0.12s ease;
+  }
+  .zekr-quick-btn:hover{ background:rgba(255,203,61,0.1); color:var(--gold); }
+  .zekr-quick-btn:active{ transform:scale(0.94); }
+  .zekr-undo-btn{
+    display:flex; align-items:center; gap:5px;
+    background:var(--glass);
+    border:1px solid var(--line);
+    color:var(--parchment-dim);
+    font-family:inherit;
+    font-size:12px; font-weight:700;
+    padding:7px 14px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:background 0.2s ease, color 0.2s ease, opacity 0.2s ease, transform 0.12s ease;
+  }
+  .zekr-undo-btn svg{ width:13px; height:13px; }
+  .zekr-undo-btn:hover{ background:rgba(255,255,255,0.08); color:var(--parchment); }
+  .zekr-undo-btn:active{ transform:scale(0.94); }
+  .zekr-undo-btn:disabled{ opacity:0.35; cursor:default; }
+
+  .zekr-hint{
+    font-size:11.5px; color:var(--parchment-dim); margin-bottom:14px;
+  }
+  .zekr-actions{ display:flex; justify-content:center; }
+  .zekr-reset-btn{
+    background:var(--glass);
+    border:1px solid var(--line);
+    color:var(--gold-soft);
+    font-family:inherit;
+    font-size:12px; font-weight:600;
+    padding:8px 18px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:background 0.2s ease, color 0.2s ease;
+  }
+  .zekr-reset-btn:hover{ background:rgba(255,203,61,0.1); color:var(--gold); }
+
+  .zekr-day-progress{
+    margin-top:16px;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+  }
+  .zekr-day-progress-track{
+    position:relative;
+    width:100%; height:5px;
+    border-radius:999px;
+    background:rgba(255,255,255,0.07);
+    overflow:hidden;
+  }
+  .zekr-day-progress-fill{
+    position:absolute; top:0; bottom:0; right:0;
+    width:0%;
+    border-radius:999px;
+    background:linear-gradient(90deg, var(--gold), var(--gold-soft));
+    transition:width 1.2s ease, background 0.6s ease;
+  }
+  .zekr-day-progress-fill.urgent{
+    background:linear-gradient(90deg, var(--crimson-bright), #ff9b6a);
+  }
+  .zekr-day-progress-fill.complete{
+    background:linear-gradient(90deg, #35c26b, #8ee6a8);
+  }
+  .zekr-day-progress-label{
+    margin-top:8px;
+    text-align:center;
+    font-size:11px; font-weight:600;
+    color:var(--parchment-dim);
+  }
+  .zekr-day-progress-label.urgent{ color:var(--crimson-bright); }
+  .zekr-day-progress-label.complete{ color:#5fd88a; }
+
+  /* ---------------- streak card ---------------- */
+  .streak-card{
+    margin-top:14px;
+    padding:16px 18px;
+    border-radius:18px;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(255,203,61,0.05), rgba(255,255,255,0.01)), var(--void);
+    box-shadow:0 1px 0 rgba(255,255,255,0.05) inset, 0 8px 20px rgba(0,0,0,0.25);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .streak-block{ text-align:center; flex:1; }
+  .streak-num{ font-size:22px; font-weight:800; color:var(--gold); line-height:1; }
+  .streak-emoji{ font-size:18px; }
+  .streak-label{ font-size:11px; color:var(--parchment-dim); margin-top:4px; }
+  .streak-divider{ width:1px; align-self:stretch; background:var(--line); }
+
+  .toast{
+    position:fixed; bottom:80px; left:50%; transform:translateX(-50%) translateY(10px);
+    background:var(--void-2);
+    border:1px solid var(--line);
+    color:var(--parchment);
+    padding:10px 18px;
+    border-radius:999px;
+    font-size:12.5px; font-weight:600;
+    box-shadow:0 8px 22px rgba(0,0,0,0.4);
+    opacity:0; pointer-events:none;
+    transition:opacity 0.25s ease, transform 0.25s ease;
+    z-index:60;
+    white-space:nowrap;
+  }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="embers" id="embers"></div>
+
+<a href="index.html" class="zekr-page-back" id="zekr-page-back" aria-label="بازگشت به صفحه اول">
+  <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span>بازگشت</span>
+</a>
+
+<div class="page">
+
+  <div class="zekr-page-header">
+    <div class="zekr-page-header-title">📿 ذکر روز</div>
+  </div>
+
+  <div class="mini-logo-wrap">
+    <div class="mini-logo">
+      <img src="logo.jpg" alt="نشان هیئت کاظمیون خرم‌آباد">
+    </div>
+  </div>
+
+  <div class="zekr-card">
+    <div class="zekr-header">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/><circle cx="5" cy="7" r="2.1" stroke="currentColor" stroke-width="1.6"/><circle cx="19" cy="7" r="2.1" stroke="currentColor" stroke-width="1.6"/><circle cx="5" cy="17" r="2.1" stroke="currentColor" stroke-width="1.6"/><circle cx="19" cy="17" r="2.1" stroke="currentColor" stroke-width="1.6"/><path d="M6.7 8.2 10 10.7M17.3 8.2 14 10.7M6.7 15.8 10 13.3M17.3 15.8 14 13.3" stroke="currentColor" stroke-width="1.4"/></svg>
+      <span>ذکر روز</span>
+    </div>
+    <div class="zekr-day" id="zekr-day">--</div>
+    <div class="zekr-phrase" id="zekr-phrase">--</div>
+    <div class="zekr-phrase-fa" id="zekr-phrase-fa">--</div>
+
+    <div class="zekr-counter-wrap">
+      <button type="button" class="zekr-ring-btn" id="zekr-count-btn" aria-label="ثبت یک ذکر">
+        <span class="zekr-ring-glow"></span>
+        <svg class="zekr-ring" viewBox="0 0 120 120" aria-hidden="true">
+          <circle class="zekr-ring-bg" cx="60" cy="60" r="52"></circle>
+          <circle class="zekr-ring-fg" id="zekr-ring-fg" cx="60" cy="60" r="52"></circle>
+        </svg>
+        <span class="zekr-ring-core">
+          <span class="zekr-count-num" id="zekr-count-num">۰</span>
+          <span class="zekr-count-total" id="zekr-count-total">از ۱۰۰</span>
+        </span>
+      </button>
+    </div>
+
+    <div class="zekr-quick-row">
+      <button type="button" class="zekr-undo-btn" id="zekr-undo-btn" disabled>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M9 14 4 9l5-5M4 9h11a5 5 0 0 1 0 10h-1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>یکی کم کن</span>
+      </button>
+      <button type="button" class="zekr-quick-btn" id="zekr-plus10-btn">۱۰+</button>
+    </div>
+
+    <div class="zekr-hint" id="zekr-hint">با هر ضربه روی دایره، یک ذکر ثبت می‌شود</div>
+    <div class="zekr-actions">
+      <button type="button" class="zekr-reset-btn" id="zekr-reset-btn">شروع دوباره</button>
+    </div>
+
+    <div class="zekr-day-progress" id="zekr-day-progress">
+      <div class="zekr-day-progress-track">
+        <div class="zekr-day-progress-fill" id="zekr-day-progress-fill"></div>
+      </div>
+      <div class="zekr-day-progress-label" id="zekr-day-progress-label">--</div>
+    </div>
+  </div>
+
+  <div class="streak-card">
+    <div class="streak-block">
+      <div class="streak-num"><span class="streak-emoji">🔥</span> <span id="streak-current">۰</span></div>
+      <div class="streak-label">روز متوالی</div>
+    </div>
+    <div class="streak-divider"></div>
+    <div class="streak-block">
+      <div class="streak-num" id="streak-best">۰</div>
+      <div class="streak-label">بهترین رکورد</div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // ---------------- کمکی: ساعت/تاریخ رسمی تهران، مستقل از تایم‌زون مرورگر بازدیدکننده ----------------
+  function getTehranParts(date){
+    const fmt = new Intl.DateTimeFormat('en-US', {
+      timeZone:'Asia/Tehran', year:'numeric', month:'2-digit', day:'2-digit',
+      hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false, weekday:'short'
+    });
+    const map = {};
+    fmt.formatToParts(date).forEach(p => { map[p.type] = p.value; });
+    return map;
+  }
+
+  function showToast(msg){
+    const t = document.getElementById('toast');
+    if(!t) return;
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => t.classList.remove('show'), 1800);
+  }
+
+  (function zekrPage(){
+    const elDay = document.getElementById('zekr-day');
+    const elPhrase = document.getElementById('zekr-phrase');
+    const elPhraseFa = document.getElementById('zekr-phrase-fa');
+    const elNum = document.getElementById('zekr-count-num');
+    const elTotal = document.getElementById('zekr-count-total');
+    const elRing = document.getElementById('zekr-ring-fg');
+    const btnCount = document.getElementById('zekr-count-btn');
+    const btnReset = document.getElementById('zekr-reset-btn');
+    const btnUndo = document.getElementById('zekr-undo-btn');
+    const btnPlus10 = document.getElementById('zekr-plus10-btn');
+    if(!elDay || !elPhrase || !elNum || !elRing || !btnCount || !btnReset) return;
+
+    const TARGET = 100;
+    const CIRCUMFERENCE = 326.7256;
+
+    // ذکر هر روز هفته به همراه ترجمه فارسی، هماهنگ با تقویم رسمی ایران (شنبه اولین روز هفته)
+    const weekdayMap = { Sun:0, Mon:1, Tue:2, Wed:3, Thu:4, Fri:5, Sat:6 };
+    const ZEKR_BY_DAY = {
+      6: { day:"شنبه",     text:"يا رَبَّ العالَمين",            fa:"ای پروردگار جهانیان" },
+      0: { day:"یک‌شنبه",   text:"يا ذَاالجَلالِ وَ الاِکرام",     fa:"ای صاحبِ جلال و بزرگواری" },
+      1: { day:"دوشنبه",    text:"يا قاضِیَ الحاجات",             fa:"ای برآورندهٔ حاجت‌ها" },
+      2: { day:"سه‌شنبه",   text:"يا اَرحَمَ الرّاحِمین",          fa:"ای مهربان‌ترینِ مهربانان" },
+      3: { day:"چهارشنبه",  text:"يا حَیُّ یا قَیّوم",             fa:"ای زنده، ای پاینده" },
+      4: { day:"پنج‌شنبه",  text:"لا اِلهَ اِلاَّ اللهُ المَلِکُ الحَقُّ المُبین", fa:"هیچ معبودی جز خدای پادشاهِ حق و آشکار نیست" },
+      5: { day:"جمعه",      text:"اَللّهُمَّ صَلِّ عَلی مُحَمَّدٍ وَ آلِ مُحَمَّد", fa:"خدایا بر محمد و خاندان محمد درود فرست" }
+    };
+
+    const faDigits = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+    function toFaNum(n){ return String(n).split('').map(ch => (ch >= '0' && ch <= '9') ? faDigits[ch] : ch).join(''); }
+
+    function keyForOffset(offsetDays){
+      const shifted = new Date(Date.now() - offsetDays * 86400000);
+      const p = getTehranParts(shifted);
+      return 'kazemiuon-zekr-' + p.year + '-' + p.month + '-' + p.day;
+    }
+    function todayKey(){ return keyForOffset(0); }
+
+    function loadCount(key){
+      try{
+        const v = parseInt(localStorage.getItem(key), 10);
+        return (isNaN(v) || v < 0) ? 0 : Math.min(v, TARGET);
+      }catch(e){ return 0; }
+    }
+    function saveCount(key, val){
+      try{ localStorage.setItem(key, String(val)); }catch(e){}
+    }
+    function loadBestStreak(){
+      try{
+        const v = parseInt(localStorage.getItem('kazemiuon-zekr-best-streak'), 10);
+        return (isNaN(v) || v < 0) ? 0 : v;
+      }catch(e){ return 0; }
+    }
+    function saveBestStreak(v){
+      try{ localStorage.setItem('kazemiuon-zekr-best-streak', String(v)); }catch(e){}
+    }
+
+    let currentKey = todayKey();
+    let currentDayIndex = null;
+    let count = 0;
+
+    function updateRing(){
+      const ratio = Math.min(count / TARGET, 1);
+      elRing.style.strokeDashoffset = String(CIRCUMFERENCE * (1 - ratio));
+      elRing.classList.toggle('done', count >= TARGET);
+      elNum.textContent = toFaNum(count);
+      elTotal.textContent = 'از ' + toFaNum(TARGET);
+      btnUndo.disabled = count <= 0;
+    }
+
+    function pulseBtn(){
+      btnCount.classList.remove('pulse');
+      void btnCount.offsetWidth;
+      btnCount.classList.add('pulse');
+    }
+
+    function addCount(n){
+      const wasComplete = count >= TARGET;
+      count = Math.min(count + n, TARGET);
+      saveCount(currentKey, count);
+      updateRing();
+      pulseBtn();
+      if(navigator.vibrate) try{ navigator.vibrate(count >= TARGET ? 60 : 12); }catch(e){}
+      if(count >= TARGET && !wasComplete){
+        showToast('ذکر امروز شما کامل شد؛ خدا قبول کند 🌙');
+        renderStreak();
+      }
+      renderDayProgress();
+    }
+
+    function renderDay(force){
+      const p = getTehranParts(new Date());
+      const dayIndex = weekdayMap[p.weekday];
+      if(!force && dayIndex === currentDayIndex){ return; }
+      currentDayIndex = dayIndex;
+      const today = ZEKR_BY_DAY[dayIndex] || ZEKR_BY_DAY[6];
+      elDay.textContent = today.day;
+      elPhrase.textContent = today.text;
+      elPhraseFa.textContent = today.fa;
+      currentKey = todayKey();
+      count = loadCount(currentKey);
+      updateRing();
+      renderDayProgress();
+      renderStreak();
+    }
+
+    btnCount.addEventListener('click', () => { if(count < TARGET) addCount(1); });
+    btnPlus10.addEventListener('click', () => addCount(10));
+
+    btnUndo.addEventListener('click', () => {
+      if(count <= 0) return;
+      count -= 1;
+      saveCount(currentKey, count);
+      updateRing();
+      renderDayProgress();
+    });
+
+    btnReset.addEventListener('click', () => {
+      count = 0;
+      saveCount(currentKey, count);
+      updateRing();
+      showToast('شمارشگر ذکر از نو شروع شد');
+      renderDayProgress();
+      renderStreak();
+    });
+
+    // ---------------- رکورد روزهای متوالی ----------------
+    function renderStreak(){
+      const elCur = document.getElementById('streak-current');
+      const elBest = document.getElementById('streak-best');
+      if(!elCur || !elBest) return;
+
+      // اگر ذکر امروز هنوز کامل نشده، از دیروز شمارش می‌کنیم (امروز هنوز "شکسته" نشده)
+      let offset = (count >= TARGET) ? 0 : 1;
+      let streak = 0;
+      while(true){
+        const c = loadCount(keyForOffset(offset));
+        if(c >= TARGET){ streak++; offset++; } else break;
+        if(offset > 3650) break; // محافظتی در برابر حلقه بی‌نهایت
+      }
+      const best = Math.max(streak, loadBestStreak());
+      saveBestStreak(best);
+      elCur.textContent = toFaNum(streak);
+      elBest.textContent = toFaNum(best);
+    }
+
+    // ---------------- نوار پیشرفت روز (بر اساس ساعت واقعی تهران) ----------------
+    const elDPFill = document.getElementById('zekr-day-progress-fill');
+    const elDPLabel = document.getElementById('zekr-day-progress-label');
+    function renderDayProgress(){
+      if(!elDPFill || !elDPLabel) return;
+      const now = new Date();
+      const p = getTehranParts(now);
+      const secOfDay = parseInt(p.hour,10)*3600 + parseInt(p.minute,10)*60 + parseInt(p.second,10);
+      const remainingSec = 86400 - secOfDay;
+      const ratio = Math.min(Math.max(secOfDay / 86400, 0), 1);
+      const isDone = count >= TARGET;
+      const hoursLeft = Math.floor(remainingSec / 3600);
+      const minsLeft = Math.floor((remainingSec % 3600) / 60);
+
+      elDPFill.style.width = (ratio * 100).toFixed(2) + '%';
+      elDPFill.classList.toggle('complete', isDone);
+      elDPFill.classList.toggle('urgent', !isDone && remainingSec <= 2 * 3600);
+      elDPLabel.classList.toggle('complete', isDone);
+      elDPLabel.classList.toggle('urgent', !isDone && remainingSec <= 2 * 3600);
+
+      if(isDone){
+        elDPLabel.textContent = 'ذکر امروز شما تکمیل شد';
+      } else {
+        const timeStr = toFaNum(hoursLeft) + ':' + toFaNum(String(minsLeft).padStart(2,'0'));
+        const prefix = remainingSec <= 2 * 3600 ? 'وقت کمی تا پایان امروز مانده — ' : '';
+        elDPLabel.textContent = prefix + timeStr + ' تا پایان امروز';
+      }
+    }
+
+    renderDay(true);
+    setInterval(() => renderDay(false), 5 * 60 * 1000);
+    setInterval(renderDayProgress, 60 * 1000);
+  })();
+
+  // ---------------- انتقال نرم به صفحه اول ----------------
+  (function backSmoothNav(){
+    const trigger = document.getElementById('zekr-page-back');
+    if(!trigger) return;
+    const targetHref = trigger.getAttribute('href');
+    trigger.addEventListener('click', function(e){
+      if(e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      document.body.classList.add('page-exit');
+      setTimeout(() => { window.location.href = targetHref; }, 240);
+    });
+  })();
+
+  // ذرات ریز طلایی پس‌زمینه (امبر)
+  (function embers(){
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduceMotion) return;
+    const wrap = document.getElementById('embers');
+    if(!wrap) return;
+    const count = 8;
+    for(let i=0;i<count;i++){
+      const s = document.createElement('div');
+      s.className = 'ember-spark';
+      const left = Math.random()*100;
+      const delay = Math.random()*10;
+      const dur = 6 + Math.random()*6;
+      const drift = (Math.random()*60 - 30) + 'px';
+      s.style.left = left + 'vw';
+      s.style.animationDelay = delay + 's';
+      s.style.animationDuration = dur + 's';
+      s.style.setProperty('--drift', drift);
+      wrap.appendChild(s);
+    }
+  })();
+</script>
+</body>
+</html>
