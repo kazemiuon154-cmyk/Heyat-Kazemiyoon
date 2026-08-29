@@ -218,13 +218,39 @@
     oTitle.textContent = data.title || 'دستیار';
     oText.textContent  = data.full || data.short || '';
     overlay.classList.add('kzm-show');
-    document.body.style.overflow = 'hidden';
+    lockPageScroll();
     react('happy', 1200);
     hideBubble();
   }
   function closeOverlay(){
     overlay.classList.remove('kzm-show');
+    unlockPageScroll();
+  }
+  // قفل کامل اسکرول پشت پنجره‌ی تمام‌صفحه؛ هم روی body و هم روی html
+  // (فقط overflow:hidden روی body کافی نیست و باعث می‌شه با اسکرول داخل پنجره،
+  // نوار آدرس مرورگر موبایل جمع/باز بشه و ارتفاع vh عوض بشه و پنجره از صفحه بزنه بیرون)
+  var savedScrollY = 0, pageScrollLocked = false;
+  function lockPageScroll(){
+    if(pageScrollLocked) return;
+    pageScrollLocked = true;
+    savedScrollY = window.scrollY || window.pageYOffset || 0;
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.top = (-savedScrollY) + 'px';
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+  }
+  function unlockPageScroll(){
+    if(!pageScrollLocked) return;
+    pageScrollLocked = false;
+    document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    window.scrollTo(0, savedScrollY);
   }
   function closeSearch(){
     searchPanel.classList.remove('kzm-show');
