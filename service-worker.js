@@ -1,6 +1,6 @@
 // service-worker.js — هیئت کاظمیون خرم‌آباد
 // نسخه کش را با هر تغییر مهم در سایت افزایش دهید تا کاربران نسخه جدید را بگیرند
-const CACHE_VERSION = 'kazemiuon-v3';
+const CACHE_VERSION = 'kazemiuon-v4'; // v3 → v4: رفع باگ کش‌شدن دائمی assistant.js/assistant.css
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -32,7 +32,12 @@ self.addEventListener('activate', (event) => {
 });
 
 // استراتژی: صفحه اصلی → network-first (تا اعلان‌ها/ساعت مراسم به‌روز بمانند)
-//            سایر فایل‌های استاتیک (لوگو، مانیفست) → cache-first
+//            سایر فایل‌های استاتیک هم‌مبدأ (assistant.js/css، لوگو، مانیفست و ...) →
+//            stale-while-revalidate: نسخه‌ی کش‌شده فوری نمایش داده می‌شه (برای سرعت و آفلاین)،
+//            ولی هم‌زمان یه درخواست به شبکه هم می‌ره و کش با نسخه‌ی تازه‌تر آپدیت می‌شه؛
+//            این‌طوری بازدید بعدی همیشه آخرین نسخه رو می‌گیره، بدون نیاز به افزایش دستی CACHE_VERSION.
+//            (نکته: قبلاً اینجا cache-first بود که باعث می‌شد assistant.js بعد از اولین کش، دیگه
+//            هیچ‌وقت آپدیت نشه — حتی با انتشار نسخه‌ی جدید روی سرور.)
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
@@ -57,12 +62,14 @@ self.addEventListener('fetch', (event) => {
   if (isSameOrigin) {
     event.respondWith(
       caches.match(req).then((cached) => {
-        if (cached) return cached;
-        return fetch(req).then((res) => {
-          const resClone = res.clone();
-          caches.open(CACHE_VERSION).then((cache) => cache.put(req, resClone));
-          return res;
-        }).catch(() => cached);
+        const networkFetch = fetch(req)
+          .then((res) => {
+            const resClone = res.clone();
+            caches.open(CACHE_VERSION).then((cache) => cache.put(req, resClone));
+            return res;
+          })
+          .catch(() => cached); // آفلاین: اگه شبکه در دسترس نبود، همون کش رو نگه دار
+        return cached || networkFetch;
       })
     );
   }
