@@ -345,7 +345,7 @@
 
   @media (prefers-reduced-motion: reduce){
     .kzm-mascot-body, .kzm-mascot-eye, .kzm-mascot-mouth, .kzm-mascot-hand, .kzm-finger,
-    .kzm-mascot-glow, .kzm-mascot-ring, .kzm-mascot-sparkle, .kzm-mascot-tear{ animation:none; }
+    .kzm-mascot-glow, .kzm-mascot-ring, .kzm-mascot-sparkle, .kzm-mascot-tear, .kzm-overlay-hint{ animation:none; }
   }
 
 /* ---- تبدیل شکلک دستیار به ویجت شناور روی کل سایت ---- */
@@ -431,20 +431,22 @@
   font-size:12px; cursor:pointer; padding:5px 7px; font-family:inherit;
 }
 
-/* دکمه کوچک جستجو، کنار شکلک دستیار */
+/* دکمه کوچک جستجو، کنار شکلک دستیار (بیرون از محدوده کلیک‌پذیر خود شکلک) */
 .kzm-search-btn{
   position:fixed;
-  left:68px;
-  bottom:152px;
-  width:30px;
-  height:30px;
+  left:123px;
+  bottom:107px;
+  width:38px;
+  height:38px;
   border-radius:50%;
   background:linear-gradient(160deg, rgba(20,30,25,0.97), rgba(10,18,14,0.97));
   border:1px solid var(--line,rgba(255,203,61,0.28));
   color:var(--gold,#ffcb3d);
-  font-size:13.5px;
+  font-size:16px;
   display:flex; align-items:center; justify-content:center;
   cursor:pointer;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
   z-index:9992;
   box-shadow:0 4px 14px rgba(0,0,0,0.45);
   transition:transform .18s ease;
@@ -472,6 +474,12 @@
   transition:opacity .2s ease, transform .2s ease, left .25s ease, bottom .25s ease;
 }
 .kzm-search-panel.kzm-show{ opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
+.kzm-search-panel.kzm-search-panel-top{
+  bottom:auto;
+  top:70px;
+  left:12px;
+  transform:translateY(-10px) scale(0.96);
+}
 .kzm-search-title{ font-weight:700; color:var(--gold,#ffcb3d); margin-bottom:8px; font-size:13.5px; }
 .kzm-search-row{ display:flex; gap:6px; }
 .kzm-search-input{
@@ -507,21 +515,43 @@
 }
 .kzm-overlay.kzm-show{ opacity:1; pointer-events:auto; }
 .kzm-overlay-card{
-  width:100%; max-width:480px; max-height:82vh; overflow-y:auto;
+  position:relative;
+  width:100%; max-width:480px; max-height:82vh;
+  display:flex; flex-direction:column;
+  overflow:hidden;
   background:linear-gradient(165deg, rgba(20,30,25,0.98), rgba(9,16,12,0.98));
   border:1px solid var(--line,rgba(255,203,61,0.22));
   border-radius:22px;
-  padding:26px 22px;
   color:var(--parchment,#f3ead0);
   font-family:'Vazirmatn',sans-serif;
   transform:translateY(16px) scale(0.97);
   transition:transform .28s ease;
+}
+.kzm-overlay-body{
+  overflow-y:auto;
+  padding:52px 22px 24px;
 }
 .kzm-overlay.kzm-show .kzm-overlay-card{ transform:translateY(0) scale(1); }
 .kzm-overlay-head{ display:flex; align-items:center; gap:10px; margin-bottom:14px; }
 .kzm-overlay-avatar{ width:40px; height:40px; flex-shrink:0; }
 .kzm-overlay-title{ font-weight:800; color:var(--gold,#ffcb3d); font-size:18.5px; }
 .kzm-overlay-text{ font-size:16.5px; line-height:2; opacity:0.94; white-space:pre-line; }
+.kzm-overlay-hint{
+  margin-top:14px;
+  padding:10px 14px;
+  border-radius:12px;
+  background:rgba(255,203,61,0.14);
+  border:1px solid rgba(255,203,61,0.4);
+  color:var(--gold,#ffcb3d);
+  font-weight:800;
+  font-size:14.5px;
+  text-align:center;
+  animation:kzmHintPulse 1.8s ease-in-out infinite;
+}
+@keyframes kzmHintPulse{
+  0%,100%{ background:rgba(255,203,61,0.14); }
+  50%{ background:rgba(255,203,61,0.28); }
+}
 .kzm-overlay-grid-heading{
   margin-top:20px;
   margin-bottom:10px;
@@ -568,9 +598,19 @@
   display:flex; align-items:center; justify-content:center;
 }
 
+/* وقتی کاربر توی حالتی مثل خواندن دعا هست، دستیار کامل مخفی می‌شه تا مزاحم نباشه */
+body.kzm-widget-hidden .kzm-mascot-wrap,
+body.kzm-widget-hidden .kzm-bubble,
+body.kzm-widget-hidden .kzm-search-btn,
+body.kzm-widget-hidden .kzm-search-panel,
+body.kzm-widget-hidden .kzm-overlay{
+  display:none !important;
+}
+
 @media (max-width:420px){
   .kzm-mascot-wrap{ transform:scale(0.5); left:2px; bottom:64px; }
   .kzm-bubble{ left:8px; bottom:152px; max-width:68vw; }
-  .kzm-search-btn{ left:54px; bottom:130px; width:26px; height:26px; font-size:12px; }
+  .kzm-search-btn{ left:96px; bottom:92px; width:34px; height:34px; font-size:14px; }
   .kzm-search-panel{ left:8px; bottom:152px; width:min(72vw,250px); }
+  .kzm-search-panel.kzm-search-panel-top{ top:64px; left:8px; bottom:auto; }
 }

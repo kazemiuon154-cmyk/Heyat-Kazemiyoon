@@ -98,8 +98,10 @@
   var overlay = el('div', 'kzm-overlay');
   var card = el('div', 'kzm-overlay-card');
   var closeX = el('button', 'kzm-overlay-close', '✕');
+  var oBody = el('div', 'kzm-overlay-body');
   var oTitle = el('div', 'kzm-overlay-title');
   var oText = el('div', 'kzm-overlay-text');
+  var oHint = el('div', 'kzm-overlay-hint', '👇 پایین‌تر می‌تونی میان‌برهای همه‌ی بخش‌های سایت رو هم ببینی');
   var oGridHeading = el('div', 'kzm-overlay-grid-heading', 'میان‌برهای سایت');
   var oGrid = el('div', 'kzm-overlay-grid');
   (function buildShortcuts(){
@@ -112,8 +114,9 @@
       oGrid.appendChild(a);
     });
   })();
-  card.appendChild(closeX); card.appendChild(oTitle); card.appendChild(oText);
-  card.appendChild(oGridHeading); card.appendChild(oGrid);
+  oBody.appendChild(oTitle); oBody.appendChild(oText); oBody.appendChild(oHint);
+  oBody.appendChild(oGridHeading); oBody.appendChild(oGrid);
+  card.appendChild(closeX); card.appendChild(oBody);
   overlay.appendChild(card);
 
   if(document.readyState === 'complete' || document.readyState === 'interactive'){ mount(); }
@@ -126,12 +129,15 @@
     document.body.appendChild(wrap);
     document.body.appendChild(bubble);
     document.body.appendChild(overlay);
-    document.body.appendChild(searchBtn);
+    var topbarSearchBtn = document.getElementById('kzm-topbar-search-btn');
+    if(!topbarSearchBtn){
+      document.body.appendChild(searchBtn);
+    }
     document.body.appendChild(searchPanel);
     mascot = document.getElementById('kzm-mascot');
     initReactions();
     initInteractions();
-    initSearch();
+    initSearch(topbarSearchBtn);
   }
 
   // ---------------- ری‌اکشن‌های شکلک (برداشته‌شده از دستیار صفحه‌ی پرسش‌وپاسخ) ----------------
@@ -159,7 +165,10 @@
     window.KzmMascot = {
       react: react,
       // نمایش یه پیام از طرف دستیار؛ data می‌تونه title/short/full/url داشته باشه
-      notify: function(data, reactType){ showBubble(data, reactType); }
+      notify: function(data, reactType){ showBubble(data, reactType); },
+      // مخفی/نمایش کامل ویجت (مثلاً وقتی کاربر داره دعا می‌خونه)
+      hide: function(){ setVisible(false); },
+      show: function(){ setVisible(true); }
     };
 
     if(!reduceMotion){
@@ -225,6 +234,15 @@
     searchPanel.classList.add('kzm-show');
     setTimeout(function(){ sInput.focus(); }, 50);
   }
+  // مخفی/آشکار کردن کامل ویجت دستیار؛ برای مواقعی که یه بخش دیگه سایت (مثل خواندن دعا در حالت تمام‌صفحه) نباید دستیار روش باشه
+  function setVisible(visible){
+    document.body.classList.toggle('kzm-widget-hidden', !visible);
+    if(!visible){
+      hideBubble();
+      closeSearch();
+      closeOverlay();
+    }
+  }
 
   function initInteractions(){
     // --- حافظه‌ی بخش‌هایی که قبلاً برای کاربر توضیح داده شده (برای یک تور هوشمند و بدون تکرار) ---
@@ -287,7 +305,12 @@
   }
 
   // ---------------- جستجوی بخش‌های سایت ----------------
-  function initSearch(){
+  function initSearch(topbarTrigger){
+    var trigger = topbarTrigger || searchBtn;
+    if(topbarTrigger){
+      searchPanel.classList.add('kzm-search-panel-top');
+    }
+
     function normalize(s){
       return (s || '').replace(/‌/g, ' ').replace(/\s+/g, ' ').trim();
     }
@@ -325,11 +348,20 @@
       sInput.value = '';
     }
 
-    searchBtn.addEventListener('click', function(e){
+    trigger.addEventListener('click', function(e){
       e.stopPropagation();
       if(searchPanel.classList.contains('kzm-show')) closeSearch();
       else openSearch();
     });
+    if(topbarTrigger){
+      trigger.addEventListener('keydown', function(e){
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          if(searchPanel.classList.contains('kzm-show')) closeSearch();
+          else openSearch();
+        }
+      });
+    }
     sSubmit.addEventListener('click', function(e){ e.stopPropagation(); runSearch(); });
     sInput.addEventListener('click', function(e){ e.stopPropagation(); });
     sInput.addEventListener('keydown', function(e){
@@ -338,7 +370,7 @@
       else if(e.key === 'Escape'){ closeSearch(); }
     });
     document.addEventListener('click', function(e){
-      if(searchPanel.classList.contains('kzm-show') && !searchPanel.contains(e.target) && e.target !== searchBtn){
+      if(searchPanel.classList.contains('kzm-show') && !searchPanel.contains(e.target) && e.target !== trigger){
         closeSearch();
       }
     });

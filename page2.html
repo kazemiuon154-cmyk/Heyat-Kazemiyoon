@@ -1918,6 +1918,8 @@
       if(!overlay) return;
       overlay.classList.add('show');
       document.body.style.overflow = 'hidden';
+      // دستیار رو مخفی کن تا موقع خوندن دعا مزاحم نباشه
+      if(window.KzmMascot && typeof window.KzmMascot.hide === 'function') window.KzmMascot.hide();
     }
     function closeModal(overlay){
       overlay.classList.remove('show');
@@ -1926,6 +1928,10 @@
       if(overlay.id === 'doa-modal-audio'){
         const audio = document.getElementById('doa-audio-el');
         if(audio && !audio.paused) audio.pause();
+      }
+      // فقط وقتی هیچ مودال دیگه‌ای باز نمونده، دستیار رو دوباره نشون بده
+      if(!document.querySelector('.doa-modal-overlay.show') && window.KzmMascot && typeof window.KzmMascot.show === 'function'){
+        window.KzmMascot.show();
       }
     }
 
