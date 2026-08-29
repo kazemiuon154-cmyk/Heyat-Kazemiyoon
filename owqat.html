@@ -380,12 +380,9 @@
     const trigger = document.getElementById('page2-back');
     if(!trigger) return;
     const targetHref = trigger.getAttribute('href');
-    trigger.addEventListener('click', function(e){
-      if(e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      e.preventDefault();
-      document.body.classList.add('page-exit');
-      setTimeout(() => { window.location.href = targetHref; }, 220);
-    });
+    /* لینک بازگشت الان یک لینک عادی است و بی‌درنگ باز می‌شود؛ پیش‌بارگذاری
+       بالا هنوز فعال است تا صفحه اول سریع‌تر لود شود، اما دیگر منتظر
+       انیمیشن محو شدن نمی‌مانیم که باعث لگ می‌شد. */
   })();
 
   // ---------------- اوقات شرعی چند شهر (محاسبات نجومی دقیق) ----------------
@@ -527,9 +524,11 @@
     }
 
     // اوقات شرعی لرستان (خرم‌آباد) — ثابت، مستقل از انتخاب شهر
+    var fixedTimesForReminder = null;
     function renderFixed(){
       if(!fixedEls.fajr) return;
-      paintTimes(fixedEls, computeTimes('khorramabad'));
+      fixedTimesForReminder = computeTimes('khorramabad');
+      paintTimes(fixedEls, fixedTimesForReminder);
     }
 
     // اوقات شرعی سایر شهرها — بر اساس شهر انتخاب‌شده
@@ -560,6 +559,56 @@
     document.querySelectorAll('.city-chip').forEach(chip => {
       chip.addEventListener('click', () => render(chip.getAttribute('data-city')));
     });
+
+    // --- یادآوری اذان: دستیار وقتی به یکی از اذان‌های خرم‌آباد نزدیک شدیم پیام می‌ده ---
+    (function adhanReminder(){
+      const REMIND_MIN = 10; // چند دقیقه قبل از اذان یادآوری بشه
+      const PRAYERS = [
+        { key:'fajr',    label:'اذان صبح' },
+        { key:'dhuhr',   label:'اذان ظهر' },
+        { key:'maghrib', label:'اذان مغرب' }
+      ];
+
+      function currentHours(){
+        const now = new Date();
+        return now.getHours() + now.getMinutes() / 60 + now.getSeconds() / 3600;
+      }
+      function todayKey(){
+        const d = new Date();
+        return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+      }
+      function alreadyNotified(storeKey){
+        try{ return localStorage.getItem(storeKey) === '1'; }catch(e){ return false; }
+      }
+      function markNotified(storeKey){
+        try{ localStorage.setItem(storeKey, '1'); }catch(e){}
+      }
+
+      function check(){
+        if(!fixedTimesForReminder) return;
+        if(!window.KzmMascot || typeof window.KzmMascot.notify !== 'function') return;
+        const nowH = currentHours();
+        const today = todayKey();
+        PRAYERS.forEach(p => {
+          const t = fixedTimesForReminder[p.key];
+          if(t == null) return;
+          const diffMin = (t - nowH) * 60;
+          const storeKey = 'kzmAdhanNotified_' + p.key + '_' + today;
+          if(diffMin > 0 && diffMin <= REMIND_MIN && !alreadyNotified(storeKey)){
+            markNotified(storeKey);
+            const minsLeft = Math.max(1, Math.round(diffMin));
+            window.KzmMascot.notify({
+              title: '🕌 ' + p.label + ' نزدیکه',
+              short: 'تا ' + p.label + ' لرستان (خرم‌آباد) حدود ' + toFaDigits(minsLeft) + ' دقیقه مونده.',
+              full: 'تا ' + p.label + ' برای خرم‌آباد حدود ' + toFaDigits(minsLeft) + ' دقیقه مونده.\n\nیادت نره آماده بشی 🤍'
+            }, 'surprised');
+          }
+        });
+      }
+
+      setInterval(check, 30000);
+      setTimeout(check, 3000);
+    })();
   })();
 </script>
 

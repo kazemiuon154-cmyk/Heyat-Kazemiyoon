@@ -1137,9 +1137,9 @@
     if(!ringWrap || !tapBtn) return;
 
     const DHIKR = {
-      salawat: { text: 'اللَّهُمَّ صَلِّ عَلَی مُحَمَّدٍ وَ آلِ مُحَمَّد', storeKey: 'kazemiuon-salavat-count-salawat' },
-      faraj:   { text: 'اَللّهُمَّ عَجِّل لِوَلیِّکَ الفَرَج',            storeKey: 'kazemiuon-salavat-count-faraj' },
-      estighfar: { text: 'أَسْتَغْفِرُ ٱللَّٰهَ رَبِّي وَأَتُوبُ إِلَيْهِ', storeKey: 'kazemiuon-salavat-count-estighfar' }
+      salawat: { text: 'اللَّهُمَّ صَلِّ عَلَی مُحَمَّدٍ وَ آلِ مُحَمَّد', storeKey: 'kazemiuon-salavat-count-salawat', label: 'صلوات' },
+      faraj:   { text: 'اَللّهُمَّ عَجِّل لِوَلیِّکَ الفَرَج',            storeKey: 'kazemiuon-salavat-count-faraj', label: 'تعجیل در فرج' },
+      estighfar: { text: 'أَسْتَغْفِرُ ٱللَّٰهَ رَبِّي وَأَتُوبُ إِلَيْهِ', storeKey: 'kazemiuon-salavat-count-estighfar', label: 'استغفار' }
     };
     const ACTIVE_KEY_STORE = 'kazemiuon-salavat-active';
     const ROUND_SIZE_STORE = 'kazemiuon-salavat-round-size';
@@ -1375,6 +1375,22 @@
       }, 5200);
     }
 
+    // --- جشن دستیار برای رسیدن به اعداد خاص (کل شمار یک ذکر، نه فقط دور) ---
+    const ASSISTANT_MILESTONES = [100, 500, 1000, 5000, 10000, 50000, 100000];
+    function checkAssistantMilestone(key, total, roundAlreadyCelebrated){
+      if(ASSISTANT_MILESTONES.indexOf(total) === -1) return;
+      const dhikrLabel = (DHIKR[key] && DHIKR[key].label) || 'این ذکر';
+      const totalFa = toFaNum(total);
+      if(window.KzmMascot && typeof window.KzmMascot.notify === 'function'){
+        window.KzmMascot.notify({
+          title: '🎉 تبریک می‌گم!',
+          short: 'به ' + totalFa + ' بار «' + dhikrLabel + '» رسیدی! دستت درد نکنه 🌹',
+          full: 'ماشاءالله! به ' + totalFa + ' بار «' + dhikrLabel + '» رسیدی.\n\nهمین‌طور ادامه بده، خدا قبول کنه 🤍'
+        }, 'laugh');
+      }
+      if(!roundAlreadyCelebrated) celebrateMilestone();
+    }
+
     function increment(){
       /* بازخورد لمسی و بصری همین اول اجرا می‌شود تا هیچ تاخیری حس نشود،
          پیش از هر محاسبه یا نوشتن در حافظه */
@@ -1387,10 +1403,13 @@
       setCount(activeKey, after);
       renderTap();
 
+      let roundCelebrated = false;
       if(after % roundSize === 0){
         vibrateNow([12,45,12,45,18]);
         celebrateMilestone();
+        roundCelebrated = true;
       }
+      checkAssistantMilestone(activeKey, after, roundCelebrated);
     }
 
     tapBtn.addEventListener('click', increment, { passive:true });
