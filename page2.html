@@ -534,6 +534,8 @@
     position:relative;
     width:100%; max-width:500px;
     height:86vh;
+    height:86svh; /* svh = ارتفاع کوچک‌ترین حالت ممکن صفحه؛ حتی اگه نوار آدرس */
+                  /* مرورگر با اسکرول جمع/باز بشه، مودال از صفحه بیرون نمی‌زنه */
     display:flex;
     flex-direction:column;
     background:var(--void);
@@ -854,17 +856,101 @@
     background:linear-gradient(135deg, var(--gold), var(--crimson-bright));
   }
 
-  /* حالت مطالعه شبانه: کاهش نور و گرم‌ترکردن رنگ برای مطالعه طولانی */
-  body.reader-night .doa-modal-sheet{
+  /* ================================================================
+     تم‌های مطالعه متن دعا (فقط روی مودال متن عربی/فارسی اعمال می‌شن،
+     مستقل از تم کلی سایت که از منوی بالای صفحه قابل تغییره)
+  ================================================================ */
+
+  /* تم مطالعه: شب — کاهش نور و گرم‌ترکردن رنگ برای مطالعه طولانی */
+  body.reader-theme-night .doa-modal-sheet{
     background:#050b06;
   }
-  body.reader-night .doa-modal-body{
+  body.reader-theme-night .doa-modal-body{
     filter:brightness(0.82) sepia(0.12);
   }
-  body.reader-night .doa-text-arabic,
-  body.reader-night .doa-text-fa{
+  body.reader-theme-night .doa-text-arabic,
+  body.reader-theme-night .doa-text-fa{
     color:#c9b892;
   }
+
+  /* تم مطالعه: روشن — پس‌زمینه‌ی روشن و متن تیره برای مطالعه در نور روز */
+  body.reader-theme-light .doa-modal-sheet{
+    background:#faf7ee;
+    border-color:#dccfa4;
+  }
+  body.reader-theme-light .doa-modal-handle{ background:#d9c9a0; }
+  body.reader-theme-light .doa-modal-head{ border-bottom-color:#e6dab4; }
+  body.reader-theme-light .doa-modal-title{ color:#2c2211; }
+  body.reader-theme-light .doa-modal-close{
+    border-color:#d9c9a0; color:#5c4c30; background:rgba(0,0,0,0.03);
+  }
+  body.reader-theme-light .doa-modal-close:hover{ border-color:#b8933b; color:#8a6d23; }
+  body.reader-theme-light .doa-reader-toolbar{ border-top-color:#e6dab4; }
+  body.reader-theme-light .doa-tool-btn{
+    border-color:#d9c9a0; color:#5c4c30; background:rgba(0,0,0,0.03);
+  }
+  body.reader-theme-light .doa-tool-btn:hover{ border-color:#b8933b; color:#2c2211; }
+  body.reader-theme-light .doa-text-arabic,
+  body.reader-theme-light .doa-text-fa{ color:#2c2211; }
+  body.reader-theme-light .doa-text-placeholder{ color:#7d6c4c; }
+  body.reader-theme-light .doa-text-arabic p.doa-text-note,
+  body.reader-theme-light .doa-text-fa p.doa-text-note{ color:#8a6d23; }
+  body.reader-theme-light .doa-text-fa p.doa-text-source{ color:#7d6c4c; }
+
+  /* تم مطالعه: کرمی — پس‌زمینه‌ی گرم و کاغذی، ملایم‌تر از حالت روشن */
+  body.reader-theme-sepia .doa-modal-sheet{
+    background:#f1e3c4;
+    border-color:#c9a968;
+  }
+  body.reader-theme-sepia .doa-modal-handle{ background:#c9a968; }
+  body.reader-theme-sepia .doa-modal-head{ border-bottom-color:#ddc48c; }
+  body.reader-theme-sepia .doa-modal-title{ color:#332405; }
+  body.reader-theme-sepia .doa-modal-close{
+    border-color:#c9a968; color:#5c4415; background:rgba(0,0,0,0.04);
+  }
+  body.reader-theme-sepia .doa-modal-close:hover{ border-color:#8a6412; color:#5c4415; }
+  body.reader-theme-sepia .doa-reader-toolbar{ border-top-color:#ddc48c; }
+  body.reader-theme-sepia .doa-tool-btn{
+    border-color:#c9a968; color:#5c4415; background:rgba(0,0,0,0.04);
+  }
+  body.reader-theme-sepia .doa-tool-btn:hover{ border-color:#8a6412; color:#332405; }
+  body.reader-theme-sepia .doa-text-arabic,
+  body.reader-theme-sepia .doa-text-fa{ color:#332405; }
+  body.reader-theme-sepia .doa-text-placeholder{ color:#7a5f2c; }
+  body.reader-theme-sepia .doa-text-arabic p.doa-text-note,
+  body.reader-theme-sepia .doa-text-fa p.doa-text-note{ color:#8a6412; }
+  body.reader-theme-sepia .doa-text-fa p.doa-text-source{ color:#7a5f2c; }
+
+  /* پاپ‌اور انتخاب تم مطالعه (نمونه‌های رنگی) */
+  .reader-theme-popover{
+    position:fixed;
+    width:max-content;
+    max-width:min(250px, calc(100vw - 20px));
+    background:var(--void-2, var(--void));
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px;
+    display:flex; flex-direction:column; gap:12px;
+    box-shadow:0 12px 26px rgba(0,0,0,0.5);
+    opacity:0; visibility:hidden;
+    transform:translateY(-6px);
+    transition:opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+    z-index:320;
+  }
+  .reader-theme-popover.show{ opacity:1; visibility:visible; transform:translateY(0); }
+  .reader-theme-swatches{ display:flex; align-items:center; justify-content:center; gap:12px; }
+  .reader-theme-swatch{
+    width:30px; height:30px; border-radius:50%;
+    border:2px solid var(--line);
+    padding:0; cursor:pointer;
+    transition:border-color 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease;
+  }
+  .reader-theme-swatch:hover{ transform:scale(1.08); }
+  .reader-theme-swatch.active{ border-color:var(--gold); box-shadow:0 0 0 2px rgba(201,162,39,0.25); }
+  .reader-theme-swatch.rt-default{ background:linear-gradient(135deg, var(--void), var(--void-2)); }
+  .reader-theme-swatch.rt-night{ background:#050b06; }
+  .reader-theme-swatch.rt-light{ background:#faf7ee; }
+  .reader-theme-swatch.rt-sepia{ background:#f1e3c4; }
 
   /* اندازه فونت قابل تنظیم */
   .doa-text-arabic{ font-size:calc(21px * var(--reader-scale)); }
@@ -905,9 +991,14 @@
   .fsz-dots span.on{ background:var(--gold); }
 
   /* حالت تمام‌صفحه دعا */
+  /* به‌جای اتکا به vh/dvh (که با جمع/بازشدن نوار آدرس موبایل حین اسکرول دچار
+     مشکل می‌شدن و دکمه‌های بالای مودال رو از صفحه بیرون می‌بردن)، اینجا فقط
+     height رو آزاد می‌ذاریم تا با align-items:stretch روی
+     .doa-modal-overlay.reader-fullscreen-active دقیقاً هم‌اندازه‌ی صفحه بشه؛
+     چون آن overlay خودش با position:fixed;inset:0 همیشه دقیقاً اندازه‌ی
+     viewport واقعیه، بدون نیاز به هیچ واحد vh ای. */
   .doa-modal-sheet.reader-fullscreen{
-    height:100dvh;
-    height:100vh;
+    height:auto;
     max-width:none;
     width:100%;
     border-radius:0;
@@ -1205,9 +1296,22 @@
       </button>
       <span class="doa-modal-title" data-i18n="doaAshuraArabicTitle">زیارت عاشورا | متن عربی</span>
       <div class="doa-reader-toolbar">
-        <button type="button" class="doa-tool-btn" data-reader-action="night" aria-label="حالت مطالعه شبانه" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M20 14.5a8 8 0 1 1-9-10.4 6.4 6.4 0 0 0 9 10.4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
-        </button>
+        <div style="position:relative">
+          <button type="button" class="doa-tool-btn" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.3" cy="10.3" r="1.15" fill="currentColor"/><circle cx="10.3" cy="6.8" r="1.15" fill="currentColor"/><circle cx="15" cy="7.8" r="1.15" fill="currentColor"/></svg>
+          </button>
+          <div class="reader-theme-popover">
+            <div class="font-popover-row">
+              <span class="font-popover-label">تم مطالعه</span>
+            </div>
+            <div class="reader-theme-swatches">
+              <button type="button" class="reader-theme-swatch rt-default" data-reader-theme="default" aria-label="پیش‌فرض" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-night" data-reader-theme="night" aria-label="حالت شب" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-light" data-reader-theme="light" aria-label="حالت روشن" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-sepia" data-reader-theme="sepia" aria-label="حالت کرمی" aria-pressed="false"></button>
+            </div>
+          </div>
+        </div>
         <div style="position:relative">
           <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
           <div class="font-popover">
@@ -1260,9 +1364,22 @@
       </button>
       <span class="doa-modal-title" data-i18n="doaKumaylArabicTitle">دعای کمیل | متن عربی</span>
       <div class="doa-reader-toolbar">
-        <button type="button" class="doa-tool-btn" data-reader-action="night" aria-label="حالت مطالعه شبانه" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M20 14.5a8 8 0 1 1-9-10.4 6.4 6.4 0 0 0 9 10.4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
-        </button>
+        <div style="position:relative">
+          <button type="button" class="doa-tool-btn" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.3" cy="10.3" r="1.15" fill="currentColor"/><circle cx="10.3" cy="6.8" r="1.15" fill="currentColor"/><circle cx="15" cy="7.8" r="1.15" fill="currentColor"/></svg>
+          </button>
+          <div class="reader-theme-popover">
+            <div class="font-popover-row">
+              <span class="font-popover-label">تم مطالعه</span>
+            </div>
+            <div class="reader-theme-swatches">
+              <button type="button" class="reader-theme-swatch rt-default" data-reader-theme="default" aria-label="پیش‌فرض" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-night" data-reader-theme="night" aria-label="حالت شب" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-light" data-reader-theme="light" aria-label="حالت روشن" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-sepia" data-reader-theme="sepia" aria-label="حالت کرمی" aria-pressed="false"></button>
+            </div>
+          </div>
+        </div>
         <div style="position:relative">
           <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
           <div class="font-popover">
@@ -1323,9 +1440,22 @@
       </button>
       <span class="doa-modal-title" data-i18n="doaNudbaArabicTitle">دعای ندبه | متن عربی</span>
       <div class="doa-reader-toolbar">
-        <button type="button" class="doa-tool-btn" data-reader-action="night" aria-label="حالت مطالعه شبانه" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M20 14.5a8 8 0 1 1-9-10.4 6.4 6.4 0 0 0 9 10.4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
-        </button>
+        <div style="position:relative">
+          <button type="button" class="doa-tool-btn" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.3" cy="10.3" r="1.15" fill="currentColor"/><circle cx="10.3" cy="6.8" r="1.15" fill="currentColor"/><circle cx="15" cy="7.8" r="1.15" fill="currentColor"/></svg>
+          </button>
+          <div class="reader-theme-popover">
+            <div class="font-popover-row">
+              <span class="font-popover-label">تم مطالعه</span>
+            </div>
+            <div class="reader-theme-swatches">
+              <button type="button" class="reader-theme-swatch rt-default" data-reader-theme="default" aria-label="پیش‌فرض" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-night" data-reader-theme="night" aria-label="حالت شب" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-light" data-reader-theme="light" aria-label="حالت روشن" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-sepia" data-reader-theme="sepia" aria-label="حالت کرمی" aria-pressed="false"></button>
+            </div>
+          </div>
+        </div>
         <div style="position:relative">
           <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
           <div class="font-popover">
@@ -1377,9 +1507,22 @@
       </button>
       <span class="doa-modal-title" data-i18n="doaTavassulArabicTitle">دعای توسل | متن عربی</span>
       <div class="doa-reader-toolbar">
-        <button type="button" class="doa-tool-btn" data-reader-action="night" aria-label="حالت مطالعه شبانه" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M20 14.5a8 8 0 1 1-9-10.4 6.4 6.4 0 0 0 9 10.4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
-        </button>
+        <div style="position:relative">
+          <button type="button" class="doa-tool-btn" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.3" cy="10.3" r="1.15" fill="currentColor"/><circle cx="10.3" cy="6.8" r="1.15" fill="currentColor"/><circle cx="15" cy="7.8" r="1.15" fill="currentColor"/></svg>
+          </button>
+          <div class="reader-theme-popover">
+            <div class="font-popover-row">
+              <span class="font-popover-label">تم مطالعه</span>
+            </div>
+            <div class="reader-theme-swatches">
+              <button type="button" class="reader-theme-swatch rt-default" data-reader-theme="default" aria-label="پیش‌فرض" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-night" data-reader-theme="night" aria-label="حالت شب" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-light" data-reader-theme="light" aria-label="حالت روشن" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-sepia" data-reader-theme="sepia" aria-label="حالت کرمی" aria-pressed="false"></button>
+            </div>
+          </div>
+        </div>
         <div style="position:relative">
           <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
           <div class="font-popover">
@@ -1431,9 +1574,22 @@
       </button>
       <span class="doa-modal-title" data-i18n="doaSamatArabicTitle">دعای سمات | متن عربی</span>
       <div class="doa-reader-toolbar">
-        <button type="button" class="doa-tool-btn" data-reader-action="night" aria-label="حالت مطالعه شبانه" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M20 14.5a8 8 0 1 1-9-10.4 6.4 6.4 0 0 0 9 10.4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
-        </button>
+        <div style="position:relative">
+          <button type="button" class="doa-tool-btn" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.3" cy="10.3" r="1.15" fill="currentColor"/><circle cx="10.3" cy="6.8" r="1.15" fill="currentColor"/><circle cx="15" cy="7.8" r="1.15" fill="currentColor"/></svg>
+          </button>
+          <div class="reader-theme-popover">
+            <div class="font-popover-row">
+              <span class="font-popover-label">تم مطالعه</span>
+            </div>
+            <div class="reader-theme-swatches">
+              <button type="button" class="reader-theme-swatch rt-default" data-reader-theme="default" aria-label="پیش‌فرض" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-night" data-reader-theme="night" aria-label="حالت شب" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-light" data-reader-theme="light" aria-label="حالت روشن" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-sepia" data-reader-theme="sepia" aria-label="حالت کرمی" aria-pressed="false"></button>
+            </div>
+          </div>
+        </div>
         <div style="position:relative">
           <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
           <div class="font-popover">
@@ -1494,9 +1650,22 @@
       </button>
       <span class="doa-modal-title" data-i18n="doaAminollahArabicTitle">دعای امین الله | متن عربی</span>
       <div class="doa-reader-toolbar">
-        <button type="button" class="doa-tool-btn" data-reader-action="night" aria-label="حالت مطالعه شبانه" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M20 14.5a8 8 0 1 1-9-10.4 6.4 6.4 0 0 0 9 10.4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
-        </button>
+        <div style="position:relative">
+          <button type="button" class="doa-tool-btn" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.3" cy="10.3" r="1.15" fill="currentColor"/><circle cx="10.3" cy="6.8" r="1.15" fill="currentColor"/><circle cx="15" cy="7.8" r="1.15" fill="currentColor"/></svg>
+          </button>
+          <div class="reader-theme-popover">
+            <div class="font-popover-row">
+              <span class="font-popover-label">تم مطالعه</span>
+            </div>
+            <div class="reader-theme-swatches">
+              <button type="button" class="reader-theme-swatch rt-default" data-reader-theme="default" aria-label="پیش‌فرض" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-night" data-reader-theme="night" aria-label="حالت شب" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-light" data-reader-theme="light" aria-label="حالت روشن" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-sepia" data-reader-theme="sepia" aria-label="حالت کرمی" aria-pressed="false"></button>
+            </div>
+          </div>
+        </div>
         <div style="position:relative">
           <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
           <div class="font-popover">
@@ -1539,9 +1708,22 @@
       </button>
       <span class="doa-modal-title" data-i18n="doaFarajArabicTitle">دعای فرج | متن عربی</span>
       <div class="doa-reader-toolbar">
-        <button type="button" class="doa-tool-btn" data-reader-action="night" aria-label="حالت مطالعه شبانه" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M20 14.5a8 8 0 1 1-9-10.4 6.4 6.4 0 0 0 9 10.4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
-        </button>
+        <div style="position:relative">
+          <button type="button" class="doa-tool-btn" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.3" cy="10.3" r="1.15" fill="currentColor"/><circle cx="10.3" cy="6.8" r="1.15" fill="currentColor"/><circle cx="15" cy="7.8" r="1.15" fill="currentColor"/></svg>
+          </button>
+          <div class="reader-theme-popover">
+            <div class="font-popover-row">
+              <span class="font-popover-label">تم مطالعه</span>
+            </div>
+            <div class="reader-theme-swatches">
+              <button type="button" class="reader-theme-swatch rt-default" data-reader-theme="default" aria-label="پیش‌فرض" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-night" data-reader-theme="night" aria-label="حالت شب" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-light" data-reader-theme="light" aria-label="حالت روشن" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-sepia" data-reader-theme="sepia" aria-label="حالت کرمی" aria-pressed="false"></button>
+            </div>
+          </div>
+        </div>
         <div style="position:relative">
           <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
           <div class="font-popover">
@@ -1578,9 +1760,22 @@
       </button>
       <span class="doa-modal-title" data-i18n="doaSalamatiArabicTitle">دعای سلامتی امام زمان (عج) | متن عربی</span>
       <div class="doa-reader-toolbar">
-        <button type="button" class="doa-tool-btn" data-reader-action="night" aria-label="حالت مطالعه شبانه" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M20 14.5a8 8 0 1 1-9-10.4 6.4 6.4 0 0 0 9 10.4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
-        </button>
+        <div style="position:relative">
+          <button type="button" class="doa-tool-btn" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.3" cy="10.3" r="1.15" fill="currentColor"/><circle cx="10.3" cy="6.8" r="1.15" fill="currentColor"/><circle cx="15" cy="7.8" r="1.15" fill="currentColor"/></svg>
+          </button>
+          <div class="reader-theme-popover">
+            <div class="font-popover-row">
+              <span class="font-popover-label">تم مطالعه</span>
+            </div>
+            <div class="reader-theme-swatches">
+              <button type="button" class="reader-theme-swatch rt-default" data-reader-theme="default" aria-label="پیش‌فرض" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-night" data-reader-theme="night" aria-label="حالت شب" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-light" data-reader-theme="light" aria-label="حالت روشن" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-sepia" data-reader-theme="sepia" aria-label="حالت کرمی" aria-pressed="false"></button>
+            </div>
+          </div>
+        </div>
         <div style="position:relative">
           <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
           <div class="font-popover">
@@ -1619,9 +1814,22 @@
       </button>
       <span class="doa-modal-title" data-i18n="doaSalamatiTranslationTitle">دعای سلامتی امام زمان (عج) | ترجمه</span>
       <div class="doa-reader-toolbar">
-        <button type="button" class="doa-tool-btn" data-reader-action="night" aria-label="حالت مطالعه شبانه" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M20 14.5a8 8 0 1 1-9-10.4 6.4 6.4 0 0 0 9 10.4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
-        </button>
+        <div style="position:relative">
+          <button type="button" class="doa-tool-btn" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.3" cy="10.3" r="1.15" fill="currentColor"/><circle cx="10.3" cy="6.8" r="1.15" fill="currentColor"/><circle cx="15" cy="7.8" r="1.15" fill="currentColor"/></svg>
+          </button>
+          <div class="reader-theme-popover">
+            <div class="font-popover-row">
+              <span class="font-popover-label">تم مطالعه</span>
+            </div>
+            <div class="reader-theme-swatches">
+              <button type="button" class="reader-theme-swatch rt-default" data-reader-theme="default" aria-label="پیش‌فرض" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-night" data-reader-theme="night" aria-label="حالت شب" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-light" data-reader-theme="light" aria-label="حالت روشن" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-sepia" data-reader-theme="sepia" aria-label="حالت کرمی" aria-pressed="false"></button>
+            </div>
+          </div>
+        </div>
         <div style="position:relative">
           <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
           <div class="font-popover">
@@ -1660,9 +1868,22 @@
       </button>
       <span class="doa-modal-title" data-i18n="doaAhdArabicTitle">دعای عهد | متن عربی</span>
       <div class="doa-reader-toolbar">
-        <button type="button" class="doa-tool-btn" data-reader-action="night" aria-label="حالت مطالعه شبانه" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M20 14.5a8 8 0 1 1-9-10.4 6.4 6.4 0 0 0 9 10.4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
-        </button>
+        <div style="position:relative">
+          <button type="button" class="doa-tool-btn" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.3" cy="10.3" r="1.15" fill="currentColor"/><circle cx="10.3" cy="6.8" r="1.15" fill="currentColor"/><circle cx="15" cy="7.8" r="1.15" fill="currentColor"/></svg>
+          </button>
+          <div class="reader-theme-popover">
+            <div class="font-popover-row">
+              <span class="font-popover-label">تم مطالعه</span>
+            </div>
+            <div class="reader-theme-swatches">
+              <button type="button" class="reader-theme-swatch rt-default" data-reader-theme="default" aria-label="پیش‌فرض" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-night" data-reader-theme="night" aria-label="حالت شب" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-light" data-reader-theme="light" aria-label="حالت روشن" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-sepia" data-reader-theme="sepia" aria-label="حالت کرمی" aria-pressed="false"></button>
+            </div>
+          </div>
+        </div>
         <div style="position:relative">
           <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
           <div class="font-popover">
@@ -1705,9 +1926,22 @@
       </button>
       <span class="doa-modal-title" data-i18n="doaAalYasinArabicTitle">زیارت آل یاسین | متن عربی</span>
       <div class="doa-reader-toolbar">
-        <button type="button" class="doa-tool-btn" data-reader-action="night" aria-label="حالت مطالعه شبانه" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M20 14.5a8 8 0 1 1-9-10.4 6.4 6.4 0 0 0 9 10.4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
-        </button>
+        <div style="position:relative">
+          <button type="button" class="doa-tool-btn" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.3" cy="10.3" r="1.15" fill="currentColor"/><circle cx="10.3" cy="6.8" r="1.15" fill="currentColor"/><circle cx="15" cy="7.8" r="1.15" fill="currentColor"/></svg>
+          </button>
+          <div class="reader-theme-popover">
+            <div class="font-popover-row">
+              <span class="font-popover-label">تم مطالعه</span>
+            </div>
+            <div class="reader-theme-swatches">
+              <button type="button" class="reader-theme-swatch rt-default" data-reader-theme="default" aria-label="پیش‌فرض" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-night" data-reader-theme="night" aria-label="حالت شب" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-light" data-reader-theme="light" aria-label="حالت روشن" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-sepia" data-reader-theme="sepia" aria-label="حالت کرمی" aria-pressed="false"></button>
+            </div>
+          </div>
+        </div>
         <div style="position:relative">
           <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
           <div class="font-popover">
@@ -1750,9 +1984,22 @@
       </button>
       <span class="doa-modal-title" data-i18n="doaAshuraTranslationTitle">زیارت عاشورا | ترجمه</span>
       <div class="doa-reader-toolbar">
-        <button type="button" class="doa-tool-btn" data-reader-action="night" aria-label="حالت مطالعه شبانه" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M20 14.5a8 8 0 1 1-9-10.4 6.4 6.4 0 0 0 9 10.4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
-        </button>
+        <div style="position:relative">
+          <button type="button" class="doa-tool-btn" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.3" cy="10.3" r="1.15" fill="currentColor"/><circle cx="10.3" cy="6.8" r="1.15" fill="currentColor"/><circle cx="15" cy="7.8" r="1.15" fill="currentColor"/></svg>
+          </button>
+          <div class="reader-theme-popover">
+            <div class="font-popover-row">
+              <span class="font-popover-label">تم مطالعه</span>
+            </div>
+            <div class="reader-theme-swatches">
+              <button type="button" class="reader-theme-swatch rt-default" data-reader-theme="default" aria-label="پیش‌فرض" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-night" data-reader-theme="night" aria-label="حالت شب" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-light" data-reader-theme="light" aria-label="حالت روشن" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-sepia" data-reader-theme="sepia" aria-label="حالت کرمی" aria-pressed="false"></button>
+            </div>
+          </div>
+        </div>
         <div style="position:relative">
           <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
           <div class="font-popover">
@@ -1804,9 +2051,22 @@
       </button>
       <span class="doa-modal-title" data-i18n="doaAshuraAudioTitle">زیارت عاشورا | صوت</span>
       <div class="doa-reader-toolbar">
-        <button type="button" class="doa-tool-btn" data-reader-action="night" aria-label="حالت مطالعه شبانه" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M20 14.5a8 8 0 1 1-9-10.4 6.4 6.4 0 0 0 9 10.4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
-        </button>
+        <div style="position:relative">
+          <button type="button" class="doa-tool-btn" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.3" cy="10.3" r="1.15" fill="currentColor"/><circle cx="10.3" cy="6.8" r="1.15" fill="currentColor"/><circle cx="15" cy="7.8" r="1.15" fill="currentColor"/></svg>
+          </button>
+          <div class="reader-theme-popover">
+            <div class="font-popover-row">
+              <span class="font-popover-label">تم مطالعه</span>
+            </div>
+            <div class="reader-theme-swatches">
+              <button type="button" class="reader-theme-swatch rt-default" data-reader-theme="default" aria-label="پیش‌فرض" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-night" data-reader-theme="night" aria-label="حالت شب" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-light" data-reader-theme="light" aria-label="حالت روشن" aria-pressed="false"></button>
+              <button type="button" class="reader-theme-swatch rt-sepia" data-reader-theme="sepia" aria-label="حالت کرمی" aria-pressed="false"></button>
+            </div>
+          </div>
+        </div>
         <div style="position:relative">
           <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
           <div class="font-popover">
@@ -1913,17 +2173,45 @@
     const openBtns  = document.querySelectorAll('[data-open-modal]');
     const closeBtns = document.querySelectorAll('[data-close-modal]');
 
+    // قفل کامل اسکرول پشت مودال؛ هم روی body و هم روی html.
+    // فقط overflow:hidden روی body کافی نیست: با اسکرول داخل مودال (که برای خوندن
+    // متن‌های بلند دعا خیلی پیش میاد)، نوار آدرس مرورگر موبایل جمع/باز می‌شه، ارتفاع
+    // vh عوض می‌شه و مودال از صفحه بیرون می‌زنه (مثلاً دکمه‌ی بستن دیگه لمس نمی‌شه).
+    var savedScrollY = 0, pageScrollLocked = false;
+    function lockPageScroll(){
+      if(pageScrollLocked) return;
+      pageScrollLocked = true;
+      savedScrollY = window.scrollY || window.pageYOffset || 0;
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.top = (-savedScrollY) + 'px';
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+    }
+    function unlockPageScroll(){
+      if(!pageScrollLocked) return;
+      pageScrollLocked = false;
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      window.scrollTo(0, savedScrollY);
+    }
+
     function openModal(id){
       const overlay = document.getElementById(id);
       if(!overlay) return;
       overlay.classList.add('show');
-      document.body.style.overflow = 'hidden';
+      lockPageScroll();
       // دستیار رو مخفی کن تا موقع خوندن دعا مزاحم نباشه
       if(window.KzmMascot && typeof window.KzmMascot.hide === 'function') window.KzmMascot.hide();
     }
     function closeModal(overlay){
       overlay.classList.remove('show');
-      document.body.style.overflow = '';
+      unlockPageScroll();
       // توقف صوت در صورت بسته‌شدن مودال صوت
       if(overlay.id === 'doa-modal-audio'){
         const audio = document.getElementById('doa-audio-el');
@@ -2040,30 +2328,42 @@
     });
   })();
 
-  // ---------------- ابزار مطالعه دعا: شب / فونت / تمام‌صفحه ----------------
+  // ---------------- ابزار مطالعه دعا: تم مطالعه / فونت / تمام‌صفحه ----------------
   (function doaReaderTools(){
     const FONT_STEPS = [0.82, 0.9, 1, 1.12, 1.26];
-    const state = { night:false, sizeIdx:2 };
+    const READER_THEMES = ['default', 'night', 'light', 'sepia'];
+    const state = { theme:'default', sizeIdx:2 };
 
     try{
-      if(localStorage.getItem('doaReaderNight') === '1') state.night = true;
+      const savedTheme = localStorage.getItem('doaReaderTheme');
+      if(savedTheme && READER_THEMES.includes(savedTheme)){
+        state.theme = savedTheme;
+      } else if(localStorage.getItem('doaReaderNight') === '1'){
+        // سازگاری با نسخه‌ی قبلی که فقط یک حالت شب/عادی داشت
+        state.theme = 'night';
+      }
       const savedSize = parseInt(localStorage.getItem('doaReaderSize'), 10);
       if(!isNaN(savedSize) && savedSize >= 0 && savedSize < FONT_STEPS.length) state.sizeIdx = savedSize;
     }catch(e){}
 
     function persist(){
       try{
-        localStorage.setItem('doaReaderNight', state.night ? '1' : '0');
+        localStorage.setItem('doaReaderTheme', state.theme);
         localStorage.setItem('doaReaderSize', String(state.sizeIdx));
       }catch(e){}
     }
 
     function applyGlobal(){
-      document.body.classList.toggle('reader-night', state.night);
+      document.body.classList.remove('reader-theme-night', 'reader-theme-light', 'reader-theme-sepia');
+      if(state.theme !== 'default') document.body.classList.add('reader-theme-' + state.theme);
       document.documentElement.style.setProperty('--reader-scale', String(FONT_STEPS[state.sizeIdx]));
-      document.querySelectorAll('[data-reader-action="night"]').forEach(b => {
-        b.setAttribute('aria-pressed', String(state.night));
-        b.classList.toggle('active', state.night);
+      document.querySelectorAll('[data-reader-theme]').forEach(b => {
+        const isActive = b.dataset.readerTheme === state.theme;
+        b.setAttribute('aria-pressed', String(isActive));
+        b.classList.toggle('active', isActive);
+      });
+      document.querySelectorAll('[data-reader-action="theme"]').forEach(b => {
+        b.classList.toggle('active', state.theme !== 'default');
       });
       document.querySelectorAll('.fsz-dec').forEach(b => { b.disabled = state.sizeIdx <= 0; });
       document.querySelectorAll('.fsz-inc').forEach(b => { b.disabled = state.sizeIdx >= FONT_STEPS.length - 1; });
@@ -2074,57 +2374,66 @@
 
     applyGlobal();
 
-    document.querySelectorAll('[data-reader-action="night"]').forEach(btn => {
-      btn.addEventListener('click', () => { state.night = !state.night; applyGlobal(); persist(); });
-    });
-
-    // پاپ‌اور فونت (هر ابزارک، پاپ‌اور مستقل خودش را دارد؛ وضعیت مشترک است)
-    document.querySelectorAll('.doa-reader-toolbar').forEach(toolbar => {
-      const fontBtn = toolbar.querySelector('[data-reader-action="font"]');
-      const popover = toolbar.querySelector('.font-popover');
-      if(!fontBtn || !popover) return;
-      document.body.appendChild(popover);
-
-      function position(){
-        const margin = 10;
-        const rect = fontBtn.getBoundingClientRect();
-        const pw = popover.offsetWidth || 220;
-        let left = rect.left + rect.width / 2 - pw / 2;
-        left = Math.max(margin, Math.min(left, window.innerWidth - pw - margin));
-        const ph = popover.offsetHeight || 120;
-        let top = rect.bottom + 8;
-        if(top + ph > window.innerHeight - margin) top = rect.top - ph - 8;
-        popover.style.left = left + 'px';
-        popover.style.top = Math.max(margin, top) + 'px';
-      }
-
-      fontBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const show = !popover.classList.contains('show');
-        document.querySelectorAll('.font-popover.show').forEach(p => { if(p !== popover) p.classList.remove('show'); });
-        if(show){
-          popover.style.visibility = 'hidden';
-          popover.classList.add('show');
-          position();
-          popover.style.visibility = '';
-        } else {
-          popover.classList.remove('show');
-        }
-        fontBtn.setAttribute('aria-expanded', String(show));
+    document.querySelectorAll('[data-reader-theme]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.theme = btn.dataset.readerTheme;
+        applyGlobal();
+        persist();
       });
-      window.addEventListener('resize', () => { if(popover.classList.contains('show')) position(); }, { passive:true });
-
-      popover.querySelectorAll('.fsz-dec').forEach(b => b.addEventListener('click', () => {
-        if(state.sizeIdx > 0){ state.sizeIdx--; applyGlobal(); persist(); }
-      }));
-      popover.querySelectorAll('.fsz-inc').forEach(b => b.addEventListener('click', () => {
-        if(state.sizeIdx < FONT_STEPS.length - 1){ state.sizeIdx++; applyGlobal(); persist(); }
-      }));
     });
+
+    // پاپ‌اورهای ابزارک‌ها (فونت و تم مطالعه): هر کدام پاپ‌اور مستقل خودش را دارد
+    function setupPopover(triggerSelector, popoverSelector){
+      document.querySelectorAll('.doa-reader-toolbar').forEach(toolbar => {
+        const trigger = toolbar.querySelector(triggerSelector);
+        const popover = toolbar.querySelector(popoverSelector);
+        if(!trigger || !popover) return;
+        document.body.appendChild(popover);
+
+        function position(){
+          const margin = 10;
+          const rect = trigger.getBoundingClientRect();
+          const pw = popover.offsetWidth || 220;
+          let left = rect.left + rect.width / 2 - pw / 2;
+          left = Math.max(margin, Math.min(left, window.innerWidth - pw - margin));
+          const ph = popover.offsetHeight || 120;
+          let top = rect.bottom + 8;
+          if(top + ph > window.innerHeight - margin) top = rect.top - ph - 8;
+          popover.style.left = left + 'px';
+          popover.style.top = Math.max(margin, top) + 'px';
+        }
+
+        trigger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const show = !popover.classList.contains('show');
+          document.querySelectorAll('.font-popover.show, .reader-theme-popover.show').forEach(p => { if(p !== popover) p.classList.remove('show'); });
+          if(show){
+            popover.style.visibility = 'hidden';
+            popover.classList.add('show');
+            position();
+            popover.style.visibility = '';
+          } else {
+            popover.classList.remove('show');
+          }
+          trigger.setAttribute('aria-expanded', String(show));
+        });
+        window.addEventListener('resize', () => { if(popover.classList.contains('show')) position(); }, { passive:true });
+
+        popover.querySelectorAll('.fsz-dec').forEach(b => b.addEventListener('click', () => {
+          if(state.sizeIdx > 0){ state.sizeIdx--; applyGlobal(); persist(); }
+        }));
+        popover.querySelectorAll('.fsz-inc').forEach(b => b.addEventListener('click', () => {
+          if(state.sizeIdx < FONT_STEPS.length - 1){ state.sizeIdx++; applyGlobal(); persist(); }
+        }));
+      });
+    }
+
+    setupPopover('[data-reader-action="font"]', '.font-popover');
+    setupPopover('[data-reader-action="theme"]', '.reader-theme-popover');
 
     document.addEventListener('click', (e) => {
-      document.querySelectorAll('.font-popover.show').forEach(p => {
-        if(!p.contains(e.target) && !e.target.closest('[data-reader-action="font"]')){
+      document.querySelectorAll('.font-popover.show, .reader-theme-popover.show').forEach(p => {
+        if(!p.contains(e.target) && !e.target.closest('[data-reader-action="font"]') && !e.target.closest('[data-reader-action="theme"]')){
           p.classList.remove('show');
         }
       });
@@ -2276,9 +2585,6 @@
       doaAhdArabicTitle: 'دعای عهد | متن عربی',
       doaAalYasinArabicTitle: 'زیارت آل یاسین | متن عربی',
       doaAudioHint: 'برای پخش صوت ضربه بزنید',
-      doaPlaceholderArabic: 'متن کامل زیارت عاشورا (عربی) به‌زودی اینجا قرار می‌گیرد.',
-      doaPlaceholderArabic2: 'متن کامل زیارت عاشورا (عربی) به‌زودی اینجا قرار می‌گیرد.',
-      doaPlaceholderFa: 'ترجمه کامل زیارت عاشورا به‌زودی اینجا قرار می‌گیرد.',
       guideLinkText: 'راهنمای سایت',
       footerSub: 'پایگاه اطلاع‌رسانی هیئت کاظمیون خرم‌آباد',
       quickMenuTheme: 'تم',
@@ -2317,9 +2623,6 @@
       doaAhdArabicTitle: 'دعاء العهد | النص العربي',
       doaAalYasinArabicTitle: 'زيارة آل ياسين | النص العربي',
       doaAudioHint: 'اضغط لتشغيل الصوت',
-      doaPlaceholderArabic: 'سيتم إضافة النص الكامل لزيارة عاشوراء قريبًا.',
-      doaPlaceholderArabic2: 'سيتم إضافة النص الكامل لزيارة عاشوراء قريبًا.',
-      doaPlaceholderFa: 'ستتم إضافة الترجمة الكاملة قريبًا.',
       guideLinkText: 'دليل الموقع',
       footerSub: 'القناة الرسمية لموكب الكاظميون خرم‌آباد',
       quickMenuTheme: 'المظهر',
@@ -2358,9 +2661,6 @@
       doaAhdArabicTitle: 'Dua al-Ahd | Arabic Text',
       doaAalYasinArabicTitle: 'Ziyarat Aal Yaseen | Arabic Text',
       doaAudioHint: 'Tap to play the audio',
-      doaPlaceholderArabic: 'The full Arabic text of Ziarat Ashura will be added soon.',
-      doaPlaceholderArabic2: 'The full Arabic text of Ziarat Ashura will be added soon.',
-      doaPlaceholderFa: 'The full translation will be added soon.',
       guideLinkText: 'Site Guide',
       footerSub: 'Official channel of Heyat-e Kazemiyoon Khorramabad',
       quickMenuTheme: 'Theme',
