@@ -1,6 +1,6 @@
 // service-worker.js — هیئت کاظمیون خرم‌آباد
 // نسخه کش را با هر تغییر مهم در سایت افزایش دهید تا کاربران نسخه جدید را بگیرند
-const CACHE_VERSION = 'kazemiuon-v4'; // v3 → v4: رفع باگ کش‌شدن دائمی assistant.js/assistant.css
+const CACHE_VERSION = 'kazemiuon-v5'; // v4 → v5: assistant.js/css هم network-first شدند تا با تأخیر آپدیت نشن
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -31,11 +31,12 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// استراتژی: صفحه اصلی → network-first (تا اعلان‌ها/ساعت مراسم به‌روز بمانند)
-//            سایر فایل‌های استاتیک هم‌مبدأ (assistant.js/css، لوگو، مانیفست و ...) →
+// استراتژی: صفحه اصلی و فایل‌های دستیار (assistant.js/css) → network-first
+//            (همیشه اول از سرور گرفته می‌شن تا اعلان نسخه/تغییرات بدون تأخیر نمایش داده بشه؛
+//            فقط وقتی آفلاینه از کش استفاده می‌شه)
+//            سایر فایل‌های استاتیک هم‌مبدأ (لوگو، مانیفست و ...) →
 //            stale-while-revalidate: نسخه‌ی کش‌شده فوری نمایش داده می‌شه (برای سرعت و آفلاین)،
-//            ولی هم‌زمان یه درخواست به شبکه هم می‌ره و کش با نسخه‌ی تازه‌تر آپدیت می‌شه؛
-//            این‌طوری بازدید بعدی همیشه آخرین نسخه رو می‌گیره، بدون نیاز به افزایش دستی CACHE_VERSION.
+//            ولی هم‌زمان یه درخواست به شبکه هم می‌ره و کش با نسخه‌ی تازه‌تر آپدیت می‌شه.
 //            (نکته: قبلاً اینجا cache-first بود که باعث می‌شد assistant.js بعد از اولین کش، دیگه
 //            هیچ‌وقت آپدیت نشه — حتی با انتشار نسخه‌ی جدید روی سرور.)
 self.addEventListener('fetch', (event) => {
@@ -45,8 +46,9 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(req.url);
   const isSameOrigin = url.origin === self.location.origin;
   const isHTML = req.mode === 'navigate' || req.headers.get('accept')?.includes('text/html');
+  const isAssistantAsset = /\/(assistant\.js|assistant\.css)$/.test(url.pathname);
 
-  if (isSameOrigin && isHTML) {
+  if (isSameOrigin && (isHTML || isAssistantAsset)) {
     event.respondWith(
       fetch(req)
         .then((res) => {
