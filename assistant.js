@@ -20,11 +20,30 @@
     { icon:'✨', keywords:['ذکر روز','ذکر امروز'], label:'ذکر روز', url:'zekr.html', desc:'ذکر هرروز رو اینجا ببین.' },
     { icon:'🖼️', keywords:['فریم','قاب عکس','فریم ساز','فریم پروفایل'], label:'فریم‌ساز عکس', url:'frame.html', desc:'عکس‌تو با فریم مخصوص هیئت بساز.' },
     { icon:'❓', keywords:['راهنما','راهنمای سایت','کمک'], label:'راهنمای سایت', url:'guide.html', desc:'راهنمای کامل استفاده از سایت.' },
-    { icon:'💬', keywords:['سوال','پرسش','پرسش و پاسخ'], label:'پرسش و پاسخ', url:'faq.html', desc:'سوالات پرتکرار رو اینجا جواب می‌دیم.' }
+    { icon:'💬', keywords:['سوال','پرسش','پرسش و پاسخ'], label:'پرسش و پاسخ', url:'faq.html', desc:'سوالات پرتکرار رو اینجا جواب می‌دیم.' },
+    { icon:'🆕', keywords:['نسخه','ورژن','تغییرات','بروزرسانی','به روزرسانی','آپدیت','changelog'], label:'نسخه سایت', action:'version', desc:'تاریخچه‌ی تغییرات و به‌روزرسانی‌های سایت رو اینجا ببین.' }
   ];
   function currentPageFile(){
     return location.pathname.split('/').pop() || 'index.html';
   }
+
+  // ---------------- نسخه‌ی سایت و تاریخچه‌ی تغییرات ----------------
+  // نکته برای نگهداری: با هر انتشار مهم، APP_VERSION رو عوض کنید و یک آیتم جدید بالای CHANGELOG اضافه کنید.
+  var APP_VERSION = '4.0';
+  var CHANGELOG = [
+    { v:'4.0', items:[
+      'رفع مشکلی که باعث می‌شد بعضی وقت‌ها سایت نسخه‌ی قدیمی رو روی گوشی نشون بده',
+      'اضافه شدن بخش «نسخه سایت» به دستیار و منو تا همیشه از تازه‌ترین تغییرات باخبر باشید'
+    ]},
+    { v:'3.0', items:[
+      'اضافه شدن بخش نذورات',
+      'بهبود نمایش صلوات‌شمار در گوشی‌های کوچک'
+    ]},
+    { v:'2.0', items:[
+      'افزوده شدن گالری تصاویر مراسم',
+      'پشتیبانی آفلاین و امکان نصب سایت به‌عنوان اپلیکیشن (PWA)'
+    ]}
+  ];
 
   var MASCOT_HTML =
     '<div class="kzm-mascot" id="kzm-mascot" aria-hidden="true">' +
@@ -77,6 +96,13 @@
   var bClose = el('button', 'kzm-bubble-close', 'بستن');
   bActs.appendChild(bMore); bActs.appendChild(bClose);
   bubble.appendChild(bTitle); bubble.appendChild(bText); bubble.appendChild(bLink); bubble.appendChild(bActs);
+  bLink.addEventListener('click', function(e){
+    if(current && current.action === 'version'){
+      e.preventDefault();
+      hideBubble();
+      openVersionModal();
+    }
+  });
 
   var searchBtn = el('button', 'kzm-search-btn', '🔍');
   searchBtn.setAttribute('type', 'button');
@@ -107,13 +133,71 @@
   (function buildShortcuts(){
     var curFile = currentPageFile();
     SITE_MAP.forEach(function(item){
-      var a = document.createElement('a');
+      var a = document.createElement(item.action ? 'button' : 'a');
       a.className = 'kzm-shortcut' + (item.url === curFile ? ' kzm-shortcut-active' : '');
-      a.href = item.url;
+      if(item.action){
+        a.setAttribute('type', 'button');
+        a.addEventListener('click', function(){
+          closeOverlay();
+          if(item.action === 'version') openVersionModal();
+        });
+      } else {
+        a.href = item.url;
+      }
       a.innerHTML = '<span class="icon">' + item.icon + '</span><span>' + item.label + '</span>';
       oGrid.appendChild(a);
     });
   })();
+
+  // ---------------- مودال نسخه سایت / تاریخچه تغییرات ----------------
+  var vOverlay = el('div', 'kzm-version-overlay');
+  var vCard    = el('div', 'kzm-version-card');
+  var vClose   = el('button', 'kzm-version-x', '✕');
+  var vTitle   = el('div', 'kzm-version-title', '🎉 به‌روزرسانی سایت');
+  var vTag     = el('div', 'kzm-version-tag');
+  var vList    = el('div', 'kzm-version-list');
+  var vThanks  = el('div', 'kzm-version-thanks', '🙏 با تشکر از همراهی همیشگی شما با هیئت کاظمیون خرم‌آباد');
+  var vBtn     = el('button', 'kzm-version-btn', 'متوجه شدم');
+  vClose.setAttribute('type', 'button');
+  vClose.setAttribute('aria-label', 'بستن');
+  vBtn.setAttribute('type', 'button');
+  vCard.appendChild(vClose);
+  vCard.appendChild(vTitle);
+  vCard.appendChild(vTag);
+  vCard.appendChild(vList);
+  vCard.appendChild(vThanks);
+  vCard.appendChild(vBtn);
+  vOverlay.appendChild(vCard);
+
+  function renderChangelog(){
+    vTag.textContent = 'نسخه فعلی: ' + APP_VERSION;
+    vList.innerHTML = CHANGELOG.map(function(c, idx){
+      var isLatest = idx === 0;
+      return '<div class="kzm-version-item' + (isLatest ? ' latest' : '') + '">' +
+        '<div class="v">' + (isLatest ? '<span class="badge">جدیدترین</span>' : '') + 'نسخه ' + c.v + '</div><ul>' +
+        c.items.map(function(i){ return '<li>' + i + '</li>'; }).join('') +
+        '</ul></div>';
+    }).join('');
+  }
+  function markVersionSeen(){
+    try { localStorage.setItem('kzmSeenVersion', APP_VERSION); } catch(err){}
+  }
+  function openVersionModal(){
+    renderChangelog();
+    closeOverlay();
+    closeSearch();
+    hideBubble();
+    vOverlay.classList.add('kzm-show');
+    lockPageScroll();
+  }
+  function closeVersionModal(){
+    vOverlay.classList.remove('kzm-show');
+    unlockPageScroll();
+    markVersionSeen();
+  }
+  vBtn.addEventListener('click', closeVersionModal);
+  vClose.addEventListener('click', closeVersionModal);
+  vOverlay.addEventListener('click', function(e){ if(e.target === vOverlay) closeVersionModal(); });
   oBody.appendChild(oTitle); oBody.appendChild(oText); oBody.appendChild(oHint);
   oBody.appendChild(oGridHeading); oBody.appendChild(oGrid);
   card.appendChild(closeX); card.appendChild(oBody);
@@ -134,10 +218,49 @@
       document.body.appendChild(searchBtn);
     }
     document.body.appendChild(searchPanel);
+    document.body.appendChild(vOverlay);
     mascot = document.getElementById('kzm-mascot');
     initReactions();
     initInteractions();
     initSearch(topbarSearchBtn);
+    injectVersionMenuItem();
+    initVersionCheck();
+  }
+
+  // ---------------- افزودن ردیف «نسخه سایت» به منوی همبرگری (در صورت وجود در این صفحه) ----------------
+  function injectVersionMenuItem(){
+    var panel = document.getElementById('quick-menu-panel');
+    if(!panel || document.getElementById('kzm-version-menu-row')) return;
+    var row = el('div', 'quick-menu-row');
+    row.id = 'kzm-version-menu-row';
+    var label = el('span', 'quick-menu-label', 'نسخه سایت');
+    var btn = el('button', 'sound-toggle', '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 7.5v5l3.2 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+    btn.setAttribute('type', 'button');
+    btn.setAttribute('aria-label', 'نمایش تاریخچه تغییرات و نسخه سایت');
+    btn.addEventListener('click', function(){
+      panel.classList.remove('show');
+      var menuBtn = document.getElementById('quick-menu-btn');
+      if(menuBtn){ menuBtn.classList.remove('active'); menuBtn.setAttribute('aria-expanded', 'false'); }
+      openVersionModal();
+    });
+    row.appendChild(label);
+    row.appendChild(btn);
+    panel.appendChild(row);
+  }
+
+  // ---------------- نمایش خودکار مودال نسخه فقط یک‌بار برای هر نسخه‌ی جدید ----------------
+  function initVersionCheck(){
+    var isReturningUser = false;
+    try { isReturningUser = !!localStorage.getItem('kzmAssistGreeted'); } catch(err){}
+    var seenVersion = null;
+    try { seenVersion = localStorage.getItem('kzmSeenVersion'); } catch(err){}
+    if(seenVersion === APP_VERSION) return;
+    if(!isReturningUser){
+      // کاربر تازه‌واردیه؛ چیزی که براش «جدید» نیست رو بهش اعلام نکن، فقط نسخه‌ی فعلی رو ثبت کن
+      markVersionSeen();
+      return;
+    }
+    setTimeout(function(){ openVersionModal(); }, 1800);
   }
 
   // ---------------- ری‌اکشن‌های شکلک (برداشته‌شده از دستیار صفحه‌ی پرسش‌وپاسخ) ----------------
@@ -168,7 +291,9 @@
       notify: function(data, reactType){ showBubble(data, reactType); },
       // مخفی/نمایش کامل ویجت (مثلاً وقتی کاربر داره دعا می‌خونه)
       hide: function(){ setVisible(false); },
-      show: function(){ setVisible(true); }
+      show: function(){ setVisible(true); },
+      // نمایش دستی مودال نسخه/تاریخچه تغییرات سایت
+      showVersion: function(){ openVersionModal(); }
     };
 
     if(!reduceMotion){
@@ -197,6 +322,11 @@
     bText.textContent  = data.short || '';
     if(data.url){
       bLink.setAttribute('href', data.url);
+      bLink.textContent = 'برو به این بخش ←';
+      bLink.style.display = 'inline-flex';
+    } else if(data.action){
+      bLink.removeAttribute('href');
+      bLink.textContent = 'دیدن تغییرات ←';
       bLink.style.display = 'inline-flex';
     } else {
       bLink.removeAttribute('href');
@@ -367,7 +497,7 @@
       } else if(match && match.url === currentFile){
         showBubble({ title:'😊 همین‌جایی!', short:'الان توی همین بخش («' + match.label + '») هستی.' }, 'shy');
       } else if(match){
-        showBubble({ title:'🔍 ' + match.label, short:match.desc, url:match.url }, 'happy');
+        showBubble({ title:'🔍 ' + match.label, short:match.desc, url:match.url, action:match.action }, 'happy');
       } else {
         showBubble({ title:'🤔 پیدا نکردم', short:'دقیق متوجه نشدم؛ می‌تونی توی صفحه راهنما همه بخش‌ها رو ببینی.', url:'guide.html' }, 'think');
       }

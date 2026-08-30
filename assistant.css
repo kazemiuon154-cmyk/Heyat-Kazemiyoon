@@ -643,8 +643,121 @@ body.kzm-widget-hidden .kzm-mascot-wrap,
 body.kzm-widget-hidden .kzm-bubble,
 body.kzm-widget-hidden .kzm-search-btn,
 body.kzm-widget-hidden .kzm-search-panel,
-body.kzm-widget-hidden .kzm-overlay{
+body.kzm-widget-hidden .kzm-overlay,
+body.kzm-widget-hidden .kzm-version-overlay{
   display:none !important;
+}
+
+/* ===== مودال نسخه سایت / تاریخچه تغییرات ===== */
+.kzm-version-overlay{
+  position:fixed; inset:0; z-index:10050;
+  background:rgba(0,0,0,0.6);
+  display:flex; align-items:center; justify-content:center;
+  padding:20px;
+  opacity:0; visibility:hidden; pointer-events:none;
+  transition:opacity .2s ease;
+}
+.kzm-version-overlay.kzm-show{
+  opacity:1; visibility:visible; pointer-events:auto;
+}
+.kzm-version-card{
+  position:relative;
+  width:min(420px, 100%);
+  max-height:82vh;
+  overflow-y:auto;
+  background:linear-gradient(180deg, var(--void-2,#0e2419), var(--void,#071710));
+  border:1px solid var(--line,rgba(255,203,61,0.22));
+  border-radius:20px;
+  padding:24px 20px 20px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.5);
+}
+.kzm-version-x{
+  position:absolute; top:14px; left:14px;
+  width:28px; height:28px; border-radius:50%;
+  border:1px solid var(--line,rgba(255,203,61,0.22));
+  background:rgba(255,255,255,0.05);
+  color:var(--parchment,#f3ead0);
+  font-size:13px; cursor:pointer;
+}
+.kzm-version-title{
+  color:var(--gold,#ffcb3d);
+  font-size:18px; font-weight:700;
+  margin-bottom:4px;
+}
+.kzm-version-tag{
+  color:var(--crimson-bright, var(--crimson,#0e9b62));
+  font-size:12.5px;
+  margin-bottom:16px;
+}
+.kzm-version-list{ margin-bottom:6px; }
+.kzm-version-item{
+  padding-bottom:14px; margin-bottom:14px;
+  border-bottom:1px dashed var(--line,rgba(255,203,61,0.22));
+}
+.kzm-version-item:last-child{ border-bottom:none; margin-bottom:0; padding-bottom:0; }
+.kzm-version-item .v{
+  font-size:13px; font-weight:700;
+  color:var(--gold-soft,#d1a52a);
+  margin-bottom:6px;
+  display:flex; align-items:center; gap:8px;
+}
+.kzm-version-item ul{
+  padding-right:18px; margin:0;
+  font-size:13.5px; line-height:1.9;
+  color:var(--parchment,#f3ead0);
+}
+
+/* کارت «جدیدترین نسخه»؛ برجسته و متمایز از بقیه تا توجه کاربر جلب بشه */
+.kzm-version-item.latest{
+  position:relative;
+  margin:-4px -4px 16px;
+  padding:14px 14px 16px;
+  border:1px solid var(--gold,#ffcb3d);
+  border-bottom:1px solid var(--gold,#ffcb3d);
+  border-radius:14px;
+  background:linear-gradient(155deg, rgba(255,203,61,0.14), rgba(var(--crimson-rgb,14,155,98),0.10));
+  box-shadow:0 0 0 1px rgba(255,203,61,0.15) inset, 0 8px 20px rgba(0,0,0,0.25);
+  animation:kzmLatestGlow 2.4s ease-in-out infinite;
+}
+.kzm-version-item.latest .v{ color:var(--gold,#ffcb3d); font-size:14px; }
+.kzm-version-item.latest ul{ color:var(--parchment,#f3ead0); }
+.kzm-version-item.latest .badge{
+  display:inline-block;
+  background:var(--gold,#ffcb3d);
+  color:#231a00;
+  font-size:10.5px; font-weight:800;
+  padding:2px 8px;
+  border-radius:999px;
+  letter-spacing:.2px;
+}
+@keyframes kzmLatestGlow{
+  0%, 100%{ box-shadow:0 0 0 1px rgba(255,203,61,0.15) inset, 0 8px 20px rgba(0,0,0,0.25); }
+  50%{ box-shadow:0 0 0 1px rgba(255,203,61,0.35) inset, 0 8px 26px rgba(255,203,61,0.18); }
+}
+.kzm-version-thanks{
+  margin-top:16px; padding:13px 14px;
+  border-radius:12px;
+  background:rgba(var(--crimson-rgb,14,155,98),0.14);
+  border:1px solid var(--line,rgba(255,203,61,0.22));
+  font-size:13px; line-height:1.8; text-align:center;
+  color:var(--parchment,#f3ead0);
+}
+.kzm-version-btn{
+  width:100%; margin-top:16px; padding:12px;
+  border:none; border-radius:12px;
+  background:var(--crimson,#0e9b62);
+  color:#fff; font-size:14px; font-weight:700;
+  cursor:pointer;
+}
+.kzm-version-btn:active{ transform:scale(0.98); }
+
+/* دکمه‌ی «نسخه سایت» داخل منوی همبرگری، هم‌شکل با بقیه‌ی دکمه‌های همون منو */
+#kzm-version-menu-row .sound-toggle svg{ width:18px; height:18px; }
+
+/* اطمینان از اینکه میان‌بر «نسخه سایت» به‌صورت button هم دقیقاً مثل بقیه‌ی میان‌برها به نظر بیاد */
+button.kzm-shortcut{
+  font-family:inherit;
+  cursor:pointer;
 }
 
 @media (max-width:420px){
