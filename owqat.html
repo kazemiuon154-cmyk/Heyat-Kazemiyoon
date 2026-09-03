@@ -250,22 +250,255 @@
   }
   .guide-link:hover{ border-color:var(--gold-soft); color:var(--gold); background:rgba(255,255,255,0.06); }
   .guide-link svg{ width:14px; height:14px; flex:none; }
+
+  /* ============================================================
+     THEME SYSTEM (پیش‌فرض: سبز و طلایی / و ۸ تم جایگزین)
+     همان تعریف رنگ‌های سایر صفحات تا در کل سایت هماهنگ بماند
+  ============================================================ */
+  body.theme-dark{
+    --void:#000000; --void-2:#0a0a0a;
+    --crimson:#6e1013; --crimson-bright:#9c2320;
+    --gold:#a3853a; --gold-soft:#6f5d33; --gold-dim:#453a22;
+    --parchment:#d8d0bf; --parchment-dim:#83786a;
+    --line:rgba(163,133,58,0.14);
+    background:#000000;
+  }
+  body.theme-light{
+    --void:#04120a; --void-2:#071c11;
+    --crimson:#39ff14; --crimson-rgb:57,255,20; --crimson-bright:#7dffb0;
+    --gold:#b6ff2e; --gold-soft:#7fd11a; --gold-dim:#4a7a1e;
+    --parchment:#e9ffee; --parchment-dim:#8fc79f;
+    --line:rgba(57,255,20,0.28);
+  }
+  body.theme-fest{
+    --void:#0c1220; --void-2:#121a2e;
+    --crimson:#d81b60; --crimson-rgb:216,27,96; --crimson-bright:#ff4081;
+    --gold:#ffca28; --gold-soft:#e0a72a; --gold-dim:#b8860b;
+    --parchment:#fff6e0; --parchment-dim:#d8c9a3;
+    --line:rgba(255,202,40,0.25);
+  }
+  body.theme-crimson{
+    --void:#0e0906; --void-2:#150e0a;
+    --crimson:#8c1518; --crimson-rgb:140,21,24; --crimson-bright:#b8241f;
+    --gold:#c9a227; --gold-soft:#8a7040; --gold-dim:#5c4a28;
+    --parchment:#f1e7d8; --parchment-dim:#a99c8a;
+    --line:rgba(201,162,39,0.16);
+  }
+  body.theme-lilac{
+    --void:#160a1e; --void-2:#1f1029;
+    --crimson:#c65bd6; --crimson-rgb:198,91,214; --crimson-bright:#e28ae8;
+    --gold:#f0c94e; --gold-soft:#caa53a; --gold-dim:#8a6f28;
+    --parchment:#fbeefc; --parchment-dim:#c3a8c9;
+    --line:rgba(240,201,78,0.22);
+  }
+  body.theme-sunset{
+    --void:#071c22; --void-2:#0d2a32;
+    --crimson:#ff7a45; --crimson-rgb:255,122,69; --crimson-bright:#ff9d6e;
+    --gold:#ffcf6b; --gold-soft:#dba63e; --gold-dim:#8f6c22;
+    --parchment:#fff3e6; --parchment-dim:#c8b39c;
+    --line:rgba(32,196,196,0.25);
+  }
+  body.theme-amber{
+    --void:#1c130a; --void-2:#241a0e;
+    --crimson:#c8752b; --crimson-rgb:200,117,43; --crimson-bright:#e29344;
+    --gold:#f0c14b; --gold-soft:#cb9f33; --gold-dim:#836a20;
+    --parchment:#fbf1dc; --parchment-dim:#c9b998;
+    --line:rgba(240,193,75,0.22);
+  }
+  body.theme-sky{
+    --void:#081521; --void-2:#0e2032;
+    --crimson:#2f8ce0; --crimson-rgb:47,140,224; --crimson-bright:#5fadf5;
+    --gold:#ffd35c; --gold-soft:#d9ac3c; --gold-dim:#8f7126;
+    --parchment:#f0f8ff; --parchment-dim:#a9c2d6;
+    --line:rgba(127,212,255,0.22);
+  }
+
+  /* ---------------- منوی سریع (همبرگری: تم/زبان/صدا) ---------------- */
+  .quick-menu{ position:fixed; top:14px; left:14px; z-index:65; }
+  .quick-menu-btn{
+    width:36px; height:36px; border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(20,14,10,0.75);
+    color:var(--parchment-dim);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition:all 0.2s ease;
+    -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+  }
+  .quick-menu-btn svg{ width:17px; height:17px; }
+  .quick-menu-btn:hover, .quick-menu-btn.active{ border-color:var(--gold-soft); color:var(--gold); }
+  .quick-menu-panel{
+    position:absolute; top:44px; left:0;
+    display:flex; flex-direction:column; align-items:stretch; gap:8px;
+    min-width:168px; padding:12px;
+    background:var(--void-2, var(--void));
+    border:1px solid var(--line); border-radius:16px;
+    box-shadow:0 12px 26px rgba(0,0,0,0.5);
+    opacity:0; visibility:hidden; transform:translateY(-8px);
+    transition:opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+    z-index:65;
+  }
+  .quick-menu-panel.show{ opacity:1; visibility:visible; transform:translateY(0); }
+  .quick-menu-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .quick-menu-label{ font-family:'Vazirmatn', sans-serif; font-size:11.5px; font-weight:600; color:var(--parchment-dim); }
+  .theme-switch-wrap{ position:relative; }
+  .theme-toggle-btn{
+    width:30px; height:30px; border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.02);
+    color:var(--parchment-dim);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition:all 0.2s ease;
+  }
+  .theme-toggle-btn svg{ width:15px; height:15px; }
+  .theme-toggle-btn:hover{ border-color:var(--gold-soft); color:var(--gold); }
+  .theme-popover{
+    position:fixed; width:max-content; max-width:min(260px, calc(100vw - 20px));
+    background:var(--void-2, var(--void));
+    border:1px solid var(--line); border-radius:14px; padding:6px;
+    display:flex; flex-direction:row; flex-wrap:wrap; gap:4px;
+    box-shadow:0 12px 26px rgba(0,0,0,0.5);
+    opacity:0; visibility:hidden; transform:translateY(-6px);
+    transition:opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+    z-index:70;
+  }
+  .theme-popover.show{ opacity:1; visibility:visible; transform:translateY(0); }
+  .theme-opt{
+    font-family:'Vazirmatn', sans-serif; font-size:11.5px; font-weight:600;
+    color:var(--parchment-dim);
+    background:transparent; border:1px solid transparent;
+    padding:8px 9px; border-radius:9px; cursor:pointer; text-align:center;
+    white-space:nowrap; transition:all 0.15s ease;
+  }
+  .theme-opt.active{ color:var(--void); background:var(--gold); }
+  .theme-opt:not(.active):hover{ border-color:var(--gold-soft); color:var(--parchment); }
+
+  .lang-switch-wrap{ position:relative; }
+  .lang-toggle{
+    display:flex; align-items:center; gap:6px;
+    font-family:'Vazirmatn', sans-serif; font-size:11.5px; font-weight:600; letter-spacing:0.04em;
+    color:var(--parchment-dim);
+    background:rgba(255,255,255,0.02);
+    border:1px solid var(--line);
+    padding:6px 14px; border-radius:999px; cursor:pointer;
+    transition:all 0.2s ease;
+  }
+  .lang-toggle:hover{ border-color:var(--gold-soft); color:var(--parchment); }
+  .lang-toggle .lang-flag{ font-size:14px; line-height:1; }
+  .lang-popover{
+    position:fixed; transform:translateY(-6px); min-width:150px;
+    background:var(--void-2, var(--void));
+    border:1px solid var(--line); border-radius:14px; padding:6px;
+    display:flex; flex-direction:column; gap:4px;
+    box-shadow:0 12px 26px rgba(0,0,0,0.5);
+    opacity:0; visibility:hidden;
+    transition:opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+    z-index:70;
+  }
+  .lang-popover.show{ opacity:1; visibility:visible; transform:translateY(0); }
+  .lang-opt{
+    display:flex; align-items:center; gap:8px;
+    font-family:'Vazirmatn', sans-serif; font-size:12.5px; font-weight:600;
+    color:var(--parchment-dim);
+    background:transparent; border:1px solid transparent;
+    padding:8px 10px; border-radius:9px; cursor:pointer; text-align:right;
+    transition:all 0.15s ease;
+  }
+  .lang-opt .lang-flag{ font-size:15px; line-height:1; flex:none; }
+  .lang-opt.active{ color:var(--void); background:var(--gold); }
+  .lang-opt:not(.active):hover{ border-color:var(--gold-soft); color:var(--parchment); }
+
+  .sound-toggle{
+    width:30px; height:30px; border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.02);
+    color:var(--parchment-dim);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition:all 0.2s ease;
+  }
+  .sound-toggle svg{ width:15px; height:15px; }
+  .sound-toggle:hover{ border-color:var(--gold-soft); color:var(--gold); }
 </style>
 <link rel="stylesheet" href="assistant.css">
 </head>
 <body>
 
+<div class="quick-menu" id="quick-menu">
+  <button type="button" id="quick-menu-btn" class="quick-menu-btn" aria-haspopup="true" aria-expanded="false" aria-label="منوی تنظیمات تم">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+  <div class="quick-menu-panel" id="quick-menu-panel" role="menu">
+    <div class="quick-menu-row">
+      <span class="quick-menu-label" data-i18n="quickMenuTheme">تم</span>
+      <div class="theme-switch-wrap">
+        <button type="button" id="theme-toggle" class="theme-toggle-btn" aria-label="تغییر تم" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 3.5c-4.7 0-8.5 3.6-8.5 8 0 3 2 4.3 3.6 4.3.8 0 1.1-.4 1.6-.9.5-.5.9-.9 1.7-.9 1.5 0 1.9 1 1.9 2.1 0 .9-.4 1.6-.4 2.2 0 .8.6 1.2 1.7 1.2 4.6 0 8.4-3.9 8.4-8.4 0-4.8-3.9-7.6-10-7.6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <circle cx="8.2" cy="9.3" r="1.15" fill="currentColor"/>
+            <circle cx="12.2" cy="7.1" r="1.15" fill="currentColor"/>
+            <circle cx="16.3" cy="9.3" r="1.15" fill="currentColor"/>
+            <circle cx="17.3" cy="13.6" r="1.15" fill="currentColor"/>
+          </svg>
+        </button>
+        <div class="theme-popover" id="theme-popover" role="menu">
+          <button type="button" class="theme-opt active" data-theme="default">سبز و طلایی</button>
+          <button type="button" class="theme-opt" data-theme="crimson">سرخ و طلایی</button>
+          <button type="button" class="theme-opt" data-theme="fest">صورتی و فیروزه‌ای</button>
+          <button type="button" class="theme-opt" data-theme="lilac">صورتی و یاسی</button>
+          <button type="button" class="theme-opt" data-theme="sunset">فیروزه‌ای و غروبی</button>
+          <button type="button" class="theme-opt" data-theme="amber">کهربایی و کرمی</button>
+          <button type="button" class="theme-opt" data-theme="sky">آبی آسمانی</button>
+          <button type="button" class="theme-opt" data-theme="light">سبز فسفری</button>
+          <button type="button" class="theme-opt" data-theme="dark">تاریک</button>
+        </div>
+      </div>
+    </div>
+    <div class="quick-menu-row">
+      <span class="quick-menu-label" data-i18n="quickMenuLang">زبان</span>
+      <div class="lang-switch-wrap">
+        <button type="button" id="lang-toggle" class="lang-toggle" aria-haspopup="true" aria-expanded="false" aria-label="انتخاب زبان">
+          <span class="lang-flag" id="lang-toggle-flag">🇮🇷</span>
+          <span id="lang-toggle-code">فا</span>
+        </button>
+        <div class="lang-popover" id="lang-popover" role="menu">
+          <button type="button" class="lang-opt active" data-lang="fa" data-flag="🇮🇷" data-code="فا">
+            <span class="lang-flag">🇮🇷</span><span>فارسی</span>
+          </button>
+          <button type="button" class="lang-opt" data-lang="ar" data-flag="🇮🇶" data-code="عربي">
+            <span class="lang-flag">🇮🇶</span><span>العربية</span>
+          </button>
+          <button type="button" class="lang-opt" data-lang="en" data-flag="🇬🇧" data-code="EN">
+            <span class="lang-flag">🇬🇧</span><span>English</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="quick-menu-row">
+      <span class="quick-menu-label" data-i18n="quickMenuSound">صدا</span>
+      <button type="button" id="sound-toggle" class="sound-toggle" aria-label="قطع/وصل صدا" aria-pressed="false">
+        <svg class="icon-sound-on" viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a4 4 0 0 1 0 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M18.5 6a7.5 7.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/></svg>
+        <svg class="icon-sound-off" viewBox="0 0 24 24" fill="none" style="display:none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M15.5 9.5l5 5M20.5 9.5l-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="quick-menu-row" id="pwa-install-row" style="display:none">
+      <span class="quick-menu-label" data-i18n="quickMenuInstall">نصب اپ</span>
+      <button type="button" id="pwa-install-btn" class="theme-toggle-btn" aria-label="نصب برنامه">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0-4-4m4 4 4-4M5 19h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
 <a href="index.html" class="page2-back" id="page2-back" aria-label="بازگشت به صفحه اول">
   <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  <span>بازگشت</span>
+  <span data-i18n="backBtn">بازگشت</span>
 </a>
 
 <div class="page">
 
   <div class="top-bar reveal">
     <div>
-      <div class="top-title">اوقات شرعی</div>
-      <div class="top-sub">هیئت کاظمیون خرم‌آباد</div>
+      <div class="top-title" data-i18n="pageTitle">اوقات شرعی</div>
+      <div class="top-sub" data-i18n="topSub">هیئت کاظمیون خرم‌آباد</div>
     </div>
   </div>
 
@@ -277,40 +510,40 @@
   <div class="city-picker-primary reveal">
     <div class="city-chip-primary">
       <span class="cc-pin">📍</span>
-      <span>خرم‌آباد</span>
-      <span class="cc-tag">شهر ما</span>
+      <span data-i18n="cityKhorramabad">خرم‌آباد</span>
+      <span class="cc-tag" data-i18n="ourCity">شهر ما</span>
     </div>
   </div>
 
   <div class="date-card reveal">
-    <div class="date-card-title">اوقات شرعی لرستان <span class="prayer-city">(خرم‌آباد)</span></div>
+    <div class="date-card-title"><span data-i18n="owqatLorestanTitle">اوقات شرعی لرستان</span> <span class="prayer-city">(<span data-i18n="cityKhorramabad">خرم‌آباد</span>)</span></div>
     <div class="date-row">
-      <span class="date-label"><span class="di">🌄</span> اذان صبح</span>
+      <span class="date-label"><span class="di">🌄</span> <span data-i18n="prayerFajr">اذان صبح</span></span>
       <span class="date-value" id="prayer-fajr-fixed">--</span>
     </div>
     <div class="date-row">
-      <span class="date-label"><span class="di">☀️</span> طلوع آفتاب</span>
+      <span class="date-label"><span class="di">☀️</span> <span data-i18n="prayerSunrise">طلوع آفتاب</span></span>
       <span class="date-value" id="prayer-sunrise-fixed">--</span>
     </div>
     <div class="date-row">
-      <span class="date-label"><span class="di">🕛</span> اذان ظهر</span>
+      <span class="date-label"><span class="di">🕛</span> <span data-i18n="prayerDhuhr">اذان ظهر</span></span>
       <span class="date-value" id="prayer-dhuhr-fixed">--</span>
     </div>
     <div class="date-row">
-      <span class="date-label"><span class="di">🌇</span> غروب آفتاب</span>
+      <span class="date-label"><span class="di">🌇</span> <span data-i18n="prayerSunset">غروب آفتاب</span></span>
       <span class="date-value" id="prayer-sunset-fixed">--</span>
     </div>
     <div class="date-row">
-      <span class="date-label"><span class="di">🌙</span> اذان مغرب</span>
+      <span class="date-label"><span class="di">🌙</span> <span data-i18n="prayerMaghrib">اذان مغرب</span></span>
       <span class="date-value" id="prayer-maghrib-fixed">--</span>
     </div>
     <div class="date-row">
-      <span class="date-label"><span class="di">🌑</span> نیمه‌شب شرعی</span>
+      <span class="date-label"><span class="di">🌑</span> <span data-i18n="prayerMidnight">نیمه‌شب شرعی</span></span>
       <span class="date-value" id="prayer-midnight-fixed">--</span>
     </div>
   </div>
 
-  <div class="city-picker-divider reveal">اوقات شرعی سایر شهرها</div>
+  <div class="city-picker-divider reveal" data-i18n="otherCitiesLabel">اوقات شرعی سایر شهرها</div>
 
   <div class="city-picker reveal" id="city-picker">
     <button type="button" class="city-chip" data-city="tehran">تهران</button>
@@ -324,49 +557,49 @@
     <div class="city-chip-primary">
       <span class="cc-pin">📍</span>
       <span id="selected-city-name">تهران</span>
-      <span class="cc-tag">شهر منتخب</span>
+      <span class="cc-tag" data-i18n="selectedCity">شهر منتخب</span>
     </div>
   </div>
 
   <div class="date-card reveal">
-    <div class="date-card-title">اوقات شرعی <span class="prayer-city" id="prayer-city-label">(تهران)</span></div>
+    <div class="date-card-title"><span data-i18n="owqatTitle">اوقات شرعی</span> <span class="prayer-city" id="prayer-city-label">(تهران)</span></div>
     <div class="date-row">
-      <span class="date-label"><span class="di">🌄</span> اذان صبح</span>
+      <span class="date-label"><span class="di">🌄</span> <span data-i18n="prayerFajr">اذان صبح</span></span>
       <span class="date-value" id="prayer-fajr">--</span>
     </div>
     <div class="date-row">
-      <span class="date-label"><span class="di">☀️</span> طلوع آفتاب</span>
+      <span class="date-label"><span class="di">☀️</span> <span data-i18n="prayerSunrise">طلوع آفتاب</span></span>
       <span class="date-value" id="prayer-sunrise">--</span>
     </div>
     <div class="date-row">
-      <span class="date-label"><span class="di">🕛</span> اذان ظهر</span>
+      <span class="date-label"><span class="di">🕛</span> <span data-i18n="prayerDhuhr">اذان ظهر</span></span>
       <span class="date-value" id="prayer-dhuhr">--</span>
     </div>
     <div class="date-row">
-      <span class="date-label"><span class="di">🌇</span> غروب آفتاب</span>
+      <span class="date-label"><span class="di">🌇</span> <span data-i18n="prayerSunset">غروب آفتاب</span></span>
       <span class="date-value" id="prayer-sunset">--</span>
     </div>
     <div class="date-row">
-      <span class="date-label"><span class="di">🌙</span> اذان مغرب</span>
+      <span class="date-label"><span class="di">🌙</span> <span data-i18n="prayerMaghrib">اذان مغرب</span></span>
       <span class="date-value" id="prayer-maghrib">--</span>
     </div>
     <div class="date-row">
-      <span class="date-label"><span class="di">🌑</span> نیمه‌شب شرعی</span>
+      <span class="date-label"><span class="di">🌑</span> <span data-i18n="prayerMidnight">نیمه‌شب شرعی</span></span>
       <span class="date-value" id="prayer-midnight">--</span>
     </div>
   </div>
 
   <div class="precision-note reveal">
     <span class="pn-icon" aria-hidden="true">⚠️</span>
-    <span>تمام تلاش خودمان را کرده‌ایم که اوقات شرعی <b>دقیق</b> باشد؛ با این حال به منظور اطمینان از صحت اوقات، این نکته را در نظر بگیرید که امکان خطای حدود <b>۱ تا ۵ دقیقه</b> در این محاسبات وجود دارد.</span>
+    <span data-i18n="precisionNote">تمام تلاش خودمان را کرده‌ایم که اوقات شرعی دقیق باشد؛ با این حال به منظور اطمینان از صحت اوقات، این نکته را در نظر بگیرید که امکان خطای حدود ۱ تا ۵ دقیقه در این محاسبات وجود دارد.</span>
   </div>
 
   <a href="guide.html" class="guide-link">
     <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M9.5 9.3a2.5 2.5 0 1 1 3.4 2.3c-.7.3-1.2.9-1.2 1.7V14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="16.8" r="0.9" fill="currentColor"/></svg>
-    <span>راهنمای سایت</span>
+    <span data-i18n="guideLinkText">راهنمای سایت</span>
   </a>
 
-  <footer>هیئت کاظمیون خرم‌آباد</footer>
+  <footer data-i18n="footerSub">هیئت کاظمیون خرم‌آباد</footer>
 
 </div>
 
@@ -627,6 +860,321 @@ window.KZM_ASSISTANT_CONFIG = {
       full:'این کارت‌ها اوقات شرعی امروز (اذان صبح، طلوع، ظهر، عصر، مغرب و عشاء) رو برای خرم‌آباد و در صورت نیاز برای شهر دیگه‌ای که انتخاب کنی نشون می‌دن.' }
   ]
 };
+</script>
+
+<script>
+  // ---------------- تغییر و همگام‌سازی تم با صفحه اول ----------------
+  (function themeSwitcher(){
+    const toggle = document.getElementById('theme-toggle');
+    const popover = document.getElementById('theme-popover');
+    if(!toggle || !popover) return;
+    const opts = popover.querySelectorAll('.theme-opt');
+    document.body.appendChild(popover);
+    const THEME_CLASSES = ['theme-light', 'theme-dark', 'theme-fest', 'theme-crimson', 'theme-lilac', 'theme-sunset', 'theme-amber', 'theme-sky'];
+    function applyTheme(theme){
+      document.body.classList.remove(...THEME_CLASSES);
+      if(THEME_CLASSES.includes('theme-' + theme)) document.body.classList.add('theme-' + theme);
+      opts.forEach(b => b.classList.toggle('active', b.dataset.theme === theme));
+      try{ localStorage.setItem('kazemiuon-theme', theme); }catch(e){}
+    }
+    let saved = 'default';
+    try{ saved = localStorage.getItem('kazemiuon-theme') || 'default'; }catch(e){}
+    applyTheme(saved);
+    function positionThemePopover(){
+      const margin = 10;
+      const rect = toggle.getBoundingClientRect();
+      const pw = popover.offsetWidth || 132;
+      let left = rect.left + rect.width / 2 - pw / 2;
+      left = Math.max(margin, Math.min(left, window.innerWidth - pw - margin));
+      const top = rect.top - popover.offsetHeight - 8;
+      popover.style.left = left + 'px';
+      popover.style.top = Math.max(margin, top) + 'px';
+    }
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const show = !popover.classList.contains('show');
+      if(show){
+        popover.style.visibility = 'hidden';
+        popover.classList.add('show');
+        positionThemePopover();
+        popover.style.visibility = '';
+      }else{
+        popover.classList.remove('show');
+      }
+      toggle.setAttribute('aria-expanded', String(show));
+    });
+    window.addEventListener('resize', () => {
+      if(popover.classList.contains('show')) positionThemePopover();
+    }, { passive:true });
+    opts.forEach(b => {
+      b.addEventListener('click', () => {
+        applyTheme(b.dataset.theme);
+        popover.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+    document.addEventListener('click', (e) => {
+      if(!popover.contains(e.target) && e.target !== toggle){
+        popover.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+
+  // ---------------- باز/بسته شدن منوی همبرگری ----------------
+  (function quickMenu(){
+    const btn = document.getElementById('quick-menu-btn');
+    const panel = document.getElementById('quick-menu-panel');
+    if(!btn || !panel) return;
+    function closePanel(){
+      panel.classList.remove('show');
+      btn.classList.remove('active');
+      btn.setAttribute('aria-expanded', 'false');
+      const themePop = document.getElementById('theme-popover');
+      const langPop = document.getElementById('lang-popover');
+      if(themePop) themePop.classList.remove('show');
+      if(langPop) langPop.classList.remove('show');
+    }
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const show = !panel.classList.contains('show');
+      panel.classList.toggle('show', show);
+      btn.classList.toggle('active', show);
+      btn.setAttribute('aria-expanded', String(show));
+    });
+    document.addEventListener('click', (e) => {
+      if(!panel.contains(e.target) && e.target !== btn && !btn.contains(e.target)){
+        closePanel();
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape') closePanel();
+    });
+  })();
+
+  // ---------------- ترجمه‌ها ----------------
+  const translations = {
+    fa: {
+      backBtn: 'بازگشت',
+      pageTitle: 'اوقات شرعی',
+      topSub: 'هیئت کاظمیون خرم‌آباد',
+      cityKhorramabad: 'خرم‌آباد',
+      ourCity: 'شهر ما',
+      owqatLorestanTitle: 'اوقات شرعی لرستان',
+      owqatTitle: 'اوقات شرعی',
+      otherCitiesLabel: 'اوقات شرعی سایر شهرها',
+      selectedCity: 'شهر منتخب',
+      prayerFajr: 'اذان صبح',
+      prayerSunrise: 'طلوع آفتاب',
+      prayerDhuhr: 'اذان ظهر',
+      prayerSunset: 'غروب آفتاب',
+      prayerMaghrib: 'اذان مغرب',
+      prayerMidnight: 'نیمه‌شب شرعی',
+      precisionNote: 'تمام تلاش خودمان را کرده‌ایم که اوقات شرعی دقیق باشد؛ با این حال به منظور اطمینان از صحت اوقات، این نکته را در نظر بگیرید که امکان خطای حدود ۱ تا ۵ دقیقه در این محاسبات وجود دارد.',
+      guideLinkText: 'راهنمای سایت',
+      footerSub: 'هیئت کاظمیون خرم‌آباد',
+      quickMenuTheme: 'تم',
+      quickMenuLang: 'زبان',
+      quickMenuSound: 'صدا',
+      quickMenuInstall: 'نصب اپ'
+    },
+    ar: {
+      backBtn: 'رجوع',
+      pageTitle: 'أوقات الصلاة',
+      topSub: 'موكب الكاظميون خرم‌آباد',
+      cityKhorramabad: 'خرم‌آباد',
+      ourCity: 'مدينتنا',
+      owqatLorestanTitle: 'أوقات الصلاة في لرستان',
+      owqatTitle: 'أوقات الصلاة',
+      otherCitiesLabel: 'أوقات الصلاة في مدن أخرى',
+      selectedCity: 'المدينة المختارة',
+      prayerFajr: 'أذان الصبح',
+      prayerSunrise: 'شروق الشمس',
+      prayerDhuhr: 'أذان الظهر',
+      prayerSunset: 'غروب الشمس',
+      prayerMaghrib: 'أذان المغرب',
+      prayerMidnight: 'منتصف الليل الشرعي',
+      precisionNote: 'بذلنا كل جهدنا لتكون أوقات الصلاة دقيقة؛ ومع ذلك يرجى ملاحظة احتمال وجود خطأ يتراوح بين ١ إلى ٥ دقائق في هذه الحسابات.',
+      guideLinkText: 'دليل الموقع',
+      footerSub: 'موكب الكاظميون خرم‌آباد',
+      quickMenuTheme: 'المظهر',
+      quickMenuLang: 'اللغة',
+      quickMenuSound: 'الصوت',
+      quickMenuInstall: 'تثبيت التطبيق'
+    },
+    en: {
+      backBtn: 'Back',
+      pageTitle: 'Prayer Times',
+      topSub: 'Heyat-e Kazemiyoon Khorramabad',
+      cityKhorramabad: 'Khorramabad',
+      ourCity: 'Our City',
+      owqatLorestanTitle: 'Prayer Times in Lorestan',
+      owqatTitle: 'Prayer Times',
+      otherCitiesLabel: 'Prayer Times in Other Cities',
+      selectedCity: 'Selected City',
+      prayerFajr: 'Fajr',
+      prayerSunrise: 'Sunrise',
+      prayerDhuhr: 'Dhuhr',
+      prayerSunset: 'Sunset',
+      prayerMaghrib: 'Maghrib',
+      prayerMidnight: 'Islamic Midnight',
+      precisionNote: 'We have made every effort to ensure the prayer times are accurate; however, please note that an error of about 1 to 5 minutes is possible in these calculations.',
+      guideLinkText: 'Site Guide',
+      footerSub: 'Heyat-e Kazemiyoon Khorramabad',
+      quickMenuTheme: 'Theme',
+      quickMenuLang: 'Language',
+      quickMenuSound: 'Sound',
+      quickMenuInstall: 'Install App'
+    }
+  };
+
+  let currentLang = 'fa';
+
+  function setLang(lang){
+    if(!translations[lang]) return;
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = (lang === 'en') ? 'ltr' : 'rtl';
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if(translations[lang][key] !== undefined){
+        el.textContent = translations[lang][key];
+      }
+    });
+    const activeOpt = document.querySelector('.lang-opt[data-lang="' + lang + '"]');
+    document.querySelectorAll('.lang-opt').forEach(b => {
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
+    if(activeOpt){
+      const flagEl = document.getElementById('lang-toggle-flag');
+      const codeEl = document.getElementById('lang-toggle-code');
+      if(flagEl) flagEl.textContent = activeOpt.dataset.flag;
+      if(codeEl) codeEl.textContent = activeOpt.dataset.code;
+    }
+  }
+
+  // ---------------- تغییر زبان ----------------
+  (function langSwitcher(){
+    const toggle = document.getElementById('lang-toggle');
+    const popover = document.getElementById('lang-popover');
+    if(!toggle || !popover) return;
+    const opts = popover.querySelectorAll('.lang-opt');
+    document.body.appendChild(popover);
+    function positionLangPopover(){
+      const margin = 10;
+      const rect = toggle.getBoundingClientRect();
+      const pw = popover.offsetWidth || 150;
+      let left = rect.left + rect.width / 2 - pw / 2;
+      left = Math.max(margin, Math.min(left, window.innerWidth - pw - margin));
+      const ph = popover.offsetHeight || 140;
+      let top = rect.bottom + 8;
+      if(top + ph > window.innerHeight - margin){
+        top = rect.top - ph - 8;
+      }
+      popover.style.left = left + 'px';
+      popover.style.top = Math.max(margin, top) + 'px';
+    }
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const show = !popover.classList.contains('show');
+      if(show){
+        popover.style.visibility = 'hidden';
+        popover.classList.add('show');
+        positionLangPopover();
+        popover.style.visibility = '';
+      }else{
+        popover.classList.remove('show');
+      }
+      toggle.setAttribute('aria-expanded', String(show));
+    });
+    window.addEventListener('resize', () => {
+      if(popover.classList.contains('show')) positionLangPopover();
+    }, { passive:true });
+    opts.forEach(b => {
+      b.addEventListener('click', () => {
+        setLang(b.dataset.lang);
+        popover.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+    document.addEventListener('click', (e) => {
+      if(!popover.contains(e.target) && e.target !== toggle){
+        popover.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+
+  // ---------------- دکمه صدا (افکت تیک کلیک) ----------------
+  (function soundToggle(){
+    const soundState = { muted: true, ctx: null };
+    function ensureAudioCtx(){
+      if(!soundState.ctx){
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if(AC) soundState.ctx = new AC();
+      }
+      return soundState.ctx;
+    }
+    function playTick(){
+      if(soundState.muted) return;
+      const ctx = ensureAudioCtx();
+      if(!ctx) return;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      const t0 = ctx.currentTime;
+      osc.frequency.setValueAtTime(720, t0);
+      osc.frequency.exponentialRampToValueAtTime(420, t0 + 0.09);
+      gain.gain.setValueAtTime(0.0001, t0);
+      gain.gain.exponentialRampToValueAtTime(0.05, t0 + 0.012);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.14);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(t0);
+      osc.stop(t0 + 0.16);
+    }
+    document.querySelectorAll('.lang-opt, .lang-toggle, .theme-opt, .city-chip').forEach(el => {
+      el.addEventListener('click', playTick);
+    });
+    const btn = document.getElementById('sound-toggle');
+    if(!btn) return;
+    btn.addEventListener('click', () => {
+      soundState.muted = !soundState.muted;
+      btn.setAttribute('aria-pressed', String(!soundState.muted));
+      btn.querySelector('.icon-sound-on').style.display = soundState.muted ? 'none' : 'block';
+      btn.querySelector('.icon-sound-off').style.display = soundState.muted ? 'block' : 'none';
+      if(!soundState.muted){ ensureAudioCtx(); playTick(); }
+    });
+  })();
+</script>
+
+<script>
+  // ---------------- ثبت Service Worker و نصب PWA ----------------
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('service-worker.js').catch(() => {});
+    });
+  }
+  (function pwaInstall(){
+    let deferredPrompt = null;
+    const row = document.getElementById('pwa-install-row');
+    const btn = document.getElementById('pwa-install-btn');
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if(row) row.style.display = '';
+    });
+    if(btn){
+      btn.addEventListener('click', async () => {
+        if(!deferredPrompt) return;
+        deferredPrompt.prompt();
+        await deferredPrompt.userChoice;
+        deferredPrompt = null;
+        if(row) row.style.display = 'none';
+      });
+    }
+    window.addEventListener('appinstalled', () => {
+      if(row) row.style.display = 'none';
+    });
+  })();
 </script>
 <script src="assistant.js"></script>
 </body>
