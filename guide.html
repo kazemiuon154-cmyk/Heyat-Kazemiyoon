@@ -653,12 +653,25 @@
       <span class="doa-item-icon">
         <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       </span>
-      <span class="doa-item-name" data-i18n="guideMenuName">منوی تنظیمات (تم، زبان، صدا)</span>
+      <span class="doa-item-name" data-i18n="guideMenuName">منوی تنظیمات (تم، زبان، صدا، اندازه متن)</span>
       <svg class="doa-item-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
     <div class="doa-sub-panel" id="guide-panel-menu">
       <div class="doa-sub-panel-inner">
-        <div class="guide-desc" data-i18n="guideMenuDesc">با ضربه‌زدن روی آیکون ☰ در گوشه‌ی بالا سمت چپ هر صفحه، منویی باز می‌شود که در آن می‌توانید پوسته‌ی رنگی سایت را از میان چند تم مختلف انتخاب کنید، زبان سایت را بین فارسی، عربی و انگلیسی تغییر دهید و صدای کلیک‌ها را روشن یا خاموش کنید.</div>
+        <div class="guide-desc" data-i18n="guideMenuDesc">با ضربه‌زدن روی آیکون ☰ در گوشه‌ی بالا سمت چپ هر صفحه، منویی باز می‌شود که در آن می‌توانید پوسته‌ی رنگی سایت را از میان چند تم مختلف انتخاب کنید، زبان سایت را بین فارسی، عربی و انگلیسی تغییر دهید، صدای کلیک‌ها را روشن یا خاموش کنید و با دکمه‌های + و − اندازه‌ی کل صفحه را بزرگ یا کوچیک کنید.</div>
+      </div>
+    </div>
+
+    <button type="button" class="doa-item" data-guide-toggle aria-expanded="false" aria-controls="guide-panel-herostatus">
+      <span class="doa-item-icon">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.6" fill="currentColor"/></svg>
+      </span>
+      <span class="doa-item-name" data-i18n="guideHeroStatusName">وضعیت زنده‌ی مراسم</span>
+      <svg class="doa-item-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="doa-sub-panel" id="guide-panel-herostatus">
+      <div class="doa-sub-panel-inner">
+        <div class="guide-desc" data-i18n="guideHeroStatusDesc">در بالای بخش نشان و شمارش‌معکوس صفحه‌ی اول، یک نشان کوچک با نقطه‌ی قرمز وجود دارد. اگر نقطه چشمک بزند یعنی مراسم همین الان در حال برگزاری است؛ در غیر این‌صورت یعنی هنوز وقتش نرسیده. با ضربه روی همین نشان، پنجره‌ای کوچک باز می‌شود که روز، ساعت و آدرس دقیق مراسم را به همراه دکمه‌ی مسیریابی نشان می‌دهد.</div>
       </div>
     </div>
 
@@ -981,8 +994,10 @@
       guideClockDesc: 'در بالای صفحه‌ی اول، ساعت به‌وقت تهران نمایش داده می‌شود. با ضربه‌زدن روی آن، ساعت شهر کربلای معلی و دمای هوا نیز به آن اضافه می‌شود؛ با ضربه‌ی دوباره، به حالت اول برمی‌گردد.',
       guidePwaName: 'نصب اپلیکیشن تحت وب',
       guidePwaDesc: 'دکمه‌ی «نصب اپلیکیشن تحت وب» در بالای صفحه، سایت را مانند یک اپلیکیشن روی صفحه‌ی اصلی گوشی یا کامپیوترتان نصب می‌کند تا بدون نیاز به جست‌وجوی دوباره در مرورگر، سریع‌تر به آن دسترسی داشته باشید.',
-      guideMenuName: 'منوی تنظیمات (تم، زبان، صدا)',
-      guideMenuDesc: 'با ضربه‌زدن روی آیکون ☰ در گوشه‌ی بالا سمت چپ هر صفحه، منویی باز می‌شود که در آن می‌توانید پوسته‌ی رنگی سایت را از میان چند تم مختلف انتخاب کنید، زبان سایت را بین فارسی، عربی و انگلیسی تغییر دهید و صدای کلیک‌ها را روشن یا خاموش کنید.',
+      guideMenuName: 'منوی تنظیمات (تم، زبان، صدا، اندازه متن)',
+      guideMenuDesc: 'با ضربه‌زدن روی آیکون ☰ در گوشه‌ی بالا سمت چپ هر صفحه، منویی باز می‌شود که در آن می‌توانید پوسته‌ی رنگی سایت را از میان چند تم مختلف انتخاب کنید، زبان سایت را بین فارسی، عربی و انگلیسی تغییر دهید، صدای کلیک‌ها را روشن یا خاموش کنید و با دکمه‌های + و − اندازه‌ی کل صفحه را بزرگ یا کوچیک کنید.',
+      guideHeroStatusName: 'وضعیت زنده‌ی مراسم',
+      guideHeroStatusDesc: 'در بالای بخش نشان و شمارش‌معکوس صفحه‌ی اول، یک نشان کوچک با نقطه‌ی قرمز وجود دارد. اگر نقطه چشمک بزند یعنی مراسم همین الان در حال برگزاری است؛ در غیر این‌صورت یعنی هنوز وقتش نرسیده. با ضربه روی همین نشان، پنجره‌ای کوچک باز می‌شود که روز، ساعت و آدرس دقیق مراسم را به همراه دکمه‌ی مسیریابی نشان می‌دهد.',
       guideAnnounceName: 'اعلان‌های ویژه',
       guideAnnounceDesc: 'هرگاه مناسبت یا خبر مهمی وجود داشته باشد، پیام کوتاهی بالای صفحه‌ی اول نمایش داده می‌شود؛ برای خواندن متن کامل، روی همان پیام ضربه بزنید.',
       guideMapName: 'نقشه و مسیریابی',
@@ -1231,7 +1246,7 @@
   // ---------------- ثبت Service Worker و نصب PWA ----------------
   if('serviceWorker' in navigator){
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js').catch(() => {});
+      navigator.serviceWorker.register('service-worker.js').catch(() => {});
     });
   }
   (function pwaInstall(){
