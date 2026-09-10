@@ -1769,6 +1769,7 @@
   .services-row-alt6 .services-row-emoji{ background:linear-gradient(135deg, #e8d28a, var(--crimson-bright)); }
   .services-row-alt7 .services-row-emoji{ background:linear-gradient(135deg, var(--crimson), var(--gold-soft)); }
   .services-row-alt8 .services-row-emoji{ background:linear-gradient(135deg, var(--gold-soft), var(--gold-bright, var(--gold))); }
+  .services-row-alt9 .services-row-emoji{ background:linear-gradient(135deg, var(--crimson-bright), var(--gold-dim)); }
 
   @media (max-width:340px){
     .services-list{ grid-template-columns:repeat(3, 1fr); }
@@ -2508,7 +2509,7 @@
     <button type="button" class="services-toggle" id="services-toggle" aria-expanded="false" aria-controls="services-panel">
       <span class="services-toggle-icon" aria-hidden="true">☰</span>
       <span class="services-toggle-label" data-i18n="servicesToggle">دسترسی سریع به صفحات</span>
-      <span class="services-toggle-count" id="services-count">9</span>
+      <span class="services-toggle-count" id="services-count">10</span>
       <span class="services-toggle-chevron" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </span>
@@ -2554,6 +2555,10 @@
         <a href="zekr.html" class="services-row" id="zekr-trigger" data-prefetch-nav>
           <span class="services-row-emoji" aria-hidden="true">📿</span>
           <span data-i18n="zekrEntryTitle">ذکر روز</span>
+        </a>
+        <a href="masjed-qaem.html" class="services-row services-row-alt9" id="qaem-trigger" data-prefetch-nav>
+          <span class="services-row-emoji" aria-hidden="true">🕌</span>
+          <span data-i18n="qaemTrigger">مسجد قائم</span>
         </a>
       </div>
     </div>
@@ -3249,6 +3254,7 @@
       hadithTitle: "حدیث روز",
       zekrEntryTitle: "ذکر روز",
       zekrEntrySub: "شمارشگر، ترجمه و رکورد روزهای متوالی",
+      qaemTrigger: "مسجد قائم",
       groupFollow: "هیئت را در ایتا، روبیکا و اینستاگرام دنبال کنید",
       groupContact: "ارتباط با ما در ایتا",
       groupRoute: "مسیر رسیدن به هیئت",
@@ -3333,6 +3339,7 @@
       hadithTitle: "حديث اليوم",
       zekrEntryTitle: "ذكر اليوم",
       zekrEntrySub: "عداد وترجمة وسجل الأيام المتتالية",
+      qaemTrigger: "مسجد القائم",
       groupFollow: "تابعونا",
       groupContact: "تواصلوا معنا عبر إيتا",
       groupRoute: "الطريق إلى الموكب",
@@ -3417,6 +3424,7 @@
       hadithTitle: "Hadith of the Day",
       zekrEntryTitle: "Dhikr of the Day",
       zekrEntrySub: "Counter, translation, and streak tracking",
+      qaemTrigger: "Qaem Mosque",
       groupFollow: "Follow Us",
       groupContact: "Contact Us on Eitaa",
       groupRoute: "Directions",
@@ -4861,7 +4869,7 @@ window.KZM_ASSISTANT_CONFIG = {
     { key:'services', selector:'#services-panel',
       title:'منوی خدمات سریع',
       short:'از اینجا به تمام بخش‌های سایت مثل مداحی، اوقات شرعی و ادعیه دسترسی داری.',
-      full:'این منو دسترسی سریع به همه‌ی خدمات سایت رو در یک‌جا جمع کرده: مداحی و مولودی‌خوانی، اوقات شرعی، صلوات‌شمار، ادعیه و زیارت‌نامه‌ها، تبدیل تاریخ، نذورات، گالری تصاویر و پرسش و پاسخ.\n\nکافیه روی هر آیکون بزنی تا مستقیم به همون صفحه بری.' },
+      full:'این منو دسترسی سریع به همه‌ی خدمات سایت رو در یک‌جا جمع کرده: مداحی و مولودی‌خوانی، اوقات شرعی، صلوات‌شمار، ادعیه و زیارت‌نامه‌ها، تبدیل تاریخ، نذورات، گالری تصاویر، ذکر روز، مسجد قائم و پرسش و پاسخ.\n\nکافیه روی هر آیکون بزنی تا مستقیم به همون صفحه بری.' },
     { key:'hero-status', selector:'#hero-status',
       title:'وضعیت زنده‌ی مراسم',
       short:'با لمس این نشان، ساعت و آدرس دقیق مراسم رو می‌بینی.',

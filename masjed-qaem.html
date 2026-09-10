@@ -23,8 +23,7 @@
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
 
-<title>❓ دستیار سایت | هیئت کاظمیون خرم‌آباد</title>
-<meta name="description" content="پرسش و پاسخ سریع هیئت کاظمیون خرم‌آباد؛ کافیست روی سوال موردنظرت بزنی تا بلافاصله جواب رو ببینی.">
+<title>🕌 مسجد قائم | هیئت کاظمیون خرم‌آباد</title>
 <meta name="robots" content="noindex, follow">
 <link rel="icon" href="logo.jpg">
 <link rel="manifest" href="manifest.json">
@@ -427,145 +426,87 @@
     font-weight:800;
   }
 
-  /* ---------------- کارت گفتگوی پرسش و پاسخ ---------------- */
-  .faq-card{
+  /* ---------------- نذورات card (کارت بانکی) ---------------- */
+  .nazr-card{
     position:relative;
-    border-radius:22px;
-    border:1px solid var(--line);
-    background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01)), var(--void-2, var(--void));
-    box-shadow:0 1px 0 rgba(255,255,255,0.06) inset, 0 14px 30px rgba(0,0,0,0.35);
+    padding:24px 20px 20px;
+    border-radius:20px;
+    border:1px solid rgba(201,162,39,0.35);
+    background:
+      radial-gradient(120% 140% at 100% 0%, rgba(255,255,255,0.10), transparent 55%),
+      linear-gradient(135deg, #7a1216 0%, #5c0f14 45%, #2c0a0d 100%);
+    box-shadow:0 1px 0 rgba(255,255,255,0.08) inset, 0 14px 30px rgba(0,0,0,0.4);
+    text-align:center;
     overflow:hidden;
-    display:flex;
-    flex-direction:column;
   }
-  .faq-chat-scroll{
-    flex:1;
-    min-height:280px;
-    max-height:52vh;
-    overflow-y:auto;
-    -webkit-overflow-scrolling:touch;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    padding:18px 16px 14px;
-    scroll-behavior:smooth;
+  .nazr-card::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(60% 60% at 90% 100%, rgba(201,162,39,0.18), transparent 70%);
+    pointer-events:none;
   }
-  .faq-msg{
-    max-width:84%;
-    padding:11px 15px;
-    border-radius:16px;
-    font-size:13.3px;
-    line-height:1.85;
-  }
-  .faq-msg.bot{
-    align-self:flex-start;
-    background:linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025));
-    border:1px solid var(--line);
-    border-right:2px solid var(--gold-soft);
-    color:var(--parchment);
-    border-bottom-left-radius:5px;
-    box-shadow:0 4px 14px rgba(0,0,0,0.22);
-    animation:faqMsgInBot 0.32s cubic-bezier(.34,1.56,.64,1) both;
-  }
-  .faq-msg.user{
-    align-self:flex-end;
-    background:linear-gradient(135deg, var(--gold), var(--crimson-bright));
-    color:#1a0f04;
+  .nazr-card-title{
+    font-size:14px;
     font-weight:700;
-    border-bottom-right-radius:5px;
-    box-shadow:0 4px 14px rgba(0,0,0,0.22);
-    animation:faqMsgInUser 0.24s ease both;
-  }
-  @keyframes faqMsgInBot{
-    from{ opacity:0; transform:translate(8px,10px) scale(0.94); }
-    to{ opacity:1; transform:translate(0,0) scale(1); }
-  }
-  @keyframes faqMsgInUser{
-    from{ opacity:0; transform:translate(-8px,8px) scale(0.96); }
-    to{ opacity:1; transform:translate(0,0) scale(1); }
-  }
-  .faq-msg-link{
-    align-self:flex-start;
-    display:inline-flex;
-    align-items:center;
-    gap:6px;
-    padding:7px 13px;
-    border-radius:999px;
-    border:1px solid var(--gold-soft);
-    background:rgba(255,255,255,0.03);
     color:var(--gold);
-    font-size:12px;
-    font-weight:700;
-    text-decoration:none;
-    animation:faqMsgInBot 0.28s cubic-bezier(.34,1.56,.64,1) both;
-    transition:background 0.15s ease, transform 0.12s ease;
+    letter-spacing:0.02em;
+    margin-bottom:16px;
+    position:relative;
+    line-height:1.6;
   }
-  .faq-msg-link:hover{ background:rgba(255,255,255,0.08); }
-  .faq-msg-link:active{ transform:scale(0.95); }
-  .faq-msg-link svg{ width:12px; height:12px; flex:none; }
-  .faq-typing{
-    align-self:flex-start;
+  .nazr-chip{
+    width:38px; height:28px;
+    border-radius:6px;
+    background:linear-gradient(135deg, #e8d28a, #b6923a);
+    margin:0 auto 16px;
+    position:relative;
+    box-shadow:0 1px 2px rgba(0,0,0,0.4) inset;
+  }
+  .nazr-chip::before{
+    content:'';
+    position:absolute;
+    top:50%; left:4px; right:4px;
+    height:1px;
+    background:rgba(0,0,0,0.25);
+  }
+  .nazr-number-row{
     display:flex;
     align-items:center;
-    gap:5px;
-    padding:13px 16px;
-    border-radius:16px;
-    border-bottom-left-radius:5px;
-    background:rgba(255,255,255,0.045);
-    border:1px solid var(--line);
-    animation:faqMsgInBot 0.24s ease both;
-  }
-  .faq-typing span{
-    width:6px; height:6px; border-radius:50%;
-    background:var(--gold-soft);
-    animation:faqTypingBounce 1.1s ease-in-out infinite;
-    box-shadow:0 0 6px rgba(212,175,55,0.5);
-  }
-  .faq-typing span:nth-child(2){ animation-delay:0.15s; }
-  .faq-typing span:nth-child(3){ animation-delay:0.3s; }
-  @keyframes faqTypingBounce{
-    0%,60%,100%{ transform:translateY(0); opacity:0.5; }
-    30%{ transform:translateY(-4px); opacity:1; }
-  }
-  .faq-replies-wrap{
-    flex:none;
-    border-top:1px solid var(--line);
-    padding:14px 16px calc(16px + env(safe-area-inset-bottom, 0px));
-    background:rgba(0,0,0,0.12);
-  }
-  .faq-replies-label{
-    font-size:10.5px;
-    color:var(--parchment-dim);
-    margin-bottom:10px;
-    letter-spacing:0.03em;
-  }
-  .faq-quick-replies{
-    display:flex;
+    justify-content:center;
+    gap:12px;
+    margin-bottom:16px;
     flex-wrap:wrap;
-    gap:8px;
+    position:relative;
   }
-  .faq-chip{
-    display:flex; align-items:center; gap:6px;
-    padding:10px 15px;
-    border-radius:999px;
-    border:1px solid var(--gold-soft);
-    background:rgba(255,203,61,0.07);
-    color:var(--gold);
-    font-family:'Vazirmatn', sans-serif;
-    font-size:12.5px;
+  .nazr-number{
+    font-size:19px;
     font-weight:700;
+    color:var(--parchment);
+    letter-spacing:0.06em;
+    text-shadow:0 1px 2px rgba(0,0,0,0.35);
+  }
+  .copy-btn{
+    width:38px; height:38px; min-width:38px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,0.25);
+    background:rgba(255,255,255,0.06);
+    color:var(--gold);
+    display:flex; align-items:center; justify-content:center;
     cursor:pointer;
-    text-align:right;
-    transition:all 0.16s ease;
+    transition:all 0.18s ease;
   }
-  .faq-chip:hover{ background:rgba(255,203,61,0.15); border-color:var(--gold); }
-  .faq-chip:active{ transform:scale(0.96); }
-  .faq-chip.faq-chip-back{
-    border-color:var(--line);
-    background:rgba(255,255,255,0.03);
-    color:var(--parchment-dim);
+  .copy-btn svg{ width:16px; height:16px; }
+  .copy-btn:hover{ border-color:var(--gold); color:var(--gold); }
+  .copy-btn:active{ transform:scale(0.92); }
+  .nazr-name{
+    font-size:15px;
+    color:var(--gold);
+    font-weight:700;
+    letter-spacing:0.03em;
+    position:relative;
   }
-  .faq-chip.faq-chip-back:hover{ color:var(--parchment); border-color:var(--parchment-dim); }
 
   /* ============================================================
      ادعیه (زیارت عاشورا و ...)
@@ -1049,6 +990,297 @@
     font-size:11.5px;
     color:var(--gold-dim);
   }
+
+  /* ---------------- بخش وضعیت زنده + شمارش‌معکوس مراسم دعای ندبه ---------------- */
+  .ceremony-hero{
+    position:relative;
+    text-align:center;
+    padding:30px 18px 28px;
+    margin:20px 0 24px;
+    border-radius:24px;
+    overflow:hidden;
+    border:1px solid var(--line);
+    background:
+      radial-gradient(ellipse 170% 110% at 50% -25%, rgba(var(--crimson-rgb),0.26), transparent 62%),
+      linear-gradient(180deg, rgba(255,203,61,0.06), transparent 42%),
+      var(--void);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.05) inset,
+      0 0 0 5px rgba(0,0,0,0.22) inset,
+      0 22px 46px rgba(0,0,0,0.4);
+  }
+  .ceremony-hero > *{ position:relative; z-index:1; }
+  .ceremony-hero::before{
+    content:'';
+    position:absolute; top:-32%; left:50%; transform:translateX(-50%) scale(0.92);
+    width:270px; height:270px;
+    background:radial-gradient(circle, rgba(255,203,61,0.22), transparent 70%);
+    animation:hero-breathe 7s ease-in-out infinite;
+    pointer-events:none;
+    z-index:0;
+  }
+  @keyframes hero-breathe{
+    0%,100%{ opacity:0.5; transform:translateX(-50%) scale(0.92); }
+    50%{ opacity:1; transform:translateX(-50%) scale(1.08); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .ceremony-hero::before{ animation:none; opacity:0.7; }
+  }
+  .ceremony-hero::after{
+    content:'';
+    position:absolute; inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cpath d='M28 4 L32 24 L52 28 L32 32 L28 52 L24 32 L4 28 L24 24 Z' fill='none' stroke='currentColor' stroke-width='0.6'/%3E%3C/svg%3E");
+    background-size:56px 56px;
+    color:var(--gold);
+    opacity:0.06;
+    pointer-events:none;
+    z-index:0;
+  }
+  .cd-corner{
+    position:absolute; width:16px; height:16px;
+    border:1.5px solid var(--gold-dim);
+    opacity:0.5;
+    pointer-events:none;
+  }
+  .cd-corner.top-left{ top:11px; left:11px; border-left:none; border-bottom:none; }
+  .cd-corner.top-right{ top:11px; right:11px; border-right:none; border-bottom:none; }
+  .cd-corner.bottom-left{ bottom:11px; left:11px; border-left:none; border-top:none; }
+  .cd-corner.bottom-right{ bottom:11px; right:11px; border-right:none; border-top:none; }
+
+  .hero-status{
+    position:relative;
+    display:inline-flex; align-items:center; gap:8px;
+    padding:7px 18px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:rgba(0,0,0,0.3);
+    box-shadow:0 1px 0 rgba(255,255,255,0.05) inset, 0 0 0 3px rgba(255,203,61,0.05);
+    font-size:12px; font-weight:600;
+    color:var(--parchment-dim);
+    margin-bottom:20px;
+    font-family:inherit;
+    cursor:pointer;
+    transition:border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+  }
+  .hero-status:hover{ border-color:var(--gold-soft); background:rgba(0,0,0,0.4); }
+  .hero-status:active{ transform:scale(0.97); }
+  .hero-status-dot{
+    width:7px; height:7px; border-radius:50%; flex:none;
+    background:#e6342f;
+    box-shadow:0 0 6px rgba(230,52,47,0.7);
+  }
+  .ceremony-hero.is-live .hero-status{
+    border-color:rgba(230,52,47,0.45);
+    color:var(--parchment);
+    box-shadow:0 1px 0 rgba(255,255,255,0.05) inset, 0 0 0 3px rgba(230,52,47,0.08);
+  }
+  .ceremony-hero.is-live .hero-status-dot{
+    animation:ticker-blink 1.4s ease-in-out infinite;
+  }
+  @keyframes ticker-blink{ 0%,100%{ opacity:1; } 50%{ opacity:0.25; } }
+
+  .ceremony-emblem{
+    position:relative;
+    display:flex; align-items:center; justify-content:center;
+    width:60px; height:60px;
+    margin:0 auto 14px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:radial-gradient(circle at 50% 38%, rgba(255,203,61,0.1), transparent 72%);
+    box-shadow:0 0 0 4px rgba(255,203,61,0.045), inset 0 1px 0 rgba(255,255,255,0.06);
+    color:var(--gold);
+    filter:drop-shadow(0 0 7px rgba(255,203,61,0.35));
+  }
+  .ceremony-emblem::before{
+    content:'';
+    position:absolute; inset:6px;
+    border:1px solid rgba(255,203,61,0.22);
+    border-radius:50%;
+  }
+  .ceremony-emblem svg{ position:relative; width:28px; height:14px; }
+
+  .ceremony-title-block{ text-align:center; position:relative; }
+  .ceremony-title{
+    font-size:23px;
+    font-weight:800;
+    line-height:1.6;
+    margin-bottom:12px;
+    background:linear-gradient(100deg, var(--parchment) 30%, var(--gold) 50%, var(--parchment) 70%);
+    background-size:220% 100%;
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:var(--parchment);
+    -webkit-text-fill-color:transparent;
+    text-shadow:0 0 30px rgba(var(--crimson-rgb),0.3);
+  }
+  .ceremony-subtitle{
+    font-size:12.5px;
+    font-weight:700;
+    color:var(--gold);
+    margin-bottom:14px;
+    opacity:0.9;
+  }
+  .ceremony-meta{
+    font-size:14px;
+    color:var(--parchment-dim);
+    font-weight:400;
+    line-height:2.1;
+  }
+  .ceremony-meta b{ color:var(--gold); font-weight:600; }
+
+  .hero-countdown{
+    position:relative;
+    margin-top:24px;
+    padding-top:22px;
+  }
+  .hero-countdown::before{
+    content:'';
+    position:absolute; top:0; left:50%; transform:translateX(-50%);
+    width:min(220px, 70%); height:1px;
+    background:linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  }
+  .hero-countdown-label{
+    font-size:12px;
+    color:var(--gold);
+    letter-spacing:0.02em;
+    font-weight:600;
+    margin-bottom:16px;
+  }
+  .hero-countdown-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:8px;
+    max-width:340px;
+    margin:0 auto;
+  }
+  .cd-cell{
+    position:relative;
+    display:flex; flex-direction:column; align-items:center;
+    gap:5px;
+    padding:12px 4px 10px;
+    border-radius:15px;
+    border:1px solid var(--line);
+    background:rgba(0,0,0,0.28);
+    box-shadow:0 1px 0 rgba(255,255,255,0.05) inset, 0 8px 18px rgba(0,0,0,0.28);
+    overflow:hidden;
+  }
+  .cd-cell::before{
+    content:'';
+    position:absolute; top:0; left:10px; right:10px; height:1px;
+    background:linear-gradient(90deg, transparent, rgba(255,203,61,0.4), transparent);
+  }
+  .cd-cell .num{
+    position:relative;
+    font-size:26px;
+    font-weight:800;
+    color:var(--parchment);
+    font-variant-numeric:tabular-nums;
+    line-height:1;
+    text-shadow:0 0 16px rgba(255,203,61,0.28);
+    padding:2px 6px;
+  }
+  .cd-cell .num::after{
+    content:'';
+    position:absolute; top:50%; left:-4px; right:-4px; height:1px;
+    background:rgba(0,0,0,0.4);
+    box-shadow:0 1px 0 rgba(255,255,255,0.05);
+    transform:translateY(-50%);
+  }
+  .cd-cell .lbl{
+    font-size:10px;
+    color:var(--parchment-dim);
+    text-align:center;
+  }
+
+  /* ---------------- مودال وضعیت/برنامه مراسم ---------------- */
+  .modal-overlay{
+    position:fixed; inset:0; z-index:300;
+    background:rgba(3,1,1,0.72);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    display:flex; align-items:flex-end; justify-content:center;
+    opacity:0; visibility:hidden;
+    transition:opacity 0.25s ease, visibility 0.25s ease;
+  }
+  .modal-overlay.show{ opacity:1; visibility:visible; }
+  .modal-sheet{
+    position:relative;
+    width:100%; max-width:500px;
+    max-height:82vh; overflow-y:auto;
+    background:var(--void-2, var(--void));
+    border:1px solid var(--gold-soft);
+    border-bottom:none;
+    border-radius:26px 26px 0 0;
+    padding:14px 24px 32px;
+    text-align:center;
+    box-shadow:0 -12px 40px rgba(0,0,0,0.5);
+    transform:translateY(100%);
+    transition:transform 0.32s cubic-bezier(0.22,1,0.36,1);
+  }
+  .modal-overlay.show .modal-sheet{ transform:translateY(0); }
+  .modal-handle{
+    width:38px; height:4px; border-radius:999px;
+    background:var(--line);
+    margin:6px auto 18px;
+  }
+  .modal-close{
+    position:absolute; top:14px; left:16px;
+    width:32px; height:32px; border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.03);
+    color:var(--parchment-dim);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+  }
+  .modal-close svg{ width:14px; height:14px; }
+  .modal-close:hover{ border-color:var(--gold-soft); color:var(--gold); }
+  .modal-ribbon{
+    display:inline-block;
+    font-size:10.5px; font-weight:700; letter-spacing:0.14em;
+    color:var(--void); background:var(--gold);
+    padding:4px 14px; border-radius:999px;
+    margin-bottom:16px;
+  }
+  .modal-title{
+    font-size:17px; font-weight:800; line-height:1.9;
+    color:var(--parchment);
+  }
+  .hero-status-sheet-row{
+    display:flex; align-items:flex-start; gap:12px;
+    text-align:right;
+    margin-top:18px;
+    padding-bottom:16px;
+    border-bottom:1px solid var(--line);
+  }
+  .hero-status-sheet-row:last-of-type{ border-bottom:none; padding-bottom:6px; }
+  .hero-status-sheet-icon{
+    flex:none; width:34px; height:34px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:15px;
+    background:rgba(255,203,61,0.08);
+    border:1px solid var(--line);
+  }
+  .hero-status-sheet-label{
+    font-size:12px; font-weight:700; color:var(--gold-soft);
+    margin-bottom:4px;
+  }
+  .hero-status-sheet-value{
+    font-size:13px; color:var(--parchment); line-height:1.9;
+  }
+  .hero-status-sheet-btn{
+    display:block; width:100%;
+    margin-top:20px;
+    padding:13px;
+    border-radius:14px;
+    border:1px solid var(--gold-soft);
+    background:transparent;
+    color:var(--gold);
+    font-family:inherit;
+    font-size:13.5px; font-weight:700;
+    cursor:pointer;
+    transition:background 0.2s ease;
+  }
+  .hero-status-sheet-btn:hover{ background:rgba(255,203,61,0.08); }
 </style>
 <link rel="stylesheet" href="assistant.css">
 </head>
@@ -1130,7 +1362,7 @@
 <div class="page">
 
     <div class="page2-header">
-    <div class="page2-header-title" data-i18n="pageTitle">❓ دستیار سایت</div>
+    <div class="page2-header-title" data-i18n="pageTitle">🕌 مسجد قائم</div>
   </div>
 
   <div class="mini-logo-wrap">
@@ -1140,16 +1372,61 @@
   </div>
 
   <div class="group-label">
-    <span data-i18n="faqGroupLabel">دستیار سایت</span>
+    <span data-i18n="qaemGroupLabel">مسجد حضرت قائم (عج)</span>
   </div>
 
-  <div class="faq-card">
-    <div class="faq-chat-scroll" id="faq-chat-scroll"></div>
-    <div class="faq-replies-wrap">
-      <div class="faq-replies-label" id="faq-replies-label">یکی از دسته‌ها رو انتخاب کن:</div>
-      <div class="faq-quick-replies" id="faq-quick-replies"></div>
+  <section class="ceremony-hero" id="ceremony-hero">
+    <span class="cd-corner top-left" aria-hidden="true"></span>
+    <span class="cd-corner top-right" aria-hidden="true"></span>
+    <span class="cd-corner bottom-left" aria-hidden="true"></span>
+    <span class="cd-corner bottom-right" aria-hidden="true"></span>
+
+    <button type="button" class="hero-status" id="hero-status" aria-haspopup="dialog">
+      <span class="hero-status-dot" id="hero-status-dot"></span>
+      <span id="hero-status-text" data-i18n="heroStatusUpcoming">مراسم بعدی: جمعه، ساعت ۷:۰۰</span>
+    </button>
+
+    <div class="ceremony-emblem" aria-hidden="true">
+      <svg viewBox="0 0 52 26" width="52" height="26" fill="none">
+        <path d="M26 5c-5.2 0-9.4 4.2-9.4 9.4S20.8 23.8 26 23.8c1.2 0 2.4-.2 3.4-.6-3.6-1.4-6.1-4.9-6.1-8.9s2.5-7.5 6.1-8.9c-1-.4-2.2-.6-3.4-.6z" fill="currentColor"/>
+        <circle cx="39" cy="8.5" r="1.3" fill="currentColor"/>
+        <circle cx="43.5" cy="13" r="0.85" fill="currentColor" opacity="0.75"/>
+        <circle cx="12" cy="13" r="0.85" fill="currentColor" opacity="0.75"/>
+      </svg>
     </div>
-  </div>
+
+    <div class="ceremony-title-block">
+      <div class="ceremony-subtitle" data-i18n="ceremonySubtitle">جمعه‌های انتظار</div>
+      <div class="ceremony-title" data-i18n="ceremonyTitle">مراسم قرائت دعای ندبه</div>
+      <div class="ceremony-meta" data-i18n="ceremonyMeta">
+        با نوای ذاکرین اهل‌بیت «علیهم‌السلام»<br>
+        هر هفته، <b>جمعه‌ها، ساعت ۷ صبح</b><br>
+        قاضی‌آباد<br>خیابان نهم، مسجد قائم «عج»
+      </div>
+    </div>
+
+    <div class="hero-countdown">
+      <div class="hero-countdown-label" data-i18n="cdLabel">شروع تا جلسه بعدی</div>
+      <div class="hero-countdown-grid">
+        <div class="cd-cell">
+          <span class="num" id="cd-secs">--</span>
+          <span class="lbl" data-i18n="unitSecs">ثانیه</span>
+        </div>
+        <div class="cd-cell">
+          <span class="num" id="cd-mins">--</span>
+          <span class="lbl" data-i18n="unitMins">دقیقه</span>
+        </div>
+        <div class="cd-cell">
+          <span class="num" id="cd-hours">--</span>
+          <span class="lbl" data-i18n="unitHours">ساعت</span>
+        </div>
+        <div class="cd-cell">
+          <span class="num" id="cd-days">--</span>
+          <span class="lbl" data-i18n="unitDays">روز</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <a href="guide.html" class="guide-link">
     <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M9.5 9.3a2.5 2.5 0 1 1 3.4 2.3c-.7.3-1.2.9-1.2 1.7V14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="16.8" r="0.9" fill="currentColor"/></svg>
@@ -1158,6 +1435,32 @@
 
   <footer data-i18n="footerSub">پایگاه اطلاع‌رسانی هیئت کاظمیون خرم‌آباد</footer>
 
+</div>
+
+<div class="modal-overlay" id="hero-status-modal-overlay">
+  <div class="modal-sheet hero-status-sheet" role="dialog" aria-modal="true" aria-label="وضعیت و برنامه مراسم">
+    <button type="button" class="modal-close" id="hero-status-modal-close" aria-label="بستن">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <div class="modal-handle"></div>
+    <div class="modal-ribbon" data-i18n="modalRibbon">برنامه هفتگی</div>
+    <div class="modal-title" data-i18n="modalTitle">🌙 دعای ندبه، جمعه‌های انتظار</div>
+    <div class="hero-status-sheet-row">
+      <span class="hero-status-sheet-icon">📅</span>
+      <div>
+        <div class="hero-status-sheet-label" data-i18n="modalDayLabel">روز و ساعت برگزاری</div>
+        <div class="hero-status-sheet-value" data-i18n="modalDayValue">جمعه‌های هر هفته، ساعت ۷:۰۰ صبح</div>
+      </div>
+    </div>
+    <div class="hero-status-sheet-row">
+      <span class="hero-status-sheet-icon">📍</span>
+      <div>
+        <div class="hero-status-sheet-label" data-i18n="modalLocationLabel">محل برگزاری</div>
+        <div class="hero-status-sheet-value" data-i18n="modalLocationValue">قاضی‌آباد<br>خیابان نهم، مسجد حضرت قائم «عج»</div>
+      </div>
+    </div>
+    <button type="button" class="hero-status-sheet-btn" id="hero-status-sheet-map-btn" data-i18n="modalMapBtn">مسیر رو روی نقشه ببین</button>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -1187,170 +1490,6 @@
       document.body.removeChild(ta);
     }
   }
-
-  (function faqChat(){
-    const scrollEl = document.getElementById('faq-chat-scroll');
-    const repliesEl = document.getElementById('faq-quick-replies');
-    const labelEl = document.getElementById('faq-replies-label');
-    if(!scrollEl || !repliesEl) return;
-
-    const FAQ_DATA = [
-      { id:'time', icon:'⏰', label:'زمان و مکان مراسم', questions:[
-        { q:'مراسم هیئت چه زمانی و کجا برگزار می‌شه؟', a:'مراسم هفتگی هیئت کاظمیون هر سه‌شنبه ساعت ۲۱ در مسجد حضرت قائم (عج)، محله قاضی‌آباد خرم‌آباد برگزار می‌شه. برای دیدن شمارش معکوس تا مراسم بعدی و مسیریابی روی نقشه، کافیه سری به صفحه اول سایت بزنی.', url:'index.html', linkLabel:'مشاهده شمارش معکوس و نقشه' },
-        { q:'مراسم قرائت دعای ندبه کِی و کجا برگزار می‌شه؟', a:'مراسم قرائت دعای ندبه، در «جمعه‌های انتظار»، هر هفته جمعه‌ها ساعت ۷ صبح با نوای ذاکرین اهل‌بیت (ع) در قاضی‌آباد، خیابان نهم، مسجد قائم (عج) برگزار می‌شه. برای دیدن شمارش‌معکوس تا جلسه بعدی و مسیریابی روی نقشه، به صفحه «مسجد قائم» سر بزن.', url:'masjed-qaem.html', linkLabel:'رفتن به صفحه مسجد قائم' },
-        { q:'در ایام محرم و صفر، برنامه و ساعت مراسم فرق می‌کنه؟', a:'بله؛ در ایام خاصی مثل محرم و صفر معمولاً برنامه و ساعت برگزاری تغییر می‌کنه و ممکنه مراسم اضافه‌ای هم برگزار بشه. برای اطلاع دقیق و به‌روز، اعلان‌های بالای صفحه اول سایت رو دنبال کن.', url:'index.html', linkLabel:'مشاهده اعلان‌های سایت' },
-        { q:'اوقات شرعی (اذان، طلوع و غروب آفتاب) رو از کجا ببینم؟', a:'در صفحه «اوقات شرعی» می‌تونی اذان صبح، طلوع و غروب آفتاب، اذان ظهر و مغرب و نیمه‌شب شرعی رو برای خرم‌آباد ببینی؛ از بخش «سایر شهرها» هم می‌تونی شهرهایی مثل تهران، قم، مشهد، کربلا و نجف رو انتخاب کنی.', url:'owqat.html', linkLabel:'رفتن به اوقات شرعی' }
-      ]},
-      { id:'nazr', icon:'🕯️', label:'نذورات و کمک مالی', questions:[
-        { q:'چطور می‌تونم نذر نقدی یا غیرنقدی بدم؟', a:'برای نذر نقدی، وارد صفحه «نذورات» شو؛ شماره کارت اونجا با یک ضربه قابل کپی کردنه. برای نذورات غیرنقدی مثل غذا یا لوازم، از طریق کانال‌های رسمی ایتا یا روبیکای هیئت هماهنگ کن تا محل و زمان تحویل مشخص بشه.', url:'nazr.html', linkLabel:'رفتن به بخش نذورات' },
-        { q:'نذورات صرف چه کارهایی می‌شه و آیا گزارش مالی هم منتشر می‌شه؟', a:'نذورات صرف برگزاری مراسم عزاداری، پذیرایی هیئتی‌ها و هزینه‌های جاری هیئت می‌شه. برای اطلاع از وضعیت مالی و شفافیت نذورات، می‌تونی از طریق کانال رسمی هیئت درخواست گزارش بدی.' }
-      ]},
-      { id:'religious', icon:'📿', label:'محتوای مذهبی سایت', questions:[
-        { q:'دعا، زیارت‌نامه و مداحی‌های هیئت رو از کجای سایت پیدا کنم؟', a:'در صفحه «کتابخانه» متن عربی، ترجمه فارسی و پخش صوتی زیارت عاشورا و چند دعای دیگه موجوده. مداحی‌ها و مولودی‌خوانی‌ها هم در صفحه «مداحی و مولودی» به‌صورت فهرست صوتی در دسترسن.', links:[ { url:'page2.html', label:'رفتن به کتابخانه (ادعیه و زیارت‌نامه‌ها)' }, { url:'madahi.html', label:'رفتن به مداحی و مولودی' } ] },
-        { q:'صلوات‌شمار و حدیث روز چه ابزارهایی هستن؟', a:'صلوات‌شمار ابزاری برای شمارش آنلاین صلوات با ذخیره‌سازی خودکار روی گوشیته و در صفحه «صلوات‌شمار» قرار داره. حدیث روز هم در صفحه اول سایت، هر بار یک حدیث از معصومین (ع) رو به‌صورت خودکار نشون می‌ده.', url:'salavat.html', linkLabel:'رفتن به صلوات‌شمار' }
-      ]},
-      { id:'gallery', icon:'🖼️', label:'گالری و دانلود', questions:[
-        { q:'چطور عکس‌ها و فایل‌های صوتی مراسم رو ببینم و دانلود کنم؟', a:'در صفحه «گالری تصاویر»، آرشیو عکس‌های مراسم‌های مختلف دسته‌بندی شده؛ روی عکس بزن و از دکمه دانلود گوشه لایت‌باکس استفاده کن. برای فایل‌های صوتی هم دکمه شناور «دانلود» پایین صفحه در دسترسه.', url:'gallery.html', linkLabel:'رفتن به گالری تصاویر' }
-      ]},
-      { id:'settings', icon:'⚙️', label:'امکانات و تنظیمات سایت', questions:[
-        { q:'چطور زبان و تم رنگی سایت رو عوض کنم یا اون رو مثل اپ نصب کنم؟', a:'از منوی سریع بالای صفحه (آیکون همبرگری)، بخش «زبان» رو باز کن و فارسی، عربی یا انگلیسی رو انتخاب کن؛ از بخش «تم» هم می‌تونی پالت رنگی سایت رو عوض کنی. برای نصب سایت مثل اپلیکیشن، گزینه «نصب اپ» رو بزن (در مرورگرهایی که این قابلیت رو پشتیبانی می‌کنن).' },
-        { q:'چطور اندازه‌ی متن سایت رو بزرگ یا کوچیک کنم؟', a:'از منوی سریع بالای صفحه، ردیف «اندازه متن» رو پیدا کن و با دکمه‌های + و − کل صفحه رو تا هر اندازه‌ای که راحت‌تر می‌بینی، بزرگ یا کوچیک کن. این تنظیم رو سایت به خاطر می‌سپاره.' },
-        { q:'این نقطه‌ی قرمز بالای صفحه اول چیه؟', a:'اون نشان وضعیت مراسمه. اگه چشمک بزنه یعنی مراسم همین الان در حال برگزاریه؛ در غیر این‌صورت یعنی هنوز وقتش نرسیده. با لمس همون نشان، یه پنجره کوچیک باز می‌شه که روز، ساعت و آدرس دقیق مراسم رو بهت نشون می‌ده.', url:'index.html', linkLabel:'مشاهده در صفحه اول' },
-        { q:'چطور سایت رو با دوستام به اشتراک بذارم؟', a:'از دکمه اشتراک‌گذاری در صفحه اول، می‌تونی لینک سایت رو در ایتا، روبیکا، سروش، بله یا تلگرام بفرستی.' },
-        { q:'چطور می‌تونم عکسم رو با قاب هیئت بسازم؟', a:'در صفحه «فریم‌ساز عکس»، عکس خودت رو بارگذاری کن، جای اون رو تنظیم و بزرگ‌نمایی کن، بعد با دکمه دانلود نسخه نهایی رو که مناسب استوری اینستاگرامه ذخیره کن.', url:'frame.html', linkLabel:'رفتن به فریم‌ساز عکس' },
-        { q:'چطور تاریخ رو بین شمسی، میلادی و قمری تبدیل کنم؟', a:'در صفحه «تبدیل تاریخ»، تقویم مبدأ رو انتخاب کن و روز/ماه/سال رو با اسکرول وارد کن؛ نتیجه هم‌زمان در هر سه تقویم نشون داده می‌شه و با دکمه کپی کنار هر نتیجه می‌تونی همون تاریخ رو کپی کنی.', url:'convert.html', linkLabel:'رفتن به تبدیل تاریخ' }
-      ]},
-      { id:'contact', icon:'📞', label:'ارتباط با هیئت', questions:[
-        { q:'چطور با مسئولان هیئت در ارتباط باشم یا داوطلب همکاری بشم؟', a:'از طریق کانال‌های رسمی ایتا یا روبیکا که در صفحه اول معرفی شدن، می‌تونی پیام بدی. برای همکاری هم در پیام خصوصی همون کانال‌ها اعلام آمادگی کن؛ به‌محض آماده شدن فرم ثبت‌نام خادمین، از همون کانال‌ها اطلاع‌رسانی می‌شه.', url:'index.html', linkLabel:'مشاهده کانال‌های ارتباطی' }
-      ]}
-    ];
-
-    let state = { view:'categories', categoryId:null };
-
-    function scrollToBottom(){
-      requestAnimationFrame(() => { scrollEl.scrollTop = scrollEl.scrollHeight; });
-    }
-
-    function addMessage(text, who){
-      const el = document.createElement('div');
-      el.className = 'faq-msg ' + who;
-      el.textContent = text;
-      scrollEl.appendChild(el);
-      scrollToBottom();
-      return el;
-    }
-
-    function prefetchPage(href){
-      const linkId = 'faq-prefetch-' + href.replace(/[^a-zA-Z0-9]/g, '');
-      if(document.getElementById(linkId)) return;
-      const link = document.createElement('link');
-      link.id = linkId;
-      link.rel = 'prefetch';
-      link.as = 'document';
-      link.href = href;
-      document.head.appendChild(link);
-    }
-
-    function addLinkButton(url, label){
-      const a = document.createElement('a');
-      a.className = 'faq-msg-link';
-      a.href = url;
-      a.innerHTML = '<svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
-        '<span>' + label + '</span>';
-      a.addEventListener('pointerenter', () => prefetchPage(url), { once:true });
-      a.addEventListener('touchstart', () => prefetchPage(url), { once:true, passive:true });
-      /* لینک عادی است و بی‌درنگ باز می‌شود؛ پیش‌بارگذاری بالا هنوز فعال است
-         تا صفحه مقصد سریع‌تر لود شود، اما دیگر منتظر انیمیشن محو شدن
-         نمی‌مانیم که باعث لگ می‌شد. */
-      scrollEl.appendChild(a);
-      scrollToBottom();
-      prefetchPage(url);
-    }
-
-    function addTypingThenMessage(text, onDone){
-      if(window.FaqMascot) window.FaqMascot.react('think');
-      const typing = document.createElement('div');
-      typing.className = 'faq-typing';
-      typing.innerHTML = '<span></span><span></span><span></span>';
-      scrollEl.appendChild(typing);
-      scrollToBottom();
-      setTimeout(() => {
-        typing.remove();
-        addMessage(text, 'bot');
-        if(window.FaqMascot) window.FaqMascot.react(Math.random() < 0.45 ? 'laugh' : 'happy');
-        if(typeof onDone === 'function') onDone();
-      }, 550 + Math.random() * 350);
-    }
-
-    function clearReplies(){ repliesEl.innerHTML = ''; }
-
-    function addChip(text, onClick, isBack){
-      const chip = document.createElement('button');
-      chip.type = 'button';
-      chip.className = 'faq-chip' + (isBack ? ' faq-chip-back' : '');
-      chip.textContent = text;
-      chip.addEventListener('click', onClick);
-      repliesEl.appendChild(chip);
-    }
-
-    function renderCategories(){
-      state = { view:'categories', categoryId:null };
-      labelEl.textContent = 'یکی از دسته‌ها رو انتخاب کن:';
-      clearReplies();
-      FAQ_DATA.forEach(cat => {
-        addChip(cat.icon + ' ' + cat.label, () => selectCategory(cat.id));
-      });
-    }
-
-    function selectCategory(catId){
-      const cat = FAQ_DATA.find(c => c.id === catId);
-      if(!cat) return;
-      if(window.FaqMascot) window.FaqMascot.react('happy');
-      addMessage(cat.icon + ' ' + cat.label, 'user');
-      addTypingThenMessage('بفرما، کدوم سوال برات مهمه؟ 🙂');
-      state = { view:'questions', categoryId:catId };
-      renderQuestionChips(cat);
-    }
-
-    function renderQuestionChips(cat){
-      labelEl.textContent = 'یکی از سوال‌های زیر رو انتخاب کن:';
-      clearReplies();
-      cat.questions.forEach(item => {
-        addChip(item.q, () => askQuestion(cat, item));
-      });
-      addChip('🔙 بازگشت به دسته‌ها', renderCategories, true);
-    }
-
-    function renderRelated(cat, currentItem){
-      const others = cat.questions.filter(q => q !== currentItem);
-      clearReplies();
-      if(others.length){
-        labelEl.textContent = 'سوال‌های مرتبط دیگه:';
-        others.forEach(item => addChip(item.q, () => askQuestion(cat, item)));
-      } else {
-        labelEl.textContent = 'سوال دیگه‌ای داری؟';
-      }
-      addChip('🔙 بازگشت به دسته‌ها', renderCategories, true);
-      state = { view:'questions', categoryId:cat.id };
-    }
-
-    function askQuestion(cat, item){
-      if(window.FaqMascot) window.FaqMascot.react('surprised');
-      addMessage(item.q, 'user');
-      addTypingThenMessage(item.a, () => {
-        if(Array.isArray(item.links)){
-          item.links.forEach(l => addLinkButton(l.url, l.label || 'مشاهده در صفحه اصلی'));
-        } else if(item.url){
-          addLinkButton(item.url, item.linkLabel || 'مشاهده در صفحه اصلی');
-        }
-        renderRelated(cat, item);
-      });
-    }
-
-    // پیام خوش‌آمد اولیه
-    addMessage('سلام! 👋 من دستیار سایت هیئت کاظمیونم. یکی از دسته‌های زیر رو انتخاب کن تا سوال‌های مرتبط رو ببینی.', 'bot');
-    renderCategories();
-  })();
 
   // ---------------- تغییر و همگام‌سازی تم با صفحه اول ----------------
   (function themeSwitcher(){
@@ -1454,36 +1593,78 @@
   const translations = {
     fa: {
       backBtn: 'بازگشت',
-      pageTitle: '❓ دستیار سایت',
-      faqGroupLabel: 'دستیار سایت',
+      pageTitle: '🕌 مسجد قائم',
+      qaemGroupLabel: 'مسجد حضرت قائم (عج)',
       guideLinkText: 'راهنمای سایت',
       footerSub: 'پایگاه اطلاع‌رسانی هیئت کاظمیون خرم‌آباد',
       quickMenuTheme: 'تم',
       quickMenuLang: 'زبان',
       quickMenuSound: 'صدا',
-      quickMenuInstall: 'نصب اپ'
+      quickMenuInstall: 'نصب اپ',
+      ceremonySubtitle: 'جمعه‌های انتظار',
+      ceremonyTitle: 'مراسم قرائت دعای ندبه',
+      ceremonyMeta: 'با نوای ذاکرین اهل‌بیت «علیهم‌السلام»<br>هر هفته، <b>جمعه‌ها، ساعت ۷ صبح</b><br>قاضی‌آباد<br>خیابان نهم، مسجد قائم «عج»',
+      heroStatusLive: '🔴 مراسم هم‌اکنون برگزار می‌شود',
+      heroStatusUpcoming: 'مراسم بعدی: جمعه، ساعت ۷:۰۰',
+      cdLabel: 'شروع تا جلسه بعدی',
+      unitSecs: 'ثانیه', unitMins: 'دقیقه', unitHours: 'ساعت', unitDays: 'روز',
+      modalRibbon: 'برنامه هفتگی',
+      modalTitle: '🌙 دعای ندبه، جمعه‌های انتظار',
+      modalDayLabel: 'روز و ساعت برگزاری',
+      modalDayValue: 'جمعه‌های هر هفته، ساعت ۷:۰۰ صبح',
+      modalLocationLabel: 'محل برگزاری',
+      modalLocationValue: 'قاضی‌آباد<br>خیابان نهم، مسجد حضرت قائم «عج»',
+      modalMapBtn: 'مسیر رو روی نقشه ببین'
     },
     ar: {
       backBtn: 'رجوع',
-      pageTitle: '❓ مساعد الموقع',
-      faqGroupLabel: 'مساعد الموقع',
+      pageTitle: '🕌 مسجد القائم',
+      qaemGroupLabel: 'مسجد حضرت القائم (عج)',
       guideLinkText: 'دليل الموقع',
       footerSub: 'القناة الرسمية لموكب الكاظميون خرم‌آباد',
       quickMenuTheme: 'المظهر',
       quickMenuLang: 'اللغة',
       quickMenuSound: 'الصوت',
-      quickMenuInstall: 'تثبيت التطبيق'
+      quickMenuInstall: 'تثبيت التطبيق',
+      ceremonySubtitle: 'جُمَع الانتظار',
+      ceremonyTitle: 'مراسم قراءة دعاء الندبة',
+      ceremonyMeta: 'بصوت ذاكري أهل البيت «عليهم‌السلام»<br>كل أسبوع، <b>يوم الجمعة، الساعة ٧ صباحًا</b><br>قاضي‌آباد<br>شارع نهم، مسجد القائم «عج»',
+      heroStatusLive: '🔴 المراسم تُقام الآن',
+      heroStatusUpcoming: 'المراسم القادمة: الجمعة، الساعة ٧:٠٠',
+      cdLabel: 'الوقت المتبقي للجلسة القادمة',
+      unitSecs: 'ثانية', unitMins: 'دقيقة', unitHours: 'ساعة', unitDays: 'يوم',
+      modalRibbon: 'البرنامج الأسبوعي',
+      modalTitle: '🌙 دعاء الندبة، جُمَع الانتظار',
+      modalDayLabel: 'يوم وساعة الإقامة',
+      modalDayValue: 'كل جمعة، الساعة ٧:٠٠ صباحًا',
+      modalLocationLabel: 'مكان الإقامة',
+      modalLocationValue: 'قاضي‌آباد<br>شارع نهم، مسجد حضرت القائم «عج»',
+      modalMapBtn: 'شاهد الطريق على الخريطة'
     },
     en: {
       backBtn: 'Back',
-      pageTitle: '❓ Site Assistant',
-      faqGroupLabel: 'Site Assistant',
+      pageTitle: '🕌 Qaem Mosque',
+      qaemGroupLabel: 'Hazrat Qaem (AJ) Mosque',
       guideLinkText: 'Site Guide',
       footerSub: 'Official channel of Heyat-e Kazemiyoon Khorramabad',
       quickMenuTheme: 'Theme',
       quickMenuLang: 'Language',
       quickMenuSound: 'Sound',
-      quickMenuInstall: 'Install App'
+      quickMenuInstall: 'Install App',
+      ceremonySubtitle: 'Fridays of Anticipation',
+      ceremonyTitle: 'Dua Nudbah Recitation',
+      ceremonyMeta: 'With reciters of Ahl al-Bayt (peace be upon them)<br>Every week, <b>Fridays, 7:00 AM</b><br>Qazi Abad<br>9th Street, Qaem Mosque',
+      heroStatusLive: '🔴 The ceremony is live now',
+      heroStatusUpcoming: 'Next ceremony: Friday, 7:00 AM',
+      cdLabel: 'Time until next session',
+      unitSecs: 'Sec', unitMins: 'Min', unitHours: 'Hour', unitDays: 'Day',
+      modalRibbon: 'Weekly Program',
+      modalTitle: '🌙 Dua Nudbah, Fridays of Anticipation',
+      modalDayLabel: 'Day & Time',
+      modalDayValue: 'Every Friday, 7:00 AM',
+      modalLocationLabel: 'Location',
+      modalLocationValue: 'Qazi Abad<br>9th Street, Hazrat Qaem (AJ) Mosque',
+      modalMapBtn: 'View route on map'
     }
   };
 
@@ -1497,7 +1678,7 @@
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const key = el.getAttribute('data-i18n');
       if(translations[lang][key] !== undefined){
-        el.textContent = translations[lang][key];
+        el.innerHTML = translations[lang][key];
       }
     });
     const activeOpt = document.querySelector('.lang-opt[data-lang="' + lang + '"]');
@@ -1510,6 +1691,7 @@
       if(flagEl) flagEl.textContent = activeOpt.dataset.flag;
       if(codeEl) codeEl.textContent = activeOpt.dataset.code;
     }
+    if(typeof updateHeroStatus === 'function') updateHeroStatus();
   }
 
   // ---------------- تغییر زبان ----------------
@@ -1647,6 +1829,126 @@
        انیمیشن محو شدن نمی‌مانیم که باعث لگ می‌شد. */
   })();
 
+  // ---------------- محاسبه‌ی جمعه‌ی بعدی ساعت ۷:۰۰ صبح به وقت تهران ----------------
+  function toLocaleDigits(n){
+    const s = String(n).padStart(2, '0');
+    if(currentLang === 'fa'){
+      const fa = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+      return s.replace(/\d/g, d => fa[d]);
+    }
+    if(currentLang === 'ar'){
+      const ar = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+      return s.replace(/\d/g, d => ar[d]);
+    }
+    return s;
+  }
+  function getTehranOffsetHours(date){
+    try{
+      const parts = new Intl.DateTimeFormat('en-US', { timeZone:'Asia/Tehran', timeZoneName:'shortOffset' }).formatToParts(date);
+      const tzPart = parts.find(p => p.type === 'timeZoneName');
+      if(tzPart){
+        const m = tzPart.value.match(/GMT([+-]\d+)(?::(\d+))?/);
+        if(m){
+          const h = parseInt(m[1], 10);
+          const mins = m[2] ? parseInt(m[2], 10) : 0;
+          return h + (h < 0 ? -mins / 60 : mins / 60);
+        }
+      }
+    }catch(e){}
+    return 3.5; // fallback: ساعت رسمی ایران بدون تغییر ساعت فصلی
+  }
+  function getTehranParts(date){
+    const fmt = new Intl.DateTimeFormat('en-US', {
+      timeZone:'Asia/Tehran', year:'numeric', month:'2-digit', day:'2-digit',
+      hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false, weekday:'short'
+    });
+    const map = {};
+    fmt.formatToParts(date).forEach(p => { map[p.type] = p.value; });
+    return map;
+  }
+  // جلسه بعدی: جمعه (weekday=5) ساعت ۷:۰۰ صبح به وقت تهران
+  function nextSession(){
+    const now = new Date();
+    const offset = getTehranOffsetHours(now);
+    const p = getTehranParts(now);
+    const weekdayMap = { Sun:0, Mon:1, Tue:2, Wed:3, Thu:4, Fri:5, Sat:6 };
+    const day = weekdayMap[p.weekday];
+    const curHour = parseInt(p.hour, 10) + parseInt(p.minute, 10) / 60;
+    let diff = (5 - day + 7) % 7;
+    if(diff === 0 && curHour >= 7) diff = 7;
+    const y = parseInt(p.year, 10), mo = parseInt(p.month, 10), d = parseInt(p.day, 10);
+    const targetUTC = Date.UTC(y, mo - 1, d + diff, 7, 0, 0) - offset * 3600000;
+    return new Date(targetUTC);
+  }
+  function updateCountdown(){
+    const target = nextSession();
+    const now = new Date();
+    let ms = target - now;
+    if(ms < 0) ms = 0;
+    const days = Math.floor(ms / 86400000);
+    const hours = Math.floor((ms % 86400000) / 3600000);
+    const mins = Math.floor((ms % 3600000) / 60000);
+    const secs = Math.floor((ms % 60000) / 1000);
+    cdEls.days.textContent = toLocaleDigits(days);
+    cdEls.hours.textContent = toLocaleDigits(hours);
+    cdEls.mins.textContent = toLocaleDigits(mins);
+    cdEls.secs.textContent = toLocaleDigits(secs);
+  }
+  const cdEls = {
+    days: document.getElementById('cd-days'),
+    hours: document.getElementById('cd-hours'),
+    mins: document.getElementById('cd-mins'),
+    secs: document.getElementById('cd-secs')
+  };
+  if(cdEls.days){
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  }
+
+  // ---------------- وضعیت زنده‌ی مراسم (جمعه‌ها ۷ تا ۸ صبح) ----------------
+  const ceremonyHeroEl = document.getElementById('ceremony-hero');
+  const heroStatusText = document.getElementById('hero-status-text');
+  function updateHeroStatus(){
+    if(!ceremonyHeroEl || !heroStatusText) return;
+    const p = getTehranParts(new Date());
+    const weekdayMap = { Sun:0, Mon:1, Tue:2, Wed:3, Thu:4, Fri:5, Sat:6 };
+    const isFriday = weekdayMap[p.weekday] === 5;
+    const hour = parseInt(p.hour, 10);
+    const isLive = isFriday && hour >= 7 && hour < 8;
+    ceremonyHeroEl.classList.toggle('is-live', isLive);
+    const dict = translations[currentLang] || translations.fa;
+    heroStatusText.textContent = isLive ? dict.heroStatusLive : dict.heroStatusUpcoming;
+  }
+  if(ceremonyHeroEl){
+    updateHeroStatus();
+    setInterval(updateHeroStatus, 30000);
+  }
+
+  // ---------------- شیت اطلاعات مراسم (با تپ روی نشان وضعیت باز می‌شه) ----------------
+  (function heroStatusSheet(){
+    const trigger  = document.getElementById('hero-status');
+    const overlay  = document.getElementById('hero-status-modal-overlay');
+    const closeBtn = document.getElementById('hero-status-modal-close');
+    const mapBtn   = document.getElementById('hero-status-sheet-map-btn');
+    if(!trigger || !overlay || !closeBtn) return;
+    function openModal(){
+      overlay.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(){
+      overlay.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+    trigger.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e) => { if(e.target === overlay) closeModal(); });
+    if(mapBtn){
+      mapBtn.addEventListener('click', () => {
+        window.open('https://balad.ir/location?latitude=33.471360&longitude=48.355532&zoom=16.500000', '_blank', 'noopener');
+      });
+    }
+  })();
+
   // ذرات ریز طلایی پس‌زمینه (امبر)
   (function embers(){
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1668,9 +1970,6 @@
       wrap.appendChild(s);
     }
   })();
-
-  // نکته: کنترل ری‌اکشن‌های شکلک دستیار (window.FaqMascot.react) اکنون در assistant.js
-  // به‌صورت مشترک برای کل سایت پیاده‌سازی شده و همان شکلک شناور، اینجا هم پاسخ می‌ده.
 </script>
 
 
@@ -1706,17 +2005,17 @@
 </script>
 <script>
 window.KZM_ASSISTANT_CONFIG = {
-  pageKey: 'faq',
+  pageKey: 'masjed-qaem',
   greeting: {
     title: 'سلام و خوش اومدی 👋',
     short: 'من دستیار سایت هیئتم! هر جا بری، کنارتم و بخش‌ها رو برات توضیح می‌دم.',
     full: 'سلام! به سایت هیئت کاظمیون خرم‌آباد خوش اومدی.\n\nمن دستیار همراه سایتم؛ وقتی بین بخش‌های مختلف صفحه جابه‌جا می‌شی، یه توضیح کوتاه برات نشون می‌دم و اگه دوست داشته باشی می‌تونی روی «بیشتر بدون» بزنی تا توضیح کامل‌تر رو تمام‌صفحه ببینی.\n\nهر وقت خواستی دوباره باهام صحبت کنی، کافیه روی همین شکلک بزنی.'
   },
   sections: [
-    { key:'faq-chat', selector:'.faq-card',
-      title:'پرسش و پاسخ',
-      short:'یکی از دسته‌ها رو انتخاب کن تا برات جواب بدم؛ اگه جواب نبود، خودت بنویس.',
-      full:'همینجا با من گفتگو کن! از بین دسته‌های پیشنهادی سؤالت رو انتخاب کن یا خودت تایپ کن، من سعی می‌کنم بهترین جواب رو از بین سؤال‌های متداول سایت پیدا کنم.\n\nاگه جواب پیدا نشه، بهت راه ارتباطی دیگه‌ای برای پرسیدن سؤالت پیشنهاد می‌دم.' }
+    { key:'ceremony', selector:'.ceremony-hero',
+      title:'مراسم دعای ندبه',
+      short:'برنامه هفتگی و شمارش‌معکوس مراسم دعای ندبه همین‌جاست.',
+      full:'این بخش، برنامه هفتگی مراسم قرائت دعای ندبه (جمعه‌های انتظار) رو نشون می‌ده؛ با نوای ذاکرین اهل‌بیت، هر جمعه ساعت ۷ صبح در مسجد قائم (عج). با زدن روی نشان بالای این بخش هم می‌تونی جزئیات و مسیر روی نقشه رو ببینی.' }
   ]
 };
 </script>
