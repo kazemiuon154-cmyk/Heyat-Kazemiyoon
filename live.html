@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  // دکمه بازگشت گوشی: اگر صفحه مستقیم (بدون سابقه مرورگر) باز شده باشد،
+  // به‌جای نمایش خطا، کاربر را به صفحه اول هیئت برمی‌گرداند
+  (function(){
+    try{
+      history.pushState({kazemiyoonBackTrap:true}, '', location.href);
+      window.addEventListener('popstate', function(){
+        location.replace('index.html');
+      });
+    }catch(err){}
+  })();
+</script>
+
+<!-- ===== Security hardening ===== -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+
+<title>🔴 پخش زنده | هیئت کاظمیون خرم‌آباد</title>
+<meta name="robots" content="noindex, follow">
+<link rel="icon" href="logo.jpg">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0e9b62">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --void:#071710;
+    --void-2:#0e2419;
+    --crimson:#0e9b62;
+    --crimson-rgb:14,155,98;
+    --crimson-bright:#22c17f;
+    --gold:#ffcb3d;
+    --gold-soft:#d1a52a;
+    --gold-dim:#8a6e1e;
+    --parchment:#f3ead0;
+    --parchment-dim:#a99b78;
+    --line:rgba(255,203,61,0.22);
+    --ember:#ffd166;
+    --ember-soft:#ffd16666;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:
+      radial-gradient(ellipse 120% 70% at 50% -8%, rgba(var(--crimson-rgb),0.30), transparent 55%),
+      radial-gradient(ellipse 90% 50% at 15% 40%, rgba(var(--crimson-rgb),0.10), transparent 60%),
+      radial-gradient(ellipse 90% 50% at 85% 75%, rgba(var(--crimson-rgb),0.12), transparent 60%),
+      var(--void);
+    color:var(--parchment);
+    font-family:'Vazirmatn', sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    animation:page2FadeIn 0.4s ease;
+    transition:opacity 0.28s ease, transform 0.28s ease;
+  }
+  @keyframes page2FadeIn{
+    from{ opacity:0; transform:translateY(8px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  body.page-exit{ opacity:0; transform:translateY(-8px); }
+
+  /* ---------------- ذرات ریز طلایی پس‌زمینه ---------------- */
+  .embers{ position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+  .ember-spark{
+    position:absolute;
+    bottom:-10px;
+    width:3px; height:3px;
+    border-radius:50%;
+    background:var(--ember);
+    box-shadow:0 0 6px 1px var(--ember-soft);
+    opacity:0;
+    animation-name:rise;
+    animation-timing-function:ease-in;
+    animation-iteration-count:infinite;
+  }
+  @keyframes rise{
+    0%{ transform:translateY(0) translateX(0); opacity:0; }
+    8%{ opacity:0.9; }
+    80%{ opacity:0.5; }
+    100%{ transform:translateY(-100vh) translateX(var(--drift,20px)); opacity:0; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .ember-spark{ display:none; }
+  }
+  .page{
+    width:100%;
+    max-width:500px;
+    padding:0 22px 60px;
+    position:relative;
+    z-index:1;
+  }
+
+  /* ============================================================
+     THEME SYSTEM — همان تعریف رنگ‌های index.html تا هماهنگ بماند
+  ============================================================ */
+  body.theme-dark{
+    --void:#000000; --void-2:#0a0a0a;
+    --crimson:#6e1013; --crimson-bright:#9c2320;
+    --gold:#a3853a; --gold-soft:#6f5d33; --gold-dim:#453a22;
+    --parchment:#d8d0bf; --parchment-dim:#83786a;
+    --line:rgba(163,133,58,0.14);
+    background:#000000;
+  }
+  body.theme-light{
+    --void:#04120a; --void-2:#071c11;
+    --crimson:#39ff14; --crimson-rgb:57,255,20; --crimson-bright:#7dffb0;
+    --gold:#b6ff2e; --gold-soft:#7fd11a; --gold-dim:#4a7a1e;
+    --parchment:#e9ffee; --parchment-dim:#8fc79f;
+    --line:rgba(57,255,20,0.28);
+  }
+  body.theme-fest{
+    --void:#0c1220; --void-2:#121a2e;
+    --crimson:#d81b60; --crimson-rgb:216,27,96; --crimson-bright:#ff4081;
+    --gold:#ffca28; --gold-soft:#e0a72a; --gold-dim:#b8860b;
+    --parchment:#fff6e0; --parchment-dim:#d8c9a3;
+    --line:rgba(255,202,40,0.25);
+  }
+  body.theme-crimson{
+    --void:#0e0906; --void-2:#150e0a;
+    --crimson:#8c1518; --crimson-rgb:140,21,24; --crimson-bright:#b8241f;
+    --gold:#c9a227; --gold-soft:#8a7040; --gold-dim:#5c4a28;
+    --parchment:#f1e7d8; --parchment-dim:#a99c8a;
+    --line:rgba(201,162,39,0.16);
+  }
+  body.theme-lilac{
+    --void:#160a1e; --void-2:#1f1029;
+    --crimson:#c65bd6; --crimson-rgb:198,91,214; --crimson-bright:#e28ae8;
+    --gold:#f0c94e; --gold-soft:#caa53a; --gold-dim:#8a6f28;
+    --parchment:#fbeefc; --parchment-dim:#c3a8c9;
+    --line:rgba(240,201,78,0.22);
+  }
+  body.theme-sunset{
+    --void:#071c22; --void-2:#0d2a32;
+    --crimson:#ff7a45; --crimson-rgb:255,122,69; --crimson-bright:#ff9d6e;
+    --gold:#ffcf6b; --gold-soft:#dba63e; --gold-dim:#8f6c22;
+    --parchment:#fff3e6; --parchment-dim:#c8b39c;
+    --line:rgba(32,196,196,0.25);
+  }
+  body.theme-amber{
+    --void:#1c130a; --void-2:#241a0e;
+    --crimson:#c8752b; --crimson-rgb:200,117,43; --crimson-bright:#e29344;
+    --gold:#f0c14b; --gold-soft:#cb9f33; --gold-dim:#836a20;
+    --parchment:#fbf1dc; --parchment-dim:#c9b998;
+    --line:rgba(240,193,75,0.22);
+  }
+  body.theme-sky{
+    --void:#081521; --void-2:#0e2032;
+    --crimson:#2f8ce0; --crimson-rgb:47,140,224; --crimson-bright:#5fadf5;
+    --gold:#ffd35c; --gold-soft:#d9ac3c; --gold-dim:#8f7126;
+    --parchment:#f0f8ff; --parchment-dim:#a9c2d6;
+    --line:rgba(127,212,255,0.22);
+  }
+
+  /* ---------------- منوی سریع (همبرگری: تم/زبان/صدا) ---------------- */
+  .quick-menu{
+    position:fixed;
+    top:14px; left:14px;
+    z-index:65;
+  }
+  .quick-menu-btn{
+    width:36px; height:36px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(20,14,10,0.75);
+    color:var(--parchment-dim);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:all 0.2s ease;
+    -webkit-backdrop-filter:blur(6px);
+    backdrop-filter:blur(6px);
+  }
+  .quick-menu-btn svg{ width:17px; height:17px; }
+  .quick-menu-btn:hover, .quick-menu-btn.active{ border-color:var(--gold-soft); color:var(--gold); }
+  .quick-menu-panel{
+    position:absolute;
+    top:44px; left:0;
+    display:flex; flex-direction:column;
+    align-items:stretch;
+    gap:8px;
+    min-width:168px;
+    padding:12px;
+    background:var(--void-2, var(--void));
+    border:1px solid var(--line);
+    border-radius:16px;
+    box-shadow:0 12px 26px rgba(0,0,0,0.5);
+    opacity:0; visibility:hidden;
+    transform:translateY(-8px);
+    transition:opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+    z-index:65;
+  }
+  .quick-menu-panel.show{ opacity:1; visibility:visible; transform:translateY(0); }
+  .quick-menu-row{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:10px;
+  }
+  .quick-menu-label{
+    font-family:'Vazirmatn', sans-serif;
+    font-size:11.5px; font-weight:600;
+    color:var(--parchment-dim);
+  }
+  .theme-switch-wrap{ position:relative; }
+  .theme-toggle-btn{
+    width:30px; height:30px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.02);
+    color:var(--parchment-dim);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:all 0.2s ease;
+  }
+  .theme-toggle-btn svg{ width:15px; height:15px; }
+  .theme-toggle-btn:hover{ border-color:var(--gold-soft); color:var(--gold); }
+  .theme-popover{
+    position:fixed;
+    width:max-content;
+    max-width:min(260px, calc(100vw - 20px));
+    background:var(--void-2, var(--void));
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:6px;
+    display:flex; flex-direction:row; flex-wrap:wrap;
+    gap:4px;
+    box-shadow:0 12px 26px rgba(0,0,0,0.5);
+    opacity:0; visibility:hidden;
+    transform:translateY(-6px);
+    transition:opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+    z-index:70;
+  }
+  .theme-popover.show{ opacity:1; visibility:visible; transform:translateY(0); }
+  .theme-opt{
+    font-family:'Vazirmatn', sans-serif;
+    font-size:11.5px; font-weight:600;
+    color:var(--parchment-dim);
+    background:transparent; border:1px solid transparent;
+    padding:8px 9px; border-radius:9px; cursor:pointer; text-align:center;
+    white-space:nowrap;
+    transition:all 0.15s ease;
+  }
+  .theme-opt.active{ color:var(--void); background:var(--gold); }
+  .theme-opt:not(.active):hover{ border-color:var(--gold-soft); color:var(--parchment); }
+
+  .lang-switch-wrap{ position:relative; }
+  .lang-toggle{
+    display:flex; align-items:center; gap:6px;
+    font-family:'Vazirmatn', sans-serif;
+    font-size:11.5px;
+    font-weight:600;
+    letter-spacing:0.04em;
+    color:var(--parchment-dim);
+    background:rgba(255,255,255,0.02);
+    border:1px solid var(--line);
+    padding:6px 14px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:all 0.2s ease;
+  }
+  .lang-toggle:hover{ border-color:var(--gold-soft); color:var(--parchment); }
+  .lang-toggle .lang-flag{ font-size:14px; line-height:1; }
+  .lang-popover{
+    position:fixed;
+    transform:translateY(-6px);
+    min-width:150px;
+    background:var(--void-2, var(--void));
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:6px;
+    display:flex; flex-direction:column; gap:4px;
+    box-shadow:0 12px 26px rgba(0,0,0,0.5);
+    opacity:0; visibility:hidden;
+    transition:opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+    z-index:70;
+  }
+  .lang-popover.show{ opacity:1; visibility:visible; transform:translateY(0); }
+  .lang-opt{
+    display:flex; align-items:center; gap:8px;
+    font-family:'Vazirmatn', sans-serif;
+    font-size:12.5px; font-weight:600;
+    color:var(--parchment-dim);
+    background:transparent; border:1px solid transparent;
+    padding:8px 10px; border-radius:9px; cursor:pointer; text-align:right;
+    transition:all 0.15s ease;
+  }
+  .lang-opt .lang-flag{ font-size:15px; line-height:1; flex:none; }
+  .lang-opt.active{ color:var(--void); background:var(--gold); }
+  .lang-opt:not(.active):hover{ border-color:var(--gold-soft); color:var(--parchment); }
+
+  .sound-toggle{
+    width:30px; height:30px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.02);
+    color:var(--parchment-dim);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:all 0.2s ease;
+  }
+  .sound-toggle svg{ width:15px; height:15px; }
+  .sound-toggle:hover{ border-color:var(--gold-soft); color:var(--gold); }
+
+  /* ---------------- header ---------------- */
+  .page2-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    padding:20px 0 8px;
+  }
+  .page2-back{
+    flex:none;
+    display:flex;
+    align-items:center;
+    gap:7px;
+    padding:10px 20px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,0.25);
+    background:linear-gradient(135deg, var(--gold-bright, var(--gold)), var(--crimson-bright));
+    background-size:200% 200%;
+    color:#1a0f04;
+    font-family:'Vazirmatn', sans-serif;
+    font-size:12.5px;
+    font-weight:800;
+    letter-spacing:0.02em;
+    text-decoration:none;
+    cursor:pointer;
+    box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 20px rgba(var(--crimson-rgb),0.45), 0 0 0 4px rgba(var(--crimson-rgb),0.12);
+    transition:all 0.2s ease, transform 0.25s ease;
+    animation:page2Pulse 2.6s ease-in-out infinite, page2Shine 5s linear infinite;
+    position:fixed;
+    bottom:18px;
+    left:18px;
+    z-index:60;
+    overflow:hidden;
+  }
+  .page2-back::after{
+    content:'';
+    position:absolute;
+    top:0; left:-60%;
+    width:35%; height:100%;
+    background:linear-gradient(115deg, transparent, rgba(255,255,255,0.6), transparent);
+    transform:skewX(-20deg);
+    animation:page2Sweep 3.6s ease-in-out infinite;
+    pointer-events:none;
+  }
+  @keyframes page2Sweep{
+    0%{ left:-60%; }
+    38%{ left:130%; }
+    100%{ left:130%; }
+  }
+  .page2-back svg{ width:16px; height:16px; flex:none; }
+  .page2-back:hover{ transform:translateY(-1px) scale(1.03); box-shadow:0 2px 0 rgba(255,255,255,0.4) inset, 0 10px 24px rgba(var(--crimson-rgb),0.55), 0 0 0 5px rgba(var(--crimson-rgb),0.18); }
+  .page2-back:active{ transform:scale(0.94); }
+  @keyframes page2Pulse{
+    0%,100%{ box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 20px rgba(var(--crimson-rgb),0.45), 0 0 0 4px rgba(var(--crimson-rgb),0.12); }
+    50%{ box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 26px rgba(var(--crimson-rgb),0.65), 0 0 0 8px rgba(var(--crimson-rgb),0.05); }
+  }
+  @keyframes page2Shine{
+    0%{ background-position:0% 50%; }
+    50%{ background-position:100% 50%; }
+    100%{ background-position:0% 50%; }
+  }
+  .page2-header-title{
+    flex:1;
+    min-width:0;
+    text-align:center;
+    font-size:15px;
+    font-weight:700;
+    color:var(--parchment);
+    overflow-wrap:break-word;
+  }
+
+  /* ---------------- logo mini ---------------- */
+  .mini-logo-wrap{
+    display:flex;
+    justify-content:center;
+    margin:18px 0 6px;
+  }
+  .mini-logo{
+    width:64px; height:64px;
+    border-radius:50%;
+    overflow:hidden;
+    border:1px solid var(--line);
+    box-shadow:0 8px 20px rgba(0,0,0,0.35);
+  }
+  .mini-logo img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+  /* ---------------- group label ---------------- */
+  .group-label{
+    font-size:12px;
+    color:var(--gold-soft);
+    letter-spacing:0.1em;
+    margin:26px 4px 14px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .group-label::after{
+    content:'';
+    flex:1;
+    height:1px;
+    background:var(--line);
+  }
+
+  /* ---------------- کادر هشدار سلب مسئولیت (بالای صفحه) ---------------- */
+  .site-disclaimer{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    text-align:start;
+    margin-top:16px;
+    padding:14px 14px;
+    border-radius:14px;
+    border:1.5px solid rgba(239,68,68,0.5);
+    background:linear-gradient(180deg, rgba(239,68,68,0.16), rgba(239,68,68,0.05));
+    box-shadow:0 8px 20px rgba(239,68,68,0.1);
+  }
+  .site-disclaimer-icon{
+    flex:none; width:30px; height:30px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:10px;
+    background:rgba(239,68,68,0.22);
+    color:#ef4444;
+  }
+  .site-disclaimer-icon svg{ width:16px; height:16px; }
+  .site-disclaimer-text{
+    font-size:12px; line-height:1.95; color:var(--parchment);
+  }
+  .site-disclaimer-text b{ color:#ff8a8a; }
+
+  /* ---------------- گروه پخش زنده (چند لینک زیر یک عنوان) ---------------- */
+  .live-group{
+    border-radius:20px;
+    border:1px solid var(--line);
+    overflow:hidden;
+    margin-bottom:16px;
+    background:
+      radial-gradient(120% 140% at 50% -20%, rgba(239,68,68,0.1), transparent 60%),
+      linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.012));
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.06) inset,
+      0 10px 24px rgba(0,0,0,0.25);
+  }
+  .live-group-head{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:16px 16px 14px;
+    border-bottom:1px solid var(--line);
+  }
+  .live-group-icon{
+    width:38px; height:38px; flex:none;
+    border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg, var(--gold-bright, var(--gold)), var(--crimson-bright));
+    box-shadow:0 4px 10px rgba(var(--crimson-rgb),0.35), 0 1px 0 rgba(255,255,255,0.35) inset;
+  }
+  .live-group-icon svg{ width:18px; height:18px; }
+  .live-group-head-text{ display:flex; flex-direction:column; gap:2px; min-width:0; }
+  .live-group-head-text b{ font-size:13.5px; font-weight:800; color:var(--parchment); }
+  .live-group-head-text small{ font-size:10.5px; color:var(--parchment-dim); font-weight:500; }
+
+  .live-list{ display:flex; flex-direction:column; }
+  .live-item{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:14px 16px;
+    text-decoration:none;
+    color:var(--parchment);
+    border-bottom:1px solid rgba(255,255,255,0.05);
+    transition:background 0.15s ease;
+  }
+  .live-item:last-child{ border-bottom:none; }
+  .live-item:active{ background:rgba(255,255,255,0.06); }
+  @media (hover:hover) and (pointer:fine){
+    .live-item:hover{ background:rgba(255,255,255,0.05); }
+    .live-item:hover .live-item-btn{ background:rgba(239,68,68,0.26); color:#ff8a80; }
+  }
+  .live-item-dot{
+    width:8px; height:8px; flex:none;
+    border-radius:50%;
+    background:#ef4444;
+    box-shadow:0 0 0 0 rgba(239,68,68,0.6);
+    animation:liveDotPulse 1.6s ease-out infinite;
+  }
+  @keyframes liveDotPulse{
+    0%{ box-shadow:0 0 0 0 rgba(239,68,68,0.55); }
+    70%{ box-shadow:0 0 0 7px rgba(239,68,68,0); }
+    100%{ box-shadow:0 0 0 0 rgba(239,68,68,0); }
+  }
+  .live-item-title{ flex:1; min-width:0; font-size:12.8px; font-weight:700; }
+  .live-item-btn{
+    flex:none;
+    display:flex; align-items:center; gap:5px;
+    padding:8px 14px;
+    border-radius:999px;
+    background:rgba(239,68,68,0.16);
+    border:1px solid rgba(239,68,68,0.35);
+    color:#ff6b6b;
+    font-size:11px;
+    font-weight:800;
+    transition:background 0.15s ease, color 0.15s ease;
+  }
+  .live-item-btn svg{ width:12px; height:12px; flex:none; }
+
+  /* ---------------- حالتی که هنوز پخشی تنظیم نشده ---------------- */
+  .live-empty{
+    padding:34px 20px;
+    text-align:center;
+    border-radius:22px;
+    border:1px dashed var(--line);
+    color:var(--parchment-dim);
+    font-size:13px;
+    line-height:2;
+  }
+  .live-empty svg{ width:34px; height:34px; color:var(--gold-dim); margin-bottom:10px; }
+
+  /* ---------------- لینک راهنما و فوتر ---------------- */
+  .guide-link{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    width:max-content;
+    margin:26px auto 0;
+    padding:9px 18px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.03);
+    color:var(--gold-soft);
+    font-family:'Vazirmatn', sans-serif;
+    font-size:12px;
+    font-weight:700;
+    text-decoration:none;
+    transition:all 0.2s ease;
+  }
+  .guide-link:hover{ border-color:var(--gold-soft); color:var(--gold); background:rgba(255,255,255,0.06); }
+  .guide-link svg{ width:14px; height:14px; flex:none; }
+
+  footer{
+    text-align:center;
+    margin-top:40px;
+    font-size:11.5px;
+    color:var(--gold-dim);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .page2-back{ animation:none; }
+    .live-item-dot{ animation:none; }
+  }
+</style>
+<link rel="stylesheet" href="assistant.css">
+</head>
+<body>
+
+<div class="embers" id="embers"></div>
+
+<div class="quick-menu" id="quick-menu">
+  <button type="button" id="quick-menu-btn" class="quick-menu-btn" aria-haspopup="true" aria-expanded="false" aria-label="منوی تنظیمات تم">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+  <div class="quick-menu-panel" id="quick-menu-panel" role="menu">
+    <div class="quick-menu-row">
+      <span class="quick-menu-label" data-i18n="quickMenuTheme">تم</span>
+      <div class="theme-switch-wrap">
+        <button type="button" id="theme-toggle" class="theme-toggle-btn" aria-label="تغییر تم" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 3.5c-4.7 0-8.5 3.6-8.5 8 0 3 2 4.3 3.6 4.3.8 0 1.1-.4 1.6-.9.5-.5.9-.9 1.7-.9 1.5 0 1.9 1 1.9 2.1 0 .9-.4 1.6-.4 2.2 0 .8.6 1.2 1.7 1.2 4.6 0 8.4-3.9 8.4-8.4 0-4.8-3.9-7.6-10-7.6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <circle cx="8.2" cy="9.3" r="1.15" fill="currentColor"/>
+            <circle cx="12.2" cy="7.1" r="1.15" fill="currentColor"/>
+            <circle cx="16.3" cy="9.3" r="1.15" fill="currentColor"/>
+            <circle cx="17.3" cy="13.6" r="1.15" fill="currentColor"/>
+          </svg>
+        </button>
+        <div class="theme-popover" id="theme-popover" role="menu">
+          <button type="button" class="theme-opt active" data-theme="default">طلایی و زمردی</button>
+          <button type="button" class="theme-opt" data-theme="crimson">سرخ و طلایی</button>
+          <button type="button" class="theme-opt" data-theme="fest">صورتی و فیروزه‌ای</button>
+          <button type="button" class="theme-opt" data-theme="lilac">صورتی و یاسی</button>
+          <button type="button" class="theme-opt" data-theme="sunset">فیروزه‌ای و غروبی</button>
+          <button type="button" class="theme-opt" data-theme="amber">کهربایی و کرمی</button>
+          <button type="button" class="theme-opt" data-theme="sky">آبی آسمانی</button>
+          <button type="button" class="theme-opt" data-theme="light">سبز فسفری</button>
+          <button type="button" class="theme-opt" data-theme="dark">تاریک</button>
+        </div>
+      </div>
+    </div>
+    <div class="quick-menu-row">
+      <span class="quick-menu-label" data-i18n="quickMenuLang">زبان</span>
+      <div class="lang-switch-wrap">
+        <button type="button" id="lang-toggle" class="lang-toggle" aria-haspopup="true" aria-expanded="false" aria-label="انتخاب زبان">
+          <span class="lang-flag" id="lang-toggle-flag">🇮🇷</span>
+          <span id="lang-toggle-code">فا</span>
+        </button>
+        <div class="lang-popover" id="lang-popover" role="menu">
+          <button type="button" class="lang-opt active" data-lang="fa" data-flag="🇮🇷" data-code="فا">
+            <span class="lang-flag">🇮🇷</span><span>فارسی</span>
+          </button>
+          <button type="button" class="lang-opt" data-lang="ar" data-flag="🇮🇶" data-code="عربي">
+            <span class="lang-flag">🇮🇶</span><span>العربية</span>
+          </button>
+          <button type="button" class="lang-opt" data-lang="en" data-flag="🇬🇧" data-code="EN">
+            <span class="lang-flag">🇬🇧</span><span>English</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="quick-menu-row">
+      <span class="quick-menu-label" data-i18n="quickMenuSound">صدا</span>
+      <button type="button" id="sound-toggle" class="sound-toggle" aria-label="قطع/وصل صدا" aria-pressed="false">
+        <svg class="icon-sound-on" viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a4 4 0 0 1 0 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M18.5 6a7.5 7.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/></svg>
+        <svg class="icon-sound-off" viewBox="0 0 24 24" fill="none" style="display:none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M15.5 9.5l5 5M20.5 9.5l-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="quick-menu-row">
+      <span class="quick-menu-label" data-i18n="guideTrigger">راهنمای سایت</span>
+      <a href="guide.html" id="guide-trigger" class="sound-toggle guide-fab" aria-label="راهنمای سایت" data-prefetch-nav>
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M9.3 9.3a2.7 2.7 0 1 1 3.8 2.5c-.7.35-1.1.7-1.1 1.5v.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="16.6" r="0.9" fill="currentColor"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<a href="index.html" class="page2-back" id="page2-back" aria-label="بازگشت به صفحه اول">
+  <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span data-i18n="backBtn">بازگشت</span>
+</a>
+
+<div class="page">
+
+  <div class="site-disclaimer">
+    <span class="site-disclaimer-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5 21 19H3L12 3.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 9.5v4.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="16.4" r="1" fill="currentColor"/></svg></span>
+    <div class="site-disclaimer-text" data-i18n="siteDisclaimer">توجه: سایت و اپلیکیشنی که پخش زنده رو نمایش می‌ده، هیچ ارتباطی به هیئت کاظمیون و سایت کاظمیون ندارد و ما هیچ مسئولیت یا تعهدی در قبال محتوا و عملکرد اون نمی‌پذیریم؛ صرفاً جهت نمایش زیارت مجازی ائمه اطهار استفاده می‌گردد.</div>
+  </div>
+
+  <div class="page2-header">
+    <div class="page2-header-title" data-i18n="pageTitle">🔴 پخش زنده</div>
+  </div>
+
+  <div class="mini-logo-wrap">
+    <div class="mini-logo">
+      <img src="logo.jpg" alt="نشان هیئت کاظمیون خرم‌آباد">
+    </div>
+  </div>
+
+  <div class="group-label">
+    <span data-i18n="groupLabel">پخش زنده مراسم</span>
+  </div>
+
+  <!--
+    ↓ هر حرم/مکان یه "live-group" جداست. داخلش چندتا لینک "live-item" می‌تونه باشه.
+    برای افزودن گروه جدید (مثلاً کربلا)، کل بلوک live-group رو کپی کن.
+  -->
+  <div class="live-group" id="live-group-razavi">
+    <div class="live-group-head">
+      <span class="live-group-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.4c1.4 1.3 2.2 2.6 2.2 3.7a2.2 2.2 0 1 1-4.4 0c0-1.1.8-2.4 2.2-3.7Z" fill="#071710"/><path d="M4.6 20v-5.4c0-2.9 3.2-5.3 7.4-5.3s7.4 2.4 7.4 5.3V20" stroke="#071710" stroke-width="1.5" stroke-linejoin="round"/><path d="M3.3 20h17.4M7.6 20v-3.2a1.5 1.5 0 0 1 1.5-1.5h5.8a1.5 1.5 0 0 1 1.5 1.5V20" stroke="#071710" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+      <div class="live-group-head-text">
+        <b data-i18n="groupRazaviTitle">حرم امام رضا علیه‌السلام</b>
+        <small data-i18n="groupRazaviSub">پخش زنده از نقاط مختلف حرم مطهر رضوی</small>
+      </div>
+    </div>
+    <div class="live-list">
+      <a href="https://www.heyatonline.ir/hm/10" target="_blank" rel="noopener noreferrer" class="live-item">
+        <span class="live-item-dot" aria-hidden="true"></span>
+        <span class="live-item-title" data-i18n="razavi1">ضریح مطهر</span>
+        <span class="live-item-btn" aria-hidden="true"><span data-i18n="enterBtn">ورود</span><svg viewBox="0 0 24 24" fill="none"><path d="M9 5l-6 7 6 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a>
+      <a href="https://www.heyatonline.ir/hm/12" target="_blank" rel="noopener noreferrer" class="live-item">
+        <span class="live-item-dot" aria-hidden="true"></span>
+        <span class="live-item-title" data-i18n="razavi2">صحن آزادی</span>
+        <span class="live-item-btn" aria-hidden="true"><span data-i18n="enterBtn">ورود</span><svg viewBox="0 0 24 24" fill="none"><path d="M9 5l-6 7 6 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a>
+      <a href="https://www.heyatonline.ir/hm/8" target="_blank" rel="noopener noreferrer" class="live-item">
+        <span class="live-item-dot" aria-hidden="true"></span>
+        <span class="live-item-title" data-i18n="razavi3">صحن انقلاب اسلامی</span>
+        <span class="live-item-btn" aria-hidden="true"><span data-i18n="enterBtn">ورود</span><svg viewBox="0 0 24 24" fill="none"><path d="M9 5l-6 7 6 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a>
+      <a href="https://www.heyatonline.ir/hm/1" target="_blank" rel="noopener noreferrer" class="live-item">
+        <span class="live-item-dot" aria-hidden="true"></span>
+        <span class="live-item-title" data-i18n="razavi4">صحن گوهرشاد</span>
+        <span class="live-item-btn" aria-hidden="true"><span data-i18n="enterBtn">ورود</span><svg viewBox="0 0 24 24" fill="none"><path d="M9 5l-6 7 6 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a>
+      <a href="https://www.heyatonline.ir/hm/2" target="_blank" rel="noopener noreferrer" class="live-item">
+        <span class="live-item-dot" aria-hidden="true"></span>
+        <span class="live-item-title" data-i18n="razavi5">برنامه‌های حرم مطهر رضوی</span>
+        <span class="live-item-btn" aria-hidden="true"><span data-i18n="enterBtn">ورود</span><svg viewBox="0 0 24 24" fill="none"><path d="M9 5l-6 7 6 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a>
+    </div>
+  </div>
+
+  <footer data-i18n="footerSub">پایگاه اطلاع‌رسانی هیئت کاظمیون خرم‌آباد</footer>
+
+</div>
+
+<script>
+  // ---------------- تغییر و همگام‌سازی تم با صفحه اول ----------------
+  (function themeSwitcher(){
+    const toggle = document.getElementById('theme-toggle');
+    const popover = document.getElementById('theme-popover');
+    if(!toggle || !popover) return;
+    const opts = popover.querySelectorAll('.theme-opt');
+
+    document.body.appendChild(popover);
+
+    const THEME_CLASSES = ['theme-light', 'theme-dark', 'theme-fest', 'theme-crimson', 'theme-lilac', 'theme-sunset', 'theme-amber', 'theme-sky'];
+    function applyTheme(theme){
+      document.body.classList.remove(...THEME_CLASSES);
+      if(THEME_CLASSES.includes('theme-' + theme)) document.body.classList.add('theme-' + theme);
+      opts.forEach(b => b.classList.toggle('active', b.dataset.theme === theme));
+      try{ localStorage.setItem('kazemiuon-theme', theme); }catch(e){}
+    }
+
+    let saved = 'default';
+    try{ saved = localStorage.getItem('kazemiuon-theme') || 'default'; }catch(e){}
+    applyTheme(saved);
+
+    function positionThemePopover(){
+      const margin = 10;
+      const rect = toggle.getBoundingClientRect();
+      const pw = popover.offsetWidth || 132;
+      let left = rect.left + rect.width / 2 - pw / 2;
+      left = Math.max(margin, Math.min(left, window.innerWidth - pw - margin));
+      const top = rect.top - popover.offsetHeight - 8;
+      popover.style.left = left + 'px';
+      popover.style.top = Math.max(margin, top) + 'px';
+    }
+
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const show = !popover.classList.contains('show');
+      if(show){
+        popover.style.visibility = 'hidden';
+        popover.classList.add('show');
+        positionThemePopover();
+        popover.style.visibility = '';
+      }else{
+        popover.classList.remove('show');
+      }
+      toggle.setAttribute('aria-expanded', String(show));
+    });
+    window.addEventListener('resize', () => {
+      if(popover.classList.contains('show')) positionThemePopover();
+    }, { passive:true });
+    opts.forEach(b => {
+      b.addEventListener('click', () => {
+        applyTheme(b.dataset.theme);
+        popover.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+    document.addEventListener('click', (e) => {
+      if(!popover.contains(e.target) && e.target !== toggle){
+        popover.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+
+  // ---------------- باز/بسته شدن منوی همبرگری ----------------
+  (function quickMenu(){
+    const btn = document.getElementById('quick-menu-btn');
+    const panel = document.getElementById('quick-menu-panel');
+    if(!btn || !panel) return;
+
+    function closePanel(){
+      panel.classList.remove('show');
+      btn.classList.remove('active');
+      btn.setAttribute('aria-expanded', 'false');
+      const themePop = document.getElementById('theme-popover');
+      const langPop = document.getElementById('lang-popover');
+      if(themePop) themePop.classList.remove('show');
+      if(langPop) langPop.classList.remove('show');
+    }
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const show = !panel.classList.contains('show');
+      panel.classList.toggle('show', show);
+      btn.classList.toggle('active', show);
+      btn.setAttribute('aria-expanded', String(show));
+    });
+
+    document.addEventListener('click', (e) => {
+      if(!panel.contains(e.target) && e.target !== btn && !btn.contains(e.target)){
+        closePanel();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape') closePanel();
+    });
+  })();
+
+  // ---------------- ترجمه‌ها ----------------
+  const translations = {
+    fa: {
+      backBtn: 'بازگشت',
+      pageTitle: '🔴 پخش زنده',
+      groupLabel: 'پخش زنده مراسم',
+      siteDisclaimer: 'توجه: سایت و اپلیکیشنی که پخش زنده رو نمایش می‌ده، هیچ ارتباطی به هیئت کاظمیون و سایت کاظمیون ندارد و ما هیچ مسئولیت یا تعهدی در قبال محتوا و عملکرد اون نمی‌پذیریم؛ صرفاً جهت نمایش زیارت مجازی ائمه اطهار استفاده می‌گردد.',
+      enterBtn: 'ورود',
+      groupRazaviTitle: 'حرم امام رضا علیه‌السلام',
+      groupRazaviSub: 'پخش زنده از نقاط مختلف حرم مطهر رضوی',
+      razavi1: 'ضریح مطهر',
+      razavi2: 'صحن آزادی',
+      razavi3: 'صحن انقلاب اسلامی',
+      razavi4: 'صحن گوهرشاد',
+      razavi5: 'برنامه‌های حرم مطهر رضوی',
+      guideTrigger: 'راهنمای سایت',
+      footerSub: 'پایگاه اطلاع‌رسانی هیئت کاظمیون خرم‌آباد',
+      quickMenuTheme: 'تم',
+      quickMenuLang: 'زبان',
+      quickMenuSound: 'صدا'
+    },
+    ar: {
+      backBtn: 'رجوع',
+      pageTitle: '🔴 بث مباشر',
+      groupLabel: 'البث المباشر للموكب',
+      siteDisclaimer: 'تنبيه: الموقع أو التطبيق الذي يعرض البث المباشر لا علاقة له بموكب الكاظميون أو بموقع الكاظميون، ولا نتحمل أي مسؤولية تجاه محتواه أو عمله؛ يُستخدم فقط لعرض الزيارة الافتراضية للأئمة الأطهار.',
+      enterBtn: 'دخول',
+      groupRazaviTitle: 'حرم الإمام الرضا عليه‌السلام',
+      groupRazaviSub: 'بث مباشر من أماكن مختلفة في الحرم الرضوي',
+      razavi1: 'الضريح المطهر',
+      razavi2: 'صحن آزادی',
+      razavi3: 'صحن انقلاب اسلامی',
+      razavi4: 'صحن گوهرشاد',
+      razavi5: 'برامج الحرم الرضوي المطهر',
+      guideTrigger: 'دليل الموقع',
+      footerSub: 'القناة الرسمية لموكب الكاظميون خرم‌آباد',
+      quickMenuTheme: 'المظهر',
+      quickMenuLang: 'اللغة',
+      quickMenuSound: 'الصوت'
+    },
+    en: {
+      backBtn: 'Back',
+      pageTitle: '🔴 Live Broadcast',
+      groupLabel: 'Live Broadcast',
+      siteDisclaimer: 'Note: The site or app showing the live broadcast has no affiliation with Heyat-e Kazemiyoon or the Kazemiyoon site, and we take no responsibility for its content or performance; it is used solely to display a virtual pilgrimage to the Holy Imams.',
+      enterBtn: 'Enter',
+      groupRazaviTitle: 'Shrine of Imam Reza (a.s.)',
+      groupRazaviSub: 'Live broadcast from different spots inside the shrine',
+      razavi1: 'The Holy Shrine',
+      razavi2: 'Azadi Courtyard',
+      razavi3: 'Islamic Revolution Courtyard',
+      razavi4: 'Goharshad Courtyard',
+      razavi5: 'Shrine Programs',
+      guideTrigger: 'Site Guide',
+      footerSub: 'Official channel of Heyat-e Kazemiyoon Khorramabad',
+      quickMenuTheme: 'Theme',
+      quickMenuLang: 'Language',
+      quickMenuSound: 'Sound'
+    }
+  };
+
+  let currentLang = 'fa';
+
+  function setLang(lang){
+    if(!translations[lang]) return;
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = (lang === 'en') ? 'ltr' : 'rtl';
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if(translations[lang][key] !== undefined){
+        el.textContent = translations[lang][key];
+      }
+    });
+    const activeOpt = document.querySelector('.lang-opt[data-lang="' + lang + '"]');
+    document.querySelectorAll('.lang-opt').forEach(b => {
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
+    if(activeOpt){
+      const flagEl = document.getElementById('lang-toggle-flag');
+      const codeEl = document.getElementById('lang-toggle-code');
+      if(flagEl) flagEl.textContent = activeOpt.dataset.flag;
+      if(codeEl) codeEl.textContent = activeOpt.dataset.code;
+    }
+  }
+
+  // ---------------- تغییر زبان ----------------
+  (function langSwitcher(){
+    const toggle = document.getElementById('lang-toggle');
+    const popover = document.getElementById('lang-popover');
+    if(!toggle || !popover) return;
+    const opts = popover.querySelectorAll('.lang-opt');
+
+    document.body.appendChild(popover);
+
+    function positionLangPopover(){
+      const margin = 10;
+      const rect = toggle.getBoundingClientRect();
+      const pw = popover.offsetWidth || 150;
+      let left = rect.left + rect.width / 2 - pw / 2;
+      left = Math.max(margin, Math.min(left, window.innerWidth - pw - margin));
+      const ph = popover.offsetHeight || 140;
+      let top = rect.bottom + 8;
+      if(top + ph > window.innerHeight - margin){
+        top = rect.top - ph - 8;
+      }
+      popover.style.left = left + 'px';
+      popover.style.top = Math.max(margin, top) + 'px';
+    }
+
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const show = !popover.classList.contains('show');
+      if(show){
+        popover.style.visibility = 'hidden';
+        popover.classList.add('show');
+        positionLangPopover();
+        popover.style.visibility = '';
+      }else{
+        popover.classList.remove('show');
+      }
+      toggle.setAttribute('aria-expanded', String(show));
+    });
+    window.addEventListener('resize', () => {
+      if(popover.classList.contains('show')) positionLangPopover();
+    }, { passive:true });
+    opts.forEach(b => {
+      b.addEventListener('click', () => {
+        setLang(b.dataset.lang);
+        popover.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+    document.addEventListener('click', (e) => {
+      if(!popover.contains(e.target) && e.target !== toggle){
+        popover.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+
+  // ---------------- دکمه صدا (افکت تیک کلیک) ----------------
+  (function soundToggle(){
+    const soundState = { muted: true, ctx: null };
+    function ensureAudioCtx(){
+      if(!soundState.ctx){
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if(AC) soundState.ctx = new AC();
+      }
+      return soundState.ctx;
+    }
+    function playTick(){
+      if(soundState.muted) return;
+      const ctx = ensureAudioCtx();
+      if(!ctx) return;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      const t0 = ctx.currentTime;
+      osc.frequency.setValueAtTime(720, t0);
+      osc.frequency.exponentialRampToValueAtTime(420, t0 + 0.09);
+      gain.gain.setValueAtTime(0.0001, t0);
+      gain.gain.exponentialRampToValueAtTime(0.05, t0 + 0.012);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.14);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(t0);
+      osc.stop(t0 + 0.16);
+    }
+    document.querySelectorAll('.lang-opt, .lang-toggle, .theme-opt').forEach(el => {
+      el.addEventListener('click', playTick);
+    });
+    const btn = document.getElementById('sound-toggle');
+    if(!btn) return;
+    btn.addEventListener('click', () => {
+      soundState.muted = !soundState.muted;
+      btn.setAttribute('aria-pressed', String(!soundState.muted));
+      btn.querySelector('.icon-sound-on').style.display = soundState.muted ? 'none' : 'block';
+      btn.querySelector('.icon-sound-off').style.display = soundState.muted ? 'block' : 'none';
+      if(!soundState.muted){ ensureAudioCtx(); playTick(); }
+    });
+  })();
+
+  // ذرات ریز طلایی پس‌زمینه (امبر)
+  (function embers(){
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduceMotion) return;
+    var wrap = document.getElementById('embers');
+    if(!wrap) return;
+    var count = 8;
+    for(var i=0;i<count;i++){
+      var s = document.createElement('div');
+      s.className = 'ember-spark';
+      var left = Math.random()*100;
+      var delay = Math.random()*10;
+      var dur = 6 + Math.random()*6;
+      var drift = (Math.random()*60 - 30) + 'px';
+      s.style.left = left + 'vw';
+      s.style.animationDelay = delay + 's';
+      s.style.animationDuration = dur + 's';
+      s.style.setProperty('--drift', drift);
+      wrap.appendChild(s);
+    }
+  })();
+</script>
+
+<script>
+  // ---------------- ثبت Service Worker ----------------
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('service-worker.js').catch(() => {});
+    });
+  }
+</script>
+<script>
+window.KZM_ASSISTANT_CONFIG = {
+  pageKey: 'live',
+  greeting: {
+    title: 'سلام و خوش اومدی 👋',
+    short: 'من دستیار سایت هیئتم! این صفحه برای دیدن پخش زنده‌ی مراسمه.',
+    full: 'سلام! از این صفحه می‌تونی وارد پخش زنده‌ی مراسم هیئت بشی.\n\nکافیه روی دکمه‌ی «ورود به پخش زنده» بزنی تا به سایت پخش‌کننده منتقل بشی.'
+  },
+  sections: [
+    { key:'live', selector:'.live-group',
+      title:'پخش زنده',
+      short:'با یک لمس وارد پخش زنده‌ی حرم بشو.',
+      full:'روی هرکدوم از لینک‌ها بزن تا به پخش زنده‌ی همون بخش از حرم امام رضا علیه‌السلام منتقل بشی.' }
+  ]
+};
+</script>
+<script src="assistant.js"></script>
+</body>
+</html>

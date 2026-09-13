@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  // دکمه بازگشت گوشی: اگر صفحه مستقیم (بدون سابقه مرورگر) باز شده باشد،
+  // به‌جای نمایش خطا، کاربر را به صفحه اول هیئت برمی‌گرداند
+  (function(){
+    try{
+      history.pushState({kazemiyoonBackTrap:true}, '', location.href);
+      window.addEventListener('popstate', function(){
+        location.replace('index.html');
+      });
+    }catch(err){}
+  })();
+</script>
+
+<!-- ===== Security hardening ===== -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+
+<title>📲 نصب اپلیکیشن | هیئت کاظمیون خرم‌آباد</title>
+<meta name="robots" content="noindex, follow">
+<link rel="icon" href="logo.jpg">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0e9b62">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --void:#071710;
+    --void-2:#0e2419;
+    --crimson:#0e9b62;
+    --crimson-rgb:14,155,98;
+    --crimson-bright:#22c17f;
+    --gold:#ffcb3d;
+    --gold-soft:#d1a52a;
+    --gold-dim:#8a6e1e;
+    --parchment:#f3ead0;
+    --parchment-dim:#a99b78;
+    --line:rgba(255,203,61,0.22);
+    --ember:#ffd166;
+    --ember-soft:#ffd16666;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:
+      radial-gradient(ellipse 120% 70% at 50% -8%, rgba(var(--crimson-rgb),0.30), transparent 55%),
+      radial-gradient(ellipse 90% 50% at 15% 40%, rgba(var(--crimson-rgb),0.10), transparent 60%),
+      radial-gradient(ellipse 90% 50% at 85% 75%, rgba(var(--crimson-rgb),0.12), transparent 60%),
+      var(--void);
+    color:var(--parchment);
+    font-family:'Vazirmatn', sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    animation:page2FadeIn 0.4s ease;
+    transition:opacity 0.28s ease, transform 0.28s ease;
+  }
+  @keyframes page2FadeIn{
+    from{ opacity:0; transform:translateY(8px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  body.page-exit{ opacity:0; transform:translateY(-8px); }
+
+  /* ---------------- ذرات ریز طلایی پس‌زمینه ---------------- */
+  .embers{ position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+  .ember-spark{
+    position:absolute;
+    bottom:-10px;
+    width:3px; height:3px;
+    border-radius:50%;
+    background:var(--ember);
+    box-shadow:0 0 6px 1px var(--ember-soft);
+    opacity:0;
+    animation-name:rise;
+    animation-timing-function:ease-in;
+    animation-iteration-count:infinite;
+  }
+  @keyframes rise{
+    0%{ transform:translateY(0) translateX(0); opacity:0; }
+    8%{ opacity:0.9; }
+    80%{ opacity:0.5; }
+    100%{ transform:translateY(-100vh) translateX(var(--drift,20px)); opacity:0; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .ember-spark{ display:none; }
+  }
+  .page{
+    width:100%;
+    max-width:500px;
+    padding:0 22px 60px;
+    position:relative;
+    z-index:1;
+  }
+
+  /* ============================================================
+     THEME SYSTEM — همان تعریف رنگ‌های index.html تا هماهنگ بماند
+  ============================================================ */
+  body.theme-dark{
+    --void:#000000; --void-2:#0a0a0a;
+    --crimson:#6e1013; --crimson-bright:#9c2320;
+    --gold:#a3853a; --gold-soft:#6f5d33; --gold-dim:#453a22;
+    --parchment:#d8d0bf; --parchment-dim:#83786a;
+    --line:rgba(163,133,58,0.14);
+    background:#000000;
+  }
+  body.theme-light{
+    --void:#04120a; --void-2:#071c11;
+    --crimson:#39ff14; --crimson-rgb:57,255,20; --crimson-bright:#7dffb0;
+    --gold:#b6ff2e; --gold-soft:#7fd11a; --gold-dim:#4a7a1e;
+    --parchment:#e9ffee; --parchment-dim:#8fc79f;
+    --line:rgba(57,255,20,0.28);
+  }
+  body.theme-fest{
+    --void:#0c1220; --void-2:#121a2e;
+    --crimson:#d81b60; --crimson-rgb:216,27,96; --crimson-bright:#ff4081;
+    --gold:#ffca28; --gold-soft:#e0a72a; --gold-dim:#b8860b;
+    --parchment:#fff6e0; --parchment-dim:#d8c9a3;
+    --line:rgba(255,202,40,0.25);
+  }
+  body.theme-crimson{
+    --void:#0e0906; --void-2:#150e0a;
+    --crimson:#8c1518; --crimson-rgb:140,21,24; --crimson-bright:#b8241f;
+    --gold:#c9a227; --gold-soft:#8a7040; --gold-dim:#5c4a28;
+    --parchment:#f1e7d8; --parchment-dim:#a99c8a;
+    --line:rgba(201,162,39,0.16);
+  }
+  body.theme-lilac{
+    --void:#160a1e; --void-2:#1f1029;
+    --crimson:#c65bd6; --crimson-rgb:198,91,214; --crimson-bright:#e28ae8;
+    --gold:#f0c94e; --gold-soft:#caa53a; --gold-dim:#8a6f28;
+    --parchment:#fbeefc; --parchment-dim:#c3a8c9;
+    --line:rgba(240,201,78,0.22);
+  }
+  body.theme-sunset{
+    --void:#071c22; --void-2:#0d2a32;
+    --crimson:#ff7a45; --crimson-rgb:255,122,69; --crimson-bright:#ff9d6e;
+    --gold:#ffcf6b; --gold-soft:#dba63e; --gold-dim:#8f6c22;
+    --parchment:#fff3e6; --parchment-dim:#c8b39c;
+    --line:rgba(32,196,196,0.25);
+  }
+  body.theme-amber{
+    --void:#1c130a; --void-2:#241a0e;
+    --crimson:#c8752b; --crimson-rgb:200,117,43; --crimson-bright:#e29344;
+    --gold:#f0c14b; --gold-soft:#cb9f33; --gold-dim:#836a20;
+    --parchment:#fbf1dc; --parchment-dim:#c9b998;
+    --line:rgba(240,193,75,0.22);
+  }
+  body.theme-sky{
+    --void:#081521; --void-2:#0e2032;
+    --crimson:#2f8ce0; --crimson-rgb:47,140,224; --crimson-bright:#5fadf5;
+    --gold:#ffd35c; --gold-soft:#d9ac3c; --gold-dim:#8f7126;
+    --parchment:#f0f8ff; --parchment-dim:#a9c2d6;
+    --line:rgba(127,212,255,0.22);
+  }
+
+  /* ---------------- منوی سریع (همبرگری: تم/زبان/صدا) ---------------- */
+  .quick-menu{
+    position:fixed;
+    top:14px; left:14px;
+    z-index:65;
+  }
+  .quick-menu-btn{
+    width:36px; height:36px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(20,14,10,0.75);
+    color:var(--parchment-dim);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:all 0.2s ease;
+    -webkit-backdrop-filter:blur(6px);
+    backdrop-filter:blur(6px);
+  }
+  .quick-menu-btn svg{ width:17px; height:17px; }
+  .quick-menu-btn:hover, .quick-menu-btn.active{ border-color:var(--gold-soft); color:var(--gold); }
+  .quick-menu-panel{
+    position:absolute;
+    top:44px; left:0;
+    display:flex; flex-direction:column;
+    align-items:stretch;
+    gap:8px;
+    min-width:168px;
+    padding:12px;
+    background:var(--void-2, var(--void));
+    border:1px solid var(--line);
+    border-radius:16px;
+    box-shadow:0 12px 26px rgba(0,0,0,0.5);
+    opacity:0; visibility:hidden;
+    transform:translateY(-8px);
+    transition:opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+    z-index:65;
+  }
+  .quick-menu-panel.show{ opacity:1; visibility:visible; transform:translateY(0); }
+  .quick-menu-row{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:10px;
+  }
+  .quick-menu-label{
+    font-family:'Vazirmatn', sans-serif;
+    font-size:11.5px; font-weight:600;
+    color:var(--parchment-dim);
+  }
+  .theme-switch-wrap{ position:relative; }
+  .theme-toggle-btn{
+    width:30px; height:30px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.02);
+    color:var(--parchment-dim);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:all 0.2s ease;
+  }
+  .theme-toggle-btn svg{ width:15px; height:15px; }
+  .theme-toggle-btn:hover{ border-color:var(--gold-soft); color:var(--gold); }
+  .theme-popover{
+    position:fixed;
+    width:max-content;
+    max-width:min(260px, calc(100vw - 20px));
+    background:var(--void-2, var(--void));
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:6px;
+    display:flex; flex-direction:row; flex-wrap:wrap;
+    gap:4px;
+    box-shadow:0 12px 26px rgba(0,0,0,0.5);
+    opacity:0; visibility:hidden;
+    transform:translateY(-6px);
+    transition:opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+    z-index:70;
+  }
+  .theme-popover.show{ opacity:1; visibility:visible; transform:translateY(0); }
+  .theme-opt{
+    font-family:'Vazirmatn', sans-serif;
+    font-size:11.5px; font-weight:600;
+    color:var(--parchment-dim);
+    background:transparent; border:1px solid transparent;
+    padding:8px 9px; border-radius:9px; cursor:pointer; text-align:center;
+    white-space:nowrap;
+    transition:all 0.15s ease;
+  }
+  .theme-opt.active{ color:var(--void); background:var(--gold); }
+  .theme-opt:not(.active):hover{ border-color:var(--gold-soft); color:var(--parchment); }
+
+  .lang-switch-wrap{ position:relative; }
+  .lang-toggle{
+    display:flex; align-items:center; gap:6px;
+    font-family:'Vazirmatn', sans-serif;
+    font-size:11.5px;
+    font-weight:600;
+    letter-spacing:0.04em;
+    color:var(--parchment-dim);
+    background:rgba(255,255,255,0.02);
+    border:1px solid var(--line);
+    padding:6px 14px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:all 0.2s ease;
+  }
+  .lang-toggle:hover{ border-color:var(--gold-soft); color:var(--parchment); }
+  .lang-toggle .lang-flag{ font-size:14px; line-height:1; }
+  .lang-popover{
+    position:fixed;
+    transform:translateY(-6px);
+    min-width:150px;
+    background:var(--void-2, var(--void));
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:6px;
+    display:flex; flex-direction:column; gap:4px;
+    box-shadow:0 12px 26px rgba(0,0,0,0.5);
+    opacity:0; visibility:hidden;
+    transition:opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+    z-index:70;
+  }
+  .lang-popover.show{ opacity:1; visibility:visible; transform:translateY(0); }
+  .lang-opt{
+    display:flex; align-items:center; gap:8px;
+    font-family:'Vazirmatn', sans-serif;
+    font-size:12.5px; font-weight:600;
+    color:var(--parchment-dim);
+    background:transparent; border:1px solid transparent;
+    padding:8px 10px; border-radius:9px; cursor:pointer; text-align:right;
+    transition:all 0.15s ease;
+  }
+  .lang-opt .lang-flag{ font-size:15px; line-height:1; flex:none; }
+  .lang-opt.active{ color:var(--void); background:var(--gold); }
+  .lang-opt:not(.active):hover{ border-color:var(--gold-soft); color:var(--parchment); }
+
+  .sound-toggle{
+    width:30px; height:30px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.02);
+    color:var(--parchment-dim);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:all 0.2s ease;
+  }
+  .sound-toggle svg{ width:15px; height:15px; }
+  .sound-toggle:hover{ border-color:var(--gold-soft); color:var(--gold); }
+
+  /* ---------------- header ---------------- */
+  .page2-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    padding:20px 0 8px;
+  }
+  .page2-back{
+    flex:none;
+    display:flex;
+    align-items:center;
+    gap:7px;
+    padding:10px 20px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,0.25);
+    background:linear-gradient(135deg, var(--gold-bright, var(--gold)), var(--crimson-bright));
+    background-size:200% 200%;
+    color:#1a0f04;
+    font-family:'Vazirmatn', sans-serif;
+    font-size:12.5px;
+    font-weight:800;
+    letter-spacing:0.02em;
+    text-decoration:none;
+    cursor:pointer;
+    box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 20px rgba(var(--crimson-rgb),0.45), 0 0 0 4px rgba(var(--crimson-rgb),0.12);
+    transition:all 0.2s ease, transform 0.25s ease;
+    animation:page2Pulse 2.6s ease-in-out infinite, page2Shine 5s linear infinite;
+    position:fixed;
+    bottom:18px;
+    left:18px;
+    z-index:60;
+    overflow:hidden;
+  }
+  .page2-back::after{
+    content:'';
+    position:absolute;
+    top:0; left:-60%;
+    width:35%; height:100%;
+    background:linear-gradient(115deg, transparent, rgba(255,255,255,0.6), transparent);
+    transform:skewX(-20deg);
+    animation:page2Sweep 3.6s ease-in-out infinite;
+    pointer-events:none;
+  }
+  @keyframes page2Sweep{
+    0%{ left:-60%; }
+    38%{ left:130%; }
+    100%{ left:130%; }
+  }
+  .page2-back svg{ width:16px; height:16px; flex:none; }
+  .page2-back:hover{ transform:translateY(-1px) scale(1.03); box-shadow:0 2px 0 rgba(255,255,255,0.4) inset, 0 10px 24px rgba(var(--crimson-rgb),0.55), 0 0 0 5px rgba(var(--crimson-rgb),0.18); }
+  .page2-back:active{ transform:scale(0.94); }
+  @keyframes page2Pulse{
+    0%,100%{ box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 20px rgba(var(--crimson-rgb),0.45), 0 0 0 4px rgba(var(--crimson-rgb),0.12); }
+    50%{ box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 26px rgba(var(--crimson-rgb),0.65), 0 0 0 8px rgba(var(--crimson-rgb),0.05); }
+  }
+  @keyframes page2Shine{
+    0%{ background-position:0% 50%; }
+    50%{ background-position:100% 50%; }
+    100%{ background-position:0% 50%; }
+  }
+  .page2-header-title{
+    flex:1;
+    min-width:0;
+    text-align:center;
+    font-size:15px;
+    font-weight:700;
+    color:var(--parchment);
+    overflow-wrap:break-word;
+  }
+
+  /* ---------------- logo mini ---------------- */
+  .mini-logo-wrap{
+    display:flex;
+    justify-content:center;
+    margin:18px 0 6px;
+  }
+  .mini-logo{
+    width:64px; height:64px;
+    border-radius:50%;
+    overflow:hidden;
+    border:1px solid var(--line);
+    box-shadow:0 8px 20px rgba(0,0,0,0.35);
+  }
+  .mini-logo img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+  /* ---------------- group label ---------------- */
+  .group-label{
+    font-size:12px;
+    color:var(--gold-soft);
+    letter-spacing:0.1em;
+    margin:26px 4px 14px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .group-label::after{
+    content:'';
+    flex:1;
+    height:1px;
+    background:var(--line);
+  }
+
+  /* ---------------- کارت اصلی نصب ---------------- */
+  .install-card{
+    position:relative;
+    padding:24px 20px 22px;
+    border-radius:22px;
+    border:1px solid var(--line);
+    text-align:center;
+    overflow:hidden;
+    background:
+      radial-gradient(120% 140% at 50% -20%, rgba(255,203,61,0.14), transparent 60%),
+      radial-gradient(90% 120% at 50% 120%, rgba(var(--crimson-rgb),0.16), transparent 60%),
+      linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.012));
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.06) inset,
+      0 0 0 1px rgba(255,203,61,0.05) inset,
+      0 14px 32px rgba(0,0,0,0.3);
+  }
+  .install-card h1{
+    font-size:19px; font-weight:800; line-height:1.7;
+    color:var(--parchment);
+    margin-bottom:12px;
+  }
+  .install-desc{
+    font-size:13px; line-height:2;
+    color:var(--parchment-dim);
+    margin-bottom:24px;
+  }
+
+  /* ---------------- ردیف قابلیت‌ها ---------------- */
+  .install-features{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:9px;
+    margin-bottom:22px;
+  }
+  .install-feature{
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    padding:14px 6px 12px;
+    border-radius:16px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.014));
+    border:1px solid rgba(255,255,255,0.07);
+  }
+  .install-feature-icon{
+    width:36px; height:36px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:12px;
+    background:linear-gradient(135deg, var(--gold-bright, var(--gold)), var(--crimson-bright));
+    box-shadow:0 4px 10px rgba(var(--crimson-rgb),0.35), 0 1px 0 rgba(255,255,255,0.35) inset;
+  }
+  .install-feature-icon svg{ width:17px; height:17px; }
+  .install-feature span{
+    font-size:10.5px; font-weight:700; color:var(--parchment); text-align:center; line-height:1.4;
+  }
+
+  /* ---------------- کادرهای هشدار/راهنما ---------------- */
+  .install-warning{
+    display:flex; align-items:flex-start; gap:10px;
+    text-align:start;
+    padding:14px 14px;
+    border-radius:14px;
+    border:1px solid rgba(239,68,68,0.35);
+    background:linear-gradient(180deg, rgba(239,68,68,0.12), rgba(239,68,68,0.04));
+    margin-bottom:16px;
+  }
+  .install-warning-icon{
+    flex:none; width:30px; height:30px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:10px;
+    background:rgba(239,68,68,0.18);
+    color:#ef4444;
+  }
+  .install-warning-icon svg{ width:16px; height:16px; }
+  .install-warning-text{
+    font-size:12px; line-height:1.9; color:var(--parchment);
+  }
+
+  .install-ios-help{
+    padding:14px 14px;
+    border-radius:14px;
+    border:1px solid rgba(245,180,0,0.4);
+    background:linear-gradient(180deg, rgba(245,180,0,0.14), rgba(245,180,0,0.05));
+    margin-bottom:16px;
+    text-align:start;
+  }
+  .install-ios-help-head{
+    display:flex; align-items:center; gap:9px;
+    margin-bottom:11px;
+  }
+  .install-ios-help-icon{
+    flex:none; width:28px; height:28px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:9px;
+    background:rgba(245,180,0,0.2);
+    color:#f5b400;
+  }
+  .install-ios-help-icon svg{ width:16px; height:16px; }
+  .install-ios-help-head b{ font-size:12.5px; font-weight:800; color:#ffd166; }
+  .install-ios-help-list{
+    margin:0; padding-inline-start:19px;
+    display:flex; flex-direction:column; gap:8px;
+  }
+  .install-ios-help-list li{
+    font-size:11.8px; line-height:1.85; color:var(--parchment);
+  }
+
+  .install-info-box{
+    display:none;
+    align-items:flex-start; gap:10px;
+    text-align:start;
+    padding:14px 14px;
+    border-radius:14px;
+    border:1px solid rgba(56,189,248,0.4);
+    background:linear-gradient(180deg, rgba(56,189,248,0.14), rgba(56,189,248,0.05));
+    margin-bottom:16px;
+  }
+  .install-info-box.show{ display:flex; }
+  .install-info-icon{
+    flex:none; width:30px; height:30px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:10px;
+    background:rgba(56,189,248,0.2);
+    color:#38bdf8;
+  }
+  .install-info-icon svg{ width:16px; height:16px; }
+  .install-info-text{
+    font-size:12px; line-height:1.95; color:var(--parchment);
+  }
+
+  /* ---------------- دکمه بزرگ نصب ---------------- */
+  .install-btn{
+    position:relative;
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    width:100%;
+    padding:17px 20px;
+    border-radius:16px;
+    border:none;
+    background:linear-gradient(135deg, var(--gold-bright, var(--gold)), var(--crimson-bright));
+    background-size:220% 220%;
+    color:#0e2015;
+    font-family:'Vazirmatn', sans-serif;
+    font-size:15.5px; font-weight:800;
+    cursor:pointer;
+    box-shadow:0 3px 0 rgba(255,255,255,0.3) inset, 0 14px 30px rgba(var(--crimson-rgb),0.42), 0 0 0 4px rgba(var(--crimson-rgb),0.1);
+    transition:transform 0.2s ease, box-shadow 0.2s ease, opacity 0.25s ease;
+    overflow:hidden;
+    animation:installShine 6s linear infinite;
+  }
+  @keyframes installShine{
+    0%{ background-position:0% 50%; }
+    50%{ background-position:100% 50%; }
+    100%{ background-position:0% 50%; }
+  }
+  .install-btn svg{ width:20px; height:20px; flex:none; }
+  .install-btn:active{ transform:scale(0.97); }
+  .install-btn:disabled{ opacity:0.55; cursor:default; animation:none; }
+  #install-btn[data-state="installed"]{ display:none; }
+
+  .install-status{
+    margin-top:14px;
+    font-size:12.5px;
+    color:var(--parchment-dim);
+    line-height:1.9;
+    min-height:18px;
+  }
+  .install-status.success{ color:var(--crimson-bright); font-weight:700; }
+
+  .install-open-link{
+    display:none;
+    margin-top:14px;
+    padding:13px;
+    width:100%;
+    border-radius:14px;
+    border:1px solid var(--gold-soft);
+    background:transparent;
+    color:var(--gold);
+    text-decoration:none;
+    font-size:13.5px; font-weight:700;
+    text-align:center;
+  }
+
+  /* ---------------- لینک راهنما و فوتر ---------------- */
+  .guide-link{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    width:max-content;
+    margin:26px auto 0;
+    padding:9px 18px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.03);
+    color:var(--gold-soft);
+    font-family:'Vazirmatn', sans-serif;
+    font-size:12px;
+    font-weight:700;
+    text-decoration:none;
+    transition:all 0.2s ease;
+  }
+  .guide-link:hover{ border-color:var(--gold-soft); color:var(--gold); background:rgba(255,255,255,0.06); }
+  .guide-link svg{ width:14px; height:14px; flex:none; }
+
+  footer{
+    text-align:center;
+    margin-top:40px;
+    font-size:11.5px;
+    color:var(--gold-dim);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .page2-back, .install-btn{ animation:none; }
+  }
+</style>
+<link rel="stylesheet" href="assistant.css">
+</head>
+<body>
+
+<div class="embers" id="embers"></div>
+
+<div class="quick-menu" id="quick-menu">
+  <button type="button" id="quick-menu-btn" class="quick-menu-btn" aria-haspopup="true" aria-expanded="false" aria-label="منوی تنظیمات تم">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+  <div class="quick-menu-panel" id="quick-menu-panel" role="menu">
+    <div class="quick-menu-row">
+      <span class="quick-menu-label" data-i18n="quickMenuTheme">تم</span>
+      <div class="theme-switch-wrap">
+        <button type="button" id="theme-toggle" class="theme-toggle-btn" aria-label="تغییر تم" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 3.5c-4.7 0-8.5 3.6-8.5 8 0 3 2 4.3 3.6 4.3.8 0 1.1-.4 1.6-.9.5-.5.9-.9 1.7-.9 1.5 0 1.9 1 1.9 2.1 0 .9-.4 1.6-.4 2.2 0 .8.6 1.2 1.7 1.2 4.6 0 8.4-3.9 8.4-8.4 0-4.8-3.9-7.6-10-7.6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <circle cx="8.2" cy="9.3" r="1.15" fill="currentColor"/>
+            <circle cx="12.2" cy="7.1" r="1.15" fill="currentColor"/>
+            <circle cx="16.3" cy="9.3" r="1.15" fill="currentColor"/>
+            <circle cx="17.3" cy="13.6" r="1.15" fill="currentColor"/>
+          </svg>
+        </button>
+        <div class="theme-popover" id="theme-popover" role="menu">
+          <button type="button" class="theme-opt active" data-theme="default">طلایی و زمردی</button>
+          <button type="button" class="theme-opt" data-theme="crimson">سرخ و طلایی</button>
+          <button type="button" class="theme-opt" data-theme="fest">صورتی و فیروزه‌ای</button>
+          <button type="button" class="theme-opt" data-theme="lilac">صورتی و یاسی</button>
+          <button type="button" class="theme-opt" data-theme="sunset">فیروزه‌ای و غروبی</button>
+          <button type="button" class="theme-opt" data-theme="amber">کهربایی و کرمی</button>
+          <button type="button" class="theme-opt" data-theme="sky">آبی آسمانی</button>
+          <button type="button" class="theme-opt" data-theme="light">سبز فسفری</button>
+          <button type="button" class="theme-opt" data-theme="dark">تاریک</button>
+        </div>
+      </div>
+    </div>
+    <div class="quick-menu-row">
+      <span class="quick-menu-label" data-i18n="quickMenuLang">زبان</span>
+      <div class="lang-switch-wrap">
+        <button type="button" id="lang-toggle" class="lang-toggle" aria-haspopup="true" aria-expanded="false" aria-label="انتخاب زبان">
+          <span class="lang-flag" id="lang-toggle-flag">🇮🇷</span>
+          <span id="lang-toggle-code">فا</span>
+        </button>
+        <div class="lang-popover" id="lang-popover" role="menu">
+          <button type="button" class="lang-opt active" data-lang="fa" data-flag="🇮🇷" data-code="فا">
+            <span class="lang-flag">🇮🇷</span><span>فارسی</span>
+          </button>
+          <button type="button" class="lang-opt" data-lang="ar" data-flag="🇮🇶" data-code="عربي">
+            <span class="lang-flag">🇮🇶</span><span>العربية</span>
+          </button>
+          <button type="button" class="lang-opt" data-lang="en" data-flag="🇬🇧" data-code="EN">
+            <span class="lang-flag">🇬🇧</span><span>English</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="quick-menu-row">
+      <span class="quick-menu-label" data-i18n="quickMenuSound">صدا</span>
+      <button type="button" id="sound-toggle" class="sound-toggle" aria-label="قطع/وصل صدا" aria-pressed="false">
+        <svg class="icon-sound-on" viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a4 4 0 0 1 0 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M18.5 6a7.5 7.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/></svg>
+        <svg class="icon-sound-off" viewBox="0 0 24 24" fill="none" style="display:none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M15.5 9.5l5 5M20.5 9.5l-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="quick-menu-row">
+      <span class="quick-menu-label" data-i18n="guideTrigger">راهنمای سایت</span>
+      <a href="guide.html" id="guide-trigger" class="sound-toggle guide-fab" aria-label="راهنمای سایت" data-prefetch-nav>
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M9.3 9.3a2.7 2.7 0 1 1 3.8 2.5c-.7.35-1.1.7-1.1 1.5v.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="16.6" r="0.9" fill="currentColor"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<a href="index.html" class="page2-back" id="page2-back" aria-label="بازگشت به صفحه اول">
+  <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span data-i18n="backBtn">بازگشت</span>
+</a>
+
+<div class="page">
+
+  <div class="page2-header">
+    <div class="page2-header-title" data-i18n="pageTitle">📲 نصب اپلیکیشن</div>
+  </div>
+
+  <div class="mini-logo-wrap">
+    <div class="mini-logo">
+      <img src="logo.jpg" alt="نشان هیئت کاظمیون خرم‌آباد">
+    </div>
+  </div>
+
+  <div class="group-label">
+    <span data-i18n="groupLabel">نصب اپلیکیشن</span>
+  </div>
+
+  <div class="install-card">
+    <h1 data-i18n="installH1">سایت هیئت رو روی گوشیت نصب کن</h1>
+    <p class="install-desc" data-i18n="installDesc">با نصب اپلیکیشن، دسترسی سریع از صفحه‌ی اصلی گوشیت داری؛ بدون نیاز به باز کردن مرورگر و جست‌وجوی دوباره.</p>
+
+    <div class="install-features">
+      <div class="install-feature">
+        <span class="install-feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M13 3 4.5 14h6l-1 7L18.5 10h-6l0.5-7Z" fill="#071710"/></svg></span>
+        <span data-i18n="featureFast">دسترسی سریع</span>
+      </div>
+      <div class="install-feature">
+        <span class="install-feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 10.4c4.8-4 11.2-4 16 0" stroke="#071710" stroke-width="1.6" stroke-linecap="round"/><path d="M7 13.8c3-2.3 7-2.3 10 0" stroke="#071710" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="17.5" r="1.4" fill="#071710"/></svg></span>
+        <span data-i18n="featureApp">مثل یک اپ واقعی</span>
+      </div>
+      <div class="install-feature">
+        <span class="install-feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.4 19 6.4v5c0 4.6-3 8-7 9-4-1-7-4.4-7-9v-5L12 3.4Z" stroke="#071710" stroke-width="1.6" stroke-linejoin="round"/><path d="M9.3 12l1.9 1.9 3.5-3.9" stroke="#071710" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span data-i18n="featureUseful">کاربردی</span>
+      </div>
+    </div>
+
+    <div class="install-warning">
+      <span class="install-warning-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5 21 19H3L12 3.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 9.5v4.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="16.4" r="1" fill="currentColor"/></svg></span>
+      <div class="install-warning-text" data-i18n="warnSamsung">اگر با مرورگر سامسونگ (Samsung) وارد این صفحه شدی، دکمه‌ی نصب ممکنه کار نکنه. لینک این صفحه رو کپی کن و توی گوگل کروم پیست و باز کن.</div>
+    </div>
+
+    <div class="install-ios-help">
+      <div class="install-ios-help-head">
+        <span class="install-ios-help-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7"/><path d="M9.5 9.2c0-1.3 1.1-2.3 2.5-2.3s2.5 1 2.5 2.1c0 1.1-.7 1.6-1.4 2-.7.4-1.1.8-1.1 1.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="16.3" r="1" fill="currentColor"/></svg></span>
+        <b data-i18n="iosHelpTitle">راهنمای نصب روی آیفون (Safari)</b>
+      </div>
+      <ol class="install-ios-help-list">
+        <li data-i18n="iosStep1">سایت را با Safari باز کن.</li>
+        <li data-i18n="iosStep2">پایین صفحه روی دکمه Share / اشتراک‌گذاری بزن (مربع با فلش رو به بالا).</li>
+        <li data-i18n="iosStep3">گزینه Add to Home Screen / افزودن به صفحه اصلی را انتخاب کن.</li>
+        <li data-i18n="iosStep4">اسم سایت را انتخاب یا ویرایش کن.</li>
+        <li data-i18n="iosStep5">روی Add / افزودن بزن.</li>
+        <li data-i18n="iosStep6">آیکون سایت روی صفحه اصلی آیفون قرار می‌گیرد.</li>
+        <li data-i18n="iosStep7">از این به بعد با زدن آیکون، سایت مثل یک برنامه باز می‌شود.</li>
+      </ol>
+    </div>
+
+    <div class="install-info-box" id="install-info-box">
+      <span class="install-info-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7"/><path d="M12 10.7v5.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="7.9" r="1.05" fill="currentColor"/></svg></span>
+      <div class="install-info-text" data-i18n="infoBoxText">اگر مرورگرت نصب مستقیم رو پشتیبانی نمی‌کنه، نگران نباش! از منوی مرورگر گزینه‌ی «افزودن به صفحه اصلی» یا «Install and create shortcut» رو بزن و خودت به‌صورت دستی نصبش کن. ☺️</div>
+    </div>
+
+    <button type="button" class="install-btn" id="install-btn" data-state="checking">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span id="install-btn-label" data-i18n="installBtnLabel">نصب اپلیکیشن</span>
+    </button>
+
+    <div class="install-status" id="install-status" data-i18n="statusChecking">در حال بررسی امکان نصب…</div>
+    <a href="index.html" class="install-open-link" id="install-open-link" data-i18n="openAppLink">باز کردن اپلیکیشن</a>
+  </div>
+
+  <footer data-i18n="footerSub">پایگاه اطلاع‌رسانی هیئت کاظمیون خرم‌آباد</footer>
+
+</div>
+
+<script>
+  // ---------------- تغییر و همگام‌سازی تم با صفحه اول ----------------
+  (function themeSwitcher(){
+    const toggle = document.getElementById('theme-toggle');
+    const popover = document.getElementById('theme-popover');
+    if(!toggle || !popover) return;
+    const opts = popover.querySelectorAll('.theme-opt');
+
+    document.body.appendChild(popover);
+
+    const THEME_CLASSES = ['theme-light', 'theme-dark', 'theme-fest', 'theme-crimson', 'theme-lilac', 'theme-sunset', 'theme-amber', 'theme-sky'];
+    function applyTheme(theme){
+      document.body.classList.remove(...THEME_CLASSES);
+      if(THEME_CLASSES.includes('theme-' + theme)) document.body.classList.add('theme-' + theme);
+      opts.forEach(b => b.classList.toggle('active', b.dataset.theme === theme));
+      try{ localStorage.setItem('kazemiuon-theme', theme); }catch(e){}
+    }
+
+    let saved = 'default';
+    try{ saved = localStorage.getItem('kazemiuon-theme') || 'default'; }catch(e){}
+    applyTheme(saved);
+
+    function positionThemePopover(){
+      const margin = 10;
+      const rect = toggle.getBoundingClientRect();
+      const pw = popover.offsetWidth || 132;
+      let left = rect.left + rect.width / 2 - pw / 2;
+      left = Math.max(margin, Math.min(left, window.innerWidth - pw - margin));
+      const top = rect.top - popover.offsetHeight - 8;
+      popover.style.left = left + 'px';
+      popover.style.top = Math.max(margin, top) + 'px';
+    }
+
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const show = !popover.classList.contains('show');
+      if(show){
+        popover.style.visibility = 'hidden';
+        popover.classList.add('show');
+        positionThemePopover();
+        popover.style.visibility = '';
+      }else{
+        popover.classList.remove('show');
+      }
+      toggle.setAttribute('aria-expanded', String(show));
+    });
+    window.addEventListener('resize', () => {
+      if(popover.classList.contains('show')) positionThemePopover();
+    }, { passive:true });
+    opts.forEach(b => {
+      b.addEventListener('click', () => {
+        applyTheme(b.dataset.theme);
+        popover.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+    document.addEventListener('click', (e) => {
+      if(!popover.contains(e.target) && e.target !== toggle){
+        popover.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+
+  // ---------------- باز/بسته شدن منوی همبرگری ----------------
+  (function quickMenu(){
+    const btn = document.getElementById('quick-menu-btn');
+    const panel = document.getElementById('quick-menu-panel');
+    if(!btn || !panel) return;
+
+    function closePanel(){
+      panel.classList.remove('show');
+      btn.classList.remove('active');
+      btn.setAttribute('aria-expanded', 'false');
+      const themePop = document.getElementById('theme-popover');
+      const langPop = document.getElementById('lang-popover');
+      if(themePop) themePop.classList.remove('show');
+      if(langPop) langPop.classList.remove('show');
+    }
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const show = !panel.classList.contains('show');
+      panel.classList.toggle('show', show);
+      btn.classList.toggle('active', show);
+      btn.setAttribute('aria-expanded', String(show));
+    });
+
+    document.addEventListener('click', (e) => {
+      if(!panel.contains(e.target) && e.target !== btn && !btn.contains(e.target)){
+        closePanel();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape') closePanel();
+    });
+  })();
+
+  // ---------------- ترجمه‌ها ----------------
+  const translations = {
+    fa: {
+      backBtn: 'بازگشت',
+      pageTitle: '📲 نصب اپلیکیشن',
+      groupLabel: 'نصب اپلیکیشن',
+      installH1: 'سایت هیئت رو روی گوشیت نصب کن',
+      installDesc: 'با نصب اپلیکیشن، دسترسی سریع از صفحه‌ی اصلی گوشیت داری؛ بدون نیاز به باز کردن مرورگر و جست‌وجوی دوباره.',
+      featureFast: 'دسترسی سریع',
+      featureApp: 'مثل یک اپ واقعی',
+      featureUseful: 'کاربردی',
+      warnSamsung: 'اگر با مرورگر سامسونگ (Samsung) وارد این صفحه شدی، دکمه‌ی نصب ممکنه کار نکنه. لینک این صفحه رو کپی کن و توی گوگل کروم پیست و باز کن.',
+      iosHelpTitle: 'راهنمای نصب روی آیفون (Safari)',
+      iosStep1: 'سایت را با Safari باز کن.',
+      iosStep2: 'پایین صفحه روی دکمه Share / اشتراک‌گذاری بزن (مربع با فلش رو به بالا).',
+      iosStep3: 'گزینه Add to Home Screen / افزودن به صفحه اصلی را انتخاب کن.',
+      iosStep4: 'اسم سایت را انتخاب یا ویرایش کن.',
+      iosStep5: 'روی Add / افزودن بزن.',
+      iosStep6: 'آیکون سایت روی صفحه اصلی آیفون قرار می‌گیرد.',
+      iosStep7: 'از این به بعد با زدن آیکون، سایت مثل یک برنامه باز می‌شود.',
+      infoBoxText: 'اگر مرورگرت نصب مستقیم رو پشتیبانی نمی‌کنه، نگران نباش! از منوی مرورگر گزینه‌ی «افزودن به صفحه اصلی» یا «Install and create shortcut» رو بزن و خودت به‌صورت دستی نصبش کن. ☺️',
+      installBtnLabel: 'نصب اپلیکیشن',
+      statusChecking: 'در حال بررسی امکان نصب…',
+      statusAvailable: 'با یک لمس، اپلیکیشن رو روی گوشیت نصب کن.',
+      statusInstalled: '✓ اپلیکیشن روی گوشیت نصب شده است.',
+      openAppLink: 'باز کردن اپلیکیشن',
+      guideTrigger: 'راهنمای سایت',
+      footerSub: 'پایگاه اطلاع‌رسانی هیئت کاظمیون خرم‌آباد',
+      quickMenuTheme: 'تم',
+      quickMenuLang: 'زبان',
+      quickMenuSound: 'صدا'
+    },
+    ar: {
+      backBtn: 'رجوع',
+      pageTitle: '📲 تثبيت التطبيق',
+      groupLabel: 'تثبيت التطبيق',
+      installH1: 'ثبّت موقع الموكب على هاتفك',
+      installDesc: 'بتثبيت التطبيق، تحصل على وصول سريع من الشاشة الرئيسية لهاتفك؛ دون الحاجة لفتح المتصفح والبحث مجددًا.',
+      featureFast: 'وصول سريع',
+      featureApp: 'مثل تطبيق حقيقي',
+      featureUseful: 'عملي',
+      warnSamsung: 'إذا دخلت هذه الصفحة عبر متصفح سامسونج (Samsung)، فقد لا يعمل زر التثبيت. انسخ رابط هذه الصفحة والصقه وافتحه في جوجل كروم.',
+      iosHelpTitle: 'دليل التثبيت على آيفون (Safari)',
+      iosStep1: 'افتح الموقع باستخدام Safari.',
+      iosStep2: 'اضغط على زر المشاركة Share في أسفل الشاشة (مربع بسهم للأعلى).',
+      iosStep3: 'اختر خيار Add to Home Screen / إضافة إلى الشاشة الرئيسية.',
+      iosStep4: 'اختر اسم الموقع أو عدّله.',
+      iosStep5: 'اضغط على Add / إضافة.',
+      iosStep6: 'ستظهر أيقونة الموقع على الشاشة الرئيسية لهاتفك.',
+      iosStep7: 'من الآن فصاعدًا، بالضغط على الأيقونة يفتح الموقع كأنه تطبيق.',
+      infoBoxText: 'إذا كان متصفحك لا يدعم التثبيت المباشر، لا تقلق! اختر من قائمة المتصفح خيار «إضافة إلى الشاشة الرئيسية» أو «Install and create shortcut» وثبّته يدويًا. ☺️',
+      installBtnLabel: 'تثبيت التطبيق',
+      statusChecking: 'جارٍ التحقق من إمكانية التثبيت…',
+      statusAvailable: 'بلمسة واحدة، ثبّت التطبيق على هاتفك.',
+      statusInstalled: '✓ تم تثبيت التطبيق على هاتفك.',
+      openAppLink: 'فتح التطبيق',
+      guideTrigger: 'دليل الموقع',
+      footerSub: 'القناة الرسمية لموكب الكاظميون خرم‌آباد',
+      quickMenuTheme: 'المظهر',
+      quickMenuLang: 'اللغة',
+      quickMenuSound: 'الصوت'
+    },
+    en: {
+      backBtn: 'Back',
+      pageTitle: '📲 Install App',
+      groupLabel: 'Install App',
+      installH1: 'Install the Heyat site on your phone',
+      installDesc: "Installing the app gives you quick access from your phone's home screen, without opening the browser and searching again.",
+      featureFast: 'Quick access',
+      featureApp: 'Feels like a real app',
+      featureUseful: 'Handy',
+      warnSamsung: "If you opened this page in the Samsung browser, the install button may not work. Copy this page's link and open it in Google Chrome instead.",
+      iosHelpTitle: 'How to install on iPhone (Safari)',
+      iosStep1: 'Open the site in Safari.',
+      iosStep2: 'Tap the Share button at the bottom of the screen (square with an arrow pointing up).',
+      iosStep3: 'Choose "Add to Home Screen".',
+      iosStep4: 'Choose or edit the site name.',
+      iosStep5: 'Tap "Add".',
+      iosStep6: "The site's icon appears on your iPhone's home screen.",
+      iosStep7: 'From now on, tapping the icon opens the site like an app.',
+      infoBoxText: 'If your browser doesn\'t support direct install, don\'t worry! Choose "Add to Home Screen" or "Install and create shortcut" from your browser menu and install it manually. ☺️',
+      installBtnLabel: 'Install App',
+      statusChecking: 'Checking install availability…',
+      statusAvailable: 'Install the app on your phone with one tap.',
+      statusInstalled: '✓ The app is installed on your phone.',
+      openAppLink: 'Open App',
+      guideTrigger: 'Site Guide',
+      footerSub: 'Official channel of Heyat-e Kazemiyoon Khorramabad',
+      quickMenuTheme: 'Theme',
+      quickMenuLang: 'Language',
+      quickMenuSound: 'Sound'
+    }
+  };
+
+  let currentLang = 'fa';
+  let currentInstallState = 'checking';
+
+  function applyInstallStatusText(){
+    const status = document.getElementById('install-status');
+    const dict = translations[currentLang] || translations.fa;
+    if(currentInstallState === 'checking') status.textContent = dict.statusChecking;
+    else if(currentInstallState === 'available') status.textContent = dict.statusAvailable;
+    else if(currentInstallState === 'installed') status.textContent = dict.statusInstalled;
+    else if(currentInstallState === 'unsupported') status.textContent = '';
+  }
+
+  function setLang(lang){
+    if(!translations[lang]) return;
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.documentElement.dir = (lang === 'en') ? 'ltr' : 'rtl';
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if(translations[lang][key] !== undefined){
+        el.textContent = translations[lang][key];
+      }
+    });
+    applyInstallStatusText();
+    const activeOpt = document.querySelector('.lang-opt[data-lang="' + lang + '"]');
+    document.querySelectorAll('.lang-opt').forEach(b => {
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
+    if(activeOpt){
+      const flagEl = document.getElementById('lang-toggle-flag');
+      const codeEl = document.getElementById('lang-toggle-code');
+      if(flagEl) flagEl.textContent = activeOpt.dataset.flag;
+      if(codeEl) codeEl.textContent = activeOpt.dataset.code;
+    }
+  }
+
+  // ---------------- تغییر زبان ----------------
+  (function langSwitcher(){
+    const toggle = document.getElementById('lang-toggle');
+    const popover = document.getElementById('lang-popover');
+    if(!toggle || !popover) return;
+    const opts = popover.querySelectorAll('.lang-opt');
+
+    document.body.appendChild(popover);
+
+    function positionLangPopover(){
+      const margin = 10;
+      const rect = toggle.getBoundingClientRect();
+      const pw = popover.offsetWidth || 150;
+      let left = rect.left + rect.width / 2 - pw / 2;
+      left = Math.max(margin, Math.min(left, window.innerWidth - pw - margin));
+      const ph = popover.offsetHeight || 140;
+      let top = rect.bottom + 8;
+      if(top + ph > window.innerHeight - margin){
+        top = rect.top - ph - 8;
+      }
+      popover.style.left = left + 'px';
+      popover.style.top = Math.max(margin, top) + 'px';
+    }
+
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const show = !popover.classList.contains('show');
+      if(show){
+        popover.style.visibility = 'hidden';
+        popover.classList.add('show');
+        positionLangPopover();
+        popover.style.visibility = '';
+      }else{
+        popover.classList.remove('show');
+      }
+      toggle.setAttribute('aria-expanded', String(show));
+    });
+    window.addEventListener('resize', () => {
+      if(popover.classList.contains('show')) positionLangPopover();
+    }, { passive:true });
+    opts.forEach(b => {
+      b.addEventListener('click', () => {
+        setLang(b.dataset.lang);
+        popover.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+    document.addEventListener('click', (e) => {
+      if(!popover.contains(e.target) && e.target !== toggle){
+        popover.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+
+  // ---------------- دکمه صدا (افکت تیک کلیک) ----------------
+  (function soundToggle(){
+    const soundState = { muted: true, ctx: null };
+    function ensureAudioCtx(){
+      if(!soundState.ctx){
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if(AC) soundState.ctx = new AC();
+      }
+      return soundState.ctx;
+    }
+    function playTick(){
+      if(soundState.muted) return;
+      const ctx = ensureAudioCtx();
+      if(!ctx) return;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      const t0 = ctx.currentTime;
+      osc.frequency.setValueAtTime(720, t0);
+      osc.frequency.exponentialRampToValueAtTime(420, t0 + 0.09);
+      gain.gain.setValueAtTime(0.0001, t0);
+      gain.gain.exponentialRampToValueAtTime(0.05, t0 + 0.012);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.14);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(t0);
+      osc.stop(t0 + 0.16);
+    }
+    document.querySelectorAll('.lang-opt, .lang-toggle, .theme-opt').forEach(el => {
+      el.addEventListener('click', playTick);
+    });
+    const btn = document.getElementById('sound-toggle');
+    if(!btn) return;
+    btn.addEventListener('click', () => {
+      soundState.muted = !soundState.muted;
+      btn.setAttribute('aria-pressed', String(!soundState.muted));
+      btn.querySelector('.icon-sound-on').style.display = soundState.muted ? 'none' : 'block';
+      btn.querySelector('.icon-sound-off').style.display = soundState.muted ? 'block' : 'none';
+      if(!soundState.muted){ ensureAudioCtx(); playTick(); }
+    });
+  })();
+
+  // ذرات ریز طلایی پس‌زمینه (امبر)
+  (function embers(){
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduceMotion) return;
+    var wrap = document.getElementById('embers');
+    if(!wrap) return;
+    var count = 8;
+    for(var i=0;i<count;i++){
+      var s = document.createElement('div');
+      s.className = 'ember-spark';
+      var left = Math.random()*100;
+      var delay = Math.random()*10;
+      var dur = 6 + Math.random()*6;
+      var drift = (Math.random()*60 - 30) + 'px';
+      s.style.left = left + 'vw';
+      s.style.animationDelay = delay + 's';
+      s.style.animationDuration = dur + 's';
+      s.style.setProperty('--drift', drift);
+      wrap.appendChild(s);
+    }
+  })();
+</script>
+
+<script>
+  // ---------------- ثبت Service Worker ----------------
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('service-worker.js').catch(() => {});
+    });
+  }
+
+  // ---------------- منطق نصب PWA (تک‌نسخه‌ای، بدون تکرار) ----------------
+  (function pwaInstallPage(){
+    const btn = document.getElementById('install-btn');
+    const openLink = document.getElementById('install-open-link');
+    const infoBox = document.getElementById('install-info-box');
+    let deferredPrompt = null;
+
+    function setState(state){
+      currentInstallState = state;
+      btn.dataset.state = state;
+      infoBox.classList.toggle('show', state === 'unsupported');
+      const status = document.getElementById('install-status');
+      status.classList.toggle('success', state === 'installed');
+      if(state === 'checking' || state === 'unsupported'){
+        btn.disabled = true;
+      } else if(state === 'available'){
+        btn.disabled = false;
+      } else if(state === 'installed'){
+        btn.disabled = true;
+        openLink.style.display = 'block';
+      }
+      applyInstallStatusText();
+    }
+
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    if(isStandalone){
+      setState('installed');
+      return;
+    }
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      setState('available');
+    });
+
+    btn.addEventListener('click', async () => {
+      if(!deferredPrompt) return;
+      btn.disabled = true;
+      deferredPrompt.prompt();
+      const choice = await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      if(!(choice && choice.outcome === 'accepted')){
+        setState('available');
+      }
+    });
+
+    window.addEventListener('appinstalled', () => {
+      setState('installed');
+    });
+
+    setTimeout(() => {
+      if(btn.dataset.state === 'checking') setState('unsupported');
+    }, 2500);
+  })();
+</script>
+<script>
+window.KZM_ASSISTANT_CONFIG = {
+  pageKey: 'install',
+  greeting: {
+    title: 'سلام و خوش اومدی 👋',
+    short: 'من دستیار سایت هیئتم! این صفحه برای نصب اپلیکیشن روی گوشیته.',
+    full: 'سلام! این صفحه به تو کمک می‌کنه سایت هیئت کاظمیون رو مثل یک اپلیکیشن واقعی روی گوشیت نصب کنی.\n\nکافیه روی دکمه‌ی «نصب اپلیکیشن» بزنی. اگه دکمه فعال نبود، یعنی مرورگرت این قابلیت رو نداره؛ می‌تونی از راهنمای همین صفحه به‌صورت دستی نصبش کنی.'
+  },
+  sections: [
+    { key:'install', selector:'.install-card',
+      title:'نصب اپلیکیشن',
+      short:'با یک لمس، سایت رو مثل یک اپ روی گوشیت نصب کن.',
+      full:'روی دکمه‌ی بزرگ «نصب اپلیکیشن» بزن. اگه مرورگرت این قابلیت رو نداشت، راهنمای گام‌به‌گام برای آیفون و سامسونگ همین‌جا برات آماده‌ست.' }
+  ]
+};
+</script>
+<script src="assistant.js"></script>
+</body>
+</html>

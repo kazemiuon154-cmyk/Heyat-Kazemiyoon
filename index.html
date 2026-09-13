@@ -859,53 +859,86 @@
   .ornament:nth-of-type(1) .bar:last-child, .ornament .bar.r{ background:linear-gradient(90deg, var(--gold-dim), transparent); }
   .ornament svg{ width:16px; height:16px; opacity:0.8; }
 
-  /* ---------------- شمارش‌معکوس داخل هیرو (بدون قاب جدا؛ ادامه‌ی همون فضا) ---------------- */
-  .hero-countdown{
+  /* ---------------- قاب شمارش‌معکوس «شروع تا جلسه بعدی» — قاب مستقل و حرفه‌ای ---------------- */
+  .countdown-frame{
     position:relative;
     margin-top:26px;
-    padding-top:24px;
+    padding:22px 16px 20px;
+    border-radius:22px;
+    border:1px solid var(--line);
+    background:
+      radial-gradient(120% 160% at 50% -20%, rgba(255,203,61,0.16), transparent 60%),
+      radial-gradient(90% 120% at 50% 120%, rgba(var(--crimson-rgb),0.16), transparent 60%),
+      linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.014));
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.07) inset,
+      0 0 0 1px rgba(255,203,61,0.06) inset,
+      0 16px 34px rgba(0,0,0,0.32);
+    overflow:hidden;
   }
-  .hero-countdown::before{
-    content:'';
-    position:absolute; top:0; left:50%; transform:translateX(-50%);
-    width:min(220px, 70%); height:1px;
-    background:linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  .countdown-frame-head{
+    display:flex; align-items:center; justify-content:center; gap:7px;
+    margin-bottom:18px;
   }
+  .countdown-frame-icon{
+    display:flex; align-items:center; justify-content:center;
+    width:20px; height:20px;
+    color:var(--gold);
+  }
+  .countdown-frame-icon svg{ width:15px; height:15px; }
   .hero-countdown-label{
     font-size:12px;
     color:var(--gold);
     letter-spacing:0.02em;
-    font-weight:600;
-    margin-bottom:18px;
+    font-weight:700;
   }
-  .hero-countdown-grid{
-    display:grid;
-    grid-template-columns:repeat(7, auto);
+
+  .countdown-frame-grid{
+    display:flex;
+    align-items:stretch;
     justify-content:center;
-    align-items:center;
-    column-gap:3px;
-    row-gap:9px;
+    gap:7px;
   }
-  .hero-countdown-grid .num{
-    font-size:34px;
+  .countdown-tile{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    min-width:58px;
+    padding:12px 6px 10px;
+    border-radius:16px;
+    background:linear-gradient(180deg, rgba(0,0,0,0.28), rgba(0,0,0,0.14));
+    border:1px solid rgba(255,203,61,0.14);
+    box-shadow:0 1px 0 rgba(255,255,255,0.05) inset, 0 8px 16px rgba(0,0,0,0.25);
+  }
+  .countdown-tile .num{
+    font-size:28px;
     font-weight:800;
     color:var(--parchment);
     font-variant-numeric:tabular-nums;
     line-height:1;
-    text-shadow:0 0 24px rgba(var(--crimson-rgb),0.35);
-    min-width:46px;
-    text-align:center;
+    text-shadow:0 0 22px rgba(var(--crimson-rgb),0.4);
   }
-  .hero-countdown-grid .lbl{
+  .countdown-tile .lbl{
     font-size:10px;
+    font-weight:600;
     color:var(--parchment-dim);
     text-align:center;
   }
-  .hero-cd-sep{
-    font-size:20px;
-    font-weight:800;
-    color:var(--gold-dim);
-    line-height:1;
+  .countdown-frame-sep{
+    align-self:center;
+    width:4px; height:4px;
+    margin-top:-14px;
+    border-radius:50%;
+    background:var(--gold-dim);
+    box-shadow:0 9px 0 0 var(--gold-dim);
+  }
+
+  @media (max-width:360px){
+    .countdown-tile{ min-width:50px; padding:10px 4px 8px; }
+    .countdown-tile .num{ font-size:23px; }
   }
 
   /* ---------------- اوقات شرعی (اذان بعدی) ---------------- */
@@ -1486,7 +1519,7 @@
   .hero-status-sheet-icon{
     flex:none; width:34px; height:34px; border-radius:50%;
     display:flex; align-items:center; justify-content:center;
-    font-size:15px;
+    color:var(--gold);
     background:rgba(255,203,61,0.08);
     border:1px solid var(--line);
   }
@@ -1626,24 +1659,27 @@
   .copy-btn:active{ transform:scale(0.92); }
 
   /* ============================================================
-     PAGE TRIGGERS — منوی کشویی جمع‌شونده (دسترسی سریع به صفحات)
+     PAGE TRIGGERS — پنل دسترسی سریع به خدمات سایت (بازطراحی حرفه‌ای)
   ============================================================ */
   .services-menu{
-    margin:4px 0 16px;
-    border-radius:18px;
+    margin:4px 0 18px;
+    border-radius:22px;
     border:1px solid var(--line);
-    background:linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.012));
-    -webkit-backdrop-filter:blur(6px);
-    backdrop-filter:blur(6px);
+    background:
+      radial-gradient(120% 140% at 100% 0%, rgba(var(--crimson-rgb),0.10), transparent 55%),
+      linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.014));
+    -webkit-backdrop-filter:blur(8px);
+    backdrop-filter:blur(8px);
     overflow:hidden;
-    box-shadow:0 1px 0 rgba(255,255,255,0.05) inset, 0 6px 14px rgba(0,0,0,0.2);
+    box-shadow:0 1px 0 rgba(255,255,255,0.06) inset, 0 10px 26px rgba(0,0,0,0.22);
+    position:relative;
   }
   .services-toggle{
     width:100%;
     display:flex;
     align-items:center;
-    gap:10px;
-    padding:13px 16px;
+    gap:12px;
+    padding:15px 17px;
     border:none;
     background:transparent;
     color:var(--parchment);
@@ -1652,99 +1688,112 @@
     text-align:right;
   }
   .services-toggle-icon{
-    width:30px; height:30px; min-width:30px;
-    border-radius:10px;
+    width:36px; height:36px; min-width:36px;
+    border-radius:12px;
     display:flex; align-items:center; justify-content:center;
-    font-size:14px;
-    background:linear-gradient(135deg, var(--gold-bright, var(--gold)), var(--crimson-bright));
-    box-shadow:0 3px 8px rgba(var(--crimson-rgb),0.35), 0 1px 0 rgba(255,255,255,0.3) inset;
+    color:#071710;
+    background:linear-gradient(150deg, var(--gold-bright, var(--gold)), var(--crimson-bright));
+    box-shadow:0 4px 10px rgba(var(--crimson-rgb),0.38), 0 1px 0 rgba(255,255,255,0.35) inset;
+    position:relative;
   }
-  .services-toggle-label{ flex:1; font-size:12.5px; font-weight:700; text-align:start; }
+  .services-toggle-icon::after{
+    content:"";
+    position:absolute; inset:0; border-radius:inherit;
+    background:linear-gradient(135deg, rgba(255,255,255,0.55), rgba(255,255,255,0) 55%);
+    opacity:0.7; pointer-events:none;
+  }
+  .services-toggle-icon svg{ width:17px; height:17px; position:relative; }
+  .services-toggle-label{ flex:1; text-align:start; }
+  .services-toggle-label{ display:flex; flex-direction:column; gap:1px; }
+  .services-toggle-label b{ font-size:13.5px; font-weight:800; letter-spacing:0.1px; }
+  .services-toggle-label small{ font-size:10.5px; font-weight:500; color:var(--parchment-dim); }
   .services-toggle-count{
-    font-size:10px; font-weight:700; color:var(--gold-soft);
+    font-size:10.5px; font-weight:800; color:var(--gold-soft);
     background:rgba(255,203,61,0.1); border:1px solid var(--line);
-    border-radius:999px; padding:2px 7px;
+    border-radius:999px; padding:3px 9px; letter-spacing:0.2px;
   }
   .services-toggle-chevron{
-    width:18px; height:18px; display:flex; align-items:center; justify-content:center;
+    width:20px; height:20px; display:flex; align-items:center; justify-content:center;
     color:var(--parchment-dim);
-    transition:transform 0.25s ease;
+    transition:transform 0.3s cubic-bezier(.4,0,.2,1);
   }
   .services-toggle-chevron svg{ width:14px; height:14px; }
-  .services-menu.open .services-toggle-chevron{ transform:rotate(180deg); }
+  .services-menu.open .services-toggle-chevron{ transform:rotate(180deg); color:var(--gold); }
   .services-menu.open .services-toggle{ border-bottom:1px solid var(--line); }
 
   .services-panel{
     max-height:0;
     opacity:0;
     overflow:hidden;
-    transition:max-height 0.35s ease, opacity 0.25s ease;
+    transition:max-height 0.4s cubic-bezier(.4,0,.2,1), opacity 0.28s ease;
   }
-  .services-menu.open .services-panel{ opacity:1; max-height:600px; }
+  .services-menu.open .services-panel{ opacity:1; max-height:720px; }
 
-  /* ---- گرید آیکون‌های تازه و فشرده (شبیه میان‌برهای اپ) ---- */
+  /* ---- گرید آیکون‌های حرفه‌ای؛ کارت‌های مجزا با آیکون‌های خطی سفارشی ---- */
   .services-list{
     display:grid;
     grid-template-columns:repeat(4, 1fr);
-    gap:9px;
-    padding:12px;
+    gap:10px;
+    padding:6px 13px 16px;
   }
   .services-row{
     position:relative;
     display:flex;
     flex-direction:column;
     align-items:center;
-    justify-content:center;
-    gap:7px;
-    padding:13px 4px 10px;
-    border-radius:18px;
+    justify-content:flex-start;
+    gap:9px;
+    padding:16px 5px 12px;
+    border-radius:17px;
     color:var(--parchment);
     text-decoration:none;
     font-family:var(--font-main);
-    font-size:10.5px;
+    font-size:10.8px;
     font-weight:700;
     text-align:center;
-    line-height:1.25;
-    background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
-    border:1px solid rgba(255,255,255,0.06);
+    line-height:1.3;
+    background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.014));
+    border:1px solid rgba(255,255,255,0.07);
     overflow:hidden;
-    transition:transform 0.15s ease, background 0.15s ease;
+    transition:transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
   }
   .services-row::before{
     content:"";
-    position:absolute; top:-40%; left:50%;
-    width:140%; height:140%;
+    position:absolute; top:-45%; left:50%;
+    width:150%; height:150%;
     transform:translateX(-50%);
-    background:radial-gradient(circle, rgba(var(--crimson-rgb),0.22), transparent 65%);
+    background:radial-gradient(circle, rgba(var(--crimson-rgb),0.20), transparent 65%);
     opacity:0;
     pointer-events:none;
   }
   /* جلوه‌های هاور فقط برای دستگاه‌هایی با ماوس واقعی؛ در موبایل حذف می‌شن تا لمس روی آیکون‌ها لگ نداشته باشد */
   @media (hover:hover) and (pointer:fine){
-    .services-row{ transition:transform 0.22s cubic-bezier(.34,1.56,.64,1), background 0.2s ease, border-color 0.2s ease, box-shadow 0.25s ease, color 0.2s ease; }
+    .services-row{ transition:transform 0.24s cubic-bezier(.34,1.56,.64,1), background 0.2s ease, border-color 0.2s ease, box-shadow 0.25s ease, color 0.2s ease; }
     .services-row::before{ transition:opacity 0.3s ease; }
     .services-row:hover{
-      background:linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.02));
+      background:linear-gradient(180deg, rgba(255,255,255,0.095), rgba(255,255,255,0.02));
       border-color:var(--line);
-      box-shadow:0 10px 20px rgba(0,0,0,0.28), 0 0 0 1px rgba(255,203,61,0.12) inset;
+      box-shadow:0 12px 22px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,203,61,0.14) inset;
       color:var(--gold);
       transform:translateY(-3px);
     }
     .services-row:hover::before{ opacity:1; }
-    .services-row:hover .services-row-emoji{ transform:translateY(-2px) scale(1.08) rotate(-5deg); }
+    .services-row:hover .services-row-icon{ transform:translateY(-2px) scale(1.06); box-shadow:0 8px 16px rgba(var(--crimson-rgb),0.45), 0 1px 0 rgba(255,255,255,0.4) inset; }
   }
-  .services-row:active{ transform:scale(0.94); background:rgba(255,255,255,0.08); }
+  .services-row:active{ transform:scale(0.95); background:rgba(255,255,255,0.08); }
   .services-row-arrow{ display:none; }
-  .services-row-emoji{
+
+  /* ---- آیکون هر سرویس: کارت مربعی گرد با آیکون خطی سفارشی ---- */
+  .services-row-icon{
     position:relative;
-    width:40px; height:40px; min-width:40px;
+    width:42px; height:42px; min-width:42px;
     display:flex; align-items:center; justify-content:center;
-    border-radius:13px;
-    font-size:17px; line-height:1;
+    border-radius:14px;
     background:linear-gradient(135deg, var(--gold-bright, var(--gold)), var(--crimson-bright));
     box-shadow:0 4px 10px rgba(var(--crimson-rgb),0.35), 0 1px 0 rgba(255,255,255,0.35) inset;
+    transition:transform 0.22s cubic-bezier(.34,1.56,.64,1), box-shadow 0.22s ease;
   }
-  .services-row-emoji::after{
+  .services-row-icon::after{
     content:"";
     position:absolute; inset:0;
     border-radius:inherit;
@@ -1752,7 +1801,8 @@
     opacity:0.75;
     pointer-events:none;
   }
-  .services-row span:not(.services-row-emoji):not(.services-row-arrow){
+  .services-row-icon svg{ width:19px; height:19px; position:relative; }
+  .services-row span:not(.services-row-icon):not(.services-row-arrow){
     position:relative;
     max-width:100%;
     overflow:hidden;
@@ -1761,22 +1811,42 @@
     -webkit-line-clamp:2;
     -webkit-box-orient:vertical;
   }
-  .services-row-alt .services-row-emoji{ background:linear-gradient(135deg, #e8d28a, var(--gold-soft)); }
-  .services-row-alt2 .services-row-emoji{ background:linear-gradient(135deg, var(--crimson-bright), var(--gold-soft)); }
-  .services-row-alt3 .services-row-emoji{ background:linear-gradient(135deg, var(--gold-soft), var(--crimson-bright)); }
-  .services-row-alt4 .services-row-emoji{ background:linear-gradient(135deg, var(--crimson-bright), var(--gold-bright, var(--gold))); }
-  .services-row-alt5 .services-row-emoji{ background:linear-gradient(135deg, var(--gold-bright, var(--gold)), var(--crimson)); }
-  .services-row-alt6 .services-row-emoji{ background:linear-gradient(135deg, #e8d28a, var(--crimson-bright)); }
-  .services-row-alt7 .services-row-emoji{ background:linear-gradient(135deg, var(--crimson), var(--gold-soft)); }
-  .services-row-alt8 .services-row-emoji{ background:linear-gradient(135deg, var(--gold-soft), var(--gold-bright, var(--gold))); }
-  .services-row-alt9 .services-row-emoji{ background:linear-gradient(135deg, var(--crimson-bright), var(--gold-dim)); }
+  .services-row-alt .services-row-icon{ background:linear-gradient(135deg, #e8d28a, var(--gold-soft)); }
+  .services-row-alt2 .services-row-icon{ background:linear-gradient(135deg, var(--crimson-bright), var(--gold-soft)); }
+  .services-row-alt3 .services-row-icon{ background:linear-gradient(135deg, var(--gold-soft), var(--crimson-bright)); }
+  .services-row-alt4 .services-row-icon{ background:linear-gradient(135deg, var(--crimson-bright), var(--gold-bright, var(--gold))); }
+  .services-row-alt5 .services-row-icon{ background:linear-gradient(135deg, var(--gold-bright, var(--gold)), var(--crimson)); }
+  .services-row-alt6 .services-row-icon{ background:linear-gradient(135deg, #e8d28a, var(--crimson-bright)); }
+  .services-row-alt7 .services-row-icon{ background:linear-gradient(135deg, var(--crimson), var(--gold-soft)); }
+  .services-row-alt8 .services-row-icon{ background:linear-gradient(135deg, var(--gold-soft), var(--gold-bright, var(--gold))); }
+  .services-row-alt9 .services-row-icon{ background:linear-gradient(135deg, var(--crimson-bright), var(--gold-dim)); }
+  .services-row-alt10 .services-row-icon{ background:linear-gradient(135deg, var(--gold-dim), var(--crimson-bright)); }
+  .services-row-live .services-row-icon{
+    background:linear-gradient(135deg, #ff8a80, #ef4444);
+    box-shadow:0 4px 10px rgba(239,68,68,0.4), 0 1px 0 rgba(255,255,255,0.35) inset;
+    position:relative;
+  }
+  .services-row-live-dot{
+    position:absolute;
+    top:-2px; inset-inline-end:-2px;
+    width:9px; height:9px;
+    border-radius:50%;
+    background:#ef4444;
+    border:1.5px solid var(--void, #071710);
+    animation:servicesLiveDotPulse 1.6s ease-out infinite;
+  }
+  @keyframes servicesLiveDotPulse{
+    0%{ box-shadow:0 0 0 0 rgba(239,68,68,0.6); }
+    70%{ box-shadow:0 0 0 7px rgba(239,68,68,0); }
+    100%{ box-shadow:0 0 0 0 rgba(239,68,68,0); }
+  }
 
   @media (max-width:340px){
     .services-list{ grid-template-columns:repeat(3, 1fr); }
   }
 
   @media (prefers-reduced-motion: reduce){
-    .services-row, .services-row-emoji{ transition:none; }
+    .services-row, .services-row-icon{ transition:none; }
   }
 
 
@@ -1967,15 +2037,15 @@
     width:36px; height:36px;
     flex:none;
     border-radius:50%;
-    border:1px solid #9fd600;
-    background:linear-gradient(135deg, #b8f000, #d4ff33);
-    color:#000;
-    box-shadow:0 3px 10px rgba(0,0,0,0.3);
+    border:1px solid rgba(255,255,255,0.25);
+    background:linear-gradient(135deg, var(--gold-bright, var(--gold)), var(--crimson-bright));
+    color:#071710;
+    box-shadow:0 3px 10px rgba(var(--crimson-rgb),0.4);
     cursor:pointer;
     transition:transform 0.2s ease, opacity 0.2s ease, visibility 0.2s ease;
   }
   .pwa-install-btn.show{ display:flex; }
-  .pwa-install-btn svg{ width:17px; height:17px; flex:none; color:#000; }
+  .pwa-install-btn svg{ width:17px; height:17px; flex:none; color:#071710; }
   .pwa-install-btn .install-text{ display:none; }
   .pwa-install-btn:active{ transform:scale(0.9); }
   .pwa-install-btn.hide-for-modal{ opacity:0; visibility:hidden; pointer-events:none; }
@@ -2324,12 +2394,6 @@
         <svg class="icon-sound-off" viewBox="0 0 24 24" fill="none" style="display:none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M15.5 9.5l5 5M20.5 9.5l-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
       </button>
     </div>
-    <div class="quick-menu-row" id="pwa-install-row" style="display:none">
-      <span class="quick-menu-label" data-i18n="quickMenuInstall">نصب اپ</span>
-      <button type="button" id="pwa-install-btn-menu" class="theme-toggle-btn" aria-label="نصب برنامه">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0-4-4m4 4 4-4M5 19h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-    </div>
     <div class="quick-menu-row">
       <span class="quick-menu-label" data-i18n="guideTrigger">راهنمای سایت</span>
       <a href="guide.html" id="guide-trigger" class="sound-toggle guide-fab" aria-label="راهنمای سایت" data-prefetch-nav>
@@ -2370,16 +2434,19 @@
     </button>
     <div class="modal-handle"></div>
     <div class="modal-ribbon">برنامه هفتگی</div>
-    <div class="modal-title">🕌 مراسم هیئت کاظمیون</div>
+    <div class="modal-title">
+      <svg viewBox="0 0 24 24" fill="none" style="width:18px;height:18px;vertical-align:-3px;margin-inline-end:5px"><path d="M12 3.4c1.4 1.3 2.2 2.6 2.2 3.7a2.2 2.2 0 1 1-4.4 0c0-1.1.8-2.4 2.2-3.7Z" fill="currentColor"/><path d="M4.6 20v-5.4c0-2.9 3.2-5.3 7.4-5.3s7.4 2.4 7.4 5.3V20" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M3.3 20h17.4M7.6 20v-3.2a1.5 1.5 0 0 1 1.5-1.5h5.8a1.5 1.5 0 0 1 1.5 1.5V20" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+      مراسم هیئت کاظمیون
+    </div>
     <div class="hero-status-sheet-row">
-      <span class="hero-status-sheet-icon">📅</span>
+      <span class="hero-status-sheet-icon"><svg viewBox="0 0 24 24" fill="none" style="width:16px;height:16px"><rect x="4.3" y="5.3" width="15.4" height="14" rx="2.4" stroke="currentColor" stroke-width="1.6"/><path d="M4.3 9.6h15.4" stroke="currentColor" stroke-width="1.6"/><path d="M8 3.6v3M16 3.6v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
       <div>
         <div class="hero-status-sheet-label">روز و ساعت برگزاری</div>
         <div class="hero-status-sheet-value">سه‌شنبه‌های هر هفته، ساعت ۲۱:۰۰</div>
       </div>
     </div>
     <div class="hero-status-sheet-row">
-      <span class="hero-status-sheet-icon">📍</span>
+      <span class="hero-status-sheet-icon"><svg viewBox="0 0 24 24" fill="none" style="width:16px;height:16px"><path d="M12 21s7-6.1 7-11.5C19 5.4 15.9 3 12 3S5 5.4 5 9.5C5 14.9 12 21 12 21z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.3" stroke="currentColor" stroke-width="1.6"/></svg></span>
       <div>
         <div class="hero-status-sheet-label">محل برگزاری</div>
         <div class="hero-status-sheet-value">قاضی‌آباد، خیابان نهم، مسجد حضرت قائم «عج»</div>
@@ -2507,58 +2574,74 @@
 
   <div class="services-menu" id="services-menu">
     <button type="button" class="services-toggle" id="services-toggle" aria-expanded="false" aria-controls="services-panel">
-      <span class="services-toggle-icon" aria-hidden="true">☰</span>
-      <span class="services-toggle-label" data-i18n="servicesToggle">دسترسی سریع به صفحات</span>
-      <span class="services-toggle-count" id="services-count">10</span>
+      <span class="services-toggle-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="6.6" height="6.6" rx="1.8" fill="currentColor"/><rect x="13.4" y="4" width="6.6" height="6.6" rx="1.8" fill="currentColor"/><rect x="4" y="13.4" width="6.6" height="6.6" rx="1.8" fill="currentColor"/><rect x="13.4" y="13.4" width="6.6" height="6.6" rx="1.8" fill="currentColor"/></svg>
+      </span>
+      <span class="services-toggle-label">
+        <b data-i18n="servicesToggle">دسترسی سریع به صفحات</b>
+        <small data-i18n="servicesToggleSub">همه‌ی خدمات هیئت در یک‌جا</small>
+      </span>
+      <span class="services-toggle-count" id="services-count">12</span>
       <span class="services-toggle-chevron" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </span>
     </button>
     <div class="services-panel" id="services-panel">
       <div class="services-list">
+        <a href="live.html" class="services-row services-row-live" id="live-trigger" data-prefetch-nav>
+          <span class="services-row-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M8 5.5v13l11-6.5-11-6.5Z" fill="#071710"/></svg>
+            <span class="services-row-live-dot" aria-hidden="true"></span>
+          </span>
+          <span data-i18n="liveTrigger">پخش زنده</span>
+        </a>
         <a href="page2.html" class="services-row" id="page2-trigger" data-prefetch-nav>
-          <span class="services-row-emoji" aria-hidden="true">📖</span>
+          <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 6.5c-1.8-1.4-4.2-2-6.5-1.6-.5.1-.8.5-.8 1v11c0 .6.5 1 1.1.9 2-.3 4.1.2 5.7 1.4.3.2.7.2 1 0 1.6-1.2 3.7-1.7 5.7-1.4.6.1 1.1-.3 1.1-.9v-11c0-.5-.3-.9-.8-1-2.3-.4-4.7.2-6.5 1.6Z" stroke="#071710" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 6.5V19" stroke="#071710" stroke-width="1.6" stroke-linecap="round"/></svg></span>
           <span data-i18n="libraryTrigger">ادعیه و زیارت نامه‌ها</span>
         </a>
         <a href="nazr.html" class="services-row services-row-alt" id="nazr-trigger" data-prefetch-nav>
-          <span class="services-row-emoji" aria-hidden="true">🕯️</span>
+          <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3c1 1.3 1.6 2.3 1.6 3.2 0 .9-.7 1.6-1.6 1.6s-1.6-.7-1.6-1.6C10.4 5.3 11 4.3 12 3Z" fill="#071710"/><rect x="9.3" y="9" width="5.4" height="10.6" rx="1.5" stroke="#071710" stroke-width="1.5"/><path d="M9.3 13.3h5.4" stroke="#071710" stroke-width="1.5"/></svg></span>
           <span data-i18n="nazrTrigger">نذورات</span>
         </a>
         <a href="madahi.html" class="services-row services-row-alt2" id="madahi-trigger" data-prefetch-nav>
-          <span class="services-row-emoji" aria-hidden="true">🎙️</span>
+          <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="9.4" y="3.4" width="5.2" height="9.4" rx="2.6" stroke="#071710" stroke-width="1.6"/><path d="M6.4 11c0 3.1 2.5 5.6 5.6 5.6s5.6-2.5 5.6-5.6" stroke="#071710" stroke-width="1.6" stroke-linecap="round"/><path d="M12 16.6V20M9 20h6" stroke="#071710" stroke-width="1.6" stroke-linecap="round"/></svg></span>
           <span data-i18n="madahiTrigger">مداحی و مولودی</span>
         </a>
         <a href="gallery.html" class="services-row services-row-alt3" id="gallery-trigger" data-prefetch-nav>
-          <span class="services-row-emoji" aria-hidden="true">🖼️</span>
+          <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="4.2" y="6.2" width="15.6" height="11.6" rx="2.2" stroke="#071710" stroke-width="1.5"/><circle cx="8.6" cy="10.2" r="1.3" fill="#071710"/><path d="M5.6 15.9l3.3-3.2c.5-.5 1.3-.5 1.8 0l1.3 1.3 2.9-2.9c.5-.5 1.3-.5 1.8 0l1.9 1.9" stroke="#071710" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
           <span data-i18n="galleryTrigger">گالری تصاویر</span>
         </a>
         <a href="salavat.html" class="services-row services-row-alt4" id="salavat-trigger" data-prefetch-nav>
-          <span class="services-row-emoji" aria-hidden="true">📿</span>
+          <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="4.8" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="17.6" cy="7.4" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="19.2" cy="13.4" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="15.2" cy="18.6" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="8.8" cy="18.6" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="4.8" cy="13.4" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="6.4" cy="7.4" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="12" cy="12" r="1.7" fill="#071710"/></svg></span>
           <span data-i18n="salavatTrigger">صلوات‌شمار</span>
         </a>
         <a href="faq.html" class="services-row services-row-alt5" id="faq-trigger" data-prefetch-nav>
-          <span class="services-row-emoji" aria-hidden="true">❓</span>
+          <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4.5 6.9c0-1.3 1-2.3 2.3-2.3h10.4c1.3 0 2.3 1 2.3 2.3v6.7c0 1.3-1 2.3-2.3 2.3H10l-3.6 3v-3h-.6c-1.3 0-2.3-1-2.3-2.3V6.9Z" stroke="#071710" stroke-width="1.5" stroke-linejoin="round"/><path d="M10.3 9.5c0-.9.8-1.6 1.7-1.6s1.7.6 1.7 1.4c0 .8-.5 1.1-1 1.4-.5.3-.7.6-.7 1.1" stroke="#071710" stroke-width="1.4" stroke-linecap="round"/><circle cx="12" cy="14.5" r="0.85" fill="#071710"/></svg></span>
           <span data-i18n="faqTrigger">دستیار سایت</span>
         </a>
         <a href="convert.html" class="services-row services-row-alt6" id="convert-trigger" data-prefetch-nav>
-          <span class="services-row-emoji" aria-hidden="true">📅</span>
+          <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="4.3" y="5.3" width="15.4" height="14" rx="2.4" stroke="#071710" stroke-width="1.5"/><path d="M4.3 9.6h15.4" stroke="#071710" stroke-width="1.5"/><path d="M8 3.6v3M16 3.6v3" stroke="#071710" stroke-width="1.5" stroke-linecap="round"/><path d="M9 14.4a3 3 0 0 1 5.2-2M15 12.4v-1.7h-1.7M15 14a3 3 0 0 1-5.2 2M9 16.1v1.7h1.7" stroke="#071710" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
           <span data-i18n="convertTrigger">تبدیل تاریخ</span>
         </a>
         <a href="frame.html" class="services-row services-row-alt7" id="frame-trigger" data-prefetch-nav>
-          <span class="services-row-emoji" aria-hidden="true">📸</span>
+          <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M8 6.8 8.9 5c.2-.4.6-.6 1-.6h4.2c.4 0 .8.2 1 .6l.9 1.8h1.8c1.1 0 2 .9 2 2v7.4c0 1.1-.9 2-2 2H5.2c-1.1 0-2-.9-2-2V8.8c0-1.1.9-2 2-2H8Z" stroke="#071710" stroke-width="1.5" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.1" stroke="#071710" stroke-width="1.5"/></svg></span>
           <span data-i18n="frameTrigger">فریم‌ساز عکس</span>
         </a>
         <a href="owqat.html" class="services-row services-row-alt8" id="owqat-trigger" data-prefetch-nav>
-          <span class="services-row-emoji" aria-hidden="true">🕋</span>
+          <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M14.8 4.4a7.7 7.7 0 1 0 4.7 10 6.1 6.1 0 0 1-4.7-10Z" fill="#071710"/><path d="M18.2 5.2l.45 1.05L19.7 6.7l-1.05.45-.45 1.05-.45-1.05-1.05-.45 1.05-.45Z" fill="#071710"/></svg></span>
           <span data-i18n="owqatTrigger">اوقات شرعی</span>
         </a>
         <a href="zekr.html" class="services-row" id="zekr-trigger" data-prefetch-nav>
-          <span class="services-row-emoji" aria-hidden="true">📿</span>
+          <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="7.4" stroke="#071710" stroke-width="1.5"/><circle cx="12" cy="12" r="2.9" fill="#071710"/></svg></span>
           <span data-i18n="zekrEntryTitle">ذکر روز</span>
         </a>
         <a href="masjed-qaem.html" class="services-row services-row-alt9" id="qaem-trigger" data-prefetch-nav>
-          <span class="services-row-emoji" aria-hidden="true">🕌</span>
+          <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.4c1.4 1.3 2.2 2.6 2.2 3.7a2.2 2.2 0 1 1-4.4 0c0-1.1.8-2.4 2.2-3.7Z" fill="#071710"/><path d="M4.6 20v-5.4c0-2.9 3.2-5.3 7.4-5.3s7.4 2.4 7.4 5.3V20" stroke="#071710" stroke-width="1.5" stroke-linejoin="round"/><path d="M3.3 20h17.4M7.6 20v-3.2a1.5 1.5 0 0 1 1.5-1.5h5.8a1.5 1.5 0 0 1 1.5 1.5V20" stroke="#071710" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
           <span data-i18n="qaemTrigger">مسجد قائم</span>
+        </a>
+        <a href="install.html" class="services-row services-row-alt10" id="install-trigger" data-prefetch-nav>
+          <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2" stroke="#071710" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span data-i18n="installTrigger">نصب اپلیکیشن</span>
         </a>
       </div>
     </div>
@@ -2595,24 +2678,31 @@
       </div>
     </div>
 
-    <div class="hero-countdown">
-      <div class="hero-countdown-label" id="hero-countdown-label" data-i18n="cdLabel">شروع تا جلسه بعدی</div>
-      <div class="hero-countdown-grid">
-        <span class="num" id="cd-secs">--</span>
-        <span class="hero-cd-sep">:</span>
-        <span class="num" id="cd-mins">--</span>
-        <span class="hero-cd-sep">:</span>
-        <span class="num" id="cd-hours">--</span>
-        <span class="hero-cd-sep">:</span>
-        <span class="num" id="cd-days">--</span>
-
-        <span class="lbl" data-i18n="unitSecs">ثانیه</span>
-        <span aria-hidden="true"></span>
-        <span class="lbl" data-i18n="unitMins">دقیقه</span>
-        <span aria-hidden="true"></span>
-        <span class="lbl" data-i18n="unitHours">ساعت</span>
-        <span aria-hidden="true"></span>
-        <span class="lbl" data-i18n="unitDays">روز</span>
+    <div class="countdown-frame" id="hero-countdown">
+      <div class="countdown-frame-head">
+        <span class="countdown-frame-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 7.5V12l3 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="8.2" stroke="currentColor" stroke-width="1.7"/></svg></span>
+        <span class="hero-countdown-label" id="hero-countdown-label" data-i18n="cdLabel">شروع تا جلسه بعدی</span>
+      </div>
+      <div class="countdown-frame-grid">
+        <div class="countdown-tile">
+          <span class="num" id="cd-secs">--</span>
+          <span class="lbl" data-i18n="unitSecs">ثانیه</span>
+        </div>
+        <span class="countdown-frame-sep" aria-hidden="true"></span>
+        <div class="countdown-tile">
+          <span class="num" id="cd-mins">--</span>
+          <span class="lbl" data-i18n="unitMins">دقیقه</span>
+        </div>
+        <span class="countdown-frame-sep" aria-hidden="true"></span>
+        <div class="countdown-tile">
+          <span class="num" id="cd-hours">--</span>
+          <span class="lbl" data-i18n="unitHours">ساعت</span>
+        </div>
+        <span class="countdown-frame-sep" aria-hidden="true"></span>
+        <div class="countdown-tile">
+          <span class="num" id="cd-days">--</span>
+          <span class="lbl" data-i18n="unitDays">روز</span>
+        </div>
       </div>
     </div>
   </section>
@@ -3205,6 +3295,7 @@
       bismillah: "بسم الله الرحمن الرحیم",
       topPreviewLabel: "در حال بازگشت به",
       servicesToggle: "دسترسی سریع به صفحات",
+      servicesToggleSub: "همه‌ی خدمات هیئت در یک‌جا",
       libraryTrigger: "ادعیه و زیارت نامه‌ها",
       nazrTrigger: "نذورات",
       madahiTrigger: "مداحی و مولودی",
@@ -3255,6 +3346,8 @@
       zekrEntryTitle: "ذکر روز",
       zekrEntrySub: "شمارشگر، ترجمه و رکورد روزهای متوالی",
       qaemTrigger: "مسجد قائم",
+      installTrigger: "نصب اپلیکیشن",
+      liveTrigger: "پخش زنده",
       groupFollow: "هیئت را در ایتا، روبیکا و اینستاگرام دنبال کنید",
       groupContact: "ارتباط با ما در ایتا",
       groupRoute: "مسیر رسیدن به هیئت",
@@ -3289,6 +3382,7 @@
       bismillah: "بسم الله الرحمن الرحيم",
       topPreviewLabel: "جارٍ العودة إلى",
       servicesToggle: "وصول سريع للصفحات",
+      servicesToggleSub: "كل خدمات الهيئة في مكان واحد",
       libraryTrigger: "الأدعية والزيارات",
       nazrTrigger: "النذور",
       madahiTrigger: "المدائح والموالید",
@@ -3340,6 +3434,8 @@
       zekrEntryTitle: "ذكر اليوم",
       zekrEntrySub: "عداد وترجمة وسجل الأيام المتتالية",
       qaemTrigger: "مسجد القائم",
+      installTrigger: "تثبيت التطبيق",
+      liveTrigger: "بث مباشر",
       groupFollow: "تابعونا",
       groupContact: "تواصلوا معنا عبر إيتا",
       groupRoute: "الطريق إلى الموكب",
@@ -3374,6 +3470,7 @@
       bismillah: "In the Name of Allah",
       topPreviewLabel: "Returning to",
       servicesToggle: "Quick Access to Pages",
+      servicesToggleSub: "All services in one place",
       libraryTrigger: "Prayers & Ziyarat",
       nazrTrigger: "Votive Offerings",
       madahiTrigger: "Eulogies & Chants",
@@ -3425,6 +3522,8 @@
       zekrEntryTitle: "Dhikr of the Day",
       zekrEntrySub: "Counter, translation, and streak tracking",
       qaemTrigger: "Qaem Mosque",
+      installTrigger: "Install App",
+      liveTrigger: "Live Broadcast",
       groupFollow: "Follow Us",
       groupContact: "Contact Us on Eitaa",
       groupRoute: "Directions",
@@ -4828,34 +4927,12 @@
 
 
 <script>
-  // ---------------- ثبت Service Worker و نصب PWA ----------------
+  // ---------------- ثبت Service Worker ----------------
   if('serviceWorker' in navigator){
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('service-worker.js').catch(() => {});
     });
   }
-  (function pwaInstall(){
-    let deferredPrompt = null;
-    const row = document.getElementById('pwa-install-row');
-    const btn = document.getElementById('pwa-install-btn');
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      if(row) row.style.display = '';
-    });
-    if(btn){
-      btn.addEventListener('click', async () => {
-        if(!deferredPrompt) return;
-        deferredPrompt.prompt();
-        await deferredPrompt.userChoice;
-        deferredPrompt = null;
-        if(row) row.style.display = 'none';
-      });
-    }
-    window.addEventListener('appinstalled', () => {
-      if(row) row.style.display = 'none';
-    });
-  })();
 </script>
 <script>
 window.KZM_ASSISTANT_CONFIG = {

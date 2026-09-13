@@ -589,12 +589,6 @@
         <svg class="icon-sound-off" viewBox="0 0 24 24" fill="none" style="display:none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M15.5 9.5l5 5M20.5 9.5l-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
       </button>
     </div>
-    <div class="quick-menu-row" id="pwa-install-row" style="display:none">
-      <span class="quick-menu-label" data-i18n="quickMenuInstall">نصب اپ</span>
-      <button type="button" id="pwa-install-btn" class="theme-toggle-btn" aria-label="نصب برنامه">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0-4-4m4 4 4-4M5 19h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-    </div>
   </div>
 </div>
 
@@ -645,7 +639,20 @@
     </button>
     <div class="doa-sub-panel" id="guide-panel-pwa">
       <div class="doa-sub-panel-inner">
-        <div class="guide-desc" data-i18n="guidePwaDesc">دکمه‌ی «نصب اپلیکیشن تحت وب» در بالای صفحه، سایت را مانند یک اپلیکیشن روی صفحه‌ی اصلی گوشی یا کامپیوترتان نصب می‌کند تا بدون نیاز به جست‌وجوی دوباره در مرورگر، سریع‌تر به آن دسترسی داشته باشید.</div>
+        <div class="guide-desc" data-i18n="guidePwaDesc">یک صفحه‌ی جداگانه برای نصب اپلیکیشن سایت داریم. کافیه از منوی ☰ روی «نصب اپ» بزنید تا وارد اون صفحه بشید و با یک دکمه‌ی بزرگ، سایت رو مثل یک اپلیکیشن واقعی روی گوشی یا کامپیوترتان نصب کنید؛ حتی اگه مرورگرتون نصب مستقیم رو پشتیبانی نکنه، راهنمای گام‌به‌گام هم اونجا هست.</div>
+      </div>
+    </div>
+
+    <button type="button" class="doa-item" data-guide-toggle aria-expanded="false" aria-controls="guide-panel-live">
+      <span class="doa-item-icon">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M8 5.5v13l11-6.5-11-6.5Z" fill="currentColor"/></svg>
+      </span>
+      <span class="doa-item-name" data-i18n="guideLiveName">پخش زنده</span>
+      <svg class="doa-item-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="doa-sub-panel" id="guide-panel-live">
+      <div class="doa-sub-panel-inner">
+        <div class="guide-desc" data-i18n="guideLiveDesc">از گرید «دسترسی سریع» صفحه‌ی اول، روی آیکون «پخش زنده» بزنید تا وارد صفحه‌ی مخصوص پخش زنده بشید. اونجا لینک‌های زنده‌ی حرم امام رضا علیه‌السلام (ضریح، صحن‌های مختلف و برنامه‌های حرم) قرار داره؛ با زدن هر لینک، توی یک تب جدید به همون پخش زنده وصل می‌شید. این پخش‌ها روی سایت دیگه‌ای اجرا می‌شن و ربطی به سایت هیئت کاظمیون ندارن.</div>
       </div>
     </div>
 
@@ -1006,7 +1013,9 @@
       guideClockName: 'ساعت تهران و کربلا',
       guideClockDesc: 'در بالای صفحه‌ی اول، ساعت به‌وقت تهران نمایش داده می‌شود. با ضربه‌زدن روی آن، ساعت شهر کربلای معلی و دمای هوا نیز به آن اضافه می‌شود؛ با ضربه‌ی دوباره، به حالت اول برمی‌گردد.',
       guidePwaName: 'نصب اپلیکیشن تحت وب',
-      guidePwaDesc: 'دکمه‌ی «نصب اپلیکیشن تحت وب» در بالای صفحه، سایت را مانند یک اپلیکیشن روی صفحه‌ی اصلی گوشی یا کامپیوترتان نصب می‌کند تا بدون نیاز به جست‌وجوی دوباره در مرورگر، سریع‌تر به آن دسترسی داشته باشید.',
+      guidePwaDesc: 'یک صفحه‌ی جداگانه برای نصب اپلیکیشن سایت داریم. کافیه از منوی ☰ روی «نصب اپ» بزنید تا وارد اون صفحه بشید و با یک دکمه‌ی بزرگ، سایت رو مثل یک اپلیکیشن واقعی روی گوشی یا کامپیوترتان نصب کنید؛ حتی اگه مرورگرتون نصب مستقیم رو پشتیبانی نکنه، راهنمای گام‌به‌گام هم اونجا هست.',
+      guideLiveName: 'پخش زنده',
+      guideLiveDesc: 'از گرید «دسترسی سریع» صفحه‌ی اول، روی آیکون «پخش زنده» بزنید تا وارد صفحه‌ی مخصوص پخش زنده بشید. اونجا لینک‌های زنده‌ی حرم امام رضا علیه‌السلام (ضریح، صحن‌های مختلف و برنامه‌های حرم) قرار داره؛ با زدن هر لینک، توی یک تب جدید به همون پخش زنده وصل می‌شید. این پخش‌ها روی سایت دیگه‌ای اجرا می‌شن و ربطی به سایت هیئت کاظمیون ندارن.',
       guideMenuName: 'منوی تنظیمات (تم، زبان، صدا، اندازه متن)',
       guideMenuDesc: 'با ضربه‌زدن روی آیکون ☰ در گوشه‌ی بالا سمت چپ هر صفحه، منویی باز می‌شود که در آن می‌توانید پوسته‌ی رنگی سایت را از میان چند تم مختلف انتخاب کنید، زبان سایت را بین فارسی، عربی و انگلیسی تغییر دهید، صدای کلیک‌ها را روشن یا خاموش کنید و با دکمه‌های + و − اندازه‌ی کل صفحه را بزرگ یا کوچیک کنید.',
       guideHeroStatusName: 'وضعیت زنده‌ی مراسم',
@@ -1044,8 +1053,7 @@
       footerSub: 'پایگاه اطلاع‌رسانی هیئت کاظمیون خرم‌آباد',
       quickMenuTheme: 'تم',
       quickMenuLang: 'زبان',
-      quickMenuSound: 'صدا',
-      quickMenuInstall: 'نصب اپ'
+      quickMenuSound: 'صدا'
     },
     ar: {
       backBtn: 'رجوع',
@@ -1056,8 +1064,7 @@
       footerSub: 'القناة الرسمية لموكب الكاظميون خرم‌آباد',
       quickMenuTheme: 'المظهر',
       quickMenuLang: 'اللغة',
-      quickMenuSound: 'الصوت',
-      quickMenuInstall: 'تثبيت التطبيق'
+      quickMenuSound: 'الصوت'
     },
     en: {
       backBtn: 'Back',
@@ -1068,8 +1075,7 @@
       footerSub: 'Official channel of Heyat-e Kazemiyoon Khorramabad',
       quickMenuTheme: 'Theme',
       quickMenuLang: 'Language',
-      quickMenuSound: 'Sound',
-      quickMenuInstall: 'Install App'
+      quickMenuSound: 'Sound'
     }
   };
 
@@ -1258,34 +1264,12 @@
 
 
 <script>
-  // ---------------- ثبت Service Worker و نصب PWA ----------------
+  // ---------------- ثبت Service Worker ----------------
   if('serviceWorker' in navigator){
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('service-worker.js').catch(() => {});
     });
   }
-  (function pwaInstall(){
-    let deferredPrompt = null;
-    const row = document.getElementById('pwa-install-row');
-    const btn = document.getElementById('pwa-install-btn');
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      if(row) row.style.display = '';
-    });
-    if(btn){
-      btn.addEventListener('click', async () => {
-        if(!deferredPrompt) return;
-        deferredPrompt.prompt();
-        await deferredPrompt.userChoice;
-        deferredPrompt = null;
-        if(row) row.style.display = 'none';
-      });
-    }
-    window.addEventListener('appinstalled', () => {
-      if(row) row.style.display = 'none';
-    });
-  })();
 </script>
 <script>
 window.KZM_ASSISTANT_CONFIG = {
