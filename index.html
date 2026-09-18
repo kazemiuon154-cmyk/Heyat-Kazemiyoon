@@ -197,7 +197,7 @@
   .top-controls{
     position:relative;
     margin:0 -22px;
-    padding:14px 22px;
+    padding:56px 22px 14px;
     display:flex;
     align-items:center;
     justify-content:space-between;
@@ -208,11 +208,73 @@
     backdrop-filter:blur(8px);
   }
   .top-controls-left{
-    display:flex;
-    align-items:flex-start;
-    gap:8px;
-    flex-wrap:wrap;
+    display:block;
+    flex:1 1 0%;
     min-width:0;
+  }
+  /* ============================================================
+     یک پنل واحد و یکپارچه برای همه‌ی اطلاعات لحظه‌ای بالای صفحه:
+     ساعت، نماز بعدی، آب‌وهوا، تاریخ و جستجو. به‌جای چند «پیل» جدا با
+     اندازه‌های نامتقارن، الان همه داخل یک قاب هستن و با خط‌های نازک
+     از هم جدا می‌شن — مرتب، یکدست و بدون قد و اندازه‌ی ناهماهنگ.
+  ============================================================ */
+  .status-dashboard{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    position:relative;
+    border:1px solid var(--line);
+    border-radius:22px;
+    background:
+      radial-gradient(120% 140% at 50% -20%, rgba(var(--crimson-rgb),0.16), transparent 60%),
+      linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.015) 40%),
+      var(--void);
+    box-shadow:0 1px 0 rgba(255,255,255,0.06) inset, 0 14px 30px rgba(0,0,0,0.32), 0 0 0 1px rgba(var(--crimson-rgb),0.06);
+    overflow:hidden;
+  }
+  .status-dashboard::before{
+    content:'';
+    position:absolute; inset:0 0 auto 0; height:1px;
+    background:linear-gradient(90deg, transparent, rgba(255,203,61,0.45), transparent);
+    pointer-events:none;
+  }
+  .status-dashboard > .tehran-clock,
+  .status-dashboard > .prayer-multi-widget{
+    position:relative;
+  }
+  .status-dashboard > .tehran-clock::after,
+  .status-dashboard > .prayer-multi-widget::after{
+    content:'';
+    position:absolute; left:14px; right:14px; bottom:0; height:1px;
+    background:linear-gradient(90deg, transparent, var(--line), transparent);
+  }
+  .status-dashboard > .tehran-clock,
+  .status-dashboard > .weather-widget{
+    position:relative;
+  }
+  .status-dashboard > .tehran-clock::before,
+  .status-dashboard > .weather-widget::before{
+    content:'';
+    position:absolute; top:12px; bottom:12px; left:0; width:1px;
+    background:linear-gradient(180deg, transparent, var(--line), transparent);
+  }
+  .status-dashboard > .tehran-clock:hover,
+  .status-dashboard > .weather-widget:hover,
+  .status-dashboard > .date-widget:hover,
+  .status-dashboard > .prayer-multi-widget:hover{
+    background:rgba(255,255,255,0.03);
+  }
+  .status-dashboard > .search-widget{
+    grid-column:1 / -1;
+    position:relative;
+  }
+  .status-dashboard > .search-widget::before{
+    content:'';
+    position:absolute; left:14px; right:14px; top:0; height:1px;
+    background:linear-gradient(90deg, transparent, var(--line), transparent);
+  }
+  html[dir="ltr"] .status-dashboard > .tehran-clock::before,
+  html[dir="ltr"] .status-dashboard > .weather-widget::before{
+    left:auto; right:0;
   }
   .top-controls-right{
     display:flex;
@@ -381,21 +443,18 @@
 
   /* ---------------- Tehran / Karbala clock ---------------- */
   .tehran-clock{
-    display:flex; flex-direction:column; align-items:stretch; gap:6px;
-    font-size:15px; font-weight:700;
+    display:flex; flex-direction:column; align-items:stretch; justify-content:center; gap:0;
+    font-size:22px; font-weight:800;
     font-variant-numeric:tabular-nums;
     color:var(--gold);
-    background:rgba(255,255,255,0.02);
-    border:1px solid var(--line);
-    padding:9px 16px;
-    border-radius:999px;
+    padding:14px 16px;
     white-space:nowrap;
     cursor:pointer;
     user-select:none;
     transition:all 0.28s cubic-bezier(.2,.8,.2,1);
   }
-  .tehran-clock .clock-row{ display:flex; align-items:center; gap:7px; }
-  .tehran-clock svg{ width:17px; height:17px; opacity:0.85; flex:none; transition:all 0.28s ease; }
+  .tehran-clock .clock-row{ display:flex; align-items:center; justify-content:center; gap:8px; }
+  .tehran-clock svg{ width:20px; height:20px; opacity:0.85; flex:none; transition:all 0.28s ease; }
   .tehran-clock .clock-city{
     font-size:10.5px; font-weight:700; color:var(--gold-soft);
     letter-spacing:0.02em; opacity:0; max-width:0; overflow:hidden;
@@ -405,41 +464,35 @@
     max-height:0; opacity:0; overflow:hidden;
     transition:max-height 0.28s ease, opacity 0.22s ease, margin-top 0.28s ease;
   }
-  .tehran-clock:active{ transform:scale(0.96); }
+  .tehran-clock:active{ transform:scale(0.97); }
   .tehran-clock.expanded{
-    font-size:22px;
-    padding:14px 22px;
-    border-radius:22px;
-    border-color:var(--gold-soft);
-    background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01)), var(--void);
-    box-shadow:0 10px 24px rgba(0,0,0,0.35);
+    font-size:17px;
+    background:rgba(255,255,255,0.03);
   }
-  .tehran-clock.expanded svg{ width:20px; height:20px; }
+  .tehran-clock.expanded svg{ width:16px; height:16px; }
   .tehran-clock.expanded .clock-city{ opacity:1; max-width:60px; }
-  .tehran-clock.expanded .karbala-row{ max-height:40px; opacity:1; margin-top:2px; }
+  .tehran-clock.expanded .karbala-row{ max-height:40px; opacity:1; margin-top:6px; }
   .tehran-clock.expanded .karbala-row svg{ color:var(--ember); }
   .tehran-clock.expanded #karbala-clock-time{ color:var(--parchment); }
 
   @media (max-width:380px){
-    .tehran-clock.expanded{ font-size:18px; padding:11px 16px; }
+    .tehran-clock{ font-size:19px; }
+    .tehran-clock.expanded{ font-size:15px; }
   }
 
   /* ---------------- Weather widget (خرم‌آباد / کربلا / نجف) ---------------- */
   .weather-widget{
-    display:flex; flex-direction:column; align-items:stretch; gap:6px;
+    display:flex; flex-direction:column; align-items:stretch; justify-content:center; gap:0;
     font-size:14px; font-weight:700;
     font-variant-numeric:tabular-nums;
     color:var(--gold);
-    background:rgba(255,255,255,0.02);
-    border:1px solid var(--line);
-    padding:9px 14px;
-    border-radius:999px;
+    padding:14px 16px;
     white-space:nowrap;
     cursor:pointer;
     user-select:none;
     transition:all 0.28s cubic-bezier(.2,.8,.2,1);
   }
-  .weather-widget .weather-row{ display:flex; align-items:center; gap:7px; }
+  .weather-widget .weather-row{ display:flex; align-items:center; justify-content:center; gap:7px; }
   .weather-widget .weather-icon{ font-size:16px; line-height:1; flex:none; }
   .weather-widget .weather-city{
     font-size:10.5px; font-weight:700; color:var(--gold-soft);
@@ -450,33 +503,26 @@
     max-height:0; opacity:0; overflow:hidden;
     transition:max-height 0.28s ease, opacity 0.22s ease, margin-top 0.28s ease;
   }
-  .weather-widget:active{ transform:scale(0.96); }
+  .weather-widget:active{ transform:scale(0.97); }
   .weather-widget.expanded{
-    font-size:15px;
-    padding:14px 18px;
-    border-radius:20px;
-    border-color:var(--gold-soft);
-    background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01)), var(--void);
-    box-shadow:0 10px 24px rgba(0,0,0,0.35);
+    font-size:14px;
+    background:rgba(255,255,255,0.03);
   }
   .weather-widget.expanded .weather-city{ opacity:1; max-width:60px; }
-  .weather-widget.expanded .extra-row{ max-height:40px; opacity:1; margin-top:2px; }
+  .weather-widget.expanded .extra-row{ max-height:40px; opacity:1; margin-top:6px; }
   .weather-widget.expanded .extra-row .weather-temp{ color:var(--parchment); }
 
   @media (max-width:380px){
-    .weather-widget.expanded{ font-size:13px; padding:11px 14px; }
+    .weather-widget.expanded{ font-size:12.5px; }
   }
 
   /* ---------------- Date widget (شمسی / قمری / میلادی / غیبت) ---------------- */
   .date-widget{
-    display:flex; flex-direction:column; align-items:stretch; gap:0;
+    display:flex; flex-direction:column; align-items:stretch; justify-content:center; gap:0;
     font-size:16px; font-weight:700;
     font-variant-numeric:tabular-nums;
     color:var(--gold);
-    background:rgba(255,255,255,0.02);
-    border:1px solid var(--line);
-    padding:9px 16px;
-    border-radius:999px;
+    padding:14px 16px;
     white-space:nowrap;
     cursor:pointer;
     user-select:none;
@@ -493,14 +539,10 @@
     max-height:0; opacity:0; overflow:hidden; margin-top:0;
     transition:max-height 0.28s ease, opacity 0.22s ease, margin-top 0.28s ease;
   }
-  .date-widget:active{ transform:scale(0.96); }
+  .date-widget:active{ transform:scale(0.97); }
   .date-widget.expanded{
-    font-size:15px;
-    padding:14px 18px;
-    border-radius:20px;
-    border-color:var(--gold-soft);
-    background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01)), var(--void);
-    box-shadow:0 10px 24px rgba(0,0,0,0.35);
+    font-size:14px;
+    background:rgba(255,255,255,0.03);
   }
   .date-widget.expanded svg{ width:18px; height:18px; }
   .date-widget.expanded .date-label-pill{ opacity:1; max-width:64px; }
@@ -508,30 +550,83 @@
   .date-widget.expanded .extra-row .date-value-pill{ color:var(--parchment); }
 
   @media (max-width:380px){
-    .date-widget{ font-size:14px; padding:8px 13px; }
+    .date-widget{ font-size:13px; }
     .date-widget svg{ width:15px; height:15px; }
-    .date-widget.expanded{ font-size:13px; padding:11px 14px; }
+    .date-widget.expanded{ font-size:12px; }
     .date-widget.expanded svg{ width:16px; height:16px; }
   }
 
-  .search-widget{
-    display:flex; align-items:center; gap:7px;
-    font-size:13.5px; font-weight:700;
+  /* ---------------- ویجت نماز بعدی (خرم‌آباد + تهران/مشهد/قم/نجف/کربلا) ---------------- */
+  .prayer-multi-widget{
+    display:flex; flex-direction:column; justify-content:center; gap:0;
+    padding:14px 16px;
     color:var(--gold);
-    background:rgba(255,255,255,0.02);
-    border:1px solid var(--line);
-    padding:9px 16px;
-    border-radius:999px;
-    white-space:nowrap;
+    font-variant-numeric:tabular-nums;
     cursor:pointer;
     user-select:none;
     transition:all 0.28s cubic-bezier(.2,.8,.2,1);
   }
-  .search-widget svg{ width:17px; height:17px; opacity:0.85; flex:none; }
-  .search-widget:hover{ border-color:var(--gold-soft); }
-  .search-widget:active{ transform:scale(0.96); }
+  .prayer-multi-widget .pm-row{ display:flex; align-items:flex-start; gap:8px; }
+  .prayer-multi-widget .pm-row svg.pm-icon{ width:16px; height:16px; opacity:0.85; flex:none; margin-top:2px; color:var(--gold); }
+  .prayer-multi-widget .pm-info{ display:flex; flex-direction:column; gap:3px; min-width:0; flex:1; text-align:right; }
+  .prayer-multi-widget .pm-city-row{ display:flex; align-items:center; gap:5px; }
+  .prayer-multi-widget .pm-city{
+    font-size:9.5px; font-weight:700; color:var(--gold-soft);
+    letter-spacing:0.03em;
+  }
+  .prayer-multi-widget .pm-text{
+    font-size:11.5px; font-weight:700; color:var(--gold); line-height:1.55;
+    white-space:normal;
+  }
+  .prayer-multi-widget .pm-chevron{
+    flex:none; color:var(--gold-soft);
+    transition:transform 0.28s ease;
+  }
+  .prayer-multi-widget .pm-chevron svg{ width:12px; height:12px; display:block; }
+  .prayer-multi-widget.expanded .pm-chevron{ transform:rotate(180deg); }
+  .prayer-multi-widget .extra-row{
+    max-height:0; opacity:0; overflow:hidden; margin-top:0; padding-top:0;
+    border-top:0 solid transparent;
+    transition:max-height 0.32s ease, opacity 0.24s ease, margin-top 0.28s ease, padding-top 0.28s ease;
+  }
+  .prayer-multi-widget:active{ transform:scale(0.98); }
+  .prayer-multi-widget.expanded{
+    background:rgba(255,255,255,0.03);
+  }
+  .prayer-multi-widget.expanded .extra-row{
+    max-height:48px; opacity:1; margin-top:8px; padding-top:8px;
+    border-top:1px dashed var(--line);
+  }
+  .prayer-multi-widget.expanded .extra-row .pm-text{ color:var(--parchment); }
+
   @media (max-width:380px){
-    .search-widget{ font-size:12px; padding:8px 13px; }
+    .prayer-multi-widget{ padding:10px 12px; }
+    .prayer-multi-widget .pm-text{ font-size:11px; }
+  }
+
+  .search-widget{
+    display:flex; align-items:center;
+    font-size:13.5px; font-weight:700;
+    color:var(--gold);
+    padding:12px 16px 14px;
+    white-space:nowrap;
+    cursor:pointer;
+    user-select:none;
+    transition:all 0.2s ease;
+  }
+  .search-widget .search-row{
+    display:flex; align-items:center; justify-content:center; gap:7px; width:100%;
+    padding:9px 14px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.03);
+    transition:all 0.2s ease;
+  }
+  .search-widget svg{ width:16px; height:16px; opacity:0.85; flex:none; }
+  .search-widget:hover .search-row{ border-color:var(--gold-soft); background:rgba(255,203,61,0.06); }
+  .search-widget:active .search-row{ transform:scale(0.97); }
+  @media (max-width:380px){
+    .search-widget{ font-size:12px; }
     .search-widget svg{ width:15px; height:15px; }
   }
 
@@ -1305,6 +1400,11 @@
     .page2-trigger::before{ animation:none !important; opacity:0 !important; }
   }
 
+  /* بهینه‌سازی عملکرد: وقتی تب در پس‌زمینه‌ست (کاربر به صفحه نگاه نمی‌کنه)،
+     همه‌ی انیمیشن‌های تزئینی متوقف می‌شن تا باتری و CPU هدر نره؛ به‌محض
+     برگشتن به تب، همه‌چیز دقیقاً با همون جلوه‌های قبلی از سر گرفته می‌شه. */
+  body.page-hidden *{ animation-play-state:paused !important; }
+
   @media (max-width:360px){
     .emblem{ width:200px; height:200px; }
     h1{ font-size:23px; }
@@ -1630,6 +1730,276 @@
   html[dir="ltr"] .zekr-entry-arrow svg{ transform:none; }
 
   /* ============================================================
+     تقویم کامل هیئت (Full Heyat Calendar)
+  ============================================================ */
+  .cal-card{
+    position:relative;
+    margin:20px 0 8px;
+    padding:20px 18px 18px;
+    border-radius:20px;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(255,203,61,0.10), rgba(var(--crimson-rgb),0.03)), var(--void);
+    box-shadow:0 1px 0 rgba(255,255,255,0.06) inset, 0 18px 36px rgba(0,0,0,0.35), 0 2px 8px rgba(0,0,0,0.25);
+    overflow:hidden;
+  }
+  .cal-card::before{
+    content:'';
+    position:absolute; top:-45%; left:50%; transform:translateX(-50%);
+    width:220px; height:220px;
+    background:radial-gradient(circle, rgba(255,203,61,0.22), transparent 70%);
+    pointer-events:none;
+  }
+  .cal-next-badge{
+    position:relative;
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:16px;
+    padding:11px 14px;
+    border-radius:14px;
+    background:linear-gradient(135deg, rgba(255,203,61,0.16), rgba(var(--crimson-rgb),0.12));
+    border:1px solid var(--gold-soft);
+    box-shadow:0 0 0 3px rgba(255,203,61,0.08);
+    cursor:pointer;
+    transition:transform 0.15s ease;
+  }
+  .cal-next-badge:active{ transform:scale(0.98); }
+  .cal-next-badge-dot{
+    flex:none; width:9px; height:9px; border-radius:50%;
+    background:var(--gold);
+    box-shadow:0 0 8px 1px rgba(255,203,61,0.7);
+    animation:calNextPulse 1.8s ease-in-out infinite;
+  }
+  @keyframes calNextPulse{
+    0%,100%{ opacity:1; transform:scale(1); }
+    50%{ opacity:0.45; transform:scale(0.72); }
+  }
+  .cal-next-badge-text{ flex:1; min-width:0; text-align:right; }
+  .cal-next-badge-label{ font-size:10px; font-weight:700; color:var(--gold-soft); letter-spacing:0.04em; }
+  .cal-next-badge-value{ font-size:12.5px; font-weight:700; color:var(--parchment); margin-top:2px; line-height:1.6; }
+  .cal-next-badge-arrow{ flex:none; color:var(--gold-soft); }
+  .cal-next-badge-arrow svg{ width:14px; height:14px; transform:scaleX(-1); }
+  html[dir="ltr"] .cal-next-badge-arrow svg{ transform:none; }
+
+  .cal-nav{
+    position:relative;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:8px;
+    margin-bottom:14px;
+  }
+  .cal-nav-btn{
+    flex:none;
+    width:34px; height:34px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.03);
+    color:var(--parchment-dim);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:all 0.18s ease;
+  }
+  .cal-nav-btn svg{ width:16px; height:16px; }
+  .cal-nav-btn:hover{ border-color:var(--gold-soft); color:var(--gold); }
+  .cal-nav-btn:active{ transform:scale(0.92); }
+  .cal-nav-mid{
+    flex:1;
+    display:flex; flex-direction:column; align-items:center;
+    gap:4px;
+    min-width:0;
+  }
+  .cal-month-label{
+    font-size:16.5px; font-weight:800;
+    color:var(--parchment);
+    letter-spacing:0.01em;
+    font-variant-numeric:tabular-nums;
+  }
+  .cal-today-btn{
+    font-family:var(--font-main);
+    font-size:10.5px; font-weight:700;
+    color:var(--gold-soft);
+    background:transparent;
+    border:1px solid var(--line);
+    padding:3px 12px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:all 0.18s ease;
+  }
+  .cal-today-btn:hover{ border-color:var(--gold-soft); color:var(--gold); background:rgba(255,203,61,0.06); }
+
+  .cal-weekdays{
+    position:relative;
+    display:grid;
+    grid-template-columns:repeat(7, 1fr);
+    gap:4px;
+    margin-bottom:6px;
+  }
+  .cal-weekday{
+    text-align:center;
+    font-size:11px; font-weight:700;
+    color:var(--parchment-dim);
+    padding:4px 0;
+  }
+  .cal-weekday.is-fri{ color:var(--gold-soft); }
+
+  .cal-grid{
+    position:relative;
+    display:grid;
+    grid-template-columns:repeat(7, 1fr);
+    gap:4px;
+    touch-action:pan-y;
+  }
+  .cal-day{
+    position:relative;
+    aspect-ratio:1 / 1;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:3px;
+    border-radius:12px;
+    border:1px solid transparent;
+    background:rgba(255,255,255,0.02);
+    color:var(--parchment);
+    font-family:var(--font-main);
+    cursor:default;
+    transition:all 0.15s ease;
+  }
+  .cal-day-num{
+    font-size:13px; font-weight:700;
+    font-variant-numeric:tabular-nums;
+  }
+  .cal-day.is-fri .cal-day-num{ color:var(--gold-soft); }
+  .cal-day-dim{ opacity:0.26; pointer-events:none; }
+  .cal-day-has-event{
+    cursor:pointer;
+    background:rgba(255,203,61,0.05);
+    border-color:var(--line);
+  }
+  .cal-day-has-event:hover{ border-color:var(--gold-soft); transform:translateY(-1px); }
+  .cal-day-has-event:active{ transform:scale(0.94); }
+  .cal-day-today{
+    border-color:var(--gold);
+    box-shadow:0 0 0 2px rgba(255,203,61,0.18);
+  }
+  .cal-day-today .cal-day-num{ color:var(--gold); }
+  .cal-day-next{ animation:calNextGlow 1.8s ease-in-out infinite; }
+  @keyframes calNextGlow{
+    0%,100%{ box-shadow:0 0 0 2px rgba(255,203,61,0.14); }
+    50%{ box-shadow:0 0 0 4px rgba(255,203,61,0.4); }
+  }
+  .cal-day-dots{
+    display:flex; align-items:center; justify-content:center;
+    gap:3px;
+    height:5px;
+  }
+  .cal-dot{
+    width:5px; height:5px;
+    border-radius:50%;
+    box-shadow:0 0 5px 0 currentColor;
+  }
+  .cal-dot-gold{ background:var(--gold); color:var(--gold); }
+  .cal-dot-crimson{ background:var(--crimson-bright); color:var(--crimson-bright); }
+
+  .cal-legend{
+    position:relative;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px 16px;
+    margin-top:16px;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+  }
+  .cal-legend-item{
+    display:flex; align-items:center; gap:7px;
+    font-size:11px;
+    color:var(--parchment-dim);
+    line-height:1.7;
+  }
+  .cal-legend-dot{
+    flex:none;
+    width:8px; height:8px;
+    border-radius:50%;
+    box-shadow:0 0 6px 0 currentColor;
+  }
+
+  .cal-agenda-card{
+    margin:12px 0 8px;
+    padding:8px 16px 6px;
+    border-radius:20px;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)), var(--void);
+    box-shadow:0 1px 0 rgba(255,255,255,0.05) inset, 0 10px 24px rgba(0,0,0,0.28);
+  }
+  .cal-agenda-empty{
+    text-align:center;
+    font-size:12px;
+    color:var(--parchment-dim);
+    padding:20px 10px;
+  }
+  .cal-agenda-row{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:10px;
+    padding:12px 4px;
+    border-bottom:1px solid var(--line);
+    background:none;
+    border-inline:none;
+    border-top:none;
+    width:100%;
+    text-align:right;
+    font-family:var(--font-main);
+    color:var(--parchment);
+    cursor:pointer;
+    transition:background 0.15s ease;
+  }
+  .cal-agenda-row:last-of-type{ border-bottom:none; }
+  .cal-agenda-row:hover{ background:rgba(255,255,255,0.03); }
+  .cal-agenda-row:active{ transform:scale(0.99); }
+  .cal-agenda-date{
+    flex:none;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    width:46px; height:46px;
+    border-radius:12px;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.02);
+  }
+  .cal-agenda-date-num{ font-size:15px; font-weight:800; color:var(--gold); line-height:1; font-variant-numeric:tabular-nums; }
+  .cal-agenda-date-month{ font-size:8.5px; color:var(--parchment-dim); margin-top:2px; }
+  .cal-agenda-info{ flex:1; min-width:0; }
+  .cal-agenda-title{ font-size:13px; font-weight:700; color:var(--parchment); }
+  .cal-agenda-sub{ font-size:11px; color:var(--parchment-dim); margin-top:3px; }
+  .cal-agenda-dot{
+    flex:none;
+    width:8px; height:8px;
+    border-radius:50%;
+    box-shadow:0 0 6px 0 currentColor;
+  }
+
+  .cal-event-block{ margin-top:6px; }
+  .cal-event-block + .cal-event-block{
+    margin-top:20px;
+    padding-top:20px;
+    border-top:1px dashed var(--line);
+  }
+  .cal-event-link{
+    display:block; width:100%;
+    margin-top:8px;
+    padding:11px;
+    border-radius:14px;
+    border:1px solid var(--line);
+    background:transparent;
+    color:var(--parchment-dim);
+    font-family:inherit;
+    font-size:12.5px; font-weight:700;
+    cursor:pointer;
+    text-decoration:none;
+    transition:all 0.18s ease;
+  }
+  .cal-event-link:hover{ border-color:var(--gold-soft); color:var(--gold); }
+
+  body.theme-dark .cal-card,
+  body.theme-dark .cal-agenda-card{ background:#050505; }
+
+  @media (max-width:340px){
+    .cal-day-num{ font-size:11.5px; }
+    .cal-weekday{ font-size:9.5px; }
+  }
+
+  /* ============================================================
      CONTACT (EITAA ID) CARD
   ============================================================ */
   .contact-card{
@@ -1729,6 +2099,41 @@
   }
   .services-menu.open .services-panel{ opacity:1; max-height:720px; }
 
+  .services-search{
+    display:flex; align-items:center; gap:8px;
+    margin:10px 13px 2px;
+    padding:9px 14px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.03);
+    transition:border-color 0.2s ease, background 0.2s ease;
+  }
+  .services-search:focus-within{ border-color:var(--gold-soft); background:rgba(255,203,61,0.06); }
+  .services-search svg{ width:15px; height:15px; opacity:0.85; flex:none; color:var(--gold); }
+  .services-search input{
+    flex:1; min-width:0;
+    background:none; border:none; outline:none;
+    font-family:var(--font-main); font-size:12.5px; font-weight:700;
+    color:var(--gold); text-align:right; padding:0;
+  }
+  .services-search input::placeholder{ color:var(--parchment-dim); font-weight:600; opacity:0.8; }
+  .services-search-clear{
+    display:none; align-items:center; justify-content:center;
+    width:18px; height:18px; border-radius:50%; flex:none;
+    color:var(--parchment-dim); background:rgba(255,255,255,0.07);
+    border:none; cursor:pointer; font-size:11px; line-height:1; padding:0;
+  }
+  .services-search.has-value .services-search-clear{ display:flex; }
+  .services-empty{
+    display:none;
+    padding:20px 16px 24px;
+    text-align:center;
+    color:var(--parchment-dim);
+    font-size:12px; font-weight:700;
+  }
+  .services-empty.show{ display:block; }
+  .services-row.hidden-by-search{ display:none; }
+
   /* ---- گرید آیکون‌های حرفه‌ای؛ کارت‌های مجزا با آیکون‌های خطی سفارشی ---- */
   .services-list{
     display:grid;
@@ -1821,6 +2226,7 @@
   .services-row-alt8 .services-row-icon{ background:linear-gradient(135deg, var(--gold-soft), var(--gold-bright, var(--gold))); }
   .services-row-alt9 .services-row-icon{ background:linear-gradient(135deg, var(--crimson-bright), var(--gold-dim)); }
   .services-row-alt10 .services-row-icon{ background:linear-gradient(135deg, var(--gold-dim), var(--crimson-bright)); }
+  .services-row-alt11 .services-row-icon{ background:linear-gradient(135deg, var(--gold), var(--crimson)); }
   .services-row-live .services-row-icon{
     background:linear-gradient(135deg, #ff8a80, #ef4444);
     box-shadow:0 4px 10px rgba(239,68,68,0.4), 0 1px 0 rgba(255,255,255,0.35) inset;
@@ -1841,8 +2247,19 @@
     100%{ box-shadow:0 0 0 0 rgba(239,68,68,0); }
   }
 
+  /* اگر تعداد آیتم‌های «دسترسی سریع» به مضرب ۴ ختم نشه، آخرین ردیف تک‌وتنها با
+     چند خونه‌ی خالی می‌مونه؛ این قانون خودکار، ردیف آخر رو همیشه پر و متقارن نگه
+     می‌داره — چه یه آیتم ته مونده باشه (تمام‌عرض می‌شه) چه دو تا (نصف‌نصف می‌شن)،
+     مستقل از این‌که در آینده چندتا آیتم اضافه یا کم بشه. */
+  .services-row:nth-child(4n+1):last-child{ grid-column:1 / -1; }
+  .services-row:nth-child(4n+1):nth-last-child(2){ grid-column:1 / span 2; }
+  .services-row:nth-child(4n+2):last-child{ grid-column:3 / span 2; }
+
   @media (max-width:340px){
     .services-list{ grid-template-columns:repeat(3, 1fr); }
+    .services-row:nth-child(3n+1):last-child{ grid-column:1 / -1; }
+    .services-row:nth-child(4n+1):nth-last-child(2),
+    .services-row:nth-child(4n+2):last-child{ grid-column:auto; }
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -2480,6 +2897,7 @@
           <span class="line2">هیئت کاظمیون</span>
         </span>
       </button>
+      <div class="status-dashboard">
       <div class="tehran-clock" id="tehran-clock" role="button" tabindex="0" aria-label="ساعت به وقت تهران؛ برای نمایش ثانیه و ساعت کربلا ضربه بزنید" aria-pressed="false">
         <div class="clock-row main-row">
           <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.6"/><path d="M12 7.5V12l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -2490,6 +2908,55 @@
           <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.6"/><path d="M12 7.5V12l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <span class="clock-city" data-i18n="clockKarbala">کربلا</span>
           <span id="karbala-clock-time">--:--</span>
+        </div>
+      </div>
+      <div class="prayer-multi-widget" id="prayer-multi-widget" role="button" tabindex="0" aria-label="نماز بعدی به وقت خرم‌آباد؛ برای نمایش تهران، مشهد، قم، نجف و کربلا ضربه بزنید" aria-pressed="false">
+        <div class="pm-row main-row">
+          <svg class="pm-icon" viewBox="0 0 24 24" fill="none"><path d="M15.5 3.8A8.2 8.2 0 1 0 20.2 15 6.4 6.4 0 0 1 15.5 3.8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          <div class="pm-info">
+            <span class="pm-city-row">
+              <span class="pm-city">خرم‌آباد</span>
+              <span class="pm-chevron" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </span>
+            <span class="pm-text" id="pm-khorramabad">--</span>
+          </div>
+        </div>
+        <div class="pm-row extra-row">
+          <svg class="pm-icon" viewBox="0 0 24 24" fill="none"><path d="M15.5 3.8A8.2 8.2 0 1 0 20.2 15 6.4 6.4 0 0 1 15.5 3.8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          <div class="pm-info">
+            <span class="pm-city">تهران</span>
+            <span class="pm-text" id="pm-tehran">--</span>
+          </div>
+        </div>
+        <div class="pm-row extra-row">
+          <svg class="pm-icon" viewBox="0 0 24 24" fill="none"><path d="M15.5 3.8A8.2 8.2 0 1 0 20.2 15 6.4 6.4 0 0 1 15.5 3.8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          <div class="pm-info">
+            <span class="pm-city">مشهد</span>
+            <span class="pm-text" id="pm-mashhad">--</span>
+          </div>
+        </div>
+        <div class="pm-row extra-row">
+          <svg class="pm-icon" viewBox="0 0 24 24" fill="none"><path d="M15.5 3.8A8.2 8.2 0 1 0 20.2 15 6.4 6.4 0 0 1 15.5 3.8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          <div class="pm-info">
+            <span class="pm-city">قم</span>
+            <span class="pm-text" id="pm-qom">--</span>
+          </div>
+        </div>
+        <div class="pm-row extra-row">
+          <svg class="pm-icon" viewBox="0 0 24 24" fill="none"><path d="M15.5 3.8A8.2 8.2 0 1 0 20.2 15 6.4 6.4 0 0 1 15.5 3.8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          <div class="pm-info">
+            <span class="pm-city">نجف</span>
+            <span class="pm-text" id="pm-najaf">--</span>
+          </div>
+        </div>
+        <div class="pm-row extra-row">
+          <svg class="pm-icon" viewBox="0 0 24 24" fill="none"><path d="M15.5 3.8A8.2 8.2 0 1 0 20.2 15 6.4 6.4 0 0 1 15.5 3.8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          <div class="pm-info">
+            <span class="pm-city">کربلا</span>
+            <span class="pm-text" id="pm-karbala">--</span>
+          </div>
         </div>
       </div>
       <div class="weather-widget" id="weather-widget" role="button" tabindex="0" aria-label="وضعیت آب و هوا؛ برای نمایش خرم‌آباد، کربلا و نجف ضربه بزنید" aria-pressed="false">
@@ -2537,6 +3004,7 @@
           <span data-i18n="searchLabel">جستجو</span>
         </div>
       </div>
+      </div>
     </div>
   </div>
 
@@ -2581,13 +3049,18 @@
         <b data-i18n="servicesToggle">دسترسی سریع به صفحات</b>
         <small data-i18n="servicesToggleSub">همه‌ی خدمات هیئت در یک‌جا</small>
       </span>
-      <span class="services-toggle-count" id="services-count">12</span>
+      <span class="services-toggle-count" id="services-count">13</span>
       <span class="services-toggle-chevron" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </span>
     </button>
     <div class="services-panel" id="services-panel">
-      <div class="services-list">
+      <div class="services-search" id="services-search">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M20 20l-3.2-3.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input type="text" id="services-search-input" placeholder="جستجو در صفحات سایت..." autocomplete="off" />
+        <button type="button" class="services-search-clear" id="services-search-clear" aria-label="پاک کردن جستجو">✕</button>
+      </div>
+      <div class="services-list" id="services-list">
         <a href="live.html" class="services-row services-row-live" id="live-trigger" data-prefetch-nav>
           <span class="services-row-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none"><path d="M8 5.5v13l11-6.5-11-6.5Z" fill="#071710"/></svg>
@@ -2639,13 +3112,19 @@
           <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.4c1.4 1.3 2.2 2.6 2.2 3.7a2.2 2.2 0 1 1-4.4 0c0-1.1.8-2.4 2.2-3.7Z" fill="#071710"/><path d="M4.6 20v-5.4c0-2.9 3.2-5.3 7.4-5.3s7.4 2.4 7.4 5.3V20" stroke="#071710" stroke-width="1.5" stroke-linejoin="round"/><path d="M3.3 20h17.4M7.6 20v-3.2a1.5 1.5 0 0 1 1.5-1.5h5.8a1.5 1.5 0 0 1 1.5 1.5V20" stroke="#071710" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
           <span data-i18n="qaemTrigger">مسجد قائم</span>
         </a>
+        <a href="#heyat-calendar" class="services-row services-row-alt11" id="calendar-trigger">
+          <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="4.3" y="5.3" width="15.4" height="14" rx="2.4" stroke="#071710" stroke-width="1.6"/><path d="M4.3 9.6h15.4" stroke="#071710" stroke-width="1.6"/><path d="M8 3.6v3M16 3.6v3" stroke="#071710" stroke-width="1.6" stroke-linecap="round"/><circle cx="8.3" cy="13" r="1.1" fill="#071710"/><circle cx="12" cy="13" r="1.1" fill="#071710"/><circle cx="8.3" cy="16.4" r="1.1" fill="#071710"/></svg></span>
+          <span data-i18n="calendarTrigger">تقویم کامل هیئت</span>
+        </a>
         <a href="install.html" class="services-row services-row-alt10" id="install-trigger" data-prefetch-nav>
           <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2" stroke="#071710" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
           <span data-i18n="installTrigger">نصب اپلیکیشن</span>
         </a>
       </div>
+      <div class="services-empty" id="services-empty">چیزی پیدا نشد</div>
     </div>
   </div>
+
 
   <section class="hero reveal" id="hero">
     <button type="button" class="hero-status" id="hero-status" aria-haspopup="dialog">
@@ -2773,6 +3252,57 @@
       <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </span>
   </a>
+
+  <div class="group-label reveal" id="heyat-calendar" data-i18n="hcalGroupLabel">تقویم کامل هیئت</div>
+
+  <div class="cal-card reveal" id="cal-card">
+    <button type="button" class="cal-next-badge" id="cal-next-badge">
+      <span class="cal-next-badge-dot"></span>
+      <span class="cal-next-badge-text">
+        <span class="cal-next-badge-label" data-i18n="hcalNextBadge">نزدیک‌ترین مراسم</span>
+        <span class="cal-next-badge-value" id="cal-next-badge-value">--</span>
+      </span>
+      <span class="cal-next-badge-arrow" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    </button>
+
+    <div class="cal-nav">
+      <button type="button" class="cal-nav-btn" id="cal-prev" aria-label="ماه قبل">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="cal-nav-mid">
+        <div class="cal-month-label" id="cal-month-label">--</div>
+        <button type="button" class="cal-today-btn" id="cal-today-btn" data-i18n="hcalTodayBtn">امروز</button>
+      </div>
+      <button type="button" class="cal-nav-btn" id="cal-next" aria-label="ماه بعد">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+
+    <div class="cal-weekdays" id="cal-weekdays"></div>
+    <div class="cal-grid" id="cal-grid"></div>
+
+    <div class="cal-legend">
+      <div class="cal-legend-item"><span class="cal-legend-dot" style="background:var(--gold); color:var(--gold)"></span><span data-i18n="hcalLegendNodbeh">دعای ندبه، جمعه‌ها ساعت ۷ صبح</span></div>
+      <div class="cal-legend-item"><span class="cal-legend-dot" style="background:var(--crimson-bright); color:var(--crimson-bright)"></span><span data-i18n="hcalLegendWeekly">مجلس هفتگی، سه‌شنبه‌ها ساعت ۲۱</span></div>
+    </div>
+  </div>
+
+  <div class="cal-agenda-card reveal">
+    <div class="cal-agenda" id="cal-agenda"></div>
+  </div>
+
+  <div class="modal-overlay" id="cal-modal-overlay">
+    <div class="modal-sheet" role="dialog" aria-modal="true" aria-label="جزئیات رویداد روز">
+      <button type="button" class="modal-close" id="cal-modal-close" aria-label="بستن">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <div class="modal-handle"></div>
+      <div class="modal-ribbon" id="cal-modal-date">--</div>
+      <div id="cal-modal-body"></div>
+    </div>
+  </div>
 
   <div class="group-label reveal" data-i18n="groupFollow">هیئت را در ایتا، روبیکا و اینستاگرام دنبال کنید</div>
   <div class="links links-row reveal">
@@ -2967,12 +3497,19 @@
 </div>
 
 <!-- ===== Leaflet (نقشه تعاملی) ===== -->
-<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script defer src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 <!-- ===== QR Code generator (بخش ۱۲) ===== -->
-<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js" crossorigin="anonymous"></script>
 
 <script>
+  // ---------------- توقف انیمیشن‌های تزئینی وقتی تب در پس‌زمینه‌ست (بهینه‌سازی عملکرد/باتری) ----------------
+  (function pauseAnimationsWhenHidden(){
+    function sync(){ document.body.classList.toggle('page-hidden', document.hidden); }
+    document.addEventListener('visibilitychange', sync);
+    sync();
+  })();
+
   // ---------------- arabesque motif ring (item 2) ----------------
   (function buildMotifRing(){
     const svg = document.getElementById('motif-ring');
@@ -3376,6 +3913,18 @@
       qrDownloadBtn: "ذخیره QR",
       qrModalRibbon: "کد QR",
       qrSavedToast: "تصویر QR ذخیره شد",
+      calendarTrigger: "تقویم کامل هیئت",
+      hcalGroupLabel: "تقویم کامل هیئت",
+      hcalIntro: "یک تقویم اختصاصی هیئت؛ هر روزی که مراسمی وجود دارد با یک نشان ویژه مشخص شده. با لمس هر روز، جزئیات کامل مراسم همون روز رو ببین.",
+      hcalTodayBtn: "امروز",
+      hcalLegendNodbeh: "دعای ندبه، جمعه‌ها ساعت ۷ صبح",
+      hcalLegendWeekly: "مجلس هفتگی، سه‌شنبه‌ها ساعت ۲۱",
+      hcalAgendaLabel: "رویدادهای این ماه",
+      hcalAgendaEmpty: "این ماه رویداد خاصی ثبت نشده.",
+      hcalModalTimeLabel: "ساعت برگزاری",
+      hcalModalLocationLabel: "محل برگزاری",
+      hcalModalMapBtn: "مسیر رو روی نقشه ببین",
+      hcalNextBadge: "نزدیک‌ترین مراسم",
       footerSub: "پایگاه اطلاع‌رسانی هیئت کاظمیون خرم‌آباد"
     },
     ar: {
@@ -3464,6 +4013,18 @@
       qrDownloadBtn: "حفظ الرمز",
       qrModalRibbon: "رمز QR",
       qrSavedToast: "تم حفظ صورة الرمز",
+      calendarTrigger: "تقويم الموكب الكامل",
+      hcalGroupLabel: "تقويم الموكب الكامل",
+      hcalIntro: "تقويم خاص بالموكب؛ كل يوم فيه مراسم يُميَّز بعلامة خاصة. المس أي يوم لعرض تفاصيل مراسم ذلك اليوم.",
+      hcalTodayBtn: "اليوم",
+      hcalLegendNodbeh: "دعاء الندبة، كل جمعة الساعة ٧ صباحاً",
+      hcalLegendWeekly: "المجلس الأسبوعي، كل ثلاثاء الساعة ٢١",
+      hcalAgendaLabel: "فعاليات هذا الشهر",
+      hcalAgendaEmpty: "لا توجد فعاليات مسجّلة هذا الشهر.",
+      hcalModalTimeLabel: "وقت الإقامة",
+      hcalModalLocationLabel: "مكان الإقامة",
+      hcalModalMapBtn: "عرض المسار على الخريطة",
+      hcalNextBadge: "أقرب مراسم",
       footerSub: "القناة الرسمية لموكب الكاظميون خرم‌آباد"
     },
     en: {
@@ -3552,6 +4113,18 @@
       qrDownloadBtn: "Save QR",
       qrModalRibbon: "QR Code",
       qrSavedToast: "QR image saved",
+      calendarTrigger: "Full Heyat Calendar",
+      hcalGroupLabel: "Full Heyat Calendar",
+      hcalIntro: "A dedicated heyat calendar; every day with a ceremony is marked. Tap any day to see that day's full details.",
+      hcalTodayBtn: "Today",
+      hcalLegendNodbeh: "Dua Nudbah, Fridays at 7:00 AM",
+      hcalLegendWeekly: "Weekly Gathering, Tuesdays at 9:00 PM",
+      hcalAgendaLabel: "This Month\u2019s Events",
+      hcalAgendaEmpty: "No events recorded for this month.",
+      hcalModalTimeLabel: "Time",
+      hcalModalLocationLabel: "Location",
+      hcalModalMapBtn: "View route on the map",
+      hcalNextBadge: "Nearest ceremony",
       footerSub: "Official channel of Heyat-e Kazemiyoon Khorramabad"
     }
   };
@@ -3664,6 +4237,8 @@
     buildShareLinks();
     updateTehranClock();
     if(typeof updateHeroStatus === 'function') updateHeroStatus();
+    if(typeof window.updateCalendarLang === 'function') window.updateCalendarLang();
+    if(typeof window.updatePrayerMultiLang === 'function') window.updatePrayerMultiLang();
   }
 
   // ---------------- انتخاب زبان (پرچم‌دار) ----------------
@@ -3802,7 +4377,12 @@
   }
 
   // ---------------- کمکی مشترک: ساعت/تاریخ رسمی تهران، مستقل از تایم‌زون مرورگر بازدیدکننده ----------------
+  // نکته عملکردی: Intl.DateTimeFormat هر بار که ساخته می‌شه، هزینه‌ی محاسباتی محسوسی داره؛
+  // چون این دو تابع هر ثانیه (توسط شمارش‌معکوس و ویجت اذان) صدا زده می‌شن، فرمترها فقط
+  // یک‌بار ساخته و بعدش دوباره‌استفاده می‌شن (الگوی استاندارد و توصیه‌شده‌ی خود Intl API).
+  let _tehranOffsetCache = null;
   function getTehranOffsetHours(date){
+    if(_tehranOffsetCache !== null) return _tehranOffsetCache;
     try{
       const parts = new Intl.DateTimeFormat('en-US', { timeZone:'Asia/Tehran', timeZoneName:'shortOffset' }).formatToParts(date);
       const tzPart = parts.find(p => p.type === 'timeZoneName');
@@ -3811,19 +4391,21 @@
         if(m){
           const h = parseInt(m[1], 10);
           const mins = m[2] ? parseInt(m[2], 10) : 0;
-          return h + (h < 0 ? -mins / 60 : mins / 60);
+          _tehranOffsetCache = h + (h < 0 ? -mins / 60 : mins / 60);
+          return _tehranOffsetCache;
         }
       }
     }catch(e){}
-    return 3.5; // fallback: ساعت رسمی ایران بدون تغییر ساعت فصلی (از ۱۴۰۱ به بعد)
+    _tehranOffsetCache = 3.5; // fallback: ساعت رسمی ایران بدون تغییر ساعت فصلی (از ۱۴۰۱ به بعد)
+    return _tehranOffsetCache;
   }
+  const _tehranPartsFormatter = new Intl.DateTimeFormat('en-US', {
+    timeZone:'Asia/Tehran', year:'numeric', month:'2-digit', day:'2-digit',
+    hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false, weekday:'short'
+  });
   function getTehranParts(date){
-    const fmt = new Intl.DateTimeFormat('en-US', {
-      timeZone:'Asia/Tehran', year:'numeric', month:'2-digit', day:'2-digit',
-      hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false, weekday:'short'
-    });
     const map = {};
-    fmt.formatToParts(date).forEach(p => { map[p.type] = p.value; });
+    _tehranPartsFormatter.formatToParts(date).forEach(p => { map[p.type] = p.value; });
     return map;
   }
 
@@ -3914,7 +4496,423 @@
     }
   })();
 
-  // ---------------- ساعت به وقت تهران و کربلا ----------------
+  // ============================================================
+  // تقویم کامل هیئت — موتور تقویم جلالی + رویدادهای هفتگی هیئت
+  // ============================================================
+  (function heyatCalendar(){
+    function div(a, b){ return Math.trunc(a / b); }
+    function mod(a, b){ return a - Math.trunc(a / b) * b; }
+
+    var JAL_BREAKS = [-61,9,38,199,426,686,756,818,1111,1181,1210,1635,2060,2097,2192,2262,2324,2394,2456,3178];
+    function jalCal(jy){
+      var bl = JAL_BREAKS.length, gy = jy + 621, leapJ = -14, jp = JAL_BREAKS[0], jm, jump, leap, leapG, march, n, i;
+      for(i = 1; i < bl; i += 1){
+        jm = JAL_BREAKS[i];
+        jump = jm - jp;
+        if(jy < jm) break;
+        leapJ = leapJ + div(jump, 33) * 8 + div(mod(jump, 33), 4);
+        jp = jm;
+      }
+      n = jy - jp;
+      leapJ = leapJ + div(n, 33) * 8 + div(mod(n, 33) + 3, 4);
+      if(mod(jump, 33) === 4 && jump - n === 4) leapJ += 1;
+      leapG = div(gy, 4) - div((div(gy, 100) + 1) * 3, 4) - 150;
+      march = 20 + leapJ - leapG;
+      if(jump - n < 6) n = n - jump + div(jump + 4, 33) * 33;
+      leap = mod(mod(n + 1, 33) - 1, 4);
+      if(leap === -1) leap = 4;
+      return { leap: leap, gy: gy, march: march };
+    }
+    function g2jdn(gy, gm, gd){
+      var d = div((gy + div(gm - 8, 6) + 100100) * 1461, 4) + div(153 * mod(gm + 9, 12) + 2, 5) + gd - 34840408;
+      d = d - div(div(gy + 100100 + div(gm - 8, 6), 100) * 3, 4) + 752;
+      return d;
+    }
+    function j2jdn(jy, jm, jd){
+      var r = jalCal(jy);
+      return g2jdn(r.gy, 3, r.march) + (jm - 1) * 31 - div(jm, 7) * (jm - 7) + jd - 1;
+    }
+    function jdn2g(jdn){
+      var j = 4 * jdn + 139361631;
+      j = j + div(div(4 * jdn + 183187720, 146097) * 3, 4) * 4 - 3908;
+      var i = div(mod(j, 1461), 4) * 5 + 308;
+      var gd = div(mod(i, 153), 5) + 1;
+      var gm = mod(div(i, 153), 12) + 1;
+      var gy = div(j, 1461) - 100100 + div(8 - gm, 6);
+      return { y: gy, m: gm, d: gd };
+    }
+    function jdn2j(jdn){
+      var gy = jdn2g(jdn).y, jy = gy - 621, r = jalCal(jy), jdn1f = g2jdn(r.gy, 3, r.march), jd, jm, k;
+      k = jdn - jdn1f;
+      if(k >= 0){
+        if(k <= 185){
+          jm = 1 + div(k, 31);
+          jd = mod(k, 31) + 1;
+          return { y: jy, m: jm, d: jd };
+        } else { k -= 186; }
+      } else {
+        jy -= 1; k += 179;
+        if(r.leap === 1) k += 1;
+      }
+      jm = 7 + div(k, 30);
+      jd = mod(k, 30) + 1;
+      return { y: jy, m: jm, d: jd };
+    }
+    function daysInJalaliMonth(jy, jm){
+      var nJy = jy, nJm = jm + 1;
+      if(nJm > 12){ nJy += 1; nJm = 1; }
+      return j2jdn(nJy, nJm, 1) - j2jdn(jy, jm, 1);
+    }
+    // idx: بر اساس Date.getDay() → 0=یکشنبه ... 6=شنبه
+    function weekdayIdxFromJdn(jdn){ return mod(jdn + 1, 7); }
+    // col: ترتیب نمایش در جدول هفته ایرانی → 0=شنبه ... 6=جمعه
+    function colFromJdn(jdn){ return mod(weekdayIdxFromJdn(jdn) + 1, 7); }
+
+    var JALALI_MONTHS = ['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+    var WEEKDAY_COLS  = ['شنبه','یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه'];
+    var WEEKDAY_SHORT = { fa:['ش','ی','د','س','چ','پ','ج'], ar:['س','ح','ن','ث','ر','خ','ج'], en:['Sa','Su','Mo','Tu','We','Th','Fr'] };
+
+    function calDigits(num){
+      var lang = currentLang;
+      var s = String(num);
+      if(lang === 'fa'){
+        var fa = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+        return s.replace(/\d/g, function(d){ return fa[d]; });
+      }
+      if(lang === 'ar'){
+        var ar = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+        return s.replace(/\d/g, function(d){ return ar[d]; });
+      }
+      return s;
+    }
+    function pick(field, lang){
+      if(!field) return '';
+      return field[lang] || field.fa || '';
+    }
+
+    // ---------------------------------------------------------
+    // رویدادهای رسمی هیئت (همان اطلاعات درج‌شده در همین صفحه و صفحه‌ی مسجد قائم)
+    // ---------------------------------------------------------
+    var MAP_URL = 'https://balad.ir/location?latitude=33.471360&longitude=48.355532&zoom=16.500000';
+    var WEEKLY_EVENTS = [
+      {
+        id:'weekly-majles', weekday:'سه‌شنبه', dow:2, cutoffHour:21, tone:'crimson',
+        title:{ fa:'مجلس هفتگی', ar:'المجلس الأسبوعي', en:'Weekly Gathering' },
+        time:'۲۱:۰۰',
+        timeLabel:{ fa:'ساعت ۲۱:۰۰', ar:'الساعة ٢١:٠٠', en:'9:00 PM' },
+        location:{ fa:'مسجد حضرت قائم «عج»', ar:'مسجد الإمام القائم (عج)', en:'Emam Qaem Mosque' },
+        locationSub:{ fa:'قاضی‌آباد، خیابان نهم، خرم‌آباد', ar:'حي قاضي‌آباد، الشارع التاسع، خرم‌آباد', en:'Qazi-Abad, 9th St., Khorramabad' }
+      },
+      {
+        id:'weekly-nodbeh', weekday:'جمعه', dow:5, cutoffHour:7, tone:'gold',
+        title:{ fa:'دعای ندبه', ar:'دعاء الندبة', en:'Dua Nudbah' },
+        time:'۷:۰۰',
+        timeLabel:{ fa:'ساعت ۷:۰۰ صبح', ar:'الساعة ٧:٠٠ صباحاً', en:'7:00 AM' },
+        location:{ fa:'مسجد قائم «عج»', ar:'مسجد الإمام القائم (عج)', en:'Emam Qaem Mosque' },
+        locationSub:{ fa:'قاضی‌آباد، خیابان نهم، خرم‌آباد', ar:'حي قاضي‌آباد، الشارع التاسع، خرم‌آباد', en:'Qazi-Abad, 9th St., Khorramabad' },
+        note:{ fa:'جمعه‌های انتظار', ar:'جُمَع الانتظار', en:'Fridays of Awaiting' },
+        link:'masjed-qaem.html',
+        linkLabel:{ fa:'رفتن به صفحه مسجد قائم', ar:'الذهاب إلى صفحة المسجد', en:'Go to Masjed Qaem page' }
+      }
+    ];
+    var SPECIAL_EVENTS = [
+      // برای افزودن یک مراسم خاصِ یک‌بار، یک آیتم به این فرم اضافه کنید:
+      // { jy:1405, jm:5, jd:20, tone:'crimson', title:{fa:'مجلس ویژه'}, timeLabel:{fa:'ساعت ۲۱'}, location:{fa:'مسجد حضرت قائم «عج»'} }
+    ];
+
+    function eventsOn(jy, jm, jd, colName){
+      var list = [];
+      WEEKLY_EVENTS.forEach(function(ev){ if(ev.weekday === colName) list.push(ev); });
+      SPECIAL_EVENTS.forEach(function(ev){ if(ev.jy === jy && ev.jm === jm && ev.jd === jd) list.push(ev); });
+      return list;
+    }
+
+    // ---------------------------------------------------------
+    // رابط کاربری
+    // ---------------------------------------------------------
+    var weekdaysWrap = document.getElementById('cal-weekdays');
+    var gridWrap = document.getElementById('cal-grid');
+    var monthLabel = document.getElementById('cal-month-label');
+    var agendaWrap = document.getElementById('cal-agenda');
+    var btnPrev = document.getElementById('cal-prev');
+    var btnNext = document.getElementById('cal-next');
+    var btnToday = document.getElementById('cal-today-btn');
+    var modalOverlay = document.getElementById('cal-modal-overlay');
+    var modalClose = document.getElementById('cal-modal-close');
+    var modalDate = document.getElementById('cal-modal-date');
+    var modalBody = document.getElementById('cal-modal-body');
+    var nextBadge = document.getElementById('cal-next-badge');
+    var nextBadgeValue = document.getElementById('cal-next-badge-value');
+    if(!weekdaysWrap || !gridWrap || !monthLabel) return;
+
+    function getTodayJalali(){
+      var p = getTehranParts(new Date());
+      var g = { y:+p.year, m:+p.month, d:+p.day };
+      return jdn2j(g2jdn(g.y, g.m, g.d));
+    }
+    var today = getTodayJalali();
+    var state = { jy: today.y, jm: today.m };
+    var nextTarget = null; // { jy, jm, jd, ev, diff } محاسبه‌شده در findNextEvent
+
+    function findNextEvent(){
+      var p = getTehranParts(new Date());
+      var weekdayMap = { Sun:0, Mon:1, Tue:2, Wed:3, Thu:4, Fri:5, Sat:6 };
+      var day = weekdayMap[p.weekday];
+      var curHour = parseInt(p.hour, 10) + parseInt(p.minute, 10) / 60;
+      var best = null;
+      WEEKLY_EVENTS.forEach(function(ev){
+        var diff = (ev.dow - day + 7) % 7;
+        if(diff === 0 && curHour >= ev.cutoffHour) diff = 7;
+        if(!best || diff < best.diff) best = { diff: diff, ev: ev };
+      });
+      if(!best) return null;
+      var y = parseInt(p.year, 10), mo = parseInt(p.month, 10), d = parseInt(p.day, 10);
+      var jdn = g2jdn(y, mo, d) + best.diff;
+      var jt = jdn2j(jdn);
+      return { jy: jt.y, jm: jt.m, jd: jt.d, ev: best.ev, diff: best.diff, col: WEEKDAY_COLS[colFromJdn(jdn)] };
+    }
+
+    function renderNextBadge(){
+      nextTarget = findNextEvent();
+      if(!nextTarget || !nextBadgeValue) return;
+      var lang = currentLang;
+      var dict = translations[lang] || translations.fa;
+      var dayPart = (nextTarget.diff === 0) ? (dict.hcalTodayBtn || nextTarget.col) : nextTarget.col;
+      var dateStr = calDigits(nextTarget.jd) + ' ' + JALALI_MONTHS[nextTarget.jm - 1];
+      nextBadgeValue.textContent = pick(nextTarget.ev.title, lang) + ' — ' + dayPart + '، ' + dateStr + '، ' + pick(nextTarget.ev.timeLabel, lang);
+    }
+
+    function applyModalTranslations(){
+      var lang = currentLang;
+      var dict = translations[lang] || translations.fa;
+      var map = {
+        calModalTimeLabel: dict.hcalModalTimeLabel,
+        calModalLocationLabel: dict.hcalModalLocationLabel,
+        calModalMapBtn: dict.hcalModalMapBtn
+      };
+      modalBody.querySelectorAll('[data-i18n-static]').forEach(function(el){
+        var key = el.getAttribute('data-i18n-static');
+        if(map[key]) el.textContent = map[key];
+      });
+    }
+
+    function openModalForDate(jy, jm, jd, colName){
+      var lang = currentLang;
+      var evs = eventsOn(jy, jm, jd, colName);
+      if(!evs.length) return;
+      modalDate.textContent = colName + '، ' + calDigits(jd) + ' ' + JALALI_MONTHS[jm - 1] + ' ' + calDigits(jy);
+      modalBody.innerHTML = evs.map(function(ev){
+        var noteHtml = ev.note ? ('<div class="hero-status-sheet-value" style="margin-top:2px;color:var(--gold-soft);font-weight:700;font-size:11.5px">' + pick(ev.note, lang) + '</div>') : '';
+        var linkHtml = ev.link ? ('<a class="cal-event-link" href="' + ev.link + '">' + pick(ev.linkLabel, lang) + '</a>') : '';
+        return (
+          '<div class="cal-event-block">' +
+            '<div class="modal-title">' + pick(ev.title, lang) + '</div>' +
+            noteHtml +
+            '<div class="hero-status-sheet-row">' +
+              '<span class="hero-status-sheet-icon">⏰</span>' +
+              '<div><div class="hero-status-sheet-label" data-i18n-static="calModalTimeLabel">ساعت برگزاری</div>' +
+              '<div class="hero-status-sheet-value">' + pick(ev.timeLabel, lang) + '</div></div>' +
+            '</div>' +
+            '<div class="hero-status-sheet-row">' +
+              '<span class="hero-status-sheet-icon">📍</span>' +
+              '<div><div class="hero-status-sheet-label" data-i18n-static="calModalLocationLabel">محل برگزاری</div>' +
+              '<div class="hero-status-sheet-value">' + pick(ev.location, lang) + '<br>' + pick(ev.locationSub, lang) + '</div></div>' +
+            '</div>' +
+            '<button type="button" class="hero-status-sheet-btn cal-modal-map-btn" data-i18n-static="calModalMapBtn">مسیر رو روی نقشه ببین</button>' +
+            linkHtml +
+          '</div>'
+        );
+      }).join('');
+      applyModalTranslations();
+      modalBody.querySelectorAll('.cal-modal-map-btn').forEach(function(btn){
+        btn.addEventListener('click', function(){
+          closeModal();
+          var mapEl = document.getElementById('location-map');
+          if(mapEl) setTimeout(function(){ mapEl.scrollIntoView({ behavior:'smooth', block:'center' }); }, 260);
+        });
+      });
+      modalOverlay.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(){
+      modalOverlay.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+    if(modalClose) modalClose.addEventListener('click', closeModal);
+    if(modalOverlay) modalOverlay.addEventListener('click', function(e){ if(e.target === modalOverlay) closeModal(); });
+    if(nextBadge){
+      nextBadge.addEventListener('click', function(){
+        if(!nextTarget) return;
+        openModalForDate(nextTarget.jy, nextTarget.jm, nextTarget.jd, nextTarget.col);
+      });
+    }
+
+    function renderWeekdayHeader(){
+      var lang = currentLang;
+      var short = WEEKDAY_SHORT[lang] || WEEKDAY_SHORT.fa;
+      weekdaysWrap.innerHTML = WEEKDAY_COLS.map(function(name, i){
+        return '<div class="cal-weekday' + (i === 6 ? ' is-fri' : '') + '" title="' + name + '">' + short[i] + '</div>';
+      }).join('');
+    }
+
+    function renderGrid(){
+      var dim = daysInJalaliMonth(state.jy, state.jm);
+      var startJdn = j2jdn(state.jy, state.jm, 1);
+      var startCol = colFromJdn(startJdn);
+
+      var prevJm = state.jm === 1 ? 12 : state.jm - 1;
+      var prevJy = state.jm === 1 ? state.jy - 1 : state.jy;
+      var prevDim = daysInJalaliMonth(prevJy, prevJm);
+
+      var nextJm = state.jm === 12 ? 1 : state.jm + 1;
+      var nextJy = state.jm === 12 ? state.jy + 1 : state.jy;
+
+      var totalCells = Math.ceil((startCol + dim) / 7) * 7;
+      var html = '';
+
+      function cellHtml(jy, jm, jd, isDim){
+        var jdn = j2jdn(jy, jm, jd);
+        var col = colFromJdn(jdn);
+        var colName = WEEKDAY_COLS[col];
+        var evs = isDim ? [] : eventsOn(jy, jm, jd, colName);
+        var isToday = (!isDim && jy === today.y && jm === today.m && jd === today.d);
+        var isNext = (!isDim && nextTarget && jy === nextTarget.jy && jm === nextTarget.jm && jd === nextTarget.jd);
+        var classes = 'cal-day' +
+          (isDim ? ' cal-day-dim' : '') +
+          (col === 6 ? ' is-fri' : '') +
+          (evs.length ? ' cal-day-has-event' : '') +
+          (isToday ? ' cal-day-today' : '') +
+          (isNext ? ' cal-day-next' : '');
+        var dotsHtml = evs.length ? ('<span class="cal-day-dots">' + evs.map(function(e){ return '<span class="cal-dot cal-dot-' + e.tone + '"></span>'; }).join('') + '</span>') : '<span class="cal-day-dots"></span>';
+        return '<button type="button" class="' + classes + '"' +
+          (evs.length ? (' data-jy="' + jy + '" data-jm="' + jm + '" data-jd="' + jd + '" data-col="' + colName + '"') : ' tabindex="-1" aria-hidden="true"') +
+          '><span class="cal-day-num">' + calDigits(jd) + '</span>' + dotsHtml + '</button>';
+      }
+
+      for(var i = 0; i < startCol; i++){
+        html += cellHtml(prevJy, prevJm, prevDim - startCol + 1 + i, true);
+      }
+      for(var d = 1; d <= dim; d++){
+        html += cellHtml(state.jy, state.jm, d, false);
+      }
+      var used = startCol + dim;
+      for(var t = 1; t <= totalCells - used; t++){
+        html += cellHtml(nextJy, nextJm, t, true);
+      }
+
+      gridWrap.innerHTML = html;
+      gridWrap.querySelectorAll('.cal-day-has-event').forEach(function(btn){
+        btn.addEventListener('click', function(){
+          openModalForDate(+btn.dataset.jy, +btn.dataset.jm, +btn.dataset.jd, btn.dataset.col);
+        });
+      });
+    }
+
+    function renderAgenda(){
+      var lang = currentLang;
+      var dict = translations[lang] || translations.fa;
+      var dim = daysInJalaliMonth(state.jy, state.jm);
+      var rows = [];
+      for(var d = 1; d <= dim; d++){
+        var jdn = j2jdn(state.jy, state.jm, d);
+        var col = colFromJdn(jdn);
+        var colName = WEEKDAY_COLS[col];
+        var evs = eventsOn(state.jy, state.jm, d, colName);
+        evs.forEach(function(ev){ rows.push({ jd:d, colName:colName, ev:ev }); });
+      }
+      if(!rows.length){
+        agendaWrap.innerHTML = '<div class="cal-agenda-empty">' + (dict.hcalAgendaEmpty || '') + '</div>';
+        return;
+      }
+      agendaWrap.innerHTML = rows.map(function(row){
+        var toneVar = row.ev.tone === 'gold' ? 'var(--gold)' : 'var(--crimson-bright)';
+        return (
+          '<button type="button" class="cal-agenda-row" data-jd="' + row.jd + '" data-col="' + row.colName + '">' +
+            '<span class="cal-agenda-dot" style="background:' + toneVar + ';color:' + toneVar + '"></span>' +
+            '<div class="cal-agenda-info">' +
+              '<div class="cal-agenda-title">' + pick(row.ev.title, lang) + '</div>' +
+              '<div class="cal-agenda-sub">' + row.colName + ' &middot; ' + pick(row.ev.timeLabel, lang) + '</div>' +
+            '</div>' +
+            '<div class="cal-agenda-date">' +
+              '<span class="cal-agenda-date-num">' + calDigits(row.jd) + '</span>' +
+              '<span class="cal-agenda-date-month">' + JALALI_MONTHS[state.jm - 1] + '</span>' +
+            '</div>' +
+          '</button>'
+        );
+      }).join('');
+      agendaWrap.querySelectorAll('.cal-agenda-row').forEach(function(btn){
+        btn.addEventListener('click', function(){
+          openModalForDate(state.jy, state.jm, +btn.dataset.jd, btn.dataset.col);
+        });
+      });
+    }
+
+    function render(){
+      renderWeekdayHeader();
+      monthLabel.textContent = JALALI_MONTHS[state.jm - 1] + ' ' + calDigits(state.jy);
+      renderGrid();
+      renderAgenda();
+      renderNextBadge();
+    }
+
+    btnPrev.addEventListener('click', function(){
+      state.jm -= 1;
+      if(state.jm < 1){ state.jm = 12; state.jy -= 1; }
+      render();
+    });
+    btnNext.addEventListener('click', function(){
+      state.jm += 1;
+      if(state.jm > 12){ state.jm = 1; state.jy += 1; }
+      render();
+    });
+    btnToday.addEventListener('click', function(){
+      state.jy = today.y; state.jm = today.m;
+      render();
+      var el = gridWrap.querySelector('.cal-day-today');
+      if(el){
+        el.style.transition = 'box-shadow 0.25s ease';
+        el.style.boxShadow = '0 0 0 4px rgba(255,203,61,0.35)';
+        setTimeout(function(){ el.style.boxShadow = ''; }, 650);
+      }
+    });
+
+    // کشیدن انگشت روی جدول برای رفتن به ماه قبل/بعد
+    (function swipe(){
+      var startX = null;
+      gridWrap.addEventListener('touchstart', function(e){ startX = e.touches[0].clientX; }, { passive:true });
+      gridWrap.addEventListener('touchend', function(e){
+        if(startX === null) return;
+        var dx = e.changedTouches[0].clientX - startX;
+        startX = null;
+        if(Math.abs(dx) < 40) return;
+        if(dx > 0){ btnPrev.click(); } else { btnNext.click(); }
+      }, { passive:true });
+    })();
+
+    // اسکرول نرم + بستن منوی خدمات، از طریق میان‌بر «تقویم کامل هیئت»
+    (function scrollTrigger(){
+      var trigger = document.getElementById('calendar-trigger');
+      var servicesWrap = document.getElementById('services-menu');
+      var servicesPanel = document.getElementById('services-panel');
+      if(!trigger) return;
+      trigger.addEventListener('click', function(e){
+        e.preventDefault();
+        if(servicesWrap && servicesWrap.classList.contains('open')){
+          servicesWrap.classList.remove('open');
+          servicesPanel.style.maxHeight = '';
+          var toggle = document.getElementById('services-toggle');
+          if(toggle) toggle.setAttribute('aria-expanded', 'false');
+        }
+        var target = document.getElementById('heyat-calendar');
+        if(target) setTimeout(function(){ target.scrollIntoView({ behavior:'smooth', block:'start' }); }, 180);
+      });
+    })();
+
+    window.updateCalendarLang = render;
+    render();
+  })();
+
+
   const tehranFormatter = new Intl.DateTimeFormat('en-GB', { timeZone:'Asia/Tehran', hour:'2-digit', minute:'2-digit', hour12:false });
   const tehranFormatterSec = new Intl.DateTimeFormat('en-GB', { timeZone:'Asia/Tehran', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false });
   const karbalaFormatterSec = new Intl.DateTimeFormat('en-GB', { timeZone:'Asia/Baghdad', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false });
@@ -4289,6 +5287,67 @@
     });
   })();
 
+  // ---------------- جستجوی «دسترسی سریع به صفحات» از طریق دکمه‌ی جستجوی بالای صفحه ----------------
+  (function topbarSearch(){
+    const searchBtn = document.getElementById('kzm-topbar-search-btn');
+    const wrap = document.getElementById('services-menu');
+    const toggle = document.getElementById('services-toggle');
+    const panel = document.getElementById('services-panel');
+    const list = document.getElementById('services-list');
+    const searchBar = document.getElementById('services-search');
+    const input = document.getElementById('services-search-input');
+    const clearBtn = document.getElementById('services-search-clear');
+    const emptyMsg = document.getElementById('services-empty');
+    if(!searchBtn || !wrap || !toggle || !panel || !list || !input) return;
+
+    const rows = Array.from(list.querySelectorAll('.services-row'));
+
+    function refreshHeight(){
+      if(wrap.classList.contains('open')){
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+      }
+    }
+
+    function applyFilter(){
+      const q = input.value.trim();
+      searchBar.classList.toggle('has-value', q.length > 0);
+      let visibleCount = 0;
+      rows.forEach(row => {
+        const match = !q || row.textContent.trim().indexOf(q) !== -1;
+        row.classList.toggle('hidden-by-search', !match);
+        if(match) visibleCount++;
+      });
+      if(emptyMsg) emptyMsg.classList.toggle('show', q.length > 0 && visibleCount === 0);
+      refreshHeight();
+    }
+
+    function openAndFocus(){
+      if(!wrap.classList.contains('open')){
+        toggle.click();
+      }
+      wrap.scrollIntoView({ behavior:'smooth', block:'start' });
+      window.setTimeout(() => { input.focus(); refreshHeight(); }, 260);
+    }
+
+    searchBtn.addEventListener('click', openAndFocus);
+    searchBtn.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        openAndFocus();
+      }
+    });
+
+    input.addEventListener('input', applyFilter);
+    input.addEventListener('click', (e) => e.stopPropagation());
+    if(clearBtn){
+      clearBtn.addEventListener('click', () => {
+        input.value = '';
+        applyFilter();
+        input.focus();
+      });
+    }
+  })();
+
   // ---------------- حباب راهنمایی یک‌باره: نشان می‌دهد راهنمای سایت داخل منوی همبرگری است ----------------
   (function quickMenuGuideHint(){
     const badge = document.getElementById('quick-menu-badge');
@@ -4526,63 +5585,71 @@
   // ---------------- نقشه تعاملی موقعیت هیئت (نشان / بلد) ----------------
   (function locationMap(){
     const el = document.getElementById('location-map');
-    if(!el || typeof L === 'undefined') return;
+    if(!el) return;
 
-    const LAT = 33.471360;
-    const LON = 48.355532;
-    const NESHAN_URL = 'https://nshn.ir/rbSnvSY5047L';
-    const BALAD_URL = 'https://balad.ir/location?latitude=33.471360&longitude=48.355532&zoom=16.500000';
+    function init(){
+      if(typeof L === 'undefined') return;
 
-    const map = L.map(el, {
-      center: [LAT, LON],
-      zoom: 16,
-      scrollWheelZoom: false,
-      attributionControl: true
-    });
+      const LAT = 33.471360;
+      const LON = 48.355532;
+      const NESHAN_URL = 'https://nshn.ir/rbSnvSY5047L';
+      const BALAD_URL = 'https://balad.ir/location?latitude=33.471360&longitude=48.355532&zoom=16.500000';
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      subdomains: 'abc',
-      maxZoom: 19
-    }).addTo(map);
+      const map = L.map(el, {
+        center: [LAT, LON],
+        zoom: 16,
+        scrollWheelZoom: false,
+        attributionControl: true
+      });
 
-    const flameIcon = L.divIcon({
-      className: 'map-flame-marker',
-      html: `
-        <svg width="36" height="48" viewBox="0 0 36 48" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="pinGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#ffd166"/>
-              <stop offset="100%" stop-color="#c9a227"/>
-            </linearGradient>
-          </defs>
-          <path d="M18 46.5S3 28.2 3 17.2C3 8.5 9.7 1.5 18 1.5S33 8.5 33 17.2C33 28.2 18 46.5 18 46.5Z"
-                fill="url(#pinGrad)" stroke="#0e2419" stroke-width="1.4" stroke-linejoin="round"/>
-          <circle cx="18" cy="17.3" r="10.2" fill="#f3ead0"/>
-          <path d="M18.3 10.6c1 3-3.3 3.9-3.3 8a3.1 3.1 0 0 0 6.2 0c0-1-.5-1.5-1-2 .3 1.5-.5 2-1 2-1 0-1.5-.8-1-2 .9-2 1-3.6.1-6z" fill="#e2593f"/>
-        </svg>`,
-      iconSize: [36, 48],
-      iconAnchor: [18, 46],
-      popupAnchor: [0, -42]
-    });
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        subdomains: 'abc',
+        maxZoom: 19
+      }).addTo(map);
 
-    const marker = L.marker([LAT, LON], { icon: flameIcon }).addTo(map);
-    marker.bindPopup(
-      '<div class="map-popup">' +
-        '<div class="mp-title">مسجد حضرت قائم (عج)</div>' +
-        '<div class="mp-actions">' +
-          '<a class="mp-btn neshan-btn" href="' + NESHAN_URL + '" target="_blank" rel="noopener noreferrer">نشان</a>' +
-          '<a class="mp-btn balad-btn" href="' + BALAD_URL + '" target="_blank" rel="noopener noreferrer">بلد</a>' +
-        '</div>' +
-      '</div>',
-      { closeButton: false }
-    );
+      const flameIcon = L.divIcon({
+        className: 'map-flame-marker',
+        html: `
+          <svg width="36" height="48" viewBox="0 0 36 48" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="pinGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#ffd166"/>
+                <stop offset="100%" stop-color="#c9a227"/>
+              </linearGradient>
+            </defs>
+            <path d="M18 46.5S3 28.2 3 17.2C3 8.5 9.7 1.5 18 1.5S33 8.5 33 17.2C33 28.2 18 46.5 18 46.5Z"
+                  fill="url(#pinGrad)" stroke="#0e2419" stroke-width="1.4" stroke-linejoin="round"/>
+            <circle cx="18" cy="17.3" r="10.2" fill="#f3ead0"/>
+            <path d="M18.3 10.6c1 3-3.3 3.9-3.3 8a3.1 3.1 0 0 0 6.2 0c0-1-.5-1.5-1-2 .3 1.5-.5 2-1 2-1 0-1.5-.8-1-2 .9-2 1-3.6.1-6z" fill="#e2593f"/>
+          </svg>`,
+        iconSize: [36, 48],
+        iconAnchor: [18, 46],
+        popupAnchor: [0, -42]
+      });
 
-    // باز نگه‌داشتن اسکرول صفحه هنگام لمس نقشه در موبایل با یک تاچ فعال شود
-    map.once('focus', () => map.scrollWheelZoom.enable());
-    el.addEventListener('click', () => marker.openPopup(), { once:true });
+      const marker = L.marker([LAT, LON], { icon: flameIcon }).addTo(map);
+      marker.bindPopup(
+        '<div class="map-popup">' +
+          '<div class="mp-title">مسجد حضرت قائم (عج)</div>' +
+          '<div class="mp-actions">' +
+            '<a class="mp-btn neshan-btn" href="' + NESHAN_URL + '" target="_blank" rel="noopener noreferrer">نشان</a>' +
+            '<a class="mp-btn balad-btn" href="' + BALAD_URL + '" target="_blank" rel="noopener noreferrer">بلد</a>' +
+          '</div>' +
+        '</div>',
+        { closeButton: false }
+      );
 
-    setTimeout(() => map.invalidateSize(), 300);
+      // باز نگه‌داشتن اسکرول صفحه هنگام لمس نقشه در موبایل با یک تاچ فعال شود
+      map.once('focus', () => map.scrollWheelZoom.enable());
+      el.addEventListener('click', () => marker.openPopup(), { once:true });
+
+      setTimeout(() => map.invalidateSize(), 300);
+    }
+
+    // leaflet.js با defer بارگذاری می‌شود؛ اگر هنوز آماده نیست، تا رویداد load صبر می‌کنیم
+    if(typeof L !== 'undefined'){ init(); }
+    else { window.addEventListener('load', init, { once:true }); }
   })();
 
   // ---------------- ویجت اذان بعدی (اوقات شرعی خرم‌آباد در صفحه اصلی) ----------------
@@ -4720,6 +5787,157 @@
 
     tick();
     setInterval(tick, 1000);
+  })();
+
+  // ---------------- ویجت نماز بعدی به‌وقت چند شهر (خرم‌آباد + تهران/مشهد/قم/نجف/کربلا) ----------------
+  (function prayerMultiCity(){
+    const widget = document.getElementById('prayer-multi-widget');
+    if(!widget) return;
+
+    function mod(a, n){ return a - n * Math.floor(a / n); }
+    function toRad(d){ return d * Math.PI / 180; }
+    function toDeg(r){ return r * 180 / Math.PI; }
+    function julianDate(year, month, day){
+      if(month <= 2){ year -= 1; month += 12; }
+      const A = Math.floor(year / 100);
+      const B = 2 - A + Math.floor(A / 4);
+      return Math.floor(365.25 * (year + 4716)) + Math.floor(30.6001 * (month + 1)) + day + B - 1524.5;
+    }
+    function sunPosition(JD){
+      const D = JD - 2451545.0;
+      const g = mod(357.529 + 0.98560028 * D, 360);
+      const q = mod(280.459 + 0.98564736 * D, 360);
+      const L = mod(q + 1.915 * Math.sin(toRad(g)) + 0.020 * Math.sin(toRad(2 * g)), 360);
+      const e = 23.439 - 0.00000036 * D;
+      const RA = mod(toDeg(Math.atan2(Math.cos(toRad(e)) * Math.sin(toRad(L)), Math.cos(toRad(L)))) / 15, 24);
+      const decl = toDeg(Math.asin(Math.sin(toRad(e)) * Math.sin(toRad(L))));
+      const eqt = q / 15 - RA;
+      return { decl, eqt };
+    }
+    function hourAngle(lat, decl, angle){
+      const num = -Math.sin(toRad(angle)) - Math.sin(toRad(lat)) * Math.sin(toRad(decl));
+      const den = Math.cos(toRad(lat)) * Math.cos(toRad(decl));
+      let val = num / den;
+      val = Math.max(-1, Math.min(1, val));
+      return toDeg(Math.acos(val)) / 15;
+    }
+    // نسخه‌ی عمومی‌شده‌ی همون محاسبه‌ی اوقات شرعی، این‌بار برای هر شهر با lat/lon خودش
+    function dayTimes(y, mo, d, offsetHours, lat, lon){
+      const { decl, eqt } = sunPosition(julianDate(y, mo, d));
+      const dhuhr = 12 + offsetHours - lon / 15 - eqt;
+      const Hfajr = hourAngle(lat, decl, 17.7);
+      const Hmaghrib = hourAngle(lat, decl, 4.5);
+      const Hisha = hourAngle(lat, decl, 14);
+      const tAsr = toDeg(Math.atan(1 / (1 + Math.tan(toRad(Math.abs(lat - decl))))));
+      const Hasr = hourAngle(lat, decl, -tAsr);
+      return {
+        fajr: dhuhr - Hfajr,
+        dhuhr: dhuhr,
+        asr: dhuhr + Hasr,
+        maghrib: dhuhr + Hmaghrib,
+        isha: dhuhr + Hisha
+      };
+    }
+    function decimalToUTC(y, mo, d, decHours, offsetHours){
+      return Date.UTC(y, mo - 1, d, 0, 0, 0) + decHours * 3600000 - offsetHours * 3600000;
+    }
+
+    const ORDER = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
+    const NAME_KEYS = { fajr:'prayerFajr', dhuhr:'prayerDhuhr', asr:'prayerAsr', maghrib:'prayerMaghrib', isha:'prayerIsha' };
+    const IRAQ_OFFSET = 3; // بغداد/نجف/کربلا؛ عراق مثل ایران دیگر ساعت فصلی ندارد
+
+    const CITIES = [
+      { key:'khorramabad', lat:33.4869, lon:48.3557, tz:'iran' },
+      { key:'tehran',      lat:35.6892, lon:51.3890, tz:'iran' },
+      { key:'mashhad',     lat:36.2605, lon:59.6168, tz:'iran' },
+      { key:'qom',         lat:34.6401, lon:50.8764, tz:'iran' },
+      { key:'najaf',       lat:32.0286, lon:44.3312, tz:'iraq' },
+      { key:'karbala',     lat:32.6160, lon:44.0249, tz:'iraq' }
+    ];
+
+    function offsetFor(tz, now){ return tz === 'iraq' ? IRAQ_OFFSET : getTehranOffsetHours(now); }
+    function partsFor(tz, now){
+      if(tz === 'iraq'){
+        const shifted = new Date(now.getTime() + IRAQ_OFFSET * 3600000);
+        return { year: shifted.getUTCFullYear(), month: shifted.getUTCMonth() + 1, day: shifted.getUTCDate() };
+      }
+      const p = getTehranParts(now);
+      return { year: parseInt(p.year, 10), month: parseInt(p.month, 10), day: parseInt(p.day, 10) };
+    }
+
+    function pmDigits(n){
+      const s = String(n);
+      if(currentLang === 'fa'){
+        const fa = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+        return s.replace(/\d/g, d => fa[d]);
+      }
+      if(currentLang === 'ar'){
+        const ar = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+        return s.replace(/\d/g, d => ar[d]);
+      }
+      return s;
+    }
+    function ltrToken(s){ return '\u2066' + s + '\u2069'; }
+    function formatRemaining(ms){
+      const totalMin = Math.max(0, Math.round(ms / 60000));
+      const h = Math.floor(totalMin / 60);
+      const m = totalMin % 60;
+      if(h === 0 && m === 0) return 'کمتر از ' + ltrToken('۱min');
+      if(h === 0) return ltrToken(pmDigits(m) + 'min');
+      if(m === 0) return ltrToken(pmDigits(h) + 'h');
+      return ltrToken(pmDigits(h) + 'h') + ' و ' + ltrToken(pmDigits(m) + 'min');
+    }
+
+    function nextPrayerFor(city, now){
+      const offsetHours = offsetFor(city.tz, now);
+      const { year: y, month: mo, day: d } = partsFor(city.tz, now);
+      const today = dayTimes(y, mo, d, offsetHours, city.lat, city.lon);
+      let nextKey = null, targetUTC = null;
+      for(const k of ORDER){
+        const t = decimalToUTC(y, mo, d, today[k], offsetHours);
+        if(t > now.getTime()){ nextKey = k; targetUTC = t; break; }
+      }
+      if(!nextKey){
+        const tmr = new Date(Date.UTC(y, mo - 1, d + 1, 12, 0, 0));
+        const tomorrow = dayTimes(tmr.getUTCFullYear(), tmr.getUTCMonth() + 1, tmr.getUTCDate(), offsetHours, city.lat, city.lon);
+        nextKey = 'fajr';
+        targetUTC = decimalToUTC(tmr.getUTCFullYear(), tmr.getUTCMonth() + 1, tmr.getUTCDate(), tomorrow.fajr, offsetHours);
+      }
+      return { nextKey, remainingMs: targetUTC - now.getTime() };
+    }
+
+    const rowEls = {};
+    CITIES.forEach(c => { rowEls[c.key] = document.getElementById('pm-' + c.key); });
+
+    function render(){
+      const now = new Date();
+      const dict = translations[currentLang] || translations.fa;
+      CITIES.forEach(c => {
+        const el = rowEls[c.key];
+        if(!el) return;
+        const { nextKey, remainingMs } = nextPrayerFor(c, now);
+        const prayerName = dict[NAME_KEYS[nextKey]] || nextKey;
+        el.textContent = formatRemaining(remainingMs) + ' تا ' + prayerName;
+      });
+    }
+    window.updatePrayerMultiLang = render;
+
+    render();
+    setInterval(render, 20000); // به‌روزرسانی هر ۲۰ ثانیه؛ چون دقت لازم در حد دقیقه‌ست، نیازی به تیک هر ثانیه نیست
+
+    let pmExpanded = false;
+    function togglePmExpanded(){
+      pmExpanded = !pmExpanded;
+      widget.classList.toggle('expanded', pmExpanded);
+      widget.setAttribute('aria-pressed', String(pmExpanded));
+    }
+    widget.addEventListener('click', togglePmExpanded);
+    widget.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        togglePmExpanded();
+      }
+    });
   })();
 
   // ---------------- انتقال نرم به صفحات داخلی (پیش‌بارگذاری + بدون پرش) ----------------
@@ -4967,6 +6185,10 @@ window.KZM_ASSISTANT_CONFIG = {
       title:'ذکر روز',
       short:'با یه ضربه، ذکر روز رو بشمار و رکوردت رو بساز.',
       full:'با ورود به صفحه‌ی «ذکر روز» می‌تونی ذکر پیشنهادی امروز رو با شمارشگر لمسی بشماری، ترجمه‌ش رو ببینی، رکورد روزهای متوالیت رو دنبال کنی و در صورت اشتباه، شمارش رو برگردونی.' },
+    { key:'calendar', selector:'#cal-card',
+      title:'تقویم کامل هیئت',
+      short:'روزهای مراسم رو با یه نشان رنگی روی تقویم شمسی ببین.',
+      full:'بالای تقویم، نزدیک‌ترین مراسم پیش‌رو رو می‌بینی؛ با زدن روش، جزئیاتش باز می‌شه. توی خود تقویم هم هر روزی که یه نقطه‌ی رنگی زیر عددش هست، یعنی اون روز مراسمی داره؛ روش بزن تا عنوان، ساعت، مکان و مسیر روی نقشه رو ببینی. با دکمه‌های کنار نام ماه بین ماه‌های قبل و بعد جابه‌جا شو، یا با «امروز» به ماه جاری برگرد. پایین تقویم هم لیست همه‌ی مراسم همین ماه رو یکجا داری.' },
     { key:'map', selector:'#location-map',
       title:'موقعیت مسجد',
       short:'آدرس و نقشه‌ی مسجد حضرت قائم (عج) همین‌جاست.',
