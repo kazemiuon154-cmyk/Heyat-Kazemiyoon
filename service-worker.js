@@ -1,6 +1,6 @@
 // service-worker.js — هیئت کاظمیون خرم‌آباد
 // نسخه کش را با هر تغییر مهم در سایت افزایش دهید تا کاربران نسخه جدید را بگیرند
-const CACHE_VERSION = 'kazemiuon-v5'; // v4 → v5: assistant.js/css هم network-first شدند تا با تأخیر آپدیت نشن
+const CACHE_VERSION = 'kazemiuon-v8'; // v7 → v8: صفحه‌ی جدید «زیارت سه‌بعدی»، دسته‌بندی منوی دسترسی سریع و انتقال مرکز دانلود به منوی همبرگری (v6 → v7: کارت اشتراک‌گذاری روز، اصلاح اوقات شرعی نزدیک نوروز و تاریخ قمری صفحه‌ی تبدیل، ثبت درست SW در همه‌ی صفحه‌ها (v5 → v6: کارت اشتراک‌گذاری به index.html اضافه شد))
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -46,7 +46,7 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(req.url);
   const isSameOrigin = url.origin === self.location.origin;
   const isHTML = req.mode === 'navigate' || req.headers.get('accept')?.includes('text/html');
-  const isAssistantAsset = /\/(assistant\.js|assistant\.css)$/.test(url.pathname);
+  const isAssistantAsset = /\/(assistant\.js|assistant\.css|status\.json)$/.test(url.pathname); // status.json هم network-first تا وضعیت قدیمی نمایش داده نشه
 
   if (isSameOrigin && (isHTML || isAssistantAsset)) {
     event.respondWith(

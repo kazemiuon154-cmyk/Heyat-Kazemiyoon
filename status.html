@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  // دکمه بازگشت گوشی: اگر صفحه مستقیم (بدون سابقه مرورگر) باز شده باشد،
+  // به‌جای نمایش خطا، کاربر را به صفحه اول هیئت برمی‌گرداند
+  (function(){
+    try{
+      history.pushState({kazemiyoonBackTrap:true}, '', location.href);
+      window.addEventListener('popstate', function(){
+        location.replace('index.html');
+      });
+    }catch(err){}
+  })();
+</script>
+
+<!-- ===== Security hardening ===== -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+
+<title>✅ وضعیت سرویس‌ها | هیئت کاظمیون خرم‌آباد</title>
+<meta name="robots" content="noindex, follow">
+<link rel="icon" href="logo.jpg">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0e9b62">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --void:#071710;
+    --void-2:#0e2419;
+    --crimson:#0e9b62;
+    --crimson-rgb:14,155,98;
+    --crimson-bright:#22c17f;
+    --gold:#ffcb3d;
+    --gold-soft:#d1a52a;
+    --gold-dim:#8a6e1e;
+    --parchment:#f3ead0;
+    --parchment-dim:#a99b78;
+    --line:rgba(255,203,61,0.22);
+    --ember:#ffd166;
+    --ember-soft:#ffd16666;
+
+    /* رنگ‌های وضعیت: ثابت می‌مانند و با تغییر تم عوض نمی‌شوند */
+    --st-ok:#2ecc71;
+    --st-ok-soft:rgba(46,204,113,0.14);
+    --st-warn:#ffb020;
+    --st-warn-soft:rgba(255,176,32,0.14);
+    --st-down:#ff4d4f;
+    --st-down-soft:rgba(255,77,79,0.14);
+    --st-unknown:#8a97a6;
+    --st-unknown-soft:rgba(138,151,166,0.14);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:
+      radial-gradient(ellipse 120% 70% at 50% -8%, rgba(var(--crimson-rgb),0.30), transparent 55%),
+      radial-gradient(ellipse 90% 50% at 15% 40%, rgba(var(--crimson-rgb),0.10), transparent 60%),
+      radial-gradient(ellipse 90% 50% at 85% 75%, rgba(var(--crimson-rgb),0.12), transparent 60%),
+      var(--void);
+    color:var(--parchment);
+    font-family:'Vazirmatn', sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  body.theme-dark{
+    --void:#000000; --void-2:#0a0a0a;
+    --crimson:#6e1013; --crimson-bright:#9c2320;
+    --gold:#a3853a; --gold-soft:#6f5d33; --gold-dim:#453a22;
+    --parchment:#d8d0bf; --parchment-dim:#83786a;
+    --line:rgba(163,133,58,0.14);
+    background:#000000;
+  }
+  body.theme-light{
+    --void:#04120a; --void-2:#071c11;
+    --crimson:#39ff14; --crimson-rgb:57,255,20; --crimson-bright:#7dffb0;
+    --gold:#b6ff2e; --gold-soft:#7fd11a; --gold-dim:#4a7a1e;
+    --parchment:#e9ffee; --parchment-dim:#8fc79f;
+    --line:rgba(57,255,20,0.28);
+  }
+  body.theme-fest{
+    --void:#0c1220; --void-2:#121a2e;
+    --crimson:#d81b60; --crimson-rgb:216,27,96; --crimson-bright:#ff4081;
+    --gold:#ffca28; --gold-soft:#e0a72a; --gold-dim:#b8860b;
+    --parchment:#fff6e0; --parchment-dim:#d8c9a3;
+    --line:rgba(255,202,40,0.25);
+  }
+  body.theme-crimson{
+    --void:#0e0906; --void-2:#150e0a;
+    --crimson:#8c1518; --crimson-rgb:140,21,24; --crimson-bright:#b8241f;
+    --gold:#c9a227; --gold-soft:#8a7040; --gold-dim:#5c4a28;
+    --parchment:#f1e7d8; --parchment-dim:#a99c8a;
+    --line:rgba(201,162,39,0.16);
+  }
+  body.theme-lilac{
+    --void:#160a1e; --void-2:#1f1029;
+    --crimson:#c65bd6; --crimson-rgb:198,91,214; --crimson-bright:#e28ae8;
+    --gold:#f0c94e; --gold-soft:#caa53a; --gold-dim:#8a6f28;
+    --parchment:#fbeefc; --parchment-dim:#c3a8c9;
+    --line:rgba(240,201,78,0.22);
+  }
+  body.theme-sunset{
+    --void:#071c22; --void-2:#0d2a32;
+    --crimson:#ff7a45; --crimson-rgb:255,122,69; --crimson-bright:#ff9d6e;
+    --gold:#ffcf6b; --gold-soft:#dba63e; --gold-dim:#8f6c22;
+    --parchment:#fff3e6; --parchment-dim:#c8b39c;
+    --line:rgba(32,196,196,0.25);
+  }
+  body.theme-amber{
+    --void:#1c130a; --void-2:#241a0e;
+    --crimson:#c8752b; --crimson-rgb:200,117,43; --crimson-bright:#e29344;
+    --gold:#f0c14b; --gold-soft:#cb9f33; --gold-dim:#836a20;
+    --parchment:#fbf1dc; --parchment-dim:#c9b998;
+    --line:rgba(240,193,75,0.22);
+  }
+  body.theme-sky{
+    --void:#081521; --void-2:#0e2032;
+    --crimson:#2f8ce0; --crimson-rgb:47,140,224; --crimson-bright:#5fadf5;
+    --gold:#ffd35c; --gold-soft:#d9ac3c; --gold-dim:#8f7126;
+    --parchment:#f0f8ff; --parchment-dim:#a9c2d6;
+    --line:rgba(127,212,255,0.22);
+  }
+
+  .embers{ position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+  .ember-spark{
+    position:absolute; bottom:-10px; width:3px; height:3px; border-radius:50%;
+    background:var(--ember); box-shadow:0 0 6px 1px var(--ember-soft); opacity:0;
+    animation-name:rise; animation-timing-function:ease-in; animation-iteration-count:infinite;
+  }
+  @keyframes rise{
+    0%{ transform:translateY(0) translateX(0); opacity:0; }
+    8%{ opacity:0.9; } 80%{ opacity:0.5; }
+    100%{ transform:translateY(-100vh) translateX(var(--drift,20px)); opacity:0; }
+  }
+
+  .page{ width:100%; max-width:500px; padding:0 22px 70px; position:relative; z-index:1; }
+
+  /* ---------------- منوی سریع (همبرگری: تم/صدا/راهنما) ---------------- */
+  .quick-menu{ position:fixed; top:14px; left:14px; z-index:65; }
+  .quick-menu-btn{
+    width:36px; height:36px; border-radius:50%; border:1px solid var(--line);
+    background:rgba(20,14,10,0.75); color:var(--parchment-dim);
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    transition:all 0.2s ease; -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+  }
+  .quick-menu-btn svg{ width:17px; height:17px; }
+  .quick-menu-btn:hover, .quick-menu-btn.active{ border-color:var(--gold-soft); color:var(--gold); }
+  .quick-menu-panel{
+    position:absolute; top:44px; left:0; display:flex; flex-direction:column; align-items:stretch; gap:8px;
+    min-width:168px; padding:12px; background:var(--void-2, var(--void)); border:1px solid var(--line);
+    border-radius:16px; box-shadow:0 12px 26px rgba(0,0,0,0.5);
+    opacity:0; visibility:hidden; transform:translateY(-8px);
+    transition:opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease; z-index:65;
+  }
+  .quick-menu-panel.show{ opacity:1; visibility:visible; transform:translateY(0); }
+  .quick-menu-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .quick-menu-label{ font-size:11.5px; font-weight:600; color:var(--parchment-dim); }
+  .theme-switch-wrap{ position:relative; }
+  .theme-toggle-btn{
+    width:30px; height:30px; border-radius:50%; border:1px solid var(--line);
+    background:rgba(255,255,255,0.02); color:var(--parchment-dim);
+    display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.2s ease;
+  }
+  .theme-toggle-btn svg{ width:15px; height:15px; }
+  .theme-toggle-btn:hover{ border-color:var(--gold-soft); color:var(--gold); }
+  .theme-popover{
+    position:fixed; width:max-content; max-width:min(260px, calc(100vw - 20px));
+    background:var(--void-2, var(--void)); border:1px solid var(--line); border-radius:14px; padding:6px;
+    display:flex; flex-direction:row; flex-wrap:wrap; gap:4px; box-shadow:0 12px 26px rgba(0,0,0,0.5);
+    opacity:0; visibility:hidden; transform:translateY(-6px);
+    transition:opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease; z-index:70;
+  }
+  .theme-popover.show{ opacity:1; visibility:visible; transform:translateY(0); }
+  .theme-opt{
+    font-size:11.5px; font-weight:600; color:var(--parchment-dim);
+    background:transparent; border:1px solid transparent; padding:8px 9px; border-radius:9px;
+    cursor:pointer; text-align:center; white-space:nowrap; transition:all 0.15s ease; font-family:inherit;
+  }
+  .theme-opt.active{ color:var(--void); background:var(--gold); }
+  .theme-opt:not(.active):hover{ border-color:var(--gold-soft); color:var(--parchment); }
+  .sound-toggle{
+    width:30px; height:30px; border-radius:50%; border:1px solid var(--line);
+    background:rgba(255,255,255,0.02); color:var(--parchment-dim);
+    display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.2s ease;
+  }
+  .sound-toggle svg{ width:15px; height:15px; }
+  .sound-toggle:hover{ border-color:var(--gold-soft); color:var(--gold); }
+  .guide-fab{ text-decoration:none; }
+
+  /* ---------------- هدر ---------------- */
+  .page2-header{ display:flex; align-items:center; justify-content:space-between; gap:8px; padding:20px 0 8px; }
+  .page2-back{
+    flex:none; display:flex; align-items:center; gap:7px; padding:10px 20px; border-radius:999px;
+    border:1px solid rgba(255,255,255,0.25);
+    background:linear-gradient(135deg, var(--gold-bright, var(--gold)), var(--crimson-bright));
+    background-size:200% 200%; color:#1a0f04; font-size:12.5px; font-weight:800; letter-spacing:0.02em;
+    text-decoration:none; cursor:pointer;
+    box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 20px rgba(var(--crimson-rgb),0.45), 0 0 0 4px rgba(var(--crimson-rgb),0.12);
+    transition:all 0.2s ease, transform 0.25s ease;
+    animation:page2Pulse 2.6s ease-in-out infinite, page2Shine 5s linear infinite;
+    position:fixed; bottom:18px; left:18px; z-index:60; overflow:hidden;
+  }
+  .page2-back::after{
+    content:''; position:absolute; top:0; left:-60%; width:35%; height:100%;
+    background:linear-gradient(115deg, transparent, rgba(255,255,255,0.6), transparent);
+    transform:skewX(-20deg); animation:page2Sweep 3.6s ease-in-out infinite; pointer-events:none;
+  }
+  @keyframes page2Sweep{ 0%{ left:-60%; } 38%{ left:130%; } 100%{ left:130%; } }
+  .page2-back svg{ width:16px; height:16px; flex:none; }
+  .page2-back:hover{ transform:translateY(-1px) scale(1.03); box-shadow:0 2px 0 rgba(255,255,255,0.4) inset, 0 10px 24px rgba(var(--crimson-rgb),0.55), 0 0 0 5px rgba(var(--crimson-rgb),0.18); }
+  .page2-back:active{ transform:scale(0.94); }
+  @keyframes page2Pulse{
+    0%,100%{ box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 20px rgba(var(--crimson-rgb),0.45), 0 0 0 4px rgba(var(--crimson-rgb),0.12); }
+    50%{ box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 26px rgba(var(--crimson-rgb),0.65), 0 0 0 8px rgba(var(--crimson-rgb),0.05); }
+  }
+  @keyframes page2Shine{ 0%{ background-position:0% 50%; } 50%{ background-position:100% 50%; } 100%{ background-position:0% 50%; } }
+  .page2-header-title{ flex:1; min-width:0; text-align:center; font-size:15px; font-weight:700; color:var(--parchment); overflow-wrap:break-word; }
+
+  .mini-logo-wrap{ display:flex; justify-content:center; margin:18px 0 6px; }
+  .mini-logo{ width:64px; height:64px; border-radius:50%; overflow:hidden; border:1px solid var(--line); box-shadow:0 8px 20px rgba(0,0,0,0.35); }
+  .mini-logo img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+  .group-label{ font-size:12px; color:var(--gold-soft); letter-spacing:0.1em; margin:26px 4px 14px; font-weight:600; display:flex; align-items:center; gap:8px; }
+  .group-label::after{ content:''; flex:1; height:1px; background:var(--line); }
+
+  /* ---------------- کارت پایه ---------------- */
+  .content-card{
+    position:relative; padding:22px 20px; border-radius:22px; border:1px solid var(--line); overflow:hidden;
+    background:
+      radial-gradient(120% 140% at 50% -20%, rgba(255,203,61,0.14), transparent 60%),
+      radial-gradient(90% 120% at 50% 120%, rgba(var(--crimson-rgb),0.16), transparent 60%),
+      linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.012));
+    box-shadow:0 1px 0 rgba(255,255,255,0.06) inset, 0 0 0 1px rgba(255,203,61,0.05) inset, 0 14px 32px rgba(0,0,0,0.3);
+    margin-bottom:16px;
+  }
+
+  /* ---------------- خلاصه کلی وضعیت ---------------- */
+  .status-overview{ text-align:center; }
+  .status-overview-icon{
+    width:56px; height:56px; margin:0 auto 14px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--st-ok-soft); color:var(--st-ok);
+    transition:background 0.3s ease, color 0.3s ease;
+  }
+  .status-overview-icon.warn{ background:var(--st-warn-soft); color:var(--st-warn); }
+  .status-overview-icon.down{ background:var(--st-down-soft); color:var(--st-down); }
+  .status-overview-icon svg{ width:28px; height:28px; }
+  .status-overview h1{ font-size:17px; font-weight:800; margin-bottom:6px; }
+  .status-overview p{ font-size:12.5px; color:var(--parchment-dim); }
+
+  /* ---------------- ردیف هر سرویس ---------------- */
+  .status-list{ display:flex; flex-direction:column; gap:2px; }
+  .status-row{
+    display:flex; align-items:center; gap:12px; padding:13px 4px;
+    border-bottom:1px solid rgba(255,255,255,0.06);
+  }
+  .status-row:last-child{ border-bottom:none; }
+  .status-dot{ width:10px; height:10px; border-radius:50%; flex:none; background:var(--st-ok); box-shadow:0 0 8px 1px var(--st-ok-soft); }
+  .status-dot.warn{ background:var(--st-warn); box-shadow:0 0 8px 1px var(--st-warn-soft); }
+  .status-dot.down{ background:var(--st-down); box-shadow:0 0 8px 1px var(--st-down-soft); }
+  .status-dot.unknown{ background:var(--st-unknown); box-shadow:0 0 8px 1px var(--st-unknown-soft); }
+  .status-row-body{ flex:1; min-width:0; }
+  .status-row-name{ font-size:13.5px; font-weight:700; color:var(--parchment); }
+  .status-row-note{ font-size:11.5px; color:var(--parchment-dim); margin-top:2px; }
+  .status-row-badge{
+    flex:none; font-size:11px; font-weight:700; padding:4px 10px; border-radius:999px;
+    color:var(--st-ok); background:var(--st-ok-soft);
+  }
+  .status-row-badge.warn{ color:var(--st-warn); background:var(--st-warn-soft); }
+  .status-row-badge.down{ color:var(--st-down); background:var(--st-down-soft); }
+  .status-row-badge.unknown{ color:var(--st-unknown); background:var(--st-unknown-soft); }
+
+  .status-updated{ text-align:center; font-size:11px; color:var(--gold-dim); margin:-4px 0 16px; }
+
+  /* ---------------- تاریخچه رویدادها ---------------- */
+  .incident-list{ display:flex; flex-direction:column; gap:14px; }
+  .incident-item{ padding-right:14px; border-right:2px solid var(--line); }
+  .incident-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:4px; }
+  .incident-title{ font-size:13px; font-weight:700; color:var(--parchment); }
+  .incident-date{ font-size:10.5px; color:var(--gold-dim); flex:none; }
+  .incident-desc{ font-size:12px; line-height:1.9; color:var(--parchment-dim); }
+  .incident-resolved{
+    display:inline-flex; align-items:center; gap:4px; margin-top:6px;
+    font-size:10.5px; font-weight:700; color:var(--st-ok);
+  }
+  .empty-note{ text-align:center; font-size:12px; color:var(--parchment-dim); padding:10px 0; }
+
+  .report-btn{
+    display:flex; align-items:center; justify-content:center; gap:7px; width:100%; margin-top:6px;
+    padding:12px 16px; border-radius:14px; border:1px dashed var(--line); background:transparent;
+    color:var(--parchment-dim); font-size:12.5px; font-weight:700; cursor:pointer; transition:all 0.2s ease;
+    font-family:inherit;
+  }
+  .report-btn:hover{ border-color:var(--gold-soft); color:var(--gold); }
+  .report-btn svg{ width:15px; height:15px; flex:none; }
+  .report-thanks{ text-align:center; font-size:12px; color:var(--st-ok); margin-top:8px; display:none; }
+  .report-thanks.show{ display:block; }
+
+  footer{ text-align:center; margin-top:40px; font-size:11.5px; color:var(--gold-dim); }
+
+  @media (prefers-reduced-motion: reduce){ .page2-back{ animation:none; } }
+</style>
+<link rel="stylesheet" href="assistant.css">
+</head>
+<body>
+
+<div class="embers" id="embers"></div>
+
+<div class="quick-menu" id="quick-menu">
+  <button type="button" id="quick-menu-btn" class="quick-menu-btn" aria-haspopup="true" aria-expanded="false" aria-label="منوی تنظیمات">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+  <div class="quick-menu-panel" id="quick-menu-panel" role="menu">
+    <div class="quick-menu-row">
+      <span class="quick-menu-label">تم</span>
+      <div class="theme-switch-wrap">
+        <button type="button" id="theme-toggle" class="theme-toggle-btn" aria-label="تغییر تم" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 3.5c-4.7 0-8.5 3.6-8.5 8 0 3 2 4.3 3.6 4.3.8 0 1.1-.4 1.6-.9.5-.5.9-.9 1.7-.9 1.5 0 1.9 1 1.9 2.1 0 .9-.4 1.6-.4 2.2 0 .8.6 1.2 1.7 1.2 4.6 0 8.4-3.9 8.4-8.4 0-4.8-3.9-7.6-10-7.6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <circle cx="8.2" cy="9.3" r="1.15" fill="currentColor"/>
+            <circle cx="12.2" cy="7.1" r="1.15" fill="currentColor"/>
+            <circle cx="16.3" cy="9.3" r="1.15" fill="currentColor"/>
+            <circle cx="17.3" cy="13.6" r="1.15" fill="currentColor"/>
+          </svg>
+        </button>
+        <div class="theme-popover" id="theme-popover" role="menu">
+          <button type="button" class="theme-opt active" data-theme="default">طلایی و زمردی</button>
+          <button type="button" class="theme-opt" data-theme="crimson">سرخ و طلایی</button>
+          <button type="button" class="theme-opt" data-theme="fest">صورتی و فیروزه‌ای</button>
+          <button type="button" class="theme-opt" data-theme="lilac">صورتی و یاسی</button>
+          <button type="button" class="theme-opt" data-theme="sunset">فیروزه‌ای و غروبی</button>
+          <button type="button" class="theme-opt" data-theme="amber">کهربایی و کرمی</button>
+          <button type="button" class="theme-opt" data-theme="sky">آبی آسمانی</button>
+          <button type="button" class="theme-opt" data-theme="light">سبز فسفری</button>
+          <button type="button" class="theme-opt" data-theme="dark">تاریک</button>
+        </div>
+      </div>
+    </div>
+    <div class="quick-menu-row">
+      <span class="quick-menu-label">صدا</span>
+      <button type="button" id="sound-toggle" class="sound-toggle" aria-label="قطع/وصل صدا" aria-pressed="false">
+        <svg class="icon-sound-on" viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a4 4 0 0 1 0 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M18.5 6a7.5 7.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/></svg>
+        <svg class="icon-sound-off" viewBox="0 0 24 24" fill="none" style="display:none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M15.5 9.5l5 5M20.5 9.5l-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="quick-menu-row">
+      <span class="quick-menu-label">راهنمای سایت</span>
+      <a href="guide.html" id="guide-trigger" class="sound-toggle guide-fab" aria-label="راهنمای سایت">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M9.3 9.3a2.7 2.7 0 1 1 3.8 2.5c-.7.35-1.1.7-1.1 1.5v.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="16.6" r="0.9" fill="currentColor"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<a href="index.html" class="page2-back" id="page2-back" aria-label="بازگشت به صفحه اول">
+  <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span>بازگشت</span>
+</a>
+
+<div class="page">
+
+  <div class="page2-header">
+    <div class="page2-header-title">✅ وضعیت سرویس‌ها</div>
+  </div>
+
+  <div class="mini-logo-wrap">
+    <div class="mini-logo">
+      <img src="logo.jpg" alt="نشان هیئت کاظمیون خرم‌آباد">
+    </div>
+  </div>
+
+  <div class="group-label"><span>خلاصه وضعیت</span></div>
+
+  <div class="content-card status-overview" id="overview-card">
+    <div class="status-overview-icon" id="overview-icon">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M4.5 12.5l4.5 4.5 10.5-11" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <h1 id="overview-title">همه‌چیز سالمه</h1>
+    <p id="overview-desc">همه‌ی بخش‌های سایت الان به‌درستی کار می‌کنن.</p>
+  </div>
+  <div class="status-updated" id="status-updated">آخرین بررسی: —</div>
+
+  <div class="group-label"><span>وضعیت هر بخش</span></div>
+
+  <div class="content-card">
+    <div class="status-list" id="status-list">
+      <div class="empty-note">در حال بارگذاری…</div>
+    </div>
+  </div>
+
+  <button type="button" class="report-btn" id="report-btn">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5 21 19H3L12 3.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 9.5v4.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="16.4" r="1" fill="currentColor"/></svg>
+    <span>یه بخش برام درست کار نمی‌کنه</span>
+  </button>
+  <div class="report-thanks" id="report-thanks">ممنون، به اطلاع مسئولین رسید 🌱</div>
+
+  <div class="group-label"><span>تاریخچه رویدادها</span></div>
+
+  <div class="content-card">
+    <div class="incident-list" id="incident-list">
+      <div class="empty-note">در حال بارگذاری…</div>
+    </div>
+  </div>
+
+  <footer>پایگاه اطلاع‌رسانی هیئت کاظمیون خرم‌آباد</footer>
+
+</div>
+
+<script>
+  // ---------------- تغییر و همگام‌سازی تم با صفحه اول ----------------
+  (function themeSwitcher(){
+    const toggle = document.getElementById('theme-toggle');
+    const popover = document.getElementById('theme-popover');
+    if(!toggle || !popover) return;
+    const opts = popover.querySelectorAll('.theme-opt');
+    document.body.appendChild(popover);
+    const THEME_CLASSES = ['theme-light', 'theme-dark', 'theme-fest', 'theme-crimson', 'theme-lilac', 'theme-sunset', 'theme-amber', 'theme-sky'];
+    function applyTheme(theme){
+      document.body.classList.remove(...THEME_CLASSES);
+      if(THEME_CLASSES.includes('theme-' + theme)) document.body.classList.add('theme-' + theme);
+      opts.forEach(b => b.classList.toggle('active', b.dataset.theme === theme));
+      try{ localStorage.setItem('kazemiuon-theme', theme); }catch(e){}
+    }
+    let saved = 'default';
+    try{ saved = localStorage.getItem('kazemiuon-theme') || 'default'; }catch(e){}
+    applyTheme(saved);
+    function positionThemePopover(){
+      const margin = 10;
+      const rect = toggle.getBoundingClientRect();
+      const pw = popover.offsetWidth || 132;
+      let left = rect.left + rect.width / 2 - pw / 2;
+      left = Math.max(margin, Math.min(left, window.innerWidth - pw - margin));
+      const top = rect.top - popover.offsetHeight - 8;
+      popover.style.left = left + 'px';
+      popover.style.top = Math.max(margin, top) + 'px';
+    }
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const show = !popover.classList.contains('show');
+      if(show){
+        popover.style.visibility = 'hidden';
+        popover.classList.add('show');
+        positionThemePopover();
+        popover.style.visibility = '';
+      }else{
+        popover.classList.remove('show');
+      }
+      toggle.setAttribute('aria-expanded', String(show));
+    });
+    window.addEventListener('resize', () => { if(popover.classList.contains('show')) positionThemePopover(); }, { passive:true });
+    opts.forEach(b => {
+      b.addEventListener('click', () => {
+        applyTheme(b.dataset.theme);
+        popover.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+    document.addEventListener('click', (e) => {
+      if(!popover.contains(e.target) && e.target !== toggle){
+        popover.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+
+  // ---------------- باز/بسته شدن منوی همبرگری ----------------
+  (function quickMenu(){
+    const btn = document.getElementById('quick-menu-btn');
+    const panel = document.getElementById('quick-menu-panel');
+    if(!btn || !panel) return;
+    function closePanel(){
+      panel.classList.remove('show');
+      btn.classList.remove('active');
+      btn.setAttribute('aria-expanded', 'false');
+      const themePop = document.getElementById('theme-popover');
+      if(themePop) themePop.classList.remove('show');
+    }
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const show = !panel.classList.contains('show');
+      panel.classList.toggle('show', show);
+      btn.classList.toggle('active', show);
+      btn.setAttribute('aria-expanded', String(show));
+    });
+    document.addEventListener('click', (e) => {
+      if(!panel.contains(e.target) && e.target !== btn && !btn.contains(e.target)) closePanel();
+    });
+    document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closePanel(); });
+  })();
+
+  // ---------------- صدای کلیک سبک ----------------
+  (function soundToggle(){
+    let muted = true;
+    try{ muted = localStorage.getItem('kazemiuon-muted') === '1'; }catch(e){}
+    const btn = document.getElementById('sound-toggle');
+    if(!btn) return;
+    function reflect(){
+      btn.setAttribute('aria-pressed', String(!muted));
+      btn.querySelector('.icon-sound-on').style.display = muted ? 'none' : 'block';
+      btn.querySelector('.icon-sound-off').style.display = muted ? 'block' : 'none';
+    }
+    reflect();
+    btn.addEventListener('click', () => {
+      muted = !muted;
+      try{ localStorage.setItem('kazemiuon-muted', muted ? '1' : '0'); }catch(e){}
+      reflect();
+    });
+  })();
+
+  // ذرات ریز طلایی پس‌زمینه (امبر)
+  (function embers(){
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var wrap = document.getElementById('embers');
+    if(!wrap) return;
+    for(var i=0;i<8;i++){
+      var s = document.createElement('div');
+      s.className = 'ember-spark';
+      s.style.left = (Math.random()*100) + 'vw';
+      s.style.animationDelay = (Math.random()*10) + 's';
+      s.style.animationDuration = (6 + Math.random()*6) + 's';
+      s.style.setProperty('--drift', (Math.random()*60 - 30) + 'px');
+      wrap.appendChild(s);
+    }
+  })();
+
+  // ---------------- ثبت Service Worker ----------------
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('service-worker.js').catch(() => {});
+    });
+  }
+
+  // ---------------- خواندن و نمایش وضعیت سرویس‌ها ----------------
+  (function statusPage(){
+    var STATUS_META = {
+      ok:      { label:'سالم',    cls:'',        order:0 },
+      warn:    { label:'کند/محدود', cls:'warn',   order:1 },
+      down:    { label:'قطع',     cls:'down',    order:2 },
+      unknown: { label:'نامشخص',  cls:'unknown', order:1 }
+    };
+
+    var FALLBACK_DATA = {
+      updated: null,
+      services: [
+        { id:'live', name:'پخش زنده مراسم', status:'unknown', note:'اطلاعات وضعیت در دسترس نیست' },
+        { id:'prayer', name:'اوقات شرعی و تقویم', status:'unknown', note:'' },
+        { id:'map', name:'نقشه و مسیریابی', status:'unknown', note:'' },
+        { id:'assistant', name:'دستیار هوشمند سایت', status:'unknown', note:'' },
+        { id:'downloads', name:'مرکز دانلود', status:'unknown', note:'' },
+        { id:'install', name:'نصب اپلیکیشن (PWA)', status:'unknown', note:'' }
+      ],
+      incidents: []
+    };
+
+    function renderOverview(data){
+      var worst = data.services.reduce(function(acc, s){
+        var m = STATUS_META[s.status] || STATUS_META.unknown;
+        return m.order > acc.order ? m : acc;
+      }, STATUS_META.ok);
+
+      var icon = document.getElementById('overview-icon');
+      var title = document.getElementById('overview-title');
+      var desc = document.getElementById('overview-desc');
+
+      icon.classList.remove('warn', 'down');
+      if(worst.cls === 'down'){
+        icon.classList.add('down');
+        icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none"><path d="M12 8v5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="16.3" r="1.15" fill="currentColor"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/></svg>';
+        title.textContent = 'یکی از بخش‌ها قطعه';
+        desc.textContent = 'داریم مشکل رو بررسی می‌کنیم، لطفاً کمی بعد دوباره سر بزن.';
+      } else if(worst.cls === 'warn' || worst.cls === 'unknown'){
+        icon.classList.add('warn');
+        icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5 21 19H3L12 3.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 9.5v4.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="16.4" r="1.05" fill="currentColor"/></svg>';
+        title.textContent = 'بعضی بخش‌ها کند یا محدودن';
+        desc.textContent = 'بیشتر سایت کار می‌کنه، ولی یکی دو بخش ممکنه کامل جواب ندن.';
+      } else {
+        title.textContent = 'همه‌چیز سالمه';
+        desc.textContent = 'همه‌ی بخش‌های سایت الان به‌درستی کار می‌کنن.';
+      }
+
+      document.getElementById('status-updated').textContent = data.updated
+        ? ('آخرین بروزرسانی: ' + data.updated)
+        : 'اطلاعات لحظه‌ای در دسترس نیست';
+    }
+
+    function renderServices(data){
+      var wrap = document.getElementById('status-list');
+      wrap.innerHTML = '';
+      data.services.forEach(function(s){
+        var meta = STATUS_META[s.status] || STATUS_META.unknown;
+        var row = document.createElement('div');
+        row.className = 'status-row';
+        row.innerHTML =
+          '<span class="status-dot ' + meta.cls + '"></span>' +
+          '<span class="status-row-body">' +
+            '<span class="status-row-name">' + s.name + '</span>' +
+            (s.note ? '<span class="status-row-note">' + s.note + '</span>' : '') +
+          '</span>' +
+          '<span class="status-row-badge ' + meta.cls + '">' + meta.label + '</span>';
+        wrap.appendChild(row);
+      });
+    }
+
+    function renderIncidents(data){
+      var wrap = document.getElementById('incident-list');
+      wrap.innerHTML = '';
+      if(!data.incidents || !data.incidents.length){
+        wrap.innerHTML = '<div class="empty-note">فعلاً رویداد ثبت‌شده‌ای نیست 🌿</div>';
+        return;
+      }
+      data.incidents.forEach(function(inc){
+        var item = document.createElement('div');
+        item.className = 'incident-item';
+        item.innerHTML =
+          '<div class="incident-head">' +
+            '<span class="incident-title">' + inc.title + '</span>' +
+            '<span class="incident-date">' + inc.date + '</span>' +
+          '</div>' +
+          '<div class="incident-desc">' + inc.desc + '</div>' +
+          (inc.resolved ? '<div class="incident-resolved">✓ برطرف شد</div>' : '');
+        wrap.appendChild(item);
+      });
+    }
+
+    function render(data){
+      renderOverview(data);
+      renderServices(data);
+      renderIncidents(data);
+    }
+
+    fetch('status.json', { cache: 'no-store' })
+      .then(function(r){ if(!r.ok) throw new Error('bad response'); return r.json(); })
+      .then(render)
+      .catch(function(){ render(FALLBACK_DATA); });
+
+    var reportBtn = document.getElementById('report-btn');
+    var thanks = document.getElementById('report-thanks');
+    if(reportBtn){
+      reportBtn.addEventListener('click', function(){
+        reportBtn.style.display = 'none';
+        thanks.classList.add('show');
+      });
+    }
+  })();
+</script>
+<script>
+window.KZM_ASSISTANT_CONFIG = {
+  pageKey: 'status',
+  greeting: {
+    title: 'سلام 👋',
+    short: 'این صفحه وضعیت سالم‌بودن بخش‌های مختلف سایت رو نشون می‌ده.',
+    full: 'سلام! اگه یه بخشی از سایت (مثل پخش زنده) براتون درست کار نمی‌کنه، اول یه سر به این صفحه بزنید تا ببینید مشکل از سایته یا از گوشی و اینترنت خودتون.\n\nاگه چیزی رو قرمز یا زرد دیدید، یعنی ما هم داریم روش کار می‌کنیم.'
+  },
+  sections: [
+    { key:'overview', selector:'#overview-card',
+      title:'خلاصه وضعیت',
+      short:'یک نگاه کلی به سلامت سایت.',
+      full:'این کارت بهتون می‌گه به‌طور کلی همه‌چیز سالمه یا نه. اگه رنگش سبزه، خیالتون راحت باشه.' },
+    { key:'services', selector:'#status-list',
+      title:'وضعیت هر بخش',
+      short:'وضعیت جداگانه‌ی هر قسمت از سایت.',
+      full:'اینجا می‌بینید هر بخش از سایت (پخش زنده، اوقات شرعی، نقشه و…) جداگانه سالمه، کنده یا قطعه.' }
+  ]
+};
+</script>
+<script src="assistant.js"></script>
+</body>
+</html>

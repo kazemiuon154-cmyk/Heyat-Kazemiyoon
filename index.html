@@ -186,10 +186,13 @@
   /* ---------------- scroll progress bar ---------------- */
   .progress-bar{
     position:fixed; top:0; left:0;
-    height:3px; width:0%;
+    height:3px; width:100%;
     background:linear-gradient(90deg, var(--crimson), var(--gold));
     z-index:90;
-    transition:width 0.1s ease-out;
+    transform:scaleX(0);
+    transform-origin:left center;
+    will-change:transform;
+    transition:transform 0.1s ease-out;
     box-shadow:0 0 8px rgba(201,162,39,0.5);
   }
 
@@ -204,8 +207,6 @@
     gap:10px;
     z-index:2;
     background:linear-gradient(180deg, rgba(14,9,6,0.94), rgba(14,9,6,0.82) 65%, transparent);
-    -webkit-backdrop-filter:blur(8px);
-    backdrop-filter:blur(8px);
   }
   .top-controls-left{
     display:block;
@@ -297,7 +298,7 @@
     width:34px; height:34px;
     border-radius:50%;
     border:1px solid var(--line);
-    background:rgba(20,14,10,0.75);
+    background:rgba(20,14,10,0.92);
     color:var(--parchment-dim);
     display:flex;
     align-items:center;
@@ -308,8 +309,6 @@
     visibility:hidden;
     transform:translateY(8px);
     transition:opacity 0.25s ease, transform 0.25s ease, visibility 0.25s, border-color 0.2s ease, color 0.2s ease;
-    -webkit-backdrop-filter:blur(6px);
-    backdrop-filter:blur(6px);
   }
   .back-to-top svg{ width:16px; height:16px; }
   .back-to-top.show{
@@ -775,11 +774,20 @@
     text-shadow:
       0 0 18px rgba(201,162,39,0.45),
       0 0 3px rgba(0,0,0,0.6);
+    position:relative;
+    isolation:isolate;
+  }
+  .eyebrow::before{
+    content:'';
+    position:absolute; inset:-14px -28px;
+    z-index:-1; pointer-events:none;
+    background:radial-gradient(ellipse at center, rgba(201,162,39,0.30), transparent 68%);
+    opacity:0.3;
     animation:bismillah-glow 4.5s ease-in-out infinite;
   }
   @keyframes bismillah-glow{
-    0%,100%{ text-shadow:0 0 14px rgba(201,162,39,0.35), 0 0 3px rgba(0,0,0,0.6); }
-    50%{ text-shadow:0 0 26px rgba(201,162,39,0.6), 0 0 3px rgba(0,0,0,0.6); }
+    0%,100%{ opacity:0.2; transform:scale(0.96); }
+    50%{ opacity:0.8; transform:scale(1.05); }
   }
   .eyebrow-tag{
     text-align:center;
@@ -810,9 +818,6 @@
     position:relative;
     width:238px; height:238px;
     display:flex; align-items:center; justify-content:center;
-    transform-style:preserve-3d;
-    will-change:transform;
-    filter:drop-shadow(0 18px 30px rgba(0,0,0,0.55));
     animation:emblem-enter 1.1s cubic-bezier(0.22,1.2,0.36,1) 0.15s backwards;
   }
   @keyframes emblem-enter{
@@ -824,7 +829,6 @@
     position:absolute; inset:-48px;
     border-radius:50%;
     background:radial-gradient(circle, rgba(var(--crimson-rgb),0.55) 0%, rgba(var(--crimson-rgb),0.18) 45%, transparent 72%);
-    filter:blur(8px);
     animation:breathe 4.5s ease-in-out infinite;
     pointer-events:none;
   }
@@ -862,7 +866,8 @@
       inset 0 0 26px rgba(var(--crimson-rgb),0.4),
       0 0 36px rgba(var(--crimson-rgb),0.4),
       0 0 70px rgba(var(--crimson-rgb),0.15),
-      0 10px 26px rgba(0,0,0,0.5);
+      0 10px 26px rgba(0,0,0,0.5),
+      0 18px 30px rgba(0,0,0,0.35);
   }
   .emblem .disc img{ width:100%; height:100%; object-fit:cover; display:block; }
   .emblem .disc::after{
@@ -1806,10 +1811,21 @@
     min-width:0;
   }
   .cal-month-label{
+    display:inline-flex; align-items:center; gap:6px;
     font-size:16.5px; font-weight:800;
     color:var(--parchment);
     letter-spacing:0.01em;
     font-variant-numeric:tabular-nums;
+    cursor:pointer; padding:4px 12px; border-radius:10px;
+    transition:background 0.18s ease, color 0.18s ease;
+  }
+  .cal-month-label:hover, .cal-month-label:active{ background:rgba(255,203,61,0.08); color:var(--gold); }
+  .cal-month-label::after{
+    content:'';
+    width:6px; height:6px; flex:none;
+    border-right:2px solid currentColor; border-bottom:2px solid currentColor;
+    transform:rotate(45deg) translateY(-2px);
+    opacity:0.7;
   }
   .cal-today-btn{
     font-family:var(--font-main);
@@ -1823,6 +1839,76 @@
     transition:all 0.18s ease;
   }
   .cal-today-btn:hover{ border-color:var(--gold-soft); color:var(--gold); background:rgba(255,203,61,0.06); }
+  .cal-nav-mid-actions{ display:flex; align-items:center; gap:6px; }
+
+  .cal-jump-sheet{ padding-top:14px; }
+  .cal-jump-year-row{
+    display:flex; align-items:center; justify-content:center; gap:22px;
+    margin-bottom:18px;
+  }
+  .cal-jump-year-val{
+    font-size:19px; font-weight:800; color:var(--gold);
+    font-variant-numeric:tabular-nums; min-width:74px; text-align:center;
+  }
+  .cal-jump-months{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:10px;
+  }
+  .cal-jump-month-btn{
+    padding:14px 6px;
+    border-radius:14px;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.03);
+    color:var(--parchment);
+    font-family:var(--font-main); font-size:13px; font-weight:700;
+    cursor:pointer;
+    transition:all 0.18s ease;
+  }
+  .cal-jump-month-btn:hover{ border-color:var(--gold-soft); color:var(--gold); background:rgba(255,203,61,0.08); }
+  .cal-jump-month-btn:active{ transform:scale(0.95); }
+  .cal-jump-month-btn.is-current{
+    border-color:var(--gold); color:var(--void); background:var(--gold);
+    font-weight:800;
+  }
+  .cal-jump-today-btn{
+    display:block; margin:18px auto 0;
+    font-family:var(--font-main);
+    font-size:11.5px; font-weight:700;
+    color:var(--gold-soft);
+    background:transparent;
+    border:1px solid var(--line);
+    padding:6px 18px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:all 0.18s ease;
+  }
+  .cal-jump-today-btn:hover{ border-color:var(--gold-soft); color:var(--gold); background:rgba(255,203,61,0.06); }
+
+  .cal-year-sheet{ padding-top:14px; }
+  .cal-year-grid{
+    display:grid; grid-template-columns:repeat(2,1fr); gap:10px;
+  }
+  .cal-year-month-card{
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:10px 8px 11px;
+    background:rgba(255,255,255,0.03);
+    cursor:pointer;
+    transition:all 0.18s ease;
+    text-align:center;
+  }
+  .cal-year-month-card:hover{ border-color:var(--gold-soft); background:rgba(255,203,61,0.06); }
+  .cal-year-month-card:active{ transform:scale(0.97); }
+  .cal-year-month-card.is-current{ border-color:var(--gold); box-shadow:0 0 0 1px var(--gold) inset; }
+  .cal-year-month-name{ font-size:12px; font-weight:800; color:var(--parchment); margin-bottom:7px; }
+  .cal-year-month-mini{
+    display:grid; grid-template-columns:repeat(7,1fr); gap:2.5px;
+  }
+  .cal-year-mini-cell{
+    aspect-ratio:1; border-radius:2.5px;
+    background:rgba(255,255,255,0.06);
+  }
+  .cal-year-mini-cell.has-holiday{ box-shadow:0 0 0 1px #ff8a7e inset; }
+  .cal-year-month-count{ margin-top:8px; font-size:9.5px; color:var(--parchment-dim); font-variant-numeric:tabular-nums; }
 
   .cal-weekdays{
     position:relative;
@@ -1873,10 +1959,14 @@
   .cal-day-has-event:hover{ border-color:var(--gold-soft); transform:translateY(-1px); }
   .cal-day-has-event:active{ transform:scale(0.94); }
   .cal-day-today{
-    border-color:var(--gold);
-    box-shadow:0 0 0 2px rgba(255,203,61,0.18);
+    border:2px solid var(--parchment);
+    background:rgba(255,255,255,0.09);
+    box-shadow:0 0 0 3px rgba(255,255,255,0.12), 0 0 14px rgba(255,255,255,0.22);
   }
-  .cal-day-today .cal-day-num{ color:var(--gold); }
+  .cal-day-today .cal-day-num{
+    color:var(--parchment);
+    text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:4px;
+  }
   .cal-day-next{ animation:calNextGlow 1.8s ease-in-out infinite; }
   @keyframes calNextGlow{
     0%,100%{ box-shadow:0 0 0 2px rgba(255,203,61,0.14); }
@@ -1894,6 +1984,99 @@
   }
   .cal-dot-gold{ background:var(--gold); color:var(--gold); }
   .cal-dot-crimson{ background:var(--crimson-bright); color:var(--crimson-bright); }
+  /* مناسبت‌های مذهبی (تقویم رسمی کشور) */
+  .cal-dot-birth, .cal-dot-eid, .cal-dot-mourn, .cal-dot-other{ border-radius:1.5px; transform:rotate(45deg); }
+  .cal-dot-birth{ background:#ff7eb8; color:#ff7eb8; }
+  .cal-dot-eid{ background:#2dd4bf; color:#2dd4bf; }
+  .cal-dot-mourn{ background:#b39dff; color:#b39dff; }
+  .cal-dot-other{ background:#5aa9ff; color:#5aa9ff; }
+  .cal-legend-dot.is-diamond{ border-radius:2px; transform:rotate(45deg); }
+  .cal-day.cal-day-holiday .cal-day-num{ color:#ff6b5e; }
+  .cal-today-line{ margin:0 0 12px; padding:10px 14px; border-radius:14px; border:1px solid var(--line); background:rgba(255,255,255,0.03); }
+  .cal-today-head{ font-size:11px; font-weight:800; color:var(--gold-soft); margin-bottom:2px; }
+  .cal-today-head b{ color:var(--parchment); font-size:13px; margin-inline-start:6px; }
+  .cal-today-row{ display:flex; align-items:center; gap:10px; font-size:12.5px; line-height:2; }
+  .cal-today-tag{ flex:none; min-width:54px; font-size:10.5px; font-weight:800; color:var(--gold-soft); }
+  .cal-today-val{ font-weight:700; color:var(--parchment); font-variant-numeric:tabular-nums; }
+  /* جست‌وجوی مناسبت — جهش مستقیم به روزِ مورد نظر در تقویم */
+  .cal-search{
+    position:relative;
+    display:flex; align-items:center; gap:8px;
+    margin:0 0 14px;
+    padding:10px 14px;
+    border-radius:14px;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,0.03);
+    transition:border-color 0.2s ease, background 0.2s ease;
+  }
+  .cal-search:focus-within{ border-color:var(--gold-soft); background:rgba(255,203,61,0.06); }
+  .cal-search > svg{ width:15px; height:15px; opacity:0.85; flex:none; color:var(--gold); }
+  .cal-search input{
+    flex:1; min-width:0;
+    background:none; border:none; outline:none;
+    font-family:var(--font-main); font-size:12.5px; font-weight:700;
+    color:var(--gold); text-align:right; padding:0;
+  }
+  html[dir="ltr"] .cal-search input{ text-align:left; }
+  .cal-search input::placeholder{ color:var(--parchment-dim); font-weight:600; opacity:0.8; }
+  .cal-search-clear{
+    display:none; align-items:center; justify-content:center;
+    width:18px; height:18px; border-radius:50%; flex:none;
+    color:var(--parchment-dim); background:rgba(255,255,255,0.07);
+    border:none; cursor:pointer; font-size:11px; line-height:1; padding:0;
+  }
+  .cal-search.has-value .cal-search-clear{ display:flex; }
+  .cal-search-results{
+    position:absolute; left:0; right:0; top:calc(100% + 8px);
+    max-height:308px; overflow-y:auto;
+    background:var(--void-2);
+    border:1px solid var(--gold-soft);
+    border-radius:14px;
+    box-shadow:0 18px 36px rgba(0,0,0,0.45);
+    padding:6px;
+    z-index:40;
+    display:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  .cal-search.show-results .cal-search-results{ display:block; }
+  .cal-search-item{
+    display:flex; align-items:center; gap:10px;
+    padding:9px 8px;
+    border-radius:10px;
+    cursor:pointer;
+    text-align:right;
+    background:none; border:none; width:100%;
+    font-family:var(--font-main); color:var(--parchment);
+  }
+  html[dir="ltr"] .cal-search-item{ text-align:left; }
+  .cal-search-item:hover, .cal-search-item.is-active{ background:rgba(255,203,61,0.12); }
+  .cal-search-item + .cal-search-item{ margin-top:2px; }
+  .cal-search-item-dot{
+    flex:none; width:8px; height:8px; border-radius:1.5px; transform:rotate(45deg);
+    box-shadow:0 0 6px 0 currentColor;
+  }
+  .cal-search-item-body{ flex:1; min-width:0; }
+  .cal-search-item-title{ font-size:12.5px; font-weight:700; color:var(--parchment); line-height:1.5; }
+  .cal-search-item-date{ font-size:10.5px; color:var(--parchment-dim); margin-top:2px; font-variant-numeric:tabular-nums; }
+  .cal-search-item-holiday{ flex:none; font-size:9px; font-weight:800; color:#ff8a7e; border:1px solid rgba(255,107,94,0.45); background:rgba(255,107,94,0.10); border-radius:999px; padding:2px 7px; }
+  .cal-search-empty{ padding:16px 10px; text-align:center; font-size:11.5px; color:var(--parchment-dim); }
+  .cal-holiday-pill{ display:inline-block; margin-top:8px; padding:3px 12px; border-radius:999px; font-size:11px; font-weight:800; color:#ff8a7e; border:1px solid rgba(255,107,94,0.45); background:rgba(255,107,94,0.10); }
+  .cal-disclaimer{
+    display:flex; align-items:flex-start; gap:10px;
+    margin-top:14px; padding:12px 14px;
+    border-radius:14px;
+    border:1px solid rgba(88,166,255,0.55);
+    background:rgba(88,166,255,0.10);
+    color:#cfe5ff;
+    font-size:11.5px; line-height:1.9; text-align:right;
+  }
+  .cal-disclaimer-icon{
+    flex:none; width:22px; height:22px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:#3b8fff; color:#fff; font-weight:800; font-size:14px; line-height:1;
+    margin-top:2px;
+  }
+  .cal-occ-note{ flex-basis:100%; font-size:10.5px; color:var(--parchment-dim); line-height:1.8; margin-top:2px; }
 
   .cal-legend{
     position:relative;
@@ -2038,8 +2221,6 @@
     background:
       radial-gradient(120% 140% at 100% 0%, rgba(var(--crimson-rgb),0.10), transparent 55%),
       linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.014));
-    -webkit-backdrop-filter:blur(8px);
-    backdrop-filter:blur(8px);
     overflow:hidden;
     box-shadow:0 1px 0 rgba(255,255,255,0.06) inset, 0 10px 26px rgba(0,0,0,0.22);
     position:relative;
@@ -2097,7 +2278,7 @@
     overflow:hidden;
     transition:max-height 0.4s cubic-bezier(.4,0,.2,1), opacity 0.28s ease;
   }
-  .services-menu.open .services-panel{ opacity:1; max-height:720px; }
+  .services-menu.open .services-panel{ opacity:1; max-height:1400px; }
 
   .services-search{
     display:flex; align-items:center; gap:8px;
@@ -2136,10 +2317,31 @@
 
   /* ---- گرید آیکون‌های حرفه‌ای؛ کارت‌های مجزا با آیکون‌های خطی سفارشی ---- */
   .services-list{
-    display:grid;
-    grid-template-columns:repeat(4, 1fr);
-    gap:10px;
-    padding:6px 13px 16px;
+    padding:2px 13px 14px;
+  }
+  /* ---- گروه‌بندی صفحات: هر گروه سرتیتر و گرید مخصوص خودش را دارد ---- */
+  .services-group{ padding-top:4px; }
+  .services-group.hidden-by-search{ display:none; }
+  .services-group-head{ display:flex; align-items:center; gap:9px; padding:10px 3px 10px; }
+  .services-group-head::before{
+    content:""; width:6px; height:6px; flex:none; transform:rotate(45deg); border-radius:1.5px;
+    background:linear-gradient(135deg, var(--gold-bright, var(--gold)), var(--crimson-bright));
+    box-shadow:0 0 8px rgba(var(--crimson-rgb),0.5);
+  }
+  .services-group-title{ font-size:11.5px; font-weight:800; color:var(--gold-soft); letter-spacing:0.1px; white-space:nowrap; }
+  .services-group-head::after{
+    content:""; flex:1; height:1px;
+    background:linear-gradient(90deg, transparent, var(--line) 18%, var(--line) 82%, transparent);
+  }
+  .services-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:10px; }
+  .services-group[data-n="1"] .services-grid{ grid-template-columns:1fr; }
+  .services-group[data-n="2"] .services-grid{ grid-template-columns:repeat(2, 1fr); }
+  .services-group[data-n="3"] .services-grid{ grid-template-columns:repeat(3, 1fr); }
+  /* گروه‌های یک‌تایی و دوتایی: کارت افقی (آیکون کنار عنوان) تا عرض کارت هدر نره */
+  .services-group[data-n="1"] .services-row,
+  .services-group[data-n="2"] .services-row{
+    flex-direction:row; justify-content:flex-start; text-align:start;
+    gap:11px; padding:12px 13px; font-size:11.5px;
   }
   .services-row{
     position:relative;
@@ -2247,19 +2449,8 @@
     100%{ box-shadow:0 0 0 0 rgba(239,68,68,0); }
   }
 
-  /* اگر تعداد آیتم‌های «دسترسی سریع» به مضرب ۴ ختم نشه، آخرین ردیف تک‌وتنها با
-     چند خونه‌ی خالی می‌مونه؛ این قانون خودکار، ردیف آخر رو همیشه پر و متقارن نگه
-     می‌داره — چه یه آیتم ته مونده باشه (تمام‌عرض می‌شه) چه دو تا (نصف‌نصف می‌شن)،
-     مستقل از این‌که در آینده چندتا آیتم اضافه یا کم بشه. */
-  .services-row:nth-child(4n+1):last-child{ grid-column:1 / -1; }
-  .services-row:nth-child(4n+1):nth-last-child(2){ grid-column:1 / span 2; }
-  .services-row:nth-child(4n+2):last-child{ grid-column:3 / span 2; }
-
   @media (max-width:340px){
-    .services-list{ grid-template-columns:repeat(3, 1fr); }
-    .services-row:nth-child(3n+1):last-child{ grid-column:1 / -1; }
-    .services-row:nth-child(4n+1):nth-last-child(2),
-    .services-row:nth-child(4n+2):last-child{ grid-column:auto; }
+    .services-group[data-n="4"] .services-grid{ grid-template-columns:repeat(2, 1fr); }
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -2480,13 +2671,11 @@
     width:36px; height:36px;
     border-radius:50%;
     border:1px solid var(--line);
-    background:rgba(20,14,10,0.75);
+    background:rgba(20,14,10,0.92);
     color:var(--parchment-dim);
     display:flex; align-items:center; justify-content:center;
     cursor:pointer;
     transition:all 0.2s ease;
-    -webkit-backdrop-filter:blur(6px);
-    backdrop-filter:blur(6px);
   }
   .quick-menu-btn svg{ width:17px; height:17px; }
   .quick-menu-btn:hover{ border-color:var(--gold-soft); color:var(--gold); }
@@ -2600,62 +2789,6 @@
     color:var(--parchment-dim);
   }
 
-  /* ============================================================
-     دکمه شناور مرکز دانلود سایت (تصاویر، مداحی، زیارت‌نامه‌ها و ...)
-  ============================================================ */
-  .downloads-fab{
-    position:fixed;
-    right:14px;
-    bottom:calc(18px + env(safe-area-inset-bottom, 0px));
-    z-index:56;
-    display:flex; align-items:center; gap:6px;
-    padding:8px 14px 8px 11px;
-    border-radius:999px;
-    border:1px solid var(--gold-soft);
-    background:linear-gradient(135deg, var(--gold), var(--gold-dim));
-    color:var(--void);
-    cursor:pointer;
-    box-shadow:0 6px 18px rgba(0,0,0,0.45);
-    transition:transform 0.18s ease, opacity 0.25s ease, visibility 0.25s ease;
-    white-space:nowrap;
-  }
-  .downloads-fab::after{
-    content:'';
-    position:absolute;
-    inset:-2px;
-    border-radius:inherit;
-    border:1.5px solid rgba(255,203,61,0.55);
-    opacity:0.55;
-    transform:scale(1);
-    animation:downloads-fab-pulse 2.6s ease-in-out infinite;
-    pointer-events:none;
-    will-change:transform, opacity;
-  }
-  .downloads-fab:active{ transform:scale(0.95); }
-  .downloads-fab.collapsed{
-    opacity:0; visibility:hidden;
-    transform:scale(0.8);
-    pointer-events:none;
-  }
-  .downloads-fab-badge{
-    display:flex; align-items:center; justify-content:center;
-    width:20px; height:20px; flex:none;
-    border-radius:50%;
-    background:radial-gradient(120% 120% at 30% 20%, rgba(255,255,255,0.55), rgba(255,255,255,0.08) 60%), rgba(14,9,6,0.16);
-    box-shadow:0 1px 0 rgba(255,255,255,0.5) inset, 0 2px 5px rgba(0,0,0,0.22);
-  }
-  .downloads-fab-badge svg{ width:12px; height:12px; flex:none; }
-  .downloads-fab-label{
-    font-family:var(--font-main);
-    font-size:11px;
-    font-weight:800;
-    letter-spacing:-0.2px;
-  }
-  @keyframes downloads-fab-pulse{
-    0%,100%{ opacity:0.55; transform:scale(1); }
-    50%{ opacity:0; transform:scale(1.08); }
-  }
-
   .downloads-list{
     display:flex; flex-direction:column; gap:10px;
     margin-top:14px; text-align:right;
@@ -2707,6 +2840,74 @@
   .download-btn .dl-icon-cancel{ display:none; }
   .download-btn.loading .dl-icon{ display:none; }
   .download-btn.loading .dl-icon-cancel{ display:block; animation:none; }
+
+  /* ===== کارت اشتراک‌گذاری روز ===== */
+  .cal-nav-mid-actions{ flex-wrap:wrap; justify-content:center; }
+  .modal-sheet.sc-sheet{ max-width:1040px; max-height:92vh; padding:14px 16px 0; text-align:right; }
+  .sc-title{ font-size:16px; font-weight:800; margin:2px 0 2px; color:var(--gold); }
+  .sc-sub{ font-size:11.5px; color:var(--parchment-dim); margin:0 0 14px; line-height:1.9; padding-left:44px; }
+  .sc-layout{ display:grid; gap:16px; grid-template-columns:1fr; padding-bottom:20px; }
+  .sc-stage{ display:flex; justify-content:center; padding:14px; border-radius:20px; border:1px solid var(--line); background:rgba(255,255,255,0.03); }
+  .sc-stage canvas{ display:block; max-width:100%; height:auto; max-height:52vh; width:auto; border-radius:10px; box-shadow:0 18px 50px rgba(0,0,0,0.55); }
+  @media(min-width:900px){
+    .sc-layout{ grid-template-columns:minmax(0,1fr) 400px; align-items:start; }
+    .sc-stage{ position:sticky; top:0; }
+    .sc-stage canvas{ max-height:calc(92vh - 150px); }
+  }
+  .sc-panel{ border:1px solid var(--line); border-radius:20px; padding:16px 16px 0; background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)), var(--void); }
+  .sc-h{ font-size:12px; font-weight:800; color:var(--gold-soft); margin:16px 0 6px; }
+  .sc-h:first-child{ margin-top:0; }
+  .sc-chips{ display:flex; flex-wrap:wrap; gap:6px; }
+  .sc-chip, .sc-seg button, .sc-today-btn{
+    font-family:inherit; font-size:12px; font-weight:700; cursor:pointer;
+    color:var(--parchment); background:rgba(255,255,255,0.04);
+    border:1px solid var(--line); border-radius:999px; padding:5px 12px;
+    display:inline-flex; align-items:center; gap:6px;
+  }
+  .sc-chip:hover, .sc-seg button:hover, .sc-today-btn:hover{ border-color:var(--gold-soft); }
+  .sc-chip.on, .sc-seg button.on{ background:rgba(255,203,61,0.16); border-color:var(--gold); color:var(--gold); }
+  .sc-sw{ width:12px; height:12px; border-radius:50%; border:1px solid rgba(255,255,255,0.35); flex:none; }
+  .sc-seg{ display:flex; gap:6px; }
+  .sc-seg button{ flex:1; border-radius:12px; justify-content:center; }
+  .sc-sheet label{ display:block; font-size:11px; color:var(--parchment-dim); margin:8px 0 2px; }
+  .sc-sheet input[type=text], .sc-sheet input[type=date], .sc-sheet select{
+    width:100%; font-family:inherit; font-size:13px; color:var(--parchment);
+    background:rgba(0,0,0,0.25); border:1px solid var(--line); border-radius:10px; padding:8px 10px;
+  }
+  .sc-sheet input[type=date]{ color-scheme:dark; }
+  .sc-sheet input:focus, .sc-sheet select:focus, .sc-sheet button:focus-visible{ outline:2px solid var(--gold); outline-offset:1px; }
+  .sc-sheet .sc-check{ display:flex; align-items:center; gap:8px; font-size:12px; color:var(--parchment); margin-top:10px; }
+  .sc-row3{ display:grid; grid-template-columns:1fr 1.5fr 1fr; gap:6px; margin-top:8px; }
+  .sc-datebar{ display:flex; gap:8px; align-items:end; margin-top:2px; }
+  .sc-datebar > div{ flex:1; }
+  .sc-datebar .sc-today-btn{ margin-bottom:1px; }
+  .sc-hint{ font-size:11px; color:var(--parchment-dim); margin-top:6px; }
+  /* نوار هفته */
+  .sc-weekbar{ display:flex; align-items:center; gap:6px; }
+  .sc-wk-nav{ flex:none; width:30px; height:44px; border-radius:10px; border:1px solid var(--line); background:rgba(255,255,255,0.04); color:var(--gold); cursor:pointer; padding:0; display:flex; align-items:center; justify-content:center; }
+  .sc-wk-nav svg{ width:16px; height:16px; }
+  .sc-wk-nav:disabled{ opacity:0.3; cursor:default; }
+  .sc-wk-days{ flex:1; display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
+  .sc-wk-day{
+    position:relative; font-family:inherit; cursor:pointer; padding:5px 0 8px; border-radius:11px;
+    border:1px solid var(--line); background:rgba(255,255,255,0.03); color:var(--parchment);
+    display:flex; flex-direction:column; align-items:center; line-height:1.35;
+  }
+  .sc-wk-day small{ font-size:10px; color:var(--parchment-dim); font-weight:700; }
+  .sc-wk-day b{ font-size:14px; font-weight:800; }
+  .sc-wk-day i{ position:absolute; bottom:3px; width:5px; height:5px; border-radius:50%; }
+  .sc-wk-day.on{ background:rgba(255,203,61,0.17); border-color:var(--gold); }
+  .sc-wk-day.on b, .sc-wk-day.on small{ color:var(--gold); }
+  .sc-wk-cap{ font-size:11px; color:var(--parchment-dim); text-align:center; margin:0 0 6px; }
+  .sc-dayinfo{ margin-top:10px; padding:9px 12px; border-radius:12px; border:1px solid var(--line); background:rgba(255,255,255,0.03); font-size:11.5px; line-height:1.9; color:var(--parchment); }
+  .sc-dayinfo em{ color:var(--parchment-dim); font-style:normal; display:block; margin-top:2px; }
+  .sc-actions{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:16px; padding:10px 0 16px; position:sticky; bottom:0; background:linear-gradient(180deg, transparent, var(--void) 22%); }
+  .sc-btn{ font-family:inherit; font-size:13px; font-weight:800; cursor:pointer; padding:11px; border-radius:14px; border:1px solid var(--gold); background:var(--gold); color:#2a2000; }
+  .sc-btn.alt{ background:var(--void); color:var(--gold); }
+  .sc-btn.wide{ grid-column:1 / -1; }
+  .sc-btn:disabled{ opacity:0.55; cursor:wait; }
+  .sc-btn:active{ transform:scale(0.97); }
+  .sc-note{ font-size:11px; color:var(--parchment-dim); min-height:20px; padding-bottom:12px; }
 </style>
 <link rel="stylesheet" href="assistant.css">
 </head>
@@ -2736,7 +2937,7 @@
 </button>
 
 <div class="quick-menu" id="quick-menu">
-  <button type="button" id="quick-menu-btn" class="quick-menu-btn" aria-haspopup="true" aria-expanded="false" aria-label="منوی تنظیمات: صدا، زبان، تم و راهنمای سایت">
+  <button type="button" id="quick-menu-btn" class="quick-menu-btn" aria-haspopup="true" aria-expanded="false" aria-label="منوی تنظیمات: صدا، زبان، تم، مرکز دانلود و راهنمای سایت">
     <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
     <span class="quick-menu-badge" id="quick-menu-badge"></span>
   </button>
@@ -2812,6 +3013,16 @@
       </button>
     </div>
     <div class="quick-menu-row">
+      <span class="quick-menu-label" data-i18n="quickMenuDownloads">مرکز دانلود</span>
+      <button type="button" id="downloads-trigger" class="sound-toggle" aria-haspopup="dialog" aria-label="مرکز دانلود سایت؛ تصاویر، مداحی و زیارت‌نامه‌ها">
+        <svg viewBox="0 0 24 24" fill="none">
+      <path d="M3.5 6.3c0-1 .8-1.8 1.8-1.8h13.4c1 0 1.8.8 1.8 1.8v2.2c0 1-.8 1.8-1.8 1.8H5.3c-1 0-1.8-.8-1.8-1.8V6.3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+      <path d="M4.8 10.3v7.4c0 1.1.9 2 2 2h10.4c1.1 0 2-.9 2-2v-7.4" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+      <path d="M9.8 13.6h4.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+    </svg>
+      </button>
+    </div>
+    <div class="quick-menu-row">
       <span class="quick-menu-label" data-i18n="guideTrigger">راهنمای سایت</span>
       <a href="guide.html" id="guide-trigger" class="sound-toggle guide-fab" aria-label="راهنمای سایت" data-prefetch-nav>
         <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M9.3 9.3a2.7 2.7 0 1 1 3.8 2.5c-.7.35-1.1.7-1.1 1.5v.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="16.6" r="0.9" fill="currentColor"/></svg>
@@ -2819,17 +3030,6 @@
     </div>
   </div>
 </div>
-
-<button type="button" class="downloads-fab" id="downloads-fab" aria-label="مرکز دانلود؛ تصاویر، مداحی و زیارت‌نامه‌های سایت" aria-haspopup="dialog">
-  <span class="downloads-fab-badge">
-    <svg viewBox="0 0 24 24" fill="none">
-      <path d="M3.5 6.3c0-1 .8-1.8 1.8-1.8h13.4c1 0 1.8.8 1.8 1.8v2.2c0 1-.8 1.8-1.8 1.8H5.3c-1 0-1.8-.8-1.8-1.8V6.3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-      <path d="M4.8 10.3v7.4c0 1.1.9 2 2 2h10.4c1.1 0 2-.9 2-2v-7.4" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-      <path d="M9.8 13.6h4.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-    </svg>
-  </span>
-  <span class="downloads-fab-label">مرکز دانلود سایت</span>
-</button>
 
 <div class="modal-overlay" id="downloads-modal-overlay">
   <div class="modal-sheet downloads-sheet" role="dialog" aria-modal="true" aria-label="مرکز دانلود سایت">
@@ -3049,7 +3249,7 @@
         <b data-i18n="servicesToggle">دسترسی سریع به صفحات</b>
         <small data-i18n="servicesToggleSub">همه‌ی خدمات هیئت در یک‌جا</small>
       </span>
-      <span class="services-toggle-count" id="services-count">13</span>
+      <span class="services-toggle-count" id="services-count">15</span>
       <span class="services-toggle-chevron" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </span>
@@ -3061,65 +3261,95 @@
         <button type="button" class="services-search-clear" id="services-search-clear" aria-label="پاک کردن جستجو">✕</button>
       </div>
       <div class="services-list" id="services-list">
-        <a href="live.html" class="services-row services-row-live" id="live-trigger" data-prefetch-nav>
-          <span class="services-row-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M8 5.5v13l11-6.5-11-6.5Z" fill="#071710"/></svg>
-            <span class="services-row-live-dot" aria-hidden="true"></span>
-          </span>
-          <span data-i18n="liveTrigger">پخش زنده</span>
-        </a>
-        <a href="page2.html" class="services-row" id="page2-trigger" data-prefetch-nav>
-          <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 6.5c-1.8-1.4-4.2-2-6.5-1.6-.5.1-.8.5-.8 1v11c0 .6.5 1 1.1.9 2-.3 4.1.2 5.7 1.4.3.2.7.2 1 0 1.6-1.2 3.7-1.7 5.7-1.4.6.1 1.1-.3 1.1-.9v-11c0-.5-.3-.9-.8-1-2.3-.4-4.7.2-6.5 1.6Z" stroke="#071710" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 6.5V19" stroke="#071710" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-          <span data-i18n="libraryTrigger">ادعیه و زیارت نامه‌ها</span>
-        </a>
-        <a href="nazr.html" class="services-row services-row-alt" id="nazr-trigger" data-prefetch-nav>
-          <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3c1 1.3 1.6 2.3 1.6 3.2 0 .9-.7 1.6-1.6 1.6s-1.6-.7-1.6-1.6C10.4 5.3 11 4.3 12 3Z" fill="#071710"/><rect x="9.3" y="9" width="5.4" height="10.6" rx="1.5" stroke="#071710" stroke-width="1.5"/><path d="M9.3 13.3h5.4" stroke="#071710" stroke-width="1.5"/></svg></span>
-          <span data-i18n="nazrTrigger">نذورات</span>
-        </a>
-        <a href="madahi.html" class="services-row services-row-alt2" id="madahi-trigger" data-prefetch-nav>
-          <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="9.4" y="3.4" width="5.2" height="9.4" rx="2.6" stroke="#071710" stroke-width="1.6"/><path d="M6.4 11c0 3.1 2.5 5.6 5.6 5.6s5.6-2.5 5.6-5.6" stroke="#071710" stroke-width="1.6" stroke-linecap="round"/><path d="M12 16.6V20M9 20h6" stroke="#071710" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-          <span data-i18n="madahiTrigger">مداحی و مولودی</span>
-        </a>
-        <a href="gallery.html" class="services-row services-row-alt3" id="gallery-trigger" data-prefetch-nav>
-          <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="4.2" y="6.2" width="15.6" height="11.6" rx="2.2" stroke="#071710" stroke-width="1.5"/><circle cx="8.6" cy="10.2" r="1.3" fill="#071710"/><path d="M5.6 15.9l3.3-3.2c.5-.5 1.3-.5 1.8 0l1.3 1.3 2.9-2.9c.5-.5 1.3-.5 1.8 0l1.9 1.9" stroke="#071710" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          <span data-i18n="galleryTrigger">گالری تصاویر</span>
-        </a>
-        <a href="salavat.html" class="services-row services-row-alt4" id="salavat-trigger" data-prefetch-nav>
-          <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="4.8" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="17.6" cy="7.4" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="19.2" cy="13.4" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="15.2" cy="18.6" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="8.8" cy="18.6" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="4.8" cy="13.4" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="6.4" cy="7.4" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="12" cy="12" r="1.7" fill="#071710"/></svg></span>
-          <span data-i18n="salavatTrigger">صلوات‌شمار</span>
-        </a>
-        <a href="faq.html" class="services-row services-row-alt5" id="faq-trigger" data-prefetch-nav>
-          <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4.5 6.9c0-1.3 1-2.3 2.3-2.3h10.4c1.3 0 2.3 1 2.3 2.3v6.7c0 1.3-1 2.3-2.3 2.3H10l-3.6 3v-3h-.6c-1.3 0-2.3-1-2.3-2.3V6.9Z" stroke="#071710" stroke-width="1.5" stroke-linejoin="round"/><path d="M10.3 9.5c0-.9.8-1.6 1.7-1.6s1.7.6 1.7 1.4c0 .8-.5 1.1-1 1.4-.5.3-.7.6-.7 1.1" stroke="#071710" stroke-width="1.4" stroke-linecap="round"/><circle cx="12" cy="14.5" r="0.85" fill="#071710"/></svg></span>
-          <span data-i18n="faqTrigger">دستیار سایت</span>
-        </a>
-        <a href="convert.html" class="services-row services-row-alt6" id="convert-trigger" data-prefetch-nav>
-          <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="4.3" y="5.3" width="15.4" height="14" rx="2.4" stroke="#071710" stroke-width="1.5"/><path d="M4.3 9.6h15.4" stroke="#071710" stroke-width="1.5"/><path d="M8 3.6v3M16 3.6v3" stroke="#071710" stroke-width="1.5" stroke-linecap="round"/><path d="M9 14.4a3 3 0 0 1 5.2-2M15 12.4v-1.7h-1.7M15 14a3 3 0 0 1-5.2 2M9 16.1v1.7h1.7" stroke="#071710" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          <span data-i18n="convertTrigger">تبدیل تاریخ</span>
-        </a>
-        <a href="frame.html" class="services-row services-row-alt7" id="frame-trigger" data-prefetch-nav>
-          <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M8 6.8 8.9 5c.2-.4.6-.6 1-.6h4.2c.4 0 .8.2 1 .6l.9 1.8h1.8c1.1 0 2 .9 2 2v7.4c0 1.1-.9 2-2 2H5.2c-1.1 0-2-.9-2-2V8.8c0-1.1.9-2 2-2H8Z" stroke="#071710" stroke-width="1.5" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.1" stroke="#071710" stroke-width="1.5"/></svg></span>
-          <span data-i18n="frameTrigger">فریم‌ساز عکس</span>
-        </a>
-        <a href="owqat.html" class="services-row services-row-alt8" id="owqat-trigger" data-prefetch-nav>
-          <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M14.8 4.4a7.7 7.7 0 1 0 4.7 10 6.1 6.1 0 0 1-4.7-10Z" fill="#071710"/><path d="M18.2 5.2l.45 1.05L19.7 6.7l-1.05.45-.45 1.05-.45-1.05-1.05-.45 1.05-.45Z" fill="#071710"/></svg></span>
-          <span data-i18n="owqatTrigger">اوقات شرعی</span>
-        </a>
-        <a href="zekr.html" class="services-row" id="zekr-trigger" data-prefetch-nav>
-          <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="7.4" stroke="#071710" stroke-width="1.5"/><circle cx="12" cy="12" r="2.9" fill="#071710"/></svg></span>
-          <span data-i18n="zekrEntryTitle">ذکر روز</span>
-        </a>
-        <a href="masjed-qaem.html" class="services-row services-row-alt9" id="qaem-trigger" data-prefetch-nav>
-          <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.4c1.4 1.3 2.2 2.6 2.2 3.7a2.2 2.2 0 1 1-4.4 0c0-1.1.8-2.4 2.2-3.7Z" fill="#071710"/><path d="M4.6 20v-5.4c0-2.9 3.2-5.3 7.4-5.3s7.4 2.4 7.4 5.3V20" stroke="#071710" stroke-width="1.5" stroke-linejoin="round"/><path d="M3.3 20h17.4M7.6 20v-3.2a1.5 1.5 0 0 1 1.5-1.5h5.8a1.5 1.5 0 0 1 1.5 1.5V20" stroke="#071710" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
-          <span data-i18n="qaemTrigger">مسجد قائم</span>
-        </a>
-        <a href="#heyat-calendar" class="services-row services-row-alt11" id="calendar-trigger">
-          <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="4.3" y="5.3" width="15.4" height="14" rx="2.4" stroke="#071710" stroke-width="1.6"/><path d="M4.3 9.6h15.4" stroke="#071710" stroke-width="1.6"/><path d="M8 3.6v3M16 3.6v3" stroke="#071710" stroke-width="1.6" stroke-linecap="round"/><circle cx="8.3" cy="13" r="1.1" fill="#071710"/><circle cx="12" cy="13" r="1.1" fill="#071710"/><circle cx="8.3" cy="16.4" r="1.1" fill="#071710"/></svg></span>
-          <span data-i18n="calendarTrigger">تقویم کامل هیئت</span>
-        </a>
-        <a href="install.html" class="services-row services-row-alt10" id="install-trigger" data-prefetch-nav>
-          <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2" stroke="#071710" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          <span data-i18n="installTrigger">نصب اپلیکیشن</span>
-        </a>
+        <div class="services-group" data-n="4" data-total="4" role="group" aria-labelledby="svcGroupEvents-h">
+          <div class="services-group-head"><span class="services-group-title" id="svcGroupEvents-h" data-i18n="svcGroupEvents">مراسم و برنامه‌ها</span></div>
+          <div class="services-grid">
+          <a href="live.html" class="services-row services-row-live" id="live-trigger" data-prefetch-nav>
+            <span class="services-row-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M8 5.5v13l11-6.5-11-6.5Z" fill="#071710"/></svg>
+              <span class="services-row-live-dot" aria-hidden="true"></span>
+            </span>
+            <span data-i18n="liveTrigger">پخش زنده</span>
+          </a>
+
+        <a href="virtual-tour.html" class="services-row services-row-alt4" id="tour-trigger" data-prefetch-nav>
+            <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.2 20 7v9.6L12 20.8 4 16.6V7l8-3.8Z" stroke="#071710" stroke-width="1.5" stroke-linejoin="round"/><path d="M4 7l8 3.8L20 7M12 10.8v10" stroke="#071710" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
+            <span data-i18n="tourTrigger">زیارت سه‌بعدی</span>
+          </a>
+          <a href="masjed-qaem.html" class="services-row services-row-alt9" id="qaem-trigger" data-prefetch-nav>
+            <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.4c1.4 1.3 2.2 2.6 2.2 3.7a2.2 2.2 0 1 1-4.4 0c0-1.1.8-2.4 2.2-3.7Z" fill="#071710"/><path d="M4.6 20v-5.4c0-2.9 3.2-5.3 7.4-5.3s7.4 2.4 7.4 5.3V20" stroke="#071710" stroke-width="1.5" stroke-linejoin="round"/><path d="M3.3 20h17.4M7.6 20v-3.2a1.5 1.5 0 0 1 1.5-1.5h5.8a1.5 1.5 0 0 1 1.5 1.5V20" stroke="#071710" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
+            <span data-i18n="qaemTrigger">مسجد قائم</span>
+          </a>
+          <a href="#heyat-calendar" class="services-row services-row-alt11" id="calendar-trigger">
+            <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="4.3" y="5.3" width="15.4" height="14" rx="2.4" stroke="#071710" stroke-width="1.6"/><path d="M4.3 9.6h15.4" stroke="#071710" stroke-width="1.6"/><path d="M8 3.6v3M16 3.6v3" stroke="#071710" stroke-width="1.6" stroke-linecap="round"/><circle cx="8.3" cy="13" r="1.1" fill="#071710"/><circle cx="12" cy="13" r="1.1" fill="#071710"/><circle cx="8.3" cy="16.4" r="1.1" fill="#071710"/></svg></span>
+            <span data-i18n="calendarTrigger">تقویم کامل هیئت</span>
+          </a>
+          </div>
+        </div>
+        <div class="services-group" data-n="4" data-total="4" role="group" aria-labelledby="svcGroupSpirit-h">
+          <div class="services-group-head"><span class="services-group-title" id="svcGroupSpirit-h" data-i18n="svcGroupSpirit">دعا و معنویات</span></div>
+          <div class="services-grid">
+          <a href="page2.html" class="services-row" id="page2-trigger" data-prefetch-nav>
+            <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 6.5c-1.8-1.4-4.2-2-6.5-1.6-.5.1-.8.5-.8 1v11c0 .6.5 1 1.1.9 2-.3 4.1.2 5.7 1.4.3.2.7.2 1 0 1.6-1.2 3.7-1.7 5.7-1.4.6.1 1.1-.3 1.1-.9v-11c0-.5-.3-.9-.8-1-2.3-.4-4.7.2-6.5 1.6Z" stroke="#071710" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 6.5V19" stroke="#071710" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+            <span data-i18n="libraryTrigger">ادعیه و زیارت نامه‌ها</span>
+          </a>
+          <a href="salavat.html" class="services-row services-row-alt4" id="salavat-trigger" data-prefetch-nav>
+            <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="4.8" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="17.6" cy="7.4" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="19.2" cy="13.4" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="15.2" cy="18.6" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="8.8" cy="18.6" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="4.8" cy="13.4" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="6.4" cy="7.4" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="12" cy="12" r="1.7" fill="#071710"/></svg></span>
+            <span data-i18n="salavatTrigger">صلوات‌شمار</span>
+          </a>
+          <a href="zekr.html" class="services-row" id="zekr-trigger" data-prefetch-nav>
+            <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="7.4" stroke="#071710" stroke-width="1.5"/><circle cx="12" cy="12" r="2.9" fill="#071710"/></svg></span>
+            <span data-i18n="zekrEntryTitle">ذکر روز</span>
+          </a>
+          <a href="owqat.html" class="services-row services-row-alt8" id="owqat-trigger" data-prefetch-nav>
+            <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M14.8 4.4a7.7 7.7 0 1 0 4.7 10 6.1 6.1 0 0 1-4.7-10Z" fill="#071710"/><path d="M18.2 5.2l.45 1.05L19.7 6.7l-1.05.45-.45 1.05-.45-1.05-1.05-.45 1.05-.45Z" fill="#071710"/></svg></span>
+            <span data-i18n="owqatTrigger">اوقات شرعی</span>
+          </a>
+          </div>
+        </div>
+        <div class="services-group" data-n="3" data-total="3" role="group" aria-labelledby="svcGroupMedia-h">
+          <div class="services-group-head"><span class="services-group-title" id="svcGroupMedia-h" data-i18n="svcGroupMedia">رسانه و تصویر</span></div>
+          <div class="services-grid">
+          <a href="madahi.html" class="services-row services-row-alt2" id="madahi-trigger" data-prefetch-nav>
+            <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="9.4" y="3.4" width="5.2" height="9.4" rx="2.6" stroke="#071710" stroke-width="1.6"/><path d="M6.4 11c0 3.1 2.5 5.6 5.6 5.6s5.6-2.5 5.6-5.6" stroke="#071710" stroke-width="1.6" stroke-linecap="round"/><path d="M12 16.6V20M9 20h6" stroke="#071710" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+            <span data-i18n="madahiTrigger">مداحی و مولودی</span>
+          </a>
+          <a href="gallery.html" class="services-row services-row-alt3" id="gallery-trigger" data-prefetch-nav>
+            <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="4.2" y="6.2" width="15.6" height="11.6" rx="2.2" stroke="#071710" stroke-width="1.5"/><circle cx="8.6" cy="10.2" r="1.3" fill="#071710"/><path d="M5.6 15.9l3.3-3.2c.5-.5 1.3-.5 1.8 0l1.3 1.3 2.9-2.9c.5-.5 1.3-.5 1.8 0l1.9 1.9" stroke="#071710" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span data-i18n="galleryTrigger">گالری تصاویر</span>
+          </a>
+          <a href="frame.html" class="services-row services-row-alt7" id="frame-trigger" data-prefetch-nav>
+            <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M8 6.8 8.9 5c.2-.4.6-.6 1-.6h4.2c.4 0 .8.2 1 .6l.9 1.8h1.8c1.1 0 2 .9 2 2v7.4c0 1.1-.9 2-2 2H5.2c-1.1 0-2-.9-2-2V8.8c0-1.1.9-2 2-2H8Z" stroke="#071710" stroke-width="1.5" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.1" stroke="#071710" stroke-width="1.5"/></svg></span>
+            <span data-i18n="frameTrigger">فریم‌ساز عکس</span>
+          </a>
+          </div>
+        </div>
+        <div class="services-group" data-n="2" data-total="2" role="group" aria-labelledby="svcGroupTools-h">
+          <div class="services-group-head"><span class="services-group-title" id="svcGroupTools-h" data-i18n="svcGroupTools">خدمات و ابزار</span></div>
+          <div class="services-grid">
+          <a href="nazr.html" class="services-row services-row-alt" id="nazr-trigger" data-prefetch-nav>
+            <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3c1 1.3 1.6 2.3 1.6 3.2 0 .9-.7 1.6-1.6 1.6s-1.6-.7-1.6-1.6C10.4 5.3 11 4.3 12 3Z" fill="#071710"/><rect x="9.3" y="9" width="5.4" height="10.6" rx="1.5" stroke="#071710" stroke-width="1.5"/><path d="M9.3 13.3h5.4" stroke="#071710" stroke-width="1.5"/></svg></span>
+            <span data-i18n="nazrTrigger">نذورات</span>
+          </a>
+          <a href="convert.html" class="services-row services-row-alt6" id="convert-trigger" data-prefetch-nav>
+            <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="4.3" y="5.3" width="15.4" height="14" rx="2.4" stroke="#071710" stroke-width="1.5"/><path d="M4.3 9.6h15.4" stroke="#071710" stroke-width="1.5"/><path d="M8 3.6v3M16 3.6v3" stroke="#071710" stroke-width="1.5" stroke-linecap="round"/><path d="M9 14.4a3 3 0 0 1 5.2-2M15 12.4v-1.7h-1.7M15 14a3 3 0 0 1-5.2 2M9 16.1v1.7h1.7" stroke="#071710" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span data-i18n="convertTrigger">تبدیل تاریخ</span>
+          </a>
+          </div>
+        </div>
+        <div class="services-group" data-n="2" data-total="2" role="group" aria-labelledby="svcGroupHelp-h">
+          <div class="services-group-head"><span class="services-group-title" id="svcGroupHelp-h" data-i18n="svcGroupHelp">راهنما و نصب</span></div>
+          <div class="services-grid">
+          <a href="faq.html" class="services-row services-row-alt5" id="faq-trigger" data-prefetch-nav>
+            <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4.5 6.9c0-1.3 1-2.3 2.3-2.3h10.4c1.3 0 2.3 1 2.3 2.3v6.7c0 1.3-1 2.3-2.3 2.3H10l-3.6 3v-3h-.6c-1.3 0-2.3-1-2.3-2.3V6.9Z" stroke="#071710" stroke-width="1.5" stroke-linejoin="round"/><path d="M10.3 9.5c0-.9.8-1.6 1.7-1.6s1.7.6 1.7 1.4c0 .8-.5 1.1-1 1.4-.5.3-.7.6-.7 1.1" stroke="#071710" stroke-width="1.4" stroke-linecap="round"/><circle cx="12" cy="14.5" r="0.85" fill="#071710"/></svg></span>
+            <span data-i18n="faqTrigger">دستیار سایت</span>
+          </a>
+          <a href="install.html" class="services-row services-row-alt10" id="install-trigger" data-prefetch-nav>
+            <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2" stroke="#071710" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span data-i18n="installTrigger">نصب اپلیکیشن</span>
+          </a>
+          </div>
+        </div>
       </div>
       <div class="services-empty" id="services-empty">چیزی پیدا نشد</div>
     </div>
@@ -3267,13 +3497,31 @@
       </span>
     </button>
 
+    <div class="cal-today-line" id="cal-today-line">
+      <div class="cal-today-head"><span data-i18n="hcalTodayBtn">امروز</span><b id="cal-today-wd"></b></div>
+      <div class="cal-today-row"><span class="cal-today-tag" data-i18n="hcalTodayJalali">شمسی</span><span class="cal-today-val" id="cal-today-j"></span></div>
+      <div class="cal-today-row" id="cal-today-l-row"><span class="cal-today-tag" data-i18n="hcalTodayLunar">قمری</span><span class="cal-today-val" id="cal-today-l"></span></div>
+      <div class="cal-today-row"><span class="cal-today-tag" data-i18n="hcalTodayGreg">میلادی</span><span class="cal-today-val" id="cal-today-g"></span></div>
+    </div>
+
+    <div class="cal-search" id="cal-search">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M20 20l-3.2-3.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <input type="text" id="cal-search-input" role="combobox" aria-expanded="false" aria-controls="cal-search-results" aria-autocomplete="list" autocomplete="off" />
+      <button type="button" class="cal-search-clear" id="cal-search-clear">✕</button>
+      <div class="cal-search-results" id="cal-search-results" role="listbox"></div>
+    </div>
+
     <div class="cal-nav">
       <button type="button" class="cal-nav-btn" id="cal-prev" aria-label="ماه قبل">
         <svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
       <div class="cal-nav-mid">
-        <div class="cal-month-label" id="cal-month-label">--</div>
-        <button type="button" class="cal-today-btn" id="cal-today-btn" data-i18n="hcalTodayBtn">امروز</button>
+        <div class="cal-month-label" id="cal-month-label" role="button" tabindex="0" aria-haspopup="dialog" aria-label="انتخاب ماه و سال">--</div>
+        <div class="cal-nav-mid-actions">
+          <button type="button" class="cal-today-btn" id="cal-today-btn" data-i18n="hcalTodayBtn">امروز</button>
+          <button type="button" class="cal-today-btn" id="cal-year-view-btn" data-i18n="hcalYearViewBtn">نمای سالانه</button>
+          <button type="button" class="cal-today-btn" id="cal-share-btn" data-i18n="hcalShareCardBtn">کارت اشتراک</button>
+        </div>
       </div>
       <button type="button" class="cal-nav-btn" id="cal-next" aria-label="ماه بعد">
         <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -3286,6 +3534,17 @@
     <div class="cal-legend">
       <div class="cal-legend-item"><span class="cal-legend-dot" style="background:var(--gold); color:var(--gold)"></span><span data-i18n="hcalLegendNodbeh">دعای ندبه، جمعه‌ها ساعت ۷ صبح</span></div>
       <div class="cal-legend-item"><span class="cal-legend-dot" style="background:var(--crimson-bright); color:var(--crimson-bright)"></span><span data-i18n="hcalLegendWeekly">مجلس هفتگی، سه‌شنبه‌ها ساعت ۲۱</span></div>
+      <div class="cal-legend-item"><span class="cal-legend-dot is-diamond" style="background:#ff7eb8; color:#ff7eb8"></span><span data-i18n="hcalLegendBirth">ولادت</span></div>
+      <div class="cal-legend-item"><span class="cal-legend-dot is-diamond" style="background:#2dd4bf; color:#2dd4bf"></span><span data-i18n="hcalLegendEid">اعیاد</span></div>
+      <div class="cal-legend-item"><span class="cal-legend-dot is-diamond" style="background:#b39dff; color:#b39dff"></span><span data-i18n="hcalLegendMourn">شهادت، رحلت و وفات</span></div>
+      <div class="cal-legend-item"><span class="cal-legend-dot is-diamond" style="background:#5aa9ff; color:#5aa9ff"></span><span data-i18n="hcalLegendHoly">دیگر مناسبت‌های مذهبی</span></div>
+      <div class="cal-legend-item"><span class="cal-legend-dot" style="background:#ff6b5e; color:#ff6b5e"></span><span data-i18n="hcalLegendHoliday">عدد قرمز: تعطیل رسمی</span></div>
+      <div class="cal-occ-note" id="cal-occ-note"></div>
+    </div>
+
+    <div class="cal-disclaimer" role="note">
+      <span class="cal-disclaimer-icon" aria-hidden="true">!</span>
+      <span data-i18n="hcalDisclaimer">توجه: مناسبت‌های مذهبی این تقویم بر پایه‌ی تقویم رسمی کشور و با دقت فراوان درج شده‌اند؛ با این حال ممکن است به‌دلیل اعلام رسمی رؤیت هلال، تفاوت روایت‌ها یا اشتباه سهوی، تاریخ برخی مناسبت‌ها یک روز جابه‌جا باشد یا خطایی رخ داده باشد. لطفاً برای اطمینان به اعلام رسمی مراجعه فرمایید و در صورت مشاهده‌ی اشتباه، ما را مطلع کنید. از شکیبایی شما سپاسگزاریم.</span>
     </div>
   </div>
 
@@ -3301,6 +3560,45 @@
       <div class="modal-handle"></div>
       <div class="modal-ribbon" id="cal-modal-date">--</div>
       <div id="cal-modal-body"></div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="cal-jump-overlay">
+    <div class="modal-sheet cal-jump-sheet" role="dialog" aria-modal="true" aria-label="انتخاب ماه و سال">
+      <button type="button" class="modal-close" id="cal-jump-close" aria-label="بستن">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <div class="modal-handle"></div>
+      <div class="cal-jump-year-row">
+        <button type="button" class="cal-nav-btn" id="cal-jump-year-prev" aria-label="سال قبل">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="cal-jump-year-val" id="cal-jump-year-val">--</div>
+        <button type="button" class="cal-nav-btn" id="cal-jump-year-next" aria-label="سال بعد">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div class="cal-jump-months" id="cal-jump-months"></div>
+      <button type="button" class="cal-jump-today-btn" id="cal-jump-today-btn" data-i18n="hcalTodayBtn">امروز</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="cal-year-overlay">
+    <div class="modal-sheet cal-year-sheet" role="dialog" aria-modal="true" aria-label="نمای سالانه">
+      <button type="button" class="modal-close" id="cal-year-close" aria-label="بستن">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <div class="modal-handle"></div>
+      <div class="cal-jump-year-row">
+        <button type="button" class="cal-nav-btn" id="cal-year-prev" aria-label="سال قبل">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="cal-jump-year-val" id="cal-year-year-val">--</div>
+        <button type="button" class="cal-nav-btn" id="cal-year-next" aria-label="سال بعد">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div class="cal-year-grid" id="cal-year-grid"></div>
     </div>
   </div>
 
@@ -3496,6 +3794,66 @@
 
 </div>
 
+<!-- ===== کارت اشتراک‌گذاری روز ===== -->
+<div class="modal-overlay sc-overlay" id="sc-overlay" dir="rtl" lang="fa">
+  <div class="modal-sheet sc-sheet" role="dialog" aria-modal="true" aria-labelledby="sc-title">
+    <button type="button" class="modal-close" id="sc-close" aria-label="بستن">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <div class="modal-handle"></div>
+    <h2 class="sc-title" id="sc-title">کارت اشتراک‌گذاری روز</h2>
+    <p class="sc-sub">یکی از روزهای سال ۱۴۰۵ رو انتخاب کن؛ تاریخ‌ها و مناسبت‌ها از تقویم همین سایت میان. تم و قاب رو عوض کن و بفرست.</p>
+
+    <div class="sc-layout">
+      <div class="sc-stage"><canvas id="sc-cv" role="img" aria-label="پیش‌نمایش کارت"></canvas></div>
+
+      <div class="sc-panel">
+        <h3 class="sc-h">روز</h3>
+        <div class="sc-wk-cap" id="sc-wk-cap"></div>
+        <div class="sc-weekbar">
+          <button type="button" class="sc-wk-nav" id="sc-wk-prev" aria-label="هفته‌ی قبل"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="sc-wk-days" id="sc-wk-days"></div>
+          <button type="button" class="sc-wk-nav" id="sc-wk-next" aria-label="هفته‌ی بعد"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <div class="sc-row3">
+          <div><label for="sc-d">روز</label><select id="sc-d"></select></div>
+          <div><label for="sc-m">ماه شمسی</label><select id="sc-m"></select></div>
+          <div><label for="sc-y">سال</label><select id="sc-y"></select></div>
+        </div>
+        <div class="sc-datebar">
+          <div><label for="sc-g">تاریخ میلادی</label><input type="date" id="sc-g"></div>
+          <button type="button" class="sc-today-btn" id="sc-today">امروز</button>
+        </div>
+        <div class="sc-dayinfo" id="sc-dayinfo"></div>
+
+        <h3 class="sc-h">تم</h3>
+        <div class="sc-chips" id="sc-themes"></div>
+        <div class="sc-hint">حالت خودکار: محرم و صفر سرخ عاشورا، رمضان بنفشِ شب، ولادت ارغوانی، عید فیروزه‌ای، شهادت و وفات شبِ عزا.</div>
+
+        <h3 class="sc-h">اندازه</h3>
+        <div class="sc-seg" id="sc-fmt">
+          <button type="button" data-f="story" class="on">استوری ۹:۱۶</button>
+          <button type="button" data-f="square">پست مربعی</button>
+        </div>
+
+        <h3 class="sc-h">متن</h3>
+        <label for="sc-custom">عنوان دلخواه (اختیاری؛ جای مناسبت می‌شینه)</label>
+        <input type="text" id="sc-custom">
+        <label for="sc-foot">نوشته‌ی پایین کارت</label>
+        <input type="text" id="sc-foot">
+        <label class="sc-check"><input type="checkbox" id="sc-weekly" checked> نمایش مجلس هفتگی و دعای ندبه</label>
+
+        <div class="sc-actions">
+          <button type="button" class="sc-btn" id="sc-share">ارسال</button>
+          <button type="button" class="sc-btn alt" id="sc-dl">دانلود تصویر</button>
+          <button type="button" class="sc-btn alt wide" id="sc-week">ارسال / دانلود کل هفته</button>
+        </div>
+        <div class="sc-note" id="sc-note" role="status"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ===== Leaflet (نقشه تعاملی) ===== -->
 <script defer src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
@@ -3563,11 +3921,21 @@
     }, { passive:true });
 
     if(window.DeviceOrientationEvent){
+      let emblemVisible = true, tiltTick = false;
+      if('IntersectionObserver' in window){
+        new IntersectionObserver((entries) => {
+          emblemVisible = entries[entries.length - 1].isIntersecting;
+        }).observe(wrap);
+      }
       window.addEventListener('deviceorientation', (e) => {
-        if(e.beta === null || e.gamma === null) return;
-        tiltX = Math.max(-6, Math.min(6, (e.gamma || 0) * 0.15));
-        tiltY = Math.max(-6, Math.min(6, ((e.beta || 0) - 45) * 0.08));
-        apply();
+        if(!emblemVisible || e.beta === null || e.gamma === null) return;
+        const nx = Math.max(-6, Math.min(6, (e.gamma || 0) * 0.15));
+        const ny = Math.max(-6, Math.min(6, ((e.beta || 0) - 45) * 0.08));
+        if(Math.abs(nx - tiltX) < 0.2 && Math.abs(ny - tiltY) < 0.2) return;
+        tiltX = nx; tiltY = ny;
+        if(tiltTick) return;
+        tiltTick = true;
+        window.requestAnimationFrame(() => { tiltTick = false; apply(); });
       }, true);
     }
   })();
@@ -3576,15 +3944,22 @@
   (function scrollProgress(){
     const bar = document.getElementById('progress-bar');
     if(!bar) return;
-    function update(){
+    let barTick = false;
+    function apply(){
+      barTick = false;
       const h = document.documentElement;
       const scrolled = h.scrollTop;
       const max = h.scrollHeight - h.clientHeight;
-      const pct = max > 0 ? (scrolled / max) * 100 : 0;
-      bar.style.width = pct + '%';
+      const ratio = max > 0 ? Math.min(1, Math.max(0, scrolled / max)) : 0;
+      bar.style.transform = 'scaleX(' + ratio + ')';
+    }
+    function update(){
+      if(barTick) return;
+      barTick = true;
+      window.requestAnimationFrame(apply);
     }
     window.addEventListener('scroll', update, { passive:true });
-    update();
+    apply();
   })();
 
   // ---------------- back to top (با پیش‌نمایش هوشمند) ----------------
@@ -3833,6 +4208,11 @@
       topPreviewLabel: "در حال بازگشت به",
       servicesToggle: "دسترسی سریع به صفحات",
       servicesToggleSub: "همه‌ی خدمات هیئت در یک‌جا",
+      svcGroupEvents: "مراسم و برنامه‌ها",
+      svcGroupSpirit: "دعا و معنویات",
+      svcGroupMedia: "رسانه و تصویر",
+      svcGroupTools: "خدمات و ابزار",
+      svcGroupHelp: "راهنما و نصب",
       libraryTrigger: "ادعیه و زیارت نامه‌ها",
       nazrTrigger: "نذورات",
       madahiTrigger: "مداحی و مولودی",
@@ -3842,6 +4222,8 @@
       convertTrigger: "تبدیل تاریخ",
       frameTrigger: "فریم‌ساز عکس",
       guideTrigger: "راهنمای سایت",
+      quickMenuDownloads: "مرکز دانلود",
+      tourTrigger: "زیارت سه‌بعدی",
       guideHint: "راهنمای سایت رو از همین منو پیدا می‌کنید 👋",
       title: "هیئت کاظمیون خرم‌آباد",
       meta: 'مراسم هفتگی: <b>سه‌شنبه‌ها ساعت ۲۱</b><br>قاضی‌آباد، خیابان نهم، مسجد حضرت قائم «عج»',
@@ -3884,6 +4266,7 @@
       zekrEntrySub: "شمارشگر، ترجمه و رکورد روزهای متوالی",
       qaemTrigger: "مسجد قائم",
       installTrigger: "نصب اپلیکیشن",
+      owqatTrigger: "اوقات شرعی",
       liveTrigger: "پخش زنده",
       groupFollow: "هیئت را در ایتا، روبیکا و اینستاگرام دنبال کنید",
       groupContact: "ارتباط با ما در ایتا",
@@ -3925,6 +4308,26 @@
       hcalModalLocationLabel: "محل برگزاری",
       hcalModalMapBtn: "مسیر رو روی نقشه ببین",
       hcalNextBadge: "نزدیک‌ترین مراسم",
+      hcalLegendBirth: "ولادت",
+      hcalLegendEid: "اعیاد",
+      hcalTodayJalali: "شمسی",
+      hcalTodayLunar: "قمری",
+      hcalTodayGreg: "میلادی",
+      hcalLegendMourn: "شهادت، رحلت و وفات",
+      hcalLegendHoly: "دیگر مناسبت‌های مذهبی",
+      hcalLegendHoliday: "عدد قرمز: تعطیل رسمی",
+      hcalModalLunarLabel: "تاریخ قمری",
+      hcalHolidayPill: "تعطیل رسمی",
+      hcalOccSource: "مناسبت‌های مذهبی بر پایه‌ی تقویم رسمی کشور (مؤسسه ژئوفیزیک دانشگاه تهران)",
+      hcalDisclaimer: "توجه: مناسبت‌های مذهبی این تقویم بر پایه‌ی تقویم رسمی کشور و با دقت فراوان درج شده‌اند؛ با این حال ممکن است به‌دلیل اعلام رسمی رؤیت هلال، تفاوت روایت‌ها یا اشتباه سهوی، تاریخ برخی مناسبت‌ها یک روز جابه‌جا باشد یا خطایی رخ داده باشد. لطفاً برای اطمینان به اعلام رسمی مراجعه فرمایید و در صورت مشاهده‌ی اشتباه، ما را مطلع کنید. از شکیبایی شما سپاسگزاریم.",
+      hcalOccOut: "مناسبت‌های مذهبی رسمی فعلاً فقط برای سال ۱۴۰۵ ثبت شده‌اند.",
+      hcalSearchPlaceholder: "جستجوی مناسبت… مثلاً «غدیر» یا «عاشورا»",
+      hcalSearchClearAria: "پاک کردن جستجو",
+      hcalSearchEmpty: "مناسبتی با این نام پیدا نشد.",
+      hcalYearViewBtn: "نمای سالانه",
+      hcalShareCardBtn: "کارت اشتراک",
+      hcalModalShareBtn: "ساخت کارت اشتراک‌گذاری این روز",
+      hcalYearOccWord: "مناسبت",
       footerSub: "پایگاه اطلاع‌رسانی هیئت کاظمیون خرم‌آباد"
     },
     ar: {
@@ -3932,6 +4335,11 @@
       topPreviewLabel: "جارٍ العودة إلى",
       servicesToggle: "وصول سريع للصفحات",
       servicesToggleSub: "كل خدمات الهيئة في مكان واحد",
+      svcGroupEvents: "المراسم والبرامج",
+      svcGroupSpirit: "الدعاء والمعنويات",
+      svcGroupMedia: "الوسائط والصور",
+      svcGroupTools: "الخدمات والأدوات",
+      svcGroupHelp: "المساعدة والتثبيت",
       libraryTrigger: "الأدعية والزيارات",
       nazrTrigger: "النذور",
       madahiTrigger: "المدائح والموالید",
@@ -3941,6 +4349,8 @@
       convertTrigger: "تحويل التاريخ",
       frameTrigger: "إطار الصور",
       guideTrigger: "دليل الموقع",
+      quickMenuDownloads: "مركز التنزيل",
+      tourTrigger: "الزيارة ثلاثية الأبعاد",
       guideHint: "ستجد دليل الموقع من نفس هذه القائمة 👋",
       tag: "موكب عزاء",
       title: "موكب الكاظميون خرم‌آباد",
@@ -3984,6 +4394,7 @@
       zekrEntrySub: "عداد وترجمة وسجل الأيام المتتالية",
       qaemTrigger: "مسجد القائم",
       installTrigger: "تثبيت التطبيق",
+      owqatTrigger: "أوقات الصلاة",
       liveTrigger: "بث مباشر",
       groupFollow: "تابعونا",
       groupContact: "تواصلوا معنا عبر إيتا",
@@ -4025,6 +4436,26 @@
       hcalModalLocationLabel: "مكان الإقامة",
       hcalModalMapBtn: "عرض المسار على الخريطة",
       hcalNextBadge: "أقرب مراسم",
+      hcalLegendBirth: "المواليد",
+      hcalLegendEid: "الأعياد",
+      hcalTodayJalali: "شمسي",
+      hcalTodayLunar: "قمري",
+      hcalTodayGreg: "ميلادي",
+      hcalLegendMourn: "الاستشهاد والرحيل والوفيات",
+      hcalLegendHoly: "مناسبات دينية أخرى",
+      hcalLegendHoliday: "الرقم الأحمر: عطلة رسمية",
+      hcalModalLunarLabel: "التاريخ الهجري القمري",
+      hcalHolidayPill: "عطلة رسمية",
+      hcalOccSource: "المناسبات الدينية وفق التقويم الرسمي للبلاد (معهد الجيوفيزياء، جامعة طهران)",
+      hcalDisclaimer: "تنبيه: أُدرجت المناسبات الدينية في هذا التقويم وفق التقويم الرسمي للبلاد وبعناية كبيرة، ومع ذلك قد يختلف تاريخ بعضها بيوم واحد بسبب الإعلان الرسمي لرؤية الهلال أو اختلاف الروايات أو خطأ غير مقصود، وقد يقع خطأ. نرجو الرجوع إلى الإعلان الرسمي للتأكد، وإبلاغنا عند ملاحظة أي خطأ. شاكرين لكم صبركم.",
+      hcalOccOut: "المناسبات الدينية الرسمية مسجّلة حالياً لسنة ١٤٠٥ فقط.",
+      hcalSearchPlaceholder: "ابحث عن مناسبة… مثل «الغدير» أو «عاشوراء»",
+      hcalSearchClearAria: "مسح البحث",
+      hcalSearchEmpty: "لم يُعثر على مناسبة بهذا الاسم.",
+      hcalYearViewBtn: "نظرة سنوية",
+      hcalShareCardBtn: "بطاقة مشاركة",
+      hcalModalShareBtn: "إنشاء بطاقة مشاركة لهذا اليوم",
+      hcalYearOccWord: "مناسبة",
       footerSub: "القناة الرسمية لموكب الكاظميون خرم‌آباد"
     },
     en: {
@@ -4032,6 +4463,11 @@
       topPreviewLabel: "Returning to",
       servicesToggle: "Quick Access to Pages",
       servicesToggleSub: "All services in one place",
+      svcGroupEvents: "Events & Programs",
+      svcGroupSpirit: "Prayer & Devotion",
+      svcGroupMedia: "Media & Photos",
+      svcGroupTools: "Services & Tools",
+      svcGroupHelp: "Help & Install",
       libraryTrigger: "Prayers & Ziyarat",
       nazrTrigger: "Votive Offerings",
       madahiTrigger: "Eulogies & Chants",
@@ -4041,6 +4477,8 @@
       convertTrigger: "Date Converter",
       frameTrigger: "Photo Frame Maker",
       guideTrigger: "Site Guide",
+      quickMenuDownloads: "Download Center",
+      tourTrigger: "3D Pilgrimage",
       guideHint: "Find the site guide in this menu 👋",
       tag: "MOURNING COUNCIL",
       title: "Heyat-e Kazemiyoon, Khorramabad",
@@ -4084,6 +4522,7 @@
       zekrEntrySub: "Counter, translation, and streak tracking",
       qaemTrigger: "Qaem Mosque",
       installTrigger: "Install App",
+      owqatTrigger: "Prayer Times",
       liveTrigger: "Live Broadcast",
       groupFollow: "Follow Us",
       groupContact: "Contact Us on Eitaa",
@@ -4125,6 +4564,26 @@
       hcalModalLocationLabel: "Location",
       hcalModalMapBtn: "View route on the map",
       hcalNextBadge: "Nearest ceremony",
+      hcalLegendBirth: "Births",
+      hcalLegendEid: "Eids",
+      hcalTodayJalali: "Solar Hijri",
+      hcalTodayLunar: "Lunar Hijri",
+      hcalTodayGreg: "Gregorian",
+      hcalLegendMourn: "Martyrdoms & Passings",
+      hcalLegendHoly: "Other religious occasions",
+      hcalLegendHoliday: "Red number: official holiday",
+      hcalModalLunarLabel: "Hijri (lunar) date",
+      hcalHolidayPill: "Official holiday",
+      hcalOccSource: "Religious occasions follow the official national calendar (Institute of Geophysics, University of Tehran)",
+      hcalDisclaimer: "Please note: the religious occasions in this calendar follow the official national calendar and were entered with great care. However, because of the official moon-sighting announcements, differences between narrations, or an inadvertent slip, the date of some occasions may be off by a day, or an error may have occurred. Kindly refer to the official announcements to be sure, and let us know if you notice a mistake. Thank you for your understanding.",
+      hcalOccOut: "Official religious occasions are currently recorded for the year 1405 only.",
+      hcalSearchPlaceholder: "Search an occasion… e.g. \u201cGhadir\u201d or \u201cAshura\u201d",
+      hcalSearchClearAria: "Clear search",
+      hcalSearchEmpty: "No occasion found with that name.",
+      hcalYearViewBtn: "Year view",
+      hcalShareCardBtn: "Share card",
+      hcalModalShareBtn: "Create a share card for this day",
+      hcalYearOccWord: "occasions",
       footerSub: "Official channel of Heyat-e Kazemiyoon Khorramabad"
     }
   };
@@ -4620,11 +5079,260 @@
       // { jy:1405, jm:5, jd:20, tone:'crimson', title:{fa:'مجلس ویژه'}, timeLabel:{fa:'ساعت ۲۱'}, location:{fa:'مسجد حضرت قائم «عج»'} }
     ];
 
+    // ---------------------------------------------------------
+    // مناسبت‌های مذهبی — بر پایه‌ی تقویم رسمی جمهوری اسلامی ایران
+    // (مرکز تقویم مؤسسه ژئوفیزیک دانشگاه تهران). آغاز هر ماه قمری از تقویم رسمی هر سال
+    // گرفته می‌شود و مناسبت‌ها بر اساس «روز و ماه قمری» روی آن سوار می‌شوند.
+    // برای افزودن سال جدید: پس از انتشار تقویم رسمی، آغاز ماه‌های قمری را به LUNAR_STARTS_RAW
+    // و پایان بازه را به LUNAR_END اضافه کنید. تا آن زمان هیچ تاریخ حدسی نمایش داده نمی‌شود.
+    // ---------------------------------------------------------
+    var LUNAR_MONTHS = {
+      fa:['محرم','صفر','ربیع‌الاول','ربیع‌الثانی','جمادی‌الاول','جمادی‌الثانی','رجب','شعبان','رمضان','شوال','ذی‌القعده','ذی‌الحجه'],
+      ar:['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'],
+      en:['Muharram','Safar','Rabi\u2018 al-Awwal','Rabi\u2018 al-Thani','Jumada al-Awwal','Jumada al-Thani','Rajab','Sha\u2018ban','Ramadan','Shawwal','Dhu al-Qa\u2018dah','Dhu al-Hijjah']
+    };
+    // [سال قمری، ماه قمری، سال شمسی، ماه شمسی، روز شمسی] = روز اول ماه قمری
+    var LUNAR_STARTS_RAW = [
+      [1447,10,1405,1,1],  [1447,11,1405,1,30], [1447,12,1405,2,28],
+      [1448,1,1405,3,26],  [1448,2,1405,4,25],  [1448,3,1405,5,23],
+      [1448,4,1405,6,22],  [1448,5,1405,7,20],  [1448,6,1405,8,20],
+      [1448,7,1405,9,20],  [1448,8,1405,10,20], [1448,9,1405,11,19],
+      [1448,10,1405,12,19]
+    ];
+    var LUNAR_END = [1405,12,29];
+    var LUNAR_STARTS = LUNAR_STARTS_RAW.map(function(r){ return { y:r[0], m:r[1], jdn:j2jdn(r[2], r[3], r[4]) }; });
+    var LUNAR_END_JDN = j2jdn(LUNAR_END[0], LUNAR_END[1], LUNAR_END[2]);
+    function lunarOf(jdn){
+      if(jdn < LUNAR_STARTS[0].jdn || jdn > LUNAR_END_JDN) return null;
+      for(var i = LUNAR_STARTS.length - 1; i >= 0; i--){
+        if(jdn >= LUNAR_STARTS[i].jdn){
+          var nx = LUNAR_STARTS[i + 1];
+          return { y:LUNAR_STARTS[i].y, m:LUNAR_STARTS[i].m, d:jdn - LUNAR_STARTS[i].jdn + 1, len: nx ? (nx.jdn - LUNAR_STARTS[i].jdn) : null };
+        }
+      }
+      return null;
+    }
+    function T(fa, ar, en){ return { fa:fa, ar:ar, en:en }; }
+    var P = {
+      prophet:T('حضرت رسول اکرم (ص)','الرسول الأكرم (ص)','the Holy Prophet (PBUH)'),
+      ali:T('امام علی (ع)','الإمام علي (ع)','Imam Ali (AS)'),
+      fatima:T('حضرت فاطمه زهرا (س)','السيدة فاطمة الزهراء (ع)','Lady Fatima al-Zahra (SA)'),
+      hasan:T('امام حسن مجتبی (ع)','الإمام الحسن المجتبى (ع)','Imam Hasan al-Mujtaba (AS)'),
+      hussain:T('امام حسین (ع)','الإمام الحسين (ع)','Imam Hussain (AS)'),
+      sajjad:T('امام زین‌العابدین (ع)','الإمام زين العابدين (ع)','Imam Zayn al-Abidin (AS)'),
+      baqir:T('امام محمد باقر (ع)','الإمام محمد الباقر (ع)','Imam Muhammad al-Baqir (AS)'),
+      sadiq:T('امام جعفر صادق (ع)','الإمام جعفر الصادق (ع)','Imam Ja\u2018far al-Sadiq (AS)'),
+      kazim:T('امام موسی کاظم (ع)','الإمام موسى الكاظم (ع)','Imam Musa al-Kazim (AS)'),
+      reza:T('امام رضا (ع)','الإمام الرضا (ع)','Imam Reza (AS)'),
+      jawad:T('امام محمد تقی (ع)','الإمام محمد الجواد (ع)','Imam Muhammad al-Jawad (AS)'),
+      hadi:T('امام علی النقی الهادی (ع)','الإمام علي الهادي (ع)','Imam Ali al-Hadi (AS)'),
+      askari:T('امام حسن عسکری (ع)','الإمام الحسن العسكري (ع)','Imam Hasan al-Askari (AS)'),
+      zaynab:T('حضرت زینب (س)','السيدة زينب (ع)','Lady Zaynab (SA)'),
+      abbas:T('حضرت ابوالفضل العباس (ع)','أبي الفضل العباس (ع)','Hazrat Abbas (AS)'),
+      aliakbar:T('حضرت علی‌اکبر (ع)','علي الأكبر (ع)','Ali al-Akbar (AS)'),
+      masuma:T('حضرت معصومه (س)','السيدة معصومة (ع)','Lady Masuma (SA)'),
+      ummulbanin:T('حضرت ام‌البنین (س)','أم البنين (ع)','Umm al-Banin (SA)'),
+      khadija:T('حضرت خدیجه (س)','السيدة خديجة الكبرى (ع)','Lady Khadija (SA)'),
+      abdolazim:T('حضرت عبدالعظیم حسنی (ع)','السيد عبد العظيم الحسني (ع)','Hazrat Abdul-Azim al-Hasani (AS)')
+    };
+    function birth(x){ return T('ولادت '+x.fa,'ميلاد '+x.ar,'Birth of '+x.en); }
+    function martyr(x){ return T('شهادت '+x.fa,'استشهاد '+x.ar,'Martyrdom of '+x.en); }
+    function passing(x){ return T('وفات '+x.fa,'وفاة '+x.ar,'Passing of '+x.en); }
+    function narr(t){ return T(t.fa+' (به روایتی)', t.ar+' (على رواية)', t.en+' (per another narration)'); }
+    var N = {
+      girls:T('روز دختران','يوم البنات','Girls\u2019 Day'),
+      marriage:T('روز ازدواج','يوم الزواج','Marriage Day'),
+      niyayesh:T('روز نیایش','يوم الدعاء والمناجاة','Day of Supplication'),
+      imamate:T('آغاز دهه امامت و ولایت','بداية عشرة الإمامة والولاية','Start of the Decade of Imamate and Wilayah'),
+      unity:T('آغاز هفته وحدت','بداية أسبوع الوحدة','Start of Unity Week'),
+      ethics:T('روز اخلاق و مهرورزی','يوم الأخلاق والمحبة','Day of Ethics and Kindness'),
+      nurse:T('روز پرستار','يوم الممرضة','Nurse\u2019s Day'),
+      martyrsMothers:T('روز تکریم مادران و همسران شهدا','يوم تكريم أمهات وزوجات الشهداء','Day of Honoring Mothers and Wives of Martyrs'),
+      mother:T('روز مادر و روز زن','يوم الأم ويوم المرأة','Mother\u2019s Day and Women\u2019s Day'),
+      father:T('روز پدر و آغاز ایام‌البیض (اعتکاف)','يوم الأب وبداية الأيام البيض (الاعتكاف)','Father\u2019s Day and start of Ayyam al-Bid (I\u2018tikaf)'),
+      pasdar:T('روز پاسدار','يوم الحرس','Pasdar (Guardian) Day'),
+      janbaz:T('روز جانباز','يوم الجرحى','Janbaz (Veterans\u2019) Day'),
+      sahifa:T('روز صحیفه سجادیه','يوم الصحيفة السجادية','Day of Sahifa Sajjadiyya'),
+      youth:T('روز جوان','يوم الشباب','Youth Day'),
+      mostaz:T('روز جهانی مستضعفان و روز سربازان گمنام امام زمان (عج)','اليوم العالمي للمستضعفين ويوم جنود الإمام المجهولين (عج)','World Day of the Oppressed and Day of the Unknown Soldiers of Imam Zaman (AJ)'),
+      nahj:T('روز نهج‌البلاغه','يوم نهج البلاغة','Nahj al-Balagha Day')
+    };
+    var QADR = T('شب قدر','ليلة القدر','Laylat al-Qadr');
+    // hol:true = تعطیل رسمی — tone: joy (ولادت/عید) | mourn (شهادت/رحلت/وفات) | holy (سایر)
+    var OCCASION_RULES = [
+      { m:10, d:1, tone:'eid',   hol:true, title:T('عید سعید فطر','عيد الفطر المبارك','Eid al-Fitr') },
+      { m:10, d:2, tone:'eid',   hol:true, title:T('تعطیل به مناسبت عید سعید فطر','عطلة عيد الفطر المبارك (اليوم الثاني)','Eid al-Fitr holiday (second day)') },
+      { m:10, d:25, tone:'mourn', hol:true, title:martyr(P.sadiq) },
+      { m:11, d:1, tone:'birth',   title:birth(P.masuma), note:N.girls },
+      { m:11, d:5, tone:'other',  title:T('روز تجلیل از امامزادگان و بقاع متبرکه','يوم تكريم أبناء الأئمة والمقامات المقدسة','Day of Honoring Imamzadehs and Holy Shrines') },
+      { m:11, d:5, tone:'other',  title:T('بزرگداشت حضرت صالح بن موسی کاظم (ع)','تكريم السيد صالح بن موسى الكاظم (ع)','Commemoration of Hazrat Salih ibn Musa al-Kazim (AS)') },
+      { m:11, d:6, tone:'other',  title:T('بزرگداشت حضرت احمد بن موسی شاهچراغ (ع)','تكريم السيد أحمد بن موسى شاه چراغ (ع)','Commemoration of Hazrat Ahmad ibn Musa Shah-Cheragh (AS)') },
+      { m:11, d:11, tone:'birth',   title:birth(P.reza) },
+      { m:11, d:'last', tone:'mourn', title:martyr(P.jawad) },
+      { m:12, d:1, tone:'other',   title:T('سالروز ازدواج حضرت علی (ع) و حضرت فاطمه (س)','ذكرى زواج الإمام علي (ع) والسيدة فاطمة (ع)','Anniversary of the marriage of Imam Ali (AS) and Lady Fatima (SA)'), note:N.marriage },
+      { m:12, d:7, tone:'mourn', title:martyr(P.baqir) },
+      { m:12, d:9, tone:'other',  title:T('روز عرفه','يوم عرفة','Day of Arafah'), note:N.niyayesh },
+      { m:12, d:10, tone:'eid',   hol:true, title:T('عید سعید قربان','عيد الأضحى المبارك','Eid al-Adha'), note:N.imamate },
+      { m:12, d:15, tone:'birth',   title:birth(P.hadi) },
+      { m:12, d:18, tone:'eid',   hol:true, title:T('عید سعید غدیر خم','عيد الغدير الأغر','Eid al-Ghadir') },
+      { m:12, d:20, tone:'birth',   title:birth(P.kazim) },
+      { m:12, d:24, tone:'other',   title:T('مباهله پیامبر اسلام (ص)','مباهلة النبي (ص)','Mubahala of the Prophet (PBUH)') },
+      { m:1, d:1, tone:'other',  title:T('آغاز سال {y} هجری قمری','بداية السنة الهجرية {y}','Start of Hijri year {y}') },
+      { m:1, d:9, tone:'mourn', hol:true, title:T('تاسوعای حسینی','تاسوعاء الحسين (ع)','Tasu\u2019a of Imam Hussain (AS)') },
+      { m:1, d:10, tone:'mourn', hol:true, title:T('عاشورای حسینی','عاشوراء الحسين (ع)','Ashura of Imam Hussain (AS)') },
+      { m:1, d:12, tone:'mourn', title:martyr(P.sajjad) },
+      { m:1, d:25, tone:'mourn', title:narr(martyr(P.sajjad)) },
+      { m:2, d:3, tone:'birth',   title:narr(birth(P.baqir)) },
+      { m:2, d:7, tone:'mourn', title:narr(martyr(P.hasan)) },
+      { m:2, d:20, tone:'mourn', hol:true, title:T('اربعین حسینی','أربعينية الإمام الحسين (ع)','Arbaeen of Imam Hussain (AS)') },
+      { m:2, d:28, tone:'mourn', hol:true, title:T('رحلت حضرت رسول اکرم (ص) و شهادت امام حسن مجتبی (ع)','رحيل الرسول الأكرم (ص) واستشهاد الإمام الحسن المجتبى (ع)','Passing of the Holy Prophet (PBUH) and Martyrdom of Imam Hasan al-Mujtaba (AS)') },
+      { m:2, d:'last', tone:'mourn', hol:true, title:martyr(P.reza) },
+      { m:3, d:1, tone:'other',  title:T('هجرت حضرت رسول اکرم (ص) از مکه به مدینه','هجرة الرسول الأكرم (ص) من مكة إلى المدينة','Hijra of the Holy Prophet (PBUH) from Mecca to Medina') },
+      { m:3, d:8, tone:'mourn', hol:true, title:T('شهادت امام حسن عسکری (ع) و آغاز امامت حضرت ولی‌عصر (عج)','استشهاد الإمام الحسن العسكري (ع) وبداية إمامة الإمام المهدي (عج)','Martyrdom of Imam Hasan al-Askari (AS) and start of the Imamate of Imam al-Mahdi (AJ)') },
+      { m:3, d:12, tone:'birth',   title:T('ولادت حضرت رسول اکرم (ص) به روایت اهل سنت','ميلاد الرسول الأكرم (ص) على رواية أهل السنة','Birth of the Holy Prophet (PBUH) per Sunni narration'), note:N.unity },
+      { m:3, d:17, tone:'birth',   hol:true, title:T('ولادت حضرت رسول اکرم (ص) و امام جعفر صادق (ع)','ميلاد الرسول الأكرم (ص) والإمام جعفر الصادق (ع)','Birth of the Holy Prophet (PBUH) and Imam Ja\u2018far al-Sadiq (AS)'), note:N.ethics },
+      { m:4, d:4, tone:'birth',   title:birth(P.abdolazim) },
+      { m:4, d:8, tone:'birth',   title:birth(P.askari) },
+      { m:4, d:10, tone:'mourn', title:passing(P.masuma) },
+      { m:5, d:5, tone:'birth',   title:birth(P.zaynab), note:N.nurse },
+      { m:5, d:13, tone:'mourn', title:narr(martyr(P.fatima)) },
+      { m:6, d:3, tone:'mourn', hol:true, title:martyr(P.fatima) },
+      { m:6, d:13, tone:'mourn', title:passing(P.ummulbanin), note:N.martyrsMothers },
+      { m:6, d:20, tone:'birth',   title:birth(P.fatima), note:N.mother },
+      { m:7, d:1, tone:'birth',   title:birth(P.baqir) },
+      { m:7, d:3, tone:'mourn', title:martyr(P.hadi) },
+      { m:7, d:10, tone:'birth',   title:birth(P.jawad) },
+      { m:7, d:13, tone:'birth',   hol:true, title:birth(P.ali), note:N.father },
+      { m:7, d:15, tone:'mourn', title:passing(P.zaynab) },
+      { m:7, d:25, tone:'mourn', title:martyr(P.kazim) },
+      { m:7, d:27, tone:'other',   hol:true, title:T('مبعث حضرت رسول اکرم (ص)','المبعث النبوي الشريف','Mab\u2018ath \u2014 the Prophet\u2019s Mission (PBUH)') },
+      { m:8, d:3, tone:'birth',   title:birth(P.hussain), note:N.pasdar },
+      { m:8, d:4, tone:'birth',   title:birth(P.abbas), note:N.janbaz },
+      { m:8, d:5, tone:'birth',   title:birth(P.sajjad), note:N.sahifa },
+      { m:8, d:11, tone:'birth',   title:birth(P.aliakbar), note:N.youth },
+      { m:8, d:15, tone:'birth',   hol:true, title:T('ولادت حضرت قائم (عج) و جشن نیمه شعبان','ميلاد الإمام القائم (عج) وليلة النصف من شعبان','Birth of Imam al-Qa\u2019im (AJ) and Mid-Sha\u2018ban Celebration'), note:N.mostaz },
+      { m:9, d:10, tone:'mourn', title:passing(P.khadija) },
+      { m:9, d:15, tone:'birth',   title:birth(P.hasan) },
+      { m:9, d:18, tone:'other',  title:QADR },
+      { m:9, d:19, tone:'mourn', title:T('ضربت خوردن حضرت علی (ع)','ضربة الإمام علي (ع)','Imam Ali (AS) is struck'), note:N.nahj },
+      { m:9, d:20, tone:'other',  title:QADR },
+      { m:9, d:21, tone:'mourn', hol:true, title:martyr(P.ali) },
+      { m:9, d:22, tone:'other',  title:QADR }
+    ];
+    function occasionsOn(jdn){
+      var L = lunarOf(jdn), out = [];
+      if(!L) return out;
+      OCCASION_RULES.forEach(function(r){
+        var hit = (r.d === 'last') ? (L.len !== null && L.d === L.len) : (r.d === L.d);
+        if(r.m === L.m && hit){
+          out.push({ kind:'occasion', tone:r.tone, holiday:!!r.hol, title:r.title, note:r.note || null, lunar:L });
+        }
+      });
+      return out;
+    }
+    // موتور تقویم برای بخش‌های دیگر (کارت اشتراک‌گذاری) — یک منبع داده برای همه
+    window.KZM_CAL = {
+      j2jdn:j2jdn, g2jdn:g2jdn, jdn2g:jdn2g, jdn2j:jdn2j, daysInJalaliMonth:daysInJalaliMonth,
+      colFromJdn:colFromJdn, lunarOf:lunarOf, occasionsOn:occasionsOn,
+      JALALI_MONTHS:JALALI_MONTHS, WEEKDAY_COLS:WEEKDAY_COLS, LUNAR_MONTHS:LUNAR_MONTHS,
+      WEEKLY_EVENTS:WEEKLY_EVENTS
+    };
+    function occTitle(ev, lang){
+      var t = pick(ev.title, lang);
+      return ev.lunar ? t.replace('{y}', calDigits(ev.lunar.y)) : t;
+    }
+    function lunarLabel(ev, lang){
+      var names = LUNAR_MONTHS[lang] || LUNAR_MONTHS.fa;
+      return calDigits(ev.lunar.d) + ' ' + names[ev.lunar.m - 1] + ' ' + calDigits(ev.lunar.y);
+    }
+    function toneColor(tone){
+      return { gold:'var(--gold)', crimson:'var(--crimson-bright)', birth:'#ff7eb8', eid:'#2dd4bf', mourn:'#b39dff', other:'#5aa9ff' }[tone] || 'var(--gold)';
+    }
+    function uniqueTones(evs){
+      var seen = {}, out = [];
+      evs.forEach(function(e){ if(!seen[e.tone]){ seen[e.tone] = 1; out.push(e); } });
+      return out;
+    }
+    function occasionBlock(ev, lang){
+      var dict = translations[lang] || translations.fa;
+      var noteHtml = ev.note ? ('<div class="hero-status-sheet-value" style="margin-top:2px;color:var(--gold-soft);font-weight:700;font-size:11.5px">' + pick(ev.note, lang) + '</div>') : '';
+      var pill = ev.holiday ? ('<div><span class="cal-holiday-pill" data-i18n-static="calHolidayPill">' + (dict.hcalHolidayPill || '') + '</span></div>') : '';
+      return (
+        '<div class="cal-event-block">' +
+          '<div class="modal-title">' + occTitle(ev, lang) + '</div>' +
+          noteHtml + pill +
+          '<div class="hero-status-sheet-row">' +
+            '<span class="hero-status-sheet-icon">\uD83C\uDF19</span>' +
+            '<div><div class="hero-status-sheet-label" data-i18n-static="calModalLunarLabel">' + (dict.hcalModalLunarLabel || '') + '</div>' +
+            '<div class="hero-status-sheet-value">' + lunarLabel(ev, lang) + '</div></div>' +
+          '</div>' +
+        '</div>'
+      );
+    }
+
     function eventsOn(jy, jm, jd, colName){
       var list = [];
       WEEKLY_EVENTS.forEach(function(ev){ if(ev.weekday === colName) list.push(ev); });
       SPECIAL_EVENTS.forEach(function(ev){ if(ev.jy === jy && ev.jm === jm && ev.jd === jd) list.push(ev); });
+      occasionsOn(j2jdn(jy, jm, jd)).forEach(function(o){ list.push(o); });
       return list;
+    }
+
+    // ---------------------------------------------------------
+    // جست‌وجوی مناسبت — نمایه‌ای از همه‌ی مناسبت‌های مذهبی و رویدادهای
+    // خاصِ بازه‌ی پوشش‌داده‌شده، برای جهش مستقیم به روزِ مورد نظر.
+    // این نمایه فقط یک‌بار، در زمان بارگذاری صفحه ساخته می‌شود.
+    // ---------------------------------------------------------
+    function buildSearchIndex(){
+      var idx = [];
+      for(var jdn = LUNAR_STARTS[0].jdn; jdn <= LUNAR_END_JDN; jdn++){
+        var occs = occasionsOn(jdn);
+        if(!occs.length) continue;
+        var j = jdn2j(jdn), col = colFromJdn(jdn);
+        occs.forEach(function(o){
+          idx.push({
+            jy:j.y, jm:j.m, jd:j.d, jdn:jdn, col:col, colName:WEEKDAY_COLS[col],
+            tone:o.tone, holiday:!!o.holiday,
+            text:{ fa:occTitle(o,'fa'), ar:occTitle(o,'ar'), en:occTitle(o,'en') }
+          });
+        });
+      }
+      SPECIAL_EVENTS.forEach(function(ev){
+        var jdn = j2jdn(ev.jy, ev.jm, ev.jd), col = colFromJdn(jdn);
+        idx.push({
+          jy:ev.jy, jm:ev.jm, jd:ev.jd, jdn:jdn, col:col, colName:WEEKDAY_COLS[col],
+          tone:ev.tone || 'other', holiday:false,
+          text:{ fa:pick(ev.title,'fa'), ar:pick(ev.title,'ar'), en:pick(ev.title,'en') }
+        });
+      });
+      idx.sort(function(a,b){ return a.jdn - b.jdn; });
+      return idx;
+    }
+    // نرمال‌سازی متن برای جست‌وجو: یکسان‌سازی حروف عربی/فارسی مشابه،
+    // حذف اعراب و نویسه‌های نامرئی، حذف علائم نگارشی و کوچک‌سازی حروف لاتین
+    function normalizeSearchText(s){
+      if(!s) return '';
+      return s.toString()
+        .replace(/[\u200c\u200e\u200f]/g, ' ')
+        .replace(/[يى]/g, 'ی').replace(/ك/g, 'ک')
+        .replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه')
+        .replace(/[ًٌٍَُِّْـ]/g, '')
+        .replace(/[«»"'.,،؛!؟()]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .toLowerCase();
+    }
+    var SEARCH_INDEX = buildSearchIndex();
+    function searchOccasions(query, limit){
+      var q = normalizeSearchText(query);
+      if(!q) return [];
+      var out = [];
+      for(var i = 0; i < SEARCH_INDEX.length && out.length < limit; i++){
+        var item = SEARCH_INDEX[i];
+        var hay = normalizeSearchText(item.text.fa) + ' ' + normalizeSearchText(item.text.ar) + ' ' + normalizeSearchText(item.text.en);
+        if(hay.indexOf(q) !== -1) out.push(item);
+      }
+      return out;
     }
 
     // ---------------------------------------------------------
@@ -4643,6 +5351,24 @@
     var modalBody = document.getElementById('cal-modal-body');
     var nextBadge = document.getElementById('cal-next-badge');
     var nextBadgeValue = document.getElementById('cal-next-badge-value');
+    var searchWrap = document.getElementById('cal-search');
+    var searchInput = document.getElementById('cal-search-input');
+    var searchClear = document.getElementById('cal-search-clear');
+    var searchResults = document.getElementById('cal-search-results');
+    var jumpOverlay = document.getElementById('cal-jump-overlay');
+    var jumpClose = document.getElementById('cal-jump-close');
+    var jumpYearVal = document.getElementById('cal-jump-year-val');
+    var jumpYearPrev = document.getElementById('cal-jump-year-prev');
+    var jumpYearNext = document.getElementById('cal-jump-year-next');
+    var jumpMonthsWrap = document.getElementById('cal-jump-months');
+    var jumpTodayBtn = document.getElementById('cal-jump-today-btn');
+    var yearViewBtn = document.getElementById('cal-year-view-btn');
+    var yearOverlay = document.getElementById('cal-year-overlay');
+    var yearClose = document.getElementById('cal-year-close');
+    var yearYearVal = document.getElementById('cal-year-year-val');
+    var yearPrev = document.getElementById('cal-year-prev');
+    var yearNext = document.getElementById('cal-year-next');
+    var yearGrid = document.getElementById('cal-year-grid');
     if(!weekdaysWrap || !gridWrap || !monthLabel) return;
 
     function getTodayJalali(){
@@ -4688,7 +5414,10 @@
       var map = {
         calModalTimeLabel: dict.hcalModalTimeLabel,
         calModalLocationLabel: dict.hcalModalLocationLabel,
-        calModalMapBtn: dict.hcalModalMapBtn
+        calModalMapBtn: dict.hcalModalMapBtn,
+        calModalShareBtn: dict.hcalModalShareBtn,
+        calModalLunarLabel: dict.hcalModalLunarLabel,
+        calHolidayPill: dict.hcalHolidayPill
       };
       modalBody.querySelectorAll('[data-i18n-static]').forEach(function(el){
         var key = el.getAttribute('data-i18n-static');
@@ -4702,6 +5431,7 @@
       if(!evs.length) return;
       modalDate.textContent = colName + '، ' + calDigits(jd) + ' ' + JALALI_MONTHS[jm - 1] + ' ' + calDigits(jy);
       modalBody.innerHTML = evs.map(function(ev){
+        if(ev.kind === 'occasion') return occasionBlock(ev, lang);
         var noteHtml = ev.note ? ('<div class="hero-status-sheet-value" style="margin-top:2px;color:var(--gold-soft);font-weight:700;font-size:11.5px">' + pick(ev.note, lang) + '</div>') : '';
         var linkHtml = ev.link ? ('<a class="cal-event-link" href="' + ev.link + '">' + pick(ev.linkLabel, lang) + '</a>') : '';
         return (
@@ -4723,6 +5453,13 @@
           '</div>'
         );
       }).join('');
+      if(window.KZM_SHARE_CARD && window.KZM_SHARE_CARD.year === jy) modalBody.insertAdjacentHTML('beforeend', '<button type="button" class="hero-status-sheet-btn cal-modal-share-btn" data-i18n-static="calModalShareBtn">' + ((translations[lang] || translations.fa).hcalModalShareBtn || '') + '</button>');
+      var shareBtn = modalBody.querySelector('.cal-modal-share-btn');
+      if(shareBtn) shareBtn.addEventListener('click', function(){
+        var shareJdn = j2jdn(jy, jm, jd);
+        closeModal();
+        if(window.KZM_SHARE_CARD) window.KZM_SHARE_CARD.open(shareJdn);
+      });
       applyModalTranslations();
       modalBody.querySelectorAll('.cal-modal-map-btn').forEach(function(btn){
         btn.addEventListener('click', function(){
@@ -4781,9 +5518,10 @@
           (isDim ? ' cal-day-dim' : '') +
           (col === 6 ? ' is-fri' : '') +
           (evs.length ? ' cal-day-has-event' : '') +
+          (evs.some(function(e){ return e.holiday; }) ? ' cal-day-holiday' : '') +
           (isToday ? ' cal-day-today' : '') +
           (isNext ? ' cal-day-next' : '');
-        var dotsHtml = evs.length ? ('<span class="cal-day-dots">' + evs.map(function(e){ return '<span class="cal-dot cal-dot-' + e.tone + '"></span>'; }).join('') + '</span>') : '<span class="cal-day-dots"></span>';
+        var dotsHtml = evs.length ? ('<span class="cal-day-dots">' + uniqueTones(evs).map(function(e){ return '<span class="cal-dot cal-dot-' + e.tone + '"></span>'; }).join('') + '</span>') : '<span class="cal-day-dots"></span>';
         return '<button type="button" class="' + classes + '"' +
           (evs.length ? (' data-jy="' + jy + '" data-jm="' + jm + '" data-jd="' + jd + '" data-col="' + colName + '"') : ' tabindex="-1" aria-hidden="true"') +
           '><span class="cal-day-num">' + calDigits(jd) + '</span>' + dotsHtml + '</button>';
@@ -4825,16 +5563,20 @@
         return;
       }
       agendaWrap.innerHTML = rows.map(function(row){
-        var toneVar = row.ev.tone === 'gold' ? 'var(--gold)' : 'var(--crimson-bright)';
+        var toneVar = toneColor(row.ev.tone);
+        var isOcc = row.ev.kind === 'occasion';
+        var titleTxt = isOcc ? occTitle(row.ev, lang) : pick(row.ev.title, lang);
+        var subTxt = row.colName + ' &middot; ' + (isOcc ? (lunarLabel(row.ev, lang) + (row.ev.holiday ? ' &middot; ' + (dict.hcalHolidayPill || '') : '')) : pick(row.ev.timeLabel, lang));
+        var numStyle = row.ev.holiday ? ' style="color:#ff6b5e"' : '';
         return (
           '<button type="button" class="cal-agenda-row" data-jd="' + row.jd + '" data-col="' + row.colName + '">' +
             '<span class="cal-agenda-dot" style="background:' + toneVar + ';color:' + toneVar + '"></span>' +
             '<div class="cal-agenda-info">' +
-              '<div class="cal-agenda-title">' + pick(row.ev.title, lang) + '</div>' +
-              '<div class="cal-agenda-sub">' + row.colName + ' &middot; ' + pick(row.ev.timeLabel, lang) + '</div>' +
+              '<div class="cal-agenda-title">' + titleTxt + '</div>' +
+              '<div class="cal-agenda-sub">' + subTxt + '</div>' +
             '</div>' +
             '<div class="cal-agenda-date">' +
-              '<span class="cal-agenda-date-num">' + calDigits(row.jd) + '</span>' +
+              '<span class="cal-agenda-date-num"' + numStyle + '>' + calDigits(row.jd) + '</span>' +
               '<span class="cal-agenda-date-month">' + JALALI_MONTHS[state.jm - 1] + '</span>' +
             '</div>' +
           '</button>'
@@ -4847,12 +5589,60 @@
       });
     }
 
+    var GREG_MONTHS = {
+      fa:['ژانویه','فوریه','مارس','آوریل','مه','ژوئن','ژوئیه','اوت','سپتامبر','اکتبر','نوامبر','دسامبر'],
+      ar:['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
+      en:['January','February','March','April','May','June','July','August','September','October','November','December']
+    };
+    var TODAY_WD = {
+      fa:{Sun:'یکشنبه',Mon:'دوشنبه',Tue:'سه‌شنبه',Wed:'چهارشنبه',Thu:'پنجشنبه',Fri:'جمعه',Sat:'شنبه'},
+      ar:{Sun:'الأحد',Mon:'الاثنين',Tue:'الثلاثاء',Wed:'الأربعاء',Thu:'الخميس',Fri:'الجمعة',Sat:'السبت'},
+      en:{Sun:'Sunday',Mon:'Monday',Tue:'Tuesday',Wed:'Wednesday',Thu:'Thursday',Fri:'Friday',Sat:'Saturday'}
+    };
+    // نام کامل روزهای هفته به ترتیب ستون جدول (۰=شنبه ... ۶=جمعه)، برای نتایج جست‌وجو
+    var WEEKDAY_FULL = {
+      fa: WEEKDAY_COLS,
+      ar: ['السبت','الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة'],
+      en: ['Saturday','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday']
+    };
+    // تاریخ امروز (به وقت تهران) به سه تقویم شمسی، قمری (تقویم رسمی) و میلادی
+    function renderTodayLine(){
+      var elJ = document.getElementById('cal-today-j');
+      if(!elJ) return;
+      var lang = (GREG_MONTHS[currentLang] ? currentLang : 'fa');
+      var p = getTehranParts(new Date());
+      var gy = +p.year, gm = +p.month, gd = +p.day;
+      var jdn = g2jdn(gy, gm, gd), j = jdn2j(jdn);
+      document.getElementById('cal-today-wd').textContent = TODAY_WD[lang][p.weekday] || '';
+      elJ.textContent = calDigits(j.d) + ' ' + JALALI_MONTHS[j.m - 1] + ' ' + calDigits(j.y);
+      document.getElementById('cal-today-g').textContent = calDigits(gd) + ' ' + GREG_MONTHS[lang][gm - 1] + ' ' + calDigits(gy);
+      var L = lunarOf(jdn), rowL = document.getElementById('cal-today-l-row');
+      if(L){ document.getElementById('cal-today-l').textContent = lunarLabel({ lunar:L }, lang); rowL.style.display = ''; }
+      else { rowL.style.display = 'none'; }
+    }
+
     function render(){
+      renderTodayLine();
       renderWeekdayHeader();
       monthLabel.textContent = JALALI_MONTHS[state.jm - 1] + ' ' + calDigits(state.jy);
       renderGrid();
       renderAgenda();
       renderNextBadge();
+      var occNote = document.getElementById('cal-occ-note');
+      if(occNote){
+        var dictN = translations[currentLang] || translations.fa;
+        var first = j2jdn(state.jy, state.jm, 1), last = first + daysInJalaliMonth(state.jy, state.jm) - 1;
+        var covered = first >= LUNAR_STARTS[0].jdn && last <= LUNAR_END_JDN;
+        occNote.textContent = covered ? (dictN.hcalOccSource || '') : (dictN.hcalOccOut || '');
+      }
+      renderSearchStrings();
+    }
+
+    function renderSearchStrings(){
+      if(!searchInput) return;
+      var dictS = translations[currentLang] || translations.fa;
+      searchInput.placeholder = dictS.hcalSearchPlaceholder || '';
+      if(searchClear) searchClear.setAttribute('aria-label', dictS.hcalSearchClearAria || '');
     }
 
     btnPrev.addEventListener('click', function(){
@@ -4876,14 +5666,169 @@
       }
     });
 
+    // پرش سریع ماه/سال — با زدن روی نام ماه باز می‌شود
+    (function monthYearJump(){
+      if(!jumpOverlay || !jumpYearVal || !jumpMonthsWrap) return;
+      var jumpYear = state.jy;
+
+      function renderJump(){
+        jumpYearVal.textContent = calDigits(jumpYear);
+        jumpMonthsWrap.innerHTML = JALALI_MONTHS.map(function(name, i){
+          var m = i + 1;
+          var isCurrent = (jumpYear === state.jy && m === state.jm);
+          return '<button type="button" class="cal-jump-month-btn' + (isCurrent ? ' is-current' : '') + '" data-m="' + m + '">' + name + '</button>';
+        }).join('');
+        jumpMonthsWrap.querySelectorAll('.cal-jump-month-btn').forEach(function(btn){
+          btn.addEventListener('click', function(){
+            state.jy = jumpYear;
+            state.jm = +btn.dataset.m;
+            render();
+            closeJump();
+          });
+        });
+      }
+      function openJump(){
+        jumpYear = state.jy;
+        renderJump();
+        jumpOverlay.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeJump(){
+        jumpOverlay.classList.remove('show');
+        document.body.style.overflow = '';
+      }
+      monthLabel.addEventListener('click', openJump);
+      monthLabel.addEventListener('keydown', function(e){
+        if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openJump(); }
+      });
+      if(jumpClose) jumpClose.addEventListener('click', closeJump);
+      jumpOverlay.addEventListener('click', function(e){ if(e.target === jumpOverlay) closeJump(); });
+      document.addEventListener('keydown', function(e){
+        if(e.key === 'Escape' && jumpOverlay.classList.contains('show')) closeJump();
+      });
+      if(jumpYearPrev) jumpYearPrev.addEventListener('click', function(){ jumpYear -= 1; renderJump(); });
+      if(jumpYearNext) jumpYearNext.addEventListener('click', function(){ jumpYear += 1; renderJump(); });
+      if(jumpTodayBtn){
+        jumpTodayBtn.addEventListener('click', function(){
+          state.jy = today.y; state.jm = today.m;
+          render();
+          closeJump();
+        });
+      }
+    })();
+
+    // نمای سالانه — ۱۲ ماه به‌صورت مینیاتوری کنار هم، برای دیدن یک‌نگاهِ شلوغیِ سال
+    (function yearGlance(){
+      if(!yearViewBtn || !yearOverlay || !yearGrid) return;
+      var TONE_COLOR = {
+        mourn:'#b39dff', birth:'#ff7eb8', eid:'#2dd4bf', other:'#5aa9ff',
+        crimson:'var(--crimson-bright)', gold:'var(--gold)'
+      };
+      var TONE_PRIORITY = ['mourn', 'birth', 'eid', 'other', 'crimson', 'gold'];
+      var viewYear = state.jy;
+
+      function dominantOf(evs){
+        var found = null, holiday = false;
+        evs.forEach(function(ev){
+          if(ev.holiday) holiday = true;
+          var t = ev.tone;
+          if(!TONE_COLOR[t]) return;
+          if(found === null || TONE_PRIORITY.indexOf(t) < TONE_PRIORITY.indexOf(found)) found = t;
+        });
+        return { tone:found, holiday:holiday };
+      }
+
+      function buildMonthCard(jy, jm){
+        var totalDays = daysInJalaliMonth(jy, jm);
+        var firstJdn = j2jdn(jy, jm, 1);
+        var startCol = colFromJdn(firstJdn);
+        var cellsHtml = '';
+        var occCount = 0;
+        for(var i = 0; i < startCol; i++) cellsHtml += '<span class="cal-year-mini-cell"></span>';
+        for(var d = 1; d <= totalDays; d++){
+          var jdn = firstJdn + d - 1;
+          var colName = WEEKDAY_COLS[colFromJdn(jdn)];
+          var evs = eventsOn(jy, jm, d, colName);
+          if(!evs.length){
+            cellsHtml += '<span class="cal-year-mini-cell"></span>';
+            continue;
+          }
+          occCount++;
+          var dom = dominantOf(evs);
+          var style = dom.tone ? (' style="background:' + TONE_COLOR[dom.tone] + '"') : '';
+          cellsHtml += '<span class="cal-year-mini-cell' + (dom.holiday ? ' has-holiday' : '') + '"' + style + '></span>';
+        }
+        var isCurrent = (jy === state.jy && jm === state.jm);
+        var dictY = translations[currentLang] || translations.fa;
+        var countTxt = calDigits(occCount) + ' ' + (dictY.hcalYearOccWord || '');
+        return (
+          '<button type="button" class="cal-year-month-card' + (isCurrent ? ' is-current' : '') + '" data-jm="' + jm + '">' +
+            '<div class="cal-year-month-name">' + JALALI_MONTHS[jm - 1] + '</div>' +
+            '<div class="cal-year-month-mini">' + cellsHtml + '</div>' +
+            '<div class="cal-year-month-count">' + countTxt + '</div>' +
+          '</button>'
+        );
+      }
+
+      function renderYearGlance(){
+        yearYearVal.textContent = calDigits(viewYear);
+        var html = '';
+        for(var m = 1; m <= 12; m++) html += buildMonthCard(viewYear, m);
+        yearGrid.innerHTML = html;
+        yearGrid.querySelectorAll('.cal-year-month-card').forEach(function(btn){
+          btn.addEventListener('click', function(){
+            state.jy = viewYear;
+            state.jm = +btn.dataset.jm;
+            render();
+            closeYearGlance();
+          });
+        });
+      }
+      function openYearGlance(){
+        viewYear = state.jy;
+        renderYearGlance();
+        yearOverlay.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeYearGlance(){
+        yearOverlay.classList.remove('show');
+        document.body.style.overflow = '';
+      }
+      yearViewBtn.addEventListener('click', openYearGlance);
+      if(yearClose) yearClose.addEventListener('click', closeYearGlance);
+      yearOverlay.addEventListener('click', function(e){ if(e.target === yearOverlay) closeYearGlance(); });
+      document.addEventListener('keydown', function(e){
+        if(e.key === 'Escape' && yearOverlay.classList.contains('show')) closeYearGlance();
+      });
+      if(yearPrev) yearPrev.addEventListener('click', function(){ viewYear -= 1; renderYearGlance(); });
+      if(yearNext) yearNext.addEventListener('click', function(){ viewYear += 1; renderYearGlance(); });
+    })();
+
     // کشیدن انگشت روی جدول برای رفتن به ماه قبل/بعد
     (function swipe(){
-      var startX = null;
-      gridWrap.addEventListener('touchstart', function(e){ startX = e.touches[0].clientX; }, { passive:true });
+      var startX = null, startY = null, startScrollY = null, canceled = false;
+      gridWrap.addEventListener('touchstart', function(e){
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        startScrollY = window.scrollY;
+        canceled = false;
+      }, { passive:true });
+      gridWrap.addEventListener('touchmove', function(e){
+        if(canceled || startX === null) return;
+        var dx = e.touches[0].clientX - startX;
+        var dy = e.touches[0].clientY - startY;
+        // اگر حرکت عمودی (اسکرول صفحه) غالب بود یا خودِ صفحه واقعاً اسکرول کرد،
+        // این یک کشیدنِ افقیِ عمدی برای عوض‌کردن ماه نیست — لغوش کن
+        if(Math.abs(dy) > Math.abs(dx) || Math.abs(window.scrollY - startScrollY) > 5){
+          canceled = true;
+        }
+      }, { passive:true });
       gridWrap.addEventListener('touchend', function(e){
         if(startX === null) return;
         var dx = e.changedTouches[0].clientX - startX;
-        startX = null;
+        var wasCanceled = canceled;
+        startX = null; startY = null; canceled = false;
+        if(wasCanceled) return;
         if(Math.abs(dx) < 40) return;
         if(dx > 0){ btnPrev.click(); } else { btnNext.click(); }
       }, { passive:true });
@@ -4908,10 +5853,838 @@
       });
     })();
 
+    // جست‌وجوی مناسبت — تایپ نام مناسبت و جهش مستقیم به روز آن در تقویم
+    (function occasionSearch(){
+      if(!searchInput || !searchResults || !searchWrap) return;
+      var activeIndex = -1;
+      var currentResults = [];
+      var debounceTimer = null;
+
+      function closeResults(){
+        searchWrap.classList.remove('show-results');
+        searchInput.setAttribute('aria-expanded', 'false');
+        activeIndex = -1;
+      }
+
+      function renderResults(list){
+        currentResults = list;
+        activeIndex = -1;
+        var dictS = translations[currentLang] || translations.fa;
+        var lang = (GREG_MONTHS[currentLang] ? currentLang : 'fa');
+        if(!list.length){
+          searchResults.innerHTML = '<div class="cal-search-empty">' + (dictS.hcalSearchEmpty || '') + '</div>';
+          searchWrap.classList.add('show-results');
+          searchInput.setAttribute('aria-expanded', 'true');
+          return;
+        }
+        searchResults.innerHTML = list.map(function(item, i){
+          var dateTxt = calDigits(item.jd) + ' ' + JALALI_MONTHS[item.jm - 1] + ' ' + calDigits(item.jy);
+          var wd = (WEEKDAY_FULL[lang] || WEEKDAY_FULL.fa)[item.col];
+          var holidayTag = item.holiday ? ('<span class="cal-search-item-holiday">' + (dictS.hcalHolidayPill || '') + '</span>') : '';
+          return (
+            '<button type="button" class="cal-search-item" data-idx="' + i + '" role="option">' +
+              '<span class="cal-search-item-dot cal-dot-' + item.tone + '"></span>' +
+              '<span class="cal-search-item-body">' +
+                '<span class="cal-search-item-title">' + pick(item.text, lang) + '</span>' +
+                '<span class="cal-search-item-date">' + wd + ' &middot; ' + dateTxt + '</span>' +
+              '</span>' +
+              holidayTag +
+            '</button>'
+          );
+        }).join('');
+        searchWrap.classList.add('show-results');
+        searchInput.setAttribute('aria-expanded', 'true');
+        searchResults.querySelectorAll('.cal-search-item').forEach(function(btn){
+          btn.addEventListener('click', function(){ selectResult(+btn.dataset.idx); });
+        });
+      }
+
+      function selectResult(i){
+        var item = currentResults[i];
+        if(!item) return;
+        state.jy = item.jy; state.jm = item.jm;
+        render();
+        closeResults();
+        searchInput.blur();
+        openModalForDate(item.jy, item.jm, item.jd, item.colName);
+        var el = gridWrap.querySelector('.cal-day-has-event[data-jy="' + item.jy + '"][data-jm="' + item.jm + '"][data-jd="' + item.jd + '"]');
+        if(el){
+          el.style.transition = 'box-shadow 0.25s ease';
+          el.style.boxShadow = '0 0 0 4px rgba(255,203,61,0.35)';
+          setTimeout(function(){ el.style.boxShadow = ''; }, 650);
+        }
+      }
+
+      function applySearch(){
+        var q = searchInput.value.trim();
+        searchWrap.classList.toggle('has-value', q.length > 0);
+        if(!q){ closeResults(); searchResults.innerHTML = ''; return; }
+        renderResults(searchOccasions(q, 10));
+      }
+
+      function moveActive(delta){
+        var items = searchResults.querySelectorAll('.cal-search-item');
+        if(!items.length) return;
+        activeIndex = (activeIndex + delta + items.length) % items.length;
+        items.forEach(function(el, i){ el.classList.toggle('is-active', i === activeIndex); });
+        items[activeIndex].scrollIntoView({ block:'nearest' });
+      }
+
+      searchInput.addEventListener('input', function(){
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(applySearch, 120);
+      });
+      searchInput.addEventListener('focus', function(){
+        if(searchInput.value.trim() && currentResults.length) searchWrap.classList.add('show-results');
+      });
+      searchInput.addEventListener('keydown', function(e){
+        if(e.key === 'ArrowDown'){ e.preventDefault(); moveActive(1); }
+        else if(e.key === 'ArrowUp'){ e.preventDefault(); moveActive(-1); }
+        else if(e.key === 'Enter'){
+          e.preventDefault();
+          if(activeIndex >= 0) selectResult(activeIndex);
+          else if(currentResults.length) selectResult(0);
+        } else if(e.key === 'Escape'){
+          closeResults();
+          searchInput.blur();
+        }
+      });
+      if(searchClear){
+        searchClear.addEventListener('click', function(){
+          searchInput.value = '';
+          searchWrap.classList.remove('has-value');
+          closeResults();
+          searchResults.innerHTML = '';
+          searchInput.focus();
+        });
+      }
+      document.addEventListener('click', function(e){
+        if(!searchWrap.contains(e.target)) closeResults();
+      });
+    })();
+
     window.updateCalendarLang = render;
     render();
   })();
 
+
+  // ==================== کارت اشتراک‌گذاری روز ====================
+  (function(){
+  'use strict';
+
+  /* موتور تقویم: همان موتور تقویم سایت (window.KZM_CAL) — منبع داده فقط یکی است */
+  var CAL = window.KZM_CAL;
+  if(!CAL) return;
+  var j2jdn = CAL.j2jdn, g2jdn = CAL.g2jdn, jdn2g = CAL.jdn2g, jdn2j = CAL.jdn2j,
+      daysInJalaliMonth = CAL.daysInJalaliMonth, colFromJdn = CAL.colFromJdn,
+      lunarOf = CAL.lunarOf, occasionsOn = CAL.occasionsOn,
+      JALALI_MONTHS = CAL.JALALI_MONTHS, WEEKDAY_COLS = CAL.WEEKDAY_COLS, LUNAR_MONTHS = CAL.LUNAR_MONTHS;
+
+  /* کارت فقط برای همین سال ساخته می‌شه (تقویم قمری رسمی سایت هم فقط همین سال رو داره) */
+  var YEAR = 1405;
+  var MIN_JDN = j2jdn(YEAR, 1, 1), MAX_JDN = j2jdn(YEAR, 12, daysInJalaliMonth(YEAR, 12));
+  function inRange(jdn){ return jdn >= MIN_JDN && jdn <= MAX_JDN; }
+  function clampJdn(jdn){ return Math.min(MAX_JDN, Math.max(MIN_JDN, jdn)); }
+
+  /* =========================================================
+     تم‌ها
+     ========================================================= */
+  var THEMES = {
+    emerald:  { name:'زمرد', top:'#0e2419', bot:'#06120c', ink:'#f3ead0', dim:'#a99b78', line:'#ffcb3d', brand:'#ffcb3d', light:false,
+                tones:{ birth:'#ff7eb8', eid:'#2dd4bf', mourn:'#b39dff', other:'#5aa9ff', plain:'#ffcb3d' } },
+    night:    { name:'شبِ عزا', top:'#1b1d27', bot:'#07080b', ink:'#eceaf5', dim:'#9a98ad', line:'#c4c1d8', brand:'#d6d3ea', light:false,
+                tones:{ birth:'#ffb3d1', eid:'#7fe3d3', mourn:'#b39dff', other:'#8ec1ff', plain:'#b39dff' } },
+    sapphire: { name:'لاجورد', top:'#112552', bot:'#050b1f', ink:'#f6f0df', dim:'#9fb0d8', line:'#e8c56a', brand:'#f0cf7a', light:false,
+                tones:{ birth:'#ff9ec7', eid:'#5ee6d4', mourn:'#c0b0ff', other:'#7fb8ff', plain:'#e8c56a' } },
+    wine:     { name:'ارغوانی', top:'#43102a', bot:'#150410', ink:'#fbeee6', dim:'#c9a0a8', line:'#e9b98a', brand:'#f0c79a', light:false,
+                tones:{ birth:'#ff9ec7', eid:'#7ee8d6', mourn:'#c8b6ff', other:'#8ec1ff', plain:'#e9b98a' } },
+    turquoise:{ name:'فیروزه‌ای', top:'#f8f2e2', bot:'#e6dcc2', ink:'#0f3238', dim:'#5b7a7c', line:'#b0821a', brand:'#8a6512', light:true,
+                tones:{ birth:'#d0397c', eid:'#0c8c80', mourn:'#5f45bd', other:'#1d69c0', plain:'#0c8c80' } },
+    parchment:{ name:'کاغذ کاهی', top:'#f4e8cb', bot:'#dfcb9a', ink:'#3a2510', dim:'#7d6440', line:'#8a5a1a', brand:'#6e4510', light:true,
+                tones:{ birth:'#ab2c66', eid:'#11726a', mourn:'#48388c', other:'#22589a', plain:'#8a5a1a' } }
+  };
+  THEMES.ashura   = { name:'سرخ عاشورا', top:'#3d0c12', bot:'#0e0304', ink:'#f7e7e1', dim:'#b98f8a', line:'#dba48e', brand:'#e8b5a0', light:false, pattern:'lattice',
+                      tones:{ birth:'#ff9ec7', eid:'#7ee8d6', mourn:'#ff8a78', other:'#8ec1ff', plain:'#ee7a68' } };
+  THEMES.ramadan  = { name:'شبِ رمضان', top:'#2a1d6b', bot:'#080522', ink:'#f8f1de', dim:'#aaa4d8', line:'#ffd166', brand:'#ffd98a', light:false, pattern:'hex',
+                      tones:{ birth:'#ff9ec7', eid:'#5ee6d4', mourn:'#cbbcff', other:'#ffd166', plain:'#ffd166' } };
+  THEMES.gold     = { name:'سیاه و طلایی', top:'#1c160a', bot:'#050403', ink:'#f8edd2', dim:'#a8976a', line:'#e6b94a', brand:'#f0c65c', light:false, pattern:'dots',
+                      tones:{ birth:'#ff9ec7', eid:'#5ee6d4', mourn:'#c8b6ff', other:'#8ec1ff', plain:'#e6b94a' } };
+  THEMES.ocean    = { name:'اقیانوس', top:'#0b4c58', bot:'#031a20', ink:'#eefaf7', dim:'#8fc4c2', line:'#8be9dc', brand:'#a6f0e4', light:false, pattern:'hex',
+                      tones:{ birth:'#ffa3c8', eid:'#7ff2e0', mourn:'#c3b5ff', other:'#8cc8ff', plain:'#8be9dc' } };
+  THEMES.rosewater= { name:'گلاب', top:'#fdf2ef', bot:'#efd0d3', ink:'#4a1830', dim:'#8a5f6a', line:'#b0685f', brand:'#8f4a45', light:true, pattern:'rays',
+                      tones:{ birth:'#c22a72', eid:'#0f8478', mourn:'#5a3fb0', other:'#1e64b8', plain:'#b0685f' } };
+  THEMES.sky      = { name:'آسمانی', top:'#f1f7fd', bot:'#cfe0f3', ink:'#14294f', dim:'#586f95', line:'#a8832a', brand:'#7c5f16', light:true, pattern:'hex',
+                      tones:{ birth:'#c22a72', eid:'#0b8a7c', mourn:'#5b3fb5', other:'#1c5fc0', plain:'#1c5fc0' } };
+  THEMES.saffron  = { name:'زعفرانی', top:'#fff2d2', bot:'#f1cd80', ink:'#4a2606', dim:'#84602a', line:'#b0501a', brand:'#8a3c10', light:true, pattern:'rays',
+                      tones:{ birth:'#b02a63', eid:'#0f7a6f', mourn:'#4c3a94', other:'#1f579a', plain:'#b0501a' } };
+  THEMES.sage     = { name:'مریم‌گلی', top:'#eef3e6', bot:'#cfdcbd', ink:'#1f3320', dim:'#5f7458', line:'#8a7a26', brand:'#5f5417', light:true, pattern:'lattice',
+                      tones:{ birth:'#b02a6a', eid:'#0e7c70', mourn:'#513f96', other:'#215c9c', plain:'#3d7a3a' } };
+  var THEME_ORDER = ['auto','emerald','night','ashura','ramadan','sapphire','wine','gold','ocean','turquoise','sky','parchment','rosewater','saffron','sage'];
+  var AUTO = { mourn:'night', eid:'turquoise', birth:'wine', other:'sapphire', plain:'emerald' };
+  function autoTheme(day, tone){
+    var m = day.lunar ? day.lunar.m : 0;
+    if((tone === 'mourn' || tone === 'plain') && (m === 1 || m === 2)) return 'ashura';
+    if((tone === 'plain' || tone === 'other') && m === 9) return 'ramadan';
+    return AUTO[tone];
+  }
+  var ICON = { birth:'star', eid:'moon', mourn:'candle', other:'khatam' };
+
+  var PATHS = {
+    moon:  'M15.6 2.4a9.6 9.6 0 1 0 6 17.1A8 8 0 0 1 15.6 2.4z',
+    star:  'M12 1.5l3.1 6.9 7.4.8-5.5 5 1.6 7.4L12 17.8l-6.6 3.8L7 14.2l-5.5-5 7.4-.8z',
+    candle:'M12 .8c1.7 2.1 2.9 3.6 2.9 5a2.9 2.9 0 0 1-5.8 0c0-1.4 1.2-2.9 2.9-5zM8 10.5h8a1.5 1.5 0 0 1 1.5 1.5v9.5A1.5 1.5 0 0 1 16 23H8a1.5 1.5 0 0 1-1.5-1.5V12A1.5 1.5 0 0 1 8 10.5z'
+  };
+
+  var GREG_FA = ['ژانویه','فوریه','مارس','آوریل','مه','ژوئن','ژوئیه','اوت','سپتامبر','اکتبر','نوامبر','دسامبر'];
+  var WEEKLY = {
+    3:{ title:'مجلس هفتگی هیئت', time:'ساعت ۲۱:۰۰' },
+    6:{ title:'دعای ندبه', time:'ساعت ۷:۰۰ صبح' }
+  };
+  (CAL.WEEKLY_EVENTS || []).forEach(function(ev){
+    var c = (ev.dow + 1) % 7;
+    if(WEEKLY[c] && ev.timeLabel && ev.timeLabel.fa) WEEKLY[c].time = ev.timeLabel.fa;
+  });
+  var WD_SHORT = ['ش','ی','د','س','چ','پ','ج'];
+  var FONT = "'Vazirmatn', Tahoma, sans-serif";
+  var BRAND = 'هیئت کاظمیون خرم‌آباد';
+
+  var cv = document.getElementById('sc-cv');
+  var ctx = cv.getContext('2d');
+  var state = { jdn:0, format:'story', theme:'auto', logo:null, logoOk:true };
+  var $ = function(id){ return document.getElementById(id); };
+  var els = { custom:$('sc-custom'), foot:$('sc-foot'), weekly:$('sc-weekly'), note:$('sc-note'), info:$('sc-dayinfo'),
+              d:$('sc-d'), m:$('sc-m'), y:$('sc-y'), g:$('sc-g') };
+
+  /* ---------- اطلاعات یک روز ---------- */
+  function faDigits(s){ return String(s).replace(/[0-9]/g, function(d){ return '۰۱۲۳۴۵۶۷۸۹'[d]; }); }
+
+  function getDay(jdn){
+    var j = jdn2j(jdn), g = jdn2g(jdn), col = colFromJdn(jdn), L = lunarOf(jdn);
+    var occs = occasionsOn(jdn).map(function(o){
+      return { title:o.title.fa.replace('{y}', faDigits(o.lunar.y)), note:o.note ? o.note.fa : '', tone:o.tone, hol:o.holiday };
+    });
+    return {
+      jdn:jdn, j:j, g:g, col:col, weekday:WEEKDAY_COLS[col], lunar:L, occs:occs,
+      weekly:WEEKLY[col] || null,
+      jText:faDigits(j.d) + ' ' + JALALI_MONTHS[j.m - 1] + ' ' + faDigits(j.y),
+      lText:L ? faDigits(L.d) + ' ' + LUNAR_MONTHS.fa[L.m - 1] + ' ' + faDigits(L.y) : '',
+      gText:faDigits(g.d) + ' ' + GREG_FA[g.m - 1] + ' ' + faDigits(g.y)
+    };
+  }
+
+  /* ---------- کمکی‌های نقاشی ---------- */
+  function setFont(weight, size){ ctx.font = weight + ' ' + size + 'px ' + FONT; }
+  function rgba(hex, a){
+    var n = parseInt(hex.slice(1), 16);
+    return 'rgba(' + (n >> 16) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + a + ')';
+  }
+  function wrap(text, maxW){
+    var words = String(text).trim().split(/\s+/), lines = [], cur = '';
+    words.forEach(function(w){
+      var test = cur ? cur + ' ' + w : w;
+      if(cur && ctx.measureText(test).width > maxW){ lines.push(cur); cur = w; } else cur = test;
+    });
+    if(cur) lines.push(cur);
+    return lines;
+  }
+  function fit(text, weight, maxW, maxLines, start, min){
+    var size = start, lines;
+    for(; size >= min; size -= 2){
+      setFont(weight, size); lines = wrap(text, maxW);
+      if(lines.length <= maxLines) return { size:size, lines:lines };
+    }
+    setFont(weight, min);
+    return { size:min, lines:wrap(text, maxW).slice(0, maxLines) };
+  }
+  function drawLines(lines, cx, y, size, lh){
+    lines.forEach(function(ln, i){ ctx.fillText(ln, cx, y + i * size * lh); });
+  }
+  function roundRect(x, y, w, h, r){
+    ctx.beginPath();
+    ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+  }
+  function star8(cx, cy, r){
+    for(var k = 0; k < 2; k++){
+      ctx.save(); ctx.translate(cx, cy); ctx.rotate(k * Math.PI / 4);
+      ctx.strokeRect(-r, -r, r * 2, r * 2); ctx.restore();
+    }
+  }
+  function hairline(th, x0, x1, y, alpha){
+    var g = ctx.createLinearGradient(x0, 0, x1, 0);
+    g.addColorStop(0, rgba(th.line, 0)); g.addColorStop(0.5, rgba(th.line, alpha)); g.addColorStop(1, rgba(th.line, 0));
+    ctx.fillStyle = g; ctx.fillRect(x0, y, x1 - x0, 1.5);
+  }
+  function divider(th, cx, y, half){
+    hairline(th, cx - half, cx - 30, y, 0.6);
+    hairline(th, cx + 30, cx + half, y, 0.6);
+    ctx.save(); ctx.strokeStyle = rgba(th.line, 0.85); ctx.lineWidth = 2; star8(cx, y + 1, 9); ctx.restore();
+  }
+
+  /* ---------- قاب محراب ---------- */
+  function shapePath(cx, top, w, h){
+    var x0 = cx - w / 2, x1 = cx + w / 2, bot = top + h;
+    ctx.beginPath();
+    ctx.moveTo(x0, bot); ctx.lineTo(x0, top + h * 0.42);
+    ctx.bezierCurveTo(x0, top + h * 0.17, cx - w * 0.14, top + h * 0.09, cx, top);
+    ctx.bezierCurveTo(cx + w * 0.14, top + h * 0.09, x1, top + h * 0.17, x1, top + h * 0.42);
+    ctx.lineTo(x1, bot);
+    ctx.closePath();
+  }
+
+  function drawIcon(th, kind, cx, cy, size, color){
+    ctx.save();
+    ctx.shadowColor = color; ctx.shadowBlur = size * (th.light ? 0.18 : 0.35);
+    ctx.fillStyle = color;
+    if(kind === 'khatam'){
+      ctx.translate(cx, cy);
+      var r = size * 0.5;
+      for(var k = 0; k < 2; k++){
+        ctx.save(); ctx.rotate(k * Math.PI / 4);
+        ctx.fillRect(-r * 0.72, -r * 0.72, r * 1.44, r * 1.44);
+        ctx.restore();
+      }
+      ctx.shadowBlur = 0; ctx.fillStyle = th.top;
+      ctx.beginPath(); ctx.arc(0, 0, r * 0.32, 0, Math.PI * 2); ctx.fill();
+    } else {
+      ctx.translate(cx - size / 2, cy - size / 2);
+      ctx.scale(size / 24, size / 24);
+      ctx.fill(new Path2D(PATHS[kind]));
+    }
+    ctx.restore();
+  }
+
+  function pattern(th, W, H, pcx, pcy){
+    var kind = th.pattern || 'star8', i, x, y;
+    ctx.save();
+    ctx.strokeStyle = rgba(th.line, th.light ? 0.10 : 0.07); ctx.lineWidth = 1.5;
+    if(kind === 'star8'){
+      var step = 132;
+      for(y = -step / 2; y < H + step; y += step){
+        for(x = -step / 2; x < W + step; x += step){ star8(x, y, 30); star8(x + step / 2, y + step / 2, 14); }
+      }
+    } else if(kind === 'hex'){
+      var r = 46, dx = r * Math.sqrt(3), dy = r * 1.5, row, col;
+      for(row = -1; row * dy < H + r * 2; row++){
+        for(col = -1; col * dx < W + dx; col++){
+          x = col * dx + (row % 2 ? dx / 2 : 0); y = row * dy;
+          ctx.beginPath();
+          for(i = 0; i < 6; i++){
+            var a = Math.PI / 6 + i * Math.PI / 3;
+            var px = x + Math.cos(a) * r, py = y + Math.sin(a) * r;
+            if(i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+          }
+          ctx.closePath(); ctx.stroke();
+        }
+      }
+    } else if(kind === 'lattice'){
+      var st = 90;
+      ctx.beginPath();
+      for(i = -H; i < W + H; i += st){ ctx.moveTo(i, 0); ctx.lineTo(i + H, H); ctx.moveTo(i, H); ctx.lineTo(i + H, 0); }
+      ctx.stroke();
+      ctx.fillStyle = rgba(th.line, th.light ? 0.16 : 0.12);
+      for(y = 0; y < H + st; y += st){ for(x = (Math.round(y / st) % 2 ? st / 2 : 0); x < W + st; x += st){ ctx.beginPath(); ctx.arc(x, y, 3, 0, Math.PI * 2); ctx.fill(); } }
+    } else if(kind === 'dots'){
+      ctx.fillStyle = rgba(th.line, th.light ? 0.16 : 0.13);
+      for(y = 30; y < H; y += 54){ for(x = 30 + ((y / 54) % 2 ? 27 : 0); x < W; x += 54){ ctx.beginPath(); ctx.arc(x, y, 2.4, 0, Math.PI * 2); ctx.fill(); } }
+    } else if(kind === 'rays'){
+      var n = 48, R = Math.hypot(W, H);
+      ctx.lineWidth = 2;
+      for(i = 0; i < n; i++){
+        var ang = i * Math.PI * 2 / n;
+        ctx.beginPath(); ctx.moveTo(pcx + Math.cos(ang) * 200, pcy + Math.sin(ang) * 200);
+        ctx.lineTo(pcx + Math.cos(ang) * R, pcy + Math.sin(ang) * R); ctx.stroke();
+      }
+    }
+    ctx.restore();
+  }
+
+  function stardust(th, W, H, seed){
+    var s = (seed * 9301 + 49297) % 233280;
+    function rnd(){ s = (s * 9301 + 49297) % 233280; return s / 233280; }
+    ctx.save(); ctx.fillStyle = '#ffffff';
+    for(var i = 0; i < 70; i++){
+      var x = rnd() * W, y = rnd() * H, r = 0.8 + rnd() * 1.8;
+      ctx.globalAlpha = 0.12 + rnd() * 0.4;
+      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  function frame(th, W, H){
+    ctx.save();
+    ctx.strokeStyle = rgba(th.line, 0.6); ctx.lineWidth = 2; ctx.strokeRect(36, 36, W - 72, H - 72);
+    ctx.strokeStyle = rgba(th.line, 0.2); ctx.lineWidth = 1.5; ctx.strokeRect(54, 54, W - 108, H - 108);
+    // کمان‌های گوشه
+    var C = [[54,54,0],[W-54,54,Math.PI/2],[W-54,H-54,Math.PI],[54,H-54,Math.PI*1.5]];
+    ctx.lineWidth = 1.8;
+    C.forEach(function(c){
+      [[46,0.55],[28,0.35]].forEach(function(rr){
+        ctx.strokeStyle = rgba(th.line, rr[1]);
+        ctx.beginPath(); ctx.arc(c[0], c[1], rr[0], c[2], c[2] + Math.PI / 2); ctx.stroke();
+      });
+    });
+    [[36,36],[W-36,36],[36,H-36],[W-36,H-36]].forEach(function(p){
+      ctx.save(); ctx.translate(p[0], p[1]); ctx.rotate(Math.PI / 4);
+      ctx.fillStyle = th.line; ctx.fillRect(-7, -7, 14, 14);
+      ctx.fillStyle = th.top; ctx.fillRect(-3.5, -3.5, 7, 7);
+      ctx.restore();
+    });
+    ctx.restore();
+  }
+
+  function pillWidth(text, size){ setFont(700, size); return ctx.measureText(text).width + size * 1.9; }
+  function drawPill(th, cx, y, text, size, kind, accent){
+    var w = pillWidth(text, size), h = size * 1.85;
+    roundRect(cx - w / 2, y, w, h, h / 2);
+    if(kind === 'hol'){
+      ctx.fillStyle = 'rgba(255,107,94,0.12)'; ctx.fill();
+      ctx.strokeStyle = th.light ? 'rgba(179,38,30,0.6)' : 'rgba(255,107,94,0.6)';
+      ctx.lineWidth = 2; ctx.stroke();
+      ctx.fillStyle = th.light ? '#b3261e' : '#ff8a7e';
+    } else {
+      ctx.fillStyle = rgba(accent, 0.13); ctx.fill();
+      ctx.strokeStyle = rgba(accent, 0.7); ctx.lineWidth = 2; ctx.stroke();
+      ctx.fillStyle = th.ink;
+    }
+    setFont(700, size); ctx.textBaseline = 'middle';
+    ctx.fillText(text, cx, y + h / 2 + 2); ctx.textBaseline = 'alphabetic';
+    return y + h;
+  }
+
+  function footer(th, W, cy, scale){
+    var text = els.foot.value.trim(), size = 34 * scale, logoR = 34 * scale;
+    setFont(800, size);
+    var nameW = ctx.measureText(BRAND).width, hasLogo = state.logo && state.logoOk;
+    var total = nameW + (hasLogo ? logoR * 2 + 18 : 0), right = W / 2 + total / 2;
+    if(hasLogo){
+      var lx = right - logoR;
+      ctx.save(); ctx.beginPath(); ctx.arc(lx, cy, logoR, 0, Math.PI * 2); ctx.clip();
+      ctx.drawImage(state.logo, lx - logoR, cy - logoR, logoR * 2, logoR * 2); ctx.restore();
+      ctx.strokeStyle = rgba(th.line, 0.8); ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(lx, cy, logoR, 0, Math.PI * 2); ctx.stroke();
+    }
+    ctx.fillStyle = th.brand; ctx.textBaseline = 'middle'; ctx.textAlign = 'right';
+    ctx.fillText(BRAND, right - (hasLogo ? logoR * 2 + 18 : 0), cy + 2);
+    ctx.textAlign = 'center';
+    if(text){ setFont(600, 26 * scale); ctx.fillStyle = th.dim; ctx.fillText(text, W / 2, cy + logoR + 30 * scale); }
+    ctx.textBaseline = 'alphabetic';
+  }
+
+  /* ---------- رسم اصلی ---------- */
+  function resolveTheme(day, tone){
+    var key = state.theme === 'auto' ? autoTheme(day, tone) : state.theme;
+    return THEMES[key];
+  }
+
+  function draw(jdnOverride){
+    var story = state.format === 'story';
+    var W = 1080, H = story ? 1920 : 1080;
+    state.drawId = (state.drawId || 0) + 1;
+    var day = getDay(jdnOverride || state.jdn);
+    var custom = els.custom.value.trim();
+    var isEvent = day.occs.length > 0 || !!custom;
+    var tone = day.occs.length ? day.occs[0].tone : (custom ? 'other' : 'plain');
+    var th = resolveTheme(day, tone), accent = th.tones[tone];
+    var isHol = day.occs.some(function(o){ return o.hol; });
+
+    cv.width = W; cv.height = H;
+    ctx.direction = 'rtl'; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+
+    var cx = W / 2;
+    var sTop = story ? 140 : 84, sW = story ? 480 : 250, sH = story ? 540 : 300;
+    // پس‌زمینه
+    var bg = ctx.createLinearGradient(0, 0, 0, H);
+    bg.addColorStop(0, th.top); bg.addColorStop(1, th.bot);
+    ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+    pattern(th, W, H, cx, sTop + sH * 0.5);
+    if(!th.light) stardust(th, W, H, day.jdn);
+    var glowY = sTop + sH * 0.5, glowR = story ? 760 : 520;
+    var glow = ctx.createRadialGradient(cx, glowY, 20, cx, glowY, glowR);
+    glow.addColorStop(0, rgba(accent, th.light ? 0.22 : 0.28)); glow.addColorStop(1, rgba(accent, 0));
+    ctx.fillStyle = glow; ctx.fillRect(0, 0, W, H);
+    frame(th, W, H);
+
+    // قاب مرکزی
+    shapePath(cx, sTop, sW, sH);
+    var ag = ctx.createLinearGradient(0, sTop, 0, sTop + sH);
+    ag.addColorStop(0, rgba(accent, th.light ? 0.16 : 0.24)); ag.addColorStop(1, rgba(accent, th.light ? 0.04 : 0.05));
+    ctx.fillStyle = ag; ctx.fill();
+    ctx.strokeStyle = rgba(th.line, 0.9); ctx.lineWidth = 3.5; ctx.stroke();
+    shapePath(cx, sTop + 20, sW - 40, sH - 40);
+    ctx.strokeStyle = rgba(th.line, 0.3); ctx.lineWidth = 1.5; ctx.stroke();
+
+    // محتوای قاب: (آیکون) + عدد روز + نام ماه
+    var num = faDigits(day.j.d), mon = JALALI_MONTHS[day.j.m - 1];
+    var P = story
+      ? (isEvent ? { icon:0.27, isz:112, n:0.6,  nsz:190, m:0.86, msz:50 } : { icon:0, isz:0, n:0.47, nsz:280, m:0.82, msz:64 })
+      : (isEvent ? { icon:0.25, isz:54,  n:0.58, nsz:112, m:0.86, msz:32 } : { icon:0, isz:0, n:0.47, nsz:150, m:0.82, msz:40 });
+    if(isEvent) drawIcon(th, ICON[tone] || 'khatam', cx, sTop + sH * P.icon, P.isz, accent);
+    ctx.textBaseline = 'middle';
+    setFont(900, P.nsz); ctx.fillStyle = th.ink;
+    ctx.save(); ctx.shadowColor = rgba(accent, 0.55); ctx.shadowBlur = th.light ? 0 : 26;
+    ctx.fillText(num, cx, sTop + sH * P.n); ctx.restore();
+    setFont(800, P.msz); ctx.fillStyle = accent;
+    ctx.fillText(mon, cx, sTop + sH * P.m);
+    ctx.textBaseline = 'alphabetic';
+
+    // عنوان + توضیح + نشان‌ها (تابع، تا بشه اول اندازه‌ش رو سنجید و وسط‌چین کرد)
+    var t0lines = 0;
+    function drawGroup(y0){
+    var maxW = W - (story ? 220 : 240);
+    var titleText = custom || (day.occs.length ? day.occs[0].title : day.weekday);
+    var plainTitle = !isEvent;
+    var t = fit(titleText, 900, maxW, story ? (plainTitle ? 1 : 3) : (plainTitle ? 1 : 2),
+                story ? (plainTitle ? 128 : 90) : (plainTitle ? 84 : 64), story ? 56 : 40);
+    var lh = story ? 1.42 : 1.38;
+    t0lines = t.lines.length;
+    var baseY = y0 + t.size;
+    setFont(900, t.size); ctx.fillStyle = th.ink;
+    drawLines(t.lines, cx, baseY, t.size, lh);
+    var contentEnd = baseY + (t.lines.length - 1) * t.size * lh + t.size * 0.38;
+
+    // خط‌های فرعی: توضیح مناسبت و مناسبت‌های هم‌روز
+    var extras = [];
+    if(!custom && day.occs.length && day.occs[0].note) extras.push({ text:day.occs[0].note, color:accent, w:700 });
+    day.occs.slice(1).forEach(function(o){ extras.push({ text:o.title, color:th.dim, w:600 }); });
+    if(custom && day.occs.length) day.occs.forEach(function(o){ extras.push({ text:o.title, color:th.dim, w:600 }); });
+    extras = extras.slice(0, story ? 2 : (t.lines.length === 1 ? 1 : 0));
+    extras.forEach(function(e){
+      var f = fit(e.text, e.w, maxW, 1, story ? 40 : 30, 24);
+      setFont(e.w, f.size); ctx.fillStyle = e.color;
+      contentEnd += f.size * 1.3; ctx.fillText(f.lines[0], cx, contentEnd); contentEnd += 6;
+    });
+
+    // نشان‌ها: تعطیل رسمی + مجلس هفتگی
+    var pills = [];
+    if(isHol) pills.push({ text:'تعطیل رسمی', kind:'hol' });
+    if(els.weekly.checked && day.weekly && (story || !isEvent)) pills.push({ text:day.weekly.title + ' · ' + day.weekly.time, kind:'weekly' });
+    var psz = story ? 30 : 24;
+    if(pills.length){
+      var pw = pills.map(function(p){ return pillWidth(p.text, psz); });
+      var gap = 18, total = pw.reduce(function(a, b){ return a + b; }, 0) + gap * (pills.length - 1);
+      var py = contentEnd + (story ? 26 : 14);
+      if(total <= W - 200){
+        var x = cx + total / 2;
+        pills.forEach(function(p, i){ drawPill(th, x - pw[i] / 2, py, p.text, psz, p.kind, accent); x -= pw[i] + gap; });
+        contentEnd = py + psz * 1.85;
+      } else {
+        pills.forEach(function(p){ contentEnd = drawPill(th, cx, py, p.text, psz, p.kind, accent); py = contentEnd + 14; });
+      }
+    }
+      return contentEnd;
+    }
+
+    var slotTop = sTop + sH + (story ? 50 : 26), datesFixed = story ? 1190 : 716;
+    var slotBottom = datesFixed - (story ? 40 : 26);
+    ctx.save(); ctx.beginPath(); ctx.rect(0, 0, 0, 0); ctx.clip();
+    var probe = drawGroup(slotTop);
+    ctx.restore();
+    var groupH = probe - slotTop;
+    var gTop = slotTop + Math.max(0, (slotBottom - slotTop - groupH) / 2);
+    var contentEnd = drawGroup(gTop);
+
+    // تاریخ‌ها
+    var rows = [{ label:'شمسی', value:(isEvent ? day.weekday + ' ' : '') + day.jText }];
+    if(day.lText) rows.push({ label:'قمری', value:day.lText });
+    rows.push({ label:'میلادی', value:day.gText });
+
+    if(story){
+      var sy = Math.max(datesFixed, contentEnd + 56);
+      divider(th, cx, sy, 380);
+      var rh = Math.min(168, (1725 - sy) / rows.length), r0 = sy + 20;
+      rows.forEach(function(r, i){
+        var top = r0 + i * rh;
+        setFont(700, 30); ctx.fillStyle = accent; ctx.fillText(r.label, cx, top + rh * 0.3);
+        var f = fit(r.value, 800, W - 260, 1, 58, 36);
+        setFont(800, f.size); ctx.fillStyle = th.ink; ctx.fillText(f.lines[0], cx, top + rh * 0.72);
+        if(i < rows.length - 1) hairline(th, 200, W - 200, top + rh, 0.28);
+      });
+      state.layout = { story:true, groupTop:gTop, groupEnd:contentEnd, sy:sy, rh:rh, rowsBottom:r0 + rows.length * rh, tLines:t0lines };
+      footer(th, W, 1790, 1);
+    } else {
+      var sy2 = Math.max(datesFixed, contentEnd + 34);
+      divider(th, cx, sy2, 400);
+      var n = rows.length, colW = n === 3 ? 290 : 380;
+      var centers = n === 3 ? [W - 210, cx, 210] : [cx + 200, cx - 200];
+      rows.forEach(function(r, i){
+        var c = centers[i];
+        setFont(700, 26); ctx.fillStyle = accent; ctx.fillText(r.label, c, sy2 + 56);
+        var f = null, sz;
+        for(sz = 34; sz >= 28 && !f; sz -= 2){ setFont(800, sz); if(ctx.measureText(r.value).width <= colW) f = { size:sz, lines:[r.value] }; }
+        if(!f) f = fit(r.value, 800, colW, 2, 32, 26);
+        setFont(800, f.size); ctx.fillStyle = th.ink;
+        drawLines(f.lines, c, sy2 + 104, f.size, 1.35);
+        if(i < n - 1){
+          ctx.fillStyle = rgba(th.line, 0.28);
+          ctx.fillRect((centers[i] + centers[i + 1]) / 2, sy2 + 22, 1.5, 116);
+        }
+      });
+      hairline(th, 120, W - 120, sy2 + 160, 0.4);
+      state.layout = { story:false, groupTop:gTop, groupEnd:contentEnd, sy:sy2, rowsBottom:sy2 + 160, tLines:t0lines };
+      footer(th, W, 972, 0.8);
+    }
+    if(!jdnOverride) scheduleCache();
+  }
+
+  /* =========================================================
+     رابط
+     ========================================================= */
+  function note(msg){ els.note.textContent = msg || ''; }
+  function pad(n){ return (n < 10 ? '0' : '') + n; }
+
+  function todayJdn(){
+    var s = new Intl.DateTimeFormat('en-CA', { timeZone:'Asia/Tehran', year:'numeric', month:'2-digit', day:'2-digit' }).format(new Date());
+    var p = s.split('-').map(Number);
+    return g2jdn(p[0], p[1], p[2]);
+  }
+
+  function fillSelects(){
+    JALALI_MONTHS.forEach(function(n, i){ els.m.appendChild(new Option(n, i + 1)); });
+    els.y.appendChild(new Option(faDigits(YEAR), YEAR));
+    els.y.disabled = true;
+    var gmin = jdn2g(MIN_JDN), gmax = jdn2g(MAX_JDN);
+    els.g.min = gmin.y + '-' + pad(gmin.m) + '-' + pad(gmin.d);
+    els.g.max = gmax.y + '-' + pad(gmax.m) + '-' + pad(gmax.d);
+  }
+  function fillDays(len){
+    var cur = +els.d.value || 1;
+    els.d.innerHTML = '';
+    for(var d = 1; d <= len; d++) els.d.appendChild(new Option(faDigits(d), d));
+    els.d.value = Math.min(cur, len);
+  }
+
+  function toneDot(day){
+    var t = day.occs.length ? day.occs[0].tone : (day.weekly ? 'plain' : null);
+    return t ? THEMES.emerald.tones[t] : null;
+  }
+
+  function renderWeek(){
+    var col = colFromJdn(state.jdn), start = state.jdn - col;
+    var box = $('sc-wk-days'); box.innerHTML = '';
+    var a = jdn2j(start), b = jdn2j(start + 6);
+    $('sc-wk-prev').disabled = start <= MIN_JDN;
+    $('sc-wk-next').disabled = start + 7 > MAX_JDN;
+    $('sc-wk-cap').textContent = faDigits(a.d) + ' ' + JALALI_MONTHS[a.m - 1] + ' تا ' + faDigits(b.d) + ' ' + JALALI_MONTHS[b.m - 1] + ' ' + faDigits(b.y);
+    for(var i = 0; i < 7; i++){
+      (function(jdn, i){
+        var d = getDay(jdn), btn = document.createElement('button');
+        btn.type = 'button'; btn.className = 'sc-wk-day' + (jdn === state.jdn ? ' on' : '');
+        if(!inRange(jdn)){ btn.disabled = true; btn.style.opacity = '0.3'; btn.style.cursor = 'default'; }
+        btn.setAttribute('aria-label', d.weekday + ' ' + d.jText);
+        btn.innerHTML = '<small>' + WD_SHORT[i] + '</small><b>' + faDigits(d.j.d) + '</b>';
+        var c = toneDot(d);
+        if(c){ var dot = document.createElement('i'); dot.style.background = c; btn.appendChild(dot); }
+        btn.addEventListener('click', function(){ setJdn(jdn); });
+        box.appendChild(btn);
+      })(start + i, i);
+    }
+  }
+
+  function renderInfo(){
+    var d = getDay(state.jdn), html = '<b>' + d.weekday + ' ' + d.jText + '</b>';
+    if(d.occs.length) html += '<br>' + d.occs.map(function(o){ return o.title; }).join('<br>');
+    else html += '<br>مناسبت ثبت‌شده‌ای نداره؛ کارت به‌شکل روز عادی ساخته می‌شه.';
+    if(d.weekly) html += '<br>' + d.weekly.title + '، ' + d.weekly.time;
+    els.info.innerHTML = html;
+  }
+
+  function syncControls(){
+    var j = jdn2j(state.jdn), g = jdn2g(state.jdn);
+    if(![].some.call(els.y.options, function(o){ return +o.value === j.y; })){
+      els.y.appendChild(new Option(faDigits(j.y), j.y));
+      [].slice.call(els.y.options).sort(function(a, b){ return a.value - b.value; }).forEach(function(o){ els.y.appendChild(o); });
+    }
+    els.y.value = j.y; els.m.value = j.m;
+    fillDays(daysInJalaliMonth(j.y, j.m)); els.d.value = j.d;
+    els.g.value = g.y + '-' + pad(g.m) + '-' + pad(g.d);
+  }
+
+  function setJdn(jdn){
+    state.jdn = clampJdn(jdn); note('');
+    syncControls(); renderWeek(); renderInfo(); draw();
+  }
+
+  function fromSelects(){
+    var y = +els.y.value, m = +els.m.value, len = daysInJalaliMonth(y, m);
+    var d = Math.min(+els.d.value || 1, len);
+    setJdn(j2jdn(y, m, d));
+  }
+
+  /* تم‌ها */
+  var themesBox = $('sc-themes');
+  THEME_ORDER.forEach(function(k){
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'sc-chip' + (k === state.theme ? ' on' : ''); b.dataset.t = k;
+    var sw = document.createElement('span'); sw.className = 'sc-sw';
+    if(k === 'auto') sw.style.background = 'conic-gradient(#0e2419,#43102a,#112552,#f8f2e2,#1b1d27,#0e2419)';
+    else sw.style.background = 'linear-gradient(135deg,' + THEMES[k].top + ' 50%,' + THEMES[k].line + ' 50%)';
+    b.appendChild(sw); b.appendChild(document.createTextNode(k === 'auto' ? 'خودکار (بر اساس مناسبت)' : THEMES[k].name));
+    b.addEventListener('click', function(){
+      [].forEach.call(themesBox.children, function(c){ c.classList.remove('on'); });
+      b.classList.add('on'); state.theme = k; draw();
+    });
+    themesBox.appendChild(b);
+  });
+
+  function seg(id, key, attr){
+    [].forEach.call(document.querySelectorAll('#' + id + ' button'), function(b){
+      b.addEventListener('click', function(){
+        [].forEach.call(document.querySelectorAll('#' + id + ' button'), function(x){ x.classList.remove('on'); });
+        b.classList.add('on'); state[key] = b.dataset[attr]; draw();
+      });
+    });
+  }
+  seg('sc-fmt', 'format', 'f');
+
+  [els.d, els.m, els.y].forEach(function(e){ e.addEventListener('change', fromSelects); });
+  els.g.addEventListener('change', function(){
+    var p = els.g.value.split('-').map(Number);
+    if(p.length === 3 && p[0]) setJdn(g2jdn(p[0], p[1], p[2]));
+  });
+  $('sc-today').addEventListener('click', function(){ setJdn(todayJdn()); });
+  $('sc-wk-prev').addEventListener('click', function(){ setJdn(state.jdn - 7); });
+  $('sc-wk-next').addEventListener('click', function(){ setJdn(state.jdn + 7); });
+  [els.custom, els.foot].forEach(function(e){ e.addEventListener('input', function(){ draw(); }); });
+  els.weekly.addEventListener('change', function(){ draw(); });
+
+  /* ---------- خروجی ---------- */
+  function toBlob(){
+    return new Promise(function(res, rej){
+      try{ cv.toBlob(function(b){ b ? res(b) : rej(new Error('empty')); }, 'image/png'); } catch(e){ rej(e); }
+    });
+  }
+  function cacheKey(){
+    return [state.jdn, state.format, state.theme, els.custom.value, els.foot.value, els.weekly.checked, !!state.logo, state.logoOk].join('|');
+  }
+  var cacheTimer = null;
+  function scheduleCache(){
+    clearTimeout(cacheTimer);
+    var id = state.drawId, key = cacheKey();
+    cacheTimer = setTimeout(function(){
+      if(id !== state.drawId) return;
+      toBlob().then(function(b){ if(id === state.drawId) state.cache = { key:key, blob:b }; }).catch(function(){});
+    }, 350);
+  }
+  function getBlob(jdn){
+    // اگه تصویر همین کارت از قبل آماده باشه، بلافاصله برمی‌گرده (برای نگه‌داشتن اجازه‌ی «ارسال» در مرورگرهای سخت‌گیر مثل سافاری)
+    if(jdn === state.jdn && state.cache && state.cache.key === cacheKey()) return Promise.resolve(state.cache.blob);
+    draw(jdn);
+    return toBlob().catch(function(){
+      state.logoOk = false; draw(jdn);
+      note('لوگو روی فایل محلی قابل‌استفاده نبود؛ کارت‌ها بدون لوگو ساخته شدن. روی سرور واقعی لوگو هم میاد.');
+      return toBlob();
+    });
+  }
+  function fileName(jdn){
+    var d = getDay(jdn);
+    return d.weekday + '-' + d.j.d + '-' + JALALI_MONTHS[d.j.m - 1] + '-' + d.j.y + '.png';
+  }
+  function download(blob, name){
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = name;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 5000);
+  }
+  function shareTitle(jdn){
+    var d = getDay(jdn);
+    return (els.custom.value.trim() || (d.occs[0] && d.occs[0].title) || d.weekday) + ' — ' + d.jText;
+  }
+
+  $('sc-dl').addEventListener('click', function(){
+    var jdn = state.jdn;
+    getBlob(jdn).then(function(b){ download(b, fileName(jdn)); draw(); if(!els.note.textContent) note('تصویر دانلود شد.'); })
+      .catch(function(){ note('ساخت تصویر ناموفق بود.'); });
+  });
+
+  $('sc-share').addEventListener('click', function(){
+    var jdn = state.jdn; note('');
+    getBlob(jdn).then(function(blob){
+      draw();
+      var file = new File([blob], fileName(jdn), { type:'image/png' });
+      if(navigator.canShare && navigator.canShare({ files:[file] })){
+        return navigator.share({ files:[file], title:shareTitle(jdn), text:shareTitle(jdn) + ' | ' + BRAND })
+          .catch(function(e){
+            if(e && e.name === 'NotAllowedError'){ download(blob, fileName(jdn)); note('مرورگر اجازه‌ی ارسال مستقیم نداد؛ تصویر دانلود شد. یک بار دیگه بزن.'); return; }
+            if(e && e.name !== 'AbortError') throw e;
+          });
+      }
+      download(blob, fileName(jdn));
+      note('مرورگر ارسال مستقیم رو پشتیبانی نمی‌کنه؛ تصویر دانلود شد. روی گوشی و با HTTPS ارسال مستقیم کار می‌کنه.');
+    }).catch(function(){ note('ارسال ناموفق بود.'); });
+  });
+
+  $('sc-week').addEventListener('click', function(){
+    var btn = this, start = state.jdn - colFromJdn(state.jdn), files = [], days = [], i = 0; note('');
+    for(var k = 0; k < 7; k++) if(inRange(start + k)) days.push(start + k);
+    btn.disabled = true;
+    function next(){
+      if(i >= days.length) return Promise.resolve();
+      var jdn = days[i++];
+      note('در حال ساخت کارت ' + faDigits(i) + ' از ' + faDigits(days.length) + ' …');
+      return getBlob(jdn).then(function(b){ files.push(new File([b], fileName(jdn), { type:'image/png' })); return next(); });
+    }
+    next().then(function(){
+      draw();
+      if(navigator.canShare && navigator.canShare({ files:files })){
+        note('');
+        return navigator.share({ files:files, title:'برنامه‌ی این هفته | ' + BRAND })
+          .catch(function(e){
+            if(e && e.name === 'NotAllowedError'){
+              files.forEach(function(f, k){ setTimeout(function(){ download(f, f.name); }, k * 450); });
+              note('مرورگر اجازه‌ی ارسال مستقیم نداد؛ کارت‌های هفته دانلود می‌شن.'); return;
+            }
+            if(e && e.name !== 'AbortError') throw e;
+          });
+      }
+      files.forEach(function(f, k){ setTimeout(function(){ download(f, f.name); }, k * 450); });
+      note('کارت‌های هفته دانلود می‌شن (اگه مرورگر پرسید، دانلود چندتایی رو اجازه بده).');
+    }).catch(function(){ note('ساخت کارت‌های هفته ناموفق بود.'); })
+      .then(function(){ btn.disabled = false; draw(); });
+  });
+
+  /* ---------- باز و بسته شدن پنجره ---------- */
+  var overlay = $('sc-overlay'), closeBtn = $('sc-close'), lastFocus = null, inited = false;
+
+  function init(){
+    if(inited) return; inited = true;
+    // لوگوی اختیاری (اگه کنار فایل باشه)
+    var img = new Image();
+    img.onload = function(){ state.logo = img; draw(); };
+    img.src = 'logo.jpg';
+    fillSelects();
+    if(document.fonts && document.fonts.load){
+      Promise.all([document.fonts.load('900 60px Vazirmatn'), document.fonts.load('700 30px Vazirmatn'), document.fonts.load('800 30px Vazirmatn')])
+        .then(function(){ draw(); }, function(){ draw(); });
+      document.fonts.ready.then(function(){ draw(); });
+    }
+  }
+
+  function open(jdn){
+    init();
+    lastFocus = document.activeElement;
+    overlay.classList.add('show');
+    document.body.style.overflow = 'hidden';
+    setJdn(typeof jdn === 'number' ? jdn : todayJdn());
+    try{ closeBtn.focus({ preventScroll:true }); }catch(e){}
+  }
+  function close(){
+    if(!overlay.classList.contains('show')) return;
+    overlay.classList.remove('show');
+    document.body.style.overflow = '';
+    note('');
+    if(lastFocus && lastFocus.focus) try{ lastFocus.focus({ preventScroll:true }); }catch(e){}
+  }
+  closeBtn.addEventListener('click', close);
+  overlay.addEventListener('click', function(e){ if(e.target === overlay) close(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') close(); });
+
+  var toolbarBtn = document.getElementById('cal-share-btn');
+  if(toolbarBtn) toolbarBtn.addEventListener('click', function(){ open(todayJdn()); });
+
+  window.KZM_SHARE_CARD = { open:open, close:close, year:YEAR };
+})();
 
   const tehranFormatter = new Intl.DateTimeFormat('en-GB', { timeZone:'Asia/Tehran', hour:'2-digit', minute:'2-digit', hour12:false });
   const tehranFormatterSec = new Intl.DateTimeFormat('en-GB', { timeZone:'Asia/Tehran', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false });
@@ -5301,6 +7074,9 @@
     if(!searchBtn || !wrap || !toggle || !panel || !list || !input) return;
 
     const rows = Array.from(list.querySelectorAll('.services-row'));
+    const groups = Array.from(list.querySelectorAll('.services-group'));
+    const countEl = document.getElementById('services-count');
+    if(countEl) countEl.textContent = String(rows.length);
 
     function refreshHeight(){
       if(wrap.classList.contains('open')){
@@ -5316,6 +7092,12 @@
         const match = !q || row.textContent.trim().indexOf(q) !== -1;
         row.classList.toggle('hidden-by-search', !match);
         if(match) visibleCount++;
+      });
+      groups.forEach(g => {
+        const visible = g.querySelectorAll('.services-row:not(.hidden-by-search)').length;
+        g.classList.toggle('hidden-by-search', visible === 0);
+        // ستون‌ها بر اساس تعداد نتایج دوباره پر می‌شن
+        g.dataset.n = String(q ? Math.max(visible, 1) : (g.dataset.total || visible));
       });
       if(emptyMsg) emptyMsg.classList.toggle('show', q.length > 0 && visibleCount === 0);
       refreshHeight();
@@ -5357,7 +7139,9 @@
     if(!badge || !hint || !btn) return;
 
     const STORAGE_KEY = 'kazemiuon-guide-hint-seen';
-    if(localStorage.getItem(STORAGE_KEY) === '1'){
+    let hintSeen = false;
+    try{ hintSeen = localStorage.getItem(STORAGE_KEY) === '1'; }catch(e){}
+    if(hintSeen){
       badge.classList.add('hide');
       return;
     }
@@ -5412,31 +7196,9 @@
     }
   })();
 
-  // ---------------- پنهان‌سازی دکمه دانلود هنگام باز بودن مودال‌ها ----------------
-  (function syncDownloadsFabVisibility(){
-    const dlFab = document.getElementById('downloads-fab');
-    if(!dlFab) return;
-
-    const overlaysToWatch = [
-      document.getElementById('announce-modal-overlay'),
-      document.getElementById('downloads-modal-overlay'),
-      document.getElementById('hero-status-modal-overlay')
-    ].filter(Boolean);
-
-    function syncVisibility(){
-      const anyOpen = overlaysToWatch.some(o => o.classList.contains('show'));
-      dlFab.classList.toggle('collapsed', anyOpen);
-    }
-    overlaysToWatch.forEach(overlay => {
-      const mo = new MutationObserver(syncVisibility);
-      mo.observe(overlay, { attributes:true, attributeFilter:['class'] });
-    });
-    syncVisibility();
-  })();
-
   // ---------------- مرکز دانلود سایت (تصاویر، مداحی، زیارت‌نامه‌ها) ----------------
   (function downloadsSection(){
-    const fab      = document.getElementById('downloads-fab');
+    const fab      = document.getElementById('downloads-trigger');
     const overlay  = document.getElementById('downloads-modal-overlay');
     const closeBtn = document.getElementById('downloads-modal-close');
     const listEl   = document.getElementById('downloads-list');
@@ -5577,7 +7339,13 @@
       overlay.classList.remove('show');
       document.body.style.overflow = '';
     }
-    fab.addEventListener('click', openModal);
+    fab.addEventListener('click', () => {
+      // اول منوی همبرگری بسته می‌شه، بعد مرکز دانلود باز می‌شه
+      const menuBtn = document.getElementById('quick-menu-btn');
+      const menuPanel = document.getElementById('quick-menu-panel');
+      if(menuBtn && menuPanel && menuPanel.classList.contains('show')) menuBtn.click();
+      openModal();
+    });
     closeBtn.addEventListener('click', closeModal);
     overlay.addEventListener('click', (e) => { if(e.target === overlay) closeModal(); });
   })();
@@ -5679,7 +7447,8 @@
       const e = 23.439 - 0.00000036 * D;
       const RA = mod(toDeg(Math.atan2(Math.cos(toRad(e)) * Math.sin(toRad(L)), Math.cos(toRad(L)))) / 15, 24);
       const decl = toDeg(Math.asin(Math.sin(toRad(e)) * Math.sin(toRad(L))));
-      const eqt = q / 15 - RA;
+      let eqt = q / 15 - RA;
+      if(eqt > 12) eqt -= 24; else if(eqt < -12) eqt += 24;   // جلوگیری از پرش ۲۴ ساعته نزدیک اعتدال بهاری
       return { decl, eqt };
     }
 
@@ -5811,7 +7580,8 @@
       const e = 23.439 - 0.00000036 * D;
       const RA = mod(toDeg(Math.atan2(Math.cos(toRad(e)) * Math.sin(toRad(L)), Math.cos(toRad(L)))) / 15, 24);
       const decl = toDeg(Math.asin(Math.sin(toRad(e)) * Math.sin(toRad(L))));
-      const eqt = q / 15 - RA;
+      let eqt = q / 15 - RA;
+      if(eqt > 12) eqt -= 24; else if(eqt < -12) eqt += 24;   // جلوگیری از پرش ۲۴ ساعته نزدیک اعتدال بهاری
       return { decl, eqt };
     }
     function hourAngle(lat, decl, angle){
@@ -6188,7 +7958,7 @@ window.KZM_ASSISTANT_CONFIG = {
     { key:'calendar', selector:'#cal-card',
       title:'تقویم کامل هیئت',
       short:'روزهای مراسم رو با یه نشان رنگی روی تقویم شمسی ببین.',
-      full:'بالای تقویم، نزدیک‌ترین مراسم پیش‌رو رو می‌بینی؛ با زدن روش، جزئیاتش باز می‌شه. توی خود تقویم هم هر روزی که یه نقطه‌ی رنگی زیر عددش هست، یعنی اون روز مراسمی داره؛ روش بزن تا عنوان، ساعت، مکان و مسیر روی نقشه رو ببینی. با دکمه‌های کنار نام ماه بین ماه‌های قبل و بعد جابه‌جا شو، یا با «امروز» به ماه جاری برگرد. پایین تقویم هم لیست همه‌ی مراسم همین ماه رو یکجا داری.' },
+      full:'بالای تقویم، نزدیک‌ترین مراسم پیش‌رو رو می‌بینی؛ با زدن روش، جزئیاتش باز می‌شه. توی خود تقویم هم هر روزی که یه نقطه‌ی رنگی زیر عددش هست، یعنی اون روز مراسمی داره؛ روش بزن تا عنوان، ساعت، مکان و مسیر روی نقشه رو ببینی. با دکمه‌های کنار نام ماه بین ماه‌های قبل و بعد جابه‌جا شو، یا با «امروز» به ماه جاری برگرد. پایین تقویم هم لیست همه‌ی مراسم همین ماه رو یکجا داری.\n\nمناسبت‌های مذهبی طبق تقویم رسمی کشور هم روی تقویم هست: صورتی برای ولادت‌ها، سبزآبی برای اعیاد، بنفش برای شهادت و وفات، آبی برای دیگر مناسبت‌های مذهبی؛ و روزهای تعطیل رسمی با عدد قرمز مشخص شده.' },
     { key:'map', selector:'#location-map',
       title:'موقعیت مسجد',
       short:'آدرس و نقشه‌ی مسجد حضرت قائم (عج) همین‌جاست.',

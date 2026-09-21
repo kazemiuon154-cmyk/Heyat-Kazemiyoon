@@ -18,7 +18,7 @@
 </script>
 
 <!-- ===== Security hardening ===== -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
@@ -1221,7 +1221,7 @@
       </div>
     </div>
 
-    <div class="conv-note">تاریخ قمری بر پایه تقویم مدنی محاسبه شده و ممکنه بسته به رؤیت هلال، یک روز با اعلام رسمی فرق داشته باشه.</div>
+    <div class="conv-note">تاریخ قمری برای سال ۱۴۰۵ از تقویم رسمی کشور است؛ برای بقیه‌ی سال‌ها محاسبه‌ی جدولی است و ممکنه یک یا دو روز با اعلام رسمی فرق داشته باشه.</div>
   </div>
 
   <a href="guide.html" class="guide-link">
@@ -1334,10 +1334,10 @@
 
     // ---- قمری (تقویم مدنی) <-> JDN ----
     var HIJRI_EPOCH = 1948440;
-    function h2jdn(hy, hm, hd){
+    function h2jdnTab(hy, hm, hd){
       return hd + Math.ceil(29.5 * (hm - 1)) + (hy - 1) * 354 + div(3 + 11 * hy, 30) + HIJRI_EPOCH - 1;
     }
-    function jdn2h(jdn){
+    function jdn2hTab(jdn){
       var l1 = jdn - HIJRI_EPOCH + 10632;
       var n = div(l1 - 1, 10631);
       var l2 = l1 - 10631 * n + 354;
@@ -1349,10 +1349,52 @@
       return { y: hy, m: hm, d: hd };
     }
 
+    // ---- قمری رسمی: همان جدول تقویم اصلی سایت (index.html) — ۱ فروردین تا ۲۹ اسفند ۱۴۰۵ ----
+    // [سال قمری، ماه قمری، سال شمسی، ماه شمسی، روز شمسی] = روز اول ماه قمری
+    var OFFICIAL_RAW = [
+      [1447,10,1405,1,1],  [1447,11,1405,1,30], [1447,12,1405,2,28],
+      [1448,1,1405,3,26],  [1448,2,1405,4,25],  [1448,3,1405,5,23],
+      [1448,4,1405,6,22],  [1448,5,1405,7,20],  [1448,6,1405,8,20],
+      [1448,7,1405,9,20],  [1448,8,1405,10,20], [1448,9,1405,11,19],
+      [1448,10,1405,12,19]
+    ];
+    var OFFICIAL = OFFICIAL_RAW.map(function(r){ return { y:r[0], m:r[1], jdn:j2jdn(r[2], r[3], r[4]) }; });
+    var OFFICIAL_END_JDN = j2jdn(1405, 12, 29);
+    function officialIndex(hy, hm){
+      for(var i = 0; i < OFFICIAL.length; i++) if(OFFICIAL[i].y === hy && OFFICIAL[i].m === hm) return i;
+      return -1;
+    }
+    function jdn2h(jdn){
+      if(jdn >= OFFICIAL[0].jdn && jdn <= OFFICIAL_END_JDN){
+        for(var i = OFFICIAL.length - 1; i >= 0; i--){
+          if(jdn >= OFFICIAL[i].jdn) return { y:OFFICIAL[i].y, m:OFFICIAL[i].m, d:jdn - OFFICIAL[i].jdn + 1, official:true };
+        }
+      }
+      var t = jdn2hTab(jdn); t.official = false; return t;
+    }
+    function h2jdn(hy, hm, hd){
+      var i = officialIndex(hy, hm);
+      if(i >= 0){
+        var j = OFFICIAL[i].jdn + hd - 1;
+        if(j <= OFFICIAL_END_JDN && (!OFFICIAL[i + 1] || j < OFFICIAL[i + 1].jdn)) return j;
+      }
+      return h2jdnTab(hy, hm, hd);
+    }
+
     var JALALI_MONTHS = ['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
     var GREGORIAN_MONTHS = ['ژانویه','فوریه','مارس','آوریل','مه','ژوئن','ژوئیه','اوت','سپتامبر','اکتبر','نوامبر','دسامبر'];
     var HIJRI_MONTHS = ['محرم','صفر','ربیع‌الاول','ربیع‌الثانی','جمادی‌الاول','جمادی‌الثانی','رجب','شعبان','رمضان','شوال','ذی‌القعده','ذی‌الحجه'];
     var WEEKDAYS = ['یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه','شنبه']; // بر اساس Date.getDay(): 0=یکشنبه
+
+    function tehranToday(){
+      try{
+        var parts = new Intl.DateTimeFormat('en-CA', { timeZone:'Asia/Tehran', year:'numeric', month:'2-digit', day:'2-digit' }).formatToParts(new Date());
+        var o = {}; parts.forEach(function(x){ o[x.type] = x.value; });
+        return { y:parseInt(o.year, 10), m:parseInt(o.month, 10), d:parseInt(o.day, 10) };
+      }catch(e){
+        var n = new Date(); return { y:n.getFullYear(), m:n.getMonth() + 1, d:n.getDate() };
+      }
+    }
 
     function toFa(num){
       var digits = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
@@ -1365,9 +1407,11 @@
       return j2jdn(nJy, nJm, 1) - j2jdn(jy, jm, 1);
     }
     function daysInHijriMonth(hy, hm){
+      var i = officialIndex(hy, hm);
+      if(i >= 0 && OFFICIAL[i + 1]) return OFFICIAL[i + 1].jdn - OFFICIAL[i].jdn;
       var nHy = hy, nHm = hm + 1;
       if(nHm > 12){ nHy += 1; nHm = 1; }
-      return h2jdn(nHy, nHm, 1) - h2jdn(hy, hm, 1);
+      return h2jdnTab(nHy, nHm, 1) - h2jdnTab(hy, hm, 1);
     }
     function daysInGregorianMonth(gy, gm){
       return new Date(gy, gm, 0).getDate();
@@ -1392,6 +1436,9 @@
     var outJalali = document.getElementById('conv-out-jalali');
     var outGregorian = document.getElementById('conv-out-gregorian');
     var outHijri = document.getElementById('conv-out-hijri');
+    var noteEl = document.querySelector('.conv-note');
+    var NOTE_OFFICIAL = 'تاریخ قمری این روز از تقویم رسمی کشور است.';
+    var NOTE_APPROX = 'تاریخ قمری این روز (خارج از ۱۴۰۵) محاسبه‌ی جدولی است و ممکنه بسته به رؤیت هلال، یک یا دو روز با اعلام رسمی فرق داشته باشه.';
     if(!tabsWrap || !daySel || !monthSel || !yearInput) return;
 
     var currentCal = 'jalali';
@@ -1438,9 +1485,10 @@
     }
 
     function setDefaultYear(){
-      if(currentCal === 'jalali') yearInput.value = 1404;
-      else if(currentCal === 'gregorian') yearInput.value = new Date().getFullYear();
-      else yearInput.value = 1447;
+      var t = tehranToday(), tj = g2jdn(t.y, t.m, t.d);
+      if(currentCal === 'jalali') yearInput.value = jdn2j(tj).y;
+      else if(currentCal === 'gregorian') yearInput.value = t.y;
+      else yearInput.value = jdn2h(tj).y;
     }
 
     function switchTab(cal){
@@ -1486,16 +1534,17 @@
       outJalali.textContent = wd + '، ' + toFa(j.d) + ' ' + JALALI_MONTHS[j.m - 1] + ' ' + toFa(j.y);
       outGregorian.textContent = wd + '، ' + g.d + ' ' + GREGORIAN_MONTHS[g.m - 1] + ' ' + g.y;
       outHijri.textContent = toFa(h.d) + ' ' + HIJRI_MONTHS[h.m - 1] + ' ' + toFa(h.y) + ' ه‍.ق';
+      if(noteEl) noteEl.textContent = h.official ? NOTE_OFFICIAL : NOTE_APPROX;
     }
 
     submitBtn.addEventListener('click', runConversion);
 
     todayBtn.addEventListener('click', function(){
-      var now = new Date();
-      var todayJdn = g2jdn(now.getFullYear(), now.getMonth() + 1, now.getDate());
+      var now = tehranToday();
+      var todayJdn = g2jdn(now.y, now.m, now.d);
       var val;
       if(currentCal === 'jalali') val = jdn2j(todayJdn);
-      else if(currentCal === 'gregorian') val = { y: now.getFullYear(), m: now.getMonth() + 1, d: now.getDate() };
+      else if(currentCal === 'gregorian') val = { y: now.y, m: now.m, d: now.d };
       else val = jdn2h(todayJdn);
       yearInput.value = val.y;
       populateMonthSelect();
@@ -1841,7 +1890,7 @@
   // ---------------- ثبت Service Worker و نصب PWA ----------------
   if('serviceWorker' in navigator){
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js').catch(() => {});
+      navigator.serviceWorker.register('service-worker.js').catch(() => {});
     });
   }
   (function pwaInstall(){

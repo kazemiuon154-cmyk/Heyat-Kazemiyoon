@@ -27,7 +27,7 @@
 
 <meta name="description" content="اوقات شرعی خرم‌آباد، تهران، قم، مشهد، کربلا و نجف؛ اذان صبح، طلوع و غروب آفتاب، اذان ظهر و مغرب، و نیمه‌شب شرعی — بر اساس محاسبات نجومی دقیق.">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://kazemiuon154-cmyk.github.io/owqat.html">
+<link rel="canonical" href="https://kazemiuon154-cmyk.github.io/Heyat-Kazemiyoon/owqat.html">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -686,7 +686,8 @@
       const e = 23.439 - 0.00000036 * D;
       const RA = mod(toDeg(Math.atan2(Math.cos(toRad(e)) * Math.sin(toRad(L)), Math.cos(toRad(L)))) / 15, 24);
       const decl = toDeg(Math.asin(Math.sin(toRad(e)) * Math.sin(toRad(L))));
-      const eqt = q / 15 - RA;
+      let eqt = q / 15 - RA;
+      if(eqt > 12) eqt -= 24; else if(eqt < -12) eqt += 24;   // جلوگیری از پرش ۲۴ ساعته نزدیک اعتدال بهاری
       return { decl, eqt };
     }
 

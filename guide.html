@@ -18,7 +18,7 @@
 </script>
 
 <!-- ===== Security hardening ===== -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
@@ -656,6 +656,19 @@
       </div>
     </div>
 
+    <button type="button" class="doa-item" data-guide-toggle aria-expanded="false" aria-controls="guide-panel-tour">
+      <span class="doa-item-icon">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3.2 20 7v9.6L12 20.8 4 16.6V7l8-3.8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 7l8 3.8L20 7M12 10.8v10" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="doa-item-name" data-i18n="guideTourName">🕋 زیارت سه‌بعدی</span>
+      <svg class="doa-item-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="doa-sub-panel" id="guide-panel-tour">
+      <div class="doa-sub-panel-inner">
+        <div class="guide-desc" data-i18n="guideTourDesc">از گرید «دسترسی سریع» صفحه‌ی اول، روی «زیارت سه‌بعدی» بزنید. برای هر حرم (مسجدالحرام، حرم پیامبر، امیرالمؤمنین، امام حسین، حضرت ابوالفضل، امام رضا، حضرت معصومه و مسجد جمکران) یک کارت هست؛ با زدن «ورود به تور مجازی» تور اون توی یک تب جدید باز می‌شه. این تورها مال سایت‌های دیگه‌ست و هیئت مسئولیتی در قبال محتوا و عملکرد اون‌ها نداره.</div>
+      </div>
+    </div>
+
     <button type="button" class="doa-item" data-guide-toggle aria-expanded="false" aria-controls="guide-panel-menu">
       <span class="doa-item-icon">
         <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
@@ -743,7 +756,7 @@
     </button>
     <div class="doa-sub-panel" id="guide-panel-downloads">
       <div class="doa-sub-panel-inner">
-        <div class="guide-desc" data-i18n="guideDownloadsDesc">دکمه‌ی طلایی شناور در پایین‌سمت‌چپ صفحه‌ی اول، مرکز دانلود کل سایت است. با باز کردن آن، فهرست همه‌ی فایل‌های قابل‌دانلود (زیارت عاشورا، تصاویر گالری، مداحی‌ها و...) را یک‌جا می‌بینید و می‌توانید هرکدام را با نمایش درصد پیشرفت دانلود کنید یا در حین دانلود لغو کنید.</div>
+        <div class="guide-desc" data-i18n="guideDownloadsDesc">گزینه‌ی «مرکز دانلود» در منوی همبرگری (☰) بالای صفحه‌ی اول، مرکز دانلود کل سایت است. با باز کردن آن، فهرست همه‌ی فایل‌های قابل‌دانلود (زیارت عاشورا، تصاویر گالری، مداحی‌ها و...) را یک‌جا می‌بینید و می‌توانید هرکدام را با نمایش درصد پیشرفت دانلود کنید یا در حین دانلود لغو کنید.</div>
       </div>
     </div>
 
@@ -843,6 +856,19 @@
     <div class="doa-sub-panel" id="guide-panel-convert">
       <div class="doa-sub-panel-inner">
         <div class="guide-desc" data-i18n="guideConvertDesc">این صفحه تاریخ را بین سه تقویم شمسی، میلادی و قمری تبدیل می‌کند. از تب‌های بالای صفحه تقویم مبدأ را انتخاب کنید، تاریخ را با اسکرول‌کردن روز/ماه/سال وارد کنید تا نتیجه در هر سه تقویم هم‌زمان نمایش داده شود؛ با دکمه‌ی کپی کنار هر نتیجه هم می‌توانید همان تاریخ را کپی کنید.</div>
+      </div>
+    </div>
+
+    <button type="button" class="doa-item" data-guide-toggle aria-expanded="false" aria-controls="guide-panel-card">
+      <span class="doa-item-icon">
+        <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 15l3-3 2 2 3-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="doa-item-name" data-i18n="guideCardName">🎴 کارت اشتراک‌گذاری روز</span>
+      <svg class="doa-item-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="doa-sub-panel" id="guide-panel-card">
+      <div class="doa-sub-panel-inner">
+        <div class="guide-desc" data-i18n="guideCardDesc">در تقویم صفحه اول می‌تونی برای هر روزِ سال ۱۴۰۵ یه کارت زیبا بسازی: روی روز بزن و «ساخت کارت اشتراک‌گذاری این روز» رو انتخاب کن (یا از دکمه «کارت اشتراک» کنار «امروز» شروع کن). تم رنگی و اندازه‌ی استوری یا پست مربعی رو انتخاب کن و با «ارسال» مستقیم برای دوستات بفرست یا با «دانلود تصویر» ذخیره‌ش کن.</div>
       </div>
     </div>
 
@@ -1016,6 +1042,8 @@
       guidePwaDesc: 'یک صفحه‌ی جداگانه برای نصب اپلیکیشن سایت داریم. کافیه از منوی ☰ روی «نصب اپ» بزنید تا وارد اون صفحه بشید و با یک دکمه‌ی بزرگ، سایت رو مثل یک اپلیکیشن واقعی روی گوشی یا کامپیوترتان نصب کنید؛ حتی اگه مرورگرتون نصب مستقیم رو پشتیبانی نکنه، راهنمای گام‌به‌گام هم اونجا هست.',
       guideLiveName: 'پخش زنده',
       guideLiveDesc: 'از گرید «دسترسی سریع» صفحه‌ی اول، روی آیکون «پخش زنده» بزنید تا وارد صفحه‌ی مخصوص پخش زنده بشید. اونجا لینک‌های زنده‌ی حرم امام رضا علیه‌السلام (ضریح، صحن‌های مختلف و برنامه‌های حرم) قرار داره؛ با زدن هر لینک، توی یک تب جدید به همون پخش زنده وصل می‌شید. این پخش‌ها روی سایت دیگه‌ای اجرا می‌شن و ربطی به سایت هیئت کاظمیون ندارن.',
+      guideTourName: '🕋 زیارت سه‌بعدی',
+      guideTourDesc: 'از گرید «دسترسی سریع» صفحه‌ی اول، روی «زیارت سه‌بعدی» بزنید. برای هر حرم (مسجدالحرام، حرم پیامبر، امیرالمؤمنین، امام حسین، حضرت ابوالفضل، امام رضا، حضرت معصومه و مسجد جمکران) یک کارت هست؛ با زدن «ورود به تور مجازی» تور اون توی یک تب جدید باز می‌شه. این تورها مال سایت‌های دیگه‌ست و هیئت مسئولیتی در قبال محتوا و عملکرد اون‌ها نداره.',
       guideMenuName: 'منوی تنظیمات (تم، زبان، صدا، اندازه متن)',
       guideMenuDesc: 'با ضربه‌زدن روی آیکون ☰ در گوشه‌ی بالا سمت چپ هر صفحه، منویی باز می‌شود که در آن می‌توانید پوسته‌ی رنگی سایت را از میان چند تم مختلف انتخاب کنید، زبان سایت را بین فارسی، عربی و انگلیسی تغییر دهید، صدای کلیک‌ها را روشن یا خاموش کنید و با دکمه‌های + و − اندازه‌ی کل صفحه را بزرگ یا کوچیک کنید.',
       guideHeroStatusName: 'وضعیت زنده‌ی مراسم',
@@ -1029,7 +1057,7 @@
       guidePagesName: 'دسترسی به بخش‌های سایت',
       guidePagesDesc: 'در پایین صفحه‌ی اول، هفت کارت وجود دارد: «ادعیه و زیارت‌نامه‌ها»، «نذورات»، «مداحی و مولودی»، «گالری تصاویر»، «صلوات‌شمار»، «دستیار سایت» و «تبدیل تاریخ». با ضربه روی هرکدام، به صفحه‌ی مخصوص همان بخش منتقل می‌شوید و با دکمه‌ی «بازگشت» بالای هر صفحه، دوباره به صفحه‌ی اول برمی‌گردید.',
       guideDownloadsName: 'مرکز دانلود سایت',
-      guideDownloadsDesc: 'دکمه‌ی طلایی شناور در پایین‌سمت‌چپ صفحه‌ی اول، مرکز دانلود کل سایت است. با باز کردن آن، فهرست همه‌ی فایل‌های قابل‌دانلود (زیارت عاشورا، تصاویر گالری، مداحی‌ها و...) را یک‌جا می‌بینید و می‌توانید هرکدام را با نمایش درصد پیشرفت دانلود کنید یا در حین دانلود لغو کنید.',
+      guideDownloadsDesc: 'گزینه‌ی «مرکز دانلود» در منوی همبرگری (☰) بالای صفحه‌ی اول، مرکز دانلود کل سایت است. با باز کردن آن، فهرست همه‌ی فایل‌های قابل‌دانلود (زیارت عاشورا، تصاویر گالری، مداحی‌ها و...) را یک‌جا می‌بینید و می‌توانید هرکدام را با نمایش درصد پیشرفت دانلود کنید یا در حین دانلود لغو کنید.',
       guideLibraryName: '📖 ادعیه و زیارت‌نامه‌ها (کتابخانه)',
       guideLibraryDesc: 'در این صفحه می‌توانید متن زیارت عاشورا و دیگر ادعیه را بخوانید یا صوت آن را گوش دهید. روی عنوان هر دعا ضربه بزنید تا باز شود؛ دکمه‌ی پخش و دانلود صدا هم در همان بخش در دسترس است.',
       guideNazrName: '🕯️ نذورات',
@@ -1044,6 +1072,8 @@
       guideFaqDesc: 'در این صفحه یک دستیار گفتگومحور قرار دارد که سوال‌های پرتکرار درباره‌ی هیئت را دسته‌بندی‌شده نشان می‌دهد. یک دسته (مثلاً «نذورات و کمک مالی») را انتخاب کنید، سوال موردنظرتان را بزنید تا پاسخ به‌صورت پیام ظاهر شود؛ اگر پاسخ به بخش دیگری از سایت مربوط باشد، دکمه‌ای برای رفتن مستقیم به همان بخش هم زیر پاسخ نمایش داده می‌شود.',
       guideConvertName: '📅 تبدیل تاریخ',
       guideConvertDesc: 'این صفحه تاریخ را بین سه تقویم شمسی، میلادی و قمری تبدیل می‌کند. از تب‌های بالای صفحه تقویم مبدأ را انتخاب کنید، تاریخ را با اسکرول‌کردن روز/ماه/سال وارد کنید تا نتیجه در هر سه تقویم هم‌زمان نمایش داده شود؛ با دکمه‌ی کپی کنار هر نتیجه هم می‌توانید همان تاریخ را کپی کنید.',
+      guideCardName: '🎴 کارت اشتراک‌گذاری روز',
+      guideCardDesc: 'در تقویم صفحه اول می‌تونی برای هر روزِ سال ۱۴۰۵ یه کارت زیبا بسازی: روی روز بزن و «ساخت کارت اشتراک‌گذاری این روز» رو انتخاب کن (یا از دکمه «کارت اشتراک» کنار «امروز» شروع کن). تم رنگی و اندازه‌ی استوری یا پست مربعی رو انتخاب کن و با «ارسال» مستقیم برای دوستات بفرست یا با «دانلود تصویر» ذخیره‌ش کن.',
       guideFrameName: '📸 فریم‌ساز عکس',
       guideFrameDesc: 'در این صفحه می‌توانید عکس خودتان را انتخاب کنید تا با قاب اختصاصی هیئت کاظمیون ترکیب شود. پس از بارگذاری عکس، می‌توانید آن را جابه‌جا و بزرگ‌نمایی کنید و در پایان با دکمه‌ی دانلود، نسخه‌ی نهایی مناسب استوری اینستاگرام را ذخیره کنید.',
       guideOwqatName: '🕌 اوقات شرعی',
