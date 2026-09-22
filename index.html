@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- ===== Security hardening ===== -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.tile.openstreetmap.org; media-src 'self'; connect-src 'self' https://*.tile.openstreetmap.org https://api.open-meteo.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://*.tile.openstreetmap.org; media-src 'self'; connect-src 'self' https://*.tile.openstreetmap.org https://api.open-meteo.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
@@ -3846,7 +3846,8 @@
         <div class="sc-actions">
           <button type="button" class="sc-btn" id="sc-share">ارسال</button>
           <button type="button" class="sc-btn alt" id="sc-dl">دانلود تصویر</button>
-          <button type="button" class="sc-btn alt wide" id="sc-week">ارسال / دانلود کل هفته</button>
+          <button type="button" class="sc-btn alt" id="sc-week">ارسال کل هفته</button>
+          <button type="button" class="sc-btn alt" id="sc-week-zip">دانلود کل هفته (ZIP)</button>
         </div>
         <div class="sc-note" id="sc-note" role="status"></div>
       </div>
@@ -6050,6 +6051,8 @@
 
   var cv = document.getElementById('sc-cv');
   var ctx = cv.getContext('2d');
+  /* پیش‌نمایش با کیفیت ۶۰٪ کشیده می‌شه (۳ برابر سبک‌تر)؛ خروجی نهایی همیشه ۱۰۸۰ پیکسلی روی یک بوم پنهان ساخته می‌شه */
+  var mainCv = cv, PREVIEW_SCALE = 0.6, SCL = 1, offCv = document.createElement('canvas');
   var state = { jdn:0, format:'story', theme:'auto', logo:null, logoOk:true };
   var $ = function(id){ return document.getElementById(id); };
   var els = { custom:$('sc-custom'), foot:$('sc-foot'), weekly:$('sc-weekly'), note:$('sc-note'), info:$('sc-dayinfo'),
@@ -6135,7 +6138,7 @@
 
   function drawIcon(th, kind, cx, cy, size, color){
     ctx.save();
-    ctx.shadowColor = color; ctx.shadowBlur = size * (th.light ? 0.18 : 0.35);
+    ctx.shadowColor = color; ctx.shadowBlur = size * (th.light ? 0.18 : 0.35) * SCL;
     ctx.fillStyle = color;
     if(kind === 'khatam'){
       ctx.translate(cx, cy);
@@ -6278,10 +6281,9 @@
     return THEMES[key];
   }
 
-  function draw(jdnOverride){
+  function paint(jdnOverride){
     var story = state.format === 'story';
     var W = 1080, H = story ? 1920 : 1080;
-    state.drawId = (state.drawId || 0) + 1;
     var day = getDay(jdnOverride || state.jdn);
     var custom = els.custom.value.trim();
     var isEvent = day.occs.length > 0 || !!custom;
@@ -6289,7 +6291,9 @@
     var th = resolveTheme(day, tone), accent = th.tones[tone];
     var isHol = day.occs.some(function(o){ return o.hol; });
 
-    cv.width = W; cv.height = H;
+    SCL = (cv === mainCv) ? PREVIEW_SCALE : 1;
+    cv.width = Math.round(W * SCL); cv.height = Math.round(H * SCL);
+    ctx.setTransform(SCL, 0, 0, SCL, 0, 0);
     ctx.direction = 'rtl'; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
 
     var cx = W / 2;
@@ -6323,7 +6327,7 @@
     if(isEvent) drawIcon(th, ICON[tone] || 'khatam', cx, sTop + sH * P.icon, P.isz, accent);
     ctx.textBaseline = 'middle';
     setFont(900, P.nsz); ctx.fillStyle = th.ink;
-    ctx.save(); ctx.shadowColor = rgba(accent, 0.55); ctx.shadowBlur = th.light ? 0 : 26;
+    ctx.save(); ctx.shadowColor = rgba(accent, 0.55); ctx.shadowBlur = th.light ? 0 : 26 * SCL;
     ctx.fillText(num, cx, sTop + sH * P.n); ctx.restore();
     setFont(800, P.msz); ctx.fillStyle = accent;
     ctx.fillText(mon, cx, sTop + sH * P.m);
@@ -6425,7 +6429,6 @@
       state.layout = { story:false, groupTop:gTop, groupEnd:contentEnd, sy:sy2, rowsBottom:sy2 + 160, tLines:t0lines };
       footer(th, W, 972, 0.8);
     }
-    if(!jdnOverride) scheduleCache();
   }
 
   /* =========================================================
@@ -6503,7 +6506,7 @@
 
   function setJdn(jdn){
     state.jdn = clampJdn(jdn); note('');
-    syncControls(); renderWeek(); renderInfo(); draw();
+    syncControls(); renderWeek(); renderInfo(); resetWeekLabel(); draw();
   }
 
   function fromSelects(){
@@ -6546,118 +6549,413 @@
   $('sc-today').addEventListener('click', function(){ setJdn(todayJdn()); });
   $('sc-wk-prev').addEventListener('click', function(){ setJdn(state.jdn - 7); });
   $('sc-wk-next').addEventListener('click', function(){ setJdn(state.jdn + 7); });
-  [els.custom, els.foot].forEach(function(e){ e.addEventListener('input', function(){ draw(); }); });
+  var inputTimer = null;
+  [els.custom, els.foot].forEach(function(e){ e.addEventListener('input', function(){ clearTimeout(inputTimer); inputTimer = setTimeout(draw, 140); }); });
   els.weekly.addEventListener('change', function(){ draw(); });
 
-  /* ---------- خروجی ---------- */
-  function toBlob(){
+  /* =========================================================
+     خروجی (ارسال / دانلود)
+     - کارت‌ها روی یک بومِ «پنهان» ساخته می‌شن، نه روی پیش‌نمایش؛ پس ساخت کارت‌های هفته پیش‌نمایش رو نمی‌پرونه.
+     - خروجی JPEG با کیفیت ۰٫۹۵: چند برابر سریع‌تر از PNG ساخته می‌شه و حجمش خیلی کمتره
+       (ارسال سریع‌تر، حافظه‌ی کمتر برای ۷ کارت هفته).
+     - هر کارتی که ساخته بشه توی حافظه نگه داشته می‌شه؛ کارت فعلی و بقیه‌ی هفته وقتی کاربر یه لحظه
+       دست می‌کشه از قبل آماده می‌شن. چون مرورگرها ارسال (navigator.share) رو فقط «همون لحظه‌ی لمس»
+       اجازه می‌دن، کارتِ آماده یعنی ارسال بدون هیچ تأخیر و بدون خطای NotAllowedError.
+     ========================================================= */
+  var IMG_TYPE = 'image/jpeg', IMG_EXT = '.jpg', IMG_Q = 0.95;
+  var STALE = 'stale-card';
+  var cardBlobs = {}, cardJobs = {}, cardOrder = [], renderChain = Promise.resolve();
+  var assetsReady = Promise.resolve();
+  var busy = false, lastTap = 0;
+  var IS_IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+  /* ---------- رسم روی هر بوم (بدون دست‌زدن به پیش‌نمایش) ---------- */
+  function renderTo(canvas, jdn){
+    var pcv = cv, pctx = ctx;
+    cv = canvas; ctx = canvas.getContext('2d');
+    try{ paint(jdn); } finally { cv = pcv; ctx = pctx; }
+  }
+
+  /* ---------- رسم پیش‌نمایش: چند درخواست پشت‌سرهم => فقط یک رسم در هر فریم ---------- */
+  var drawQueued = false;
+  function draw(){
+    if(drawQueued) return;
+    drawQueued = true;
+    requestAnimationFrame(function(){
+      drawQueued = false;
+      paint();
+      schedulePrefetch();
+    });
+  }
+
+  /* ---------- کش کارت‌ها ---------- */
+  function keyFor(jdn){
+    return [jdn, state.format, state.theme, els.custom.value.trim(), els.foot.value.trim(),
+            els.weekly.checked ? 1 : 0, (state.logo && state.logoOk) ? 1 : 0, state.fv || 0].join('|');
+  }
+  function peek(jdn){ return cardBlobs[keyFor(jdn)] || null; }
+
+  function makeBlob(jdn){
     return new Promise(function(res, rej){
-      try{ cv.toBlob(function(b){ b ? res(b) : rej(new Error('empty')); }, 'image/png'); } catch(e){ rej(e); }
+      try{
+        renderTo(offCv, jdn);
+        offCv.toBlob(function(b){ b ? res(b) : rej(new Error('empty')); }, IMG_TYPE, IMG_Q);
+      }catch(e){ rej(e); }
     });
   }
-  function cacheKey(){
-    return [state.jdn, state.format, state.theme, els.custom.value, els.foot.value, els.weekly.checked, !!state.logo, state.logoOk].join('|');
-  }
-  var cacheTimer = null;
-  function scheduleCache(){
-    clearTimeout(cacheTimer);
-    var id = state.drawId, key = cacheKey();
-    cacheTimer = setTimeout(function(){
-      if(id !== state.drawId) return;
-      toBlob().then(function(b){ if(id === state.drawId) state.cache = { key:key, blob:b }; }).catch(function(){});
-    }, 350);
-  }
-  function getBlob(jdn){
-    // اگه تصویر همین کارت از قبل آماده باشه، بلافاصله برمی‌گرده (برای نگه‌داشتن اجازه‌ی «ارسال» در مرورگرهای سخت‌گیر مثل سافاری)
-    if(jdn === state.jdn && state.cache && state.cache.key === cacheKey()) return Promise.resolve(state.cache.blob);
-    draw(jdn);
-    return toBlob().catch(function(){
-      state.logoOk = false; draw(jdn);
-      note('لوگو روی فایل محلی قابل‌استفاده نبود؛ کارت‌ها بدون لوگو ساخته شدن. روی سرور واقعی لوگو هم میاد.');
-      return toBlob();
+
+  function getCardBlob(jdn){
+    return assetsReady.then(function(){
+      var key = keyFor(jdn);
+      if(cardBlobs[key]) return cardBlobs[key];
+      if(cardJobs[key]) return cardJobs[key];
+      var job = renderChain.then(function(){
+        // اگه تنظیمات بین درخواست و نوبتِ رسم عوض شده باشه، عکسی با تنظیمات اشتباه توی کش نمی‌ره
+        if(keyFor(jdn) !== key) throw new Error(STALE);
+        return makeBlob(jdn);
+      }).catch(function(e){
+        // لوگو روی فایل محلی/بدون CORS بوم رو «آلوده» می‌کنه و خروجی گرفتن ممکن نیست: بدون لوگو ادامه بده
+        if(e && e.message !== STALE && state.logo && state.logoOk){
+          state.logoOk = false;
+          note('لوگو روی این حالت قابل‌استفاده نبود؛ کارت‌ها بدون لوگو ساخته می‌شن.');
+          draw();
+          throw new Error(STALE);
+        }
+        throw e;
+      }).then(function(b){
+        delete cardJobs[key];
+        cardBlobs[key] = b; cardOrder.push(key);
+        while(cardOrder.length > 24) delete cardBlobs[cardOrder.shift()];
+        return b;
+      }, function(e){ delete cardJobs[key]; throw e; });
+      renderChain = job.catch(function(){});
+      cardJobs[key] = job;
+      return job;
     });
   }
+  function cardBlob(jdn){
+    return getCardBlob(jdn).catch(function(e){
+      if(e && e.message === STALE) return getCardBlob(jdn);
+      throw e;
+    });
+  }
+
+  /* ---------- آماده‌سازی پیش‌دستانه (وقتی کاربر لحظه‌ای دست می‌کشه) ---------- */
+  var prefetchTimer = null, prefetchToken = 0;
+  function idle(fn){
+    if(window.requestIdleCallback) requestIdleCallback(fn, { timeout:2000 });
+    else setTimeout(fn, 150);
+  }
+  function schedulePrefetch(){
+    clearTimeout(prefetchTimer);
+    var tok = ++prefetchToken;
+    if(!overlay.classList.contains('show')) return;
+    prefetchTimer = setTimeout(function(){ runPrefetch(tok); }, 600);
+  }
+  function runPrefetch(tok){
+    var start = state.jdn - colFromJdn(state.jdn), list = [state.jdn], k, d;
+    for(k = 0; k < 7; k++){ d = start + k; if(d !== state.jdn && inRange(d)) list.push(d); }
+    var i = 0;
+    function step(){
+      if(tok !== prefetchToken || !overlay.classList.contains('show')) return;
+      if(busy){ setTimeout(step, 500); return; }
+      if(i >= list.length) return;
+      var jdn = list[i++];
+      setTimeout(function(){
+        if(tok !== prefetchToken) return;
+        cardBlob(jdn).then(function(){ idle(step); }, function(){ idle(step); });
+      }, i === 2 ? 1500 : 0);   // کارت فعلی فوری؛ بقیه‌ی هفته کمی بعد و در زمان بیکاری
+    }
+    step();
+  }
+
+  /* ---------- ابزارهای فایل ---------- */
   function fileName(jdn){
-    var d = getDay(jdn);
-    return d.weekday + '-' + d.j.d + '-' + JALALI_MONTHS[d.j.m - 1] + '-' + d.j.y + '.png';
+    var j = jdn2j(jdn);
+    // نام لاتین: بعضی برنامه‌ها (اینستاگرام، تلگرام، ایتا) با نام فارسی فایل مشکل دارن
+    return 'kazemiyoon-' + j.y + '-' + pad(j.m) + '-' + pad(j.d) + (state.format === 'story' ? '-story' : '-post') + IMG_EXT;
   }
   function download(blob, name){
-    var a = document.createElement('a');
-    a.href = URL.createObjectURL(blob); a.download = name;
-    document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 5000);
+    var url = URL.createObjectURL(blob), a = document.createElement('a');
+    a.href = url; a.download = name; a.rel = 'noopener'; a.style.display = 'none';
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ a.remove(); URL.revokeObjectURL(url); }, 30000);   // زود آزاد نکن: دانلود فایل‌های بزرگ قطع می‌شه
   }
   function shareTitle(jdn){
     var d = getDay(jdn);
     return (els.custom.value.trim() || (d.occs[0] && d.occs[0].title) || d.weekday) + ' — ' + d.jText;
   }
+  function canShareFiles(files){
+    try{ return !!(navigator.share && navigator.canShare && navigator.canShare({ files:files })); }
+    catch(e){ return false; }
+  }
+  function gestureActive(){
+    return navigator.userActivation ? navigator.userActivation.isActive : (Date.now() - lastTap < 3000);
+  }
+  function blobBytes(b){
+    if(b.arrayBuffer) return b.arrayBuffer();
+    return new Promise(function(res, rej){
+      var r = new FileReader(); r.onload = function(){ res(r.result); }; r.onerror = rej; r.readAsArrayBuffer(b);
+    });
+  }
 
-  $('sc-dl').addEventListener('click', function(){
-    var jdn = state.jdn;
-    getBlob(jdn).then(function(b){ download(b, fileName(jdn)); draw(); if(!els.note.textContent) note('تصویر دانلود شد.'); })
-      .catch(function(){ note('ساخت تصویر ناموفق بود.'); });
-  });
+  /* ---------- ZIP (بدون فشرده‌سازی؛ JPEG خودش فشرده‌ست) ---------- */
+  var crcTable = (function(){
+    var t = [], c, n, k;
+    for(n = 0; n < 256; n++){ c = n; for(k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1); t[n] = c >>> 0; }
+    return t;
+  })();
+  function crc32(u8){
+    var c = 0xFFFFFFFF;
+    for(var i = 0; i < u8.length; i++) c = crcTable[(c ^ u8[i]) & 255] ^ (c >>> 8);
+    return (c ^ 0xFFFFFFFF) >>> 0;
+  }
+  function makeZip(items){
+    var parts = [], central = [], offset = 0, enc = new TextEncoder();
+    items.forEach(function(it){
+      var nameB = enc.encode(it.name), crc = crc32(it.data), size = it.data.length;
+      var lh = new DataView(new ArrayBuffer(30));
+      lh.setUint32(0, 0x04034b50, true); lh.setUint16(4, 20, true); lh.setUint16(6, 0x0800, true);
+      lh.setUint16(8, 0, true); lh.setUint16(10, 0, true); lh.setUint16(12, 0x21, true);
+      lh.setUint32(14, crc, true); lh.setUint32(18, size, true); lh.setUint32(22, size, true);
+      lh.setUint16(26, nameB.length, true); lh.setUint16(28, 0, true);
+      parts.push(lh.buffer, nameB, it.data);
+      var ch = new DataView(new ArrayBuffer(46));
+      ch.setUint32(0, 0x02014b50, true); ch.setUint16(4, 20, true); ch.setUint16(6, 20, true); ch.setUint16(8, 0x0800, true);
+      ch.setUint16(10, 0, true); ch.setUint16(12, 0, true); ch.setUint16(14, 0x21, true);
+      ch.setUint32(16, crc, true); ch.setUint32(20, size, true); ch.setUint32(24, size, true);
+      ch.setUint16(28, nameB.length, true); ch.setUint32(42, offset, true);
+      central.push(ch.buffer, nameB);
+      offset += 30 + nameB.length + size;
+    });
+    var cdSize = central.reduce(function(a, b){ return a + b.byteLength; }, 0);
+    var end = new DataView(new ArrayBuffer(22));
+    end.setUint32(0, 0x06054b50, true); end.setUint16(8, items.length, true); end.setUint16(10, items.length, true);
+    end.setUint32(12, cdSize, true); end.setUint32(16, offset, true);
+    return new Blob(parts.concat(central, [end.buffer]), { type:'application/zip' });
+  }
+
+  /* ---------- پیام‌ها و دکمه‌ها ---------- */
+  var actionBtns = [$('sc-share'), $('sc-dl'), $('sc-week'), $('sc-week-zip')];
+  var weekBtn = $('sc-week'), WEEK_LABEL = weekBtn.textContent;
+  function resetWeekLabel(){ weekBtn.textContent = WEEK_LABEL; }
+
+  function noteAction(msg, label, fn){
+    els.note.textContent = msg + ' ';
+    var b = document.createElement('button');
+    b.type = 'button'; b.textContent = label;
+    b.style.cssText = 'background:none;border:0;padding:0;margin:0;font:inherit;color:var(--gold);text-decoration:underline;cursor:pointer;';
+    b.addEventListener('click', fn);
+    els.note.appendChild(b);
+  }
+
+  /* اجرای یک عملیات؛ مانع لمس دوباره و «share already in progress» می‌شه.
+     تابع fn «همزمان» (بدون هیچ تأخیری) صدا زده می‌شه تا اجازه‌ی لمسِ کاربر برای ارسال از دست نره. */
+  function run(fn){
+    if(busy) return;
+    busy = true; lastTap = Date.now();
+    actionBtns.forEach(function(b){ b.disabled = true; });
+    var out;
+    try{ out = fn(); } catch(e){ out = Promise.reject(e); }
+    Promise.resolve(out).catch(function(e){
+      note('انجام نشد. یک بار دیگه امتحان کن.');
+      if(window.console) console.error(e);
+    }).then(function(){
+      busy = false;
+      actionBtns.forEach(function(b){ b.disabled = false; });
+    });
+  }
+
+  /* ---------- پیش‌نمایش تصویر (آخرین چاره وقتی مرورگر دانلود رو نمی‌گیره؛ مثل مرورگرهای داخل پیام‌رسان‌ها) ---------- */
+  function showPreview(blobs){
+    var urls = blobs.map(function(b){ return URL.createObjectURL(b); });
+    var ov = document.createElement('div');
+    ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true');
+    ov.style.cssText = 'position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,.94);overflow:auto;-webkit-overflow-scrolling:touch;padding:0 12px 32px;direction:rtl;';
+    var head = document.createElement('div');
+    head.style.cssText = 'position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 2px;background:rgba(0,0,0,.88);color:#f3ead0;font:700 13px Vazirmatn,Tahoma,sans-serif;';
+    var msg = document.createElement('span');
+    msg.textContent = 'روی تصویر نگه دار و «ذخیره تصویر» رو بزن';
+    var x = document.createElement('button');
+    x.type = 'button'; x.textContent = 'بستن';
+    x.style.cssText = 'flex:none;font:inherit;padding:8px 18px;border-radius:12px;border:1px solid #ffcb3d;background:#ffcb3d;color:#2a2000;cursor:pointer;';
+    head.appendChild(msg); head.appendChild(x); ov.appendChild(head);
+    urls.forEach(function(u){
+      var im = document.createElement('img');
+      im.src = u; im.alt = 'کارت';
+      im.style.cssText = 'display:block;width:100%;max-width:520px;margin:0 auto 14px;border-radius:12px;';
+      ov.appendChild(im);
+    });
+    function onKey(e){ if(e.key === 'Escape'){ e.stopPropagation(); closeIt(); } }
+    function closeIt(){
+      ov.remove(); urls.forEach(function(u){ URL.revokeObjectURL(u); });
+      document.removeEventListener('keydown', onKey, true);
+    }
+    x.addEventListener('click', closeIt);
+    document.addEventListener('keydown', onKey, true);
+    document.body.appendChild(ov);
+    try{ x.focus({ preventScroll:true }); }catch(e){}
+  }
+
+  function saveFile(blob, name, msg){
+    download(blob, name);
+    noteAction(msg || 'تصویر دانلود شد.', 'دانلود نشد؟ تصویر رو باز کن', function(){ showPreview([blob]); });
+  }
+
+  /* ---------- یک کارت: ارسال ---------- */
+  function shareOrSave(blob, jdn, viaSync){
+    var name = fileName(jdn), file = new File([blob], name, { type:IMG_TYPE });
+    if(canShareFiles([file])){
+      var t = shareTitle(jdn);
+      return navigator.share({ files:[file], title:t, text:t + ' | ' + BRAND }).then(function(){ note(''); }, function(e){
+        if(e && e.name === 'AbortError'){ note(''); return; }
+        if(e && e.name === 'NotAllowedError' && !viaSync){
+          note('کارت آماده شد. یک بار دیگه «ارسال» رو بزن تا فوری باز بشه.'); return;
+        }
+        saveFile(blob, name, 'ارسال مستقیم ممکن نشد؛ تصویر دانلود شد.');
+      });
+    }
+    saveFile(blob, name, 'این مرورگر ارسال مستقیم رو پشتیبانی نمی‌کنه؛ تصویر دانلود شد.');
+  }
 
   $('sc-share').addEventListener('click', function(){
-    var jdn = state.jdn; note('');
-    getBlob(jdn).then(function(blob){
-      draw();
-      var file = new File([blob], fileName(jdn), { type:'image/png' });
-      if(navigator.canShare && navigator.canShare({ files:[file] })){
-        return navigator.share({ files:[file], title:shareTitle(jdn), text:shareTitle(jdn) + ' | ' + BRAND })
-          .catch(function(e){
-            if(e && e.name === 'NotAllowedError'){ download(blob, fileName(jdn)); note('مرورگر اجازه‌ی ارسال مستقیم نداد؛ تصویر دانلود شد. یک بار دیگه بزن.'); return; }
-            if(e && e.name !== 'AbortError') throw e;
-          });
-      }
-      download(blob, fileName(jdn));
-      note('مرورگر ارسال مستقیم رو پشتیبانی نمی‌کنه؛ تصویر دانلود شد. روی گوشی و با HTTPS ارسال مستقیم کار می‌کنه.');
-    }).catch(function(){ note('ارسال ناموفق بود.'); });
+    run(function(){
+      var jdn = state.jdn, b = peek(jdn);
+      if(b) return shareOrSave(b, jdn, true);                 // آماده بود: فوری
+      note('در حال ساخت تصویر …');
+      return cardBlob(jdn).then(function(blob){ return shareOrSave(blob, jdn, false); });
+    });
   });
 
-  $('sc-week').addEventListener('click', function(){
-    var btn = this, start = state.jdn - colFromJdn(state.jdn), files = [], days = [], i = 0; note('');
-    for(var k = 0; k < 7; k++) if(inRange(start + k)) days.push(start + k);
-    btn.disabled = true;
-    function next(){
-      if(i >= days.length) return Promise.resolve();
-      var jdn = days[i++];
-      note('در حال ساخت کارت ' + faDigits(i) + ' از ' + faDigits(days.length) + ' …');
-      return getBlob(jdn).then(function(b){ files.push(new File([b], fileName(jdn), { type:'image/png' })); return next(); });
-    }
-    next().then(function(){
-      draw();
-      if(navigator.canShare && navigator.canShare({ files:files })){
-        note('');
-        return navigator.share({ files:files, title:'برنامه‌ی این هفته | ' + BRAND })
-          .catch(function(e){
-            if(e && e.name === 'NotAllowedError'){
-              files.forEach(function(f, k){ setTimeout(function(){ download(f, f.name); }, k * 450); });
-              note('مرورگر اجازه‌ی ارسال مستقیم نداد؛ کارت‌های هفته دانلود می‌شن.'); return;
-            }
-            if(e && e.name !== 'AbortError') throw e;
+  /* ---------- یک کارت: دانلود ---------- */
+  $('sc-dl').addEventListener('click', function(){
+    run(function(){
+      var jdn = state.jdn;
+      function go(blob){
+        var name = fileName(jdn), file = new File([blob], name, { type:IMG_TYPE });
+        // در آیفون دانلود مستقیم قابل‌اعتماد نیست؛ برگه‌ی اشتراک گزینه‌ی «Save Image» داره
+        if(IS_IOS && canShareFiles([file])){
+          return navigator.share({ files:[file] }).then(function(){ note(''); }, function(e){
+            if(e && e.name === 'AbortError'){ note(''); return; }
+            saveFile(blob, name);
           });
+        }
+        saveFile(blob, name);
       }
-      files.forEach(function(f, k){ setTimeout(function(){ download(f, f.name); }, k * 450); });
-      note('کارت‌های هفته دانلود می‌شن (اگه مرورگر پرسید، دانلود چندتایی رو اجازه بده).');
-    }).catch(function(){ note('ساخت کارت‌های هفته ناموفق بود.'); })
-      .then(function(){ btn.disabled = false; draw(); });
+      var b = peek(jdn);
+      if(b) return go(b);
+      note('در حال ساخت تصویر …');
+      return cardBlob(jdn).then(go);
+    });
   });
+
+  /* ---------- کل هفته ---------- */
+  function weekDays(){
+    var start = state.jdn - colFromJdn(state.jdn), days = [];
+    for(var k = 0; k < 7; k++) if(inRange(start + k)) days.push(start + k);
+    return days;
+  }
+  function readyBlobs(days){
+    var out = [];
+    for(var i = 0; i < days.length; i++){ var b = peek(days[i]); if(!b) return null; out.push(b); }
+    return out;
+  }
+  function buildWeek(days){
+    var out = [], i = 0;
+    function next(){
+      if(i >= days.length) return Promise.resolve(out);
+      var jdn = days[i], hit = peek(jdn);
+      if(hit){ out.push(hit); i++; return next(); }
+      note('در حال ساخت کارت ' + faDigits(i + 1) + ' از ' + faDigits(days.length) + ' …');
+      return cardBlob(jdn).then(function(b){
+        out.push(b); i++;
+        return new Promise(function(r){ setTimeout(r, 20); }).then(next);   // نفس‌گیری برای رابط کاربری
+      });
+    }
+    return next();
+  }
+  function toFiles(blobs, days){
+    return blobs.map(function(b, k){ return new File([b], fileName(days[k]), { type:IMG_TYPE }); });
+  }
+  function zipAndSave(files, days, msg){
+    note('در حال بسته‌بندی …');
+    return Promise.all(files.map(blobBytes)).then(function(bytes){
+      var items = files.map(function(f, k){ return { name:f.name, data:new Uint8Array(bytes[k]) }; });
+      var j = jdn2j(days[0]);
+      download(makeZip(items), 'kazemiyoon-week-' + j.y + '-' + pad(j.m) + '-' + pad(j.d) + '.zip');
+      noteAction(msg, 'دانلود نشد؟ تصویرها رو باز کن', function(){ showPreview(files); });
+    });
+  }
+
+  weekBtn.addEventListener('click', function(){
+    run(function(){
+      var days = weekDays();
+      function go(blobs, viaSync){
+        var files = toFiles(blobs, days);
+        if(viaSync) resetWeekLabel();
+        if(!canShareFiles(files)){
+          return zipAndSave(files, days, 'این مرورگر ارسال چندتایی رو پشتیبانی نمی‌کنه؛ کارت‌های هفته توی یک فایل ZIP دانلود شد.');
+        }
+        if(!viaSync && !gestureActive()){
+          // ساخت کارت‌ها طول کشیده و اجازه‌ی لمس تموم شده؛ کارت‌ها الان تو حافظه‌ان و لمس بعدی فوری ارسال می‌کنه
+          weekBtn.textContent = 'کارت‌ها آماده‌ست — برای ارسال بزن';
+          note('همه‌ی کارت‌های هفته ساخته شد. یک بار دیگه دکمه رو بزن تا فوری ارسال بشه.');
+          return;
+        }
+        return navigator.share({ files:files, title:'برنامه‌ی هفته | ' + BRAND }).then(function(){ note(''); }, function(e){
+          if(e && e.name === 'AbortError'){ note(''); return; }
+          if(e && e.name === 'NotAllowedError' && !viaSync){
+            weekBtn.textContent = 'کارت‌ها آماده‌ست — برای ارسال بزن';
+            note('یک بار دیگه دکمه رو بزن تا فوری ارسال بشه.'); return;
+          }
+          return zipAndSave(files, days, 'ارسال مستقیم ممکن نشد؛ کارت‌های هفته توی یک فایل ZIP دانلود شد.');
+        });
+      }
+      var ready = readyBlobs(days);
+      if(ready) return go(ready, true);
+      return buildWeek(days).then(function(blobs){ return go(blobs, false); });
+    });
+  });
+
+  $('sc-week-zip').addEventListener('click', function(){
+    run(function(){
+      var days = weekDays();
+      return buildWeek(days).then(function(blobs){
+        return zipAndSave(toFiles(blobs, days), days, 'کارت‌های هفته توی یک فایل ZIP دانلود شد.');
+      });
+    });
+  });
+
 
   /* ---------- باز و بسته شدن پنجره ---------- */
   var overlay = $('sc-overlay'), closeBtn = $('sc-close'), lastFocus = null, inited = false;
 
+  function timeout(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+
+  function loadFonts(){
+    if(!(document.fonts && document.fonts.load)){ state.fv = 1; return Promise.resolve(); }
+    // متن نمونه‌ی فارسی: بدون اون فقط زیرمجموعه‌ی لاتین فونت بارگذاری می‌شه و کارت با فونت جایگزین ساخته می‌شه
+    var sample = 'ابپتثجچحخدذرزژسشصضطظعغفقکگلمنوهی۰۱۲۳۴۵۶۷۸۹';
+    var all = Promise.all([600, 700, 800, 900].map(function(w){ return document.fonts.load(w + ' 60px Vazirmatn', sample); }));
+    // اگه فونت گوگل کند یا فیلتر باشه، بیشتر از ۴ ثانیه منتظر نمی‌مونیم
+    return Promise.race([all, timeout(4000)]).catch(function(){}).then(function(){ state.fv = (state.fv || 0) + 1; });
+  }
+
   function init(){
     if(inited) return; inited = true;
-    // لوگوی اختیاری (اگه کنار فایل باشه)
-    var img = new Image();
-    img.onload = function(){ state.logo = img; draw(); };
-    img.src = 'logo.jpg';
     fillSelects();
-    if(document.fonts && document.fonts.load){
-      Promise.all([document.fonts.load('900 60px Vazirmatn'), document.fonts.load('700 30px Vazirmatn'), document.fonts.load('800 30px Vazirmatn')])
-        .then(function(){ draw(); }, function(){ draw(); });
-      document.fonts.ready.then(function(){ draw(); });
+    // لوگوی اختیاری (اگه کنار فایل باشه)
+    var logoP = new Promise(function(res){
+      var img = new Image();
+      img.onload = function(){ state.logo = img; res(); };
+      img.onerror = function(){ res(); };
+      img.src = 'logo.jpg';
+    });
+    // ساخت هر کارت صبر می‌کنه تا فونت و لوگو آماده باشن؛ کارت با فونت جایگزین هرگز توی کش نمی‌ره
+    assetsReady = Promise.race([Promise.all([logoP, loadFonts()]), timeout(5000)]).then(function(){ draw(); });
+    if(document.fonts && document.fonts.addEventListener){
+      // اگه فونت بعد از تایم‌اوت رسید، کارت‌های قبلی باطل و دوباره ساخته می‌شن
+      document.fonts.addEventListener('loadingdone', function(){ if(state.fv){ state.fv++; draw(); } });
     }
   }
 
@@ -6672,8 +6970,9 @@
   function close(){
     if(!overlay.classList.contains('show')) return;
     overlay.classList.remove('show');
+    prefetchToken++; clearTimeout(prefetchTimer);
     document.body.style.overflow = '';
-    note('');
+    note(''); resetWeekLabel();
     if(lastFocus && lastFocus.focus) try{ lastFocus.focus({ preventScroll:true }); }catch(e){}
   }
   closeBtn.addEventListener('click', close);

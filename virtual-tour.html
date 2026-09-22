@@ -83,8 +83,8 @@
     width:3px; height:3px;
     border-radius:50%;
     background:var(--ember);
-    box-shadow:0 0 6px 1px var(--ember-soft);
     opacity:0;
+    will-change:transform, opacity;
     animation-name:rise;
     animation-timing-function:ease-in;
     animation-iteration-count:infinite;
@@ -177,13 +177,11 @@
     width:36px; height:36px;
     border-radius:50%;
     border:1px solid var(--line);
-    background:rgba(20,14,10,0.75);
+    background:rgba(20,14,10,0.92);
     color:var(--parchment-dim);
     display:flex; align-items:center; justify-content:center;
     cursor:pointer;
-    transition:all 0.2s ease;
-    -webkit-backdrop-filter:blur(6px);
-    backdrop-filter:blur(6px);
+    transition:border-color 0.2s ease, color 0.2s ease;
   }
   .quick-menu-btn svg{ width:17px; height:17px; }
   .quick-menu-btn:hover, .quick-menu-btn.active{ border-color:var(--gold-soft); color:var(--gold); }
@@ -341,7 +339,6 @@
     cursor:pointer;
     box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 20px rgba(var(--crimson-rgb),0.45), 0 0 0 4px rgba(var(--crimson-rgb),0.12);
     transition:all 0.2s ease, transform 0.25s ease;
-    animation:page2Pulse 2.6s ease-in-out infinite, page2Shine 5s linear infinite;
     position:fixed;
     bottom:18px;
     left:18px;
@@ -351,17 +348,17 @@
   .page2-back::after{
     content:'';
     position:absolute;
-    top:0; left:-60%;
+    top:0; left:0;
     width:35%; height:100%;
     background:linear-gradient(115deg, transparent, rgba(255,255,255,0.6), transparent);
-    transform:skewX(-20deg);
-    animation:page2Sweep 3.6s ease-in-out infinite;
+    transform:translateX(-200%) skewX(-20deg);
+    animation:page2Sweep 4.5s ease-in-out infinite;
+    will-change:transform;
     pointer-events:none;
   }
   @keyframes page2Sweep{
-    0%{ left:-60%; }
-    38%{ left:130%; }
-    100%{ left:130%; }
+    0%{ transform:translateX(-200%) skewX(-20deg); }
+    38%,100%{ transform:translateX(450%) skewX(-20deg); }
   }
   .page2-back svg{ width:16px; height:16px; flex:none; }
   .page2-back:hover{ transform:translateY(-1px) scale(1.03); box-shadow:0 2px 0 rgba(255,255,255,0.4) inset, 0 10px 24px rgba(var(--crimson-rgb),0.55), 0 0 0 5px rgba(var(--crimson-rgb),0.18); }
@@ -474,7 +471,7 @@
   }
 
   @media (prefers-reduced-motion: reduce){
-    .page2-back{ animation:none; }
+    .page2-back, .page2-back::after{ animation:none; }
   }
 
   /* ---------------- زیارت سه‌بعدی: گروه‌ها و لینک‌ها ---------------- */
@@ -484,7 +481,8 @@
     background:
       radial-gradient(120% 140% at 50% -20%, rgba(var(--crimson-rgb),0.16), transparent 60%),
       linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.014));
-    box-shadow:0 1px 0 rgba(255,255,255,0.06) inset, 0 12px 30px rgba(0,0,0,0.24);
+    box-shadow:0 1px 0 rgba(255,255,255,0.06) inset, 0 6px 14px rgba(0,0,0,0.22);
+    content-visibility:auto; contain-intrinsic-size:auto 340px;
   }
   /* خط نورانی بالای کارت */
   .tour-group::before{
@@ -528,7 +526,7 @@
     text-decoration:none; color:#071710; -webkit-tap-highlight-color:transparent;
     background:linear-gradient(135deg, var(--gold-bright, var(--gold)) 0%, var(--gold) 42%, var(--crimson-bright) 100%);
     box-shadow:
-      0 10px 24px rgba(var(--crimson-rgb), 0.42),
+      0 5px 12px rgba(var(--crimson-rgb), 0.34),
       0 1px 0 rgba(255,255,255,0.6) inset,
       0 -3px 0 rgba(0,0,0,0.13) inset;
     transition:transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
@@ -536,9 +534,14 @@
   .tour-cta::after{
     content:''; position:absolute; top:-20%; bottom:-20%; left:-55%; width:38%; z-index:1; pointer-events:none;
     background:linear-gradient(100deg, transparent, rgba(255,255,255,0.6), transparent);
-    transform:skewX(-20deg); animation:tourShine 4.2s ease-in-out infinite;
+    transform:translateX(0) skewX(-20deg); opacity:0;
   }
-  @keyframes tourShine{ 0%, 55%{ left:-55%; } 100%{ left:135%; } }
+  .tour-cta.is-live::after{ animation:tourShine 3.6s ease-in-out infinite; will-change:transform, opacity; }
+  @keyframes tourShine{
+    0%, 58%{ transform:translateX(0) skewX(-20deg); opacity:0; }
+    64%{ opacity:1; }
+    100%{ transform:translateX(520%) skewX(-20deg); opacity:0; }
+  }
   .tour-cta:hover{ transform:translateY(-2px); filter:brightness(1.05); box-shadow:0 14px 30px rgba(var(--crimson-rgb), 0.55), 0 1px 0 rgba(255,255,255,0.6) inset, 0 -3px 0 rgba(0,0,0,0.13) inset; }
   .tour-cta:active{ transform:scale(0.975); filter:brightness(0.97); }
   .tour-cta:focus-visible{ outline:3px solid rgba(255,255,255,0.9); outline-offset:3px; }
@@ -550,15 +553,8 @@
     color:var(--gold-bright, var(--gold));
     background:radial-gradient(circle at 30% 22%, #22553f 0%, #0d2d1f 48%, #06130d 100%);
     box-shadow:0 0 0 2px rgba(255,255,255,0.34), 0 6px 14px rgba(0,0,0,0.38), inset 0 0 14px rgba(255,203,61,0.28), inset 0 1px 0 rgba(255,255,255,0.22);
-    animation:tourPulse 2.8s ease-out infinite;
   }
-  .tour-cta-orb svg{ width:33px; height:33px; filter:drop-shadow(0 0 5px rgba(255,203,61,0.75)); overflow:visible; }
-  .tour-cta-orb .orb-ring{ transform-origin:12px 12px; animation:tourOrbit 9s linear infinite; }
-  @keyframes tourOrbit{ to{ transform:rotate(360deg); } }
-  @keyframes tourPulse{
-    0%{ box-shadow:0 0 0 2px rgba(255,255,255,0.34), 0 6px 14px rgba(0,0,0,0.38), inset 0 0 14px rgba(255,203,61,0.28), inset 0 1px 0 rgba(255,255,255,0.22), 0 0 0 0 rgba(7,23,16,0.5); }
-    70%, 100%{ box-shadow:0 0 0 2px rgba(255,255,255,0.34), 0 6px 14px rgba(0,0,0,0.38), inset 0 0 14px rgba(255,203,61,0.28), inset 0 1px 0 rgba(255,255,255,0.22), 0 0 0 12px rgba(7,23,16,0); }
-  }
+  .tour-cta-orb svg{ width:34px; height:34px; }
   .tour-cta-text{ position:relative; z-index:2; flex:1; min-width:0; font-size:15px; font-weight:900; line-height:1.5; }
 
   /* دکمه‌ی رفتن: دایره‌ی براق با دو فلش که به سمت جلو حرکت می‌کنن */
@@ -572,12 +568,11 @@
   }
   .tour-cta-arrow::after{
     content:''; position:absolute; inset:0; border-radius:50%; border:2px solid rgba(7,23,16,0.6);
-    animation:tourRing 2.4s ease-out infinite; pointer-events:none;
+    pointer-events:none; display:none;
   }
-  @keyframes tourRing{ 0%{ transform:scale(1); opacity:0.7; } 100%{ transform:scale(1.5); opacity:0; } }
-  .tour-cta-arrow svg{ width:22px; height:22px; filter:drop-shadow(0 0 4px rgba(255,203,61,0.65)); }
-  .tour-cta-arrow .go-pair{ animation:tourGo 1.5s ease-in-out infinite; }
-  @keyframes tourGo{ 0%, 100%{ transform:translateX(2px); } 50%{ transform:translateX(-2.5px); } }
+  .tour-cta-arrow svg{ width:22px; height:22px; }
+  .tour-cta:hover .tour-cta-arrow .go-pair, .tour-cta:active .tour-cta-arrow .go-pair{ transform:translateX(-2.5px); }
+  .tour-cta-arrow .go-pair{ transition:transform 0.2s ease; }
   .tour-cta:hover .tour-cta-arrow{ transform:scale(1.08); box-shadow:0 0 0 2px var(--gold-bright, var(--gold)), 0 8px 18px rgba(0,0,0,0.45), inset 0 0 14px rgba(255,203,61,0.35), inset 0 1px 0 rgba(255,255,255,0.25); }
   html[dir="ltr"] .tour-cta-arrow svg{ transform:scaleX(-1); }
   @media (max-width:350px){
@@ -585,7 +580,7 @@
     .tour-group-head-text b{ font-size:17px; }
   }
   @media (prefers-reduced-motion: reduce){
-    .tour-cta::after, .tour-cta-orb, .tour-cta-orb .orb-ring, .tour-cta-arrow::after, .tour-cta-arrow .go-pair{ animation:none; }
+    .tour-cta::after{ display:none; }
     .tour-cta, .tour-cta-arrow{ transition:none; }
   }
   .tour-places{ padding:0 14px 16px; }
@@ -721,7 +716,7 @@
     </div>
     <div class="tour-cta-wrap">
       <a href="https://share.google/Y8pCC6QfjimNCZLj6" target="_blank" rel="noopener noreferrer" class="tour-cta" aria-labelledby="tour-cta-mecca tour-gt-mecca">
-        <span class="tour-cta-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><g class="orb-ring"><ellipse cx="12" cy="12" rx="10.4" ry="3.9" transform="rotate(-28 12 12)" stroke-dasharray="2.1 2.5" opacity="0.85"/><circle cx="21.2" cy="7.1" r="1.3" fill="currentColor" stroke="none"/></g><path d="M12 5.8 16.9 8.5v5.6L12 16.9l-4.9-2.8V8.5L12 5.8Z"/><path d="M7.1 8.5 12 11.3l4.9-2.8M12 11.3v5.6"/></svg></span>
+        <span class="tour-cta-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M2.4 12A9.6 9.6 0 0 1 12 2.4c3.6 0 6.7 2 8.4 4.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M21.6 12A9.6 9.6 0 0 1 12 21.6c-3.6 0-6.7-2-8.4-4.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M17.4 7.6l3.4-.4.4-3.4M6.6 16.4l-3.4.4-.4 3.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><text x="12" y="15.2" font-size="8.4" font-family="Roboto,Arial,Helvetica,sans-serif" font-weight="800" fill="currentColor" text-anchor="middle" direction="ltr">360</text></svg></span>
         <span class="tour-cta-text" id="tour-cta-mecca" data-i18n="enterTour">ورود به تور مجازی</span>
         <span class="tour-cta-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><g class="go-pair"><path d="M12.6 6.6 7.2 12l5.4 5.4"/><path d="M18.4 6.6 13 12l5.4 5.4" opacity="0.5"/></g></svg></span>
       </a>
@@ -738,7 +733,7 @@
     </div>
     <div class="tour-cta-wrap">
       <a href="https://share.google/0JIxwLf2lq3K767sn" target="_blank" rel="noopener noreferrer" class="tour-cta" aria-labelledby="tour-cta-medina tour-gt-medina">
-        <span class="tour-cta-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><g class="orb-ring"><ellipse cx="12" cy="12" rx="10.4" ry="3.9" transform="rotate(-28 12 12)" stroke-dasharray="2.1 2.5" opacity="0.85"/><circle cx="21.2" cy="7.1" r="1.3" fill="currentColor" stroke="none"/></g><path d="M12 5.8 16.9 8.5v5.6L12 16.9l-4.9-2.8V8.5L12 5.8Z"/><path d="M7.1 8.5 12 11.3l4.9-2.8M12 11.3v5.6"/></svg></span>
+        <span class="tour-cta-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M2.4 12A9.6 9.6 0 0 1 12 2.4c3.6 0 6.7 2 8.4 4.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M21.6 12A9.6 9.6 0 0 1 12 21.6c-3.6 0-6.7-2-8.4-4.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M17.4 7.6l3.4-.4.4-3.4M6.6 16.4l-3.4.4-.4 3.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><text x="12" y="15.2" font-size="8.4" font-family="Roboto,Arial,Helvetica,sans-serif" font-weight="800" fill="currentColor" text-anchor="middle" direction="ltr">360</text></svg></span>
         <span class="tour-cta-text" id="tour-cta-medina" data-i18n="enterTour">ورود به تور مجازی</span>
         <span class="tour-cta-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><g class="go-pair"><path d="M12.6 6.6 7.2 12l5.4 5.4"/><path d="M18.4 6.6 13 12l5.4 5.4" opacity="0.5"/></g></svg></span>
       </a>
@@ -781,7 +776,7 @@
     </div>
     <div class="tour-cta-wrap">
       <a href="https://share.google/fUvHR5EFwEJeHEbvg" target="_blank" rel="noopener noreferrer" class="tour-cta" aria-labelledby="tour-cta-najaf tour-gt-najaf">
-        <span class="tour-cta-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><g class="orb-ring"><ellipse cx="12" cy="12" rx="10.4" ry="3.9" transform="rotate(-28 12 12)" stroke-dasharray="2.1 2.5" opacity="0.85"/><circle cx="21.2" cy="7.1" r="1.3" fill="currentColor" stroke="none"/></g><path d="M12 5.8 16.9 8.5v5.6L12 16.9l-4.9-2.8V8.5L12 5.8Z"/><path d="M7.1 8.5 12 11.3l4.9-2.8M12 11.3v5.6"/></svg></span>
+        <span class="tour-cta-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M2.4 12A9.6 9.6 0 0 1 12 2.4c3.6 0 6.7 2 8.4 4.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M21.6 12A9.6 9.6 0 0 1 12 21.6c-3.6 0-6.7-2-8.4-4.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M17.4 7.6l3.4-.4.4-3.4M6.6 16.4l-3.4.4-.4 3.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><text x="12" y="15.2" font-size="8.4" font-family="Roboto,Arial,Helvetica,sans-serif" font-weight="800" fill="currentColor" text-anchor="middle" direction="ltr">360</text></svg></span>
         <span class="tour-cta-text" id="tour-cta-najaf" data-i18n="enterTour">ورود به تور مجازی</span>
         <span class="tour-cta-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><g class="go-pair"><path d="M12.6 6.6 7.2 12l5.4 5.4"/><path d="M18.4 6.6 13 12l5.4 5.4" opacity="0.5"/></g></svg></span>
       </a>
@@ -798,7 +793,7 @@
     </div>
     <div class="tour-cta-wrap">
       <a href="https://app.imamhussain.org/tour/" target="_blank" rel="noopener noreferrer" class="tour-cta" aria-labelledby="tour-cta-hussain tour-gt-hussain">
-        <span class="tour-cta-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><g class="orb-ring"><ellipse cx="12" cy="12" rx="10.4" ry="3.9" transform="rotate(-28 12 12)" stroke-dasharray="2.1 2.5" opacity="0.85"/><circle cx="21.2" cy="7.1" r="1.3" fill="currentColor" stroke="none"/></g><path d="M12 5.8 16.9 8.5v5.6L12 16.9l-4.9-2.8V8.5L12 5.8Z"/><path d="M7.1 8.5 12 11.3l4.9-2.8M12 11.3v5.6"/></svg></span>
+        <span class="tour-cta-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M2.4 12A9.6 9.6 0 0 1 12 2.4c3.6 0 6.7 2 8.4 4.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M21.6 12A9.6 9.6 0 0 1 12 21.6c-3.6 0-6.7-2-8.4-4.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M17.4 7.6l3.4-.4.4-3.4M6.6 16.4l-3.4.4-.4 3.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><text x="12" y="15.2" font-size="8.4" font-family="Roboto,Arial,Helvetica,sans-serif" font-weight="800" fill="currentColor" text-anchor="middle" direction="ltr">360</text></svg></span>
         <span class="tour-cta-text" id="tour-cta-hussain" data-i18n="enterTour">ورود به تور مجازی</span>
         <span class="tour-cta-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><g class="go-pair"><path d="M12.6 6.6 7.2 12l5.4 5.4"/><path d="M18.4 6.6 13 12l5.4 5.4" opacity="0.5"/></g></svg></span>
       </a>
@@ -815,7 +810,7 @@
     </div>
     <div class="tour-cta-wrap">
       <a href="https://share.google/4oFsXuyuYi1NwNoIW" target="_blank" rel="noopener noreferrer" class="tour-cta" aria-labelledby="tour-cta-abbas tour-gt-abbas">
-        <span class="tour-cta-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><g class="orb-ring"><ellipse cx="12" cy="12" rx="10.4" ry="3.9" transform="rotate(-28 12 12)" stroke-dasharray="2.1 2.5" opacity="0.85"/><circle cx="21.2" cy="7.1" r="1.3" fill="currentColor" stroke="none"/></g><path d="M12 5.8 16.9 8.5v5.6L12 16.9l-4.9-2.8V8.5L12 5.8Z"/><path d="M7.1 8.5 12 11.3l4.9-2.8M12 11.3v5.6"/></svg></span>
+        <span class="tour-cta-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M2.4 12A9.6 9.6 0 0 1 12 2.4c3.6 0 6.7 2 8.4 4.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M21.6 12A9.6 9.6 0 0 1 12 21.6c-3.6 0-6.7-2-8.4-4.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M17.4 7.6l3.4-.4.4-3.4M6.6 16.4l-3.4.4-.4 3.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><text x="12" y="15.2" font-size="8.4" font-family="Roboto,Arial,Helvetica,sans-serif" font-weight="800" fill="currentColor" text-anchor="middle" direction="ltr">360</text></svg></span>
         <span class="tour-cta-text" id="tour-cta-abbas" data-i18n="enterTour">ورود به تور مجازی</span>
         <span class="tour-cta-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><g class="go-pair"><path d="M12.6 6.6 7.2 12l5.4 5.4"/><path d="M18.4 6.6 13 12l5.4 5.4" opacity="0.5"/></g></svg></span>
       </a>
@@ -832,7 +827,7 @@
     </div>
     <div class="tour-cta-wrap">
       <a href="https://share.google/ubVfjC9hRgCu97HNk" target="_blank" rel="noopener noreferrer" class="tour-cta" aria-labelledby="tour-cta-raza tour-gt-raza">
-        <span class="tour-cta-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><g class="orb-ring"><ellipse cx="12" cy="12" rx="10.4" ry="3.9" transform="rotate(-28 12 12)" stroke-dasharray="2.1 2.5" opacity="0.85"/><circle cx="21.2" cy="7.1" r="1.3" fill="currentColor" stroke="none"/></g><path d="M12 5.8 16.9 8.5v5.6L12 16.9l-4.9-2.8V8.5L12 5.8Z"/><path d="M7.1 8.5 12 11.3l4.9-2.8M12 11.3v5.6"/></svg></span>
+        <span class="tour-cta-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M2.4 12A9.6 9.6 0 0 1 12 2.4c3.6 0 6.7 2 8.4 4.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M21.6 12A9.6 9.6 0 0 1 12 21.6c-3.6 0-6.7-2-8.4-4.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M17.4 7.6l3.4-.4.4-3.4M6.6 16.4l-3.4.4-.4 3.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><text x="12" y="15.2" font-size="8.4" font-family="Roboto,Arial,Helvetica,sans-serif" font-weight="800" fill="currentColor" text-anchor="middle" direction="ltr">360</text></svg></span>
         <span class="tour-cta-text" id="tour-cta-raza" data-i18n="enterTour">ورود به تور مجازی</span>
         <span class="tour-cta-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><g class="go-pair"><path d="M12.6 6.6 7.2 12l5.4 5.4"/><path d="M18.4 6.6 13 12l5.4 5.4" opacity="0.5"/></g></svg></span>
       </a>
@@ -849,7 +844,7 @@
     </div>
     <div class="tour-cta-wrap">
       <a href="https://share.google/vHCjH0NAOD1yo5g1V" target="_blank" rel="noopener noreferrer" class="tour-cta" aria-labelledby="tour-cta-masoumeh tour-gt-masoumeh">
-        <span class="tour-cta-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><g class="orb-ring"><ellipse cx="12" cy="12" rx="10.4" ry="3.9" transform="rotate(-28 12 12)" stroke-dasharray="2.1 2.5" opacity="0.85"/><circle cx="21.2" cy="7.1" r="1.3" fill="currentColor" stroke="none"/></g><path d="M12 5.8 16.9 8.5v5.6L12 16.9l-4.9-2.8V8.5L12 5.8Z"/><path d="M7.1 8.5 12 11.3l4.9-2.8M12 11.3v5.6"/></svg></span>
+        <span class="tour-cta-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M2.4 12A9.6 9.6 0 0 1 12 2.4c3.6 0 6.7 2 8.4 4.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M21.6 12A9.6 9.6 0 0 1 12 21.6c-3.6 0-6.7-2-8.4-4.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M17.4 7.6l3.4-.4.4-3.4M6.6 16.4l-3.4.4-.4 3.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><text x="12" y="15.2" font-size="8.4" font-family="Roboto,Arial,Helvetica,sans-serif" font-weight="800" fill="currentColor" text-anchor="middle" direction="ltr">360</text></svg></span>
         <span class="tour-cta-text" id="tour-cta-masoumeh" data-i18n="enterTour">ورود به تور مجازی</span>
         <span class="tour-cta-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><g class="go-pair"><path d="M12.6 6.6 7.2 12l5.4 5.4"/><path d="M18.4 6.6 13 12l5.4 5.4" opacity="0.5"/></g></svg></span>
       </a>
@@ -866,7 +861,7 @@
     </div>
     <div class="tour-cta-wrap">
       <a href="https://share.google/pep5077Yp34y1aYLx" target="_blank" rel="noopener noreferrer" class="tour-cta" aria-labelledby="tour-cta-jamkaran tour-gt-jamkaran">
-        <span class="tour-cta-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><g class="orb-ring"><ellipse cx="12" cy="12" rx="10.4" ry="3.9" transform="rotate(-28 12 12)" stroke-dasharray="2.1 2.5" opacity="0.85"/><circle cx="21.2" cy="7.1" r="1.3" fill="currentColor" stroke="none"/></g><path d="M12 5.8 16.9 8.5v5.6L12 16.9l-4.9-2.8V8.5L12 5.8Z"/><path d="M7.1 8.5 12 11.3l4.9-2.8M12 11.3v5.6"/></svg></span>
+        <span class="tour-cta-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M2.4 12A9.6 9.6 0 0 1 12 2.4c3.6 0 6.7 2 8.4 4.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M21.6 12A9.6 9.6 0 0 1 12 21.6c-3.6 0-6.7-2-8.4-4.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M17.4 7.6l3.4-.4.4-3.4M6.6 16.4l-3.4.4-.4 3.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><text x="12" y="15.2" font-size="8.4" font-family="Roboto,Arial,Helvetica,sans-serif" font-weight="800" fill="currentColor" text-anchor="middle" direction="ltr">360</text></svg></span>
         <span class="tour-cta-text" id="tour-cta-jamkaran" data-i18n="enterTour">ورود به تور مجازی</span>
         <span class="tour-cta-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><g class="go-pair"><path d="M12.6 6.6 7.2 12l5.4 5.4"/><path d="M18.4 6.6 13 12l5.4 5.4" opacity="0.5"/></g></svg></span>
       </a>
@@ -1226,7 +1221,7 @@
     if(reduceMotion) return;
     var wrap = document.getElementById('embers');
     if(!wrap) return;
-    var count = 8;
+    var count = 5;
     for(var i=0;i<count;i++){
       var s = document.createElement('div');
       s.className = 'ember-spark';
@@ -1240,6 +1235,43 @@
       s.style.setProperty('--drift', drift);
       wrap.appendChild(s);
     }
+    document.addEventListener('visibilitychange', function(){
+      wrap.style.display = document.hidden ? 'none' : '';
+    });
+  })();
+</script>
+
+<script>
+  // افکت درخشش فقط روی «یک» دکمه اجرا می‌شود: همان دکمه‌ای که کاملاً دیده می‌شود و به مرکز صفحه نزدیک‌تر است
+  (function(){
+    if(!('IntersectionObserver' in window)) return;
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var ctas = Array.prototype.slice.call(document.querySelectorAll('.tour-cta'));
+    var visible = new Set(), current = null, ticking = false;
+    function pick(){
+      ticking = false;
+      var mid = window.innerHeight / 2, best = null, bestD = 1e9;
+      visible.forEach(function(el){
+        var r = el.getBoundingClientRect();
+        var d = Math.abs(r.top + r.height / 2 - mid);
+        if(d < bestD){ bestD = d; best = el; }
+      });
+      if(best === current) return;
+      if(current) current.classList.remove('is-live');
+      current = best;
+      if(current) current.classList.add('is-live');
+    }
+    function schedule(){ if(!ticking){ ticking = true; requestAnimationFrame(pick); } }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting) visible.add(e.target); else visible.delete(e.target); });
+      schedule();
+    }, { threshold:0.9 });
+    ctas.forEach(function(el){ io.observe(el); });
+    window.addEventListener('scroll', schedule, { passive:true });
+    document.addEventListener('visibilitychange', function(){
+      if(document.hidden){ if(current){ current.classList.remove('is-live'); current = null; } }
+      else schedule();
+    });
   })();
 </script>
 
