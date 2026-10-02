@@ -361,9 +361,9 @@
     pointer-events:none;
   }
   @keyframes page2Sweep{
-    0%{ left:-60%; }
-    38%{ left:130%; }
-    100%{ left:130%; }
+    0%{ transform:translateX(0) skewX(-20deg); }
+    38%{ transform:translateX(543%) skewX(-20deg); }
+    100%{ transform:translateX(543%) skewX(-20deg); }
   }
   .page2-back svg{ width:16px; height:16px; flex:none; }
   .page2-back:hover{ transform:translateY(-1px) scale(1.03); box-shadow:0 2px 0 rgba(255,255,255,0.4) inset, 0 10px 24px rgba(var(--crimson-rgb),0.55), 0 0 0 5px rgba(var(--crimson-rgb),0.18); }
@@ -468,12 +468,21 @@
     display:flex; align-items:center; justify-content:center;
     background:rgba(var(--crimson-rgb),0.16);
     color:var(--gold);
+    position:relative;
+  }
+  .doa-item-icon::after{
+    content:'';
+    position:absolute; inset:0;
+    border-radius:inherit;
+    box-shadow:0 0 13px 3px rgba(255,203,61,0.5);
+    opacity:0.2;
     animation:iconGlow 3.2s ease-in-out infinite;
+    pointer-events:none;
   }
   .doa-item-icon svg{ width:18px; height:18px; }
   @keyframes iconGlow{
-    0%,100%{ box-shadow:0 0 5px 0 rgba(255,203,61,0.18); }
-    50%{ box-shadow:0 0 13px 3px rgba(255,203,61,0.5); }
+    0%,100%{ opacity:0.2; }
+    50%{ opacity:1; }
   }
   .doa-item-name{
     flex:1;
@@ -647,12 +656,25 @@
       <span class="doa-item-icon">
         <svg viewBox="0 0 24 24" fill="none"><path d="M8 5.5v13l11-6.5-11-6.5Z" fill="currentColor"/></svg>
       </span>
-      <span class="doa-item-name" data-i18n="guideLiveName">پخش زنده</span>
+      <span class="doa-item-name" data-i18n="guideLiveName">پخش زنده زیارت</span>
       <svg class="doa-item-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
     <div class="doa-sub-panel" id="guide-panel-live">
       <div class="doa-sub-panel-inner">
         <div class="guide-desc" data-i18n="guideLiveDesc">از گرید «دسترسی سریع» صفحه‌ی اول، روی آیکون «پخش زنده» بزنید تا وارد صفحه‌ی مخصوص پخش زنده بشید. اونجا لینک‌های زنده‌ی حرم امام رضا علیه‌السلام (ضریح، صحن‌های مختلف و برنامه‌های حرم) قرار داره؛ با زدن هر لینک، توی یک تب جدید به همون پخش زنده وصل می‌شید. این پخش‌ها روی سایت دیگه‌ای اجرا می‌شن و ربطی به سایت هیئت کاظمیون ندارن.</div>
+      </div>
+    </div>
+
+    <button type="button" class="doa-item" data-guide-toggle aria-expanded="false" aria-controls="guide-panel-quran24">
+      <span class="doa-item-icon">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 6.5c-1.8-1.4-4.2-2-6.5-1.6-.5.1-.8.5-.8 1v11c0 .6.5 1 1.1.9 2-.3 4.1.2 5.7 1.4.3.2.7.2 1 0 1.6-1.2 3.7-1.7 5.7-1.4.6.1 1.1-.3 1.1-.9v-11c0-.5-.3-.9-.8-1-2.3-.4-4.7.2-6.5 1.6Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 6.5V19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </span>
+      <span class="doa-item-name" data-i18n="guideQuran24Name">📖 قرآن ۲۴</span>
+      <svg class="doa-item-chevron" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="doa-sub-panel" id="guide-panel-quran24">
+      <div class="doa-sub-panel-inner">
+        <div class="guide-desc" data-i18n="guideQuran24Desc">از منوی «دسترسی سریع» صفحه‌ی اول، در بخش «پخش زنده» روی «قرآن ۲۴» بزنید و سپس دکمه‌ی «ورود به پخش زنده قرآن» را انتخاب کنید تا تلاوت زنده‌ی قرآن کریم در یک تب جدید باز شود. این پخش روی سایت دیگری اجرا می‌شود و ربطی به سایت هیئت کاظمیون ندارد.</div>
       </div>
     </div>
 
@@ -1040,8 +1062,10 @@
       guideClockDesc: 'در بالای صفحه‌ی اول، ساعت به‌وقت تهران نمایش داده می‌شود. با ضربه‌زدن روی آن، ساعت شهر کربلای معلی و دمای هوا نیز به آن اضافه می‌شود؛ با ضربه‌ی دوباره، به حالت اول برمی‌گردد.',
       guidePwaName: 'نصب اپلیکیشن تحت وب',
       guidePwaDesc: 'یک صفحه‌ی جداگانه برای نصب اپلیکیشن سایت داریم. کافیه از منوی ☰ روی «نصب اپ» بزنید تا وارد اون صفحه بشید و با یک دکمه‌ی بزرگ، سایت رو مثل یک اپلیکیشن واقعی روی گوشی یا کامپیوترتان نصب کنید؛ حتی اگه مرورگرتون نصب مستقیم رو پشتیبانی نکنه، راهنمای گام‌به‌گام هم اونجا هست.',
-      guideLiveName: 'پخش زنده',
-      guideLiveDesc: 'از گرید «دسترسی سریع» صفحه‌ی اول، روی آیکون «پخش زنده» بزنید تا وارد صفحه‌ی مخصوص پخش زنده بشید. اونجا لینک‌های زنده‌ی حرم امام رضا علیه‌السلام (ضریح، صحن‌های مختلف و برنامه‌های حرم) قرار داره؛ با زدن هر لینک، توی یک تب جدید به همون پخش زنده وصل می‌شید. این پخش‌ها روی سایت دیگه‌ای اجرا می‌شن و ربطی به سایت هیئت کاظمیون ندارن.',
+      guideLiveName: 'پخش زنده زیارت',
+      guideLiveDesc: 'از منوی «دسترسی سریع» صفحه‌ی اول، در بخش «پخش زنده» روی «پخش زنده زیارت» بزنید تا وارد صفحه‌ی مخصوص آن بشید. اونجا لینک‌های زنده‌ی حرم امام رضا علیه‌السلام (ضریح، صحن‌های مختلف و برنامه‌های حرم) قرار داره؛ با زدن هر لینک، توی یک تب جدید به همون پخش زنده وصل می‌شید. این پخش‌ها روی سایت دیگه‌ای اجرا می‌شن و ربطی به سایت هیئت کاظمیون ندارن.',
+      guideQuran24Name: '📖 قرآن ۲۴',
+      guideQuran24Desc: 'از منوی «دسترسی سریع» صفحه‌ی اول، در بخش «پخش زنده» روی «قرآن ۲۴» بزنید و سپس دکمه‌ی «ورود به پخش زنده قرآن» را انتخاب کنید تا تلاوت زنده‌ی قرآن کریم در یک تب جدید باز شود. این پخش روی سایت دیگری اجرا می‌شود و ربطی به سایت هیئت کاظمیون ندارد.',
       guideTourName: '🕋 زیارت سه‌بعدی',
       guideTourDesc: 'از گرید «دسترسی سریع» صفحه‌ی اول، روی «زیارت سه‌بعدی» بزنید. برای هر حرم (مسجدالحرام، حرم پیامبر، امیرالمؤمنین، امام حسین، حضرت ابوالفضل، امام رضا، حضرت معصومه و مسجد جمکران) یک کارت هست؛ با زدن «ورود به تور مجازی» تور اون توی یک تب جدید باز می‌شه. این تورها مال سایت‌های دیگه‌ست و هیئت مسئولیتی در قبال محتوا و عملکرد اون‌ها نداره.',
       guideMenuName: 'منوی تنظیمات (تم، زبان، صدا، اندازه متن)',
@@ -1089,6 +1113,10 @@
       backBtn: 'رجوع',
       pageTitle: '❓ دليل الموقع',
       guideIntro: 'تعرّف على هذا الموقع؛ اضغط على أي قسم لعرض شرحه الكامل.',
+      guideLiveName: 'بث مباشر للزيارة',
+      guideLiveDesc: 'من قائمة «الوصول السريع» في الصفحة الرئيسية، ضمن قسم «البث المباشر»، اضغط على «بث مباشر للزيارة». ستجد روابط البث المباشر لحرم الإمام الرضا عليه السلام (الضريح والأروقة المختلفة)، وكل رابط يفتح في تبويب جديد. هذه البثوث تعمل على موقع آخر ولا علاقة لها بموقع موكب الكاظميون.',
+      guideQuran24Name: '📖 القرآن ٢٤',
+      guideQuran24Desc: 'من قائمة «الوصول السريع» في الصفحة الرئيسية، ضمن قسم «البث المباشر»، اضغط على «القرآن ٢٤» ثم على زر «الدخول إلى البث المباشر للقرآن» لتُفتح التلاوة المباشرة في تبويب جديد. هذا البث يعمل على موقع آخر ولا علاقة له بموقع موكب الكاظميون.',
       guideGroupHome: 'الصفحة الرئيسية',
       guideGroupPages: 'صفحات الموقع الداخلية',
       footerSub: 'القناة الرسمية لموكب الكاظميون خرم‌آباد',
@@ -1100,6 +1128,10 @@
       backBtn: 'Back',
       pageTitle: '❓ Site Guide',
       guideIntro: 'Get to know the site — tap any section to see its full explanation.',
+      guideLiveName: 'Live Pilgrimage',
+      guideLiveDesc: 'From the Quick Access menu on the home page, under the “Live Broadcasts” section, tap “Live Pilgrimage”. It lists live links for the Holy Shrine of Imam Reza (a.s.) — the shrine and various courtyards — and each link opens in a new tab. These broadcasts run on another website and are not affiliated with the Kazemiyoon site.',
+      guideQuran24Name: '📖 Quran 24',
+      guideQuran24Desc: 'From the Quick Access menu on the home page, under the “Live Broadcasts” section, tap “Quran 24”, then the “Enter the Live Quran Broadcast” button to open the live recitation in a new tab. This broadcast runs on another website and is not affiliated with the Kazemiyoon site.',
       guideGroupHome: 'Home Page',
       guideGroupPages: 'Site Pages',
       footerSub: 'Official channel of Heyat-e Kazemiyoon Khorramabad',

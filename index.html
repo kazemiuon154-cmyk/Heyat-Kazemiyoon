@@ -2617,8 +2617,8 @@
     mask-image:linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
   }
   .ticker-track-inner{
-    display:flex; gap:56px; width:max-content;
-    animation:ticker-scroll 34s linear infinite reverse;
+    display:flex; gap:0; width:max-content;
+    animation:ticker-scroll 22s linear infinite reverse;
   }
   .ticker-bar:hover .ticker-track-inner{ animation-play-state:paused; }
   @keyframes ticker-scroll{
@@ -2629,6 +2629,7 @@
     direction:rtl; unicode-bidi:isolate;
     font-size:12.5px; font-weight:600; color:var(--parchment);
     white-space:nowrap;
+    padding-inline:28px;
   }
   @media (prefers-reduced-motion: reduce){
     .ticker-track-inner{ animation:none; }
@@ -2907,7 +2908,15 @@
   .sc-btn.wide{ grid-column:1 / -1; }
   .sc-btn:disabled{ opacity:0.55; cursor:wait; }
   .sc-btn:active{ transform:scale(0.97); }
-  .sc-note{ font-size:11px; color:var(--parchment-dim); min-height:20px; padding-bottom:12px; }
+  .sc-note{
+    position:sticky; top:-14px; z-index:5;
+    margin:0 -24px 10px; padding:0 24px; min-height:0;
+    font-size:12px; font-weight:700; color:var(--parchment-dim); text-align:center;
+    background:var(--void-2, var(--void));
+    transition:padding 0.15s ease;
+  }
+  .sc-note:not(:empty){ padding-top:10px; padding-bottom:10px; box-shadow:0 8px 14px -10px rgba(0,0,0,0.6); }
+  .sc-note button{ color:var(--gold); }
 </style>
 <link rel="stylesheet" href="assistant.css">
 </head>
@@ -3208,7 +3217,7 @@
     </div>
   </div>
 
-  <!-- نوار متحرک اعلان: با تغییر annTitle/annTime، متن tickerText هم به‌روز شود -->
+  <!-- نوار متحرک اعلان: متن را در translations (annTitle و tickerText) و همین‌جا (چهار نسخه‌ی ticker-text) عوض کنید -->
   <button type="button" class="ticker-bar reveal" id="ticker-open" aria-label="مشاهده جزئیات اعلان ویژه" aria-haspopup="dialog">
     <span class="ticker-badge">
       <span class="ticker-dot"></span>
@@ -3216,8 +3225,10 @@
     </span>
     <span class="ticker-track" dir="ltr">
       <span class="ticker-track-inner">
-        <span class="ticker-text" data-i18n="tickerText">آغاز ماه ربیع الاول ماه سرور اهل بیت(ع) و شادی دل‌های مؤمنان بر همگان مبارک باد.</span>
-        <span class="ticker-text" aria-hidden="true" data-i18n="tickerText">آغاز ماه ربیع الاول ماه سرور اهل بیت(ع) و شادی دل‌های مؤمنان بر همگان مبارک باد.</span>
+        <span class="ticker-text" data-i18n="tickerText">مراسمات سه‌شنبه‌ها ساعت: ۲۱ — جمعه‌ها ساعت: ۷ صبح</span>
+        <span class="ticker-text" aria-hidden="true" data-i18n="tickerText">مراسمات سه‌شنبه‌ها ساعت: ۲۱ — جمعه‌ها ساعت: ۷ صبح</span>
+        <span class="ticker-text" aria-hidden="true" data-i18n="tickerText">مراسمات سه‌شنبه‌ها ساعت: ۲۱ — جمعه‌ها ساعت: ۷ صبح</span>
+        <span class="ticker-text" aria-hidden="true" data-i18n="tickerText">مراسمات سه‌شنبه‌ها ساعت: ۲۱ — جمعه‌ها ساعت: ۷ صبح</span>
       </span>
     </span>
   </button>
@@ -3230,7 +3241,7 @@
       </button>
       <div class="modal-handle"></div>
       <div class="modal-ribbon" data-i18n="annBadge">ویژه</div>
-      <div class="modal-title" data-i18n="annTitle">آغاز ماه ربیع الاول ماه سرور اهل بیت(ع) و شادی دل‌های مؤمنان بر همگان مبارک باد.</div>
+      <div class="modal-title" data-i18n="annTitle">مراسمات سه‌شنبه‌ها ساعت: ۲۱ — جمعه‌ها ساعت: ۷ صبح</div>
     </div>
   </div>
 
@@ -3249,7 +3260,7 @@
         <b data-i18n="servicesToggle">دسترسی سریع به صفحات</b>
         <small data-i18n="servicesToggleSub">همه‌ی خدمات هیئت در یک‌جا</small>
       </span>
-      <span class="services-toggle-count" id="services-count">15</span>
+      <span class="services-toggle-count" id="services-count">16</span>
       <span class="services-toggle-chevron" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </span>
@@ -3261,17 +3272,25 @@
         <button type="button" class="services-search-clear" id="services-search-clear" aria-label="پاک کردن جستجو">✕</button>
       </div>
       <div class="services-list" id="services-list">
-        <div class="services-group" data-n="4" data-total="4" role="group" aria-labelledby="svcGroupEvents-h">
-          <div class="services-group-head"><span class="services-group-title" id="svcGroupEvents-h" data-i18n="svcGroupEvents">مراسم و برنامه‌ها</span></div>
+        <div class="services-group" data-n="2" data-total="2" role="group" aria-labelledby="svcGroupLive-h">
+          <div class="services-group-head"><span class="services-group-title" id="svcGroupLive-h" data-i18n="svcGroupLive">پخش زنده</span></div>
           <div class="services-grid">
           <a href="live.html" class="services-row services-row-live" id="live-trigger" data-prefetch-nav>
             <span class="services-row-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none"><path d="M8 5.5v13l11-6.5-11-6.5Z" fill="#071710"/></svg>
               <span class="services-row-live-dot" aria-hidden="true"></span>
             </span>
-            <span data-i18n="liveTrigger">پخش زنده</span>
+            <span data-i18n="liveTrigger">پخش زنده زیارت</span>
           </a>
-
+          <a href="quran24.html" class="services-row services-row-alt5" id="quran24-trigger" data-prefetch-nav>
+            <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 6.5c-1.8-1.4-4.2-2-6.5-1.6-.5.1-.8.5-.8 1v11c0 .6.5 1 1.1.9 2-.3 4.1.2 5.7 1.4.3.2.7.2 1 0 1.6-1.2 3.7-1.7 5.7-1.4.6.1 1.1-.3 1.1-.9v-11c0-.5-.3-.9-.8-1-2.3-.4-4.7.2-6.5 1.6Z" stroke="#071710" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 6.5V19" stroke="#071710" stroke-width="1.6" stroke-linecap="round"/><path d="M12 1.8l.8 1.7 1.7.8-1.7.8-.8 1.7-.8-1.7-1.7-.8 1.7-.8Z" fill="#071710"/></svg></span>
+            <span data-i18n="quran24Trigger">قرآن ۲۴</span>
+          </a>
+          </div>
+        </div>
+        <div class="services-group" data-n="3" data-total="3" role="group" aria-labelledby="svcGroupEvents-h">
+          <div class="services-group-head"><span class="services-group-title" id="svcGroupEvents-h" data-i18n="svcGroupEvents">مراسم و برنامه‌ها</span></div>
+          <div class="services-grid">
         <a href="virtual-tour.html" class="services-row services-row-alt4" id="tour-trigger" data-prefetch-nav>
             <span class="services-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.2 20 7v9.6L12 20.8 4 16.6V7l8-3.8Z" stroke="#071710" stroke-width="1.5" stroke-linejoin="round"/><path d="M4 7l8 3.8L20 7M12 10.8v10" stroke="#071710" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
             <span data-i18n="tourTrigger">زیارت سه‌بعدی</span>
@@ -3803,6 +3822,7 @@
     <div class="modal-handle"></div>
     <h2 class="sc-title" id="sc-title">کارت اشتراک‌گذاری روز</h2>
     <p class="sc-sub">یکی از روزهای سال ۱۴۰۵ رو انتخاب کن؛ تاریخ‌ها و مناسبت‌ها از تقویم همین سایت میان. تم و قاب رو عوض کن و بفرست.</p>
+    <div class="sc-note" id="sc-note" role="status"></div>
 
     <div class="sc-layout">
       <div class="sc-stage"><canvas id="sc-cv" role="img" aria-label="پیش‌نمایش کارت"></canvas></div>
@@ -3849,7 +3869,6 @@
           <button type="button" class="sc-btn alt" id="sc-week">ارسال کل هفته</button>
           <button type="button" class="sc-btn alt" id="sc-week-zip">دانلود کل هفته (ZIP)</button>
         </div>
-        <div class="sc-note" id="sc-note" role="status"></div>
       </div>
     </div>
   </div>
@@ -4210,6 +4229,11 @@
       servicesToggle: "دسترسی سریع به صفحات",
       servicesToggleSub: "همه‌ی خدمات هیئت در یک‌جا",
       svcGroupEvents: "مراسم و برنامه‌ها",
+      svcGroupLive: "پخش زنده",
+      quickMenuTheme: "تم",
+      quickMenuLang: "زبان",
+      quickMenuSound: "صدا",
+      searchLabel: "جستجو",
       svcGroupSpirit: "دعا و معنویات",
       svcGroupMedia: "رسانه و تصویر",
       svcGroupTools: "خدمات و ابزار",
@@ -4246,8 +4270,8 @@
       posterName1: "کربلایی رضا دارایی",
       posterName2: "کربلایی عرفان سلیمی",
       annBadge: "ویژه",
-      annTitle: "آغاز ماه ربیع الاول ماه سرور اهل بیت(ع) و شادی دل‌های مؤمنان بر همگان مبارک باد.",
-      tickerText: "آغاز ماه ربیع الاول ماه سرور اهل بیت(ع) و شادی دل‌های مؤمنان بر همگان مبارک باد.",
+      annTitle: "مراسمات سه‌شنبه‌ها ساعت: ۲۱ — جمعه‌ها ساعت: ۷ صبح",
+      tickerText: "مراسمات سه‌شنبه‌ها ساعت: ۲۱ — جمعه‌ها ساعت: ۷ صبح",
       calTitle: "تقویم امروز",
       calShamsiLabel: "شمسی",
       calQamariLabel: "قمری",
@@ -4268,7 +4292,8 @@
       qaemTrigger: "مسجد قائم",
       installTrigger: "نصب اپلیکیشن",
       owqatTrigger: "اوقات شرعی",
-      liveTrigger: "پخش زنده",
+      liveTrigger: "پخش زنده زیارت",
+      quran24Trigger: "قرآن ۲۴",
       groupFollow: "هیئت را در ایتا، روبیکا و اینستاگرام دنبال کنید",
       groupContact: "ارتباط با ما در ایتا",
       groupRoute: "مسیر رسیدن به هیئت",
@@ -4337,6 +4362,11 @@
       servicesToggle: "وصول سريع للصفحات",
       servicesToggleSub: "كل خدمات الهيئة في مكان واحد",
       svcGroupEvents: "المراسم والبرامج",
+      svcGroupLive: "البث المباشر",
+      quickMenuTheme: "المظهر",
+      quickMenuLang: "اللغة",
+      quickMenuSound: "الصوت",
+      searchLabel: "بحث",
       svcGroupSpirit: "الدعاء والمعنويات",
       svcGroupMedia: "الوسائط والصور",
       svcGroupTools: "الخدمات والأدوات",
@@ -4374,8 +4404,8 @@
       posterName1: "كربلائي رضا دارایی",
       posterName2: "كربلائي عرفان سليمي",
       annBadge: "خاص",
-      annTitle: "حلول شهر ربيع الأول، شهر سرور أهل البيت (ع) وفرحة قلوب المؤمنين، مبارك على الجميع.",
-      tickerText: "حلول شهر ربيع الأول، شهر سرور أهل البيت (ع) وفرحة قلوب المؤمنين، مبارك على الجميع.",
+      annTitle: "المراسم: الثلاثاء الساعة ٢١ — الجمعة الساعة ٧ صباحاً",
+      tickerText: "المراسم: الثلاثاء الساعة ٢١ — الجمعة الساعة ٧ صباحاً",
       calTitle: "تقويم اليوم",
       calShamsiLabel: "شمسي",
       calQamariLabel: "قمري",
@@ -4396,7 +4426,8 @@
       qaemTrigger: "مسجد القائم",
       installTrigger: "تثبيت التطبيق",
       owqatTrigger: "أوقات الصلاة",
-      liveTrigger: "بث مباشر",
+      liveTrigger: "بث مباشر للزيارة",
+      quran24Trigger: "القرآن ٢٤",
       groupFollow: "تابعونا",
       groupContact: "تواصلوا معنا عبر إيتا",
       groupRoute: "الطريق إلى الموكب",
@@ -4465,6 +4496,11 @@
       servicesToggle: "Quick Access to Pages",
       servicesToggleSub: "All services in one place",
       svcGroupEvents: "Events & Programs",
+      svcGroupLive: "Live Broadcasts",
+      quickMenuTheme: "Theme",
+      quickMenuLang: "Language",
+      quickMenuSound: "Sound",
+      searchLabel: "Search",
       svcGroupSpirit: "Prayer & Devotion",
       svcGroupMedia: "Media & Photos",
       svcGroupTools: "Services & Tools",
@@ -4502,8 +4538,8 @@
       posterName1: "Karbalaei Reza Daraei",
       posterName2: "Karbalaei Erfan Salimi",
       annBadge: "Special",
-      annTitle: "The beginning of the month of Rabi al-Awwal — the month of joy for Ahl al-Bayt (AS) and happiness for the hearts of the faithful — is blessed to all.",
-      tickerText: "The beginning of the month of Rabi al-Awwal — the month of joy for Ahl al-Bayt (AS) and happiness for the hearts of the faithful — is blessed to all.",
+      annTitle: "Ceremonies: Tuesdays at 21:00 — Fridays at 7:00 AM",
+      tickerText: "Ceremonies: Tuesdays at 21:00 — Fridays at 7:00 AM",
       calTitle: "Today's Calendar",
       calShamsiLabel: "Solar (Shamsi)",
       calQamariLabel: "Lunar (Hijri)",
@@ -4524,7 +4560,8 @@
       qaemTrigger: "Qaem Mosque",
       installTrigger: "Install App",
       owqatTrigger: "Prayer Times",
-      liveTrigger: "Live Broadcast",
+      liveTrigger: "Live Pilgrimage",
+      quran24Trigger: "Quran 24",
       groupFollow: "Follow Us",
       groupContact: "Contact Us on Eitaa",
       groupRoute: "Directions",
@@ -7715,8 +7752,22 @@
     }
 
     // leaflet.js با defer بارگذاری می‌شود؛ اگر هنوز آماده نیست، تا رویداد load صبر می‌کنیم
-    if(typeof L !== 'undefined'){ init(); }
-    else { window.addEventListener('load', init, { once:true }); }
+    // نقشه فقط وقتی نزدیک صفحه‌ی دید کاربر می‌رسد ساخته می‌شود (قبلاً با لود صفحه، تایل‌ها و Leaflet همان لحظه اجرا می‌شدند)
+    let mapStarted = false;
+    function startMap(){
+      if(mapStarted) return;
+      mapStarted = true;
+      if(typeof L !== 'undefined'){ init(); }
+      else { window.addEventListener('load', init, { once:true }); }
+    }
+    if('IntersectionObserver' in window){
+      const mapIO = new IntersectionObserver((entries) => {
+        if(entries.some(e => e.isIntersecting)){ mapIO.disconnect(); startMap(); }
+      }, { rootMargin:'400px 0px' });
+      mapIO.observe(el);
+    } else {
+      startMap();
+    }
   })();
 
   // ---------------- ویجت اذان بعدی (اوقات شرعی خرم‌آباد در صفحه اصلی) ----------------

@@ -97,7 +97,11 @@
     background:linear-gradient(115deg, transparent, rgba(255,255,255,0.6), transparent);
     transform:skewX(-20deg); animation:page2Sweep 3.6s ease-in-out infinite; pointer-events:none;
   }
-  @keyframes page2Sweep{ 0%{ left:-60%; } 38%{ left:130%; } 100%{ left:130%; } }
+  @keyframes page2Sweep{
+    0%{ transform:translateX(0) skewX(-20deg); }
+    38%{ transform:translateX(543%) skewX(-20deg); }
+    100%{ transform:translateX(543%) skewX(-20deg); }
+  }
   .page2-back svg{ width:16px; height:16px; flex:none; }
   .page2-back:hover{ transform:translateY(-1px) scale(1.03); }
   .page2-back:active{ transform:scale(0.94); }

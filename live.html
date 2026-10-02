@@ -23,7 +23,7 @@
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
 
-<title>🔴 پخش زنده | هیئت کاظمیون خرم‌آباد</title>
+<title>🔴 پخش زنده زیارت | هیئت کاظمیون خرم‌آباد</title>
 <meta name="robots" content="noindex, follow">
 <link rel="icon" href="logo.jpg">
 <link rel="manifest" href="manifest.json">
@@ -358,9 +358,9 @@
     pointer-events:none;
   }
   @keyframes page2Sweep{
-    0%{ left:-60%; }
-    38%{ left:130%; }
-    100%{ left:130%; }
+    0%{ transform:translateX(0) skewX(-20deg); }
+    38%{ transform:translateX(543%) skewX(-20deg); }
+    100%{ transform:translateX(543%) skewX(-20deg); }
   }
   .page2-back svg{ width:16px; height:16px; flex:none; }
   .page2-back:hover{ transform:translateY(-1px) scale(1.03); box-shadow:0 2px 0 rgba(255,255,255,0.4) inset, 0 10px 24px rgba(var(--crimson-rgb),0.55), 0 0 0 5px rgba(var(--crimson-rgb),0.18); }
@@ -650,7 +650,7 @@
   </div>
 
   <div class="page2-header">
-    <div class="page2-header-title" data-i18n="pageTitle">🔴 پخش زنده</div>
+    <div class="page2-header-title" data-i18n="pageTitle">🔴 پخش زنده زیارت</div>
   </div>
 
   <div class="mini-logo-wrap">
@@ -811,7 +811,7 @@
   const translations = {
     fa: {
       backBtn: 'بازگشت',
-      pageTitle: '🔴 پخش زنده',
+      pageTitle: '🔴 پخش زنده زیارت',
       groupLabel: 'پخش زنده مراسم',
       siteDisclaimer: 'توجه: سایت و اپلیکیشنی که پخش زنده رو نمایش می‌ده، هیچ ارتباطی به هیئت کاظمیون و سایت کاظمیون ندارد و ما هیچ مسئولیت یا تعهدی در قبال محتوا و عملکرد اون نمی‌پذیریم؛ صرفاً جهت نمایش زیارت مجازی ائمه اطهار استفاده می‌گردد.',
       enterBtn: 'ورود',
@@ -830,7 +830,7 @@
     },
     ar: {
       backBtn: 'رجوع',
-      pageTitle: '🔴 بث مباشر',
+      pageTitle: '🔴 بث مباشر للزيارة',
       groupLabel: 'البث المباشر للموكب',
       siteDisclaimer: 'تنبيه: الموقع أو التطبيق الذي يعرض البث المباشر لا علاقة له بموكب الكاظميون أو بموقع الكاظميون، ولا نتحمل أي مسؤولية تجاه محتواه أو عمله؛ يُستخدم فقط لعرض الزيارة الافتراضية للأئمة الأطهار.',
       enterBtn: 'دخول',
@@ -849,7 +849,7 @@
     },
     en: {
       backBtn: 'Back',
-      pageTitle: '🔴 Live Broadcast',
+      pageTitle: '🔴 Live Pilgrimage',
       groupLabel: 'Live Broadcast',
       siteDisclaimer: 'Note: The site or app showing the live broadcast has no affiliation with Heyat-e Kazemiyoon or the Kazemiyoon site, and we take no responsibility for its content or performance; it is used solely to display a virtual pilgrimage to the Holy Imams.',
       enterBtn: 'Enter',

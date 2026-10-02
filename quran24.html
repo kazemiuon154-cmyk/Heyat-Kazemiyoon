@@ -23,7 +23,8 @@
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
 
-<title>📲 نصب اپلیکیشن | هیئت کاظمیون خرم‌آباد</title>
+<title>📖 قرآن ۲۴ | هیئت کاظمیون خرم‌آباد</title>
+<meta name="description" content="ورود به پخش زنده تلاوت قرآن کریم (قرآن ۲۴) از طریق سایت پخش‌کننده.">
 <meta name="robots" content="noindex, follow">
 <link rel="icon" href="logo.jpg">
 <link rel="manifest" href="manifest.json">
@@ -417,185 +418,198 @@
     background:var(--line);
   }
 
-  /* ---------------- کارت اصلی نصب ---------------- */
-  .install-card{
-    position:relative;
-    padding:24px 20px 22px;
-    border-radius:22px;
-    border:1px solid var(--line);
-    text-align:center;
-    overflow:hidden;
-    background:
-      radial-gradient(120% 140% at 50% -20%, rgba(255,203,61,0.14), transparent 60%),
-      radial-gradient(90% 120% at 50% 120%, rgba(var(--crimson-rgb),0.16), transparent 60%),
-      linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.012));
-    box-shadow:
-      0 1px 0 rgba(255,255,255,0.06) inset,
-      0 0 0 1px rgba(255,203,61,0.05) inset,
-      0 14px 32px rgba(0,0,0,0.3);
-  }
-  .install-card h1{
-    font-size:19px; font-weight:800; line-height:1.7;
-    color:var(--parchment);
-    margin-bottom:12px;
-  }
-  .install-desc{
-    font-size:13px; line-height:2;
-    color:var(--parchment-dim);
-    margin-bottom:24px;
-  }
-
-  /* ---------------- ردیف قابلیت‌ها ---------------- */
-  .install-features{
-    display:grid;
-    grid-template-columns:repeat(3, 1fr);
-    gap:9px;
-    margin-bottom:22px;
-  }
-  .install-feature{
-    display:flex; flex-direction:column; align-items:center; gap:8px;
-    padding:14px 6px 12px;
-    border-radius:16px;
-    background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.014));
-    border:1px solid rgba(255,255,255,0.07);
-  }
-  .install-feature-icon{
-    width:36px; height:36px;
-    display:flex; align-items:center; justify-content:center;
-    border-radius:12px;
-    background:linear-gradient(135deg, var(--gold-bright, var(--gold)), var(--crimson-bright));
-    box-shadow:0 4px 10px rgba(var(--crimson-rgb),0.35), 0 1px 0 rgba(255,255,255,0.35) inset;
-  }
-  .install-feature-icon svg{ width:17px; height:17px; }
-  .install-feature span{
-    font-size:10.5px; font-weight:700; color:var(--parchment); text-align:center; line-height:1.4;
-  }
-
-  /* ---------------- کادرهای هشدار/راهنما ---------------- */
-  .install-warning{
-    display:flex; align-items:flex-start; gap:10px;
+  /* ---------------- کادر هشدار سلب مسئولیت (بالای صفحه) ---------------- */
+  .site-disclaimer{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
     text-align:start;
+    margin-top:58px;
     padding:14px 14px;
     border-radius:14px;
-    border:1px solid rgba(239,68,68,0.35);
-    background:linear-gradient(180deg, rgba(239,68,68,0.12), rgba(239,68,68,0.04));
-    margin-bottom:16px;
+    border:1.5px solid rgba(239,68,68,0.5);
+    background:linear-gradient(180deg, rgba(239,68,68,0.16), rgba(239,68,68,0.05));
+    box-shadow:0 8px 20px rgba(239,68,68,0.1);
   }
-  .install-warning-icon{
+  .site-disclaimer-icon{
     flex:none; width:30px; height:30px;
     display:flex; align-items:center; justify-content:center;
     border-radius:10px;
-    background:rgba(239,68,68,0.18);
+    background:rgba(239,68,68,0.22);
     color:#ef4444;
   }
-  .install-warning-icon svg{ width:16px; height:16px; }
-  .install-warning-text{
-    font-size:12px; line-height:1.9; color:var(--parchment);
-  }
-
-  .install-ios-help{
-    padding:14px 14px;
-    border-radius:14px;
-    border:1px solid rgba(245,180,0,0.4);
-    background:linear-gradient(180deg, rgba(245,180,0,0.14), rgba(245,180,0,0.05));
-    margin-bottom:16px;
-    text-align:start;
-  }
-  .install-ios-help-head{
-    display:flex; align-items:center; gap:9px;
-    margin-bottom:11px;
-  }
-  .install-ios-help-icon{
-    flex:none; width:28px; height:28px;
-    display:flex; align-items:center; justify-content:center;
-    border-radius:9px;
-    background:rgba(245,180,0,0.2);
-    color:#f5b400;
-  }
-  .install-ios-help-icon svg{ width:16px; height:16px; }
-  .install-ios-help-head b{ font-size:12.5px; font-weight:800; color:#ffd166; }
-  .install-ios-help-list{
-    margin:0; padding-inline-start:19px;
-    display:flex; flex-direction:column; gap:8px;
-  }
-  .install-ios-help-list li{
-    font-size:11.8px; line-height:1.85; color:var(--parchment);
-  }
-
-  .install-info-box{
-    display:none;
-    align-items:flex-start; gap:10px;
-    text-align:start;
-    padding:14px 14px;
-    border-radius:14px;
-    border:1px solid rgba(56,189,248,0.4);
-    background:linear-gradient(180deg, rgba(56,189,248,0.14), rgba(56,189,248,0.05));
-    margin-bottom:16px;
-  }
-  .install-info-box.show{ display:flex; }
-  .install-info-icon{
-    flex:none; width:30px; height:30px;
-    display:flex; align-items:center; justify-content:center;
-    border-radius:10px;
-    background:rgba(56,189,248,0.2);
-    color:#38bdf8;
-  }
-  .install-info-icon svg{ width:16px; height:16px; }
-  .install-info-text{
+  .site-disclaimer-icon svg{ width:16px; height:16px; }
+  .site-disclaimer-text{
     font-size:12px; line-height:1.95; color:var(--parchment);
   }
+  .site-disclaimer-text b{ color:#ff8a8a; }
 
-  /* ---------------- دکمه بزرگ نصب ---------------- */
-  .install-btn{
+  /* ---------------- کارت ورود به قرآن ۲۴ ---------------- */
+  @keyframes liveDotPulse{
+    0%{ box-shadow:0 0 0 0 rgba(239,68,68,0.55); }
+    70%{ box-shadow:0 0 0 7px rgba(239,68,68,0); }
+    100%{ box-shadow:0 0 0 0 rgba(239,68,68,0); }
+  }
+  @keyframes quranSpin{ to{ transform:rotate(360deg); } }
+  @keyframes quranBreath{
+    0%,100%{ opacity:0.55; transform:scale(0.96); }
+    50%{ opacity:1; transform:scale(1.06); }
+  }
+  @keyframes quranEq{
+    0%,100%{ transform:scaleY(0.22); }
+    50%{ transform:scaleY(1); }
+  }
+  .quran-card{
     position:relative;
-    display:flex; align-items:center; justify-content:center; gap:10px;
-    width:100%;
-    padding:17px 20px;
-    border-radius:16px;
-    border:none;
-    background:linear-gradient(135deg, var(--gold-bright, var(--gold)), var(--crimson-bright));
-    background-size:220% 220%;
-    color:#0e2015;
-    font-family:'Vazirmatn', sans-serif;
-    font-size:15.5px; font-weight:800;
-    cursor:pointer;
-    box-shadow:0 3px 0 rgba(255,255,255,0.3) inset, 0 14px 30px rgba(var(--crimson-rgb),0.42), 0 0 0 4px rgba(var(--crimson-rgb),0.1);
-    transition:transform 0.2s ease, box-shadow 0.2s ease, opacity 0.25s ease;
-    overflow:hidden;
-    animation:installShine 6s linear infinite;
-  }
-  @keyframes installShine{
-    0%{ background-position:0% 50%; }
-    50%{ background-position:100% 50%; }
-    100%{ background-position:0% 50%; }
-  }
-  .install-btn svg{ width:20px; height:20px; flex:none; }
-  .install-btn:active{ transform:scale(0.97); }
-  .install-btn:disabled{ opacity:0.55; cursor:default; animation:none; }
-  #install-btn[data-state="installed"]{ display:none; }
-
-  .install-status{
-    margin-top:14px;
-    font-size:12.5px;
-    color:var(--parchment-dim);
-    line-height:1.9;
-    min-height:18px;
-  }
-  .install-status.success{ color:var(--crimson-bright); font-weight:700; }
-
-  .install-open-link{
-    display:none;
-    margin-top:14px;
-    padding:13px;
-    width:100%;
-    border-radius:14px;
-    border:1px solid var(--gold-soft);
-    background:transparent;
-    color:var(--gold);
-    text-decoration:none;
-    font-size:13.5px; font-weight:700;
+    margin-top:18px;
+    padding:34px 20px 22px;
     text-align:center;
+    border-radius:28px;
+    border:1px solid var(--line);
+    overflow:hidden;
+    background:
+      radial-gradient(110% 80% at 50% 0%, rgba(var(--crimson-rgb),0.24), transparent 64%),
+      linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.012));
+    box-shadow:0 1px 0 rgba(255,255,255,0.07) inset, 0 18px 40px rgba(0,0,0,0.32);
   }
+  .quran-card::before{
+    content:'';
+    position:absolute; inset:8px;
+    border-radius:21px;
+    border:1px solid var(--line);
+    opacity:0.55;
+    pointer-events:none;
+  }
+  .quran-live-badge{
+    display:inline-flex; align-items:center; gap:7px;
+    padding:5px 13px;
+    border-radius:999px;
+    background:rgba(239,68,68,0.16);
+    border:1px solid rgba(239,68,68,0.35);
+    color:#ff6b6b;
+    font-size:11px; font-weight:800;
+  }
+  .quran-live-badge i{
+    width:7px; height:7px; border-radius:50%;
+    background:#ef4444;
+    animation:liveDotPulse 1.6s ease-out infinite;
+  }
+  .quran-emblem{
+    position:relative;
+    width:132px; height:132px;
+    margin:20px auto 18px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .quran-emblem-glow{
+    position:absolute; inset:-16px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(var(--crimson-rgb),0.5), transparent 68%);
+    filter:blur(6px);
+    animation:quranBreath 4.5s ease-in-out infinite;
+  }
+  .quran-emblem-ring{
+    position:absolute; inset:0;
+    border-radius:50%;
+    border:1.5px dashed var(--gold-soft);
+    opacity:0.8;
+    animation:quranSpin 40s linear infinite;
+  }
+  .quran-emblem-ring.inner{
+    inset:11px;
+    border:1px solid var(--line);
+    opacity:1;
+    animation:none;
+  }
+  .quran-emblem-core{
+    position:relative;
+    width:88px; height:88px;
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(145deg, var(--gold-bright, var(--gold)), var(--crimson-bright));
+    box-shadow:0 10px 26px rgba(var(--crimson-rgb),0.5), 0 2px 0 rgba(255,255,255,0.4) inset;
+  }
+  .quran-emblem-core svg{ width:46px; height:46px; }
+  .quran-title{
+    font-size:42px;
+    font-weight:900;
+    line-height:1.25;
+    color:var(--gold);
+    background:linear-gradient(180deg, var(--parchment) 8%, var(--gold) 92%);
+    -webkit-background-clip:text; background-clip:text;
+    -webkit-text-fill-color:transparent;
+  }
+  .quran-sub{
+    margin-top:4px;
+    font-size:13.5px;
+    font-weight:700;
+    color:var(--parchment);
+  }
+  .quran-eq{
+    display:flex; align-items:flex-end; justify-content:center;
+    gap:5px;
+    height:30px;
+    margin:14px 0 2px;
+  }
+  .quran-eq span{
+    width:4px; height:100%;
+    border-radius:3px;
+    background:linear-gradient(180deg, var(--gold), var(--crimson-bright));
+    transform-origin:bottom;
+    animation:quranEq 1.3s ease-in-out infinite;
+  }
+  .quran-eq span:nth-child(1){ animation-delay:-0.2s; animation-duration:1.1s; }
+  .quran-eq span:nth-child(2){ animation-delay:-0.7s; animation-duration:1.5s; }
+  .quran-eq span:nth-child(3){ animation-delay:-0.4s; animation-duration:1.2s; }
+  .quran-eq span:nth-child(4){ animation-delay:-0.9s; animation-duration:1.6s; }
+  .quran-eq span:nth-child(5){ animation-delay:-0.1s; animation-duration:1.25s; }
+  .quran-eq span:nth-child(6){ animation-delay:-0.6s; animation-duration:1.45s; }
+  .quran-eq span:nth-child(7){ animation-delay:-0.3s; animation-duration:1.15s; }
+  .quran-enter{
+    position:relative;
+    display:flex; align-items:center; justify-content:center;
+    gap:10px;
+    width:100%;
+    margin-top:20px;
+    padding:17px 20px;
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,0.28);
+    background:linear-gradient(135deg, var(--gold-bright, var(--gold)), var(--crimson-bright));
+    background-size:200% 200%;
+    color:#1a0f04;
+    font-family:'Vazirmatn', sans-serif;
+    font-size:15.5px;
+    font-weight:900;
+    text-decoration:none;
+    overflow:hidden;
+    box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 12px 26px rgba(var(--crimson-rgb),0.45), 0 0 0 4px rgba(var(--crimson-rgb),0.12);
+    animation:page2Shine 5s linear infinite;
+    transition:transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .quran-enter::after{
+    content:'';
+    position:absolute; top:0; left:-60%;
+    width:35%; height:100%;
+    background:linear-gradient(115deg, transparent, rgba(255,255,255,0.6), transparent);
+    transform:skewX(-20deg);
+    animation:page2Sweep 3.6s ease-in-out infinite;
+    pointer-events:none;
+  }
+  .quran-enter svg{ width:18px; height:18px; flex:none; }
+  html[dir="ltr"] .quran-enter .quran-enter-arrow{ transform:scaleX(-1); }
+  .quran-enter:active{ transform:scale(0.97); }
+  .quran-enter:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
+  @media (hover:hover) and (pointer:fine){
+    .quran-enter:hover{ transform:translateY(-2px); box-shadow:0 2px 0 rgba(255,255,255,0.4) inset, 0 16px 32px rgba(var(--crimson-rgb),0.55), 0 0 0 6px rgba(var(--crimson-rgb),0.16); }
+  }
+  .quran-hint{
+    display:flex; align-items:center; justify-content:center;
+    gap:6px;
+    margin-top:13px;
+    font-size:11px;
+    line-height:1.8;
+    color:var(--parchment-dim);
+  }
+  .quran-hint svg{ width:13px; height:13px; flex:none; }
 
   /* ---------------- لینک راهنما و فوتر ---------------- */
   .guide-link{
@@ -627,7 +641,12 @@
   }
 
   @media (prefers-reduced-motion: reduce){
-    .page2-back, .install-btn{ animation:none; }
+    .page2-back, .quran-enter, .quran-enter::after{ animation:none; }
+    .quran-live-badge i, .quran-emblem-glow, .quran-emblem-ring{ animation:none; }
+    .quran-eq span{ animation:none; }
+    .quran-eq span:nth-child(odd){ transform:scaleY(0.75); }
+    .quran-eq span:nth-child(even){ transform:scaleY(0.4); }
+    .quran-eq span:nth-child(4){ transform:scaleY(1); }
   }
 </style>
 <link rel="stylesheet" href="assistant.css">
@@ -709,73 +728,38 @@
 
 <div class="page">
 
-  <div class="page2-header">
-    <div class="page2-header-title" data-i18n="pageTitle">📲 نصب اپلیکیشن</div>
+  <div class="site-disclaimer">
+    <span class="site-disclaimer-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5 21 19H3L12 3.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 9.5v4.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="16.4" r="1" fill="currentColor"/></svg></span>
+    <div class="site-disclaimer-text" data-i18n="siteDisclaimer">توجه: سایت و اپلیکیشنی که پخش زنده قرآن رو نمایش می‌ده، هیچ ارتباطی به هیئت کاظمیون و سایت کاظمیون ندارد و ما هیچ مسئولیت یا تعهدی در قبال محتوا و عملکرد اون نمی‌پذیریم؛ صرفاً جهت نمایش تلاوت زنده قرآن استفاده می‌گردد.</div>
   </div>
 
-  <div class="mini-logo-wrap">
-    <div class="mini-logo">
-      <img src="logo.jpg" alt="نشان هیئت کاظمیون خرم‌آباد">
-    </div>
-  </div>
+  <section class="quran-card" id="quran-card" aria-labelledby="quran-title">
+    <span class="quran-live-badge"><i aria-hidden="true"></i><span data-i18n="liveBadge">پخش زنده</span></span>
 
-  <div class="group-label">
-    <span data-i18n="groupLabel">نصب اپلیکیشن</span>
-  </div>
-
-  <div class="install-card">
-    <h1 data-i18n="installH1">سایت هیئت رو روی گوشیت نصب کن</h1>
-    <p class="install-desc" data-i18n="installDesc">با نصب اپلیکیشن، دسترسی سریع از صفحه‌ی اصلی گوشیت داری؛ بدون نیاز به باز کردن مرورگر و جست‌وجوی دوباره.</p>
-
-    <div class="install-features">
-      <div class="install-feature">
-        <span class="install-feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M13 3 4.5 14h6l-1 7L18.5 10h-6l0.5-7Z" fill="#071710"/></svg></span>
-        <span data-i18n="featureFast">دسترسی سریع</span>
-      </div>
-      <div class="install-feature">
-        <span class="install-feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 10.4c4.8-4 11.2-4 16 0" stroke="#071710" stroke-width="1.6" stroke-linecap="round"/><path d="M7 13.8c3-2.3 7-2.3 10 0" stroke="#071710" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="17.5" r="1.4" fill="#071710"/></svg></span>
-        <span data-i18n="featureApp">مثل یک اپ واقعی</span>
-      </div>
-      <div class="install-feature">
-        <span class="install-feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.4 19 6.4v5c0 4.6-3 8-7 9-4-1-7-4.4-7-9v-5L12 3.4Z" stroke="#071710" stroke-width="1.6" stroke-linejoin="round"/><path d="M9.3 12l1.9 1.9 3.5-3.9" stroke="#071710" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span data-i18n="featureUseful">کاربردی</span>
+    <div class="quran-emblem" aria-hidden="true">
+      <div class="quran-emblem-glow"></div>
+      <div class="quran-emblem-ring"></div>
+      <div class="quran-emblem-ring inner"></div>
+      <div class="quran-emblem-core">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 6.5c-1.8-1.4-4.2-2-6.5-1.6-.5.1-.8.5-.8 1v11c0 .6.5 1 1.1.9 2-.3 4.1.2 5.7 1.4.3.2.7.2 1 0 1.6-1.2 3.7-1.7 5.7-1.4.6.1 1.1-.3 1.1-.9v-11c0-.5-.3-.9-.8-1-2.3-.4-4.7.2-6.5 1.6Z" stroke="#071710" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 6.5V19" stroke="#071710" stroke-width="1.6" stroke-linecap="round"/><path d="M12 1.6l.9 1.9 1.9.9-1.9.9-.9 1.9-.9-1.9-1.9-.9 1.9-.9Z" fill="#071710"/></svg>
       </div>
     </div>
 
-    <div class="install-warning">
-      <span class="install-warning-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5 21 19H3L12 3.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 9.5v4.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="16.4" r="1" fill="currentColor"/></svg></span>
-      <div class="install-warning-text" data-i18n="warnSamsung">اگر با مرورگر سامسونگ (Samsung) وارد این صفحه شدی، دکمه‌ی نصب ممکنه کار نکنه. لینک این صفحه رو کپی کن و توی گوگل کروم پیست و باز کن.</div>
+    <h1 class="quran-title" id="quran-title" data-i18n="cardTitle">قرآن ۲۴</h1>
+    <div class="quran-sub" data-i18n="cardSub">پخش زنده تلاوت قرآن کریم</div>
+
+    <div class="quran-eq" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+    <a href="https://www.heyatonline.ir/QuranTahghigh" target="_blank" rel="noopener noreferrer" class="quran-enter" id="quran-enter">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 5.5v13l11-6.5-11-6.5Z" fill="currentColor"/></svg>
+      <span data-i18n="enterBtn">ورود به پخش زنده قرآن</span>
+      <svg class="quran-enter-arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <div class="quran-hint">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v4.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 4 18.5v-11A1.5 1.5 0 0 1 5.5 6H10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span data-i18n="enterHint">در یک صفحه‌ی جدید و در سایت پخش‌کننده باز می‌شود</span>
     </div>
-
-    <div class="install-ios-help">
-      <div class="install-ios-help-head">
-        <span class="install-ios-help-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7"/><path d="M9.5 9.2c0-1.3 1.1-2.3 2.5-2.3s2.5 1 2.5 2.1c0 1.1-.7 1.6-1.4 2-.7.4-1.1.8-1.1 1.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="16.3" r="1" fill="currentColor"/></svg></span>
-        <b data-i18n="iosHelpTitle">راهنمای نصب روی آیفون (Safari)</b>
-      </div>
-      <ol class="install-ios-help-list">
-        <li data-i18n="iosStep1">سایت را با Safari باز کن.</li>
-        <li data-i18n="iosStep2">پایین صفحه روی دکمه Share / اشتراک‌گذاری بزن (مربع با فلش رو به بالا).</li>
-        <li data-i18n="iosStep3">گزینه Add to Home Screen / افزودن به صفحه اصلی را انتخاب کن.</li>
-        <li data-i18n="iosStep4">اسم سایت را انتخاب یا ویرایش کن.</li>
-        <li data-i18n="iosStep5">روی Add / افزودن بزن.</li>
-        <li data-i18n="iosStep6">آیکون سایت روی صفحه اصلی آیفون قرار می‌گیرد.</li>
-        <li data-i18n="iosStep7">از این به بعد با زدن آیکون، سایت مثل یک برنامه باز می‌شود.</li>
-      </ol>
-    </div>
-
-    <div class="install-info-box" id="install-info-box">
-      <span class="install-info-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7"/><path d="M12 10.7v5.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="7.9" r="1.05" fill="currentColor"/></svg></span>
-      <div class="install-info-text" data-i18n="infoBoxText">اگر مرورگرت نصب مستقیم رو پشتیبانی نمی‌کنه، نگران نباش! از منوی مرورگر گزینه‌ی «افزودن به صفحه اصلی» یا «Install and create shortcut» رو بزن و خودت به‌صورت دستی نصبش کن. ☺️</div>
-    </div>
-
-    <button type="button" class="install-btn" id="install-btn" data-state="checking">
-      <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span id="install-btn-label" data-i18n="installBtnLabel">نصب اپلیکیشن</span>
-    </button>
-
-    <div class="install-status" id="install-status" data-i18n="statusChecking">در حال بررسی امکان نصب…</div>
-    <a href="index.html" class="install-open-link" id="install-open-link" data-i18n="openAppLink">باز کردن اپلیکیشن</a>
-  </div>
+  </section>
 
   <footer data-i18n="footerSub">پایگاه اطلاع‌رسانی هیئت کاظمیون خرم‌آباد</footer>
 
@@ -884,28 +868,13 @@
   const translations = {
     fa: {
       backBtn: 'بازگشت',
-      pageTitle: '📲 نصب اپلیکیشن',
-      groupLabel: 'نصب اپلیکیشن',
-      installH1: 'سایت هیئت رو روی گوشیت نصب کن',
-      installDesc: 'با نصب اپلیکیشن، دسترسی سریع از صفحه‌ی اصلی گوشیت داری؛ بدون نیاز به باز کردن مرورگر و جست‌وجوی دوباره.',
-      featureFast: 'دسترسی سریع',
-      featureApp: 'مثل یک اپ واقعی',
-      featureUseful: 'کاربردی',
-      warnSamsung: 'اگر با مرورگر سامسونگ (Samsung) وارد این صفحه شدی، دکمه‌ی نصب ممکنه کار نکنه. لینک این صفحه رو کپی کن و توی گوگل کروم پیست و باز کن.',
-      iosHelpTitle: 'راهنمای نصب روی آیفون (Safari)',
-      iosStep1: 'سایت را با Safari باز کن.',
-      iosStep2: 'پایین صفحه روی دکمه Share / اشتراک‌گذاری بزن (مربع با فلش رو به بالا).',
-      iosStep3: 'گزینه Add to Home Screen / افزودن به صفحه اصلی را انتخاب کن.',
-      iosStep4: 'اسم سایت را انتخاب یا ویرایش کن.',
-      iosStep5: 'روی Add / افزودن بزن.',
-      iosStep6: 'آیکون سایت روی صفحه اصلی آیفون قرار می‌گیرد.',
-      iosStep7: 'از این به بعد با زدن آیکون، سایت مثل یک برنامه باز می‌شود.',
-      infoBoxText: 'اگر مرورگرت نصب مستقیم رو پشتیبانی نمی‌کنه، نگران نباش! از منوی مرورگر گزینه‌ی «افزودن به صفحه اصلی» یا «Install and create shortcut» رو بزن و خودت به‌صورت دستی نصبش کن. ☺️',
-      installBtnLabel: 'نصب اپلیکیشن',
-      statusChecking: 'در حال بررسی امکان نصب…',
-      statusAvailable: 'با یک لمس، اپلیکیشن رو روی گوشیت نصب کن.',
-      statusInstalled: '✓ اپلیکیشن روی گوشیت نصب شده است.',
-      openAppLink: 'باز کردن اپلیکیشن',
+      pageTitle: '📖 قرآن ۲۴',
+      siteDisclaimer: 'توجه: سایت و اپلیکیشنی که پخش زنده قرآن رو نمایش می‌ده، هیچ ارتباطی به هیئت کاظمیون و سایت کاظمیون ندارد و ما هیچ مسئولیت یا تعهدی در قبال محتوا و عملکرد اون نمی‌پذیریم؛ صرفاً جهت نمایش تلاوت زنده قرآن استفاده می‌گردد.',
+      liveBadge: 'پخش زنده',
+      cardTitle: 'قرآن ۲۴',
+      cardSub: 'پخش زنده تلاوت قرآن کریم',
+      enterBtn: 'ورود به پخش زنده قرآن',
+      enterHint: 'در یک صفحه‌ی جدید و در سایت پخش‌کننده باز می‌شود',
       guideTrigger: 'راهنمای سایت',
       footerSub: 'پایگاه اطلاع‌رسانی هیئت کاظمیون خرم‌آباد',
       quickMenuTheme: 'تم',
@@ -914,28 +883,13 @@
     },
     ar: {
       backBtn: 'رجوع',
-      pageTitle: '📲 تثبيت التطبيق',
-      groupLabel: 'تثبيت التطبيق',
-      installH1: 'ثبّت موقع الموكب على هاتفك',
-      installDesc: 'بتثبيت التطبيق، تحصل على وصول سريع من الشاشة الرئيسية لهاتفك؛ دون الحاجة لفتح المتصفح والبحث مجددًا.',
-      featureFast: 'وصول سريع',
-      featureApp: 'مثل تطبيق حقيقي',
-      featureUseful: 'عملي',
-      warnSamsung: 'إذا دخلت هذه الصفحة عبر متصفح سامسونج (Samsung)، فقد لا يعمل زر التثبيت. انسخ رابط هذه الصفحة والصقه وافتحه في جوجل كروم.',
-      iosHelpTitle: 'دليل التثبيت على آيفون (Safari)',
-      iosStep1: 'افتح الموقع باستخدام Safari.',
-      iosStep2: 'اضغط على زر المشاركة Share في أسفل الشاشة (مربع بسهم للأعلى).',
-      iosStep3: 'اختر خيار Add to Home Screen / إضافة إلى الشاشة الرئيسية.',
-      iosStep4: 'اختر اسم الموقع أو عدّله.',
-      iosStep5: 'اضغط على Add / إضافة.',
-      iosStep6: 'ستظهر أيقونة الموقع على الشاشة الرئيسية لهاتفك.',
-      iosStep7: 'من الآن فصاعدًا، بالضغط على الأيقونة يفتح الموقع كأنه تطبيق.',
-      infoBoxText: 'إذا كان متصفحك لا يدعم التثبيت المباشر، لا تقلق! اختر من قائمة المتصفح خيار «إضافة إلى الشاشة الرئيسية» أو «Install and create shortcut» وثبّته يدويًا. ☺️',
-      installBtnLabel: 'تثبيت التطبيق',
-      statusChecking: 'جارٍ التحقق من إمكانية التثبيت…',
-      statusAvailable: 'بلمسة واحدة، ثبّت التطبيق على هاتفك.',
-      statusInstalled: '✓ تم تثبيت التطبيق على هاتفك.',
-      openAppLink: 'فتح التطبيق',
+      pageTitle: '📖 القرآن ٢٤',
+      siteDisclaimer: 'تنبيه: الموقع أو التطبيق الذي يعرض البث المباشر للقرآن لا علاقة له بموكب الكاظميون أو بموقع الكاظميون، ولا نتحمل أي مسؤولية تجاه محتواه أو عمله؛ يُستخدم فقط لعرض التلاوة المباشرة للقرآن الكريم.',
+      liveBadge: 'بث مباشر',
+      cardTitle: 'القرآن ٢٤',
+      cardSub: 'بث مباشر لتلاوة القرآن الكريم',
+      enterBtn: 'الدخول إلى البث المباشر للقرآن',
+      enterHint: 'يُفتح في صفحة جديدة على موقع البث',
       guideTrigger: 'دليل الموقع',
       footerSub: 'القناة الرسمية لموكب الكاظميون خرم‌آباد',
       quickMenuTheme: 'المظهر',
@@ -944,28 +898,13 @@
     },
     en: {
       backBtn: 'Back',
-      pageTitle: '📲 Install App',
-      groupLabel: 'Install App',
-      installH1: 'Install the Heyat site on your phone',
-      installDesc: "Installing the app gives you quick access from your phone's home screen, without opening the browser and searching again.",
-      featureFast: 'Quick access',
-      featureApp: 'Feels like a real app',
-      featureUseful: 'Handy',
-      warnSamsung: "If you opened this page in the Samsung browser, the install button may not work. Copy this page's link and open it in Google Chrome instead.",
-      iosHelpTitle: 'How to install on iPhone (Safari)',
-      iosStep1: 'Open the site in Safari.',
-      iosStep2: 'Tap the Share button at the bottom of the screen (square with an arrow pointing up).',
-      iosStep3: 'Choose "Add to Home Screen".',
-      iosStep4: 'Choose or edit the site name.',
-      iosStep5: 'Tap "Add".',
-      iosStep6: "The site's icon appears on your iPhone's home screen.",
-      iosStep7: 'From now on, tapping the icon opens the site like an app.',
-      infoBoxText: 'If your browser doesn\'t support direct install, don\'t worry! Choose "Add to Home Screen" or "Install and create shortcut" from your browser menu and install it manually. ☺️',
-      installBtnLabel: 'Install App',
-      statusChecking: 'Checking install availability…',
-      statusAvailable: 'Install the app on your phone with one tap.',
-      statusInstalled: '✓ The app is installed on your phone.',
-      openAppLink: 'Open App',
+      pageTitle: '📖 Quran 24',
+      siteDisclaimer: 'Note: The site or app showing the live Quran broadcast has no affiliation with Heyat-e Kazemiyoon or the Kazemiyoon site, and we take no responsibility for its content or performance; it is used solely to display live Quran recitation.',
+      liveBadge: 'Live',
+      cardTitle: 'Quran 24',
+      cardSub: 'Live recitation of the Holy Quran',
+      enterBtn: 'Enter the Live Quran Broadcast',
+      enterHint: 'Opens in a new tab on the broadcaster\'s site',
       guideTrigger: 'Site Guide',
       footerSub: 'Official channel of Heyat-e Kazemiyoon Khorramabad',
       quickMenuTheme: 'Theme',
@@ -975,16 +914,6 @@
   };
 
   let currentLang = 'fa';
-  let currentInstallState = 'checking';
-
-  function applyInstallStatusText(){
-    const status = document.getElementById('install-status');
-    const dict = translations[currentLang] || translations.fa;
-    if(currentInstallState === 'checking') status.textContent = dict.statusChecking;
-    else if(currentInstallState === 'available') status.textContent = dict.statusAvailable;
-    else if(currentInstallState === 'installed') status.textContent = dict.statusInstalled;
-    else if(currentInstallState === 'unsupported') status.textContent = '';
-  }
 
   function setLang(lang){
     if(!translations[lang]) return;
@@ -997,7 +926,6 @@
         el.textContent = translations[lang][key];
       }
     });
-    applyInstallStatusText();
     const activeOpt = document.querySelector('.lang-opt[data-lang="' + lang + '"]');
     document.querySelectorAll('.lang-opt').forEach(b => {
       b.classList.toggle('active', b.dataset.lang === lang);
@@ -1135,76 +1063,20 @@
       navigator.serviceWorker.register('service-worker.js').catch(() => {});
     });
   }
-
-  // ---------------- منطق نصب PWA (تک‌نسخه‌ای، بدون تکرار) ----------------
-  (function pwaInstallPage(){
-    const btn = document.getElementById('install-btn');
-    const openLink = document.getElementById('install-open-link');
-    const infoBox = document.getElementById('install-info-box');
-    let deferredPrompt = null;
-
-    function setState(state){
-      currentInstallState = state;
-      btn.dataset.state = state;
-      infoBox.classList.toggle('show', state === 'unsupported');
-      const status = document.getElementById('install-status');
-      status.classList.toggle('success', state === 'installed');
-      if(state === 'checking' || state === 'unsupported'){
-        btn.disabled = true;
-      } else if(state === 'available'){
-        btn.disabled = false;
-      } else if(state === 'installed'){
-        btn.disabled = true;
-        openLink.style.display = 'block';
-      }
-      applyInstallStatusText();
-    }
-
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-    if(isStandalone){
-      setState('installed');
-      return;
-    }
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      setState('available');
-    });
-
-    btn.addEventListener('click', async () => {
-      if(!deferredPrompt) return;
-      btn.disabled = true;
-      deferredPrompt.prompt();
-      const choice = await deferredPrompt.userChoice;
-      deferredPrompt = null;
-      if(!(choice && choice.outcome === 'accepted')){
-        setState('available');
-      }
-    });
-
-    window.addEventListener('appinstalled', () => {
-      setState('installed');
-    });
-
-    setTimeout(() => {
-      if(btn.dataset.state === 'checking') setState('unsupported');
-    }, 2500);
-  })();
 </script>
 <script>
 window.KZM_ASSISTANT_CONFIG = {
-  pageKey: 'install',
+  pageKey: 'quran24',
   greeting: {
     title: 'سلام و خوش اومدی 👋',
-    short: 'من دستیار سایت هیئتم! این صفحه برای نصب اپلیکیشن روی گوشیته.',
-    full: 'سلام! این صفحه به تو کمک می‌کنه سایت هیئت کاظمیون رو مثل یک اپلیکیشن واقعی روی گوشیت نصب کنی.\n\nکافیه روی دکمه‌ی «نصب اپلیکیشن» بزنی. اگه دکمه فعال نبود، یعنی مرورگرت این قابلیت رو نداره؛ می‌تونی از راهنمای همین صفحه به‌صورت دستی نصبش کنی.'
+    short: 'من دستیار سایت هیئتم! این صفحه برای دیدن پخش زنده‌ی تلاوت قرآنه.',
+    full: 'سلام! از این صفحه می‌تونی وارد پخش زنده‌ی تلاوت قرآن کریم (قرآن ۲۴) بشی.\n\nکافیه روی دکمه‌ی «ورود به پخش زنده قرآن» بزنی تا به سایت پخش‌کننده منتقل بشی.'
   },
   sections: [
-    { key:'install', selector:'.install-card',
-      title:'نصب اپلیکیشن',
-      short:'با یک لمس، سایت رو مثل یک اپ روی گوشیت نصب کن.',
-      full:'روی دکمه‌ی بزرگ «نصب اپلیکیشن» بزن. اگه مرورگرت این قابلیت رو نداشت، راهنمای گام‌به‌گام برای آیفون و سامسونگ همین‌جا برات آماده‌ست.' }
+    { key:'quran', selector:'.quran-card',
+      title:'قرآن ۲۴',
+      short:'با یک لمس وارد پخش زنده‌ی قرآن بشو.',
+      full:'روی دکمه‌ی ورود بزن تا در یک صفحه‌ی جدید، پخش زنده‌ی تلاوت قرآن کریم باز بشه. این پخش مال سایت دیگه‌ایه و ربطی به هیئت نداره.' }
   ]
 };
 </script>
