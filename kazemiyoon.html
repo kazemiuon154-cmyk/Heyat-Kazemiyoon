@@ -1499,6 +1499,22 @@
     --line:rgba(127,212,255,0.22); --glass:rgba(255,255,255,0.06);
   }
 
+  /* تم «حرم» — عکس ضریح به‌عنوان پس‌زمینه (پیش‌فرض سایت)؛ لایه‌ی تیره روی عکس برای خوانایی متن‌ها */
+  body.theme-haram{
+    --void:#050d09; --void-2:#0a1a12;
+    --crimson:#1f9d62; --crimson-rgb:31,157,98; --crimson-bright:#3cc98a; --crimson-deep:#0b3a25;
+    --ember:#f0c15a; --ember-soft:#f0c15a66;
+    --gold:#f2c14e; --gold-soft:#c99a33; --gold-dim:#7a5c1c;
+    --parchment:#f7efd9; --parchment-dim:#c2b68f;
+    --line:rgba(242,193,78,0.26); --glass:rgba(255,255,255,0.06);
+  }
+  body.theme-haram::before{
+    content:''; position:fixed; inset:0; z-index:-1; pointer-events:none;
+    background:
+      linear-gradient(180deg, rgba(4,12,8,0.74) 0%, rgba(4,12,8,0.84) 55%, rgba(4,12,8,0.92) 100%),
+      url('haram-bg.webp') center top / cover no-repeat;
+  }
+
   /* تم تاریک: پس‌زمینه کاملا مشکی، بدون هاله قرمز (که قبلا با رنگ ثابت rgba(140,21,24..) حتی در تم تاریک هم دیده می‌شد) */
   body.theme-dark{
     background:#000000;
@@ -3739,6 +3755,17 @@
 <link rel="stylesheet" href="assistant.css">
 </head>
 <body>
+<script>
+/* اعمال زودهنگام تم (جلوگیری از پرش رنگ هنگام بارگذاری) */
+(function(){
+  var ok=['haram','light','dark','fest','crimson','lilac','sunset','amber','sky'], t='haram';
+  try{
+    var st=localStorage.getItem('kazemiuon-theme'), u=localStorage.getItem('kazemiuon-theme-user')==='1';
+    if(st && (u || st!=='default')) t=st;
+  }catch(e){}
+  if(ok.indexOf(t)>-1) document.body.classList.add('theme-'+t);
+})();
+</script>
 <div id="loader" class="loader">
   <div class="loader-emblem">
     <div class="loader-ring"></div>
@@ -3792,7 +3819,8 @@
           </svg>
         </button>
         <div class="theme-popover" id="theme-popover" role="menu">
-          <button type="button" class="theme-opt active" data-theme="default">طلایی و زمردی</button>
+          <button type="button" class="theme-opt active" data-theme="haram">حرم</button>
+          <button type="button" class="theme-opt" data-theme="default">طلایی و زمردی</button>
           <button type="button" class="theme-opt" data-theme="crimson">سرخ و طلایی</button>
           <button type="button" class="theme-opt" data-theme="fest">صورتی و فیروزه‌ای</button>
           <button type="button" class="theme-opt" data-theme="lilac">صورتی و یاسی</button>
@@ -6050,17 +6078,25 @@ module.exports = QRCode;
     // زیر body قرار می‌دهیم.
     document.body.appendChild(popover);
 
-    const THEME_CLASSES = ['theme-light', 'theme-dark', 'theme-fest', 'theme-crimson', 'theme-lilac', 'theme-sunset', 'theme-amber', 'theme-sky'];
-    function applyTheme(theme){
+    const THEME_CLASSES = ['theme-haram', 'theme-light', 'theme-dark', 'theme-fest', 'theme-crimson', 'theme-lilac', 'theme-sunset', 'theme-amber', 'theme-sky'];
+    function applyTheme(theme, byUser){
       document.body.classList.remove(...THEME_CLASSES);
       if(THEME_CLASSES.includes('theme-' + theme)) document.body.classList.add('theme-' + theme);
       opts.forEach(b => b.classList.toggle('active', b.dataset.theme === theme));
-      try{ localStorage.setItem('kazemiuon-theme', theme); }catch(e){}
+      try{
+        localStorage.setItem('kazemiuon-theme', theme);
+        if(byUser) localStorage.setItem('kazemiuon-theme-user', '1'); // انتخاب خودِ کاربر
+      }catch(e){}
     }
 
-    let saved = 'default';
-    try{ saved = localStorage.getItem('kazemiuon-theme') || 'default'; }catch(e){}
-    applyTheme(saved);
+    // پیش‌فرض: «حرم». اگر کاربر قبلاً خودش تم دیگری انتخاب کرده، همان می‌ماند.
+    let saved = 'haram';
+    try{
+      const st = localStorage.getItem('kazemiuon-theme');
+      const chosen = localStorage.getItem('kazemiuon-theme-user') === '1';
+      if(st && (chosen || st !== 'default')) saved = st;
+    }catch(e){}
+    applyTheme(saved, false);
 
     function positionThemePopover(){
       const margin = 10;
@@ -6091,7 +6127,7 @@ module.exports = QRCode;
     }, { passive:true });
     opts.forEach(btn => {
       btn.addEventListener('click', () => {
-        applyTheme(btn.dataset.theme);
+        applyTheme(btn.dataset.theme, true);
         popover.classList.remove('show');
         toggle.setAttribute('aria-expanded', 'false');
       });
