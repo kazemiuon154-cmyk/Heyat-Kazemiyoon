@@ -1,6 +1,8 @@
 // service-worker.js — هیئت کاظمیون خرم‌آباد
 // نسخه کش را با هر تغییر مهم در سایت افزایش دهید تا کاربران نسخه جدید را بگیرند
 // تاریخچه‌ی نسخه‌ها (جدیدترین بالا):
+//   v18: حذف کامل دستیار شناور (assistant.js/css) از کش و صفحات
+//   v17: تصویر تم «حرم» داخل kazemiyoon.html جاسازی شد (فایل جدا لازم نیست)
 //   v16: افزودن تصویر پس‌زمینه‌ی تم «حرم» (پیش‌فرض)
 //   v15: رفع قفل/صفحه‌ی خالی هنگام رفتن از صفحه‌ی «سایر» به صفحات دیگر؛ ناوبری network-first حالا بعد از ۴ ثانیه (اگر نسخه‌ی کش‌شده هست) از کش جواب می‌دهد
 //   v14: صفحه‌ی ورود اولین صفحه‌ی سایت شد (index.html)، صفحه‌ی هیئت به kazemiyoon.html منتقل شد و لینک همه‌ی صفحه‌ها اصلاح شد
@@ -13,7 +15,7 @@
 //   v8:  صفحه‌ی جدید «زیارت سه‌بعدی»، دسته‌بندی منوی دسترسی سریع و انتقال مرکز دانلود به منوی همبرگری
 //   v7:  کارت اشتراک‌گذاری روز، اصلاح اوقات شرعی نزدیک نوروز و تاریخ قمری صفحه‌ی تبدیل، ثبت درست SW در همه‌ی صفحه‌ها
 //   v6:  کارت اشتراک‌گذاری به index.html اضافه شد
-const CACHE_VERSION = 'kazemiuon-v16';
+const CACHE_VERSION = 'kazemiuon-v18';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -23,10 +25,7 @@ const CORE_ASSETS = [
   './virtual-tour.html',
   './frame.html',
   './other-icon.webp',
-  './haram-bg.webp',
   './404.html',
-  './assistant.js',
-  './assistant.css',
   './manifest.json',
   './logo.jpg',
   './logo.webp'
@@ -80,7 +79,7 @@ self.addEventListener('fetch', (event) => {
   if (req.destination === 'audio' || req.destination === 'video' || /\.(mp3|m4a|ogg|wav|mp4|webm)$/i.test(url.pathname)) return;
 
   const isHTML = req.mode === 'navigate' || req.headers.get('accept')?.includes('text/html');
-  const isAssistantAsset = /\/(assistant\.js|assistant\.css|status\.json)$/.test(url.pathname); // status.json هم network-first تا وضعیت قدیمی نمایش داده نشه
+  const isAssistantAsset = /\/(status\.json)$/.test(url.pathname); // status.json هم network-first تا وضعیت قدیمی نمایش داده نشه
 
   // فقط پاسخ‌های سالم (200) کش می‌شوند؛ قبلاً صفحه‌ی 404/خطا هم کش می‌شد و آفلاین نمایش داده می‌شد
   const store = (request, res) => {

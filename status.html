@@ -318,7 +318,6 @@
 
   @media (prefers-reduced-motion: reduce){ .page2-back{ animation:none; } }
 </style>
-<link rel="stylesheet" href="assistant.css">
 </head>
 <body>
 
@@ -563,7 +562,6 @@
         { id:'live', name:'پخش زنده مراسم', status:'unknown', note:'اطلاعات وضعیت در دسترس نیست' },
         { id:'prayer', name:'اوقات شرعی و تقویم', status:'unknown', note:'' },
         { id:'map', name:'نقشه و مسیریابی', status:'unknown', note:'' },
-        { id:'assistant', name:'دستیار هوشمند سایت', status:'unknown', note:'' },
         { id:'downloads', name:'مرکز دانلود', status:'unknown', note:'' },
         { id:'install', name:'نصب اپلیکیشن (PWA)', status:'unknown', note:'' }
       ],
@@ -661,26 +659,5 @@
     }
   })();
 </script>
-<script>
-window.KZM_ASSISTANT_CONFIG = {
-  pageKey: 'status',
-  greeting: {
-    title: 'سلام 👋',
-    short: 'این صفحه وضعیت سالم‌بودن بخش‌های مختلف سایت رو نشون می‌ده.',
-    full: 'سلام! اگه یه بخشی از سایت (مثل پخش زنده) براتون درست کار نمی‌کنه، اول یه سر به این صفحه بزنید تا ببینید مشکل از سایته یا از گوشی و اینترنت خودتون.\n\nاگه چیزی رو قرمز یا زرد دیدید، یعنی ما هم داریم روش کار می‌کنیم.'
-  },
-  sections: [
-    { key:'overview', selector:'#overview-card',
-      title:'خلاصه وضعیت',
-      short:'یک نگاه کلی به سلامت سایت.',
-      full:'این کارت بهتون می‌گه به‌طور کلی همه‌چیز سالمه یا نه. اگه رنگش سبزه، خیالتون راحت باشه.' },
-    { key:'services', selector:'#status-list',
-      title:'وضعیت هر بخش',
-      short:'وضعیت جداگانه‌ی هر قسمت از سایت.',
-      full:'اینجا می‌بینید هر بخش از سایت (پخش زنده، اوقات شرعی، نقشه و…) جداگانه سالمه، کنده یا قطعه.' }
-  ]
-};
-</script>
-<script src="assistant.js"></script>
 </body>
 </html>

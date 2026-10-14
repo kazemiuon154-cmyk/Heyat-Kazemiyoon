@@ -423,7 +423,6 @@
   .sound-toggle svg{ width:15px; height:15px; }
   .sound-toggle:hover{ border-color:var(--gold-soft); color:var(--gold); }
 </style>
-<link rel="stylesheet" href="assistant.css">
 </head>
 <body>
 
@@ -817,75 +816,9 @@
     document.querySelectorAll('.city-chip').forEach(chip => {
       chip.addEventListener('click', () => render(chip.getAttribute('data-city')));
     });
-
-    // --- یادآوری اذان: دستیار وقتی به یکی از اذان‌های خرم‌آباد نزدیک شدیم پیام می‌ده ---
-    (function adhanReminder(){
-      const REMIND_MIN = 10; // چند دقیقه قبل از اذان یادآوری بشه
-      const PRAYERS = [
-        { key:'fajr',    label:'اذان صبح' },
-        { key:'dhuhr',   label:'اذان ظهر' },
-        { key:'maghrib', label:'اذان مغرب' }
-      ];
-
-      function currentHours(){
-        const now = new Date();
-        return now.getHours() + now.getMinutes() / 60 + now.getSeconds() / 3600;
-      }
-      function todayKey(){
-        const d = new Date();
-        return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-      }
-      function alreadyNotified(storeKey){
-        try{ return localStorage.getItem(storeKey) === '1'; }catch(e){ return false; }
-      }
-      function markNotified(storeKey){
-        try{ localStorage.setItem(storeKey, '1'); }catch(e){}
-      }
-
-      function check(){
-        if(!fixedTimesForReminder) return;
-        if(!window.KzmMascot || typeof window.KzmMascot.notify !== 'function') return;
-        const nowH = currentHours();
-        const today = todayKey();
-        PRAYERS.forEach(p => {
-          const t = fixedTimesForReminder[p.key];
-          if(t == null) return;
-          const diffMin = (t - nowH) * 60;
-          const storeKey = 'kzmAdhanNotified_' + p.key + '_' + today;
-          if(diffMin > 0 && diffMin <= REMIND_MIN && !alreadyNotified(storeKey)){
-            markNotified(storeKey);
-            const minsLeft = Math.max(1, Math.round(diffMin));
-            window.KzmMascot.notify({
-              title: '🕌 ' + p.label + ' نزدیکه',
-              short: 'تا ' + p.label + ' لرستان (خرم‌آباد) حدود ' + toFaDigits(minsLeft) + ' دقیقه مونده.',
-              full: 'تا ' + p.label + ' برای خرم‌آباد حدود ' + toFaDigits(minsLeft) + ' دقیقه مونده.\n\nیادت نره آماده بشی 🤍'
-            }, 'surprised');
-          }
-        });
-      }
-
-      setInterval(check, 30000);
-      setTimeout(check, 3000);
-    })();
   })();
 </script>
 
-<script>
-window.KZM_ASSISTANT_CONFIG = {
-  pageKey: 'owqat',
-  greeting: {
-    title: 'سلام و خوش اومدی 👋',
-    short: 'من دستیار سایت هیئتم! هر جا بری، کنارتم و بخش‌ها رو برات توضیح می‌دم.',
-    full: 'سلام! به سایت هیئت کاظمیون خرم‌آباد خوش اومدی.\n\nمن دستیار همراه سایتم؛ وقتی بین بخش‌های مختلف صفحه جابه‌جا می‌شی، یه توضیح کوتاه برات نشون می‌دم و اگه دوست داشته باشی می‌تونی روی «بیشتر بدون» بزنی تا توضیح کامل‌تر رو تمام‌صفحه ببینی.\n\nهر وقت خواستی دوباره باهام صحبت کنی، کافیه روی همین شکلک بزنی.'
-  },
-  sections: [
-    { key:'owqat', selector:'.date-card',
-      title:'اوقات شرعی',
-      short:'اذان صبح تا عشاء برای لرستان و شهرهای دیگه.',
-      full:'این کارت‌ها اوقات شرعی امروز (اذان صبح، طلوع، ظهر، عصر، مغرب و عشاء) رو برای خرم‌آباد و در صورت نیاز برای شهر دیگه‌ای که انتخاب کنی نشون می‌دن.' }
-  ]
-};
-</script>
 
 <script>
   // ---------------- تغییر و همگام‌سازی تم با صفحه اول ----------------
@@ -1201,6 +1134,5 @@ window.KZM_ASSISTANT_CONFIG = {
     });
   })();
 </script>
-<script src="assistant.js"></script>
 </body>
 </html>
