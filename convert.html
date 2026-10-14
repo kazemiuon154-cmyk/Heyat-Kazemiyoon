@@ -11,7 +11,7 @@
     try{
       history.pushState({kazemiyoonBackTrap:true}, '', location.href);
       window.addEventListener('popstate', function(){
-        location.replace('index.html');
+        location.replace('kazemiyoon.html');
       });
     }catch(err){}
   })();
@@ -110,7 +110,7 @@
      THEME SYSTEM (پیش‌فرض: طلایی‌وزمردی / سرخ‌وطلایی /
      صورتی‌وفیروزه‌ای / صورتی‌ویاسی / فیروزه‌ای‌وغروبی /
      کهربایی‌وکرمی / آبی‌آسمانی / سبز فسفری / تاریک)
-     همان تعریف رنگ‌های index.html تا در دو صفحه هماهنگ بماند
+     همان تعریف رنگ‌های kazemiyoon.html تا در دو صفحه هماهنگ بماند
   ============================================================ */
   body.theme-dark{
     --void:#000000; --void-2:#0a0a0a;
@@ -1151,7 +1151,7 @@
   </div>
 </div>
 
-<a href="index.html" class="page2-back" id="page2-back" aria-label="بازگشت به صفحه اول">
+<a href="kazemiyoon.html" class="page2-back" id="page2-back" aria-label="بازگشت به صفحه اول">
   <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
   <span data-i18n="backBtn">بازگشت</span>
 </a>
@@ -1360,7 +1360,7 @@
       return { y: hy, m: hm, d: hd };
     }
 
-    // ---- قمری رسمی: همان جدول تقویم اصلی سایت (index.html) — ۱ فروردین تا ۲۹ اسفند ۱۴۰۵ ----
+    // ---- قمری رسمی: همان جدول تقویم اصلی سایت (kazemiyoon.html) — ۱ فروردین تا ۲۹ اسفند ۱۴۰۵ ----
     // [سال قمری، ماه قمری، سال شمسی، ماه شمسی، روز شمسی] = روز اول ماه قمری
     var OFFICIAL_RAW = [
       [1447,10,1405,1,1],  [1447,11,1405,1,30], [1447,12,1405,2,28],
