@@ -638,20 +638,24 @@
 </a>
 
 <script>
-/* وقتی این صفحه از «سایر» باز شده، بازگشت هم به «سایر» برمی‌گردد */
+/* بازگشت به همان صفحه‌ای که این صفحه از آن باز شده («سایر» یا «مسجد قائم») */
 (function(){
   var a = document.getElementById('zekr-page-back'); if(!a) return;
-  var fromOther = false;
-  try{ fromOther = /\/other\.html(?:[?#]|$)/.test(document.referrer || ''); }catch(e){}
-  if(!fromOther) return;
-  a.setAttribute('href', 'other.html');
-  a.setAttribute('aria-label', 'بازگشت به سایر');
+  var target = '', label = '';
+  try{
+    var ref = document.referrer || '';
+    if(/\/other(?:\.html)?(?:[?#]|$)/.test(ref)){ target = 'other.html'; label = 'بازگشت به سایر'; }
+    else if(/\/masjed-qaem(?:\.html)?(?:[?#]|$)/.test(ref)){ target = 'masjed-qaem.html'; label = 'بازگشت به مسجد قائم'; }
+  }catch(e){}
+  if(!target) return;
+  a.setAttribute('href', target);
+  a.setAttribute('aria-label', label);
   a.addEventListener('click', function(e){
     if(e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button > 0) return;
     if(history.length > 1){
       e.preventDefault();
       history.back();
-      setTimeout(function(){ if(!document.hidden) location.href = 'other.html'; }, 800);
+      setTimeout(function(){ if(!document.hidden) location.href = target; }, 800);
     }
   });
 })();

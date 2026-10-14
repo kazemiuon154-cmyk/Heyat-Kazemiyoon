@@ -8,7 +8,8 @@
   // دکمه بازگشت گوشی: اگر صفحه مستقیم (بدون سابقه مرورگر) باز شده باشد،
   // به‌جای نمایش خطا، کاربر را به صفحه اول هیئت برمی‌گرداند
   (function(){
-    var fo = /\/other\.html(?:[?#]|$)/.test(document.referrer || ''); if(fo) return;
+    // اگر از «سایر» یا «مسجد قائم» باز شده، برگشت باید به همان صفحه برگردد (نه کاظمیون)
+    var fo = /\/(?:other|masjed-qaem)(?:\.html)?(?:[?#]|$)/.test(document.referrer || ''); if(fo) return;
     try{
       history.pushState({kazemiyoonBackTrap:true}, '', location.href);
       window.addEventListener('popstate', function(){
@@ -969,17 +970,21 @@
 /* وقتی این صفحه از «سایر» باز شده، بازگشت هم به «سایر» برمی‌گردد */
 (function(){
   var a = document.getElementById('page2-back'); if(!a) return;
-  var fromOther = false;
-  try{ fromOther = /\/other\.html(?:[?#]|$)/.test(document.referrer || ''); }catch(e){}
-  if(!fromOther) return;
-  a.setAttribute('href', 'other.html');
-  a.setAttribute('aria-label', 'بازگشت به سایر');
+  var target = '', label = '';
+  try{
+    var ref = document.referrer || '';
+    if(/\/other(?:\.html)?(?:[?#]|$)/.test(ref)){ target = 'other.html'; label = 'بازگشت به سایر'; }
+    else if(/\/masjed-qaem(?:\.html)?(?:[?#]|$)/.test(ref)){ target = 'masjed-qaem.html'; label = 'بازگشت به مسجد قائم'; }
+  }catch(e){}
+  if(!target) return;
+  a.setAttribute('href', target);
+  a.setAttribute('aria-label', label);
   a.addEventListener('click', function(e){
     if(e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button > 0) return;
     if(history.length > 1){
       e.preventDefault();
       history.back();
-      setTimeout(function(){ if(!document.hidden) location.href = 'other.html'; }, 800);
+      setTimeout(function(){ if(!document.hidden) location.href = target; }, 800);
     }
   });
 })();
