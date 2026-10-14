@@ -1,6 +1,7 @@
 // service-worker.js — هیئت کاظمیون خرم‌آباد
 // نسخه کش را با هر تغییر مهم در سایت افزایش دهید تا کاربران نسخه جدید را بگیرند
 // تاریخچه‌ی نسخه‌ها (جدیدترین بالا):
+//   v15: رفع قفل/صفحه‌ی خالی هنگام رفتن از صفحه‌ی «سایر» به صفحات دیگر؛ ناوبری network-first حالا بعد از ۴ ثانیه (اگر نسخه‌ی کش‌شده هست) از کش جواب می‌دهد
 //   v14: صفحه‌ی ورود اولین صفحه‌ی سایت شد (index.html)، صفحه‌ی هیئت به kazemiyoon.html منتقل شد و لینک همه‌ی صفحه‌ها اصلاح شد
 //   v13: انتقال منوی «دسترسی سریع به صفحات» از index.html به صفحه‌ی مستقل «سایر» (other.html) و حذف کامل آن از صفحه‌ی هیئت
 //   v12: صفحه‌ی ورود به سایت (welcome.html) با سه ورودی: هیئت کاظمیون، مسجد قائم (صفحه‌ی مستقل) و سایر (صفحه‌ی مستقل)
@@ -11,7 +12,7 @@
 //   v8:  صفحه‌ی جدید «زیارت سه‌بعدی»، دسته‌بندی منوی دسترسی سریع و انتقال مرکز دانلود به منوی همبرگری
 //   v7:  کارت اشتراک‌گذاری روز، اصلاح اوقات شرعی نزدیک نوروز و تاریخ قمری صفحه‌ی تبدیل، ثبت درست SW در همه‌ی صفحه‌ها
 //   v6:  کارت اشتراک‌گذاری به index.html اضافه شد
-const CACHE_VERSION = 'kazemiuon-v14';
+const CACHE_VERSION = 'kazemiuon-v15';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -84,18 +85,22 @@ self.addEventListener('fetch', (event) => {
   };
 
   if (isHTML || isAssistantAsset) {
-    event.respondWith(
+    // network-first با مهلت: روی اینترنت ضعیف، اگر شبکه دیر جواب داد و نسخه‌ی کش‌شده هست، همان نمایش داده می‌شود
+    // (قبلاً بدون مهلت منتظر می‌ماند و صفحه ساعتی خالی/غیرقابل‌لمس می‌ماند)
+    event.respondWith(new Promise((resolve) => {
+      let settled = false;
+      const done = (r) => { if (!settled) { settled = true; resolve(r); } };
+      const fallback = () =>
+        caches.match(req).then((cached) =>
+          cached || (isHTML ? caches.match('./kazemiyoon.html') : undefined) || Response.error()
+        );
+      const timer = isHTML ? setTimeout(() => {
+        caches.match(req).then((cached) => { if (cached) done(cached); });
+      }, 4000) : null;
       fetch(req)
-        .then((res) => {
-          event.waitUntil(store(req, res));
-          return res;
-        })
-        .catch(() =>
-          caches.match(req).then((cached) =>
-            cached || (isHTML ? caches.match('./kazemiyoon.html') : undefined) || Response.error()
-          )
-        )
-    );
+        .then((res) => { clearTimeout(timer); event.waitUntil(store(req, res)); done(res); })
+        .catch(() => { clearTimeout(timer); fallback().then(done); });
+    }));
     return;
   }
 

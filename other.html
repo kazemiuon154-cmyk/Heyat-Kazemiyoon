@@ -9,8 +9,10 @@
   // به‌جای نمایش خطا، کاربر را به صفحه‌ی ورود سایت برمی‌گرداند
   (function(){
     try{
-      history.pushState({otherBackTrap:true}, '', location.href);
-      window.addEventListener('popstate', function(){ location.replace('index.html'); });
+      if(history.length <= 1){
+        history.pushState({otherBackTrap:true}, '', location.href);
+        window.addEventListener('popstate', function(){ location.replace('index.html'); });
+      }
     }catch(err){}
   })();
 </script>
@@ -52,24 +54,21 @@
       radial-gradient(ellipse 90% 50% at 15% 40%, rgba(var(--crimson-rgb),0.10), transparent 60%),
       radial-gradient(ellipse 90% 50% at 85% 75%, rgba(var(--crimson-rgb),0.12), transparent 60%),
       var(--void);
-    animation:pageIn .4s ease;
-    transition:opacity .26s ease, transform .26s ease;
   }
-  @keyframes pageIn{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:none; } }
-  body.page-exit{ opacity:0; transform:translateY(-8px); }
+  @keyframes pageIn{ from{ opacity:0; } to{ opacity:1; } }
 
   .embers{ position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
   .ember-spark{
     position:absolute; bottom:-10px; width:3px; height:3px; border-radius:50%;
     background:var(--ember); box-shadow:0 0 6px 1px var(--ember-soft); opacity:0;
-    animation-name:rise; animation-timing-function:ease-in; animation-iteration-count:infinite;
+    animation-name:rise; animation-timing-function:linear; animation-iteration-count:infinite; will-change:transform,opacity;
   }
   @keyframes rise{
     0%{ transform:translateY(0) translateX(0); opacity:0; } 8%{ opacity:.9; } 80%{ opacity:.5; }
     100%{ transform:translateY(-100vh) translateX(var(--drift,20px)); opacity:0; }
   }
 
-  .page{ position:relative; z-index:1; width:100%; max-width:500px; padding:46px 22px 120px; }
+  .page{ position:relative; z-index:1; width:100%; max-width:500px; padding:46px 22px 120px; animation:pageIn .3s ease both; }
 
   /* ---------------- سربرگ ---------------- */
   .head{ text-align:center; margin-bottom:26px; }
@@ -96,7 +95,6 @@
     font-size:30px; font-weight:900; line-height:1.5;
     background:linear-gradient(180deg, #fff6d8 0%, #ffe28a 50%, #e9aa1c 100%);
     -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
-    filter:drop-shadow(0 2px 14px rgba(255,203,61,0.26));
   }
   .head p{ margin-top:4px; font-size:13.5px; color:var(--parchment-dim); }
 
@@ -267,6 +265,7 @@
     border:1px solid rgba(255,255,255,0.07);
     overflow:hidden;
     transition:transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    touch-action:manipulation; -webkit-tap-highlight-color:transparent;
   }
   .services-row::before{
     content:"";
@@ -582,30 +581,23 @@ var ITEMS = [
     if(location.hash === '#search'){ setTimeout(function(){ try{ input.focus(); }catch(e){} }, 450); }
   }
 
-  /* ---- انتقال نرم + پیش‌بارگذاری صفحه‌ی مقصد ---- */
+  /* ---- پیش‌بارگذاری فقط با ماوس (در موبایل غیرفعال: باعث لگ و مصرف اینترنت می‌شد) ---- */
   function prefetch(a){
     var h = a.getAttribute('href');
     if(!h || h.charAt(0) === '#' || /^https?:/i.test(h) || a.__pf) return;
     a.__pf = 1;
     var l = document.createElement('link'); l.rel = 'prefetch'; l.href = h.split('#')[0]; document.head.appendChild(l);
   }
-  document.addEventListener('pointerover', function(e){ var a = e.target.closest && e.target.closest('.services-row'); if(a) prefetch(a); }, { passive:true });
-  document.addEventListener('touchstart', function(e){ var a = e.target.closest && e.target.closest('.services-row'); if(a) prefetch(a); }, { passive:true });
-  document.addEventListener('click', function(ev){
-    var a = ev.target.closest && ev.target.closest('.services-row, .back');
-    if(!a || ev.defaultPrevented || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.button === 1) return;
-    var h = a.getAttribute('href');
-    if(!h || a.getAttribute('target') === '_blank') return;
-    ev.preventDefault();
-    document.body.classList.add('page-exit');
-    setTimeout(function(){ location.href = h; }, 200);
-  });
-  window.addEventListener('pageshow', function(e){ if(e.persisted) document.body.classList.remove('page-exit'); });
+  document.addEventListener('pointerover', function(e){
+    if(e.pointerType !== 'mouse') return;
+    var a = e.target.closest && e.target.closest('.services-row');
+    if(a) prefetch(a);
+  }, { passive:true });
 
   /* ---- ذرات طلایی ---- */
   var em = document.getElementById('embers');
   if(em && !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)){
-    for(var i = 0; i < 14; i++){
+    for(var i = 0; i < 7; i++){
       var s = document.createElement('span');
       s.className = 'ember-spark';
       s.style.left = (Math.random() * 100) + '%';
