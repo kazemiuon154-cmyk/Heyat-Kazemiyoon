@@ -287,6 +287,66 @@
 @media (min-width:900px){ .top-chip{ top:62px; font-size:13px; padding:4px 12px; } .top-chip svg{ width:13px; height:13px; } .top-chip.time{ right:64px; } .top-chip.date{ left:64px; } }
 @media (max-width:359px){ .top-chip{ top:40px; font-size:10.5px; padding:2px 7px; } .top-chip.time{ right:30px; } .top-chip.date{ left:30px; } }
 @media (prefers-reduced-motion: reduce){ .top-chip{ animation:none; opacity:1; } }
+
+/* =====================================================================
+   جزئیات بیشتر و ظریف‌تر (چیدمان و آیکون‌ها بدون تغییر)
+   ===================================================================== */
+.bismillah{ font-style:normal; }
+
+/* جداکننده‌ی زیر عنوان: ظریف‌تر و پرجزئیات‌تر */
+.head-orn{ width:190px; height:16px; margin:10px auto 12px; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='190' height='16' viewBox='0 0 190 16'%3E%0A%3Cdefs%3E%3ClinearGradient id='a' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23ffcb3d' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23ffcb3d' stop-opacity='.65'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' x1='1' x2='0'%3E%3Cstop offset='0' stop-color='%23ffcb3d' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23ffcb3d' stop-opacity='.65'/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect x='0' y='7.5' width='74' height='1' fill='url(%23a)'/%3E%0A%3Crect x='116' y='7.5' width='74' height='1' fill='url(%23b)'/%3E%0A%3Ccircle cx='81.0' cy='8.0' r='1.3' fill='%23ffcb3d' fill-opacity='.7'/%3E%0A%3Ccircle cx='109.0' cy='8.0' r='1.3' fill='%23ffcb3d' fill-opacity='.7'/%3E%0A%3Cpath d='M95.0 2.0 L101.0 8.0 L95.0 14.0 L89.0 8.0Z' fill='none' stroke='%23ffcb3d' stroke-opacity='.85'/%3E%0A%3Cpath d='M95.0 5.48 L97.52 8.0 L95.0 10.52 L92.48 8.0Z' fill='%23ffcb3d'/%3E%0A%3C/svg%3E") center / contain no-repeat; }
+.portal-head p{ color:rgba(244,232,208,0.74); }
+
+/* مدالیون ظریف دور هر آیکون */
+.entry::before{
+  width:176px; height:176px; margin-left:-88px; top:-36px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 176 176' fill='none'%3E%3C/svg%3E") center / 100% 100% no-repeat,
+             radial-gradient(circle, rgba(var(--accent,255,203,61),0.30) 0%, rgba(var(--accent,255,203,61),0.10) 42%, transparent 70%);
+}
+/* قاب نازک طلایی با فاصله‌ی تیره دور خود آیکون */
+.entry-icon{
+  box-shadow:0 14px 26px rgba(0,0,0,0.5),
+             0 0 0 1.5px rgba(255,203,61,0.55),
+             0 0 0 4px rgba(7,23,16,0.9),
+             0 0 46px rgba(var(--accent,255,203,61),0.30);
+}
+.entry-text small{ color:rgba(244,232,208,0.74); }
+.entry-last{
+  position:absolute; z-index:3; left:50%; top:106px; transform:translateX(-50%);
+  display:inline-flex; align-items:center; gap:7px; padding:3px 13px 3px 11px;
+  font-size:11px; font-weight:700; line-height:1.7; color:#ffd980; white-space:nowrap;
+  background:#0b2b20; border:1px solid rgba(255,203,61,0.7);
+  box-shadow:0 0 0 3px rgba(7,23,16,0.92), 0 6px 14px rgba(0,0,0,0.45);
+}
+.entry-last::before, .entry-last::after{ content:''; width:4px; height:4px; flex:none; background:var(--gold); transform:rotate(45deg); }
+.entry.is-last .entry-icon{ margin-bottom:32px; }
+
+/* جداکننده‌ی بین ورودی‌ها */
+.entry + .entry::after{ top:-24px; width:140px; height:14px; margin-left:-70px; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='14' viewBox='0 0 140 14'%3E%0A%3Cdefs%3E%3ClinearGradient id='a' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23ffcb3d' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23ffcb3d' stop-opacity='.65'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' x1='1' x2='0'%3E%3Cstop offset='0' stop-color='%23ffcb3d' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23ffcb3d' stop-opacity='.65'/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect x='0' y='6.5' width='52' height='1' fill='url(%23a)'/%3E%0A%3Crect x='88' y='6.5' width='52' height='1' fill='url(%23b)'/%3E%0A%3Ccircle cx='58.0' cy='7.0' r='1.3' fill='%23ffcb3d' fill-opacity='.7'/%3E%0A%3Ccircle cx='82.0' cy='7.0' r='1.3' fill='%23ffcb3d' fill-opacity='.7'/%3E%0A%3Cpath d='M70.0 2.0 L75.0 7.0 L70.0 12.0 L65.0 7.0Z' fill='none' stroke='%23ffcb3d' stroke-opacity='.85'/%3E%0A%3Cpath d='M70.0 4.9 L72.1 7.0 L70.0 9.1 L67.9 7.0Z' fill='%23ffcb3d'/%3E%0A%3C/svg%3E") center / contain no-repeat; opacity:1; }
+
+/* تزئین وسط لبه‌ی بالا و پایین قاب */
+.frame-mid{ position:absolute; left:50%; width:46px; height:12px; margin-left:-23px; opacity:0;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='46' height='12' viewBox='0 0 46 12'%3E%0A%3Cpath d='M23 0.5 L35.5 6 L23 11.5 L10.5 6Z' fill='%23071710' stroke='%23ffcb3d' stroke-opacity='.8'/%3E%0A%3Cpath d='M23 3.6 L26 6 L23 8.4 L20 6Z' fill='%23ffcb3d'/%3E%0A%3Ccircle cx='4' cy='6' r='1.4' fill='%23ffcb3d' fill-opacity='.6'/%3E%3Ccircle cx='42' cy='6' r='1.4' fill='%23ffcb3d' fill-opacity='.6'/%3E%0A%3C/svg%3E") center / contain no-repeat; animation:cornerIn 1s ease .6s forwards; }
+.frame-mid.t{ top:6px; } .frame-mid.b{ bottom:6px; }
+
+/* کادر معرفی: خط نورانی بالا و قاب دوم ظریف */
+.about::before{ content:''; position:absolute; top:-1px; left:18%; right:18%; height:1px;
+  background:linear-gradient(90deg, transparent, rgba(255,203,61,0.75), transparent); }
+.about::after{ content:''; position:absolute; inset:6px; border-radius:18px; border:1px solid rgba(255,203,61,0.07); pointer-events:none; }
+
+@media (min-width:900px){
+  .head-orn{ width:230px; height:19px; }
+  .entry::before{ width:236px; height:236px; margin-left:-118px; top:-50px; }
+  .frame-mid.t{ top:16px; } .frame-mid.b{ bottom:16px; }
+  .about::after{ border-radius:22px; }
+  .entry-last{ top:-22px; }
+  .entry.is-last .entry-icon{ margin-bottom:0; }
+}
+@media (max-width:359px){
+  .entry::before{ width:152px; height:152px; margin-left:-76px; top:-30px; }
+  .entry-last{ top:94px; }
+}
+@media (prefers-reduced-motion: reduce){ .frame-mid{ animation:none; opacity:1; } }
 </style>
 </head>
 <body>
@@ -295,6 +355,7 @@
 <div class="portal-frame" aria-hidden="true">
   <span class="frame-corner tl"></span><span class="frame-corner tr"></span>
   <span class="frame-corner bl"></span><span class="frame-corner br"></span>
+  <span class="frame-mid t"></span><span class="frame-mid b"></span>
 </div>
 
 <div class="embers" id="embers" aria-hidden="true"></div>
@@ -434,7 +495,7 @@
     if(last && a.getAttribute('data-key') === last){
       var b = document.createElement('span');
       b.className = 'entry-last'; b.textContent = 'آخرین بازدید';
-      a.appendChild(b);
+      a.appendChild(b); a.classList.add('is-last');
     }
     a.addEventListener('click', function(ev){
       try{ localStorage.setItem(KEY, a.getAttribute('data-key')); }catch(e){}
