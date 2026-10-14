@@ -19,6 +19,8 @@ const CORE_ASSETS = [
   './kazemiyoon.html',
   './masjed-qaem.html',
   './other.html',
+  './virtual-tour.html',
+  './frame.html',
   './404.html',
   './assistant.js',
   './assistant.css',

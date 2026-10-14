@@ -9,10 +9,12 @@
   // به‌جای نمایش خطا، کاربر را به صفحه اول هیئت برمی‌گرداند
   (function(){
     try{
-      history.pushState({kazemiyoonBackTrap:true}, '', location.href);
-      window.addEventListener('popstate', function(){
-        location.replace('index.html');
-      });
+      if(history.length <= 1){
+        history.pushState({kazemiyoonBackTrap:true}, '', location.href);
+        window.addEventListener('popstate', function(){
+          location.replace('index.html');
+        });
+      }
     }catch(err){}
   })();
 </script>
@@ -69,11 +71,7 @@
     overflow-x:hidden;
     animation:pageFadeIn 0.4s ease;
   }
-  @keyframes pageFadeIn{
-    from{ opacity:0; transform:translateY(8px); }
-    to{ opacity:1; transform:translateY(0); }
-  }
-  body.page-exit{ opacity:0; transform:translateY(-8px); transition:opacity 0.24s ease, transform 0.24s ease; }
+  @keyframes pageFadeIn{ from{ opacity:0; } to{ opacity:1; } }
 
   .embers{ position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
   .ember-spark{
@@ -1358,7 +1356,7 @@
     if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const wrap = document.getElementById('embers');
     if(!wrap) return;
-    for(let i=0; i<8; i++){
+    for(let i=0; i<5; i++){
       const s = document.createElement('div');
       s.className = 'ember-spark';
       s.style.left = (Math.random()*100) + 'vw';

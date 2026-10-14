@@ -9,10 +9,12 @@
   // به‌جای نمایش خطا، کاربر را به صفحه اول هیئت برمی‌گرداند
   (function(){
     try{
-      history.pushState({kazemiyoonBackTrap:true}, '', location.href);
-      window.addEventListener('popstate', function(){
-        location.replace('index.html');
-      });
+      if(history.length <= 1){
+        history.pushState({kazemiyoonBackTrap:true}, '', location.href);
+        window.addEventListener('popstate', function(){
+          location.replace('index.html');
+        });
+      }
     }catch(err){}
   })();
 </script>
@@ -69,11 +71,7 @@
     animation:page2FadeIn 0.4s ease;
     transition:opacity 0.28s ease, transform 0.28s ease;
   }
-  @keyframes page2FadeIn{
-    from{ opacity:0; transform:translateY(8px); }
-    to{ opacity:1; transform:translateY(0); }
-  }
-  body.page-exit{ opacity:0; transform:translateY(-8px); }
+  @keyframes page2FadeIn{ from{ opacity:0; } to{ opacity:1; } }
 
   /* ---------------- ذرات ریز طلایی پس‌زمینه ---------------- */
   .embers{ position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
@@ -1221,7 +1219,7 @@
     if(reduceMotion) return;
     var wrap = document.getElementById('embers');
     if(!wrap) return;
-    var count = 5;
+    var count = 4;
     for(var i=0;i<count;i++){
       var s = document.createElement('div');
       s.className = 'ember-spark';
