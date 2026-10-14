@@ -21,6 +21,7 @@ const CORE_ASSETS = [
   './other.html',
   './virtual-tour.html',
   './frame.html',
+  './other-icon.webp',
   './404.html',
   './assistant.js',
   './assistant.css',
