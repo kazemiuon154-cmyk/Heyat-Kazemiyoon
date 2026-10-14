@@ -1774,6 +1774,8 @@
     transition:background 0.2s ease, transform 0.15s ease;
   }
   .zekr-entry-card:active{ transform:scale(0.98); }
+  .entry-cards{ display:flex; flex-direction:column; }
+  .entry-cards .zekr-entry-card + .zekr-entry-card{ margin-top:8px; }
   .zekr-entry-icon{
     display:flex; align-items:center; justify-content:center;
     width:42px; height:42px; flex:none;
@@ -2910,7 +2912,9 @@
   .poster-card{ grid-column:1; grid-row:span 3; align-self:start; margin:8px 0 0; }
   .prayer-widget-card{ grid-column:2; align-self:start; margin-top:8px; }
   .hadith-card{ grid-column:2; align-self:start; margin-top:20px; }
-  .zekr-entry-card{ grid-column:2; align-self:start; margin-top:20px; }
+  .entry-cards{ grid-column:2; align-self:start; }
+  .entry-cards .zekr-entry-card{ grid-column:auto; margin-top:20px; }
+  .entry-cards .zekr-entry-card + .zekr-entry-card{ margin-top:8px; }
   .cal-card, .cal-agenda-card, .contact-card, .share-block, .qr-card,
   .links.links-row:not(.route-strip){
     width:100%; max-width:600px; margin-inline:auto;
@@ -3911,7 +3915,7 @@
     </div>
     <div class="quick-menu-row">
       <span class="quick-menu-label" data-i18n="quickMenuDownloads">مرکز دانلود</span>
-      <button type="button" id="downloads-trigger" class="sound-toggle" aria-haspopup="dialog" aria-label="مرکز دانلود سایت؛ تصاویر، مداحی و زیارت‌نامه‌ها">
+      <button type="button" id="downloads-trigger" class="sound-toggle" aria-haspopup="dialog" aria-label="مرکز دانلود سایت؛ زیارت‌نامه‌ها و نشان هیئت">
         <svg viewBox="0 0 24 24" fill="none">
       <path d="M3.5 6.3c0-1 .8-1.8 1.8-1.8h13.4c1 0 1.8.8 1.8 1.8v2.2c0 1-.8 1.8-1.8 1.8H5.3c-1 0-1.8-.8-1.8-1.8V6.3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
       <path d="M4.8 10.3v7.4c0 1.1.9 2 2 2h10.4c1.1 0 2-.9 2-2v-7.4" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
@@ -3936,7 +3940,7 @@
     <div class="modal-handle"></div>
     <div class="modal-ribbon">دانلود</div>
     <div class="modal-title">مرکز دانلود سایت</div>
-    <div class="downloads-modal-desc">همه‌چیز در یک‌جا؛ تصاویر گالری، مداحی و مولودی، و زیارت‌نامه‌ها</div>
+    <div class="downloads-modal-desc">همه‌چیز در یک‌جا؛ زیارت‌نامه‌ها و نشان هیئت</div>
     <div class="downloads-list" id="downloads-list"></div>
   </div>
 </div>
@@ -4255,6 +4259,7 @@
     <div class="hadith-source" id="hadith-source">--</div>
   </div>
 
+  <div class="entry-cards">
   <a href="zekr.html" class="zekr-entry-card reveal" data-prefetch-nav>
     <span class="zekr-entry-icon" aria-hidden="true">
       <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/><circle cx="5" cy="7" r="2.1" stroke="currentColor" stroke-width="1.6"/><circle cx="19" cy="7" r="2.1" stroke="currentColor" stroke-width="1.6"/><circle cx="5" cy="17" r="2.1" stroke="currentColor" stroke-width="1.6"/><circle cx="19" cy="17" r="2.1" stroke="currentColor" stroke-width="1.6"/><path d="M6.7 8.2 10 10.7M17.3 8.2 14 10.7M6.7 15.8 10 13.3M17.3 15.8 14 13.3" stroke="currentColor" stroke-width="1.4"/></svg>
@@ -4267,6 +4272,20 @@
       <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </span>
   </a>
+
+  <a href="page2.html" class="zekr-entry-card reveal" data-prefetch-nav>
+    <span class="zekr-entry-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 6.5c-1.8-1.4-4.2-2-6.5-1.6-.5.1-.8.5-.8 1v11c0 .6.5 1 1.1.9 2-.3 4.1.2 5.7 1.4.3.2.7.2 1 0 1.6-1.2 3.7-1.7 5.7-1.4.6.1 1.1-.3 1.1-.9v-11c0-.5-.3-.9-.8-1-2.3-.4-4.7.2-6.5 1.6Z" stroke="#071710" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 6.5V19" stroke="#071710" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </span>
+    <span class="zekr-entry-text">
+      <span class="zekr-entry-title" data-i18n="page2EntryTitle">ادعیه و زیارت‌نامه‌ها</span>
+      <span class="zekr-entry-sub" data-i18n="page2EntrySub">متن، ترجمه و صوت دعاها و زیارت‌ها</span>
+    </span>
+    <span class="zekr-entry-arrow" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+  </a>
+  </div>
 
   <div class="group-label reveal" id="heyat-calendar" data-i18n="hcalGroupLabel">تقویم کامل هیئت</div>
 
@@ -6308,8 +6327,6 @@ module.exports = QRCode;
       svcGroupHelp: "راهنما و نصب",
       libraryTrigger: "ادعیه و زیارت نامه‌ها",
       nazrTrigger: "نذورات",
-      madahiTrigger: "مداحی و مولودی",
-      galleryTrigger: "گالری تصاویر",
       salavatTrigger: "صلوات‌شمار",
       faqTrigger: "دستیار سایت",
       convertTrigger: "تبدیل تاریخ",
@@ -6357,6 +6374,8 @@ module.exports = QRCode;
       hadithTitle: "حدیث روز",
       zekrEntryTitle: "ذکر روز",
       zekrEntrySub: "شمارشگر، ترجمه و رکورد روزهای متوالی",
+      page2EntryTitle: "ادعیه و زیارت‌نامه‌ها",
+      page2EntrySub: "متن، ترجمه و صوت دعاها و زیارت‌ها",
       qaemTrigger: "مسجد قائم",
       installTrigger: "نصب اپلیکیشن",
       owqatTrigger: "اوقات شرعی",
@@ -6441,8 +6460,6 @@ module.exports = QRCode;
       svcGroupHelp: "المساعدة والتثبيت",
       libraryTrigger: "الأدعية والزيارات",
       nazrTrigger: "النذور",
-      madahiTrigger: "المدائح والموالید",
-      galleryTrigger: "معرض الصور",
       salavatTrigger: "عداد الصلوات",
       faqTrigger: "مساعد الموقع",
       convertTrigger: "تحويل التاريخ",
@@ -6491,6 +6508,8 @@ module.exports = QRCode;
       hadithTitle: "حديث اليوم",
       zekrEntryTitle: "ذكر اليوم",
       zekrEntrySub: "عداد وترجمة وسجل الأيام المتتالية",
+      page2EntryTitle: "الأدعية والزيارات",
+      page2EntrySub: "نص وترجمة وصوت الأدعية والزيارات",
       qaemTrigger: "مسجد القائم",
       installTrigger: "تثبيت التطبيق",
       owqatTrigger: "أوقات الصلاة",
@@ -6575,8 +6594,6 @@ module.exports = QRCode;
       svcGroupHelp: "Help & Install",
       libraryTrigger: "Prayers & Ziyarat",
       nazrTrigger: "Votive Offerings",
-      madahiTrigger: "Eulogies & Chants",
-      galleryTrigger: "Photo Gallery",
       salavatTrigger: "Salawat Counter",
       faqTrigger: "Site Assistant",
       convertTrigger: "Date Converter",
@@ -6625,6 +6642,8 @@ module.exports = QRCode;
       hadithTitle: "Hadith of the Day",
       zekrEntryTitle: "Dhikr of the Day",
       zekrEntrySub: "Counter, translation, and streak tracking",
+      page2EntryTitle: "Supplications & Ziyarat",
+      page2EntrySub: "Text, translation, and audio of prayers and ziyarat",
       qaemTrigger: "Qaem Mosque",
       installTrigger: "Install App",
       owqatTrigger: "Prayer Times",
@@ -9518,7 +9537,7 @@ module.exports = QRCode;
     }
   })();
 
-  // ---------------- مرکز دانلود سایت (تصاویر، مداحی، زیارت‌نامه‌ها) ----------------
+  // ---------------- مرکز دانلود سایت (زیارت‌نامه‌ها، نشان هیئت) ----------------
   (function downloadsSection(){
     const fab      = document.getElementById('downloads-trigger');
     const overlay  = document.getElementById('downloads-modal-overlay');
@@ -9528,13 +9547,11 @@ module.exports = QRCode;
 
     // این بخش، مرکز دانلود کل سایت است و فایل‌های همه بخش‌ها را یک‌جا نشان می‌دهد.
     // برای افزودن فایل جدید، یک آبجکت مشابه زیر اضافه کن.
-    // url: مسیر فایل روی همین ریپازیتوری (صوتی مثل madahi.mp3 یا تصویر مثل logo.jpg)
+    // url: مسیر فایل روی همین ریپازیتوری (صوتی مثل ziarat-ashura.mp3 یا تصویر مثل logo.jpg)
     // filename: نامی که هنگام دانلود روی گوشی/کامپیوتر کاربر ذخیره می‌شود
     const files = [
       { title:'زیارت عاشورا', subtitle:'صوت کامل زیارت — بخش ادعیه و زیارت‌ها', url:'ziarat-ashura.mp3', filename:'ziarat-ashura.mp3' },
-      { title:'تن بی سر', subtitle:'کربلایی رضا دارایی — بخش مداحی و مولودی', url:'madahi.mp3', filename:'tane-bi-sar-reza-daraei.mp3' },
-      { title:'با حضور مداحان اهل بیت', subtitle:'تصویر — بخش گالری', url:'speakers-1.jpg', filename:'با-حضور-مداحان-اهل-بیت.jpg' },
-      { title:'نشان هیئت کاظمیون خرم‌آباد', subtitle:'تصویر — بخش گالری', url:'logo.jpg', filename:'نشان-هیئت-کاظمیون.jpg' }
+      { title:'نشان هیئت کاظمیون خرم‌آباد', subtitle:'تصویر نشان هیئت', url:'logo.jpg', filename:'نشان-هیئت-کاظمیون.jpg' }
     ];
 
     const faDigits = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];

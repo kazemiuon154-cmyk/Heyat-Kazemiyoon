@@ -950,6 +950,29 @@
   .guide-link:hover{ border-color:var(--gold-soft); color:var(--gold); background:rgba(255,255,255,0.06); }
   .guide-link svg{ width:14px; height:14px; flex:none; }
 
+  /* ---- کارت‌های دسترسی به صفحات (منتقل‌شده از صفحه‌ی «سایر») ---- */
+  .qaem-links{ display:flex; flex-direction:column; gap:10px; margin:6px 0 8px; }
+  .qaem-link-card{
+    display:flex; align-items:center; gap:14px;
+    padding:14px 18px; border-radius:20px;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(255,203,61,0.06), rgba(255,255,255,0.01)), var(--void);
+    box-shadow:0 1px 0 rgba(255,255,255,0.05) inset, 0 10px 24px rgba(0,0,0,0.28);
+    text-decoration:none; color:var(--parchment);
+    transition:background 0.2s ease, transform 0.15s ease;
+  }
+  .qaem-link-card:active{ transform:scale(0.98); }
+  .qaem-link-icon{
+    width:44px; height:44px; border-radius:50%; flex:none;
+    display:grid; place-items:center;
+    background:linear-gradient(135deg, var(--gold), var(--gold-soft));
+  }
+  .qaem-link-icon svg{ width:20px; height:20px; }
+  .qaem-link-title{ flex:1; font-size:14px; font-weight:700; color:var(--parchment); min-width:0; }
+  .qaem-link-arrow{ color:var(--gold-soft); flex:none; }
+  .qaem-link-arrow svg{ width:16px; height:16px; transform:scaleX(-1); }
+  html[dir="ltr"] .qaem-link-arrow svg{ transform:none; }
+
   footer{
     text-align:center;
     margin-top:40px;
@@ -1391,6 +1414,38 @@
     </div>
   </section>
 
+  <div class="group-label">
+    <span data-i18n="linksGroupLabel">دعا و معنویات</span>
+  </div>
+
+  <nav class="qaem-links" aria-label="دعا و معنویات">
+    <a href="page2.html" class="qaem-link-card">
+      <span class="qaem-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 6.5c-1.8-1.4-4.2-2-6.5-1.6-.5.1-.8.5-.8 1v11c0 .6.5 1 1.1.9 2-.3 4.1.2 5.7 1.4.3.2.7.2 1 0 1.6-1.2 3.7-1.7 5.7-1.4.6.1 1.1-.3 1.1-.9v-11c0-.5-.3-.9-.8-1-2.3-.4-4.7.2-6.5 1.6Z" stroke="#071710" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 6.5V19" stroke="#071710" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+      <span class="qaem-link-title" data-i18n="linkPage2">ادعیه و زیارت‌نامه‌ها</span>
+      <span class="qaem-link-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </a>
+    <a href="salavat.html" class="qaem-link-card">
+      <span class="qaem-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="4.8" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="17.6" cy="7.4" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="19.2" cy="13.4" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="15.2" cy="18.6" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="8.8" cy="18.6" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="4.8" cy="13.4" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="6.4" cy="7.4" r="1.4" stroke="#071710" stroke-width="1.4"/><circle cx="12" cy="12" r="1.7" fill="#071710"/></svg></span>
+      <span class="qaem-link-title" data-i18n="linkSalavat">صلوات‌شمار</span>
+      <span class="qaem-link-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </a>
+    <a href="zekr.html" class="qaem-link-card">
+      <span class="qaem-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="7.4" stroke="#071710" stroke-width="1.5"/><circle cx="12" cy="12" r="2.9" fill="#071710"/></svg></span>
+      <span class="qaem-link-title" data-i18n="linkZekr">ذکر روز</span>
+      <span class="qaem-link-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </a>
+    <a href="owqat.html" class="qaem-link-card">
+      <span class="qaem-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M14.8 4.4a7.7 7.7 0 1 0 4.7 10 6.1 6.1 0 0 1-4.7-10Z" fill="#071710"/><path d="M18.2 5.2l.45 1.05L19.7 6.7l-1.05.45-.45 1.05-.45-1.05-1.05-.45 1.05-.45Z" fill="#071710"/></svg></span>
+      <span class="qaem-link-title" data-i18n="linkOwqat">اوقات شرعی</span>
+      <span class="qaem-link-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </a>
+    <a href="quran24.html" class="qaem-link-card">
+      <span class="qaem-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 6.5c-1.8-1.4-4.2-2-6.5-1.6-.5.1-.8.5-.8 1v11c0 .6.5 1 1.1.9 2-.3 4.1.2 5.7 1.4.3.2.7.2 1 0 1.6-1.2 3.7-1.7 5.7-1.4.6.1 1.1-.3 1.1-.9v-11c0-.5-.3-.9-.8-1-2.3-.4-4.7.2-6.5 1.6Z" stroke="#071710" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 6.5V19" stroke="#071710" stroke-width="1.6" stroke-linecap="round"/><path d="M12 1.8l.8 1.7 1.7.8-1.7.8-.8 1.7-.8-1.7-1.7-.8 1.7-.8Z" fill="#071710"/></svg></span>
+      <span class="qaem-link-title" data-i18n="linkQuran24">قرآن ۲۴</span>
+      <span class="qaem-link-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </a>
+  </nav>
+
   <footer data-i18n="footerSub">مسجد حضرت قائم (عج) · قاضی‌آباد، خرم‌آباد</footer>
 
 </div>
@@ -1555,6 +1610,12 @@
       qaemGroupLabel: 'مسجد حضرت قائم (عج)',
       guideLinkText: 'راهنمای سایت',
       footerSub: 'مسجد حضرت قائم (عج) · قاضی‌آباد، خرم‌آباد',
+      linksGroupLabel: 'دعا و معنویات',
+      linkPage2: 'ادعیه و زیارت‌نامه‌ها',
+      linkSalavat: 'صلوات‌شمار',
+      linkZekr: 'ذکر روز',
+      linkOwqat: 'اوقات شرعی',
+      linkQuran24: 'قرآن ۲۴',
       quickMenuTheme: 'تم',
       quickMenuLang: 'زبان',
       quickMenuSound: 'صدا',
@@ -1580,6 +1641,12 @@
       qaemGroupLabel: 'مسجد حضرت القائم (عج)',
       guideLinkText: 'دليل الموقع',
       footerSub: 'مسجد الإمام القائم (عج) · قاضي‌آباد، خرم‌آباد',
+      linksGroupLabel: 'الدعاء والروحانيات',
+      linkPage2: 'الأدعية والزيارات',
+      linkSalavat: 'عدّاد الصلوات',
+      linkZekr: 'ذكر اليوم',
+      linkOwqat: 'أوقات الصلاة',
+      linkQuran24: 'القرآن ٢٤',
       quickMenuTheme: 'المظهر',
       quickMenuLang: 'اللغة',
       quickMenuSound: 'الصوت',
@@ -1605,6 +1672,12 @@
       qaemGroupLabel: 'Hazrat Qaem (AJ) Mosque',
       guideLinkText: 'Site Guide',
       footerSub: 'Qaem Mosque · Qaziabad, Khorramabad',
+      linksGroupLabel: 'Prayer & Spirituality',
+      linkPage2: 'Supplications & Ziyarat',
+      linkSalavat: 'Salawat Counter',
+      linkZekr: 'Dhikr of the Day',
+      linkOwqat: 'Prayer Times',
+      linkQuran24: 'Quran 24',
       quickMenuTheme: 'Theme',
       quickMenuLang: 'Language',
       quickMenuSound: 'Sound',
