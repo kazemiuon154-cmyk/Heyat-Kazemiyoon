@@ -81,10 +81,6 @@
     -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
     filter:drop-shadow(0 2px 14px rgba(255,203,61,0.26));
   }
-  .head-orn{
-    width:150px; height:12px; margin:8px auto 10px;
-    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='12' viewBox='0 0 150 12'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23ffcb3d' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23ffcb3d' stop-opacity='.7'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' x1='1' x2='0'%3E%3Cstop offset='0' stop-color='%23ffcb3d' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23ffcb3d' stop-opacity='.7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='0' y='5.5' width='62' height='1' fill='url(%23a)'/%3E%3Crect x='88' y='5.5' width='62' height='1' fill='url(%23b)'/%3E%3Crect x='71.5' y='2.5' width='7' height='7' transform='rotate(45 75 6)' fill='%23ffcb3d'/%3E%3C/svg%3E") center / contain no-repeat;
-  }
   .portal-head p{ font-size:14px; color:var(--parchment-dim); }
 
   /* ---------------- ورودی‌ها: سه آیکون شناور (مثل ایتا / روبیکا / اینستاگرام) ---------------- */
@@ -183,9 +179,7 @@
   /* الگوی خاتم (هشت‌پر) پشت صفحه */
   .portal-pattern{
     position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.9;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='88' height='88' viewBox='0 0 88 88' fill='none' stroke='%23ffcb3d' stroke-width='1'%3E%3Cg stroke-opacity='.10'%3E%3Crect x='20' y='20' width='48' height='48'/%3E%3Crect x='20' y='20' width='48' height='48' transform='rotate(45 44 44)'/%3E%3Ccircle cx='44' cy='44' r='9'/%3E%3C/g%3E%3Cg stroke-opacity='.06'%3E%3Cpath d='M0 0L20 20M88 0L68 20M0 88L20 68M88 88L68 68'/%3E%3C/g%3E%3C/svg%3E");
-    -webkit-mask-image:radial-gradient(ellipse 85% 55% at 50% 30%, #000 0%, rgba(0,0,0,.55) 45%, transparent 85%);
-            mask-image:radial-gradient(ellipse 85% 55% at 50% 30%, #000 0%, rgba(0,0,0,.55) 45%, transparent 85%);
+    background-image:radial-gradient(ellipse 80% 38% at 50% 22%, rgba(255,203,61,0.07), transparent 70%), radial-gradient(ellipse 70% 30% at 50% 78%, rgba(255,203,61,0.04), transparent 70%);
   }
 
   /* قاب دورِ صفحه */
@@ -204,11 +198,6 @@
   .frame-corner.br{ bottom:4px; right:4px; transform:scale(-1,-1); }
   @keyframes cornerIn{ to{ opacity:1; } }
 
-  /* ستاره‌ی بالای سربرگ */
-  .head-star{ display:flex; align-items:center; justify-content:center; gap:14px; margin:0 auto 10px; opacity:0; animation:headIn .9s cubic-bezier(.2,.9,.25,1) .02s forwards; }
-  .head-star i{ display:block; width:64px; height:1px; background:linear-gradient(90deg, transparent, rgba(255,203,61,0.65)); }
-  .head-star i:last-child{ transform:scaleX(-1); }
-  .head-star svg{ width:34px; height:34px; filter:drop-shadow(0 0 10px rgba(255,203,61,0.55)); }
 
   /* عنوان با درخشش متحرک */
   .portal-head h1{
@@ -233,35 +222,27 @@
   .entry-icon{ box-shadow:0 14px 26px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.10), 0 0 46px rgba(var(--accent,255,203,61),0.30); }
   .entry .entry-text b{ text-shadow:0 2px 14px rgba(0,0,0,0.45); }
 
-  /* جداکننده‌ی تزئینی بین ورودی‌ها */
-  .entry + .entry::after{
-    content:''; position:absolute; top:-20px; left:50%; width:120px; height:12px; margin-left:-60px; opacity:.9;
-    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='12' viewBox='0 0 120 12'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23ffcb3d' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23ffcb3d' stop-opacity='.6'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' x1='1' x2='0'%3E%3Cstop offset='0' stop-color='%23ffcb3d' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23ffcb3d' stop-opacity='.6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='0' y='5.5' width='48' height='1' fill='url(%23a)'/%3E%3Crect x='72' y='5.5' width='48' height='1' fill='url(%23b)'/%3E%3Crect x='56.5' y='2.5' width='7' height='7' transform='rotate(45 60 6)' fill='%23ffcb3d' fill-opacity='.85'/%3E%3C/svg%3E") center / contain no-repeat;
-  }
 
   /* پایین صفحه */
   .portal-foot{ display:flex; align-items:center; justify-content:center; gap:12px; color:rgba(244,232,208,0.55); font-size:12px; letter-spacing:.04em; }
   .portal-foot::before, .portal-foot::after{ content:''; width:46px; height:1px; background:linear-gradient(90deg, transparent, rgba(255,203,61,0.45)); }
   .portal-foot::after{ transform:scaleX(-1); }
 
-  .portal{ padding-top:56px; padding-bottom:52px; }
+  .portal{ padding-top:84px; padding-bottom:52px; }
   @media (min-width:900px){
     .portal-frame::before{ inset:22px; } .portal-frame::after{ inset:30px; }
     .frame-corner{ width:110px; height:110px; }
     .frame-corner.tl{ top:12px; left:12px; } .frame-corner.tr{ top:12px; right:12px; }
     .frame-corner.bl{ bottom:12px; left:12px; } .frame-corner.br{ bottom:12px; right:12px; }
-    .head-star i{ width:96px; } .head-star svg{ width:42px; height:42px; }
     .entry::before{ width:240px; height:240px; margin-left:-120px; top:-20px; }
-    .entry + .entry::after{ display:none; }
   }
   @media (prefers-reduced-motion: reduce){
-    .frame-corner, .head-star{ animation:none; opacity:1; }
+    .frame-corner{ animation:none; opacity:1; }
     .portal-head h1{ animation:none; background-position:140% 0, 0 0; }
   }
   @media (max-width:359px){
-    .head-star i{ width:40px; }
     .frame-corner{ width:62px; height:62px; }
-    .portal{ padding-top:50px; }
+    .portal{ padding-top:78px; }
   }
 
 /* ===== کادر معرفی بخش‌ها (انتهای صفحه) ===== */
@@ -294,7 +275,6 @@
 .bismillah{ font-style:normal; }
 
 /* جداکننده‌ی زیر عنوان: ظریف‌تر و پرجزئیات‌تر */
-.head-orn{ width:190px; height:16px; margin:10px auto 12px; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='190' height='16' viewBox='0 0 190 16'%3E%0A%3Cdefs%3E%3ClinearGradient id='a' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23ffcb3d' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23ffcb3d' stop-opacity='.65'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' x1='1' x2='0'%3E%3Cstop offset='0' stop-color='%23ffcb3d' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23ffcb3d' stop-opacity='.65'/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect x='0' y='7.5' width='74' height='1' fill='url(%23a)'/%3E%0A%3Crect x='116' y='7.5' width='74' height='1' fill='url(%23b)'/%3E%0A%3Ccircle cx='81.0' cy='8.0' r='1.3' fill='%23ffcb3d' fill-opacity='.7'/%3E%0A%3Ccircle cx='109.0' cy='8.0' r='1.3' fill='%23ffcb3d' fill-opacity='.7'/%3E%0A%3Cpath d='M95.0 2.0 L101.0 8.0 L95.0 14.0 L89.0 8.0Z' fill='none' stroke='%23ffcb3d' stroke-opacity='.85'/%3E%0A%3Cpath d='M95.0 5.48 L97.52 8.0 L95.0 10.52 L92.48 8.0Z' fill='%23ffcb3d'/%3E%0A%3C/svg%3E") center / contain no-repeat; }
 .portal-head p{ color:rgba(244,232,208,0.74); }
 
 /* مدالیون ظریف دور هر آیکون */
@@ -322,12 +302,7 @@
 .entry.is-last .entry-icon{ margin-bottom:32px; }
 
 /* جداکننده‌ی بین ورودی‌ها */
-.entry + .entry::after{ top:-24px; width:140px; height:14px; margin-left:-70px; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='14' viewBox='0 0 140 14'%3E%0A%3Cdefs%3E%3ClinearGradient id='a' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23ffcb3d' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23ffcb3d' stop-opacity='.65'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' x1='1' x2='0'%3E%3Cstop offset='0' stop-color='%23ffcb3d' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23ffcb3d' stop-opacity='.65'/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect x='0' y='6.5' width='52' height='1' fill='url(%23a)'/%3E%0A%3Crect x='88' y='6.5' width='52' height='1' fill='url(%23b)'/%3E%0A%3Ccircle cx='58.0' cy='7.0' r='1.3' fill='%23ffcb3d' fill-opacity='.7'/%3E%0A%3Ccircle cx='82.0' cy='7.0' r='1.3' fill='%23ffcb3d' fill-opacity='.7'/%3E%0A%3Cpath d='M70.0 2.0 L75.0 7.0 L70.0 12.0 L65.0 7.0Z' fill='none' stroke='%23ffcb3d' stroke-opacity='.85'/%3E%0A%3Cpath d='M70.0 4.9 L72.1 7.0 L70.0 9.1 L67.9 7.0Z' fill='%23ffcb3d'/%3E%0A%3C/svg%3E") center / contain no-repeat; opacity:1; }
 
-/* تزئین وسط لبه‌ی بالا و پایین قاب */
-.frame-mid{ position:absolute; left:50%; width:46px; height:12px; margin-left:-23px; opacity:0;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='46' height='12' viewBox='0 0 46 12'%3E%0A%3Cpath d='M23 0.5 L35.5 6 L23 11.5 L10.5 6Z' fill='%23071710' stroke='%23ffcb3d' stroke-opacity='.8'/%3E%0A%3Cpath d='M23 3.6 L26 6 L23 8.4 L20 6Z' fill='%23ffcb3d'/%3E%0A%3Ccircle cx='4' cy='6' r='1.4' fill='%23ffcb3d' fill-opacity='.6'/%3E%3Ccircle cx='42' cy='6' r='1.4' fill='%23ffcb3d' fill-opacity='.6'/%3E%0A%3C/svg%3E") center / contain no-repeat; animation:cornerIn 1s ease .6s forwards; }
-.frame-mid.t{ top:6px; } .frame-mid.b{ bottom:6px; }
 
 /* کادر معرفی: خط نورانی بالا و قاب دوم ظریف */
 .about::before{ content:''; position:absolute; top:-1px; left:18%; right:18%; height:1px;
@@ -335,9 +310,7 @@
 .about::after{ content:''; position:absolute; inset:6px; border-radius:18px; border:1px solid rgba(255,203,61,0.07); pointer-events:none; }
 
 @media (min-width:900px){
-  .head-orn{ width:230px; height:19px; }
   .entry::before{ width:236px; height:236px; margin-left:-118px; top:-50px; }
-  .frame-mid.t{ top:16px; } .frame-mid.b{ bottom:16px; }
   .about::after{ border-radius:22px; }
   .entry-last{ top:-22px; }
   .entry.is-last .entry-icon{ margin-bottom:0; }
@@ -346,7 +319,6 @@
   .entry::before{ width:152px; height:152px; margin-left:-76px; top:-30px; }
   .entry-last{ top:94px; }
 }
-@media (prefers-reduced-motion: reduce){ .frame-mid{ animation:none; opacity:1; } }
 </style>
 </head>
 <body>
@@ -355,7 +327,6 @@
 <div class="portal-frame" aria-hidden="true">
   <span class="frame-corner tl"></span><span class="frame-corner tr"></span>
   <span class="frame-corner bl"></span><span class="frame-corner br"></span>
-  <span class="frame-mid t"></span><span class="frame-mid b"></span>
 </div>
 
 <div class="embers" id="embers" aria-hidden="true"></div>
@@ -372,18 +343,8 @@
 
 
   <header class="portal-head">
-    <div class="head-star" aria-hidden="true">
-      <i></i>
-      <svg viewBox="0 0 40 40" fill="none" stroke="#ffcb3d" stroke-width="1.6" stroke-linejoin="round">
-        <rect x="9" y="9" width="22" height="22"/>
-        <rect x="9" y="9" width="22" height="22" transform="rotate(45 20 20)"/>
-        <circle cx="20" cy="20" r="4.5" fill="#ffcb3d" stroke="none"/>
-      </svg>
-      <i></i>
-    </div>
     <div class="bismillah">بسم الله الرحمن الرحیم</div>
     <h1>خوش آمدید</h1>
-    <div class="head-orn" aria-hidden="true"></div>
     <p>بخش مورد نظر خود را انتخاب کنید</p>
   </header>
 
