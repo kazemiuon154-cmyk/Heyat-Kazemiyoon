@@ -323,50 +323,12 @@
     gap:8px;
     padding:20px 0 8px;
   }
-  .page2-back{
-    flex:none;
-    display:flex;
-    align-items:center;
-    gap:7px;
-    padding:10px 20px;
-    border-radius:999px;
-    border:1px solid rgba(255,255,255,0.25);
-    background:linear-gradient(135deg, var(--gold-bright, var(--gold)), var(--crimson-bright));
-    background-size:200% 200%;
-    color:#1a0f04;
-    font-family:'Vazirmatn', sans-serif;
-    font-size:12.5px;
-    font-weight:800;
-    letter-spacing:0.02em;
-    text-decoration:none;
-    cursor:pointer;
-    box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 20px rgba(var(--crimson-rgb),0.45), 0 0 0 4px rgba(var(--crimson-rgb),0.12);
-    transition:all 0.2s ease, transform 0.25s ease;
-    animation:page2Pulse 2.6s ease-in-out infinite, page2Shine 5s linear infinite;
-    position:fixed;
-    bottom:18px;
-    left:18px;
-    z-index:60;
-    overflow:hidden;
-  }
-  .page2-back::after{
-    content:'';
-    position:absolute;
-    top:0; left:-60%;
-    width:35%; height:100%;
-    background:linear-gradient(115deg, transparent, rgba(255,255,255,0.6), transparent);
-    transform:skewX(-20deg);
-    animation:page2Sweep 3.6s ease-in-out infinite;
-    pointer-events:none;
-  }
-  @keyframes page2Sweep{
-    0%{ transform:translateX(0) skewX(-20deg); }
-    38%{ transform:translateX(543%) skewX(-20deg); }
-    100%{ transform:translateX(543%) skewX(-20deg); }
-  }
-  .page2-back svg{ width:16px; height:16px; flex:none; }
-  .page2-back:hover{ transform:translateY(-1px) scale(1.03); box-shadow:0 2px 0 rgba(255,255,255,0.4) inset, 0 10px 24px rgba(var(--crimson-rgb),0.55), 0 0 0 5px rgba(var(--crimson-rgb),0.18); }
-  .page2-back:active{ transform:scale(0.94); }
+  /* ---------------- دکمه خانه (رفتن به صفحه ورود) ---------------- */
+  .portal-home-btn{ position:fixed; top:14px; right:14px; z-index:65; width:36px; height:36px; border-radius:50%; border:1px solid var(--line); background:rgba(20,14,10,0.92); color:var(--parchment-dim); display:flex; align-items:center; justify-content:center; text-decoration:none; -webkit-tap-highlight-color:transparent; touch-action:manipulation; transition:border-color .2s ease, color .2s ease, transform .25s cubic-bezier(.2,1.3,.4,1); }
+  .portal-home-btn svg{ width:18px; height:18px; }
+  .portal-home-btn:hover{ border-color:var(--gold-soft); color:var(--gold); }
+  .portal-home-btn:active{ transform:scale(.92); }
+  .portal-home-btn:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
   @keyframes page2Pulse{
     0%,100%{ box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 20px rgba(var(--crimson-rgb),0.45), 0 0 0 4px rgba(var(--crimson-rgb),0.12); }
     50%{ box-shadow:0 2px 0 rgba(255,255,255,0.35) inset, 0 8px 26px rgba(var(--crimson-rgb),0.65), 0 0 0 8px rgba(var(--crimson-rgb),0.05); }
@@ -1357,30 +1319,9 @@
   </div>
 </div>
 
-<a href="index.html" class="page2-back" id="page2-back" aria-label="بازگشت به صفحه ورود">
-  <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  <span data-i18n="backBtn">بازگشت</span>
+<a href="index.html" class="portal-home-btn" id="portal-home-btn" aria-label="بازگشت به صفحه ورود (انتخاب بخش)" title="صفحه ورود">
+  <svg viewBox="0 0 24 24" fill="none"><path d="M4 11.2 12 4l8 7.2V19a1 1 0 0 1-1 1h-4.5v-5.5h-5V20H5a1 1 0 0 1-1-1z" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </a>
-
-<script>
-/* وقتی این صفحه از «سایر» باز شده، بازگشت هم به «سایر» برمی‌گردد */
-(function(){
-  var a = document.getElementById('page2-back'); if(!a) return;
-  var fromOther = false;
-  try{ fromOther = /\/other\.html(?:[?#]|$)/.test(document.referrer || ''); }catch(e){}
-  if(!fromOther) return;
-  a.setAttribute('href', 'other.html');
-  a.setAttribute('aria-label', 'بازگشت به سایر');
-  a.addEventListener('click', function(e){
-    if(e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button > 0) return;
-    if(history.length > 1){
-      e.preventDefault();
-      history.back();
-      setTimeout(function(){ if(!document.hidden) location.href = 'other.html'; }, 800);
-    }
-  });
-})();
-</script>
 <div class="page">
 
     <div class="page2-header">
@@ -1804,46 +1745,6 @@
       btn.querySelector('.icon-sound-off').style.display = soundState.muted ? 'block' : 'none';
       if(!soundState.muted){ ensureAudioCtx(); playTick(); }
     });
-  })();
-
-  // ---------------- انتقال نرم به صفحه اول (پیش‌بارگذاری + بدون پرش) ----------------
-  (function backSmoothNav(){
-    const trigger = document.getElementById('page2-back');
-    if(!trigger) return;
-    const targetHref = trigger.getAttribute('href');
-
-    function prefetchTarget(){
-      if(document.getElementById('page2-prefetch-link')) return;
-      const link = document.createElement('link');
-      link.id = 'page2-prefetch-link';
-      link.rel = 'prefetch';
-      link.as = 'document';
-      link.href = targetHref;
-      document.head.appendChild(link);
-    }
-
-    // وقتی کاربر با اسکرول به دکمه بازگشت نزدیک می‌شود، صفحه اول از قبل بارگذاری شود
-    if('IntersectionObserver' in window){
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if(entry.isIntersecting){
-            prefetchTarget();
-            io.disconnect();
-          }
-        });
-      }, { root:null, rootMargin:'500px 0px', threshold:0 });
-      io.observe(trigger);
-    } else {
-      prefetchTarget();
-    }
-
-    trigger.addEventListener('pointerenter', prefetchTarget, { once:true });
-    trigger.addEventListener('touchstart', prefetchTarget, { once:true, passive:true });
-    trigger.addEventListener('focus', prefetchTarget, { once:true });
-
-    /* لینک بازگشت الان یک لینک عادی است و بی‌درنگ باز می‌شود؛ پیش‌بارگذاری
-       بالا هنوز فعال است تا صفحه اول سریع‌تر لود شود، اما دیگر منتظر
-       انیمیشن محو شدن نمی‌مانیم که باعث لگ می‌شد. */
   })();
 
   // ---------------- محاسبه‌ی جمعه‌ی بعدی ساعت ۷:۰۰ صبح به وقت تهران ----------------
