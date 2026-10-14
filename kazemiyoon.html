@@ -4289,6 +4289,25 @@
 
   <div class="group-label reveal" id="heyat-calendar" data-i18n="hcalGroupLabel">تقویم کامل هیئت</div>
 
+  <div class="cal-section" id="cal-section" data-open="false">
+
+  <button type="button" class="cal-toggle reveal" id="cal-toggle" aria-expanded="false" aria-controls="cal-fold">
+    <span class="cal-toggle-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5" width="17" height="15.5" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </span>
+    <span class="cal-toggle-text">
+      <span class="cal-toggle-line1"><span data-i18n="hcalTodayBtn">امروز</span> <b id="cal-toggle-today"></b></span>
+      <span class="cal-toggle-line2" id="cal-toggle-next" hidden></span>
+    </span>
+    <span class="cal-toggle-action">
+      <span class="cal-toggle-open" data-i18n="hcalToggleOpen">نمایش تقویم کامل</span>
+      <span class="cal-toggle-close" data-i18n="hcalToggleClose">جمع کردن تقویم</span>
+      <svg class="cal-toggle-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+  </button>
+
+  <div class="cal-fold" id="cal-fold"><div class="cal-fold-inner">
+
   <div class="cal-card reveal" id="cal-card">
     <button type="button" class="cal-next-badge" id="cal-next-badge">
       <span class="cal-next-badge-dot"></span>
@@ -4352,12 +4371,16 @@
     </div>
   </div>
 
+  </div></div>
+
   <div class="cal-agenda-card reveal">
     <div class="cal-agenda-head">
       <span class="cal-agenda-head-title" data-i18n="hcalAgendaLabel">رویدادهای این ماه</span>
       <span class="cal-agenda-count" id="cal-agenda-count"></span>
     </div>
     <div class="cal-agenda" id="cal-agenda"></div>
+  </div>
+
   </div>
 
   <div class="modal-overlay" id="cal-modal-overlay">
@@ -6411,6 +6434,8 @@ module.exports = QRCode;
       qrSavedToast: "تصویر QR ذخیره شد",
       calendarTrigger: "تقویم کامل هیئت",
       hcalGroupLabel: "تقویم کامل هیئت",
+      hcalToggleOpen: "نمایش تقویم کامل",
+      hcalToggleClose: "جمع کردن تقویم",
       hcalIntro: "یک تقویم اختصاصی هیئت؛ هر روزی که مراسمی وجود دارد با یک نشان ویژه مشخص شده. با لمس هر روز، جزئیات کامل مراسم همون روز رو ببین.",
       hcalTodayBtn: "امروز",
       hcalLegendNodbeh: "دعای ندبه، جمعه‌ها ساعت ۷ صبح",
@@ -6545,6 +6570,8 @@ module.exports = QRCode;
       qrSavedToast: "تم حفظ صورة الرمز",
       calendarTrigger: "تقويم الموكب الكامل",
       hcalGroupLabel: "تقويم الموكب الكامل",
+      hcalToggleOpen: "عرض التقويم الكامل",
+      hcalToggleClose: "طيّ التقويم",
       hcalIntro: "تقويم خاص بالموكب؛ كل يوم فيه مراسم يُميَّز بعلامة خاصة. المس أي يوم لعرض تفاصيل مراسم ذلك اليوم.",
       hcalTodayBtn: "اليوم",
       hcalLegendNodbeh: "دعاء الندبة، كل جمعة الساعة ٧ صباحاً",
@@ -6679,6 +6706,8 @@ module.exports = QRCode;
       qrSavedToast: "QR image saved",
       calendarTrigger: "Full Heyat Calendar",
       hcalGroupLabel: "Full Heyat Calendar",
+      hcalToggleOpen: "Show full calendar",
+      hcalToggleClose: "Collapse calendar",
       hcalIntro: "A dedicated heyat calendar; every day with a ceremony is marked. Tap any day to see that day's full details.",
       hcalTodayBtn: "Today",
       hcalLegendNodbeh: "Dua Nudbah, Fridays at 7:00 AM",
@@ -10414,6 +10443,125 @@ body.theme-haram::before{
   animation:haramBgIn .7s ease both;
 }
 @keyframes haramBgIn{ from{ opacity:0; } to{ opacity:1; } }
+
+/* ===== تقویم جمع‌شونده: نوار کوچک؛ با لمس، تقویم کامل باز می‌شود ===== */
+.cal-section{ width:100%; }
+.cal-toggle{
+  display:flex; align-items:center; gap:12px; width:100%;
+  margin:10px 0 0; padding:12px 14px; text-align:start;
+  font-family:inherit; color:var(--parchment); cursor:pointer;
+  border-radius:18px; border:1px solid var(--line);
+  background:linear-gradient(135deg, rgba(255,203,61,0.10), rgba(var(--crimson-rgb),0.08)), var(--void);
+  transition:border-color .2s ease, transform .15s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.cal-toggle:hover, .cal-section[data-open="true"] .cal-toggle{ border-color:var(--gold-soft); }
+.cal-toggle:active{ transform:scale(.985); }
+.cal-toggle:focus-visible{ outline:2px solid var(--gold); outline-offset:3px; }
+.cal-toggle-icon{
+  flex:none; display:flex; align-items:center; justify-content:center;
+  width:40px; height:40px; border-radius:50%;
+  background:rgba(255,203,61,0.14); border:1px solid var(--gold-soft); color:var(--gold);
+}
+.cal-toggle-icon svg{ width:20px; height:20px; }
+.cal-toggle-text{ flex:1; min-width:0; display:flex; flex-direction:column; gap:3px; }
+.cal-toggle-line1{ font-size:13px; font-weight:700; line-height:1.5; }
+.cal-toggle-line1 b{ font-weight:800; color:var(--gold); }
+.cal-toggle-line2{
+  display:block; font-size:11.5px; line-height:1.6; color:var(--parchment-dim);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.cal-toggle-line2[hidden]{ display:none; }
+.cal-toggle-line2::before{
+  content:''; display:inline-block; width:6px; height:6px; margin-inline-end:6px;
+  border-radius:50%; background:var(--crimson-bright); vertical-align:middle;
+}
+.cal-toggle-action{
+  flex:none; display:flex; align-items:center; gap:6px;
+  font-size:11.5px; font-weight:700; color:var(--gold);
+}
+.cal-toggle-close{ display:none; }
+.cal-toggle-chevron{ width:16px; height:16px; transition:transform .35s ease; }
+.cal-section[data-open="true"] .cal-toggle-open{ display:none; }
+.cal-section[data-open="true"] .cal-toggle-close{ display:inline; }
+.cal-section[data-open="true"] .cal-toggle-line2{ display:none; }
+.cal-section[data-open="true"] .cal-toggle-chevron{ transform:rotate(180deg); }
+@media (max-width:360px){ .cal-toggle-action .cal-toggle-open, .cal-toggle-action .cal-toggle-close{ display:none; } }
+
+.cal-fold{
+  display:grid; grid-template-rows:0fr; opacity:0; visibility:hidden;
+  transition:grid-template-rows .45s cubic-bezier(.4,0,.2,1), opacity .3s ease, visibility 0s linear .45s;
+}
+.cal-fold-inner{ min-height:0; overflow:hidden; }
+.cal-section[data-open="true"] .cal-fold{
+  grid-template-rows:1fr; opacity:1; visibility:visible;
+  transition:grid-template-rows .45s cubic-bezier(.4,0,.2,1), opacity .35s ease .05s, visibility 0s;
+}
+.cal-section[data-open="true"][data-settled="true"] .cal-fold-inner{ overflow:visible; }
+@media (prefers-reduced-motion:reduce){
+  .cal-fold, .cal-section[data-open="true"] .cal-fold{ transition:none; }
+  .cal-toggle, .cal-toggle-chevron{ transition:none; }
+}
 </style>
+<script>
+(function calFold(){
+  var section = document.getElementById('cal-section');
+  var btn     = document.getElementById('cal-toggle');
+  var fold    = document.getElementById('cal-fold');
+  if(!section || !btn || !fold) return;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var open = false, settleTimer = null;
+
+  function setOpen(v, silent){
+    open = !!v;
+    clearTimeout(settleTimer);
+    section.setAttribute('data-open', open ? 'true' : 'false');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    fold.inert = !open;
+    if(open){
+      fold.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('show'); });
+      settleTimer = setTimeout(function(){ if(open) section.setAttribute('data-settled', 'true'); }, reduce ? 0 : 520);
+    } else {
+      section.removeAttribute('data-settled');
+      if(!silent){
+        var r = btn.getBoundingClientRect();
+        if(r.top < 0 || r.bottom > window.innerHeight){
+          btn.scrollIntoView({ block:'nearest', behavior: reduce ? 'auto' : 'smooth' });
+        }
+      }
+    }
+  }
+  btn.addEventListener('click', function(){ setOpen(!open); });
+
+  // خلاصه‌ی تاریخ امروز و نزدیک‌ترین مراسم در نوار جمع‌شده
+  var wd = document.getElementById('cal-today-wd');
+  var tj = document.getElementById('cal-today-j');
+  var nb = document.getElementById('cal-next-badge-value');
+  var outToday = document.getElementById('cal-toggle-today');
+  var outNext  = document.getElementById('cal-toggle-next');
+  function sync(){
+    var d = wd ? wd.textContent.trim() : '';
+    var j = tj ? tj.textContent.trim() : '';
+    if(outToday) outToday.textContent = [d, j].filter(Boolean).join('، ');
+    var n = nb ? nb.textContent.trim() : '';
+    var has = !!n && n !== '--';
+    if(outNext){ outNext.textContent = has ? n : ''; outNext.hidden = !has; }
+  }
+  if('MutationObserver' in window){
+    var mo = new MutationObserver(sync);
+    [wd, tj, nb].forEach(function(el){
+      if(el) mo.observe(el, { childList:true, characterData:true, subtree:true });
+    });
+  }
+  sync();
+  window.addEventListener('load', sync);
+
+  // لینک مستقیم به #heyat-calendar تقویم را باز می‌کند
+  function checkHash(){ if(location.hash === '#heyat-calendar') setOpen(true); }
+  window.addEventListener('hashchange', checkHash);
+  setOpen(false, true);
+  checkHash();
+})();
+</script>
 </body>
 </html>
