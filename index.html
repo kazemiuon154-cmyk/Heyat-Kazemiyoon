@@ -183,7 +183,9 @@
   }
 
   /* قاب دورِ صفحه */
-  .portal-frame{ position:fixed; inset:0; z-index:2; pointer-events:none; }
+  /* قاب طلایی: به‌جای چسبیدن به صفحه‌ی گوشی، به کل طول صفحه وصل است و همراه اسکرول بالا و پایین می‌رود (در پس‌زمینه) */
+  body{ position:relative; }
+  .portal-frame{ position:absolute; inset:0; z-index:0; pointer-events:none; }
   .portal-frame::before, .portal-frame::after{ content:''; position:absolute; border-radius:26px; }
   .portal-frame::before{ inset:12px; border:1px solid rgba(255,203,61,0.26); }
   .portal-frame::after{ inset:18px; border:1px solid rgba(255,203,61,0.10); }
@@ -319,6 +321,100 @@
   .entry::before{ width:152px; height:152px; margin-left:-76px; top:-30px; }
   .entry-last{ top:94px; }
 }
+
+/* =====================================================================
+   ویجت‌های صفحه‌ی ورود: ردیف افقی قابل کشیدن (کارت‌های کوچک) + میانبرهای گرد
+   ===================================================================== */
+.widgets{ width:100%; display:flex; flex-direction:column; gap:10px; }
+.w-track{
+  display:flex; gap:10px; overflow-x:auto; padding:2px 2px 8px; margin:0 -2px;
+  scroll-snap-type:x mandatory; overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch; scrollbar-width:none;
+}
+.w-track::-webkit-scrollbar{ display:none; }
+.w-track > .w-card{ flex:0 0 min(72vw, 250px); scroll-snap-align:start; }
+.w-card{
+  position:relative; display:block; padding:10px 13px 11px; border-radius:18px; color:inherit; text-decoration:none;
+  -webkit-tap-highlight-color:transparent;
+  border:1px solid rgba(var(--accent,255,203,61),0.45);
+  background:linear-gradient(160deg, rgba(var(--accent,255,203,61),0.26), rgba(10,28,19,0.74) 62%);
+  opacity:0; animation:wIn .6s ease forwards; animation-delay:calc(.4s + var(--wi,0) * .06s);
+  transition:transform .2s ease, border-color .2s ease;
+}
+.w-card[hidden]{ display:none; }
+a.w-card:active, a.w-ev:active{ transform:scale(.98); }
+@media (hover:hover){ a.w-card:hover{ border-color:rgba(var(--accent,255,203,61),0.6); } }
+a.w-card:focus-visible, a.w-ev:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+@keyframes wIn{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; } }
+
+.w-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:5px; }
+.w-title{ font-size:11.5px; font-weight:800; color:rgb(var(--accent,255,203,61)); }
+.w-sub{ font-size:10.5px; color:rgba(244,232,208,0.55); }
+.w-dim{ color:rgba(244,232,208,0.66); }
+
+/* وقت بعدی */
+.w-pm{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.w-pm-name{ display:block; font-size:15px; font-weight:800; line-height:1.5; color:var(--parchment); }
+.w-pm-count{ display:block; font-size:11px; line-height:1.6; color:rgba(244,232,208,0.7); }
+.w-pm-time{ font-size:28px; font-weight:900; line-height:1.2; color:rgb(var(--accent)); font-variant-numeric:tabular-nums; }
+.w-times{ display:flex; justify-content:space-between; gap:4px; margin-top:6px; padding-top:6px; border-top:1px solid rgba(var(--accent),0.25); }
+.w-time{ display:flex; flex-direction:column; align-items:center; line-height:1.35; }
+.w-time small{ font-size:9.5px; color:rgba(244,232,208,0.55); }
+.w-time b{ font-size:11px; font-weight:800; color:rgba(244,232,208,0.9); font-variant-numeric:tabular-nums; }
+.w-time.is-past{ opacity:.4; }
+.w-time.is-next b, .w-time.is-next small{ color:rgb(var(--accent)); }
+
+/* مراسم بعدی */
+.w-ev{ display:flex; align-items:center; justify-content:space-between; gap:8px; padding:4px 0; text-decoration:none; color:inherit; border-radius:10px; -webkit-tap-highlight-color:transparent; transition:transform .2s ease; }
+.w-ev + .w-ev{ border-top:1px solid rgba(var(--accent,34,193,127),0.18); margin-top:3px; padding-top:6px; }
+.w-ev-text{ min-width:0; display:flex; flex-direction:column; }
+.w-ev-title{ font-size:14px; font-weight:800; line-height:1.5; color:var(--parchment); }
+.w-ev-meta{ font-size:10.5px; line-height:1.5; color:rgba(244,232,208,0.6); }
+.w-ev-place{ display:none; }
+.w-ev-count{ flex:none; padding:2px 8px; border-radius:999px; font-size:10.5px; font-weight:800; white-space:nowrap; color:rgb(var(--accent,34,193,127)); background:rgba(var(--accent,34,193,127),0.14); }
+.w-ev.is-secondary .w-ev-title{ font-size:12.5px; font-weight:700; color:rgba(244,232,208,0.8); }
+.w-ev.is-secondary .w-ev-meta{ display:none; }
+.w-ev.is-secondary .w-ev-count{ color:rgba(244,232,208,0.7); background:transparent; font-weight:700; }
+
+/* تاریخ قمری و مناسبت */
+.w-today-date{ display:block; font-size:14px; font-weight:800; line-height:1.6; color:var(--parchment); }
+.w-today-lunar{ display:block; font-size:11.5px; line-height:1.6; color:rgb(var(--accent,178,112,255)); }
+.w-occ{ margin-top:5px; display:flex; flex-direction:column; }
+.w-occ-item{ display:flex; align-items:center; gap:6px; font-size:11.5px; line-height:1.6; color:var(--parchment); }
+.w-occ-item:nth-child(n+2){ display:none; }
+.w-occ-dot{ flex:none; width:6px; height:6px; border-radius:50%; }
+.w-occ-note{ display:none; }
+.w-pill{ display:inline-block; margin-inline-start:5px; padding:0 6px; border-radius:999px; font-size:9.5px; font-weight:800; color:var(--void); background:var(--gold); vertical-align:middle; }
+.w-next{ margin-top:4px; font-size:10.5px; line-height:1.6; color:rgba(244,232,208,0.6); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.w-next b{ color:rgba(244,232,208,0.85); font-weight:700; }
+
+/* ذکر روز */
+.w-zekr-text{ display:block; text-align:center; font-family:'Amiri', serif; font-size:16px; line-height:1.85; color:rgb(var(--accent));
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.w-zekr-fa{ display:none; }
+.w-bar{ height:3px; margin-top:6px; border-radius:999px; background:rgba(255,255,255,0.09); overflow:hidden; }
+.w-bar i{ display:block; height:100%; width:0; border-radius:inherit; background:rgb(var(--accent)); transition:width .6s ease; }
+.w-prog{ display:block; margin-top:3px; text-align:center; font-size:10.5px; color:rgba(244,232,208,0.6); }
+
+/* ادامه‌ی مطالعه */
+.w-continue{ display:flex; flex-direction:column; justify-content:center; gap:6px; }
+.w-continue-ic{ width:30px; height:30px; display:grid; place-items:center; border-radius:50%; background:rgba(var(--accent),0.16); }
+.w-continue-ic svg{ width:16px; height:16px; fill:none; stroke:rgb(var(--accent)); stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; }
+.w-continue-text{ min-width:0; display:flex; flex-direction:column; }
+.w-continue-label{ font-size:11px; font-weight:800; line-height:1.5; color:rgb(var(--accent)); }
+.w-continue-name{ font-size:14px; font-weight:800; line-height:1.55; color:var(--parchment); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.w-continue-sub{ font-size:10.5px; line-height:1.5; color:rgba(244,232,208,0.58); }
+.w-continue-sub:empty{ display:none; }
+.w-continue-go{ display:none; }
+
+@media (min-width:900px){
+  .widgets{ max-width:760px; margin:0 auto; }
+  .w-track{ flex-wrap:wrap; overflow:visible; }
+  .w-track > .w-card{ flex:1 1 220px; }
+}
+@media (prefers-reduced-motion: reduce){
+  .w-card{ animation:none; opacity:1; }
+  .w-bar i{ transition:none; }
+}
 </style>
 </head>
 <body>
@@ -381,6 +477,71 @@
     </a>
 
   </nav>
+
+  <!-- ===== ویجت‌های صفحه‌ی ورود ===== -->
+  <section class="widgets" id="widgets" aria-label="امروز در یک نگاه">
+    <div class="about-title">امروز در یک نگاه</div>
+    <div class="w-track" id="w-track">
+
+      <a class="w-card" id="w-prayer" href="owqat.html" style="--accent:251,191,36; --wi:0" hidden>
+        <div class="w-head"><span class="w-title">وقت بعدی</span><span class="w-sub">خرم‌آباد</span></div>
+        <div class="w-pm">
+          <div>
+            <span class="w-pm-name" id="wp-name">--</span>
+            <span class="w-pm-count" id="wp-count">--</span>
+          </div>
+          <span class="w-pm-time" id="wp-time">--:--</span>
+        </div>
+        <div class="w-times">
+          <div class="w-time" id="wp-t-fajr"><small>صبح</small><b>--</b></div>
+          <div class="w-time" id="wp-t-sunrise"><small>طلوع</small><b>--</b></div>
+          <div class="w-time" id="wp-t-dhuhr"><small>ظهر</small><b>--</b></div>
+          <div class="w-time" id="wp-t-maghrib"><small>مغرب</small><b>--</b></div>
+        </div>
+      </a>
+
+      <div class="w-card" id="w-events" style="--accent:16,185,129; --wi:1" hidden>
+        <div class="w-head"><span class="w-title">مراسم بعدی</span><span class="w-sub">قاضی‌آباد، خرم‌آباد</span></div>
+        <a class="w-ev" id="we-0" href="kazemiyoon.html">
+          <span class="w-ev-text"><span class="w-ev-title">--</span><span class="w-ev-meta">--</span><span class="w-ev-place">--</span></span>
+          <span class="w-ev-count">--</span>
+        </a>
+        <a class="w-ev is-secondary" id="we-1" href="masjed-qaem.html">
+          <span class="w-ev-text"><span class="w-ev-title">--</span><span class="w-ev-meta">--</span><span class="w-ev-place">--</span></span>
+          <span class="w-ev-count">--</span>
+        </a>
+      </div>
+
+
+      <div class="w-card" id="w-today" style="--accent:192,132,252; --wi:6" hidden>
+        <div class="w-head"><span class="w-title">تاریخ و مناسبت امروز</span></div>
+        <span class="w-today-date" id="wt-date">--</span>
+        <span class="w-today-lunar" id="wt-lunar">--</span>
+        <div class="w-occ" id="wt-occ"></div>
+        <div class="w-next" id="wt-next" hidden></div>
+      </div>
+
+      <a class="w-card" id="w-zekr" href="zekr.html" style="--accent:244,114,182; --wi:7" hidden>
+        <div class="w-head"><span class="w-title" id="wz-day">ذکر روز</span><span class="w-sub">۱۰۰ بار</span></div>
+        <span class="w-zekr-text" id="wz-text">--</span>
+        <span class="w-zekr-fa" id="wz-fa">--</span>
+        <div class="w-bar" aria-hidden="true"><i id="wz-fill"></i></div>
+        <span class="w-prog" id="wz-prog">--</span>
+      </a>
+
+      <a class="w-card w-continue" id="w-continue" href="page2.html" style="--accent:56,189,248; --wi:8" hidden>
+        <span class="w-continue-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4h10v16l-5-3.5L7 20z"/></svg></span>
+        <span class="w-continue-text">
+          <span class="w-continue-label" id="wc-label">--</span>
+          <span class="w-continue-name" id="wc-name">--</span>
+          <span class="w-continue-sub" id="wc-sub"></span>
+        </span>
+        <svg class="w-continue-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      </a>
+
+    </div>
+
+  </section>
 
   <section class="about" aria-label="معرفی بخش‌های سایت">
     <div class="about-title">معرفی بخش‌ها</div>
@@ -500,6 +661,453 @@
   }
   tick();
   document.addEventListener('visibilitychange',function(){ if(!document.hidden){ var n=new Date(); tVal.textContent=fT.format(n); dVal.textContent=fD.format(n); } });
+})();
+</script>
+<script>
+/* ویجت‌های صفحه‌ی ورود — بدون نیاز به اینترنت؛ همه‌ی داده‌ها از خود سایت و ساعت رسمی تهران */
+(function(){
+  try{
+
+/*CORE-START*/
+var faD = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+function fa(n){ return String(n).replace(/[0-9]/g, function(d){ return faD[+d]; }); }
+
+/* ---- تقویم: همان هسته‌ی صفحه‌ی «تبدیل تاریخ» و صفحه‌ی هیئت ---- */
+function div(a, b){ return Math.trunc(a / b); }
+function mod(a, b){ return a - Math.trunc(a / b) * b; }
+var JAL_BREAKS = [-61,9,38,199,426,686,756,818,1111,1181,1210,1635,2060,2097,2192,2262,2324,2394,2456,3178];
+
+    function jalCal(jy){
+      var bl = JAL_BREAKS.length, gy = jy + 621, leapJ = -14, jp = JAL_BREAKS[0], jm, jump, leap, leapG, march, n, i;
+      for(i = 1; i < bl; i += 1){
+        jm = JAL_BREAKS[i];
+        jump = jm - jp;
+        if(jy < jm) break;
+        leapJ = leapJ + div(jump, 33) * 8 + div(mod(jump, 33), 4);
+        jp = jm;
+      }
+      n = jy - jp;
+      leapJ = leapJ + div(n, 33) * 8 + div(mod(n, 33) + 3, 4);
+      if(mod(jump, 33) === 4 && jump - n === 4) leapJ += 1;
+      leapG = div(gy, 4) - div((div(gy, 100) + 1) * 3, 4) - 150;
+      march = 20 + leapJ - leapG;
+      if(jump - n < 6) n = n - jump + div(jump + 4, 33) * 33;
+      leap = mod(mod(n + 1, 33) - 1, 4);
+      if(leap === -1) leap = 4;
+      return { leap: leap, gy: gy, march: march };
+    }
+
+    function g2jdn(gy, gm, gd){
+      var d = div((gy + div(gm - 8, 6) + 100100) * 1461, 4) + div(153 * mod(gm + 9, 12) + 2, 5) + gd - 34840408;
+      d = d - div(div(gy + 100100 + div(gm - 8, 6), 100) * 3, 4) + 752;
+      return d;
+    }
+
+    function jdn2g(jdn){
+      var j = 4 * jdn + 139361631;
+      j = j + div(div(4 * jdn + 183187720, 146097) * 3, 4) * 4 - 3908;
+      var i = div(mod(j, 1461), 4) * 5 + 308;
+      var gd = div(mod(i, 153), 5) + 1;
+      var gm = mod(div(i, 153), 12) + 1;
+      var gy = div(j, 1461) - 100100 + div(8 - gm, 6);
+      return { y: gy, m: gm, d: gd };
+    }
+
+    function j2jdn(jy, jm, jd){
+      var r = jalCal(jy);
+      return g2jdn(r.gy, 3, r.march) + (jm - 1) * 31 - div(jm, 7) * (jm - 7) + jd - 1;
+    }
+
+    function jdn2j(jdn){
+      var gy = jdn2g(jdn).y, jy = gy - 621, r = jalCal(jy), jdn1f = g2jdn(r.gy, 3, r.march), jd, jm, k;
+      k = jdn - jdn1f;
+      if(k >= 0){
+        if(k <= 185){
+          jm = 1 + div(k, 31);
+          jd = mod(k, 31) + 1;
+          return { y: jy, m: jm, d: jd };
+        } else { k -= 186; }
+      } else {
+        jy -= 1; k += 179;
+        if(r.leap === 1) k += 1;
+      }
+      jm = 7 + div(k, 30);
+      jd = mod(k, 30) + 1;
+      return { y: jy, m: jm, d: jd };
+    }
+
+    
+function jdnWeekday(jdn){ return mod(jdn + 1, 7); } /* 0=یکشنبه ... 6=شنبه */
+var JALALI_MONTHS = ['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+var WEEKDAYS = ['یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه','شنبه'];
+var LUNAR_MONTHS = ['محرم','صفر','ربیع‌الاول','ربیع‌الثانی','جمادی‌الاول','جمادی‌الثانی','رجب','شعبان','رمضان','شوال','ذی‌القعده','ذی‌الحجه'];
+
+/* آغاز ماه‌های قمری از تقویم رسمی — [سال قمری، ماه قمری، سال شمسی، ماه شمسی، روز شمسی]
+   (کپی همان جدول kazemiyoon.html و convert.html؛ سال جدید که اضافه شد، اینجا هم اضافه شود) */
+var LUNAR_STARTS_RAW = [
+  [1447,10,1405,1,1],  [1447,11,1405,1,30], [1447,12,1405,2,28],
+  [1448,1,1405,3,26],  [1448,2,1405,4,25],  [1448,3,1405,5,23],
+  [1448,4,1405,6,22],  [1448,5,1405,7,20],  [1448,6,1405,8,20],
+  [1448,7,1405,9,20],  [1448,8,1405,10,20], [1448,9,1405,11,19],
+  [1448,10,1405,12,19]
+];
+var LUNAR_END = [1405,12,29];
+var LUNAR_STARTS = LUNAR_STARTS_RAW.map(function(r){ return { y:r[0], m:r[1], jdn:j2jdn(r[2], r[3], r[4]) }; });
+var LUNAR_END_JDN = j2jdn(LUNAR_END[0], LUNAR_END[1], LUNAR_END[2]);
+function lunarOf(jdn){
+  if(jdn < LUNAR_STARTS[0].jdn || jdn > LUNAR_END_JDN) return null;
+  for(var i = LUNAR_STARTS.length - 1; i >= 0; i--){
+    if(jdn >= LUNAR_STARTS[i].jdn){
+      var nx = LUNAR_STARTS[i + 1];
+      return { y:LUNAR_STARTS[i].y, m:LUNAR_STARTS[i].m, d:jdn - LUNAR_STARTS[i].jdn + 1, len: nx ? (nx.jdn - LUNAR_STARTS[i].jdn) : null };
+    }
+  }
+  return null;
+}
+
+/* مناسبت‌های مذهبی (همان قاعده‌های صفحه‌ی هیئت): [ماه قمری، روز قمری یا 'last'، نوع، تعطیل؟، عنوان، توضیح] */
+var OCCASION_RULES = [
+    [10,1,'eid',1,'عید سعید فطر',''],
+    [10,2,'eid',1,'تعطیل به مناسبت عید سعید فطر',''],
+    [10,25,'mourn',1,'شهادت امام جعفر صادق (ع)',''],
+    [11,1,'birth',0,'ولادت حضرت معصومه (س)','روز دختران'],
+    [11,5,'other',0,'روز تجلیل از امامزادگان و بقاع متبرکه',''],
+    [11,5,'other',0,'بزرگداشت حضرت صالح بن موسی کاظم (ع)',''],
+    [11,6,'other',0,'بزرگداشت حضرت احمد بن موسی شاهچراغ (ع)',''],
+    [11,11,'birth',0,'ولادت امام رضا (ع)',''],
+    [11,'last','mourn',0,'شهادت امام محمد تقی (ع)',''],
+    [12,1,'other',0,'سالروز ازدواج حضرت علی (ع) و حضرت فاطمه (س)','روز ازدواج'],
+    [12,7,'mourn',0,'شهادت امام محمد باقر (ع)',''],
+    [12,9,'other',0,'روز عرفه','روز نیایش'],
+    [12,10,'eid',1,'عید سعید قربان','آغاز دهه امامت و ولایت'],
+    [12,15,'birth',0,'ولادت امام علی النقی الهادی (ع)',''],
+    [12,18,'eid',1,'عید سعید غدیر خم',''],
+    [12,20,'birth',0,'ولادت امام موسی کاظم (ع)',''],
+    [12,24,'other',0,'مباهله پیامبر اسلام (ص)',''],
+    [1,1,'other',0,'آغاز سال {y} هجری قمری',''],
+    [1,9,'mourn',1,'تاسوعای حسینی',''],
+    [1,10,'mourn',1,'عاشورای حسینی',''],
+    [1,12,'mourn',0,'شهادت امام زین\u200cالعابدین (ع)',''],
+    [1,25,'mourn',0,'شهادت امام زین\u200cالعابدین (ع) (به روایتی)',''],
+    [2,3,'birth',0,'ولادت امام محمد باقر (ع) (به روایتی)',''],
+    [2,7,'mourn',0,'شهادت امام حسن مجتبی (ع) (به روایتی)',''],
+    [2,20,'mourn',1,'اربعین حسینی',''],
+    [2,28,'mourn',1,'رحلت حضرت رسول اکرم (ص) و شهادت امام حسن مجتبی (ع)',''],
+    [2,'last','mourn',1,'شهادت امام رضا (ع)',''],
+    [3,1,'other',0,'هجرت حضرت رسول اکرم (ص) از مکه به مدینه',''],
+    [3,8,'mourn',1,'شهادت امام حسن عسکری (ع) و آغاز امامت حضرت ولی\u200cعصر (عج)',''],
+    [3,12,'birth',0,'ولادت حضرت رسول اکرم (ص) به روایت اهل سنت','آغاز هفته وحدت'],
+    [3,17,'birth',1,'ولادت حضرت رسول اکرم (ص) و امام جعفر صادق (ع)','روز اخلاق و مهرورزی'],
+    [4,4,'birth',0,'ولادت حضرت عبدالعظیم حسنی (ع)',''],
+    [4,8,'birth',0,'ولادت امام حسن عسکری (ع)',''],
+    [4,10,'mourn',0,'وفات حضرت معصومه (س)',''],
+    [5,5,'birth',0,'ولادت حضرت زینب (س)','روز پرستار'],
+    [5,13,'mourn',0,'شهادت حضرت فاطمه زهرا (س) (به روایتی)',''],
+    [6,3,'mourn',1,'شهادت حضرت فاطمه زهرا (س)',''],
+    [6,13,'mourn',0,'وفات حضرت ام\u200cالبنین (س)','روز تکریم مادران و همسران شهدا'],
+    [6,20,'birth',0,'ولادت حضرت فاطمه زهرا (س)','روز مادر و روز زن'],
+    [7,1,'birth',0,'ولادت امام محمد باقر (ع)',''],
+    [7,3,'mourn',0,'شهادت امام علی النقی الهادی (ع)',''],
+    [7,10,'birth',0,'ولادت امام محمد تقی (ع)',''],
+    [7,13,'birth',1,'ولادت امام علی (ع)','روز پدر و آغاز ایام\u200cالبیض (اعتکاف)'],
+    [7,15,'mourn',0,'وفات حضرت زینب (س)',''],
+    [7,25,'mourn',0,'شهادت امام موسی کاظم (ع)',''],
+    [7,27,'other',1,'مبعث حضرت رسول اکرم (ص)',''],
+    [8,3,'birth',0,'ولادت امام حسین (ع)','روز پاسدار'],
+    [8,4,'birth',0,'ولادت حضرت ابوالفضل العباس (ع)','روز جانباز'],
+    [8,5,'birth',0,'ولادت امام زین\u200cالعابدین (ع)','روز صحیفه سجادیه'],
+    [8,11,'birth',0,'ولادت حضرت علی\u200cاکبر (ع)','روز جوان'],
+    [8,15,'birth',1,'ولادت حضرت قائم (عج) و جشن نیمه شعبان','روز جهانی مستضعفان و روز سربازان گمنام امام زمان (عج)'],
+    [9,10,'mourn',0,'وفات حضرت خدیجه (س)',''],
+    [9,15,'birth',0,'ولادت امام حسن مجتبی (ع)',''],
+    [9,18,'other',0,'شب قدر',''],
+    [9,19,'mourn',0,'ضربت خوردن حضرت علی (ع)','روز نهج\u200cالبلاغه'],
+    [9,20,'other',0,'شب قدر',''],
+    [9,21,'mourn',1,'شهادت امام علی (ع)',''],
+    [9,22,'other',0,'شب قدر','']
+];
+function occasionsOn(jdn){
+  var L = lunarOf(jdn), out = [];
+  if(!L) return out;
+  OCCASION_RULES.forEach(function(r){
+    var hit = (r[1] === 'last') ? (L.len !== null && L.d === L.len) : (r[1] === L.d);
+    if(r[0] === L.m && hit) out.push({ tone:r[2], hol:!!r[3], title:r[4].replace('{y}', fa(L.y)), note:r[5] || '', lunar:L });
+  });
+  return out;
+}
+
+/* ---- اوقات شرعی خرم‌آباد (همان محاسبات صفحه‌ی اوقات شرعی) ---- */
+function fmod(a, n){ return a - n * Math.floor(a / n); }
+function toRad(d){ return d * Math.PI / 180; }
+function toDeg(r){ return r * 180 / Math.PI; }
+function julianDate(year, month, day){
+  if(month <= 2){ year -= 1; month += 12; }
+  var A = Math.floor(year / 100), B = 2 - A + Math.floor(A / 4);
+  return Math.floor(365.25 * (year + 4716)) + Math.floor(30.6001 * (month + 1)) + day + B - 1524.5;
+}
+function sunPosition(JD){
+  var D = JD - 2451545.0;
+  var g = fmod(357.529 + 0.98560028 * D, 360);
+  var q = fmod(280.459 + 0.98564736 * D, 360);
+  var L = fmod(q + 1.915 * Math.sin(toRad(g)) + 0.020 * Math.sin(toRad(2 * g)), 360);
+  var e = 23.439 - 0.00000036 * D;
+  var RA = fmod(toDeg(Math.atan2(Math.cos(toRad(e)) * Math.sin(toRad(L)), Math.cos(toRad(L)))) / 15, 24);
+  var decl = toDeg(Math.asin(Math.sin(toRad(e)) * Math.sin(toRad(L))));
+  var eqt = q / 15 - RA;
+  if(eqt > 12) eqt -= 24; else if(eqt < -12) eqt += 24;
+  return { decl:decl, eqt:eqt };
+}
+function hourAngle(lat, decl, angle){
+  var num = -Math.sin(toRad(angle)) - Math.sin(toRad(lat)) * Math.sin(toRad(decl));
+  var den = Math.cos(toRad(lat)) * Math.cos(toRad(decl));
+  var val = Math.max(-1, Math.min(1, num / den));
+  return toDeg(Math.acos(val)) / 15;
+}
+var LAT = 33.4869, LON = 48.3557; /* خرم‌آباد */
+function tehranOffsetHours(date){
+  try{
+    var parts = new Intl.DateTimeFormat('en-US', { timeZone:'Asia/Tehran', timeZoneName:'shortOffset' }).formatToParts(date);
+    var tz = parts.filter(function(p){ return p.type === 'timeZoneName'; })[0];
+    if(tz){
+      var m = tz.value.match(/GMT([+-]\d+)(?::(\d+))?/);
+      if(m){ var h = parseInt(m[1], 10), mins = m[2] ? parseInt(m[2], 10) : 0; return h + (h < 0 ? -mins / 60 : mins / 60); }
+    }
+  }catch(e){}
+  return 3.5;
+}
+function prayerFor(y, m, d, TZ){
+  var sp = sunPosition(julianDate(y, m, d));
+  var dhuhr = 12 + TZ - LON / 15 - sp.eqt;
+  return {
+    fajr: dhuhr - hourAngle(LAT, sp.decl, 17.7),
+    sunrise: dhuhr - hourAngle(LAT, sp.decl, 0.833),
+    dhuhr: dhuhr,
+    maghrib: dhuhr + hourAngle(LAT, sp.decl, 4.5)
+  };
+}
+function fmtClock(hours){
+  hours = fmod(hours, 24);
+  var h = Math.floor(hours), m = Math.round((hours - h) * 60);
+  if(m === 60){ m = 0; h += 1; }
+  h = h % 24;
+  return fa(h) + ':' + fa(String(m).padStart(2, '0'));
+}
+
+/* ---- ساعت و تاریخ رسمی تهران (مستقل از تایم‌زون گوشی) ---- */
+var tehranFmt = null;
+try{
+  tehranFmt = new Intl.DateTimeFormat('en-US', { timeZone:'Asia/Tehran', year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false });
+}catch(e){}
+function tehranParts(date){
+  var o = {};
+  tehranFmt.formatToParts(date || new Date()).forEach(function(p){ o[p.type] = p.value; });
+  return { y:parseInt(o.year, 10), m:parseInt(o.month, 10), d:parseInt(o.day, 10), h:parseInt(o.hour, 10) % 24, mi:parseInt(o.minute, 10), s:parseInt(o.second, 10), pad:{ m:o.month, d:o.day } };
+}
+function durText(min){
+  min = Math.max(0, Math.ceil(min));
+  var d = Math.floor(min / 1440), h = Math.floor((min % 1440) / 60), m = min % 60;
+  if(d > 0) return fa(d) + ' روز' + (h ? ' و ' + fa(h) + ' ساعت' : '');
+  if(h > 0) return fa(h) + ' ساعت' + (m ? ' و ' + fa(m) + ' دقیقه' : '');
+  return m > 0 ? fa(m) + ' دقیقه' : 'کمتر از یک دقیقه';
+}
+
+/* ۱) وقت بعدی (صبح، طلوع، ظهر، مغرب) */
+var PRAYER_ORDER = [['fajr','اذان صبح'], ['sunrise','طلوع آفتاب'], ['dhuhr','اذان ظهر'], ['maghrib','اذان مغرب']];
+function prayerModel(t, jdn){
+  var TZ = tehranOffsetHours(new Date());
+  var times = prayerFor(t.y, t.m, t.d, TZ);
+  var nowH = t.h + t.mi / 60 + t.s / 3600;
+  var next = null, tomorrow = false;
+  for(var i = 0; i < PRAYER_ORDER.length; i++){
+    if(times[PRAYER_ORDER[i][0]] > nowH){ next = PRAYER_ORDER[i]; break; }
+  }
+  var at;
+  if(next){ at = times[next[0]]; }
+  else {
+    var g = jdn2g(jdn + 1);
+    times = prayerFor(g.y, g.m, g.d, TZ);
+    next = PRAYER_ORDER[0]; at = times.fajr + 24; tomorrow = true;
+  }
+  return { times:times, key:next[0], label:next[1], tomorrow:tomorrow, at:at, remainMin:(at - nowH) * 60, nowH:nowH };
+}
+
+/* ۲) مراسم بعدی هیئت و مسجد قائم (همان برنامه‌ی هفتگی صفحه‌ی هیئت) */
+var WEEKLY = [
+  { id:'majles', dow:2, hour:21, title:'مجلس هفتگی', day:'سه‌شنبه', timeLabel:'۲۱:۰۰', place:'مسجد حضرت قائم «عج»', href:'kazemiyoon.html' },
+  { id:'nodbeh', dow:5, hour:7, title:'دعای ندبه', day:'جمعه', timeLabel:'۷:۰۰ صبح', place:'مسجد قائم «عج» · جمعه‌های انتظار', href:'masjed-qaem.html' }
+];
+function eventsModel(t, dow){
+  var nowMin = t.h * 60 + t.mi + t.s / 60;
+  return WEEKLY.map(function(ev){
+    var diff = (ev.dow - dow + 7) % 7;
+    if(diff === 0 && nowMin >= ev.hour * 60) diff = 7;
+    return { ev:ev, diff:diff, remainMin: diff * 1440 + ev.hour * 60 - nowMin };
+  }).sort(function(a, b){ return a.remainMin - b.remainMin; });
+}
+
+/* ۳) تاریخ قمری و مناسبت امروز و مناسبت بعدی (فقط در بازه‌ی تقویم رسمی؛ تاریخ حدسی نشان داده نمی‌شود) */
+function todayModel(jdn){
+  var L = lunarOf(jdn);
+  if(!L) return null;
+  var next = null;
+  for(var k = 1; k <= 120 && jdn + k <= LUNAR_END_JDN; k++){
+    var o = occasionsOn(jdn + k);
+    if(o.length){ var j = jdn2j(jdn + k); next = { days:k, items:o, jm:j.m, jd:j.d }; break; }
+  }
+  var j0 = jdn2j(jdn);
+  return { lunar:L, items:occasionsOn(jdn), next:next, weekday:WEEKDAYS[jdnWeekday(jdn)], jd:j0.d, jm:j0.m, jy:j0.y };
+}
+
+/* ۴) ذکر روز هفته (همان ذکرهای صفحه‌ی ذکر روز) */
+var ZEKR_BY_DAY = {
+  6: { day:'شنبه',     text:'يا رَبَّ العالَمين', fa:'ای پروردگار جهانیان' },
+  0: { day:'یک‌شنبه',   text:'يا ذَاالجَلالِ وَ الاِکرام', fa:'ای صاحبِ جلال و بزرگواری' },
+  1: { day:'دوشنبه',    text:'يا قاضِیَ الحاجات', fa:'ای برآورندهٔ حاجت‌ها' },
+  2: { day:'سه‌شنبه',   text:'يا اَرحَمَ الرّاحِمین', fa:'ای مهربان‌ترینِ مهربانان' },
+  3: { day:'چهارشنبه',  text:'يا حَیُّ یا قَیّوم', fa:'ای زنده، ای پاینده' },
+  4: { day:'پنج‌شنبه',  text:'لا اِلهَ اِلاَّ اللهُ المَلِکُ الحَقُّ المُبین', fa:'هیچ معبودی جز خدای پادشاهِ حق و آشکار نیست' },
+  5: { day:'جمعه',      text:'اَللّهُمَّ صَلِّ عَلی مُحَمَّدٍ وَ آلِ مُحَمَّد', fa:'خدایا بر محمد و خاندان محمد درود فرست' }
+};
+var ZEKR_TARGET = 100;
+function zekrKey(t){ return 'kazemiuon-zekr-' + t.y + '-' + t.pad.m + '-' + t.pad.d; }
+
+/* ۶) ادامه‌ی مطالعه: فقط شناسه‌های شناخته‌شده‌ی صفحه‌ی ادعیه پذیرفته می‌شود */
+var DOA_IDS = ['doa-modal-kumayl-arabic','doa-modal-nudba-arabic','doa-modal-tavassul-arabic','doa-modal-samat-arabic','doa-modal-arabic','doa-modal-translation','doa-modal-audio','doa-modal-aminollah-arabic','doa-modal-faraj-arabic','doa-modal-salamati-arabic','doa-modal-salamati-translation','doa-modal-ahd-arabic','doa-modal-aalyasin-arabic'];
+function parseLastDoa(raw){
+  try{
+    var o = JSON.parse(raw);
+    if(!o || DOA_IDS.indexOf(o.id) < 0) return null;
+    var name = String(o.name || '').slice(0, 60), sub = String(o.sub || '').slice(0, 40);
+    if(!name) return null;
+    return { id:o.id, name:name, sub:sub };
+  }catch(e){ return null; }
+}
+/*CORE-END*/
+
+    if(!tehranFmt || !document.getElementById('widgets')) return;
+
+    var $ = function(id){ return document.getElementById(id); };
+    function setText(id, v){ var e = $(id); if(e) e.textContent = v; }
+    function show(id, on){ var e = $(id); if(e) e.hidden = !on; }
+    var TONE_COLOR = { birth:'#ff7eb8', eid:'#2dd4bf', mourn:'#b39dff', other:'#5aa9ff' };
+
+    function renderPrayer(t, jdn){
+      var m = prayerModel(t, jdn);
+      setText('wp-name', m.label + (m.tomorrow ? ' (فردا)' : ''));
+      setText('wp-time', fmtClock(m.at));
+      setText('wp-count', durText(m.remainMin) + ' دیگر');
+      PRAYER_ORDER.forEach(function(p){
+        var cell = $('wp-t-' + p[0]); if(!cell) return;
+        cell.querySelector('b').textContent = fmtClock(m.times[p[0]]);
+        cell.classList.toggle('is-next', p[0] === m.key);
+        cell.classList.toggle('is-past', !m.tomorrow && m.times[p[0]] <= m.nowH);
+      });
+      show('w-prayer', true);
+    }
+
+    function renderEvents(t, dow){
+      var list = eventsModel(t, dow);
+      list.forEach(function(it, i){
+        var row = $('we-' + i); if(!row) return;
+        var ev = it.ev, when = it.diff === 0 ? 'امروز' : (it.diff === 1 ? 'فردا' : ev.day);
+        row.setAttribute('href', ev.href);
+        row.querySelector('.w-ev-title').textContent = ev.title;
+        row.querySelector('.w-ev-meta').textContent = when + ' · ' + ev.timeLabel;
+        row.querySelector('.w-ev-place').textContent = ev.place;
+        row.querySelector('.w-ev-count').textContent = durText(it.remainMin);
+      });
+      show('w-events', true);
+    }
+
+    function occTitleOf(items){
+      return items[0].title + (items.length > 1 ? ' و ...' : '');
+    }
+    function renderToday(jdn){
+      var m = todayModel(jdn);
+      if(!m){ show('w-today', false); return; } /* خارج از بازه‌ی تقویم رسمی: تاریخ حدسی نشان داده نمی‌شود */
+      setText('wt-date', m.weekday + ' ' + fa(m.jd) + ' ' + JALALI_MONTHS[m.jm - 1] + ' ' + fa(m.jy));
+      setText('wt-lunar', fa(m.lunar.d) + ' ' + LUNAR_MONTHS[m.lunar.m - 1] + ' ' + fa(m.lunar.y) + ' ه‍.ق');
+      var box = $('wt-occ');
+      if(box){
+        box.textContent = '';
+        if(m.items.length){
+          m.items.forEach(function(o){
+            var row = document.createElement('div'); row.className = 'w-occ-item';
+            var dot = document.createElement('span'); dot.className = 'w-occ-dot';
+            var col = TONE_COLOR[o.tone] || '#ffcb3d'; dot.style.background = col; dot.style.color = col;
+            var txt = document.createElement('span');
+            txt.appendChild(document.createTextNode(o.title));
+            if(o.hol){ var pill = document.createElement('span'); pill.className = 'w-pill'; pill.textContent = 'تعطیل'; txt.appendChild(pill); }
+            if(o.note){ var nt = document.createElement('span'); nt.className = 'w-occ-note'; nt.textContent = o.note; txt.appendChild(nt); }
+            row.appendChild(dot); row.appendChild(txt); box.appendChild(row);
+          });
+        } else {
+          var none = document.createElement('div'); none.className = 'w-occ-item w-dim';
+          none.textContent = 'امروز مناسبت رسمی ثبت‌شده‌ای نیست';
+          box.appendChild(none);
+        }
+      }
+      var nx = $('wt-next');
+      if(nx){
+        if(m.next){
+          nx.textContent = '';
+          nx.appendChild(document.createTextNode('مناسبت بعدی: '));
+          var b = document.createElement('b'); b.textContent = occTitleOf(m.next.items); nx.appendChild(b);
+          nx.appendChild(document.createTextNode(' — ' + (m.next.days === 1 ? 'فردا' : fa(m.next.days) + ' روز دیگر')));
+          nx.hidden = false;
+        } else { nx.hidden = true; }
+      }
+      show('w-today', true);
+    }
+
+    function renderZekr(t, dow){
+      var z = ZEKR_BY_DAY[dow]; if(!z){ show('w-zekr', false); return; }
+      setText('wz-day', 'ذکر روز ' + z.day);
+      setText('wz-text', z.text);
+      setText('wz-fa', z.fa);
+      var n = 0;
+      try{ n = parseInt(localStorage.getItem(zekrKey(t)), 10); }catch(e){}
+      if(isNaN(n) || n < 0) n = 0;
+      n = Math.min(n, ZEKR_TARGET);
+      var fill = $('wz-fill'); if(fill) fill.style.width = (n / ZEKR_TARGET * 100) + '%';
+      setText('wz-prog', n >= ZEKR_TARGET ? 'ذکر امروز کامل شد ✓' : ('امروز ' + fa(n) + ' از ' + fa(ZEKR_TARGET)));
+      show('w-zekr', true);
+    }
+
+    function renderContinue(){
+      var last = null;
+      try{ last = parseLastDoa(localStorage.getItem('kzm-last-doa')); }catch(e){}
+      var a = $('w-continue'); if(!a) return;
+      if(last){
+        a.setAttribute('href', 'page2.html#open=' + last.id);
+        setText('wc-label', 'ادامه‌ی مطالعه');
+        setText('wc-name', last.name);
+        setText('wc-sub', last.sub);
+      } else {
+        a.setAttribute('href', 'page2.html');
+        setText('wc-label', 'ادعیه و زیارت‌نامه‌ها');
+        setText('wc-name', 'کمیل، ندبه، عاشورا و ...');
+        setText('wc-sub', 'شروع مطالعه');
+      }
+      show('w-continue', true);
+    }
+
+    function render(){
+      var t = tehranParts(new Date());
+      var jdn = g2jdn(t.y, t.m, t.d), dow = jdnWeekday(jdn);
+      /* هر ویجت جدا اجرا می‌شود تا خطا در یکی بقیه را خراب نکند */
+      [function(){ renderPrayer(t, jdn); }, function(){ renderEvents(t, dow); }, function(){ renderToday(jdn); },
+       function(){ renderZekr(t, dow); }, renderContinue].forEach(function(fn){ try{ fn(); }catch(e){} });
+    }
+    function loop(){
+      render();
+      var n = new Date();
+      setTimeout(loop, 60000 - (n.getSeconds() * 1000 + n.getMilliseconds()) + 50);
+    }
+    loop();
+    document.addEventListener('visibilitychange', function(){ if(!document.hidden) render(); });
+    window.addEventListener('pageshow', function(e){ if(e.persisted) render(); });
+  }catch(e){}
 })();
 </script>
 </body>
