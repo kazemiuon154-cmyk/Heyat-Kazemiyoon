@@ -1019,6 +1019,210 @@
   }
   .doa-modal-overlay.reader-fullscreen-active{ align-items:stretch; }
 
+/* آیکون‌های ابزار خواننده: کمی بزرگ‌تر و واضح‌تر */
+.doa-tool-btn svg{ width:18px; height:18px; }
+.doa-tool-btn:disabled{ opacity:0.35; cursor:default; }
+.doa-tool-btn:disabled:hover{ border-color:var(--line); color:var(--parchment-dim); }
+
+/* ردیف دوم نوار ابزار: پخش‌کننده‌ی خودکار (زیر ابزارهای تم/فونت/تمام‌صفحه) */
+.doa-reader-toolbar{ flex-wrap:wrap; row-gap:8px; }
+.rd-player{
+  flex:1 0 100%; display:flex; align-items:center; justify-content:center;
+  gap:8px; direction:ltr;
+  padding-top:8px; border-top:1px solid var(--line);
+}
+.rd-player .doa-tool-btn.rd-play-btn{ min-width:48px; }
+.rd-speed-val{
+  min-width:36px; text-align:center; direction:ltr; unicode-bidi:isolate;
+  font-family:'Vazirmatn', sans-serif; font-size:13px; font-weight:800; color:var(--parchment);
+}
+body.reader-theme-light .rd-player{ border-top-color:#e6dab4; }
+body.reader-theme-sepia .rd-player{ border-top-color:#ddc48c; }
+body.reader-theme-light .rd-speed-val{ color:#2c2211; }
+body.reader-theme-sepia .rd-speed-val{ color:#332405; }
+
+/* ===== آیکون‌های رنگی و پویا ===== */
+.doa-tool-btn svg{ width:20px; height:20px; transition:transform 0.2s ease; overflow:visible; }
+.ic-wake{ --ic:255,176,32; }  .ic-fs{ --ic:45,212,191; }   .ic-font{ --ic:167,139,250; }
+.ic-theme{ --ic:244,114,182; } .ic-restart{ --ic:96,165,250; } .ic-minus{ --ic:251,113,133; }
+.ic-plus{ --ic:74,222,128; }   .ic-play{ --ic:52,211,153; }  .ic-loop{ --ic:192,132,252; }
+
+.doa-tool-btn[class*="ic-"]{
+  background:linear-gradient(145deg, rgba(var(--ic),0.20), rgba(var(--ic),0.05));
+  border-color:rgba(var(--ic),0.42);
+}
+.doa-tool-btn[class*="ic-"]:hover:not(:disabled){
+  border-color:rgba(var(--ic),0.85);
+  box-shadow:0 0 14px rgba(var(--ic),0.3);
+  transform:translateY(-1px);
+}
+.doa-tool-btn.active[class*="ic-"]{
+  background:linear-gradient(145deg, rgba(var(--ic),0.42), rgba(var(--ic),0.14));
+  border-color:rgb(var(--ic));
+  box-shadow:0 0 0 2px rgba(var(--ic),0.2), 0 4px 14px rgba(var(--ic),0.35);
+  color:inherit;
+}
+.doa-tool-btn:active:not(:disabled){ transform:scale(0.94); }
+.doa-tool-btn:disabled{ transform:none; box-shadow:none; }
+
+/* حرکت‌ها */
+@keyframes icSpin{ to{ transform:rotate(360deg); } }
+@keyframes icEq{ 0%,100%{ transform:scaleY(1); } 50%{ transform:scaleY(0.4); } }
+.ic-rays{ transform-origin:12px 12px; }
+.ic-wake.active .ic-rays{ animation:icSpin 14s linear infinite; }
+.ic-loop.active svg{ animation:icSpin 4s linear infinite; }
+.eq{ transform-box:fill-box; transform-origin:center bottom; }
+.eq1{ animation:icEq 0.9s ease-in-out infinite; }
+.eq2{ animation:icEq 0.9s ease-in-out infinite 0.3s; }
+.ic-theme:hover svg{ transform:rotate(-18deg) scale(1.12); }
+.ic-fs:hover svg, .ic-font:hover svg, .ic-play:hover svg{ transform:scale(1.14); }
+.ic-restart:hover svg{ transform:translateY(-2px); }
+.ic-minus:hover svg, .ic-plus:hover svg{ transform:scale(1.2); }
+@media (prefers-reduced-motion: reduce){
+  .ic-wake.active .ic-rays, .ic-loop.active svg, .eq1, .eq2{ animation:none; }
+  .doa-tool-btn svg{ transition:none; }
+}
+
+/* ردیف پخش‌کننده: فاصله‌ی مطمئن، بدون هم‌پوشانی */
+.rd-player{ flex-wrap:nowrap; gap:6px; max-width:100%; }
+.rd-player > *{ flex:0 1 auto; min-width:0; }
+.rd-player .doa-tool-btn{ min-width:36px; padding:0 7px; }
+.rd-player .doa-tool-btn.rd-play-btn{ min-width:44px; }
+.rd-player .rd-speed-val{ min-width:32px; }
+
+/* ===== پس‌زمینه‌ی دکمه‌های رنگی: شیشه‌ای، با درخشش رنگ خودشان (در همه‌ی تم‌ها) ===== */
+.doa-tool-btn[class*="ic-"]{
+  background:
+    radial-gradient(130% 95% at 28% 0%, rgba(var(--ic),0.34), transparent 62%),
+    linear-gradient(165deg, rgba(var(--ic),0.16), rgba(7,20,13,0.92));
+  border:1px solid rgba(var(--ic),0.5);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.14), inset 0 -8px 14px rgba(var(--ic),0.07), 0 3px 10px rgba(0,0,0,0.35);
+}
+.doa-tool-btn.active[class*="ic-"]{
+  background:
+    radial-gradient(130% 95% at 28% 0%, rgba(var(--ic),0.62), transparent 64%),
+    linear-gradient(165deg, rgba(var(--ic),0.32), rgba(7,20,13,0.9));
+  border-color:rgb(var(--ic));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.22), 0 0 0 2px rgba(var(--ic),0.2), 0 5px 16px rgba(var(--ic),0.4);
+}
+
+body.reader-theme-light .doa-tool-btn[class*="ic-"]{
+  background:
+    radial-gradient(130% 95% at 28% 0%, rgba(var(--ic),0.30), transparent 62%),
+    linear-gradient(165deg, rgba(var(--ic),0.14), #fffdf6);
+  border-color:rgba(var(--ic),0.6);
+  box-shadow:inset 0 1px 0 #fff, 0 3px 8px rgba(90,70,20,0.14);
+}
+body.reader-theme-sepia .doa-tool-btn[class*="ic-"]{
+  background:
+    radial-gradient(130% 95% at 28% 0%, rgba(var(--ic),0.30), transparent 62%),
+    linear-gradient(165deg, rgba(var(--ic),0.16), #f7ecd0);
+  border-color:rgba(var(--ic),0.62);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.7), 0 3px 8px rgba(80,55,10,0.16);
+}
+body.reader-theme-light .doa-tool-btn.active[class*="ic-"],
+body.reader-theme-sepia .doa-tool-btn.active[class*="ic-"]{
+  background:
+    radial-gradient(130% 95% at 28% 0%, rgba(var(--ic),0.55), transparent 64%),
+    linear-gradient(165deg, rgba(var(--ic),0.3), rgba(255,255,255,0.7));
+  border-color:rgb(var(--ic));
+  box-shadow:inset 0 1px 0 #fff, 0 0 0 2px rgba(var(--ic),0.22), 0 5px 14px rgba(var(--ic),0.4);
+}
+body.reader-theme-light .doa-tool-btn[class*="ic-"]:hover:not(:disabled),
+body.reader-theme-sepia .doa-tool-btn[class*="ic-"]:hover:not(:disabled){
+  border-color:rgb(var(--ic));
+}
+
+/* ===== پس‌زمینه‌ی بخش پشت دکمه‌ها (کارت ابزار) ===== */
+.doa-reader-toolbar{
+  margin-top:10px; padding:12px 8px;
+  border:1px solid rgba(255,203,61,0.24); border-radius:18px;
+  background:
+    radial-gradient(120% 130% at 50% 0%, rgba(255,203,61,0.17), transparent 62%),
+    linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015)),
+    #0b1f15;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.08), 0 8px 22px rgba(0,0,0,0.28);
+}
+.rd-player{ border-top:1px solid rgba(255,203,61,0.2); }
+
+body.reader-theme-light .doa-reader-toolbar{
+  border-color:#d9c9a0;
+  background:
+    radial-gradient(120% 130% at 50% 0%, rgba(184,147,59,0.2), transparent 62%),
+    linear-gradient(180deg, #fffefa, #f8f2e1);
+  box-shadow:inset 0 1px 0 #fff, 0 8px 20px rgba(90,70,20,0.13);
+}
+body.reader-theme-sepia .doa-reader-toolbar{
+  border-color:#c9a968;
+  background:
+    radial-gradient(120% 130% at 50% 0%, rgba(138,100,18,0.2), transparent 62%),
+    linear-gradient(180deg, #f8edd2, #efdfb8);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.6), 0 8px 20px rgba(80,55,10,0.16);
+}
+body.reader-theme-light .rd-player{ border-top-color:#e2d4a8; }
+body.reader-theme-sepia .rd-player{ border-top-color:#d6bd82; }
+
+/* گوشی‌های کم‌عرض: فشرده‌تر تا ردیف پخش‌کننده کامل جا شود */
+@media (max-width:380px){
+  .doa-reader-toolbar{ padding:12px 6px; }
+  .rd-player{ gap:4px; }
+  .rd-player .doa-tool-btn{ min-width:32px; padding:0 5px; }
+  .rd-player .doa-tool-btn.rd-play-btn{ min-width:40px; }
+  .rd-player .rd-speed-val{ min-width:28px; font-size:12px; }
+}
+
+/* ===== تم روشن و کرمی: دکمه‌ها پررنگ و کاملاً مشخص ===== */
+/* آیکون‌ها در تم‌های روشن، رنگ عمیق‌تر می‌گیرند */
+body.reader-theme-light #gSun stop:nth-child(1){ stop-color:#f59e0b; }
+body.reader-theme-light #gSun stop:nth-child(2){ stop-color:#ea580c; }
+body.reader-theme-light #gTeal stop:nth-child(1){ stop-color:#0d9488; }
+body.reader-theme-light #gTeal stop:nth-child(2){ stop-color:#0369a1; }
+body.reader-theme-light #gViolet stop:nth-child(1){ stop-color:#7c3aed; }
+body.reader-theme-light #gViolet stop:nth-child(2){ stop-color:#5b21b6; }
+body.reader-theme-light #gRose stop:nth-child(1){ stop-color:#ec4899; }
+body.reader-theme-light #gRose stop:nth-child(2){ stop-color:#be185d; }
+body.reader-theme-light #gBlue stop:nth-child(1){ stop-color:#2563eb; }
+body.reader-theme-light #gBlue stop:nth-child(2){ stop-color:#1d4ed8; }
+body.reader-theme-light #gMint stop:nth-child(1){ stop-color:#059669; }
+body.reader-theme-light #gMint stop:nth-child(2){ stop-color:#047857; }
+body.reader-theme-light #gCoral stop:nth-child(1){ stop-color:#ef4444; }
+body.reader-theme-light #gCoral stop:nth-child(2){ stop-color:#b91c1c; }
+body.reader-theme-sepia #gSun stop:nth-child(1){ stop-color:#f59e0b; }
+body.reader-theme-sepia #gSun stop:nth-child(2){ stop-color:#ea580c; }
+body.reader-theme-sepia #gTeal stop:nth-child(1){ stop-color:#0d9488; }
+body.reader-theme-sepia #gTeal stop:nth-child(2){ stop-color:#0369a1; }
+body.reader-theme-sepia #gViolet stop:nth-child(1){ stop-color:#7c3aed; }
+body.reader-theme-sepia #gViolet stop:nth-child(2){ stop-color:#5b21b6; }
+body.reader-theme-sepia #gRose stop:nth-child(1){ stop-color:#ec4899; }
+body.reader-theme-sepia #gRose stop:nth-child(2){ stop-color:#be185d; }
+body.reader-theme-sepia #gBlue stop:nth-child(1){ stop-color:#2563eb; }
+body.reader-theme-sepia #gBlue stop:nth-child(2){ stop-color:#1d4ed8; }
+body.reader-theme-sepia #gMint stop:nth-child(1){ stop-color:#059669; }
+body.reader-theme-sepia #gMint stop:nth-child(2){ stop-color:#047857; }
+body.reader-theme-sepia #gCoral stop:nth-child(1){ stop-color:#ef4444; }
+body.reader-theme-sepia #gCoral stop:nth-child(2){ stop-color:#b91c1c; }
+
+body.reader-theme-light .doa-tool-btn[class*="ic-"],
+body.reader-theme-sepia .doa-tool-btn[class*="ic-"]{
+  background:
+    radial-gradient(130% 95% at 28% 0%, rgba(var(--ic),0.26), transparent 62%),
+    linear-gradient(165deg, rgba(var(--ic),0.18), #fffdf8);
+  border-color:rgba(var(--ic),0.9);
+  box-shadow:inset 0 1px 0 #fff, 0 2px 6px rgba(60,45,10,0.22);
+}
+body.reader-theme-light .doa-tool-btn.active[class*="ic-"],
+body.reader-theme-sepia .doa-tool-btn.active[class*="ic-"]{
+  background:
+    radial-gradient(130% 95% at 28% 0%, rgba(var(--ic),0.5), transparent 64%),
+    linear-gradient(165deg, rgba(var(--ic),0.34), #fffdf8);
+  border-color:rgb(var(--ic));
+  box-shadow:inset 0 1px 0 #fff, 0 0 0 2.5px rgba(var(--ic),0.3), 0 5px 14px rgba(var(--ic),0.42);
+}
+body.reader-theme-light .doa-tool-btn:disabled[class*="ic-"],
+body.reader-theme-sepia .doa-tool-btn:disabled[class*="ic-"]{ opacity:0.5; }
+body.reader-theme-light .doa-reader-toolbar{ border-color:#c9b57a; }
+body.reader-theme-sepia .doa-reader-toolbar{ border-color:#b99650; }
+
 /* =====================================================================
    منوی تنظیمات (نسخه‌ی جدید، هم‌شکل منوی صفحه‌ی ورود): قرص «تنظیمات» + صفحه‌ی شیشه‌ای
    زبان، تم، اندازه‌ی متن، صدا، نصب اپ، مرکز دانلود، راهنمای سایت
@@ -1141,6 +1345,7 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><linearGradient id="gSun" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#ffe066"/><stop offset="1" stop-color="#ff8a1f"/></linearGradient><linearGradient id="gTeal" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#5eead4"/><stop offset="1" stop-color="#0ea5e9"/></linearGradient><linearGradient id="gViolet" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#d8b4fe"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient><linearGradient id="gRose" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#fbcfe8"/><stop offset="1" stop-color="#ec4899"/></linearGradient><linearGradient id="gBlue" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#93c5fd"/><stop offset="1" stop-color="#3b82f6"/></linearGradient><linearGradient id="gMint" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#bbf7d0"/><stop offset="1" stop-color="#10b981"/></linearGradient><linearGradient id="gCoral" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#fed7aa"/><stop offset="1" stop-color="#ef4444"/></linearGradient></defs></svg>
 
 <div class="embers" id="embers"></div>
 
@@ -1524,13 +1729,13 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
     <div class="doa-modal-handle"></div>
     <div class="doa-modal-head">
       <button type="button" class="doa-modal-close" data-close-modal aria-label="بستن">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M7.2 7.2l9.6 9.6M16.8 7.2l-9.6 9.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       </button>
       <span class="doa-modal-title" data-i18n="doaAshuraArabicTitle">زیارت عاشورا | متن عربی</span>
       <div class="doa-reader-toolbar">
         <div style="position:relative">
-          <button type="button" class="doa-tool-btn" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.3" cy="10.3" r="1.15" fill="currentColor"/><circle cx="10.3" cy="6.8" r="1.15" fill="currentColor"/><circle cx="15" cy="7.8" r="1.15" fill="currentColor"/></svg>
+          <button type="button" class="doa-tool-btn ic-theme" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" fill="url(#gRose)" fill-opacity=".25" stroke="url(#gRose)" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7.6" cy="10.6" r="1.45" fill="#fbbf24"/><circle cx="10.6" cy="7" r="1.45" fill="#34d399"/><circle cx="15.2" cy="8" r="1.45" fill="#60a5fa"/></svg>
           </button>
           <div class="reader-theme-popover">
             <div class="font-popover-row">
@@ -1545,7 +1750,7 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
           </div>
         </div>
         <div style="position:relative">
-          <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
+          <button type="button" class="doa-tool-btn ic-font" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.4 19 9 5l5.6 14M5.6 14h6.8" stroke="url(#gViolet)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.4 19l2.9-7.2 2.9 7.2M16.6 16.4h3.4" stroke="url(#gRose)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <div class="font-popover">
             <div class="font-popover-row">
               <span class="font-popover-label">اندازه متن</span>
@@ -1557,8 +1762,8 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
             </div>
           </div>
         </div>
-        <button type="button" class="doa-tool-btn" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M9 4H5a1 1 0 0 0-1 1v4M15 4h4a1 1 0 0 1 1 1v4M9 20H5a1 1 0 0 1-1-1v-4M15 20h4a1 1 0 0 0 1-1v-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <button type="button" class="doa-tool-btn ic-fs" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="3" fill="url(#gTeal)" fill-opacity=".28"/><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" stroke="url(#gTeal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
     </div>
@@ -1592,13 +1797,13 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
     <div class="doa-modal-handle"></div>
     <div class="doa-modal-head">
       <button type="button" class="doa-modal-close" data-close-modal aria-label="بستن">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M7.2 7.2l9.6 9.6M16.8 7.2l-9.6 9.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       </button>
       <span class="doa-modal-title" data-i18n="doaKumaylArabicTitle">دعای کمیل | متن عربی</span>
       <div class="doa-reader-toolbar">
         <div style="position:relative">
-          <button type="button" class="doa-tool-btn" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.3" cy="10.3" r="1.15" fill="currentColor"/><circle cx="10.3" cy="6.8" r="1.15" fill="currentColor"/><circle cx="15" cy="7.8" r="1.15" fill="currentColor"/></svg>
+          <button type="button" class="doa-tool-btn ic-theme" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" fill="url(#gRose)" fill-opacity=".25" stroke="url(#gRose)" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7.6" cy="10.6" r="1.45" fill="#fbbf24"/><circle cx="10.6" cy="7" r="1.45" fill="#34d399"/><circle cx="15.2" cy="8" r="1.45" fill="#60a5fa"/></svg>
           </button>
           <div class="reader-theme-popover">
             <div class="font-popover-row">
@@ -1613,7 +1818,7 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
           </div>
         </div>
         <div style="position:relative">
-          <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
+          <button type="button" class="doa-tool-btn ic-font" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.4 19 9 5l5.6 14M5.6 14h6.8" stroke="url(#gViolet)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.4 19l2.9-7.2 2.9 7.2M16.6 16.4h3.4" stroke="url(#gRose)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <div class="font-popover">
             <div class="font-popover-row">
               <span class="font-popover-label">اندازه متن</span>
@@ -1625,8 +1830,8 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
             </div>
           </div>
         </div>
-        <button type="button" class="doa-tool-btn" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M9 4H5a1 1 0 0 0-1 1v4M15 4h4a1 1 0 0 1 1 1v4M9 20H5a1 1 0 0 1-1-1v-4M15 20h4a1 1 0 0 0 1-1v-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <button type="button" class="doa-tool-btn ic-fs" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="3" fill="url(#gTeal)" fill-opacity=".28"/><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" stroke="url(#gTeal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
     </div>
@@ -1668,13 +1873,13 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
     <div class="doa-modal-handle"></div>
     <div class="doa-modal-head">
       <button type="button" class="doa-modal-close" data-close-modal aria-label="بستن">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M7.2 7.2l9.6 9.6M16.8 7.2l-9.6 9.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       </button>
       <span class="doa-modal-title" data-i18n="doaNudbaArabicTitle">دعای ندبه | متن عربی</span>
       <div class="doa-reader-toolbar">
         <div style="position:relative">
-          <button type="button" class="doa-tool-btn" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.3" cy="10.3" r="1.15" fill="currentColor"/><circle cx="10.3" cy="6.8" r="1.15" fill="currentColor"/><circle cx="15" cy="7.8" r="1.15" fill="currentColor"/></svg>
+          <button type="button" class="doa-tool-btn ic-theme" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" fill="url(#gRose)" fill-opacity=".25" stroke="url(#gRose)" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7.6" cy="10.6" r="1.45" fill="#fbbf24"/><circle cx="10.6" cy="7" r="1.45" fill="#34d399"/><circle cx="15.2" cy="8" r="1.45" fill="#60a5fa"/></svg>
           </button>
           <div class="reader-theme-popover">
             <div class="font-popover-row">
@@ -1689,7 +1894,7 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
           </div>
         </div>
         <div style="position:relative">
-          <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
+          <button type="button" class="doa-tool-btn ic-font" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.4 19 9 5l5.6 14M5.6 14h6.8" stroke="url(#gViolet)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.4 19l2.9-7.2 2.9 7.2M16.6 16.4h3.4" stroke="url(#gRose)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <div class="font-popover">
             <div class="font-popover-row">
               <span class="font-popover-label">اندازه متن</span>
@@ -1701,8 +1906,8 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
             </div>
           </div>
         </div>
-        <button type="button" class="doa-tool-btn" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M9 4H5a1 1 0 0 0-1 1v4M15 4h4a1 1 0 0 1 1 1v4M9 20H5a1 1 0 0 1-1-1v-4M15 20h4a1 1 0 0 0 1-1v-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <button type="button" class="doa-tool-btn ic-fs" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="3" fill="url(#gTeal)" fill-opacity=".28"/><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" stroke="url(#gTeal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
     </div>
@@ -1735,13 +1940,13 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
     <div class="doa-modal-handle"></div>
     <div class="doa-modal-head">
       <button type="button" class="doa-modal-close" data-close-modal aria-label="بستن">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M7.2 7.2l9.6 9.6M16.8 7.2l-9.6 9.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       </button>
       <span class="doa-modal-title" data-i18n="doaTavassulArabicTitle">دعای توسل | متن عربی</span>
       <div class="doa-reader-toolbar">
         <div style="position:relative">
-          <button type="button" class="doa-tool-btn" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.3" cy="10.3" r="1.15" fill="currentColor"/><circle cx="10.3" cy="6.8" r="1.15" fill="currentColor"/><circle cx="15" cy="7.8" r="1.15" fill="currentColor"/></svg>
+          <button type="button" class="doa-tool-btn ic-theme" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" fill="url(#gRose)" fill-opacity=".25" stroke="url(#gRose)" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7.6" cy="10.6" r="1.45" fill="#fbbf24"/><circle cx="10.6" cy="7" r="1.45" fill="#34d399"/><circle cx="15.2" cy="8" r="1.45" fill="#60a5fa"/></svg>
           </button>
           <div class="reader-theme-popover">
             <div class="font-popover-row">
@@ -1756,7 +1961,7 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
           </div>
         </div>
         <div style="position:relative">
-          <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
+          <button type="button" class="doa-tool-btn ic-font" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.4 19 9 5l5.6 14M5.6 14h6.8" stroke="url(#gViolet)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.4 19l2.9-7.2 2.9 7.2M16.6 16.4h3.4" stroke="url(#gRose)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <div class="font-popover">
             <div class="font-popover-row">
               <span class="font-popover-label">اندازه متن</span>
@@ -1768,8 +1973,8 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
             </div>
           </div>
         </div>
-        <button type="button" class="doa-tool-btn" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M9 4H5a1 1 0 0 0-1 1v4M15 4h4a1 1 0 0 1 1 1v4M9 20H5a1 1 0 0 1-1-1v-4M15 20h4a1 1 0 0 0 1-1v-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <button type="button" class="doa-tool-btn ic-fs" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="3" fill="url(#gTeal)" fill-opacity=".28"/><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" stroke="url(#gTeal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
     </div>
@@ -1777,7 +1982,7 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
       <div class="doa-text-arabic" id="doa-tavassul-arabic-text-content">
         <p>اَللّهُمَّ اِنّى اَسْئَلُكَ وَاَتَوَجَّهُ اِلَيْكَ بِنَبِيِّكَ نَبِىِّ الرَّحْمَةِ مُحَمَّدٍ صَلَّى اللّهُ عَلَيْهِ وَآلِهِ يا اَبَاالْقاسِمِ يا رَسُولَ اللّهِ يا اِمامَ الرَّحْمَةِ يا سَيِّدَنا وَمَوْلينا اِنّا تَوَجَّهْنا وَاسْتَشْفَعْنا وَتَوَسَّلْنا بِكَ اِلَى اللّهِ وَقَدَّمْناكَ بَيْنَ يَدَىْ حاجاتِنا يا وَجيهاً عِنْدَاللّهِ اِشْفَعْ لَنا عِنْدَاللّهِ</p>
         <p>يا اَبَا الْحَسَنِ يا اَميرَ الْمُؤْمِنينَ يا عَلِىَّ بْنَ اَبيطالِبٍ يا حُجَّةَ اللّهِ عَلى خَلْقِهِ يا سَيِّدَنا وَمَوْلينا اِنّا تَوَجَّهْنا وَاسْتَشْفَعْنا وَتَوَسَّلْنا بِكَ اِلَى اللّهِ وَقَدَّمْناكَ بَيْنَ يَدَىْ حاجاتِنا يا وَجيهاً عِنْدَاللّهِ اِشْفَعْ لَنا عِنْدَاللّهِ</p>
-        <p>يا فاطِمَةَ الزَّهْراَّءُ يا بِنْتَ مُحَمَّدٍ يا قُرَّةَ عَيْنِ الرَّسُولِ يا سَيِّدَتَنا وَمَوْلاتَنا اِنّا تَوَجَّهْنا وَاسْتَشْفَعْنا وَتَوَسَّلْنا بِكِ اِلَى اللّهِ وَقَدَّمْناكِ بَيْنَ يَدَىْ حاجاتِنا يا وَجيهتاً عِنْدَاللّهِ اِشْفَعْی لَنا عِنْدَاللّهِ</p>
+        <p>يا فاطِمَةُ الزَّهْراَّءُ يا بِنْتَ مُحَمَّدٍ يا قُرَّةَ عَيْنِ الرَّسُولِ يا سَيِّدَتَنا وَمَوْلاتَنا اِنّا تَوَجَّهْنا وَاسْتَشْفَعْنا وَتَوَسَّلْنا بِكِ اِلَى اللّهِ وَقَدَّمْناكِ بَيْنَ يَدَىْ حاجاتِنا يا وَجيهتاً عِنْدَاللّهِ اِشْفَعْی لَنا عِنْدَاللّهِ</p>
         <p>يا اَبا مُحَمَّدٍ يا حَسَنَ بْنَ عَلِي اَيُّهَا الْمُجْتَبى يَا بْنَ رَسُولِ اللّهِ يا حُجَّةَ اللّهِ عَلى خَلْقِهِ يا سَيِّدَنا وَمَوْلينا اِنّا تَوَجَّهْنا وَاسْتَشْفَعْنا وَتَوَسَّلْنا بِكَ اِلَى اللّهِ وَقَدَّمْناكَ بَيْنَ يَدَىْ حاجاتِنا يا وَجيهاً عِنْدَاللّهِ اِشْفَعْ لَنا عِنْدَاللّهِ</p>
         <p>يا اَبا عَبْدِاللّهِ يا حُسَيْنَ بْنَ عَلِي اَيُّهَا الشَّهيدُ يَا بْنَ رَسُولِ اللّهِ يا حُجَّةَ اللّهِ عَلى خَلْقِهِ يا سَيِّدَنا وَمَوْلينا اِنّا تَوَجَّهْنا وَاسْتَشْفَعْنا وَتَوَسَّلْنا بِكَ اِلَى اللّهِ وَقَدَّمْناكَ بَيْنَ يَدَىْ حاجاتِنا يا وَجيهاً عِنْدَاللّهِ اِشْفَعْ لَنا عِنْدَاللّهِ</p>
         <p>يا اَبَا الْحَسَنِ يا عَلِىَّ بْنَ الْحُسَيْنِ يا زَيْنَ الْعابِدينَ يَا بْنَ رَسُولِ اللّهِ يا حُجَّةَ اللّهِ عَلى خَلْقِهِ يا سَيِّدَنا وَمَوْلينا اِنّا تَوَجَّهْنا وَاسْتَشْفَعْنا وَتَوَسَّلْنا بِكَ اِلَى اللّهِ وَقَدَّمْناكَ بَيْنَ يَدَىْ حاجاتِنا يا وَجيهاً عِنْدَاللّهِ اِشْفَعْ لَنا عِنْدَاللّهِ</p>
@@ -1789,7 +1994,7 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
         <p>يا اَبَا الْحَسَنِ يا عَلِىَّ بْنَ مُحَمَّدٍ اَيُّهَا الْهادِى النَّقِىُّ يَا بْنَ رَسُولِ اللّهِ يا حُجَّةَ اللّهِ عَلى خَلْقِهِ يا سَيِّدَنا وَمَوْلينا اِنّا تَوَجَّهْنا وَاسْتَشْفَعْنا وَتَوَسَّلْنا بِكَ اِلَى اللّهِ وَقَدَّمْناكَ بَيْنَ يَدَىْ حاجاتِنا يا وَجيهاً عِنْدَاللّهِ اِشْفَعْ لَنا عِنْدَاللّهِ</p>
         <p>يا اَبا مُحَمَّدٍ يا حَسَنَ بْنَ عَلِي اَيُّهَا الزَّكِىُّ الْعَسْكَرِىُّ يَا بْنَ رَسُولِ اللّهِ يا حُجَّةَ اللّهِ عَلى خَلْقِهِ يا سَيِّدَنا وَمَوْلينا اِنّا تَوَجَّهْنا وَاسْتَشْفَعْنا وَتَوَسَّلْنا بِكَ اِلَى اللّهِ وَقَدَّمْناكَ بَيْنَ يَدَىْ حاجاتِنا يا وَجيهاً عِنْدَاللّهِ اِشْفَعْ لَنا عِنْدَاللّهِ</p>
         <p>يا وَصِىَّ الْحَسَنِ وَالْخَلَفَ الْحُجَّةَ اَيُّهَا الْقاَّئِمُ الْمُنْتَظَرُ الْمَهْدِىُّ يَا بْنَ رَسُولِ اللّهِ يا حُجَّةَ اللّهِ عَلى خَلْقِهِ يا سَيِّدَنا وَمَوْلينا اِنّا تَوَجَّهْنا وَاسْتَشْفَعْنا وَتَوَسَّلْنا بِكَ اِلَى اللّهِ وَقَدَّمْناكَ بَيْنَ يَدَىْ حاجاتِنا يا وَجيهاً عِنْدَاللّهِ اِشْفَعْ لَنا عِنْدَاللّهِ</p>
-        <p class="doa-text-note">پس از خواندن دعا، حاجات خود را بخواهید که به خواست خداوند برآورده می‌شود و بعد از خواندن دعا چنین بگویید:</p>
+        <p class="doa-text-note">پس از خواندن دعا، حاجات خود را بخواهید كه به خواست خداوند برآورده مى‏ شود و بعد از خواندن دعا چنين بگويید :</p>
         <p>يا سادَتى وَمَوالِىَّ اِنّى تَوَجَّهْتُ بِكُمْ اَئِمَّتى وَعُدَّتى لِيَوْمِ فَقْرى وَحاجَتى اِلَى اللّهِ وَتَوَسَّلْتُ بِكُمْ اِلَى اللّهِ وَاسْتَشْفَعْتُ بِكُمْ اِلَى اللّهِ فَاشْفَعُوا لى عِنْدَ اللّهِ وَاسْتَنْقِذُونى مِنْ ذُنُوبى عِنْدَ اللّهِ فَاِنَّكُمْ وَسيلَتى اِلَى اللّهِ وَبِحُبِّكُمْ وَبِقُرْبِكُمْ اَرْجُو نَجاةً مِنَ اللّهِ فَكُونُوا عِنْدَ اللّهِ رَجاَّئى يا سادَتى يا اَوْلِياَّءَ اللّهِ صَلَّى اللّهُ عَلَيْهِمْ اَجْمَعينَ وَلَعَنَ اللّهُ اَعْداَّءَ اللّهِ ظالِميهِمْ مِنَ الاْوَّلينَ وَالاْخِرينَ امينَ رَبَّ الْعالَمينَ</p>
       </div>
     </div>
@@ -1802,13 +2007,13 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
     <div class="doa-modal-handle"></div>
     <div class="doa-modal-head">
       <button type="button" class="doa-modal-close" data-close-modal aria-label="بستن">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M7.2 7.2l9.6 9.6M16.8 7.2l-9.6 9.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       </button>
       <span class="doa-modal-title" data-i18n="doaSamatArabicTitle">دعای سمات | متن عربی</span>
       <div class="doa-reader-toolbar">
         <div style="position:relative">
-          <button type="button" class="doa-tool-btn" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.3" cy="10.3" r="1.15" fill="currentColor"/><circle cx="10.3" cy="6.8" r="1.15" fill="currentColor"/><circle cx="15" cy="7.8" r="1.15" fill="currentColor"/></svg>
+          <button type="button" class="doa-tool-btn ic-theme" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" fill="url(#gRose)" fill-opacity=".25" stroke="url(#gRose)" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7.6" cy="10.6" r="1.45" fill="#fbbf24"/><circle cx="10.6" cy="7" r="1.45" fill="#34d399"/><circle cx="15.2" cy="8" r="1.45" fill="#60a5fa"/></svg>
           </button>
           <div class="reader-theme-popover">
             <div class="font-popover-row">
@@ -1823,7 +2028,7 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
           </div>
         </div>
         <div style="position:relative">
-          <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
+          <button type="button" class="doa-tool-btn ic-font" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.4 19 9 5l5.6 14M5.6 14h6.8" stroke="url(#gViolet)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.4 19l2.9-7.2 2.9 7.2M16.6 16.4h3.4" stroke="url(#gRose)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <div class="font-popover">
             <div class="font-popover-row">
               <span class="font-popover-label">اندازه متن</span>
@@ -1835,8 +2040,8 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
             </div>
           </div>
         </div>
-        <button type="button" class="doa-tool-btn" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M9 4H5a1 1 0 0 0-1 1v4M15 4h4a1 1 0 0 1 1 1v4M9 20H5a1 1 0 0 1-1-1v-4M15 20h4a1 1 0 0 0 1-1v-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <button type="button" class="doa-tool-btn ic-fs" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="3" fill="url(#gTeal)" fill-opacity=".28"/><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" stroke="url(#gTeal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
     </div>
@@ -1878,13 +2083,13 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
     <div class="doa-modal-handle"></div>
     <div class="doa-modal-head">
       <button type="button" class="doa-modal-close" data-close-modal aria-label="بستن">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M7.2 7.2l9.6 9.6M16.8 7.2l-9.6 9.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       </button>
       <span class="doa-modal-title" data-i18n="doaAminollahArabicTitle">دعای امین الله | متن عربی</span>
       <div class="doa-reader-toolbar">
         <div style="position:relative">
-          <button type="button" class="doa-tool-btn" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.3" cy="10.3" r="1.15" fill="currentColor"/><circle cx="10.3" cy="6.8" r="1.15" fill="currentColor"/><circle cx="15" cy="7.8" r="1.15" fill="currentColor"/></svg>
+          <button type="button" class="doa-tool-btn ic-theme" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" fill="url(#gRose)" fill-opacity=".25" stroke="url(#gRose)" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7.6" cy="10.6" r="1.45" fill="#fbbf24"/><circle cx="10.6" cy="7" r="1.45" fill="#34d399"/><circle cx="15.2" cy="8" r="1.45" fill="#60a5fa"/></svg>
           </button>
           <div class="reader-theme-popover">
             <div class="font-popover-row">
@@ -1899,7 +2104,7 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
           </div>
         </div>
         <div style="position:relative">
-          <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
+          <button type="button" class="doa-tool-btn ic-font" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.4 19 9 5l5.6 14M5.6 14h6.8" stroke="url(#gViolet)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.4 19l2.9-7.2 2.9 7.2M16.6 16.4h3.4" stroke="url(#gRose)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <div class="font-popover">
             <div class="font-popover-row">
               <span class="font-popover-label">اندازه متن</span>
@@ -1911,8 +2116,8 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
             </div>
           </div>
         </div>
-        <button type="button" class="doa-tool-btn" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M9 4H5a1 1 0 0 0-1 1v4M15 4h4a1 1 0 0 1 1 1v4M9 20H5a1 1 0 0 1-1-1v-4M15 20h4a1 1 0 0 0 1-1v-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <button type="button" class="doa-tool-btn ic-fs" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="3" fill="url(#gTeal)" fill-opacity=".28"/><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" stroke="url(#gTeal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
     </div>
@@ -1936,13 +2141,13 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
     <div class="doa-modal-handle"></div>
     <div class="doa-modal-head">
       <button type="button" class="doa-modal-close" data-close-modal aria-label="بستن">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M7.2 7.2l9.6 9.6M16.8 7.2l-9.6 9.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       </button>
       <span class="doa-modal-title" data-i18n="doaFarajArabicTitle">دعای فرج | متن عربی</span>
       <div class="doa-reader-toolbar">
         <div style="position:relative">
-          <button type="button" class="doa-tool-btn" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.3" cy="10.3" r="1.15" fill="currentColor"/><circle cx="10.3" cy="6.8" r="1.15" fill="currentColor"/><circle cx="15" cy="7.8" r="1.15" fill="currentColor"/></svg>
+          <button type="button" class="doa-tool-btn ic-theme" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" fill="url(#gRose)" fill-opacity=".25" stroke="url(#gRose)" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7.6" cy="10.6" r="1.45" fill="#fbbf24"/><circle cx="10.6" cy="7" r="1.45" fill="#34d399"/><circle cx="15.2" cy="8" r="1.45" fill="#60a5fa"/></svg>
           </button>
           <div class="reader-theme-popover">
             <div class="font-popover-row">
@@ -1957,7 +2162,7 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
           </div>
         </div>
         <div style="position:relative">
-          <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
+          <button type="button" class="doa-tool-btn ic-font" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.4 19 9 5l5.6 14M5.6 14h6.8" stroke="url(#gViolet)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.4 19l2.9-7.2 2.9 7.2M16.6 16.4h3.4" stroke="url(#gRose)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <div class="font-popover">
             <div class="font-popover-row">
               <span class="font-popover-label">اندازه متن</span>
@@ -1969,8 +2174,8 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
             </div>
           </div>
         </div>
-        <button type="button" class="doa-tool-btn" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M9 4H5a1 1 0 0 0-1 1v4M15 4h4a1 1 0 0 1 1 1v4M9 20H5a1 1 0 0 1-1-1v-4M15 20h4a1 1 0 0 0 1-1v-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <button type="button" class="doa-tool-btn ic-fs" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="3" fill="url(#gTeal)" fill-opacity=".28"/><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" stroke="url(#gTeal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
     </div>
@@ -1988,13 +2193,13 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
     <div class="doa-modal-handle"></div>
     <div class="doa-modal-head">
       <button type="button" class="doa-modal-close" data-close-modal aria-label="بستن">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M7.2 7.2l9.6 9.6M16.8 7.2l-9.6 9.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       </button>
       <span class="doa-modal-title" data-i18n="doaSalamatiArabicTitle">دعای سلامتی امام زمان (عج) | متن عربی</span>
       <div class="doa-reader-toolbar">
         <div style="position:relative">
-          <button type="button" class="doa-tool-btn" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.3" cy="10.3" r="1.15" fill="currentColor"/><circle cx="10.3" cy="6.8" r="1.15" fill="currentColor"/><circle cx="15" cy="7.8" r="1.15" fill="currentColor"/></svg>
+          <button type="button" class="doa-tool-btn ic-theme" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" fill="url(#gRose)" fill-opacity=".25" stroke="url(#gRose)" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7.6" cy="10.6" r="1.45" fill="#fbbf24"/><circle cx="10.6" cy="7" r="1.45" fill="#34d399"/><circle cx="15.2" cy="8" r="1.45" fill="#60a5fa"/></svg>
           </button>
           <div class="reader-theme-popover">
             <div class="font-popover-row">
@@ -2009,7 +2214,7 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
           </div>
         </div>
         <div style="position:relative">
-          <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
+          <button type="button" class="doa-tool-btn ic-font" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.4 19 9 5l5.6 14M5.6 14h6.8" stroke="url(#gViolet)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.4 19l2.9-7.2 2.9 7.2M16.6 16.4h3.4" stroke="url(#gRose)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <div class="font-popover">
             <div class="font-popover-row">
               <span class="font-popover-label">اندازه متن</span>
@@ -2021,8 +2226,8 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
             </div>
           </div>
         </div>
-        <button type="button" class="doa-tool-btn" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M9 4H5a1 1 0 0 0-1 1v4M15 4h4a1 1 0 0 1 1 1v4M9 20H5a1 1 0 0 1-1-1v-4M15 20h4a1 1 0 0 0 1-1v-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <button type="button" class="doa-tool-btn ic-fs" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="3" fill="url(#gTeal)" fill-opacity=".28"/><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" stroke="url(#gTeal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
     </div>
@@ -2042,13 +2247,13 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
     <div class="doa-modal-handle"></div>
     <div class="doa-modal-head">
       <button type="button" class="doa-modal-close" data-close-modal aria-label="بستن">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M7.2 7.2l9.6 9.6M16.8 7.2l-9.6 9.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       </button>
       <span class="doa-modal-title" data-i18n="doaSalamatiTranslationTitle">دعای سلامتی امام زمان (عج) | ترجمه</span>
       <div class="doa-reader-toolbar">
         <div style="position:relative">
-          <button type="button" class="doa-tool-btn" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.3" cy="10.3" r="1.15" fill="currentColor"/><circle cx="10.3" cy="6.8" r="1.15" fill="currentColor"/><circle cx="15" cy="7.8" r="1.15" fill="currentColor"/></svg>
+          <button type="button" class="doa-tool-btn ic-theme" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" fill="url(#gRose)" fill-opacity=".25" stroke="url(#gRose)" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7.6" cy="10.6" r="1.45" fill="#fbbf24"/><circle cx="10.6" cy="7" r="1.45" fill="#34d399"/><circle cx="15.2" cy="8" r="1.45" fill="#60a5fa"/></svg>
           </button>
           <div class="reader-theme-popover">
             <div class="font-popover-row">
@@ -2063,7 +2268,7 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
           </div>
         </div>
         <div style="position:relative">
-          <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
+          <button type="button" class="doa-tool-btn ic-font" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.4 19 9 5l5.6 14M5.6 14h6.8" stroke="url(#gViolet)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.4 19l2.9-7.2 2.9 7.2M16.6 16.4h3.4" stroke="url(#gRose)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <div class="font-popover">
             <div class="font-popover-row">
               <span class="font-popover-label">اندازه متن</span>
@@ -2075,8 +2280,8 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
             </div>
           </div>
         </div>
-        <button type="button" class="doa-tool-btn" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M9 4H5a1 1 0 0 0-1 1v4M15 4h4a1 1 0 0 1 1 1v4M9 20H5a1 1 0 0 1-1-1v-4M15 20h4a1 1 0 0 0 1-1v-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <button type="button" class="doa-tool-btn ic-fs" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="3" fill="url(#gTeal)" fill-opacity=".28"/><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" stroke="url(#gTeal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
     </div>
@@ -2096,13 +2301,13 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
     <div class="doa-modal-handle"></div>
     <div class="doa-modal-head">
       <button type="button" class="doa-modal-close" data-close-modal aria-label="بستن">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M7.2 7.2l9.6 9.6M16.8 7.2l-9.6 9.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       </button>
       <span class="doa-modal-title" data-i18n="doaAhdArabicTitle">دعای عهد | متن عربی</span>
       <div class="doa-reader-toolbar">
         <div style="position:relative">
-          <button type="button" class="doa-tool-btn" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.3" cy="10.3" r="1.15" fill="currentColor"/><circle cx="10.3" cy="6.8" r="1.15" fill="currentColor"/><circle cx="15" cy="7.8" r="1.15" fill="currentColor"/></svg>
+          <button type="button" class="doa-tool-btn ic-theme" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" fill="url(#gRose)" fill-opacity=".25" stroke="url(#gRose)" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7.6" cy="10.6" r="1.45" fill="#fbbf24"/><circle cx="10.6" cy="7" r="1.45" fill="#34d399"/><circle cx="15.2" cy="8" r="1.45" fill="#60a5fa"/></svg>
           </button>
           <div class="reader-theme-popover">
             <div class="font-popover-row">
@@ -2117,7 +2322,7 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
           </div>
         </div>
         <div style="position:relative">
-          <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
+          <button type="button" class="doa-tool-btn ic-font" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.4 19 9 5l5.6 14M5.6 14h6.8" stroke="url(#gViolet)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.4 19l2.9-7.2 2.9 7.2M16.6 16.4h3.4" stroke="url(#gRose)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <div class="font-popover">
             <div class="font-popover-row">
               <span class="font-popover-label">اندازه متن</span>
@@ -2129,8 +2334,8 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
             </div>
           </div>
         </div>
-        <button type="button" class="doa-tool-btn" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M9 4H5a1 1 0 0 0-1 1v4M15 4h4a1 1 0 0 1 1 1v4M9 20H5a1 1 0 0 1-1-1v-4M15 20h4a1 1 0 0 0 1-1v-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <button type="button" class="doa-tool-btn ic-fs" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="3" fill="url(#gTeal)" fill-opacity=".28"/><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" stroke="url(#gTeal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
     </div>
@@ -2154,13 +2359,13 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
     <div class="doa-modal-handle"></div>
     <div class="doa-modal-head">
       <button type="button" class="doa-modal-close" data-close-modal aria-label="بستن">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M7.2 7.2l9.6 9.6M16.8 7.2l-9.6 9.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       </button>
       <span class="doa-modal-title" data-i18n="doaAalYasinArabicTitle">زیارت آل یاسین | متن عربی</span>
       <div class="doa-reader-toolbar">
         <div style="position:relative">
-          <button type="button" class="doa-tool-btn" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.3" cy="10.3" r="1.15" fill="currentColor"/><circle cx="10.3" cy="6.8" r="1.15" fill="currentColor"/><circle cx="15" cy="7.8" r="1.15" fill="currentColor"/></svg>
+          <button type="button" class="doa-tool-btn ic-theme" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" fill="url(#gRose)" fill-opacity=".25" stroke="url(#gRose)" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7.6" cy="10.6" r="1.45" fill="#fbbf24"/><circle cx="10.6" cy="7" r="1.45" fill="#34d399"/><circle cx="15.2" cy="8" r="1.45" fill="#60a5fa"/></svg>
           </button>
           <div class="reader-theme-popover">
             <div class="font-popover-row">
@@ -2175,7 +2380,7 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
           </div>
         </div>
         <div style="position:relative">
-          <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
+          <button type="button" class="doa-tool-btn ic-font" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.4 19 9 5l5.6 14M5.6 14h6.8" stroke="url(#gViolet)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.4 19l2.9-7.2 2.9 7.2M16.6 16.4h3.4" stroke="url(#gRose)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <div class="font-popover">
             <div class="font-popover-row">
               <span class="font-popover-label">اندازه متن</span>
@@ -2187,8 +2392,8 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
             </div>
           </div>
         </div>
-        <button type="button" class="doa-tool-btn" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M9 4H5a1 1 0 0 0-1 1v4M15 4h4a1 1 0 0 1 1 1v4M9 20H5a1 1 0 0 1-1-1v-4M15 20h4a1 1 0 0 0 1-1v-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <button type="button" class="doa-tool-btn ic-fs" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="3" fill="url(#gTeal)" fill-opacity=".28"/><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" stroke="url(#gTeal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
     </div>
@@ -2212,13 +2417,13 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
     <div class="doa-modal-handle"></div>
     <div class="doa-modal-head">
       <button type="button" class="doa-modal-close" data-close-modal aria-label="بستن">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M7.2 7.2l9.6 9.6M16.8 7.2l-9.6 9.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       </button>
       <span class="doa-modal-title" data-i18n="doaAshuraTranslationTitle">زیارت عاشورا | ترجمه</span>
       <div class="doa-reader-toolbar">
         <div style="position:relative">
-          <button type="button" class="doa-tool-btn" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.3" cy="10.3" r="1.15" fill="currentColor"/><circle cx="10.3" cy="6.8" r="1.15" fill="currentColor"/><circle cx="15" cy="7.8" r="1.15" fill="currentColor"/></svg>
+          <button type="button" class="doa-tool-btn ic-theme" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" fill="url(#gRose)" fill-opacity=".25" stroke="url(#gRose)" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7.6" cy="10.6" r="1.45" fill="#fbbf24"/><circle cx="10.6" cy="7" r="1.45" fill="#34d399"/><circle cx="15.2" cy="8" r="1.45" fill="#60a5fa"/></svg>
           </button>
           <div class="reader-theme-popover">
             <div class="font-popover-row">
@@ -2233,7 +2438,7 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
           </div>
         </div>
         <div style="position:relative">
-          <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
+          <button type="button" class="doa-tool-btn ic-font" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.4 19 9 5l5.6 14M5.6 14h6.8" stroke="url(#gViolet)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.4 19l2.9-7.2 2.9 7.2M16.6 16.4h3.4" stroke="url(#gRose)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <div class="font-popover">
             <div class="font-popover-row">
               <span class="font-popover-label">اندازه متن</span>
@@ -2245,8 +2450,8 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
             </div>
           </div>
         </div>
-        <button type="button" class="doa-tool-btn" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M9 4H5a1 1 0 0 0-1 1v4M15 4h4a1 1 0 0 1 1 1v4M9 20H5a1 1 0 0 1-1-1v-4M15 20h4a1 1 0 0 0 1-1v-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <button type="button" class="doa-tool-btn ic-fs" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="3" fill="url(#gTeal)" fill-opacity=".28"/><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" stroke="url(#gTeal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
     </div>
@@ -2279,13 +2484,13 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
     <div class="doa-modal-handle"></div>
     <div class="doa-modal-head">
       <button type="button" class="doa-modal-close" data-close-modal aria-label="بستن">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M7.2 7.2l9.6 9.6M16.8 7.2l-9.6 9.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       </button>
       <span class="doa-modal-title" data-i18n="doaAshuraAudioTitle">زیارت عاشورا | صوت</span>
       <div class="doa-reader-toolbar">
         <div style="position:relative">
-          <button type="button" class="doa-tool-btn" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.3" cy="10.3" r="1.15" fill="currentColor"/><circle cx="10.3" cy="6.8" r="1.15" fill="currentColor"/><circle cx="15" cy="7.8" r="1.15" fill="currentColor"/></svg>
+          <button type="button" class="doa-tool-btn ic-theme" data-reader-action="theme" aria-label="تم مطالعه" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.05 0 1.9-.85 1.9-1.9 0-.5-.2-.97-.53-1.32-.32-.35-.52-.8-.52-1.28 0-1.05.85-1.9 1.9-1.9H16a4 4 0 0 0 4-4c0-4.2-3.58-7.6-8-7.6z" fill="url(#gRose)" fill-opacity=".25" stroke="url(#gRose)" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7.6" cy="10.6" r="1.45" fill="#fbbf24"/><circle cx="10.6" cy="7" r="1.45" fill="#34d399"/><circle cx="15.2" cy="8" r="1.45" fill="#60a5fa"/></svg>
           </button>
           <div class="reader-theme-popover">
             <div class="font-popover-row">
@@ -2300,7 +2505,7 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
           </div>
         </div>
         <div style="position:relative">
-          <button type="button" class="doa-tool-btn" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false">Aa</button>
+          <button type="button" class="doa-tool-btn ic-font" data-reader-action="font" aria-label="تنظیم فونت و اندازه متن" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.4 19 9 5l5.6 14M5.6 14h6.8" stroke="url(#gViolet)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.4 19l2.9-7.2 2.9 7.2M16.6 16.4h3.4" stroke="url(#gRose)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <div class="font-popover">
             <div class="font-popover-row">
               <span class="font-popover-label">اندازه متن</span>
@@ -2312,8 +2517,8 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
             </div>
           </div>
         </div>
-        <button type="button" class="doa-tool-btn" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M9 4H5a1 1 0 0 0-1 1v4M15 4h4a1 1 0 0 1 1 1v4M9 20H5a1 1 0 0 1-1-1v-4M15 20h4a1 1 0 0 0 1-1v-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <button type="button" class="doa-tool-btn ic-fs" data-reader-action="fullscreen" aria-label="حالت تمام‌صفحه" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="3" fill="url(#gTeal)" fill-opacity=".28"/><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" stroke="url(#gTeal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
     </div>
@@ -2677,6 +2882,180 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
         btn.setAttribute('aria-pressed', String(on));
         btn.classList.toggle('active', on);
       });
+    });
+  })();
+
+  // ---------------- خواننده‌ی دعا: پخش‌کننده‌ی خودکار (اسکرول، سرعت، تکرار، برگشت به اول) + روشن‌ماندن صفحه ----------------
+  (function readerAutoScroll(){
+    const SPEEDS = [8, 14, 22, 32, 46];   // پیکسل بر ثانیه
+    let speedIdx = 1, wakePref = true, loopPref = false;
+    try{
+      const sv = parseInt(localStorage.getItem('doaReaderSpeed'), 10);
+      if(sv >= 0 && sv < SPEEDS.length) speedIdx = sv;
+      if(localStorage.getItem('doaReaderWake') === '0') wakePref = false;
+      if(localStorage.getItem('doaReaderLoop') === '1') loopPref = true;
+    }catch(e){}
+    const HAS_WAKE = ('wakeLock' in navigator);
+    const faNum = n => String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+
+    const ICON_PLAY = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8.5 5.8v12.4a.9.9 0 0 0 1.4.76l9.2-6.2a.9.9 0 0 0 0-1.5l-9.2-6.2a.9.9 0 0 0-1.4.74z" fill="url(#gMint)" stroke="url(#gMint)" stroke-width="1.4" stroke-linejoin="round"/></svg>';
+    const ICON_PAUSE = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect class="eq eq1" x="6.5" y="5" width="4" height="14" rx="1.4" fill="url(#gMint)"/><rect class="eq eq2" x="13.5" y="5" width="4" height="14" rx="1.4" fill="url(#gMint)"/></svg>';
+    const ICON_SUN = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><g class="ic-rays" stroke="url(#gSun)" stroke-width="1.9" stroke-linecap="round"><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.4 5.4l1.6 1.6M17 17l1.6 1.6M18.6 5.4 17 7M7 17l-1.6 1.6"/></g><circle cx="12" cy="12" r="4.3" fill="url(#gSun)"/></svg>';
+    const ICON_TOP = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 4.8h12" stroke="url(#gBlue)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 19.4V9.4M7.4 13.8 12 9.2l4.6 4.6" stroke="url(#gBlue)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    const ICON_MINUS = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6.5 12h11" stroke="url(#gCoral)" stroke-width="2.5" stroke-linecap="round"/></svg>';
+    const ICON_PLUS = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 6.5v11M6.5 12h11" stroke="url(#gMint)" stroke-width="2.5" stroke-linecap="round"/></svg>';
+    const ICON_LOOP = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M17 3.5 20 6.5l-3 3M20 6.5H8.5A4.5 4.5 0 0 0 4 11v.5M7 20.5l-3-3 3-3M4 17.5h11.5A4.5 4.5 0 0 0 20 13v-.5" stroke="url(#gViolet)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+    function mk(cls, label, html){
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'doa-tool-btn ' + cls;
+      b.setAttribute('aria-label', label);
+      b.title = label;
+      b.innerHTML = html;
+      return b;
+    }
+
+    // ----- اسکرول خودکار -----
+    let raf = 0, last = 0, pos = 0, scale = 1, activeBody = null, activeBtn = null;
+    function setPlayingUI(btn, on){
+      if(!btn) return;
+      btn.innerHTML = on ? ICON_PAUSE : ICON_PLAY;
+      btn.classList.toggle('active', on);
+      btn.setAttribute('aria-pressed', String(on));
+      const lbl = on ? 'توقف اسکرول خودکار' : 'شروع اسکرول خودکار';
+      btn.setAttribute('aria-label', lbl); btn.title = lbl;
+    }
+    function stop(){
+      if(raf) cancelAnimationFrame(raf);
+      raf = 0;
+      if(activeBtn) setPlayingUI(activeBtn, false);
+      activeBody = null; activeBtn = null;
+    }
+    function tick(t){
+      if(!activeBody) return;
+      const dt = Math.min(64, t - last) / 1000;
+      last = t;
+      pos += SPEEDS[speedIdx] * scale * dt;
+      const max = activeBody.scrollHeight - activeBody.clientHeight;
+      if(pos >= max){
+        if(loopPref){ pos = 0; activeBody.scrollTop = 0; raf = requestAnimationFrame(tick); return; }
+        activeBody.scrollTop = max; stop(); return;
+      }
+      activeBody.scrollTop = pos;
+      raf = requestAnimationFrame(tick);
+    }
+    function start(body, btn){
+      stop();
+      const max = body.scrollHeight - body.clientHeight;
+      if(max <= 2) return;
+      if(body.scrollTop >= max - 2) body.scrollTop = 0;
+      pos = body.scrollTop;
+      scale = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--reader-scale')) || 1;
+      activeBody = body; activeBtn = btn;
+      setPlayingUI(btn, true);
+      last = performance.now();
+      raf = requestAnimationFrame(tick);
+    }
+
+    function updateUI(){
+      document.querySelectorAll('.rd-speed-val').forEach(v => { v.textContent = faNum(speedIdx + 1) + '×'; });
+      document.querySelectorAll('.rd-slower').forEach(b => { b.disabled = speedIdx <= 0; });
+      document.querySelectorAll('.rd-faster').forEach(b => { b.disabled = speedIdx >= SPEEDS.length - 1; });
+      document.querySelectorAll('.rd-loop-btn').forEach(b => {
+        b.classList.toggle('active', loopPref);
+        b.setAttribute('aria-pressed', String(loopPref));
+      });
+      document.querySelectorAll('.rd-wake-btn').forEach(b => {
+        b.classList.toggle('active', wakePref);
+        b.setAttribute('aria-pressed', String(wakePref));
+      });
+    }
+    function setSpeed(i){
+      speedIdx = Math.max(0, Math.min(SPEEDS.length - 1, i));
+      try{ localStorage.setItem('doaReaderSpeed', String(speedIdx)); }catch(e){}
+      updateUI();
+    }
+
+    // ----- روشن‌ماندن صفحه -----
+    let wl = null;
+    async function acquireWake(){
+      if(!HAS_WAKE || wl || document.visibilityState !== 'visible') return;
+      try{
+        wl = await navigator.wakeLock.request('screen');
+        wl.addEventListener('release', () => { wl = null; });
+      }catch(e){ wl = null; }
+    }
+    function releaseWake(){ if(wl){ wl.release().catch(() => {}); wl = null; } }
+    function syncWake(){
+      const anyOpen = !!document.querySelector('.doa-modal-overlay.show');
+      if(anyOpen && wakePref) acquireWake(); else releaseWake();
+    }
+    document.addEventListener('visibilitychange', syncWake);
+
+    // ----- افزودن دکمه‌ها -----
+    document.querySelectorAll('.doa-reader-toolbar').forEach(tb => {
+      const sheet = tb.closest('.doa-modal-sheet');
+      const body = sheet && sheet.querySelector('.doa-modal-body');
+      if(!body) return;
+
+      // ردیف اول: روشن‌ماندن صفحه کنار تم/فونت/تمام‌صفحه
+      if(HAS_WAKE){
+        const wake = mk('rd-wake-btn ic-wake', 'روشن ماندن صفحه', ICON_SUN);
+        wake.addEventListener('click', () => {
+          wakePref = !wakePref;
+          try{ localStorage.setItem('doaReaderWake', wakePref ? '1' : '0'); }catch(e){}
+          updateUI(); syncWake();
+        });
+        tb.appendChild(wake);
+      }
+
+      // ردیف دوم: پخش‌کننده
+      const player = document.createElement('div');
+      player.className = 'rd-player';
+
+      const restart = mk('rd-restart-btn ic-restart', 'برگشت به اول متن', ICON_TOP);
+      restart.addEventListener('click', () => {
+        if(activeBody === body){ pos = 0; body.scrollTop = 0; }
+        else body.scrollTo({ top:0, behavior:'smooth' });
+      });
+      const slower = mk('rd-slower ic-minus', 'کندتر', ICON_MINUS);
+      slower.addEventListener('click', () => setSpeed(speedIdx - 1));
+      const val = document.createElement('span');
+      val.className = 'rd-speed-val';
+      val.setAttribute('aria-live', 'polite');
+      const faster = mk('rd-faster ic-plus', 'تندتر', ICON_PLUS);
+      faster.addEventListener('click', () => setSpeed(speedIdx + 1));
+      const play = mk('rd-play-btn ic-play', 'شروع اسکرول خودکار', ICON_PLAY);
+      play.setAttribute('aria-pressed', 'false');
+      play.addEventListener('click', () => { if(activeBody === body) stop(); else start(body, play); });
+      const loop = mk('rd-loop-btn ic-loop', 'تکرار خودکار از اول', ICON_LOOP);
+      loop.addEventListener('click', () => {
+        loopPref = !loopPref;
+        try{ localStorage.setItem('doaReaderLoop', loopPref ? '1' : '0'); }catch(e){}
+        updateUI();
+      });
+
+      player.append(restart, slower, val, faster, play, loop);
+      tb.appendChild(player);
+
+      // لمس/چرخ ماوس/کلید روی متن = توقف اسکرول خودکار
+      ['touchstart', 'wheel', 'mousedown', 'keydown'].forEach(ev => {
+        body.addEventListener(ev, () => { if(activeBody === body) stop(); }, { passive:true });
+      });
+    });
+    updateUI();
+
+    // ----- هماهنگی با باز/بسته شدن مودال‌ها -----
+    const mo = new MutationObserver(() => {
+      if(activeBody){
+        const ov = activeBody.closest('.doa-modal-overlay');
+        if(!ov || !ov.classList.contains('show')) stop();
+      }
+      syncWake();
+    });
+    document.querySelectorAll('.doa-modal-overlay').forEach(o => {
+      mo.observe(o, { attributes:true, attributeFilter:['class'] });
     });
   })();
 
