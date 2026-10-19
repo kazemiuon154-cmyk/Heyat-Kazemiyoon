@@ -284,9 +284,112 @@
 
   @media (min-width:900px){ .page{ max-width:560px; padding-top:70px; } }
   @media (prefers-reduced-motion: reduce){ .ember-spark{ display:none; } body{ animation:none; transition:none; } }
+
+/* =====================================================================
+   سبک جدید: شیشه‌ای + آیکون‌های گرادیانی رنگی + رنگ مخصوص هر کارت + حرکت‌های ریز
+   ===================================================================== */
+#live-trigger{ --ic:239,68,68; --card-chev:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 16'%3E%3Cpath d='M8 2 3 8l5 6' fill='none' stroke='%23ff8a80' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+#live-trigger .services-row-icon svg [stroke="#071710"], #live-trigger .services-row-icon svg[stroke="#071710"]{ stroke:url(#gRed); }
+#live-trigger .services-row-icon svg [fill="#071710"], #live-trigger .services-row-icon svg[fill="#071710"]{ fill:url(#gRed); }
+#tour-trigger{ --ic:45,212,191; --card-chev:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 16'%3E%3Cpath d='M8 2 3 8l5 6' fill='none' stroke='%235eead4' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+#tour-trigger .services-row-icon svg [stroke="#071710"], #tour-trigger .services-row-icon svg[stroke="#071710"]{ stroke:url(#gTeal); }
+#tour-trigger .services-row-icon svg [fill="#071710"], #tour-trigger .services-row-icon svg[fill="#071710"]{ fill:url(#gTeal); }
+#calendar-trigger{ --ic:167,139,250; --card-chev:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 16'%3E%3Cpath d='M8 2 3 8l5 6' fill='none' stroke='%23c4b5fd' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+#calendar-trigger .services-row-icon svg [stroke="#071710"], #calendar-trigger .services-row-icon svg[stroke="#071710"]{ stroke:url(#gViolet); }
+#calendar-trigger .services-row-icon svg [fill="#071710"], #calendar-trigger .services-row-icon svg[fill="#071710"]{ fill:url(#gViolet); }
+#page2-trigger{ --ic:255,176,32; --card-chev:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 16'%3E%3Cpath d='M8 2 3 8l5 6' fill='none' stroke='%23ffc65a' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+#page2-trigger .services-row-icon svg [stroke="#071710"], #page2-trigger .services-row-icon svg[stroke="#071710"]{ stroke:url(#gSun); }
+#page2-trigger .services-row-icon svg [fill="#071710"], #page2-trigger .services-row-icon svg[fill="#071710"]{ fill:url(#gSun); }
+#frame-trigger{ --ic:244,114,182; --card-chev:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 16'%3E%3Cpath d='M8 2 3 8l5 6' fill='none' stroke='%23f9a8d4' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+#frame-trigger .services-row-icon svg [stroke="#071710"], #frame-trigger .services-row-icon svg[stroke="#071710"]{ stroke:url(#gRose); }
+#frame-trigger .services-row-icon svg [fill="#071710"], #frame-trigger .services-row-icon svg[fill="#071710"]{ fill:url(#gRose); }
+#nazr-trigger{ --ic:251,146,60; --card-chev:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 16'%3E%3Cpath d='M8 2 3 8l5 6' fill='none' stroke='%23fdba74' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+#nazr-trigger .services-row-icon svg [stroke="#071710"], #nazr-trigger .services-row-icon svg[stroke="#071710"]{ stroke:url(#gOrange); }
+#nazr-trigger .services-row-icon svg [fill="#071710"], #nazr-trigger .services-row-icon svg[fill="#071710"]{ fill:url(#gOrange); }
+#convert-trigger{ --ic:96,165,250; --card-chev:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 16'%3E%3Cpath d='M8 2 3 8l5 6' fill='none' stroke='%2393c5fd' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+#convert-trigger .services-row-icon svg [stroke="#071710"], #convert-trigger .services-row-icon svg[stroke="#071710"]{ stroke:url(#gBlue); }
+#convert-trigger .services-row-icon svg [fill="#071710"], #convert-trigger .services-row-icon svg[fill="#071710"]{ fill:url(#gBlue); }
+#faq-trigger{ --ic:74,222,128; --card-chev:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 16'%3E%3Cpath d='M8 2 3 8l5 6' fill='none' stroke='%2386efac' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+#faq-trigger .services-row-icon svg [stroke="#071710"], #faq-trigger .services-row-icon svg[stroke="#071710"]{ stroke:url(#gMint); }
+#faq-trigger .services-row-icon svg [fill="#071710"], #faq-trigger .services-row-icon svg[fill="#071710"]{ fill:url(#gMint); }
+#install-trigger{ --ic:56,189,248; --card-chev:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 16'%3E%3Cpath d='M8 2 3 8l5 6' fill='none' stroke='%237dd3fc' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+#install-trigger .services-row-icon svg [stroke="#071710"], #install-trigger .services-row-icon svg[stroke="#071710"]{ stroke:url(#gSky); }
+#install-trigger .services-row-icon svg [fill="#071710"], #install-trigger .services-row-icon svg[fill="#071710"]{ fill:url(#gSky); }
+
+/* کارت‌ها */
+.services-row{
+  --card-grad:
+    radial-gradient(130% 120% at 85% 0%, rgba(var(--ic,255,203,61),0.24), transparent 62%),
+    linear-gradient(165deg, rgba(var(--ic,255,203,61),0.10), rgba(5,15,10,0) 72%);
+  --card-fill:rgba(6,18,12,0.64);
+  border-color:rgba(var(--ic,255,203,61),0.46);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 24px rgba(0,0,0,0.34), 0 0 20px rgba(var(--ic,255,203,61),0.10);
+}
+.services-row::before{ display:none; }  /* نقش ختمی گوشه‌ی کارت حذف شد */
+.services-row::after{ background:linear-gradient(90deg, transparent, rgba(var(--ic,255,224,138),0.9), transparent); }
+@media (hover:hover) and (pointer:fine){
+  .services-row:hover{
+    border-color:rgb(var(--ic,255,203,61)); color:var(--parchment);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.18), 0 16px 28px rgba(0,0,0,0.42), 0 0 26px rgba(var(--ic,255,203,61),0.28);
+  }
+}
+
+/* کاشی آیکون: مربع گرد شیشه‌ای (به‌جای ختمی) */
+.services-row-icon::after{ display:none; }
+.services-row-icon::before{
+  inset:4px; border-radius:17px;
+  border:1px solid rgba(var(--ic,255,203,61),0.62);
+  background:
+    radial-gradient(130% 110% at 28% 0%, rgba(var(--ic,255,203,61),0.46), transparent 64%),
+    linear-gradient(165deg, rgba(var(--ic,255,203,61),0.18), rgba(7,20,13,0.9));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.2), 0 5px 16px rgba(var(--ic,255,203,61),0.3);
+}
+.services-row-icon svg{ width:25px; height:25px; transition:transform .22s cubic-bezier(.2,1.3,.4,1); overflow:visible; }
+.services-group[data-n="3"] .services-row-icon svg, .services-group[data-n="4"] .services-row-icon svg{ width:21px; height:21px; }
+.services-row:active .services-row-icon svg{ transform:scale(.88); }
+@media (hover:hover) and (pointer:fine){
+  .services-row:hover .services-row-icon svg{ transform:scale(1.16) rotate(-6deg); }
+  .services-row:hover .services-row-icon::before{ border-color:rgb(var(--ic,255,203,61)); box-shadow:inset 0 1px 0 rgba(255,255,255,0.24), 0 6px 20px rgba(var(--ic,255,203,61),0.5); }
+}
+
+/* پخش زنده: ضربان آرام آیکون */
+#live-trigger .services-row-icon svg{ width:26px; height:26px; animation:svcBeat 1.8s ease-in-out infinite; }
+@keyframes svcBeat{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.14); } }
+#live-trigger .services-row-icon::before{ border-color:rgba(var(--ic),0.7); background:radial-gradient(130% 110% at 28% 0%, rgba(var(--ic),0.5), transparent 64%), linear-gradient(165deg, rgba(var(--ic),0.2), rgba(7,20,13,0.9)); }
+#live-trigger{ border-color:rgba(var(--ic),0.5); box-shadow:inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 26px rgba(0,0,0,0.36), 0 0 28px rgba(var(--ic),0.16); }
+
+/* جستجو */
+.services-search{
+  border-color:rgba(45,212,191,0.46);
+  background:
+    radial-gradient(130% 170% at 85% 0%, rgba(45,212,191,0.22), transparent 60%),
+    linear-gradient(180deg, rgba(14,155,98,0.10), rgba(6,18,12,0.72));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.12), 0 8px 20px rgba(0,0,0,0.3);
+}
+.services-search:focus-within{ border-color:#5eead4; box-shadow:inset 0 1px 0 rgba(255,255,255,0.16), 0 0 0 3px rgba(45,212,191,0.22), 0 8px 20px rgba(0,0,0,0.3); }
+.services-search svg *{ stroke:url(#gTeal); }
+.services-search-clear{ background:rgba(251,113,133,0.2); color:#fecdd3; box-shadow:inset 0 0 0 1px rgba(251,113,133,0.5); }
+
+/* دکمه‌ی خانه */
+.portal-home-btn{
+  border-color:rgba(255,176,32,0.55);
+  background:radial-gradient(130% 110% at 28% 0%, rgba(255,176,32,0.4), transparent 64%), linear-gradient(165deg, rgba(255,176,32,0.16), rgba(7,20,13,0.94));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.16), 0 4px 12px rgba(0,0,0,0.4);
+}
+.portal-home-btn svg path{ stroke:url(#gSun); }
+@media (hover:hover){ .portal-home-btn:hover{ border-color:#ffb020; box-shadow:0 0 16px rgba(255,176,32,0.4), inset 0 1px 0 rgba(255,255,255,0.2); } }
+
+/* سرتیتر گروه‌ها */
+.services-group-head::before{ background:linear-gradient(135deg, #5eead4, #a78bfa); box-shadow:0 0 10px rgba(94,234,212,0.6); }
+
+@media (prefers-reduced-motion: reduce){
+  #live-trigger .services-row-icon svg{ animation:none; }
+  .services-row-icon svg{ transition:none; }
+}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><linearGradient id="gRed" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#fecaca"/><stop offset="1" stop-color="#ef4444"/></linearGradient><linearGradient id="gTeal" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#5eead4"/><stop offset="1" stop-color="#0ea5e9"/></linearGradient><linearGradient id="gViolet" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#d8b4fe"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient><linearGradient id="gSun" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#ffe066"/><stop offset="1" stop-color="#ff8a1f"/></linearGradient><linearGradient id="gRose" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#fbcfe8"/><stop offset="1" stop-color="#ec4899"/></linearGradient><linearGradient id="gOrange" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#fed7aa"/><stop offset="1" stop-color="#f97316"/></linearGradient><linearGradient id="gBlue" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#93c5fd"/><stop offset="1" stop-color="#3b82f6"/></linearGradient><linearGradient id="gMint" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#bbf7d0"/><stop offset="1" stop-color="#10b981"/></linearGradient><linearGradient id="gSky" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#bae6fd"/><stop offset="1" stop-color="#0284c7"/></linearGradient></defs></svg>
 
 <div class="embers" id="embers" aria-hidden="true"></div>
 
