@@ -587,11 +587,102 @@ a.w-card:focus-visible, a.w-ev:focus-visible{ outline:2px solid var(--gold); out
 html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
 @media (max-width:359px){ .kzm-menu{ padding:14px 12px; } .kzm-menu-btn{ top:20px; } }
 @media (min-width:900px){ .kzm-menu-btn{ top:28px; height:30px; font-size:12px; padding-inline:5px 14px; } .kzm-menu-ic{ width:20px; height:20px; } }
+
+/* =====================================================================
+   کارایی: هنگام کشیدن لغزنده‌ی اندازه‌ی متن، صفحه‌ی پشت منو سبک می‌شود
+   ===================================================================== */
+html.kzm-menu-open .ember-spark{ animation-play-state:paused; }
+html.kzm-sizing .kzm-overlay{ -webkit-backdrop-filter:none; backdrop-filter:none; background:rgba(3,10,7,0.88); }
+html.kzm-sizing .portal, html.kzm-sizing .portal *{ animation-play-state:paused !important; transition:none !important; }
+.kzm-menu{ contain:layout paint; }
+
+/* =====================================================================
+   سبک جدید منوی تنظیمات: شیشه‌ای + آیکون‌های گرادیانی رنگی + درخشش رنگ هر کارت
+   ===================================================================== */
+.kzm-c-lang { --ic:45,212,191; }
+.kzm-c-size { --ic:167,139,250; }
+.kzm-c-sound{ --ic:255,176,32; }
+.kzm-c-guide{ --ic:74,222,128; }
+
+.kzm-card{
+  background:
+    radial-gradient(130% 120% at 85% 0%, rgba(var(--ic,255,203,61),0.20), transparent 62%),
+    linear-gradient(165deg, rgba(var(--ic,255,203,61),0.09), rgba(5,15,10,0.6));
+  border:1px solid rgba(var(--ic,255,203,61),0.42);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.1), 0 4px 14px rgba(0,0,0,0.3);
+}
+.kzm-guide.kzm-c-guide{
+  border-color:rgba(var(--ic),0.55) !important;
+  background:
+    radial-gradient(130% 120% at 85% 0%, rgba(var(--ic),0.26), transparent 62%),
+    linear-gradient(165deg, rgba(var(--ic),0.12), rgba(5,15,10,0.6)) !important;
+}
+@media (hover:hover){ .kzm-guide.kzm-c-guide:hover{ border-color:rgba(var(--ic),0.95) !important; box-shadow:0 0 16px rgba(var(--ic),0.3), inset 0 1px 0 rgba(255,255,255,0.1); } }
+
+.kzm-card .kzm-ic{
+  background:radial-gradient(120% 120% at 30% 0%, rgba(var(--ic,255,203,61),0.4), rgba(var(--ic,255,203,61),0.1));
+  box-shadow:inset 0 0 0 1px rgba(var(--ic,255,203,61),0.55), 0 0 12px rgba(var(--ic,255,203,61),0.28);
+}
+.kzm-card .kzm-ic svg{ stroke-width:2; }
+.kzm-c-lang  .kzm-ic svg{ stroke:url(#gTeal); }
+.kzm-c-size  .kzm-ic svg{ stroke:url(#gViolet); }
+.kzm-c-sound .kzm-ic svg{ stroke:url(#gSun); }
+.kzm-c-guide .kzm-ic svg{ stroke:url(#gMint); }
+.kzm-c-guide .kzm-chev{ stroke:url(#gMint); }
+.kzm-c-size .kzm-val{ color:#d8b4fe; text-shadow:0 0 12px rgba(167,139,250,0.55); }
+
+/* بستن */
+.kzm-close{ background:radial-gradient(120% 120% at 30% 0%, rgba(251,113,133,0.38), rgba(251,113,133,0.1)); border-color:rgba(251,113,133,0.6); color:#fecdd3; }
+.kzm-close:active{ background:rgba(251,113,133,0.35); }
+
+/* زبان: کاشی انتخاب‌شده با درخشش فیروزه‌ای */
+.kzm-langs button{ border-color:rgba(var(--ic),0.28); background:rgba(4,14,9,0.6); }
+.kzm-langs button[aria-checked="true"]{
+  color:#ccfbf1; border-color:rgb(var(--ic));
+  background:radial-gradient(90% 90% at 50% 0%, rgba(var(--ic),0.38), rgba(var(--ic),0.08));
+  box-shadow:0 0 18px rgba(var(--ic),0.32), inset 0 1px 0 rgba(255,255,255,0.16);
+}
+.kzm-langs button[aria-checked="true"]::after{ background:#5eead4; box-shadow:0 0 8px rgba(94,234,212,0.95); }
+.kzm-langs button[aria-checked="true"] .g.flag{ box-shadow:0 0 0 1.5px rgba(94,234,212,0.95), 0 0 10px rgba(94,234,212,0.4); }
+
+/* لغزنده‌ی اندازه: بنفش تا صورتی */
+.kzm-range::-webkit-slider-runnable-track{ background:linear-gradient(90deg, #8b5cf6, #ec4899 var(--p), rgba(255,255,255,0.14) var(--p)); }
+.kzm-range::-moz-range-progress{ background:linear-gradient(90deg, #8b5cf6, #ec4899); }
+.kzm-range::-webkit-slider-thumb{ background:radial-gradient(circle at 35% 30%, #f3e8ff, #a78bfa 60%, #7c3aed); box-shadow:0 0 0 1px rgba(167,139,250,0.8), 0 0 12px rgba(167,139,250,0.55), 0 3px 10px rgba(0,0,0,0.55); }
+.kzm-range::-moz-range-thumb{ background:radial-gradient(circle at 35% 30%, #f3e8ff, #a78bfa 60%, #7c3aed); box-shadow:0 0 0 1px rgba(167,139,250,0.8), 0 0 12px rgba(167,139,250,0.55), 0 3px 10px rgba(0,0,0,0.55); }
+.kzm-sizebox .a.l{ color:#d8b4fe; }
+
+/* کلید صدا: روشن = سبز نعنایی */
+.kzm-switch[aria-checked="true"]{ background:linear-gradient(135deg, #bbf7d0, #34d399 60%, #10b981); border-color:rgba(167,243,208,0.85); box-shadow:0 0 12px rgba(52,211,153,0.4); }
+.kzm-switch[aria-checked="true"] i{ background:#053b26; }
+
+
+/* دکمه‌های − و + اندازه‌ی متن */
+.kzm-step{
+  appearance:none; -webkit-appearance:none; flex:none; width:34px; height:34px; padding:0; cursor:pointer;
+  display:grid; place-items:center; border-radius:50%; font:inherit;
+  border:1px solid rgba(var(--st),0.6);
+  background:
+    radial-gradient(130% 95% at 28% 0%, rgba(var(--st),0.4), transparent 62%),
+    linear-gradient(165deg, rgba(var(--st),0.16), rgba(7,20,13,0.9));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.14), 0 3px 10px rgba(0,0,0,0.35);
+  transition:transform .15s ease, box-shadow .2s ease, border-color .2s ease, opacity .2s ease;
+  -webkit-tap-highlight-color:transparent; touch-action:manipulation; user-select:none; -webkit-user-select:none;
+}
+.kzm-dec{ --st:251,113,133; } .kzm-inc{ --st:74,222,128; }
+.kzm-step svg{ width:18px; height:18px; fill:none; stroke-width:2.6; stroke-linecap:round; pointer-events:none; }
+.kzm-dec svg{ stroke:url(#gCoral); } .kzm-inc svg{ stroke:url(#gMint); }
+.kzm-step:active:not(:disabled){ transform:scale(.9); box-shadow:0 0 0 3px rgba(var(--st),0.25), 0 3px 10px rgba(0,0,0,0.35); }
+@media (hover:hover){ .kzm-step:hover:not(:disabled){ border-color:rgb(var(--st)); box-shadow:0 0 14px rgba(var(--st),0.35), inset 0 1px 0 rgba(255,255,255,0.14); } }
+.kzm-step:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+.kzm-step:disabled{ opacity:.35; cursor:default; }
+.kzm-sizebox{ gap:8px; }
 @media (prefers-reduced-motion: reduce){ .kzm-menu-btn{ animation:none; opacity:1; } .kzm-badge{ animation:none; } .kzm-overlay, .kzm-menu, .kzm-switch i{ transition:none; } }
 html[dir="ltr"] .w-continue-go{ transform:scaleX(-1); }
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><linearGradient id="gTeal" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#5eead4"/><stop offset="1" stop-color="#0ea5e9"/></linearGradient><linearGradient id="gViolet" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#d8b4fe"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient><linearGradient id="gSun" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#ffe066"/><stop offset="1" stop-color="#ff8a1f"/></linearGradient><linearGradient id="gMint" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#bbf7d0"/><stop offset="1" stop-color="#10b981"/></linearGradient><linearGradient id="gCoral" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#fed7aa"/><stop offset="1" stop-color="#ef4444"/></linearGradient></defs></svg>
 
 <div class="portal-pattern" aria-hidden="true"></div>
 <div class="portal-frame" aria-hidden="true">
@@ -616,7 +707,7 @@ html[dir="ltr"] .w-continue-go{ transform:scaleX(-1); }
       </button>
     </div>
 
-    <div class="kzm-card">
+    <div class="kzm-card kzm-c-lang">
       <div class="kzm-card-head"><span class="kzm-card-title"><span class="kzm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.9 5.6 3.9 9S14.6 18.4 12 21c-2.6-2.6-3.9-5.6-3.9-9S9.4 5.6 12 3z"/></svg></span><span data-i18n="mLang">زبان</span></span></div>
       <div class="kzm-langs" role="radiogroup" aria-label="زبان" data-i18n-aria="mLang">
         <button type="button" role="radio" aria-checked="true" data-lang="fa"><span class="g flag"><img src="data:image/webp;base64,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" alt="" width="34" height="23" draggable="false"></span><span class="n">فارسی</span></button>
@@ -625,25 +716,27 @@ html[dir="ltr"] .w-continue-go{ transform:scaleX(-1); }
       </div>
     </div>
 
-    <div class="kzm-card">
+    <div class="kzm-card kzm-c-size">
       <div class="kzm-card-head">
         <span class="kzm-card-title"><span class="kzm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3.5 18l4.5-11 4.5 11M5.2 14h5.6M14.5 18l3-7 3 7M15.7 15.5h3.6"/></svg></span><span data-i18n="mSize">اندازه متن</span></span>
         <span class="kzm-val" id="kzm-size-val" aria-live="polite">۱۰۰٪</span>
       </div>
       <div class="kzm-sizebox">
+        <button type="button" class="kzm-step kzm-dec" id="kzm-size-dec" aria-label="کوچک‌تر کردن متن" data-i18n-aria="mSizeDec"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 12h11"/></svg></button>
         <span class="a s" aria-hidden="true">A</span>
         <input type="range" class="kzm-range" id="kzm-size" min="70" max="170" step="10" value="100" aria-label="اندازه متن" data-i18n-aria="mSize">
         <span class="a l" aria-hidden="true">A</span>
+        <button type="button" class="kzm-step kzm-inc" id="kzm-size-inc" aria-label="بزرگ‌تر کردن متن" data-i18n-aria="mSizeInc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5v11M6.5 12h11"/></svg></button>
       </div>
     </div>
 
     <div class="kzm-pair">
-      <div class="kzm-card">
+      <div class="kzm-card kzm-c-sound">
         <span class="kzm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a4 4 0 0 1 0 7M18.5 6a7.5 7.5 0 0 1 0 12"/></svg></span>
         <span class="kzm-card-title" data-i18n="mSound">صدا</span>
         <button type="button" class="kzm-switch" id="kzm-sound" role="switch" aria-checked="false" aria-label="صدا" data-i18n-aria="mSound"><i></i></button>
       </div>
-      <a class="kzm-card kzm-guide" href="guide.html" id="kzm-guide">
+      <a class="kzm-card kzm-guide kzm-c-guide" href="guide.html" id="kzm-guide">
         <span class="kzm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.3 9.3a2.7 2.7 0 1 1 3.8 2.5c-.7.35-1.1.7-1.1 1.5v.4"/><circle cx="12" cy="16.6" r=".6" fill="currentColor"/></svg></span>
         <span class="kzm-card-title" data-i18n="mGuide">راهنمای سایت</span>
         <svg class="kzm-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
@@ -920,7 +1013,7 @@ html[dir="ltr"] .w-continue-go{ transform:scaleX(-1); }
         wtTitle:'تاریخ و مناسبت امروز', wzSub:'۱۰۰ بار',
         tFajr:'صبح', tSunrise:'طلوع', tDhuhr:'ظهر', tMaghrib:'مغرب',
         pwaLong:'نصب اپلیکیشن', pwaShort:'نصب', pwaAria:'نصب اپلیکیشن تحت وب هیئت کاظمیون',
-        mOpen:'منو و تنظیمات', mClose:'بستن', mTitle:'تنظیمات', mLang:'زبان', mSize:'اندازه متن', mSound:'صدا', mGuide:'راهنمای سایت',
+        mOpen:'منو و تنظیمات', mClose:'بستن', mTitle:'تنظیمات', mLang:'زبان', mSize:'اندازه متن', mSizeDec:'کوچک‌تر کردن متن', mSizeInc:'بزرگ‌تر کردن متن', mSound:'صدا', mGuide:'راهنمای سایت',
         today:'امروز', tomorrow:'فردا', tomorrowParen:'(فردا)', holiday:'تعطیل', noOcc:'امروز مناسبت رسمی ثبت‌شده‌ای نیست',
         nextOcc:'مناسبت بعدی: ', zekrDay:'ذکر روز ', zekrDone:'ذکر امروز کامل شد ✓', zekrToday:'امروز ', zekrOf:' از ',
         contLabel:'ادامه‌ی مطالعه', contFbLabel:'ادعیه و زیارت‌نامه‌ها', contFbName:'کمیل، ندبه، عاشورا و ...', contFbSub:'شروع مطالعه'
@@ -939,7 +1032,7 @@ html[dir="ltr"] .w-continue-go{ transform:scaleX(-1); }
         wtTitle:'تاريخ اليوم ومناسباته', wzSub:'١٠٠ مرة',
         tFajr:'الفجر', tSunrise:'الشروق', tDhuhr:'الظهر', tMaghrib:'المغرب',
         pwaLong:'تثبيت التطبيق', pwaShort:'تثبيت', pwaAria:'تثبيت تطبيق موكب الكاظميون',
-        mOpen:'القائمة والإعدادات', mClose:'إغلاق', mTitle:'الإعدادات', mLang:'اللغة', mSize:'حجم النص', mSound:'الصوت', mGuide:'دليل الموقع',
+        mOpen:'القائمة والإعدادات', mClose:'إغلاق', mTitle:'الإعدادات', mLang:'اللغة', mSize:'حجم النص', mSizeDec:'تصغير النص', mSizeInc:'تكبير النص', mSound:'الصوت', mGuide:'دليل الموقع',
         today:'اليوم', tomorrow:'غداً', tomorrowParen:'(غداً)', holiday:'عطلة', noOcc:'لا توجد مناسبة رسمية مسجّلة اليوم',
         nextOcc:'المناسبة القادمة: ', zekrDay:'ذكر يوم ', zekrDone:'اكتمل ذكر اليوم ✓', zekrToday:'اليوم ', zekrOf:' من ',
         contLabel:'متابعة القراءة', contFbLabel:'الأدعية والزيارات', contFbName:'كميل، الندبة، عاشوراء وغيرها', contFbSub:'ابدأ القراءة'
@@ -958,7 +1051,7 @@ html[dir="ltr"] .w-continue-go{ transform:scaleX(-1); }
         wtTitle:'Today’s date & occasion', wzSub:'100 times',
         tFajr:'Fajr', tSunrise:'Sunrise', tDhuhr:'Dhuhr', tMaghrib:'Maghrib',
         pwaLong:'Install app', pwaShort:'Install', pwaAria:'Install the Heyat-e Kazemiyoon web app',
-        mOpen:'Menu & settings', mClose:'Close', mTitle:'Settings', mLang:'Language', mSize:'Text size', mSound:'Sound', mGuide:'Site guide',
+        mOpen:'Menu & settings', mClose:'Close', mTitle:'Settings', mLang:'Language', mSize:'Text size', mSizeDec:'Smaller text', mSizeInc:'Larger text', mSound:'Sound', mGuide:'Site guide',
         today:'Today', tomorrow:'Tomorrow', tomorrowParen:'(tomorrow)', holiday:'Holiday', noOcc:'No official occasion today',
         nextOcc:'Next: ', zekrDay:'Dhikr · ', zekrDone:'Today’s dhikr complete ✓', zekrToday:'Today ', zekrOf:' of ',
         contLabel:'Continue reading', contFbLabel:'Supplications & Ziyarat', contFbName:'Kumayl, Nudbah, Ashura…', contFbSub:'Start reading'
@@ -1010,6 +1103,7 @@ html[dir="ltr"] .w-continue-go{ transform:scaleX(-1); }
     function setOpen(on){
       if(!btn || !overlay) return;
       overlay.classList.toggle('open', on);
+      document.documentElement.classList.toggle('kzm-menu-open', on);
       btn.setAttribute('aria-expanded', String(on));
       document.body.style.overflow = on ? 'hidden' : '';
       if(on){
@@ -1036,15 +1130,59 @@ html[dir="ltr"] .w-continue-go{ transform:scaleX(-1); }
     var range = document.getElementById('kzm-size'), page = document.querySelector('main.portal');
     var MIN = 70, MAX = 170;
     sizePct = parseInt(LS.get('kazemiuon-font-size'), 10) || 100;
-    function applySize(){
+    var rootEl = document.documentElement, zoomTimer = 0, idleTimer = 0, saveTimer = 0, lastRun = 0, applied = null;
+    function paintSize(){
       sizePct = Math.max(MIN, Math.min(MAX, Math.round(sizePct / 10) * 10));
-      if(page) page.style.setProperty('--kzm-zoom', String(sizePct / 100));
       if(range){ range.value = sizePct; range.style.setProperty('--p', ((sizePct - MIN) / (MAX - MIN) * 100) + '%'); }
+      if(decBtn) decBtn.disabled = sizePct <= MIN;
+      if(incBtn) incBtn.disabled = sizePct >= MAX;
       showSize();
-      LS.set('kazemiuon-font-size', String(sizePct));
     }
-    if(range) range.addEventListener('input', function(){ sizePct = parseInt(range.value, 10) || 100; applySize(); });
-    applySize();
+    function commitZoom(){
+      zoomTimer = 0; lastRun = performance.now();
+      if(page && applied !== sizePct){ applied = sizePct; page.style.setProperty('--kzm-zoom', String(sizePct / 100)); }
+      clearTimeout(idleTimer); idleTimer = setTimeout(function(){ rootEl.classList.remove('kzm-sizing'); }, 160);
+    }
+    /* live=true: حین کشیدن لغزنده؛ عدد و لغزنده فوری عوض می‌شوند، ولی بزرگ‌نمایی صفحه (که کل صفحه را دوباره می‌چیند)
+       فقط وقتی انگشت لحظه‌ای مکث کند یا رها شود اعمال می‌شود. تا آن موقع انیمیشن‌ها و محوکننده‌ی پشت منو خاموش‌اند. */
+    function applySize(live){
+      paintSize();
+      if(!live){ commitZoom(); LS.set('kazemiuon-font-size', String(sizePct)); return; }
+      rootEl.classList.add('kzm-sizing');
+      clearTimeout(idleTimer);
+      clearTimeout(zoomTimer); zoomTimer = setTimeout(function(){ requestAnimationFrame(commitZoom); }, 140);
+      clearTimeout(saveTimer); saveTimer = setTimeout(function(){ LS.set('kazemiuon-font-size', String(sizePct)); }, 350);
+    }
+    /* دکمه‌های کم/زیاد کردن اندازه (با نگه‌داشتن، پشت‌سرهم تکرار می‌شود) */
+    var decBtn = document.getElementById('kzm-size-dec'), incBtn = document.getElementById('kzm-size-inc');
+    function stepSize(d){
+      var next = Math.max(MIN, Math.min(MAX, sizePct + d));
+      if(next === sizePct) return false;
+      sizePct = next; applySize(true); return true;
+    }
+    function bindStep(btn, d){
+      if(!btn) return;
+      var hold = 0, rep = 0, fired = false;
+      function clear(){ clearTimeout(hold); clearInterval(rep); hold = 0; rep = 0; }
+      btn.addEventListener('pointerdown', function(e){
+        if(e.pointerType === 'mouse' && e.button !== 0) return;
+        fired = true; stepSize(d); clear();
+        hold = setTimeout(function(){ rep = setInterval(function(){ if(!stepSize(d)) clear(); }, 150); }, 380);
+      });
+      ['pointerup', 'pointercancel', 'pointerleave'].forEach(function(ev){ btn.addEventListener(ev, function(){ clear(); setTimeout(function(){ fired = false; }, 500); }); });
+      btn.addEventListener('click', function(){ if(fired){ fired = false; return; } stepSize(d); });  /* کلیک صفحه‌کلید */
+      btn.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+    }
+    bindStep(decBtn, -10); bindStep(incBtn, 10);
+    if(range){
+      range.addEventListener('input', function(){ sizePct = parseInt(range.value, 10) || 100; applySize(true); });
+      range.addEventListener('change', function(){
+        sizePct = parseInt(range.value, 10) || 100;
+        clearTimeout(zoomTimer); zoomTimer = 0; paintSize(); commitZoom();
+        LS.set('kazemiuon-font-size', String(sizePct));
+      });
+    }
+    applySize(false);
 
     /* ---------- صدا: صدای ملایم لمس (پیش‌فرض خاموش) ---------- */
     var sw = document.getElementById('kzm-sound'), ctx = null, soundOn = LS.get('kazemiuon-sound') === '1';
