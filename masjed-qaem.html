@@ -1521,9 +1521,200 @@ button.kzm-card{ appearance:none; -webkit-appearance:none; cursor:pointer; color
 html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
 @media (max-width:359px){ .kzm-menu{ padding:14px 12px; } }
 @media (prefers-reduced-motion: reduce){ .kzm-overlay, .kzm-menu, .kzm-switch i{ transition:none; } }
+
+/* =====================================================================
+   سبک جدید: شیشه‌ای + آیکون‌های گرادیانی رنگی + رنگ مخصوص هر کارت + حرکت‌های ریز
+   ===================================================================== */
+
+/* ---------- کارایی: هنگام کشیدن لغزنده‌ی اندازه‌ی متن، صفحه‌ی پشت منو سبک می‌شود ---------- */
+html.kzm-menu-open .ember-spark{ animation-play-state:paused; }
+html.kzm-sizing .kzm-overlay{ -webkit-backdrop-filter:none; backdrop-filter:none; background:rgba(3,10,7,0.88); }
+html.kzm-sizing .page, html.kzm-sizing .page *{ animation-play-state:paused !important; transition:none !important; }
+.kzm-menu{ contain:layout paint; }
+
+/* ---------- منوی تنظیمات ---------- */
+#kzm-card-lang{ --ic:45,212,191; }
+#kzm-card-lang .kzm-ic svg{ stroke:url(#gTeal); }
+#kzm-card-theme{ --ic:244,114,182; }
+#kzm-card-theme .kzm-ic svg{ stroke:url(#gRose); }
+#kzm-card-size{ --ic:167,139,250; }
+#kzm-card-size .kzm-ic svg{ stroke:url(#gViolet); }
+#kzm-card-sound{ --ic:255,176,32; }
+#kzm-card-sound .kzm-ic svg{ stroke:url(#gSun); }
+#kzm-install{ --ic:56,189,248; }
+#kzm-install .kzm-ic svg{ stroke:url(#gSky); }
+#kzm-downloads{ --ic:96,165,250; }
+#kzm-downloads .kzm-ic svg{ stroke:url(#gBlue); }
+#kzm-guide{ --ic:74,222,128; }
+#kzm-guide .kzm-ic svg{ stroke:url(#gMint); }
+#kzm-guide .kzm-chev, #kzm-install .kzm-chev, #kzm-downloads .kzm-chev{ stroke:currentColor; }
+#kzm-guide .kzm-chev{ stroke:url(#gMint); }
+#kzm-install .kzm-chev{ stroke:url(#gSky); }
+#kzm-downloads .kzm-chev{ stroke:url(#gBlue); }
+
+.kzm-card{
+  background:
+    radial-gradient(130% 120% at 85% 0%, rgba(var(--ic,255,203,61),0.20), transparent 62%),
+    linear-gradient(165deg, rgba(var(--ic,255,203,61),0.09), rgba(5,15,10,0.6));
+  border:1px solid rgba(var(--ic,255,203,61),0.42);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.1), 0 4px 14px rgba(0,0,0,0.3);
+}
+#kzm-guide.kzm-card{
+  border-color:rgba(var(--ic),0.55) !important;
+  background:
+    radial-gradient(130% 120% at 85% 0%, rgba(var(--ic),0.26), transparent 62%),
+    linear-gradient(165deg, rgba(var(--ic),0.12), rgba(5,15,10,0.6)) !important;
+}
+@media (hover:hover){ #kzm-guide.kzm-card:hover{ border-color:rgba(var(--ic),0.95) !important; box-shadow:0 0 16px rgba(var(--ic),0.3), inset 0 1px 0 rgba(255,255,255,0.1); } }
+.kzm-card .kzm-ic{
+  background:radial-gradient(120% 120% at 30% 0%, rgba(var(--ic,255,203,61),0.4), rgba(var(--ic,255,203,61),0.1));
+  box-shadow:inset 0 0 0 1px rgba(var(--ic,255,203,61),0.55), 0 0 12px rgba(var(--ic,255,203,61),0.28);
+}
+.kzm-card .kzm-ic svg{ stroke-width:2; }
+#kzm-card-size .kzm-val{ color:#d8b4fe; text-shadow:0 0 12px rgba(167,139,250,0.55); }
+.kzm-close{ background:radial-gradient(120% 120% at 30% 0%, rgba(251,113,133,0.38), rgba(251,113,133,0.1)); border-color:rgba(251,113,133,0.6); color:#fecdd3; }
+.kzm-close:active{ background:rgba(251,113,133,0.35); }
+
+/* کاشی‌های زبان و تم: انتخاب‌شده با درخشش رنگ کارت */
+.kzm-langs button, .kzm-themes button{ border-color:rgba(var(--ic),0.28); background:rgba(4,14,9,0.6); }
+.kzm-langs button[aria-checked="true"], .kzm-themes button[aria-checked="true"]{
+  border-color:rgb(var(--ic));
+  background:radial-gradient(90% 90% at 50% 0%, rgba(var(--ic),0.38), rgba(var(--ic),0.08));
+  box-shadow:0 0 18px rgba(var(--ic),0.32), inset 0 1px 0 rgba(255,255,255,0.16);
+}
+.kzm-langs button[aria-checked="true"]::after, .kzm-themes button[aria-checked="true"]::after{ background:rgb(var(--ic)); box-shadow:0 0 8px rgba(var(--ic),0.95); }
+.kzm-themes .sw{ box-shadow:0 0 0 1px rgba(255,255,255,0.3), 0 3px 10px rgba(0,0,0,0.45); }
+.kzm-themes button[aria-checked="true"] .sw{ box-shadow:0 0 0 2px rgba(var(--ic),0.95), 0 0 12px rgba(var(--ic),0.5); }
+
+/* لغزنده: بنفش تا صورتی */
+.kzm-range::-webkit-slider-runnable-track{ background:linear-gradient(90deg, #8b5cf6, #ec4899 var(--p), rgba(255,255,255,0.14) var(--p)); }
+.kzm-range::-moz-range-progress{ background:linear-gradient(90deg, #8b5cf6, #ec4899); }
+.kzm-range::-webkit-slider-thumb{ background:radial-gradient(circle at 35% 30%, #f3e8ff, #a78bfa 60%, #7c3aed); box-shadow:0 0 0 1px rgba(167,139,250,0.8), 0 0 12px rgba(167,139,250,0.55), 0 3px 10px rgba(0,0,0,0.55); }
+.kzm-range::-moz-range-thumb{ background:radial-gradient(circle at 35% 30%, #f3e8ff, #a78bfa 60%, #7c3aed); box-shadow:0 0 0 1px rgba(167,139,250,0.8), 0 0 12px rgba(167,139,250,0.55), 0 3px 10px rgba(0,0,0,0.55); }
+.kzm-sizebox .a.l{ color:#d8b4fe; }
+.kzm-sizebox{ gap:8px; }
+
+/* دکمه‌های − و + */
+.kzm-step{
+  appearance:none; -webkit-appearance:none; flex:none; width:34px; height:34px; padding:0; cursor:pointer;
+  display:grid; place-items:center; border-radius:50%; font:inherit;
+  border:1px solid rgba(var(--st),0.6);
+  background:
+    radial-gradient(130% 95% at 28% 0%, rgba(var(--st),0.4), transparent 62%),
+    linear-gradient(165deg, rgba(var(--st),0.16), rgba(7,20,13,0.9));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.14), 0 3px 10px rgba(0,0,0,0.35);
+  transition:transform .15s ease, box-shadow .2s ease, border-color .2s ease, opacity .2s ease;
+  -webkit-tap-highlight-color:transparent; touch-action:manipulation; user-select:none; -webkit-user-select:none;
+}
+.kzm-dec{ --st:251,113,133; } .kzm-inc{ --st:74,222,128; }
+.kzm-step svg{ width:18px; height:18px; fill:none; stroke-width:2.6; stroke-linecap:round; pointer-events:none; }
+.kzm-dec svg{ stroke:url(#gCoral); } .kzm-inc svg{ stroke:url(#gMint); }
+.kzm-step:active:not(:disabled){ transform:scale(.9); box-shadow:0 0 0 3px rgba(var(--st),0.25), 0 3px 10px rgba(0,0,0,0.35); }
+@media (hover:hover){ .kzm-step:hover:not(:disabled){ border-color:rgb(var(--st)); box-shadow:0 0 14px rgba(var(--st),0.35), inset 0 1px 0 rgba(255,255,255,0.14); } }
+.kzm-step:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+.kzm-step:disabled{ opacity:.35; cursor:default; }
+
+/* کلید صدا */
+.kzm-switch[aria-checked="true"]{ background:linear-gradient(135deg, #bbf7d0, #34d399 60%, #10b981); border-color:rgba(167,243,208,0.85); box-shadow:0 0 12px rgba(52,211,153,0.4); }
+.kzm-switch[aria-checked="true"] i{ background:#053b26; }
+
+/* دکمه‌ی باز کردن تنظیمات */
+.kzm-menu-btn{
+  border-color:rgba(255,176,32,0.55);
+  background:radial-gradient(130% 110% at 28% 0%, rgba(255,176,32,0.34), transparent 64%), linear-gradient(165deg, rgba(255,176,32,0.14), var(--void-2, #0a1d14));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.14), 0 6px 14px -6px rgba(0,0,0,0.6);
+}
+.kzm-menu-ic{ background:radial-gradient(120% 120% at 30% 0%, rgba(255,176,32,0.45), rgba(255,176,32,0.12)); box-shadow:inset 0 0 0 1px rgba(255,176,32,0.6), 0 0 10px rgba(255,176,32,0.3); }
+.kzm-menu-ic svg{ stroke:url(#gSun); }
+@media (hover:hover){ .kzm-menu-btn:hover{ border-color:#ffb020; box-shadow:0 6px 16px -6px rgba(0,0,0,0.6), 0 0 16px rgba(255,176,32,0.4), inset 0 1px 0 rgba(255,255,255,0.14); } }
+
+/* ---------- کارت‌های دعا و معنویات ---------- */
+.qaem-link-card[href="page2.html"]{ --ic:255,176,32; }
+.qaem-link-card[href="page2.html"] .qaem-link-icon svg [stroke="#071710"], .qaem-link-card[href="page2.html"] .qaem-link-icon svg[stroke="#071710"]{ stroke:url(#gSun); }
+.qaem-link-card[href="page2.html"] .qaem-link-icon svg [fill="#071710"], .qaem-link-card[href="page2.html"] .qaem-link-icon svg[fill="#071710"]{ fill:url(#gSun); }
+.qaem-link-card[href="page2.html"] .qaem-link-arrow svg{ stroke:url(#gSun); }
+.qaem-link-card[href="salavat.html"]{ --ic:244,114,182; }
+.qaem-link-card[href="salavat.html"] .qaem-link-icon svg [stroke="#071710"], .qaem-link-card[href="salavat.html"] .qaem-link-icon svg[stroke="#071710"]{ stroke:url(#gRose); }
+.qaem-link-card[href="salavat.html"] .qaem-link-icon svg [fill="#071710"], .qaem-link-card[href="salavat.html"] .qaem-link-icon svg[fill="#071710"]{ fill:url(#gRose); }
+.qaem-link-card[href="salavat.html"] .qaem-link-arrow svg{ stroke:url(#gRose); }
+.qaem-link-card[href="zekr.html"]{ --ic:45,212,191; }
+.qaem-link-card[href="zekr.html"] .qaem-link-icon svg [stroke="#071710"], .qaem-link-card[href="zekr.html"] .qaem-link-icon svg[stroke="#071710"]{ stroke:url(#gTeal); }
+.qaem-link-card[href="zekr.html"] .qaem-link-icon svg [fill="#071710"], .qaem-link-card[href="zekr.html"] .qaem-link-icon svg[fill="#071710"]{ fill:url(#gTeal); }
+.qaem-link-card[href="zekr.html"] .qaem-link-arrow svg{ stroke:url(#gTeal); }
+.qaem-link-card[href="owqat.html"]{ --ic:167,139,250; }
+.qaem-link-card[href="owqat.html"] .qaem-link-icon svg [stroke="#071710"], .qaem-link-card[href="owqat.html"] .qaem-link-icon svg[stroke="#071710"]{ stroke:url(#gViolet); }
+.qaem-link-card[href="owqat.html"] .qaem-link-icon svg [fill="#071710"], .qaem-link-card[href="owqat.html"] .qaem-link-icon svg[fill="#071710"]{ fill:url(#gViolet); }
+.qaem-link-card[href="owqat.html"] .qaem-link-arrow svg{ stroke:url(#gViolet); }
+.qaem-link-card[href="quran24.html"]{ --ic:74,222,128; }
+.qaem-link-card[href="quran24.html"] .qaem-link-icon svg [stroke="#071710"], .qaem-link-card[href="quran24.html"] .qaem-link-icon svg[stroke="#071710"]{ stroke:url(#gMint); }
+.qaem-link-card[href="quran24.html"] .qaem-link-icon svg [fill="#071710"], .qaem-link-card[href="quran24.html"] .qaem-link-icon svg[fill="#071710"]{ fill:url(#gMint); }
+.qaem-link-card[href="quran24.html"] .qaem-link-arrow svg{ stroke:url(#gMint); }
+
+.qaem-link-card{
+  --ic:255,203,61;
+  background:
+    radial-gradient(130% 120% at 85% 0%, rgba(var(--ic),0.24), transparent 62%) padding-box,
+    linear-gradient(165deg, rgba(var(--ic),0.10), rgba(255,255,255,0) 72%) padding-box,
+    linear-gradient(var(--void), var(--void)) padding-box,
+    linear-gradient(145deg, rgba(var(--ic),0.85), rgba(var(--ic),0.14) 40%, rgba(var(--ic),0.14) 62%, rgba(var(--ic),0.6)) border-box;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.1), 0 14px 28px rgba(0,0,0,0.34), 0 0 22px rgba(var(--ic),0.10);
+}
+.qaem-link-card.qaem-link-featured{
+  background:
+    radial-gradient(90% 150% at 100% 0%, rgba(var(--ic),0.28), transparent 60%) padding-box,
+    linear-gradient(165deg, rgba(var(--ic),0.10), rgba(255,255,255,0) 72%) padding-box,
+    linear-gradient(var(--void), var(--void)) padding-box,
+    linear-gradient(145deg, rgba(var(--ic),0.9), rgba(var(--ic),0.16) 40%, rgba(var(--ic),0.16) 60%, rgba(var(--ic),0.65)) border-box;
+}
+.qaem-link-card::before{ background:linear-gradient(90deg, transparent, rgba(var(--ic),0.95), transparent); }
+.qaem-link-card:hover{ box-shadow:inset 0 1px 0 rgba(255,255,255,0.14), 0 18px 34px rgba(0,0,0,0.42), 0 0 28px rgba(var(--ic),0.3); }
+.qaem-link-icon{
+  border-radius:19px;
+  background:
+    radial-gradient(130% 110% at 28% 0%, rgba(var(--ic),0.46), transparent 64%),
+    linear-gradient(165deg, rgba(var(--ic),0.18), var(--void));
+  box-shadow:inset 0 0 0 1px rgba(var(--ic),0.62), inset 0 1px 0 rgba(255,255,255,0.2), 0 6px 18px rgba(var(--ic),0.32);
+}
+.qaem-link-icon svg{ overflow:visible; transition:transform .22s cubic-bezier(.2,1.3,.4,1); }
+.qaem-link-card:hover .qaem-link-icon{ transform:none; box-shadow:inset 0 0 0 1px rgb(var(--ic)), inset 0 1px 0 rgba(255,255,255,0.24), 0 8px 22px rgba(var(--ic),0.5); }
+.qaem-link-card:hover .qaem-link-icon svg{ transform:scale(1.16) rotate(-6deg); }
+.qaem-link-card:active .qaem-link-icon svg{ transform:scale(.88); }
+.qaem-link-title::after{ background:linear-gradient(90deg, transparent, rgb(var(--ic)), transparent); opacity:.9; }
+.qaem-link-featured .qaem-link-title::after{ background:linear-gradient(90deg, rgb(var(--ic)), transparent); }
+html[dir="rtl"] .qaem-link-featured .qaem-link-title::after{ background:linear-gradient(270deg, rgb(var(--ic)), transparent); }
+.qaem-link-arrow{ border-color:rgba(var(--ic),0.5); background:radial-gradient(120% 120% at 30% 0%, rgba(var(--ic),0.4), rgba(var(--ic),0.1)); color:rgb(var(--ic)); }
+.qaem-group-label::before, .group-label::before{ background:linear-gradient(135deg, #5eead4, #a78bfa); box-shadow:0 0 10px rgba(94,234,212,0.6); }
+
+/* ---------- وضعیت مراسم و شمارش معکوس ---------- */
+.hero-status{
+  border-color:rgba(45,212,191,0.45);
+  background:radial-gradient(130% 160% at 85% 0%, rgba(45,212,191,0.22), transparent 62%), rgba(0,0,0,0.34);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.1), 0 0 0 3px rgba(45,212,191,0.07);
+}
+.hero-status:hover{ border-color:#5eead4; background:radial-gradient(130% 160% at 85% 0%, rgba(45,212,191,0.3), transparent 62%), rgba(0,0,0,0.4); }
+.cd-cell{
+  border-color:rgba(var(--ic),0.5);
+  background:radial-gradient(130% 110% at 50% 0%, rgba(var(--ic),0.30), transparent 68%), linear-gradient(165deg, rgba(var(--ic),0.12), rgba(0,0,0,0.34));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.12), 0 8px 18px rgba(0,0,0,0.28), 0 0 16px rgba(var(--ic),0.14);
+}
+.cd-cell::before{ background:linear-gradient(90deg, transparent, rgba(var(--ic),0.9), transparent); }
+.cd-cell .num{ text-shadow:0 0 16px rgba(var(--ic),0.6); }
+.cd-cell .lbl{ color:rgb(var(--ic)); opacity:.9; font-weight:700; }
+.hero-countdown-grid .cd-cell{ --ic:255,176,32; }  /* هر چهار خانه هم‌رنگ (کهربایی) */
+
+/* ---------- مسیر رسیدن: نشان و بلد ---------- */
+.route-btn.neshan{ --ic:45,212,191; } .route-btn.balad{ --ic:96,165,250; }
+.route-btn:not(:active){ background:radial-gradient(130% 170% at 50% 0%, rgba(var(--ic),0.22), transparent 70%); }
+.route-btn-icon{ border-radius:12px; box-shadow:inset 0 1px 0 rgba(255,255,255,0.3), 0 5px 14px rgba(var(--ic),0.4); transition:transform .22s cubic-bezier(.2,1.3,.4,1); }
+@media (hover:hover){ .route-btn:hover .route-btn-icon{ transform:scale(1.12) rotate(-5deg); } }
+
+@media (prefers-reduced-motion: reduce){
+  .qaem-link-icon svg, .route-btn-icon, .kzm-step{ transition:none; }
+}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><linearGradient id="gRed" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#fecaca"/><stop offset="1" stop-color="#ef4444"/></linearGradient><linearGradient id="gTeal" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#5eead4"/><stop offset="1" stop-color="#0ea5e9"/></linearGradient><linearGradient id="gViolet" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#d8b4fe"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient><linearGradient id="gSun" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#ffe066"/><stop offset="1" stop-color="#ff8a1f"/></linearGradient><linearGradient id="gRose" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#fbcfe8"/><stop offset="1" stop-color="#ec4899"/></linearGradient><linearGradient id="gOrange" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#fed7aa"/><stop offset="1" stop-color="#f97316"/></linearGradient><linearGradient id="gBlue" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#93c5fd"/><stop offset="1" stop-color="#3b82f6"/></linearGradient><linearGradient id="gMint" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#bbf7d0"/><stop offset="1" stop-color="#10b981"/></linearGradient><linearGradient id="gSky" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#bae6fd"/><stop offset="1" stop-color="#0284c7"/></linearGradient><linearGradient id="gCoral" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#fed7aa"/><stop offset="1" stop-color="#ef4444"/></linearGradient></defs></svg>
 
 <div class="embers" id="embers"></div>
 
@@ -1638,9 +1829,11 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
         <span class="kzm-val" id="kzm-size-val" aria-live="polite">۱۰۰٪</span>
       </div>
       <div class="kzm-sizebox">
+        <button type="button" class="kzm-step kzm-dec" id="kzm-size-dec" aria-label="کوچک‌تر کردن متن" data-k-aria="mSizeDec"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 12h11"/></svg></button>
         <span class="a s" aria-hidden="true">A</span>
         <input type="range" class="kzm-range" id="kzm-size" min="70" max="170" step="10" value="100" aria-label="اندازه متن" data-k-aria="mSize">
         <span class="a l" aria-hidden="true">A</span>
+        <button type="button" class="kzm-step kzm-inc" id="kzm-size-inc" aria-label="بزرگ‌تر کردن متن" data-k-aria="mSizeInc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5v11M6.5 12h11"/></svg></button>
       </div>
     </div>
 
@@ -2430,7 +2623,7 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
 /* منوی تنظیمات (جدید): ظاهر تازه؛ تم، زبان، صدا، نصب اپ و مرکز دانلود همچنان با کنترل‌های قدیمیِ مخفیِ همین صفحه کار می‌کنند. */
 (function(){
   try{
-    var D = {"fa": {"mOpen": "منو و تنظیمات", "mClose": "بستن", "mTitle": "تنظیمات", "mLang": "زبان", "mSize": "اندازه متن", "mSound": "صدا", "mGuide": "راهنمای سایت", "mTheme": "تم", "mInstall": "نصب اپلیکیشن", "mDownloads": "مرکز دانلود"}, "ar": {"mOpen": "القائمة والإعدادات", "mClose": "إغلاق", "mTitle": "الإعدادات", "mLang": "اللغة", "mSize": "حجم النص", "mSound": "الصوت", "mGuide": "دليل الموقع", "mTheme": "المظهر", "mInstall": "تثبيت التطبيق", "mDownloads": "مركز التحميل"}, "en": {"mOpen": "Menu & settings", "mClose": "Close", "mTitle": "Settings", "mLang": "Language", "mSize": "Text size", "mSound": "Sound", "mGuide": "Site guide", "mTheme": "Theme", "mInstall": "Install app", "mDownloads": "Download center"}};
+    var D = {"fa": {"mOpen": "منو و تنظیمات", "mClose": "بستن", "mTitle": "تنظیمات", "mLang": "زبان", "mSize": "اندازه متن", "mSizeDec": "کوچک‌تر کردن متن", "mSizeInc": "بزرگ‌تر کردن متن", "mSound": "صدا", "mGuide": "راهنمای سایت", "mTheme": "تم", "mInstall": "نصب اپلیکیشن", "mDownloads": "مرکز دانلود"}, "ar": {"mOpen": "القائمة والإعدادات", "mClose": "إغلاق", "mTitle": "الإعدادات", "mLang": "اللغة", "mSize": "حجم النص", "mSizeDec": "تصغير النص", "mSizeInc": "تكبير النص", "mSound": "الصوت", "mGuide": "دليل الموقع", "mTheme": "المظهر", "mInstall": "تثبيت التطبيق", "mDownloads": "مركز التحميل"}, "en": {"mOpen": "Menu & settings", "mClose": "Close", "mTitle": "Settings", "mLang": "Language", "mSize": "Text size", "mSizeDec": "Smaller text", "mSizeInc": "Larger text", "mSound": "Sound", "mGuide": "Site guide", "mTheme": "Theme", "mInstall": "Install app", "mDownloads": "Download center"}};
     var TH = {"default": {"fa": "طلایی و زمردی", "ar": "ذهبي وزمردي", "en": "Gold & emerald"}, "crimson": {"fa": "سرخ و طلایی", "ar": "قرمزي وذهبي", "en": "Crimson & gold"}, "fest": {"fa": "صورتی و فیروزه‌ای", "ar": "وردي وفيروزي", "en": "Pink & turquoise"}, "lilac": {"fa": "صورتی و یاسی", "ar": "وردي وأرجواني", "en": "Pink & lilac"}, "sunset": {"fa": "فیروزه‌ای و غروبی", "ar": "فيروزي وغروب", "en": "Turquoise & sunset"}, "amber": {"fa": "کهربایی و کرمی", "ar": "عنبري وكريمي", "en": "Amber & cream"}, "sky": {"fa": "آبی آسمانی", "ar": "أزرق سماوي", "en": "Sky blue"}, "light": {"fa": "سبز فسفری", "ar": "أخضر فسفوري", "en": "Neon green"}, "dark": {"fa": "تاریک", "ar": "داكن", "en": "Dark"}};
     var DIGITS = { fa:['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'], ar:['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'] };
     var LS = {
@@ -2462,6 +2655,7 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
     function syncAll(){ syncTheme(); syncSound(); syncInstall(); }
     function setOpen(on){
       overlay.classList.toggle('open', on);
+      root.classList.toggle('kzm-menu-open', on);
       btn.setAttribute('aria-expanded', String(on));
       document.body.style.overflow = on ? 'hidden' : '';
       if(on){ syncAll(); var f = panel.querySelector('.kzm-langs button[aria-checked="true"]') || closeBtn; if(f) f.focus({ preventScroll:true }); }
@@ -2505,11 +2699,22 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
     var range = $('#kzm-size'), MIN = 70, MAX = 170;
     var legacyUp = $('#font-size-up'), legacyDown = $('#font-size-down');   /* صفحه‌ی هیئت: بزرگ‌نمایی کل بدنه */
     if(legacyUp && legacyDown) root.classList.add('kzm-bodyzoom');
+    var decBtn = $('#kzm-size-dec'), incBtn = $('#kzm-size-inc');
     function drawRange(){
       if(range){ range.value = sizePct; range.style.setProperty('--p', ((sizePct - MIN) / (MAX - MIN) * 100) + '%'); }
+      if(decBtn) decBtn.disabled = sizePct <= MIN;
+      if(incBtn) incBtn.disabled = sizePct >= MAX;
       showSize();
     }
-    function applySize(){
+    var zoomTimer = 0, idleTimer = 0, saveTimer = 0, appliedZoom = null;
+    function commitZoom(){
+      zoomTimer = 0;
+      if(appliedZoom !== sizePct){ appliedZoom = sizePct; root.style.setProperty('--kzm-zoom', String(sizePct / 100)); }
+      clearTimeout(idleTimer); idleTimer = setTimeout(function(){ root.classList.remove('kzm-sizing'); }, 160);
+    }
+    /* live=true: حین کشیدن لغزنده یا زدن − و +؛ عدد و لغزنده فوری عوض می‌شوند ولی بزرگ‌نمایی صفحه
+       (که کل صفحه را دوباره می‌چیند) فقط وقتی مکث شود یا رها شود اعمال می‌شود. تا آن موقع انیمیشن‌ها و محوکننده‌ی پشت منو خاموش‌اند. */
+    function applySize(live){
       sizePct = Math.max(MIN, Math.min(MAX, Math.round(sizePct / 10) * 10));
       if(legacyUp && legacyDown){
         var cur = parseInt(LS.get('kazemiuon-font-size'), 10) || 100, guard = 0;
@@ -2518,16 +2723,45 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
           if(b.disabled) break; b.click(); cur += (cur < sizePct ? 10 : -10);
         }
         root.style.setProperty('--kzm-inv', String(100 / sizePct));
-      }else{
-        root.style.setProperty('--kzm-zoom', String(sizePct / 100));
-        LS.set('kazemiuon-font-size', String(sizePct));
+        drawRange(); return;
       }
       drawRange();
+      if(!live){ commitZoom(); LS.set('kazemiuon-font-size', String(sizePct)); return; }
+      root.classList.add('kzm-sizing');
+      clearTimeout(idleTimer);
+      clearTimeout(zoomTimer); zoomTimer = setTimeout(function(){ requestAnimationFrame(commitZoom); }, 140);
+      clearTimeout(saveTimer); saveTimer = setTimeout(function(){ LS.set('kazemiuon-font-size', String(sizePct)); }, 350);
     }
     sizePct = parseInt(LS.get('kazemiuon-font-size'), 10) || 100;
-    if(range) range.addEventListener('input', function(){ sizePct = parseInt(range.value, 10) || 100; applySize(); });
+    if(range){
+      range.addEventListener('input', function(){ sizePct = parseInt(range.value, 10) || 100; applySize(true); });
+      range.addEventListener('change', function(){
+        sizePct = parseInt(range.value, 10) || 100;
+        clearTimeout(zoomTimer); zoomTimer = 0; applySize(false);
+      });
+    }
+    /* دکمه‌های − و + (با نگه‌داشتن، پشت‌سرهم تکرار می‌شود) */
+    function stepSize(d){
+      var next = Math.max(MIN, Math.min(MAX, sizePct + d));
+      if(next === sizePct) return false;
+      sizePct = next; applySize(true); return true;
+    }
+    function bindStep(el, d){
+      if(!el) return;
+      var hold = 0, rep = 0, fired = false;
+      function clear(){ clearTimeout(hold); clearInterval(rep); hold = 0; rep = 0; }
+      el.addEventListener('pointerdown', function(e){
+        if(e.pointerType === 'mouse' && e.button !== 0) return;
+        fired = true; stepSize(d); clear();
+        hold = setTimeout(function(){ rep = setInterval(function(){ if(!stepSize(d)) clear(); }, 150); }, 380);
+      });
+      ['pointerup', 'pointercancel', 'pointerleave'].forEach(function(ev){ el.addEventListener(ev, function(){ clear(); setTimeout(function(){ fired = false; }, 500); }); });
+      el.addEventListener('click', function(){ if(fired){ fired = false; return; } stepSize(d); });
+      el.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+    }
+    bindStep(decBtn, -10); bindStep(incBtn, 10);
     if(legacyUp && legacyDown){ sizePct = Math.max(MIN, Math.min(MAX, sizePct)); root.style.setProperty('--kzm-inv', String(100 / sizePct)); drawRange(); }
-    else applySize();
+    else applySize(false);
 
     /* ----- صدا ----- */
     var sw = $('#kzm-sound'), legacySound = $('#sound-toggle');
