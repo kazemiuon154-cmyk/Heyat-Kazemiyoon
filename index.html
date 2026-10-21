@@ -680,6 +680,134 @@ html.kzm-sizing .portal, html.kzm-sizing .portal *{ animation-play-state:paused 
 @media (prefers-reduced-motion: reduce){ .kzm-menu-btn{ animation:none; opacity:1; } .kzm-badge{ animation:none; } .kzm-overlay, .kzm-menu, .kzm-switch i{ transition:none; } }
 html[dir="ltr"] .w-continue-go{ transform:scaleX(-1); }
 </style>
+
+<style id="gnav-css">
+/* ===== منوی ناوبری نئونی پایین صفحه (Glowing Navigation Menu) ===== */
+.gnav{
+  --gbar:#0e2419; --item:70px; --sgn:1; --gns:1; --pos:0;
+  position:fixed; left:50%; bottom:calc(16px + env(safe-area-inset-bottom, 0px)); z-index:120;
+  width:calc(var(--item) * 5 + 50px); height:60px; margin:0;
+  transform:translateX(-50%) scale(var(--gns)); transform-origin:50% 100%;
+  background:var(--gbar); border-radius:16px;
+  display:flex; justify-content:center; align-items:center;
+  filter:drop-shadow(0 10px 16px rgba(0,0,0,.55)) drop-shadow(0 0 .6px rgba(255,203,61,.9));
+  -webkit-tap-highlight-color:transparent; user-select:none; -webkit-user-select:none;
+}
+html[dir="rtl"] .gnav{ --sgn:-1; }
+html[dir="ltr"] .gnav{ --sgn:1; }
+.gnav ul{ position:relative; display:flex; width:calc(var(--item) * 5); margin:0; padding:0; list-style:none; }
+.gnav .list{ position:relative; width:var(--item); height:60px; z-index:2; list-style:none; }
+.gnav .list a{
+  position:relative; display:flex; justify-content:center; align-items:center;
+  width:100%; height:100%; color:#cdbf9c; text-decoration:none; outline:none;
+}
+.gnav .icon{
+  position:relative; display:grid; place-items:center; width:55px; height:55px; border-radius:50%;
+  background:var(--gbar); color:#cdbf9c; transition:.5s; transition-delay:0s;
+}
+.gnav .icon svg{
+  position:relative; z-index:1; width:26px; height:26px; fill:none; stroke:currentColor;
+  stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round;
+}
+.gnav .icon::before{
+  content:""; position:absolute; top:10px; left:0; width:100%; height:100%;
+  background:var(--clr); border-radius:50%; filter:blur(5px); opacity:0;
+  transition:.5s; transition-delay:.15s;
+}
+.gnav .list.active .icon{ background:var(--clr); color:#fff; transform:translateY(-27px); transition-delay:.25s; }
+.gnav .list.active .icon::before{ opacity:.5; transition-delay:.25s; }
+@media (hover:hover){ .gnav .list:not(.active) a:hover .icon{ color:var(--gold); } }
+.gnav .list a:focus-visible .icon{ outline:2px solid var(--gold); outline-offset:2px; }
+
+.gnav .indicator{
+  position:absolute; top:-35px; inset-inline-start:0; width:var(--item); height:70px;
+  background:var(--gbar); border-radius:50%; z-index:1; pointer-events:none; list-style:none;
+  transition:transform .5s; transform:translateX(calc(var(--sgn) * var(--item) * var(--pos)));
+}
+.gnav .indicator::before, .gnav .indicator::after{
+  content:""; position:absolute; top:5px; width:30px; height:30px; border-radius:50%;
+}
+.gnav .indicator::before{ left:-27.5px;  box-shadow:15px 18px 0 0 var(--gbar); }
+.gnav .indicator::after{  right:-27.5px; box-shadow:-15px 18px 0 0 var(--gbar); }
+
+.gnav .lbl{
+  position:absolute; left:50%; bottom:7px; transform:translate(-50%, 6px); opacity:0;
+  font-size:10.5px; line-height:1; font-weight:800; white-space:nowrap; pointer-events:none;
+  color:#f3ead0; color:color-mix(in srgb, var(--clr) 45%, #fff); transition:.4s;
+}
+.gnav .list.active .lbl{ opacity:1; transform:translate(-50%, 0); transition-delay:.3s; }
+
+.gnav .gbadge{
+  position:absolute; top:9px; right:calc(50% - 22px); z-index:3; width:9px; height:9px; border-radius:50%;
+  background:#34d399; border:2px solid var(--gbar); box-shadow:0 0 8px rgba(52,211,153,.9);
+}
+.gnav .gbadge[hidden]{ display:none; }
+.gnav .list.active .gbadge{ display:none; }
+
+/* صفحه‌های کوچک: همان طرح با مقیاس کوچک‌تر */
+@media (max-width:420px){ .gnav{ --gns:.92; } }
+@media (max-width:380px){ .gnav{ --gns:.85; } }
+@media (max-width:350px){ .gnav{ --gns:.78; } }
+@media (min-width:900px){ .gnav{ --gns:1.08; } }
+
+/* فضای خالی پایین صفحه تا منو روی محتوا نیفتد */
+.portal{ padding-bottom:calc(120px + env(safe-area-inset-bottom, 0px)) !important; }
+/* دکمه‌ی قدیمی «تنظیمات» بالای صفحه حالا در منوی پایین است (همچنان در صفحه می‌ماند تا منوی تنظیمات با آن باز شود) */
+.kzm-menu-btn{ display:none !important; }
+
+@media (prefers-reduced-motion: reduce){
+  .gnav .icon, .gnav .icon::before, .gnav .indicator, .gnav .lbl{ transition:none !important; }
+}
+
+/* ===== نیم‌دایره‌ی زیرمجموعه‌ها (نگه‌داشتن انگشت روی کاظمیون / مسجد قائم / سایر) ===== */
+.gnav .list a[data-fan]{ touch-action:none; -webkit-touch-callout:none; -webkit-user-select:none; user-select:none; }
+.gnav .list.pressing:not(.active) .icon{ transform:scale(.86); }
+.gfan{ position:fixed; inset:0; z-index:110; pointer-events:none; font-family:inherit; --sr:34,224,138; }
+.gfan.tap{ pointer-events:auto; }
+.gfan-bg{
+  position:absolute; inset:0; opacity:0; transition:opacity .3s ease;
+  background:radial-gradient(ellipse 90% 55% at 50% 100%, rgba(var(--sr),.22), rgba(3,10,7,.93) 78%), rgba(3,10,7,.9);
+}
+.gfan.open .gfan-bg{ opacity:1; }
+.gfan-ring{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; pointer-events:none; }
+.gfan-ring path{
+  fill:none; stroke:rgba(var(--sr),.42); stroke-width:1.4; stroke-dasharray:3 7; stroke-linecap:round;
+  stroke-dashoffset:0; opacity:0; transition:opacity .4s ease .1s;
+}
+.gfan.open .gfan-ring path{ opacity:1; }
+.gfan-title{
+  position:absolute; transform:translate(-50%,-50%); opacity:0; transition:opacity .35s ease .15s;
+  padding:4px 14px; border-radius:999px; font-size:12.5px; font-weight:800; white-space:nowrap; letter-spacing:.02em;
+  color:rgb(var(--sr)); border:1px solid rgba(var(--sr),.4); background:rgba(7,23,16,.7);
+  box-shadow:0 0 16px rgba(var(--sr),.28), inset 0 0 10px rgba(var(--sr),.1);
+}
+.gfan.open .gfan-title{ opacity:1; }
+.gfan .fi{
+  --k:0; position:absolute; left:var(--px); top:var(--py); width:var(--S); height:var(--S);
+  display:grid; place-items:center; border-radius:50%; text-decoration:none; outline:none;
+  color:rgba(236,244,239,.88);
+  background:radial-gradient(circle at 50% 30%, #17382a, #08140e);
+  border:1.5px solid rgba(var(--cr), calc(.28 + .72 * var(--k)));
+  box-shadow:0 0 calc(26px * var(--k)) rgba(var(--cr), calc(.9 * var(--k))), inset 0 0 calc(12px * var(--k)) rgba(var(--cr), calc(.35 * var(--k)));
+  opacity:0; transform:translate(-50%,-50%) scale(.15);
+  transition:transform .5s cubic-bezier(.2,1.35,.4,1) calc(var(--i) * 32ms), opacity .25s ease calc(var(--i) * 32ms);
+  -webkit-tap-highlight-color:transparent;
+}
+.gfan.open .fi{ opacity:1; transform:translate(-50%,-50%) translate(var(--tx),var(--ty)) scale(calc(1 + .45 * var(--k))); }
+.gfan.ready .fi{ transition:transform .12s ease-out, box-shadow .15s ease, border-color .15s ease; }
+.gfan .fi:focus-visible{ --k:1; }
+.gfan .fi svg{ width:calc(var(--S) * .5); height:calc(var(--S) * .5); fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.gfan .fi .fl{
+  position:absolute; top:calc(100% + 5px); left:50%; transform:translateX(-50%);
+  font-size:9.5px; line-height:1.2; font-weight:800; white-space:nowrap; pointer-events:none;
+  color:rgba(244,232,208, calc(.55 + .45 * var(--k))); text-shadow:0 1px 4px rgba(0,0,0,.9);
+}
+.gfan .fi .fic{ display:grid; place-items:center; }
+.gfan .fi[data-near="1"]{ z-index:3; color:#fff; }
+@media (prefers-reduced-motion: reduce){
+  .gfan .fi, .gfan-bg, .gfan-ring path, .gfan-title{ transition:none !important; }
+}
+</style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><linearGradient id="gTeal" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#5eead4"/><stop offset="1" stop-color="#0ea5e9"/></linearGradient><linearGradient id="gViolet" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#d8b4fe"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient><linearGradient id="gSun" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#ffe066"/><stop offset="1" stop-color="#ff8a1f"/></linearGradient><linearGradient id="gMint" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#bbf7d0"/><stop offset="1" stop-color="#10b981"/></linearGradient><linearGradient id="gCoral" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#fed7aa"/><stop offset="1" stop-color="#ef4444"/></linearGradient></defs></svg>
@@ -897,6 +1025,45 @@ html[dir="ltr"] .w-continue-go{ transform:scaleX(-1); }
   <div class="portal-foot" data-i18n="foot">قاضی‌آباد · خرم‌آباد</div>
 </main>
 
+<!-- ===== منوی ناوبری پایین (راست به چپ: خانه ← کاظمیون ← مسجد قائم ← سایر ← تنظیمات) ===== -->
+<nav class="gnav" id="gnav" aria-label="ناوبری اصلی" data-i18n-aria="nNav">
+  <ul>
+    <li class="list active" style="--clr:#22c17f;">
+      <a href="#" data-nav="home" aria-label="خانه" data-i18n-aria="nHome">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3.5 11.2 12 4l8.5 7.2"/><path d="M5.5 9.8V20h13V9.8"/><path d="M10 20v-5.5h4V20"/></svg></span>
+        <span class="lbl" data-i18n="nHome" aria-hidden="true">خانه</span>
+      </a>
+    </li>
+    <li class="list" style="--clr:#e0a21b;">
+      <a href="kazemiyoon.html" data-nav="heyat" data-key="heyat" aria-label="کاظمیون" data-i18n-aria="nHeyat" data-fan="heyat" aria-haspopup="true" draggable="false">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 21V3.5"/><path d="M6 4.5h12l-2.6 4 2.6 4H6"/></svg></span>
+        <span class="lbl" data-i18n="nHeyat" aria-hidden="true">کاظمیون</span>
+      </a>
+    </li>
+    <li class="list" style="--clr:#468cff;">
+      <a href="masjed-qaem.html" data-nav="qaem" data-key="qaem" aria-label="مسجد قائم" data-i18n-aria="nQaem" data-fan="qaem" aria-haspopup="true" draggable="false">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2.8v2.2"/><path d="M5.5 20v-7a6.5 6.5 0 0 1 13 0v7"/><path d="M3 20h18"/><path d="M10 20v-3.5a2 2 0 0 1 4 0V20"/></svg></span>
+        <span class="lbl" data-i18n="nQaem" aria-hidden="true">مسجد قائم</span>
+      </a>
+    </li>
+    <li class="list" style="--clr:#b270ff;">
+      <a href="other.html" data-nav="other" data-key="other" aria-label="سایر" data-i18n-aria="nOther" data-fan="other" aria-haspopup="true" draggable="false">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="1.6"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.6"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.6"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.6"/></svg></span>
+        <span class="lbl" data-i18n="nOther" aria-hidden="true">سایر</span>
+      </a>
+    </li>
+    <li class="list" style="--clr:#f0566a;">
+      <a href="#" data-nav="settings" aria-label="تنظیمات" data-i18n-aria="nSet" id="gnav-settings" aria-haspopup="dialog">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></span>
+        <span class="lbl" data-i18n="nSet" aria-hidden="true">تنظیمات</span>
+        <span class="gbadge" id="gnav-badge" aria-hidden="true" hidden></span>
+      </a>
+    </li>
+    <li class="indicator" aria-hidden="true" role="presentation"></li>
+  </ul>
+</nav>
+
+
 <script>
 (function(){
   /* ذرات طلایی */
@@ -1013,7 +1180,7 @@ html[dir="ltr"] .w-continue-go{ transform:scaleX(-1); }
         wtTitle:'تاریخ و مناسبت امروز', wzSub:'۱۰۰ بار',
         tFajr:'صبح', tSunrise:'طلوع', tDhuhr:'ظهر', tMaghrib:'مغرب',
         pwaLong:'نصب اپلیکیشن', pwaShort:'نصب', pwaAria:'نصب اپلیکیشن تحت وب هیئت کاظمیون',
-        mOpen:'منو و تنظیمات', mClose:'بستن', mTitle:'تنظیمات', mLang:'زبان', mSize:'اندازه متن', mSizeDec:'کوچک‌تر کردن متن', mSizeInc:'بزرگ‌تر کردن متن', mSound:'صدا', mGuide:'راهنمای سایت',
+        mOpen:'منو و تنظیمات', nNav:'ناوبری اصلی', nHome:'خانه', nHeyat:'کاظمیون', nQaem:'مسجد قائم', nOther:'سایر', nSet:'تنظیمات', sOwqat:'اوقات شرعی', sZekr:'ذکر روز', sDua:'ادعیه', sCal:'تقویم', sSalavat:'صلوات‌شمار', sQuran:'قرآن ۲۴', sLive:'پخش زنده', sTour:'سه‌بعدی', sFrame:'فریم‌ساز', sNazr:'نذورات', sConvert:'تبدیل تاریخ', sFaq:'دستیار', sInstall:'نصب اپ', mClose:'بستن', mTitle:'تنظیمات', mLang:'زبان', mSize:'اندازه متن', mSizeDec:'کوچک‌تر کردن متن', mSizeInc:'بزرگ‌تر کردن متن', mSound:'صدا', mGuide:'راهنمای سایت',
         today:'امروز', tomorrow:'فردا', tomorrowParen:'(فردا)', holiday:'تعطیل', noOcc:'امروز مناسبت رسمی ثبت‌شده‌ای نیست',
         nextOcc:'مناسبت بعدی: ', zekrDay:'ذکر روز ', zekrDone:'ذکر امروز کامل شد ✓', zekrToday:'امروز ', zekrOf:' از ',
         contLabel:'ادامه‌ی مطالعه', contFbLabel:'ادعیه و زیارت‌نامه‌ها', contFbName:'کمیل، ندبه، عاشورا و ...', contFbSub:'شروع مطالعه'
@@ -1032,7 +1199,7 @@ html[dir="ltr"] .w-continue-go{ transform:scaleX(-1); }
         wtTitle:'تاريخ اليوم ومناسباته', wzSub:'١٠٠ مرة',
         tFajr:'الفجر', tSunrise:'الشروق', tDhuhr:'الظهر', tMaghrib:'المغرب',
         pwaLong:'تثبيت التطبيق', pwaShort:'تثبيت', pwaAria:'تثبيت تطبيق موكب الكاظميون',
-        mOpen:'القائمة والإعدادات', mClose:'إغلاق', mTitle:'الإعدادات', mLang:'اللغة', mSize:'حجم النص', mSizeDec:'تصغير النص', mSizeInc:'تكبير النص', mSound:'الصوت', mGuide:'دليل الموقع',
+        mOpen:'القائمة والإعدادات', nNav:'التنقل الرئيسي', nHome:'الرئيسية', nHeyat:'الكاظميون', nQaem:'مسجد القائم', nOther:'أخرى', nSet:'الإعدادات', sOwqat:'أوقات الصلاة', sZekr:'ذكر اليوم', sDua:'الأدعية', sCal:'التقويم', sSalavat:'عدّاد الصلوات', sQuran:'القرآن ٢٤', sLive:'بث مباشر', sTour:'ثلاثي الأبعاد', sFrame:'إطار الصور', sNazr:'النذور', sConvert:'محوّل التاريخ', sFaq:'المساعد', sInstall:'تثبيت التطبيق', mClose:'إغلاق', mTitle:'الإعدادات', mLang:'اللغة', mSize:'حجم النص', mSizeDec:'تصغير النص', mSizeInc:'تكبير النص', mSound:'الصوت', mGuide:'دليل الموقع',
         today:'اليوم', tomorrow:'غداً', tomorrowParen:'(غداً)', holiday:'عطلة', noOcc:'لا توجد مناسبة رسمية مسجّلة اليوم',
         nextOcc:'المناسبة القادمة: ', zekrDay:'ذكر يوم ', zekrDone:'اكتمل ذكر اليوم ✓', zekrToday:'اليوم ', zekrOf:' من ',
         contLabel:'متابعة القراءة', contFbLabel:'الأدعية والزيارات', contFbName:'كميل، الندبة، عاشوراء وغيرها', contFbSub:'ابدأ القراءة'
@@ -1051,7 +1218,7 @@ html[dir="ltr"] .w-continue-go{ transform:scaleX(-1); }
         wtTitle:'Today’s date & occasion', wzSub:'100 times',
         tFajr:'Fajr', tSunrise:'Sunrise', tDhuhr:'Dhuhr', tMaghrib:'Maghrib',
         pwaLong:'Install app', pwaShort:'Install', pwaAria:'Install the Heyat-e Kazemiyoon web app',
-        mOpen:'Menu & settings', mClose:'Close', mTitle:'Settings', mLang:'Language', mSize:'Text size', mSizeDec:'Smaller text', mSizeInc:'Larger text', mSound:'Sound', mGuide:'Site guide',
+        mOpen:'Menu & settings', nNav:'Main navigation', nHome:'Home', nHeyat:'Kazemiyoon', nQaem:'Qaem Mosque', nOther:'More', nSet:'Settings', sOwqat:'Prayer times', sZekr:'Daily dhikr', sDua:'Duas', sCal:'Calendar', sSalavat:'Salawat', sQuran:'Quran 24', sLive:'Live', sTour:'3D tour', sFrame:'Photo frame', sNazr:'Vows', sConvert:'Date converter', sFaq:'Assistant', sInstall:'Install app', mClose:'Close', mTitle:'Settings', mLang:'Language', mSize:'Text size', mSizeDec:'Smaller text', mSizeInc:'Larger text', mSound:'Sound', mGuide:'Site guide',
         today:'Today', tomorrow:'Tomorrow', tomorrowParen:'(tomorrow)', holiday:'Holiday', noOcc:'No official occasion today',
         nextOcc:'Next: ', zekrDay:'Dhikr · ', zekrDone:'Today’s dhikr complete ✓', zekrToday:'Today ', zekrOf:' of ',
         contLabel:'Continue reading', contFbLabel:'Supplications & Ziyarat', contFbName:'Kumayl, Nudbah, Ashura…', contFbSub:'Start reading'
@@ -1805,6 +1972,261 @@ function parseLastDoa(raw){
     window.addEventListener('pageshow', function(e){ if(e.persisted) render(); });
     window.addEventListener('kzm-lang', render);
   }catch(e){}
+})();
+</script>
+
+<script>
+/* منوی ناوبری پایین: خانه (همین صفحه) · کاظمیون · مسجد قائم · سایر · تنظیمات
+   + نیم‌دایره‌ی زیرمجموعه‌ها با نگه‌داشتن انگشت روی کاظمیون / مسجد قائم / سایر */
+(function(){
+  var nav = document.getElementById('gnav'); if(!nav) return;
+  var items = [].slice.call(nav.querySelectorAll('.list'));
+  var overlay = document.getElementById('kzm-overlay'), menuBtn = document.getElementById('kzm-menu-btn');
+  var badge = document.getElementById('kzm-badge'), gbadge = document.getElementById('gnav-badge');
+  var KEY = 'kzm-portal-last', busy = false;
+
+  function setActive(li){
+    var idx = items.indexOf(li); if(idx < 0) return;
+    items.forEach(function(x){
+      var a = x.querySelector('a');
+      x.classList.toggle('active', x === li);
+      if(x === li && x === items[0]) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+    });
+    nav.style.setProperty('--pos', idx);
+  }
+  setActive(items[0]);
+
+  function go(href){
+    if(busy) return; busy = true;
+    document.body.classList.add('page-exit');
+    setTimeout(function(){ location.href = href; }, 200);
+  }
+
+  items.forEach(function(li){
+    var a = li.querySelector('a'), kind = a.getAttribute('data-nav');
+    a.addEventListener('click', function(ev){
+      if(kind === 'home'){            /* خانه = همین صفحه‌ی ورود */
+        ev.preventDefault(); setActive(li);
+        try{ window.scrollTo({ top:0, behavior:'smooth' }); }catch(e){ window.scrollTo(0, 0); }
+        return;
+      }
+      if(kind === 'settings'){        /* باز کردن پنجره‌ی تنظیمات */
+        ev.preventDefault(); setActive(li);
+        if(menuBtn) menuBtn.click();
+        return;
+      }
+      if(ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey || ev.button === 1) return;
+      ev.preventDefault();
+      if(busy) return;
+      setActive(li);                  /* اول انیمیشن نشانگر، بعد رفتن به صفحه */
+      try{ localStorage.setItem(KEY, a.getAttribute('data-key')); }catch(e){}
+      var href = a.getAttribute('href');
+      setTimeout(function(){ go(href); }, 380);
+    });
+  });
+
+  /* ================= نیم‌دایره‌ی زیرمجموعه‌ها ================= */
+  var IC = {
+    clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    beads:'<circle cx="12" cy="5" r="1.9"/><circle cx="18.4" cy="9.6" r="1.9"/><circle cx="16" cy="17.2" r="1.9"/><circle cx="8" cy="17.2" r="1.9"/><circle cx="5.6" cy="9.6" r="1.9"/>',
+    book:'<path d="M12 6.5C10.5 5 8 4.5 4 4.5V18c4 0 6.5.5 8 2 1.5-1.5 4-2 8-2V4.5c-4 0-6.5.5-8 2z"/><path d="M12 6.5V20"/>',
+    cal:'<rect x="4" y="5.5" width="16" height="14.5" rx="2.5"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/>',
+    count:'<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>',
+    quran:'<path d="M5 4.5h11a3 3 0 0 1 3 3V20H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h11"/>',
+    live:'<circle cx="12" cy="12" r="2"/><path d="M7.8 7.8a6 6 0 0 0 0 8.4M16.2 7.8a6 6 0 0 1 0 8.4M5 5a10 10 0 0 0 0 14M19 5a10 10 0 0 1 0 14"/>',
+    cube:'<path d="M12 3 4 7.5v9L12 21l8-4.5v-9z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/>',
+    frame:'<rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="9" cy="10" r="1.8"/><path d="m4 17 5-4.5 4 3.5 3-2.5 4 3.5"/>',
+    heart:'<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>',
+    swap:'<path d="M5 8h13l-3-3M19 16H6l3 3"/>',
+    chat:'<path d="M4 5.5h16v10H10l-4.5 3.5v-3.5H4z"/><path d="M8.5 10h.01M12 10h.01M15.5 10h.01"/>',
+    down:'<path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/>'
+  };
+  var PAL = ['34,224,138','255,210,63','61,220,255','255,79,163','255,159,67','178,112,255','70,140,255','45,212,191','240,86,106'];
+  var CAL = 'kazemiyoon.html#heyat-calendar';
+  var SUBS = {
+    heyat:{ t:'nHeyat', list:[['owqat.html','sOwqat','clock'], ['zekr.html','sZekr','beads'], ['page2.html','sDua','book'], [CAL,'sCal','cal']] },
+    qaem: { t:'nQaem',  list:[['page2.html','sDua','book'], ['salavat.html','sSalavat','count'], ['zekr.html','sZekr','beads'], ['owqat.html','sOwqat','clock'], ['quran24.html','sQuran','quran']] },
+    other:{ t:'nOther', list:[['live.html','sLive','live'], ['virtual-tour.html','sTour','cube'], [CAL,'sCal','cal'], ['page2.html','sDua','book'], ['frame.html','sFrame','frame'], ['nazr.html','sNazr','heart'], ['convert.html','sConvert','swap'], ['faq.html','sFaq','chat'], ['install.html','sInstall','down']] }
+  };
+  var fan = null, mode = null, holdT = 0, sx = 0, sy = 0, held = null, heldA = null, suppress = false, nearest = null, pts = [], readyT = 0;
+
+  function tr(k){ try{ return (window.KZM && KZM.t(k)) || k; }catch(e){ return k; } }
+  function hexRgb(h){
+    h = String(h || '').trim().replace('#', '');
+    if(h.length === 3) h = h.replace(/./g, function(c){ return c + c; });
+    var n = parseInt(h, 16); if(isNaN(n) || h.length !== 6) return '34,224,138';
+    return ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255);
+  }
+  function svgEl(inner){
+    var s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    s.setAttribute('viewBox', '0 0 24 24'); s.setAttribute('aria-hidden', 'true'); s.innerHTML = inner; return s;
+  }
+
+  function closeFan(immediate){
+    if(!fan) return;
+    var f = fan; fan = null; mode = null; nearest = null; pts = [];
+    clearTimeout(readyT);
+    f.classList.remove('open', 'ready', 'tap');
+    items.forEach(function(x){ x.classList.remove('pressing'); });
+    setTimeout(function(){ if(f.parentNode) f.parentNode.removeChild(f); }, immediate ? 0 : 320);
+    if(!items[4].classList.contains('active')) setActive(items[0]);
+  }
+
+  function openFan(li, key){
+    var cfg = SUBS[key]; if(!cfg) return;
+    var n = cfg.list.length, vw = window.innerWidth, vh = window.innerHeight;
+    var S = vw < 360 ? 42 : 48;
+    var R = Math.max(95, Math.min(152, 66 * (n - 1) / Math.PI));
+    R = Math.min(R, (vw - S - 16) / 2);
+    var lr = li.getBoundingClientRect(), nr = nav.getBoundingClientRect();
+    var cx = Math.max(R + S / 2 + 8, Math.min(vw - R - S / 2 - 8, lr.left + lr.width / 2));
+    var py = nr.top - 70;
+    var rtl = document.documentElement.dir === 'rtl';
+    var sr = hexRgb(getComputedStyle(li).getPropertyValue('--clr'));
+
+    fan = document.createElement('div');
+    fan.className = 'gfan'; fan.id = 'gfan';
+    fan.style.setProperty('--sr', sr);
+
+    var bg = document.createElement('div'); bg.className = 'gfan-bg'; fan.appendChild(bg);
+
+    var ring = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); ring.setAttribute('class', 'gfan-ring'); ring.setAttribute('aria-hidden', 'true');
+    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', 'M' + (cx - R) + ' ' + py + ' A' + R + ' ' + R + ' 0 0 1 ' + (cx + R) + ' ' + py);
+    ring.appendChild(path); fan.appendChild(ring);
+
+    var title = document.createElement('div'); title.className = 'gfan-title';
+    title.textContent = tr(cfg.t); title.style.left = cx + 'px'; title.style.top = (py - R * 0.42) + 'px';
+    fan.appendChild(title);
+
+    var grp = document.createElement('div'); grp.setAttribute('role', 'group'); grp.setAttribute('aria-label', tr(cfg.t));
+    pts = [];
+    cfg.list.forEach(function(it, i){
+      var t = n === 1 ? 0.5 : i / (n - 1);
+      var th = rtl ? t * Math.PI : Math.PI - t * Math.PI;
+      var x = cx + R * Math.cos(th), y = py - R * Math.sin(th);
+      var a = document.createElement('a');
+      a.className = 'fi'; a.href = it[0]; a.setAttribute('aria-label', tr(it[1])); a.draggable = false;
+      a.style.setProperty('--px', cx + 'px'); a.style.setProperty('--py', py + 'px');
+      a.style.setProperty('--tx', (x - cx).toFixed(1) + 'px'); a.style.setProperty('--ty', (y - py).toFixed(1) + 'px');
+      a.style.setProperty('--S', S + 'px'); a.style.setProperty('--i', i); a.style.setProperty('--k', 0);
+      a.style.setProperty('--cr', PAL[i % PAL.length]);
+      var ic = document.createElement('span'); ic.className = 'fic'; ic.appendChild(svgEl(IC[it[2]] || IC.chat));
+      var fl = document.createElement('span'); fl.className = 'fl'; fl.textContent = tr(it[1]);
+      a.appendChild(ic); a.appendChild(fl); grp.appendChild(a);
+      pts.push({ x:x, y:y, el:a, href:it[0] });
+    });
+    fan.appendChild(grp);
+    document.body.appendChild(fan);
+
+    fan.addEventListener('click', function(ev){
+      var a = ev.target.closest && ev.target.closest('.fi');
+      if(a){ ev.preventDefault(); go(a.getAttribute('href')); return; }
+      closeFan();
+    });
+    setActive(li);
+    void fan.offsetWidth;
+    requestAnimationFrame(function(){ if(fan) fan.classList.add('open'); });
+    var f = fan; readyT = setTimeout(function(){ if(fan === f) fan.classList.add('ready'); }, 650);
+  }
+
+  /* افکت مغناطیسی: هرچه انگشت به یک آیتم نزدیک‌تر باشد بزرگ‌تر و درخشان‌تر می‌شود */
+  var moveRaf = 0, lastE = null;
+  function updateNear(){
+    moveRaf = 0; if(!fan || !lastE) return;
+    var best = null, bd = 1e9;
+    pts.forEach(function(p){
+      var d = Math.hypot(lastE.clientX - p.x, lastE.clientY - p.y);
+      p.el.style.setProperty('--k', Math.max(0, 1 - d / 80).toFixed(3));
+      if(d < bd){ bd = d; best = p; }
+    });
+    var nn = (best && bd <= 44) ? best : null;
+    if(nn !== nearest){
+      if(nearest) nearest.el.removeAttribute('data-near');
+      if(nn) nn.el.setAttribute('data-near', '1');
+      nearest = nn;
+    }
+  }
+  window.addEventListener('pointermove', function(e){
+    if(!fan){ return; }
+    lastE = e; if(!moveRaf) moveRaf = requestAnimationFrame(updateNear);
+  }, { passive:true });
+
+  function endPress(cancel){
+    clearTimeout(holdT); holdT = 0;
+    if(held) held.classList.remove('pressing');
+    setTimeout(function(){ suppress = false; }, 80);
+    if(fan && mode === 'drag'){
+      if(cancel){ closeFan(); }
+      else if(nearest){ go(nearest.href); }
+      else { mode = 'tap'; fan.classList.add('tap'); }
+    }
+  }
+
+  items.forEach(function(li){
+    var a = li.querySelector('a'), key = a.getAttribute('data-fan'); if(!key) return;
+    a.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+    a.addEventListener('dragstart', function(e){ e.preventDefault(); });
+    a.addEventListener('pointerdown', function(e){
+      if(e.pointerType === 'mouse' && e.button !== 0) return;
+      if(fan) closeFan(true);
+      held = li; heldA = a; sx = e.clientX; sy = e.clientY; lastE = e;
+      li.classList.add('pressing');
+      clearTimeout(holdT);
+      holdT = setTimeout(function(){
+        holdT = 0;
+        try{ a.setPointerCapture(e.pointerId); }catch(_){}
+        openFan(li, key); mode = 'drag'; suppress = true;
+        if(navigator.vibrate){ try{ navigator.vibrate(12); }catch(_){} }
+        updateNear();
+      }, 360);
+    });
+    a.addEventListener('pointermove', function(e){
+      if(holdT && Math.hypot(e.clientX - sx, e.clientY - sy) > 14){
+        clearTimeout(holdT); holdT = 0; li.classList.remove('pressing');
+      }
+    });
+    a.addEventListener('pointerup', function(){ endPress(false); });
+    a.addEventListener('pointercancel', function(){ endPress(true); });
+    a.addEventListener('keydown', function(e){   /* صفحه‌کلید: ↑ نیم‌دایره را باز می‌کند */
+      if(e.key === 'ArrowUp' || e.key === 'ContextMenu'){
+        e.preventDefault(); if(fan) closeFan(true);
+        held = li; heldA = a; openFan(li, key); mode = 'tap'; fan.classList.add('tap');
+        var f = fan.querySelector('.fi'); if(f) f.focus({ preventScroll:true });
+      }
+    });
+  });
+
+  /* جلوگیری از رفتن به صفحه‌ی بخش، وقتی کاربر برای باز کردن نیم‌دایره انگشت را نگه داشته بود */
+  nav.addEventListener('click', function(ev){
+    if(suppress){ suppress = false; ev.preventDefault(); ev.stopImmediatePropagation(); }
+  }, true);
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && fan){ closeFan(); if(heldA){ try{ heldA.focus({ preventScroll:true }); }catch(_){} } }
+  });
+  window.addEventListener('resize', function(){ closeFan(true); });
+  window.addEventListener('kzm-lang', function(){ closeFan(true); });
+
+  /* بسته شدن پنجره‌ی تنظیمات (دکمه‌ی بستن، Esc یا لمس بیرون) => برگشت نشانگر به «خانه» */
+  if(overlay && window.MutationObserver){
+    new MutationObserver(function(){
+      if(!overlay.classList.contains('open') && items[4].classList.contains('active')){
+        setActive(items[0]);
+        var ae = document.activeElement;
+        if(!ae || ae === document.body){ try{ items[4].querySelector('a').focus({ preventScroll:true }); }catch(e){} }
+      }
+    }).observe(overlay, { attributes:true, attributeFilter:['class'] });
+  }
+
+  /* نقطه‌ی «جدید» دکمه‌ی تنظیمات قدیمی به منوی جدید منتقل شد */
+  function syncBadge(){ if(gbadge && badge) gbadge.hidden = badge.hidden; }
+  syncBadge();
+  if(badge && window.MutationObserver) new MutationObserver(syncBadge).observe(badge, { attributes:true, attributeFilter:['hidden'] });
+
+  /* برگشت با دکمه‌ی مرورگر (bfcache) */
+  window.addEventListener('pageshow', function(e){
+    if(e.persisted){ busy = false; closeFan(true); document.body.classList.remove('page-exit'); setActive(items[0]); }
+  });
 })();
 </script>
 </body>
