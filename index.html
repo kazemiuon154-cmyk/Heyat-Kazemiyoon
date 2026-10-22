@@ -19,6 +19,22 @@
 <meta property="og:url" content="https://kazemiuon154-cmyk.github.io/Heyat-Kazemiyoon/">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#071710">
+<script>
+/* اعمال زودهنگام تم (قبل از رسم صفحه تا چشمک نزند) */
+(function(){try{
+  var T={emerald:'#071710',ruby:'#18070b',sapphire:'#071222',amethyst:'#120a20',amber:'#1a1205',onyx:'#09090b'};
+  var th=localStorage.getItem('kazemiuon-theme'), r=document.documentElement;
+  if(!T[th]) th='emerald';
+  r.setAttribute('data-theme',th);
+  var md=localStorage.getItem('kazemiuon-mode'); md=(md==='light')?'light':'dark'; r.setAttribute('data-mode',md);
+  if(localStorage.getItem('kazemiuon-nav')==='off') r.classList.add('gnav-off');
+  var L={emerald:'#eef5ee',ruby:'#f8ecec',sapphire:'#ecf1f9',amethyst:'#f1edf9',amber:'#f8f1df',onyx:'#f0f0f2'};
+  var nt=localStorage.getItem('kazemiuon-navtheme');
+  if(!/^(neon|beam|bubble|labels|magic)$/.test(nt)) nt='neon';
+  r.setAttribute('data-nt',nt);
+  var m=document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute('content',(md==='light'?L:T)[th]);
+}catch(e){}})();
+</script>
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -499,7 +515,7 @@ a.w-card:focus-visible, a.w-ev:focus-visible{ outline:2px solid var(--gold); out
 }
 @keyframes kzmIn{ from{ opacity:0; } to{ opacity:1; } }
 @media (hover:hover){ .kzm-menu-btn:hover{ border-color:var(--gold); box-shadow:0 6px 16px -6px rgba(0,0,0,0.6), 0 0 14px rgba(255,203,61,0.25), inset 0 1px 0 rgba(255,255,255,0.1); } }
-.portal > *:not(.top-chip):not(.pwa-pill){ zoom:var(--kzm-zoom, 1); }
+.portal > *:not(.top-chip):not(.pwa-pill):not(.nb-wrap){ zoom:var(--kzm-zoom, 1); }
 .kzm-menu-btn:active{ transform:scale(.95); }
 .kzm-menu-btn:focus-visible, .kzm-menu :focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
 .kzm-menu-ic{ flex:none; width:18px; height:18px; display:grid; place-items:center; border-radius:50%; background:rgba(255,203,61,0.2); box-shadow:inset 0 0 0 1px rgba(255,203,61,0.34); }
@@ -680,9 +696,1023 @@ html.kzm-sizing .portal, html.kzm-sizing .portal *{ animation-play-state:paused 
 @media (prefers-reduced-motion: reduce){ .kzm-menu-btn{ animation:none; opacity:1; } .kzm-badge{ animation:none; } .kzm-overlay, .kzm-menu, .kzm-switch i{ transition:none; } }
 html[dir="ltr"] .w-continue-go{ transform:scaleX(-1); }
 </style>
+
+<style id="gnav-css">
+/* ===== منوی ناوبری نئونی پایین صفحه (Glowing Navigation Menu) ===== */
+.gnav{
+  --gbar:#0e2419; --item:70px; --sgn:1; --gns:1; --pos:0;
+  position:fixed; left:50%; bottom:calc(16px + env(safe-area-inset-bottom, 0px)); z-index:120;
+  width:calc(var(--item) * 5 + 50px); height:60px; margin:0;
+  transform:translateX(-50%) scale(var(--gns)); transform-origin:50% 100%;
+  background:var(--gbar); border-radius:16px;
+  display:flex; justify-content:center; align-items:center;
+  filter:drop-shadow(0 10px 16px rgba(0,0,0,.55)) drop-shadow(0 0 .6px rgba(255,203,61,.9));
+  -webkit-tap-highlight-color:transparent; user-select:none; -webkit-user-select:none;
+}
+html[dir="rtl"] .gnav{ --sgn:-1; }
+html[dir="ltr"] .gnav{ --sgn:1; }
+.gnav ul{ position:relative; display:flex; width:calc(var(--item) * 5); margin:0; padding:0; list-style:none; }
+.gnav .list{ position:relative; width:var(--item); height:60px; z-index:2; list-style:none; }
+.gnav .list a{
+  position:relative; display:flex; justify-content:center; align-items:center;
+  width:100%; height:100%; color:#cdbf9c; text-decoration:none; outline:none;
+}
+.gnav .icon{
+  position:relative; display:grid; place-items:center; width:55px; height:55px; border-radius:50%;
+  background:var(--gbar); color:#cdbf9c; transition:.5s; transition-delay:0s;
+}
+.gnav .icon svg{
+  position:relative; z-index:1; width:26px; height:26px; fill:none; stroke:currentColor;
+  stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round;
+}
+.gnav .icon::before{
+  content:""; position:absolute; top:10px; left:0; width:100%; height:100%;
+  background:var(--clr); border-radius:50%; filter:blur(5px); opacity:0;
+  transition:.5s; transition-delay:.15s;
+}
+.gnav .list.active .icon{ background:var(--clr); color:#fff; transform:translateY(-27px); transition-delay:.25s; }
+.gnav .list.active .icon::before{ opacity:.5; transition-delay:.25s; }
+@media (hover:hover){ .gnav .list:not(.active) a:hover .icon{ color:var(--gold); } }
+.gnav .list a:focus-visible .icon{ outline:2px solid var(--gold); outline-offset:2px; }
+
+.gnav .indicator{
+  position:absolute; top:-35px; inset-inline-start:0; width:var(--item); height:70px;
+  background:var(--gbar); border-radius:50%; z-index:1; pointer-events:none; list-style:none;
+  transition:transform .5s; transform:translateX(calc(var(--sgn) * var(--item) * var(--pos)));
+}
+.gnav .indicator::before, .gnav .indicator::after{
+  content:""; position:absolute; top:5px; width:30px; height:30px; border-radius:50%;
+}
+.gnav .indicator::before{ left:-27.5px;  box-shadow:15px 18px 0 0 var(--gbar); }
+.gnav .indicator::after{  right:-27.5px; box-shadow:-15px 18px 0 0 var(--gbar); }
+
+.gnav .lbl{
+  position:absolute; left:50%; bottom:7px; transform:translate(-50%, 6px); opacity:0;
+  font-size:10.5px; line-height:1; font-weight:800; white-space:nowrap; pointer-events:none;
+  color:#f3ead0; color:color-mix(in srgb, var(--clr) 45%, #fff); transition:.4s;
+}
+.gnav .list.active .lbl{ opacity:1; transform:translate(-50%, 0); transition-delay:.3s; }
+
+.gnav .gbadge{
+  position:absolute; top:9px; right:calc(50% - 22px); z-index:3; width:9px; height:9px; border-radius:50%;
+  background:#34d399; border:2px solid var(--gbar); box-shadow:0 0 8px rgba(52,211,153,.9);
+}
+.gnav .gbadge[hidden]{ display:none; }
+.gnav .list.active .gbadge{ display:none; }
+
+/* صفحه‌های کوچک: همان طرح با مقیاس کوچک‌تر */
+@media (max-width:420px){ .gnav{ --gns:.92; } }
+@media (max-width:380px){ .gnav{ --gns:.85; } }
+@media (max-width:350px){ .gnav{ --gns:.78; } }
+@media (min-width:900px){ .gnav{ --gns:1.08; } }
+
+/* فضای خالی پایین صفحه تا منو روی محتوا نیفتد */
+.portal{ padding-bottom:calc(120px + env(safe-area-inset-bottom, 0px)) !important; }
+/* دکمه‌ی قدیمی «تنظیمات» بالای صفحه حالا در منوی پایین است (همچنان در صفحه می‌ماند تا منوی تنظیمات با آن باز شود) */
+.kzm-menu-btn{ display:none !important; }
+
+@media (prefers-reduced-motion: reduce){
+  .gnav .icon, .gnav .icon::before, .gnav .indicator, .gnav .lbl{ transition:none !important; }
+}
+
+/* ===== نیم‌دایره‌ی زیرمجموعه‌ها (نگه‌داشتن انگشت روی کاظمیون / مسجد قائم / سایر) ===== */
+.gnav .list a[data-fan]{ touch-action:none; -webkit-touch-callout:none; -webkit-user-select:none; user-select:none; }
+.gnav .list.pressing:not(.active) .icon{ transform:scale(.86); }
+.gfan{ position:fixed; inset:0; z-index:110; pointer-events:none; font-family:inherit; --sr:34,224,138; --bx:50%; opacity:.01; }
+.gfan.open{ opacity:1; transition:opacity .25s ease; }
+.gfan.closing{ opacity:0; transition:opacity .18s ease; pointer-events:none; }
+.gfan.tap{ pointer-events:auto; }
+.gfan-bg{ position:absolute; inset:0; background:rgba(3,9,6,.92); }
+.gfan-glow{
+  position:absolute; bottom:0; width:560px; height:430px; pointer-events:none;
+  background:radial-gradient(ellipse 50% 60% at 50% 100%, rgba(var(--sr),.38), rgba(var(--sr),.10) 55%, transparent 78%);
+}
+/* مدار: دایره‌ی خط‌چین که روی لایه‌ی GPU می‌چرخد و فقط نیمه‌ی بالایش دیده می‌شود (بدون هیچ بازنقاشی در هر فریم) */
+.gfan-orbit{ position:absolute; overflow:hidden; pointer-events:none; opacity:0; transition:opacity .5s ease .1s; }
+.gfan.open .gfan-orbit{ opacity:1; }
+.gfan-spin{ position:absolute; left:0; top:0; animation:gfan-spin 80s linear infinite; will-change:transform; }
+.gfan-spin svg{ display:block; width:100%; height:100%; overflow:visible; }
+.gfan-spin .orb{ fill:none; stroke:rgba(var(--sr),.55); stroke-width:1.3; stroke-dasharray:2 8; stroke-linecap:round; }
+.gfan-spin .orbg{ fill:none; stroke:rgba(var(--sr),.09); stroke-width:14; }
+@keyframes gfan-spin{ to{ transform:rotate(360deg); } }
+
+.gfan-pulse{
+  position:absolute; width:44px; height:44px; margin:-22px 0 0 -22px; border-radius:50%; box-sizing:border-box; opacity:0; pointer-events:none;
+  border:2px solid rgba(var(--sr),.85);
+}
+.gfan.open .gfan-pulse{ animation:gfan-pulse .9s cubic-bezier(.2,.7,.3,1) .05s; }
+@keyframes gfan-pulse{ from{ opacity:.9; transform:scale(.5); } to{ opacity:0; transform:scale(7); } }
+
+.gfan-core{
+  position:absolute; display:grid; place-items:center; border-radius:50%; color:rgb(var(--sr));
+  transform:translate(-50%,-50%) scale(.2); opacity:0; transition:transform .5s cubic-bezier(.2,1.3,.4,1), opacity .25s ease;
+  background:radial-gradient(circle at 50% 22%, rgba(255,255,255,.18), transparent 45%), radial-gradient(circle at 50% 110%, rgba(var(--sr),.45), transparent 70%), linear-gradient(#10281d,#07120c);
+  border:1.5px solid rgba(var(--sr),.9); box-shadow:0 0 22px rgba(var(--sr),.5), inset 0 0 14px rgba(var(--sr),.25);
+}
+.gfan-core::before{
+  content:""; position:absolute; inset:-14px; border-radius:50%; pointer-events:none;
+  background:radial-gradient(circle, transparent 55%, rgba(var(--sr),.5) 66%, transparent 100%); animation:gfan-breathe 3.2s ease-in-out infinite;
+}
+@keyframes gfan-breathe{ 0%,100%{ opacity:.45; } 50%{ opacity:1; } }
+.gfan-core svg{ width:46%; height:46%; fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; }
+.gfan.open .gfan-core{ transform:translate(-50%,-50%) scale(1); opacity:1; }
+
+.gfan-title{
+  position:absolute; transform:translate(-50%,-50%) translateY(8px); opacity:0; transition:opacity .4s ease .2s, transform .4s ease .2s;
+  padding:5px 16px; border-radius:999px; font-size:13px; font-weight:800; white-space:nowrap; letter-spacing:.02em;
+  color:rgb(var(--sr)); border:1px solid rgba(var(--sr),.45); background:rgba(5,16,11,.78);
+  box-shadow:0 0 18px rgba(var(--sr),.32), inset 0 0 10px rgba(var(--sr),.12); text-shadow:0 0 10px rgba(var(--sr),.7);
+}
+.gfan.open .gfan-title{ opacity:1; transform:translate(-50%,-50%); }
+
+.gfan .fw{
+  --k:0; position:absolute; left:var(--px); top:var(--py); width:var(--S); height:var(--S);
+  text-decoration:none; outline:none; -webkit-tap-highlight-color:transparent;
+  transform:translate(-50%,-50%) translate(var(--tx),var(--ty)); will-change:transform, opacity;
+}
+.gfan .fw[data-near="1"], .gfan .fw:focus-visible{ z-index:3; }
+.gfan .fw:focus-visible{ --k:1; }
+.gfan .fc{
+  position:absolute; inset:0; border-radius:50%; display:grid; place-items:center; color:rgb(var(--cr));
+  background:radial-gradient(circle at 50% 18%, rgba(255,255,255,.2), transparent 42%), radial-gradient(circle at 50% 112%, rgba(var(--cr),.4), transparent 68%), linear-gradient(#11291e,#07120c);
+  border:1.5px solid rgba(var(--cr),.42);
+  box-shadow:0 7px 14px rgba(0,0,0,.5), inset 0 0 0 1px rgba(255,255,255,.05);
+  transform:scale(calc(1 + .42 * var(--k))); transition:transform .13s ease-out; will-change:transform;
+}
+.gfan .fc::after{
+  content:""; position:absolute; inset:-1.5px; border-radius:50%; pointer-events:none;
+  border:1.5px solid rgb(var(--cr)); box-shadow:inset 0 0 8px rgba(var(--cr),.45); opacity:var(--k); transition:opacity .13s ease-out;
+}
+.gfan .fc::before{
+  content:""; position:absolute; inset:-15px; border-radius:50%; pointer-events:none; z-index:-1;
+  background:radial-gradient(circle, transparent 54%, rgba(var(--cr),.62) 65%, rgba(var(--cr),0) 100%);
+  opacity:calc(.14 + .86 * var(--k)); transition:opacity .13s ease-out;
+}
+.gfan .fc svg{ position:absolute; width:48%; height:48%; fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; }
+.gfan .fc svg.w{ color:#fff; opacity:var(--k); }
+.gfan .fl{
+  position:absolute; top:calc(100% + 8px); left:50%; transform:translate(-50%, calc(var(--k) * 12px));
+  font-size:11px; line-height:1.35; font-weight:800; white-space:nowrap; pointer-events:none;
+  padding:1px 7px; border-radius:8px; background:rgba(3,9,6,.66);
+  color:rgba(255,255,255, calc(.8 + .2 * var(--k))); text-shadow:0 1px 3px rgba(0,0,0,.9);
+  transition:transform .13s ease-out;
+}
+/* حلقه‌ی بیرونی (حالت دو حلقه‌ای): برچسب بالای دایره، تا با حلقه‌ی داخلی برخورد نکند */
+.gfan .fw.up .fl{ top:auto; bottom:calc(100% + 8px); transform:translate(-50%, calc(var(--k) * -12px)); }
+.gfan.dense .fl{ font-size:10.5px; padding:1px 5px; }
+@media (max-width:370px){ .gfan.dense .fl{ font-size:10px; } .gfan .fl{ font-size:10.5px; padding:1px 5px; } }
+/* وقتی منو باز است انیمیشن‌های بی‌پایان صفحه‌ی پشت (که زیر پرده‌ی تیره دیده نمی‌شوند) متوقف می‌شوند تا هیچ لگی نباشد */
+html.gfan-on .entry-icon, html.gfan-on .portal-head h1, html.gfan-on .pwa-pill, html.gfan-on .pwa-pill::after, html.gfan-on .kzm-badge{ animation-play-state:paused !important; }
+@media (prefers-reduced-motion: reduce){
+  .gfan .fw, .gfan .fc, .gfan .fc::before, .gfan .fl, .gfan-bg, .gfan-glow, .gfan-core, .gfan-title, .gfan-orbit, .gfan-spin{ transition:none !important; animation:none !important; }
+}
+</style>
+<style id="kzm-glass-css">
+/* =====================================================================
+   تم‌های برنامه و نوار پایین (انتخاب از تنظیمات)
+   ===================================================================== */
+html[data-theme="ruby"]    { --void:#18070b; --void-2:#26101a; --crimson:#d1274b; --crimson-rgb:209,39,75;  --crimson-bright:#f0506f; }
+html[data-theme="sapphire"]{ --void:#071222; --void-2:#0d1d36; --crimson:#2f7df0; --crimson-rgb:47,125,240;  --crimson-bright:#5b9cff; }
+html[data-theme="amethyst"]{ --void:#120a20; --void-2:#1c1232; --crimson:#8b5cf6; --crimson-rgb:139,92,246;  --crimson-bright:#a78bfa; }
+html[data-theme="amber"]   { --void:#1a1205; --void-2:#271b08; --crimson:#d98a0b; --crimson-rgb:217,138,11;  --crimson-bright:#f5a623; }
+html[data-theme="onyx"]    { --void:#09090b; --void-2:#141418; --crimson:#6b7280; --crimson-rgb:107,114,128; --crimson-bright:#9ca3af; }
+
+
+/* =====================================================================
+   صفحه‌ی تنظیمات: Liquid Glass (فقط در همین پنجره)
+   شیشه‌ی مات با محو + اشباع رنگ، حباب‌های رنگی شناور، درخشش دنبال‌کننده‌ی انگشت
+   و نوار دسته‌بندی با قرص شیشه‌ای لغزنده
+   ===================================================================== */
+.kzm-overlay{
+  align-items:center;
+  padding:14px 14px calc(104px + env(safe-area-inset-bottom, 0px));
+  background:rgba(2,8,5,.36);
+  -webkit-backdrop-filter:none; backdrop-filter:none;
+}
+.kzm-menu.lg-panel{
+  position:relative; display:flex; flex-direction:column;
+  width:min(396px, 100%); max-height:100%; padding:16px 14px 14px;
+  border:0; border-radius:34px; overflow:hidden; contain:none;
+  color:#f6f2e4;
+  background:
+    linear-gradient(155deg, rgba(255,255,255,.20), rgba(255,255,255,.05) 42%, rgba(255,255,255,.10)),
+    rgba(6,16,11,.40);
+  -webkit-backdrop-filter:blur(26px) saturate(170%); backdrop-filter:blur(26px) saturate(170%);
+  box-shadow:
+    0 30px 60px -18px rgba(0,0,0,.7),
+    0 8px 20px -8px rgba(0,0,0,.55),
+    inset 0 0 0 1px rgba(255,255,255,.30),
+    inset 0 1.5px 0 rgba(255,255,255,.5),
+    inset 0 -12px 26px -14px rgba(255,255,255,.22);
+  transform:translateY(22px) scale(.94);
+}
+/* هنگام کشیدن لغزنده، تیرگی پرده ثابت می‌ماند تا شیشه چشمک نزند */
+html.kzm-sizing .kzm-overlay{ background:rgba(2,8,5,.36); }
+/* صفحه‌ی پشت پنجره ساکن می‌شود تا شیشه فقط یک تصویر ثابت را محو کند (روان‌تر) */
+html.kzm-menu-open .portal, html.kzm-menu-open .portal *, html.kzm-menu-open .embers *{ animation-play-state:paused !important; }
+
+/* حباب‌های رنگی پشت شیشه (رنگ اصلی از تم برنامه می‌آید) */
+.lg-fx{ position:absolute; inset:0; overflow:hidden; border-radius:inherit; pointer-events:none; z-index:0; }
+.lg-blob{
+  position:absolute; border-radius:50%; aspect-ratio:1; opacity:.9; will-change:transform;
+  background:radial-gradient(circle closest-side, rgba(var(--c),.85), rgba(var(--c),.38) 55%, rgba(var(--c),0));
+}
+.lg-blob.a{ --c:var(--crimson-rgb); width:96%; top:-30%; inset-inline-start:-26%; }
+.lg-blob.b{ --c:255,203,61;        width:84%; bottom:-28%; inset-inline-end:-22%; opacity:.62; }
+.lg-blob.c{ --c:94,234,212;        width:64%; top:36%; inset-inline-start:30%; opacity:.45; }
+.kzm-overlay.open .lg-blob{ animation:lgFloat 18s ease-in-out infinite; }
+.kzm-overlay.open .lg-blob.b{ animation-delay:-9s; }
+.kzm-overlay.open .lg-blob.c{ animation-delay:-5s; animation-duration:22s; }
+@keyframes lgFloat{ 0%,100%{ transform:translate3d(0,0,0) scale(1); } 50%{ transform:translate3d(9%,11%,0) scale(1.12); } }
+
+/* درخشش سطح شیشه؛ با حرکت انگشت جابه‌جا می‌شود */
+.lg-glare{
+  position:absolute; inset:0; border-radius:inherit; pointer-events:none; z-index:1; overflow:hidden;
+  background:radial-gradient(110% 36% at 50% -6%, rgba(255,255,255,.30), transparent 62%);
+}
+.lg-spot{
+  position:absolute; top:0; left:0; width:300px; height:300px; margin:-150px 0 0 -150px; border-radius:50%;
+  background:radial-gradient(circle closest-side, rgba(255,255,255,.20), rgba(255,255,255,0));
+  transform:translate3d(300px,30px,0); transition:transform .35s cubic-bezier(.2,.8,.3,1); will-change:transform;
+}
+.kzm-menu.lg-panel > *:not(.lg-fx):not(.lg-glare){ position:relative; z-index:2; }
+
+.kzm-menu.lg-panel .kzm-menu-head{ margin-bottom:14px; }
+.kzm-menu.lg-panel .kzm-menu-title{ color:#fff; text-shadow:0 1px 10px rgba(0,0,0,.35); }
+.kzm-menu.lg-panel .kzm-close{
+  background:rgba(255,255,255,.12); border:0; color:#fff;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.34), inset 0 1px 0 rgba(255,255,255,.5);
+}
+.kzm-menu.lg-panel .kzm-close:active{ background:rgba(255,255,255,.26); }
+
+/* ---------- نوار دسته‌بندی با قرص شیشه‌ای لغزنده ---------- */
+.lg-tabs{
+  --sgn:1; position:relative; display:grid; grid-template-columns:repeat(5, minmax(0,1fr));
+  padding:4px; border-radius:26px; flex:none;
+  background:rgba(255,255,255,.10);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.22), inset 0 1px 0 rgba(255,255,255,.38), 0 10px 20px -12px rgba(0,0,0,.6);
+}
+html[dir="rtl"] .lg-tabs{ --sgn:-1; }
+.lg-pill{
+  position:absolute; top:4px; bottom:4px; inset-inline-start:4px; width:calc((100% - 8px) / 5);
+  border-radius:22px; pointer-events:none;
+  background:linear-gradient(180deg, rgba(255,255,255,.36), rgba(255,255,255,.14));
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.55), inset 0 1px 1px rgba(255,255,255,.8), 0 8px 16px -6px rgba(0,0,0,.55);
+  transform:translateX(calc(var(--sgn) * 100% * var(--i, 0)));
+  transition:transform .5s cubic-bezier(.3,1.25,.4,1);
+}
+.lg-pill.moving{ animation:lgStretch .5s ease; }
+@keyframes lgStretch{ 50%{ scale:1.16 .92; } }
+.lg-tab{
+  appearance:none; -webkit-appearance:none; font:inherit; cursor:pointer; position:relative; z-index:1; min-width:0;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
+  padding:9px 2px 8px; border:0; border-radius:22px; background:none;
+  color:rgba(255,255,255,.66); font-size:10px; font-weight:800; line-height:1.25; text-align:center;
+  -webkit-tap-highlight-color:transparent; transition:color .25s ease;
+}
+.lg-tab svg{ width:22px; height:22px; flex:none; fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; transition:stroke .25s ease, transform .3s cubic-bezier(.3,1.4,.5,1); }
+.lg-tab[aria-selected="true"]{ color:#fff; }
+.lg-tab[aria-selected="true"] svg{ stroke:rgb(var(--tc)); transform:scale(1.1); }
+.lg-tab[data-tab="lang"]  { --tc:94,234,212; }
+.lg-tab[data-tab="theme"] { --tc:249,168,212; }
+.lg-tab[data-tab="size"]  { --tc:216,180,254; }
+.lg-tab[data-tab="sound"] { --tc:253,203,110; }
+.lg-tab[data-tab="help"]  { --tc:134,239,172; }
+.lg-tab:active{ transform:scale(.94); }
+
+/* ---------- بدنه: همه‌ی بخش‌ها روی هم می‌نشینند تا ارتفاع پنجره ثابت بماند ---------- */
+.lg-body{
+  position:relative; min-height:0; overflow-y:auto; overflow-x:hidden; margin-top:14px; padding:2px; overscroll-behavior:contain; scrollbar-width:none;
+  height:var(--bh, 280px); contain:layout paint;
+}
+.lg-body::-webkit-scrollbar{ display:none; }
+/* ارتفاع پنجره ثابت است؛ فقط محتوا با محو شدن عوض می‌شود (بدون تغییر اندازه = بدون لگ) */
+.lg-sec{
+  position:absolute; top:2px; inset-inline:2px; min-width:0; max-height:calc(var(--bh, 280px) - 4px); overflow:hidden;
+  opacity:0; visibility:hidden; pointer-events:none;
+  transition:opacity .16s ease, visibility 0s linear .16s;
+}
+.lg-sec.on{ position:relative; top:0; inset-inline:0; max-height:none; overflow:visible; opacity:1; visibility:visible; pointer-events:auto; transition:opacity .2s ease; }
+.lg-sec-head{ display:flex; align-items:center; gap:10px; margin:2px 2px 12px; }
+.lg-sec-title{ flex:1; min-width:0; font-size:14px; font-weight:900; color:#fff; text-shadow:0 1px 8px rgba(0,0,0,.35); }
+.lg-ic{
+  flex:none; width:30px; height:30px; display:grid; place-items:center; border-radius:50%;
+  background:rgba(255,255,255,.12);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.32), inset 0 1px 0 rgba(255,255,255,.5), 0 4px 10px -4px rgba(0,0,0,.5);
+}
+.lg-ic svg{ width:16px; height:16px; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+
+.lg-tile{
+  border-radius:20px; background:rgba(255,255,255,.07);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.2), inset 0 1px 0 rgba(255,255,255,.35);
+}
+
+/* زبان */
+.lg-sec .kzm-langs{ gap:9px; }
+.lg-sec .kzm-langs button{
+  padding:12px 4px 10px; border:0; border-radius:20px; color:rgba(255,255,255,.86); background:rgba(255,255,255,.07);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.2), inset 0 1px 0 rgba(255,255,255,.35);
+}
+.lg-sec .kzm-langs button[aria-checked="true"]{
+  color:#fff; background:linear-gradient(180deg, rgba(255,255,255,.30), rgba(255,255,255,.12));
+  box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.7), inset 0 1px 1px rgba(255,255,255,.8), 0 8px 18px -8px rgba(var(--ic),.9), 0 0 20px rgba(var(--ic),.25);
+}
+
+/* تم برنامه و تم نوار پایین */
+.lg-grid{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:9px; }
+.lg-sw{
+  appearance:none; -webkit-appearance:none; font:inherit; cursor:pointer; position:relative;
+  display:flex; flex-direction:column; align-items:center; gap:8px; padding:12px 4px 10px; border:0; border-radius:20px;
+  color:rgba(255,255,255,.86); background:rgba(255,255,255,.07);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.2), inset 0 1px 0 rgba(255,255,255,.35);
+  transition:transform .15s ease, background .2s ease, box-shadow .2s ease, color .2s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.lg-sw:active{ transform:scale(.96); }
+.lg-sw .n{ font-size:11px; font-weight:800; line-height:1.3; }
+.lg-sw[aria-checked="true"]{
+  color:#fff; background:linear-gradient(180deg, rgba(255,255,255,.30), rgba(255,255,255,.12));
+  box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.7), inset 0 1px 1px rgba(255,255,255,.8), 0 8px 18px -10px rgba(0,0,0,.7);
+}
+.lg-sw-dot{
+  width:46px; height:46px; display:grid; place-items:center; border-radius:50%;
+  background:radial-gradient(circle at 32% 28%, var(--s1), var(--s2) 52%, var(--s3) 100%);
+  box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.38), inset 0 3px 5px rgba(255,255,255,.35), 0 6px 14px -4px var(--s2);
+}
+.lg-sw-dot .ck{ width:20px; height:20px; fill:none; stroke:#fff; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; opacity:0; transform:scale(.4); transition:opacity .25s ease, transform .3s cubic-bezier(.3,1.5,.5,1); filter:drop-shadow(0 1px 2px rgba(0,0,0,.55)); }
+.lg-sw[aria-checked="true"] .ck{ opacity:1; transform:none; }
+/* اندازه متن */
+.lg-sizewrap{ padding:14px 12px; }
+.lg-sec .kzm-sizebox{ gap:8px; }
+
+/* صدا */
+.lg-soundrow{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 14px; }
+.lg-soundtxt{ display:flex; flex-direction:column; gap:3px; min-width:0; }
+.lg-soundtxt b{ font-size:13.5px; font-weight:800; color:#fff; }
+.lg-soundtxt small{ font-size:11px; font-weight:600; color:rgba(255,255,255,.68); line-height:1.5; }
+.lg-soundrow .kzm-switch{ width:54px; height:32px; }
+.lg-soundrow .kzm-switch i{ width:24px; height:24px; top:3px; inset-inline-start:3px; }
+.lg-soundrow .kzm-switch[aria-checked="true"] i{ inset-inline-start:26px; }
+.lg-soundrow .kzm-switch:not([aria-checked="true"]){ background:rgba(255,255,255,.16); border-color:rgba(255,255,255,.34); }
+
+/* راهنمای سایت */
+.lg-guide{
+  margin-top:10px; display:flex; align-items:center; gap:10px; padding:12px 14px; border-radius:20px;
+  text-decoration:none; color:#fff; background:rgba(255,255,255,.07);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.2), inset 0 1px 0 rgba(255,255,255,.35);
+  transition:transform .15s ease, background .2s ease; -webkit-tap-highlight-color:transparent;
+}
+.lg-guide:active{ transform:scale(.97); background:rgba(255,255,255,.14); }
+.lg-guide-title{ flex:1; min-width:0; font-size:12.5px; font-weight:800; }
+.lg-guide .kzm-chev{ stroke:url(#gMint); }
+
+.lg-tab:focus-visible, .lg-sw:focus-visible, .lg-guide:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
+
+@media (max-width:359px){
+  .kzm-menu.lg-panel{ padding:14px 10px 12px; border-radius:28px; }
+  .lg-tab{ font-size:9.5px; }
+  .lg-sw-dot{ width:40px; height:40px; }
+}
+@media (max-height:560px){ .kzm-overlay{ padding-bottom:calc(92px + env(safe-area-inset-bottom, 0px)); } }
+@media (prefers-reduced-motion: reduce){
+  .kzm-overlay.open .lg-blob{ animation:none; }
+  .lg-pill, .lg-sec, .lg-tab svg, .lg-sw-dot .ck{ transition:none; }
+  .lg-pill.moving{ animation:none; }
+}
+
+.lg-tab, .lg-sw, .lg-guide, .kzm-close, .kzm-step, .kzm-switch, .kzm-langs button{ touch-action:manipulation; }
+
+/* راهنما */
+.lg-help{ display:grid; gap:8px; }
+.lg-help-item{
+  display:flex; align-items:flex-start; gap:11px; padding:10px 12px; border-radius:18px; background:rgba(255,255,255,.07);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.2), inset 0 1px 0 rgba(255,255,255,.35);
+}
+.lg-hi{
+  flex:none; width:34px; height:34px; display:grid; place-items:center; border-radius:12px;
+  background:linear-gradient(180deg, rgba(255,255,255,.24), rgba(255,255,255,.08));
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.4), inset 0 1px 1px rgba(255,255,255,.6);
+}
+.lg-hi svg{ width:19px; height:19px; fill:none; stroke:#bbf7d0; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; }
+.lg-ht{ display:flex; flex-direction:column; gap:3px; min-width:0; }
+.lg-ht b{ font-size:12.5px; font-weight:800; color:#fff; line-height:1.4; }
+.lg-ht small{ font-size:11px; font-weight:600; color:rgba(255,255,255,.72); line-height:1.7; }
+
+</style>
+
+<style id="gnav-themes-css">
+/* =====================================================================
+   تم‌های نوار پایین (تنظیمات ← نوار پایین)
+   neon = طرح اصلی و بدون تغییر · beam · bubble · labels · magic
+   همه‌ی تم‌ها از همان ساختار li.list > a > .icon / .lbl و عنصر .indicator استفاده می‌کنند؛
+   برای همین نیم‌دایره‌ی نگه‌داشتن انگشت (data-fan) روی کاظمیون / مسجد قائم / سایر
+   در همه‌ی تم‌ها دقیقاً یکسان کار می‌کند.
+   ===================================================================== */
+
+/* ---------- پایه‌ی مشترک چهار تم جدید ---------- */
+html:is([data-nt="beam"],[data-nt="bubble"],[data-nt="labels"],[data-nt="magic"]) .gnav{ --gh:62px; --gcut:var(--void); width:calc(var(--item) * 5 + 30px); height:var(--gh); filter:none; }
+html:is([data-nt="beam"],[data-nt="bubble"],[data-nt="labels"],[data-nt="magic"]) .gnav .list{ height:var(--gh); }
+html:is([data-nt="beam"],[data-nt="bubble"],[data-nt="labels"],[data-nt="magic"]) .gnav .icon{
+  width:100%; height:100%; border-radius:0; background:transparent;
+  transition:transform .45s cubic-bezier(.3,1.35,.5,1), color .3s ease, background-color .3s ease, box-shadow .4s ease, filter .3s ease;
+  transition-delay:0s;
+}
+html:is([data-nt="beam"],[data-nt="bubble"],[data-nt="labels"],[data-nt="magic"]) .gnav .icon::before, html:is([data-nt="beam"],[data-nt="bubble"],[data-nt="labels"],[data-nt="magic"]) .gnav .list.active .icon::before{ display:none; }
+html:is([data-nt="beam"],[data-nt="bubble"],[data-nt="labels"],[data-nt="magic"]) .gnav .list.active .icon{ background:transparent; transform:none; transition-delay:0s; }
+html:is([data-nt="beam"],[data-nt="bubble"],[data-nt="labels"],[data-nt="magic"]) .gnav .icon svg{ width:24px; height:24px; stroke-width:1.9; }
+html:is([data-nt="beam"],[data-nt="bubble"],[data-nt="labels"],[data-nt="magic"]) .gnav .indicator{ transition:transform .5s cubic-bezier(.3,1.2,.4,1), background-color .4s ease; }
+html:is([data-nt="beam"],[data-nt="bubble"],[data-nt="labels"],[data-nt="magic"]) .gnav .indicator::before, html:is([data-nt="beam"],[data-nt="bubble"],[data-nt="labels"],[data-nt="magic"]) .gnav .indicator::after{
+  content:""; position:absolute; top:auto; left:auto; right:auto; bottom:auto; width:0; height:0; border-radius:0; background:none; box-shadow:none;
+}
+html:is([data-nt="beam"],[data-nt="bubble"],[data-nt="labels"],[data-nt="magic"]) .gnav .gbadge{ border-color:var(--gbar); }
+@media (hover:hover){
+  html:is([data-nt="beam"],[data-nt="bubble"],[data-nt="labels"],[data-nt="magic"]) .gnav .list:not(.active) a:hover .icon{ color:var(--clr); }
+}
+
+/* ---------- ۱) نورافکن: نوار تیره + نور بالای آیتم فعال ---------- */
+html[data-nt="beam"] .gnav{
+  --gbar:#14161c; border-radius:22px;
+  box-shadow:0 18px 32px -12px rgba(0,0,0,.7), 0 2px 8px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.07), inset 0 1px 0 rgba(255,255,255,.09);
+}
+html[data-nt="beam"] .gnav .lbl{ display:none; }
+html[data-nt="beam"] .gnav .icon{ color:#8d93a5; }
+html[data-nt="beam"] .gnav .list.active .icon{ color:var(--clr); transform:scale(1.16); filter:drop-shadow(0 0 8px var(--clr)); }
+html[data-nt="beam"] .gnav .indicator{ top:0; height:100%; background:none; border-radius:0; }
+html[data-nt="beam"] .gnav .indicator::before{
+  top:-1px; left:50%; width:30px; height:4px; margin-left:-15px; border-radius:0 0 6px 6px;
+  background:var(--ac,#22c17f); box-shadow:0 0 12px 1px var(--ac,#22c17f), 0 0 26px 4px var(--ac,#22c17f);
+  transition:background-color .4s ease, box-shadow .4s ease;
+}
+html[data-nt="beam"] .gnav .indicator::after{
+  top:3px; left:50%; width:68px; height:46px; margin-left:-34px;
+  background:linear-gradient(to bottom, rgba(255,255,255,.14), transparent 92%);
+  background:linear-gradient(to bottom, color-mix(in srgb, var(--ac,#22c17f) 50%, transparent), transparent 92%);
+  clip-path:polygon(34% 0, 66% 0, 100% 100%, 0 100%);
+}
+@media (hover:hover){
+  html[data-nt="beam"] .gnav .list:not(.active) a:hover .icon{ color:#d6dae6; }
+}
+
+/* ---------- ۲) حباب: نوار سفید + دایره‌ی رنگی بالا آمده ---------- */
+html[data-nt="bubble"] .gnav{
+  --gbar:#fff; border-radius:999px;
+  box-shadow:0 18px 30px -12px rgba(0,0,0,.65), 0 2px 8px rgba(0,0,0,.22);
+}
+html[data-nt="bubble"] .gnav .lbl{ display:none; }
+html[data-nt="bubble"] .gnav .icon{ width:46px; height:46px; border-radius:50%; color:#2b2e3a; }
+html[data-nt="bubble"] .gnav .list.active .icon{
+  color:#fff; transform:translateY(-27px);
+  background:var(--clr);
+  background:linear-gradient(145deg, var(--clr), color-mix(in srgb, var(--clr) 60%, #000));
+  box-shadow:0 12px 20px -6px var(--clr);
+}
+html[data-nt="bubble"] .gnav .indicator{
+  top:auto; bottom:7px; height:3px; width:30px; margin-inline-start:20px; border-radius:3px; background:#cfd2dc;
+}
+
+/* ---------- ۳) برچسب‌دار: نوار سفید، آیکون و نوشته‌ی همیشه پیدا ---------- */
+html[data-nt="labels"] .gnav{
+  --gh:64px; --gbar:#fff; border-radius:999px;
+  box-shadow:0 18px 30px -12px rgba(0,0,0,.65), 0 2px 8px rgba(0,0,0,.22);
+}
+html[data-nt="labels"] .gnav .list a{ flex-direction:column; gap:3px; }
+html[data-nt="labels"] .gnav .icon{ width:auto; height:auto; color:#16181f; }
+html[data-nt="labels"] .gnav .icon svg{ width:22px; height:22px; }
+html[data-nt="labels"] .gnav .lbl,
+html[data-nt="labels"] .gnav .list.active .lbl{
+  position:static; left:auto; bottom:auto; transform:none; opacity:1; transition:color .3s ease; transition-delay:0s;
+  font-size:9.5px; line-height:1.2; color:#16181f;
+}
+html[data-nt="labels"] .gnav .list.active .icon{ color:var(--clr); transform:translateY(-1px); }
+html[data-nt="labels"] .gnav .list.active .lbl{ color:var(--clr); color:color-mix(in srgb, var(--clr) 82%, #000); }
+html[data-nt="labels"] .gnav .indicator{
+  top:5px; height:3px; width:22px; margin-inline-start:24px; border-radius:3px; background:var(--ac,#22c17f);
+}
+
+/* ---------- ۴) جادویی: نوار سفید + دایره‌ی برش‌خورده روی آیتم فعال ---------- */
+html[data-nt="magic"] .gnav{
+  --gbar:#fff; border-radius:14px;
+  box-shadow:0 18px 30px -12px rgba(0,0,0,.65), 0 2px 8px rgba(0,0,0,.22);
+}
+html[data-nt="magic"] .gnav .icon{ color:#262833; }
+html[data-nt="magic"] .gnav .list.active .icon{ color:#fff; transform:translateY(calc(var(--gh) / -2)); }
+html[data-nt="magic"] .gnav .lbl{ bottom:9px; color:#262833; letter-spacing:.02em; }
+html[data-nt="magic"] .gnav .list.active .lbl{ color:#262833; }
+html[data-nt="magic"] .gnav .indicator{
+  top:-35px; height:70px; box-sizing:border-box; background:var(--ac,#22c17f);
+  border:6px solid var(--gcut); border-radius:50%;
+}
+html[data-nt="magic"] .gnav .indicator::before{
+  top:50%; left:-22px; width:20px; height:20px; border-radius:0 20px 0 0; box-shadow:1px -10px 0 0 var(--gcut);
+}
+html[data-nt="magic"] .gnav .indicator::after{
+  top:50%; right:-22px; width:20px; height:20px; border-radius:20px 0 0 0; box-shadow:-1px -10px 0 0 var(--gcut);
+}
+
+@media (prefers-reduced-motion: reduce){
+  html:is([data-nt="beam"],[data-nt="bubble"],[data-nt="labels"],[data-nt="magic"]) .gnav .icon, html:is([data-nt="beam"],[data-nt="bubble"],[data-nt="labels"],[data-nt="magic"]) .gnav .indicator, html:is([data-nt="beam"],[data-nt="bubble"],[data-nt="labels"],[data-nt="magic"]) .gnav .indicator::before{ transition:none !important; }
+}
+
+/* بخشِ در حال خروج دقیقاً در همان جای خودش می‌ماند تا محو شود (بدون پرش ۲ پیکسلی و بدون بریده شدن ناگهانیِ محتوا) */
+.lg-sec.lg-leave{ top:2px; inset-inline:2px; max-height:none; overflow:visible; }
+/* ---------- سوییچ روان تب‌های تنظیمات (بدون دست‌زدن به ظاهر شیشه) ----------
+   قرص و بخش‌ها لایه‌ی GPU جدا می‌گیرند (محو شدن/لغزیدن بدون بازرسم)؛
+   تا ۷۰۰ms پس از هر لمس، حباب‌های پس‌زمینه مکث می‌کنند تا فریم‌ها فقط صرف انتقال شود. */
+.lg-pill{ will-change:transform, scale; }
+.lg-sec{ will-change:opacity; }
+.kzm-menu.lg-panel.lg-busy .lg-blob{ animation-play-state:paused !important; }
+
+/* ---------- سوییچ بدون پرش بین تم‌های نوار پایین ----------
+   حین عوض شدن تم، تمام ترنزیشن/انیمیشن‌های داخل نوار خاموش می‌شود (بدون لِیاوت و بازرسمِ پیاپی زیر filter)
+   و خودِ نوار فقط با opacity (روی GPU) محو و ظاهر می‌شود. به شیشه‌ی تنظیمات دست نمی‌زند. */
+html.gnav-switching .gnav *, html.gnav-switching .gnav *::before, html.gnav-switching .gnav *::after{ transition:none !important; animation:none !important; }
+html.gnav-switching .gnav{ will-change:opacity; }
+
+/* =====================================================================
+   تنظیمات: شش تب (تب «نوار پایین» اضافه شد) + کاشی‌های انتخاب تم نوار پایین
+   ===================================================================== */
+.lg-tabs{ grid-template-columns:repeat(6, minmax(0,1fr)); }
+.lg-pill{ width:calc((100% - 8px) / 6); }
+.lg-tab{ font-size:9.5px; }
+.lg-tab[data-tab="nav"]{ --tc:125,211,252; }
+@media (max-width:359px){ .lg-tab{ font-size:9px; } .lg-tab svg{ width:20px; height:20px; } }
+
+.lg-nts{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:9px; }
+.lg-nt{
+  appearance:none; -webkit-appearance:none; font:inherit; cursor:pointer; position:relative;
+  display:flex; flex-direction:column; align-items:center; gap:8px; padding:10px 4px 10px; border:0; border-radius:20px;
+  color:rgba(255,255,255,.86); background:rgba(255,255,255,.07);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.2), inset 0 1px 0 rgba(255,255,255,.35);
+  transition:transform .15s ease, background .2s ease, box-shadow .2s ease, color .2s ease;
+  -webkit-tap-highlight-color:transparent; touch-action:manipulation;
+}
+.lg-nt:active{ transform:scale(.96); }
+.lg-nt .n{ font-size:11px; font-weight:800; line-height:1.3; }
+.lg-nt[aria-checked="true"]{
+  color:#fff; background:linear-gradient(180deg, rgba(255,255,255,.30), rgba(255,255,255,.12));
+  box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.7), inset 0 1px 1px rgba(255,255,255,.8), 0 8px 18px -10px rgba(0,0,0,.7);
+}
+.lg-nt:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
+
+/* پیش‌نمایش کوچک هر تم */
+.nt-prev{
+  position:relative; display:flex; align-items:center; justify-content:space-between; box-sizing:border-box;
+  width:92%; max-width:98px; height:32px; margin-top:10px; padding:0 9px;
+}
+.nt-prev i{ position:relative; display:block; flex:none; width:7px; height:7px; border-radius:50%; background:currentColor; }
+.nt-prev::before, .nt-prev::after{ content:""; position:absolute; pointer-events:none; }
+
+.lg-nt[data-nt="neon"] .nt-prev{ color:#cdbf9c; background:#0e2419; border-radius:11px; box-shadow:0 0 0 1px rgba(255,203,61,.55); }
+.lg-nt[data-nt="neon"] .nt-prev i.on{ width:17px; height:17px; background:#22c17f; transform:translateY(-8px); box-shadow:0 0 0 3.5px #0e2419, 0 5px 9px rgba(34,193,127,.55); }
+
+.lg-nt[data-nt="beam"] .nt-prev{ color:#8d93a5; background:#14161c; border-radius:12px; box-shadow:inset 0 0 0 1px rgba(255,255,255,.12); }
+.lg-nt[data-nt="beam"] .nt-prev i.on{ background:#f0566a; box-shadow:0 0 8px #f0566a; transform:scale(1.3); }
+.lg-nt[data-nt="beam"] .nt-prev::before{ top:0; left:50%; width:16px; height:3px; margin-left:-8px; border-radius:0 0 4px 4px; background:#f0566a; box-shadow:0 0 9px 1px #f0566a; }
+.lg-nt[data-nt="beam"] .nt-prev::after{ top:3px; left:50%; width:36px; height:24px; margin-left:-18px; background:linear-gradient(rgba(240,86,106,.5), transparent); clip-path:polygon(34% 0, 66% 0, 100% 100%, 0 100%); }
+
+.lg-nt[data-nt="bubble"] .nt-prev{ color:#3a3d4a; background:#fff; border-radius:99px; }
+.lg-nt[data-nt="bubble"] .nt-prev i.on{ width:18px; height:18px; background:linear-gradient(145deg,#ff4fa3,#d4146e); transform:translateY(-8px); box-shadow:0 6px 10px -3px rgba(236,28,122,.75); }
+.lg-nt[data-nt="bubble"] .nt-prev::after{ left:50%; bottom:4px; width:14px; height:2px; margin-left:-7px; border-radius:2px; background:#cfd2dc; }
+
+.lg-nt[data-nt="labels"] .nt-prev{ color:#16181f; background:#fff; border-radius:99px; }
+.lg-nt[data-nt="labels"] .nt-prev i{ transform:translateY(-3px); }
+.lg-nt[data-nt="labels"] .nt-prev i::after{ content:""; position:absolute; top:10px; left:50%; width:9px; height:2px; margin-left:-4.5px; border-radius:2px; background:currentColor; opacity:.75; }
+.lg-nt[data-nt="labels"] .nt-prev i.on{ color:#22c17f; }
+.lg-nt[data-nt="labels"] .nt-prev::before{ top:3px; left:50%; width:12px; height:2px; margin-left:-6px; border-radius:2px; background:#22c17f; }
+
+.lg-nt[data-nt="magic"] .nt-prev{ color:#2a2d38; background:#fff; border-radius:8px; }
+.lg-nt[data-nt="magic"] .nt-prev i.on{ width:17px; height:17px; background:#22c17f; transform:translateY(-9px); box-shadow:0 0 0 3.5px #1c2a23; }
+</style>
+
+<style id="lg-switch-fix">
+/* =====================================================================
+   روان‌سازی سوییچ بین بخش‌های تنظیمات (بدون دست‌زدن به ظاهر شیشه)
+   ۱) بخش‌های مخفی دیگر visibility:hidden نمی‌شوند؛ فقط opacity:0 + inert.
+      بدین ترتیب لایه‌ی آن‌ها (تیتر، آیکون‌های گرادیانی، پرچم‌ها) همیشه آماده‌ی ترکیب است
+      و هنگام نمایش دوباره‌رسم/راستریزه نمی‌شود (علت لگ اولین فریم‌ها).
+   ۲) محو شدن پشت‌سرهم (نه هم‌زمان): بخش قبلی سریع محو می‌شود و بخش جدید کمی بعد ظاهر می‌شود
+      تا دو تیتر/آیکون روی هم نیفتند (علت حس «پرش» تیتر و آیکون).
+   ۳) تب‌ها: حذف scale ناگهانی هنگام لمس و حذف overshoot آیکون.
+   ===================================================================== */
+.lg-sec{
+  visibility:visible; opacity:0; pointer-events:none;
+  transition:opacity .12s ease-out;
+}
+.lg-sec.on{
+  visibility:visible; opacity:1; pointer-events:auto;
+  transition:opacity .18s ease-out .05s;
+}
+.lg-tab{ transition:color .2s ease; }
+.lg-tab:active{ transform:none; }
+.lg-tab svg{
+  transition:stroke .2s ease, transform .22s cubic-bezier(.2,.8,.2,1), scale .14s ease;
+  will-change:transform;
+}
+.lg-tab:active svg{ scale:.9; }
+/* متن زیر آیکون: لایه‌ی ثابت و همیشگی (بدون ارتقا/تنزل لایه هنگام حرکت قرص) تا هنگام سوییچ دوباره‌راستریزه نشود و نپرد */
+.lg-tab > span{
+  display:block; will-change:transform; transform:translateZ(0);
+  -webkit-font-smoothing:antialiased; text-rendering:geometricPrecision;
+  transition:color .2s ease;
+}
+.lg-tab[aria-selected="true"] svg{ transform:scale(1.08); }
+
+@media (prefers-reduced-motion: reduce){
+  .lg-sec, .lg-sec.on, .lg-tab svg{ transition:none; }
+}
+</style>
+
+<style id="kzm-mode-css">
+/* =====================================================================
+   سوییچ روز / شب (بالای تب «تم») + حالت روز برای صفحه‌ی ورود
+   پنجره‌ی تنظیمات (شیشه) و نوار پایین در هر دو حالت همان ظاهر تیره‌ی خود را دارند.
+   ===================================================================== */
+.lg-mode{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 14px; margin-bottom:10px; }
+.lg-mode-txt{ display:flex; flex-direction:column; gap:3px; min-width:0; }
+.lg-mode-txt b{ font-size:13.5px; font-weight:800; color:#fff; }
+.lg-mode-txt small{ font-size:11px; font-weight:600; color:rgba(255,255,255,.68); line-height:1.5; }
+html[data-mode="light"] .lg-mode .on-n{ display:none; }
+html:not([data-mode="light"]) .lg-mode .on-d{ display:none; }
+
+.dn{
+  appearance:none; -webkit-appearance:none; border:0; padding:0; cursor:pointer; position:relative; flex:none;
+  width:112px; height:46px; border-radius:999px; overflow:hidden; direction:ltr; isolation:isolate;
+  box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.42), inset 0 3px 8px rgba(0,0,0,.32), 0 6px 14px -6px rgba(0,0,0,.5);
+  -webkit-tap-highlight-color:transparent; touch-action:manipulation;
+}
+.dn:focus-visible{ outline:2px solid #fff; outline-offset:3px; }
+.dn-sky, .dn-sky2{ position:absolute; inset:0; transition:opacity .45s ease; }
+.dn-sky{ background:linear-gradient(135deg, #4f9fe0 0%, #86cbf5 55%, #c4eafb 100%); }
+.dn-sky2{ background:linear-gradient(135deg, #0a1124 0%, #1a2446 58%, #323c66 100%); opacity:0; }
+.dn[aria-checked="false"] .dn-sky{ opacity:0; }
+.dn[aria-checked="false"] .dn-sky2{ opacity:1; }
+
+.dn-clouds{
+  position:absolute; left:0; right:0; bottom:-2px; height:62%; z-index:1; pointer-events:none;
+  background:
+    radial-gradient(circle at 20% 100%, #fff 0 26%, transparent 27%),
+    radial-gradient(circle at 42% 122%, #eef6fc 0 34%, transparent 35%),
+    radial-gradient(circle at 64% 104%, #fff 0 28%, transparent 29%),
+    radial-gradient(circle at 88% 120%, #e2f0fa 0 32%, transparent 33%);
+  transition:transform .5s cubic-bezier(.3,1.2,.5,1), opacity .4s ease;
+}
+.dn[aria-checked="false"] .dn-clouds{ transform:translateY(75%); opacity:0; }
+.dn-stars{ position:absolute; inset:0; z-index:1; pointer-events:none; opacity:0; transform:translateY(-12px); transition:opacity .5s ease .12s, transform .5s ease .12s; }
+.dn-stars::before{
+  content:''; position:absolute; left:14px; top:9px; width:2px; height:2px; border-radius:50%; background:#fff;
+  box-shadow:18px 8px 0 0 #fff, 34px -2px 0 0 #fff, 12px 22px 0 0 #fff, 30px 27px 0 0 rgba(255,255,255,.8), 47px 14px 0 0 #fff, 52px 31px 0 0 rgba(255,255,255,.7), 6px 33px 0 -.4px #fff;
+}
+.dn[aria-checked="false"] .dn-stars{ opacity:1; transform:none; }
+
+.dn-thumb{ position:absolute; z-index:3; top:4px; left:4px; width:38px; height:38px; border-radius:50%; transform:translateX(0); transition:transform .42s cubic-bezier(.3,1.12,.4,1); will-change:transform; }
+.dn[aria-checked="false"] .dn-thumb{ transform:translateX(66px); }
+.dn-sun, .dn-moon{ position:absolute; inset:0; border-radius:50%; transition:opacity .35s ease, transform .5s cubic-bezier(.3,1.2,.4,1); }
+.dn-sun{
+  background:radial-gradient(circle at 35% 30%, #fff3a6, #ffd93d 52%, #efb100 100%);
+  box-shadow:0 0 0 7px rgba(255,255,255,.14), 0 0 0 14px rgba(255,255,255,.09), 0 2px 8px rgba(0,0,0,.3);
+}
+.dn-moon{
+  background:radial-gradient(circle at 35% 30%, #f5f7fc, #cfd5e2 68%, #b3bbcc 100%);
+  box-shadow:inset -3px -3px 6px rgba(0,0,0,.16), 0 2px 8px rgba(0,0,0,.4);
+  opacity:0; transform:rotate(-60deg) scale(.7);
+}
+.dn-moon i{ position:absolute; border-radius:50%; background:rgba(116,126,152,.5); box-shadow:inset 1px 1px 2px rgba(0,0,0,.18); }
+.dn-moon .c1{ width:11px; height:11px; left:9px; top:10px; }
+.dn-moon .c2{ width:7px; height:7px; left:22px; top:19px; }
+.dn-moon .c3{ width:5px; height:5px; left:17px; top:5px; }
+.dn[aria-checked="false"] .dn-sun{ opacity:0; transform:rotate(60deg) scale(.7); }
+.dn[aria-checked="false"] .dn-moon{ opacity:1; transform:none; }
+.dn-sky, .dn-sky2, .dn-clouds, .dn-stars, .dn-sun, .dn-moon{ will-change:opacity, transform; }
+/* هنگام جابه‌جاییِ واقعیِ روز/شب (دو فریم)، ترنزیشن‌های بقیه‌ی صفحه خاموش است تا رنگ‌ها یکباره عوض شوند و هزاران عنصر هم‌زمان انیمیت نشوند؛ خودِ سوییچ مستثنی است */
+html.kzm-mode-switch :not(.dn):not(.dn *), html.kzm-mode-switch :not(.dn):not(.dn *)::before, html.kzm-mode-switch :not(.dn):not(.dn *)::after{ transition:none !important; }
+@media (prefers-reduced-motion: reduce){ .dn-sky, .dn-sky2, .dn-clouds, .dn-stars, .dn-thumb, .dn-sun, .dn-moon{ transition:none; } }
+
+/* ---------- حالت روز ---------- */
+html[data-mode="light"]{
+  --void:#f6f1e3; --void-2:#efe9d8;
+  --parchment:#18261e; --parchment-dim:#56665c;
+  --gold:#9a6700; --gold-soft:#855900;
+  --line:rgba(154,103,0,.30);
+  --ember:#c9941a; --ember-soft:#c9941a66;
+}
+@supports (color: color-mix(in srgb, red 50%, blue)){
+  html[data-mode="light"]{
+    --void:color-mix(in srgb, var(--crimson) 7%, #f9f5ea);
+    --void-2:color-mix(in srgb, var(--crimson) 12%, #f2ecdd);
+  }
+}
+html[data-mode="light"] body{
+  color:var(--parchment);
+  background:
+    radial-gradient(ellipse 120% 70% at 50% -8%, rgba(var(--crimson-rgb),0.20), transparent 55%),
+    radial-gradient(ellipse 90% 50% at 15% 45%, rgba(var(--crimson-rgb),0.07), transparent 60%),
+    radial-gradient(ellipse 90% 50% at 85% 80%, rgba(var(--crimson-rgb),0.09), transparent 60%),
+    var(--void);
+}
+/* پرده‌ی پشت پنجره‌ی تنظیمات: کمی تیره‌تر تا متن شیشه در حالت روز خوانا بماند */
+html[data-mode="light"] .kzm-overlay, html[data-mode="light"].kzm-sizing .kzm-overlay{ background:rgba(2,8,5,.52); }
+html[data-mode="light"] .kzm-menu.lg-panel{
+  background:linear-gradient(155deg, rgba(255,255,255,.20), rgba(255,255,255,.05) 42%, rgba(255,255,255,.10)), rgba(6,16,11,.50);
+}
+
+/* قاب و تزئین */
+html[data-mode="light"] .portal-frame::before{ border-color:rgba(176,124,10,.42); }
+html[data-mode="light"] .portal-frame::after{ border-color:rgba(176,124,10,.18); }
+html[data-mode="light"] .frame-corner{ filter:brightness(.72) saturate(1.35) drop-shadow(0 0 6px rgba(176,124,10,.22)); }
+html[data-mode="light"] .portal-pattern{ opacity:.7; }
+
+/* سربرگ */
+html[data-mode="light"] .hello-art{ filter:brightness(.56) saturate(1.5) drop-shadow(0 2px 10px rgba(120,80,0,.25)); }
+html[data-mode="light"] .bismillah-art, html[data-mode="light"] .head-salavat{ filter:drop-shadow(0 4px 14px rgba(40,40,20,.28)); }
+html[data-mode="light"] .portal-head h1{
+  background-image:
+    linear-gradient(105deg, transparent 38%, rgba(255,255,255,0.65) 50%, transparent 62%),
+    linear-gradient(180deg, #c8901a 0%, #a06a00 55%, #7a4e00 100%);
+  filter:drop-shadow(0 2px 10px rgba(154,103,0,.2));
+}
+html[data-mode="light"] .portal-head p{ color:rgba(24,38,30,.74); }
+html[data-mode="light"] .top-chip{ background:rgba(255,255,255,.72); border-color:rgba(154,103,0,.34); color:rgba(24,38,30,.8); }
+
+/* ورودی‌ها */
+html[data-mode="light"] .entry .entry-text b{ text-shadow:none; }
+html[data-mode="light"] .entry-text small{ color:rgba(24,38,30,.72); }
+html[data-mode="light"] .entry-icon{
+  box-shadow:0 12px 22px -8px rgba(30,40,30,.38), 0 0 0 1.5px rgba(176,124,10,.6), 0 0 0 4px rgba(250,246,234,.95), 0 0 38px rgba(var(--accent,255,203,61),.26);
+}
+html[data-mode="light"] .entry-last::before, html[data-mode="light"] .entry-last::after{ background:#ffcb3d; }
+html[data-mode="light"] .portal-foot{ color:rgba(24,38,30,.55); }
+html[data-mode="light"] .portal-foot::before, html[data-mode="light"] .portal-foot::after{ background:linear-gradient(90deg, transparent, rgba(154,103,0,.55)); }
+
+/* رنگ تیره‌شده‌ی هر کارت برای متن‌های رنگی روی زمینه‌ی روشن */
+html[data-mode="light"] .w-card, html[data-mode="light"] .about-item{ --acd:#5b4a14; }
+@supports (color: color-mix(in srgb, red 50%, blue)){
+  html[data-mode="light"] .w-card, html[data-mode="light"] .about-item{ --acd:color-mix(in srgb, rgb(var(--accent,255,203,61)) 55%, #121c16); }
+}
+
+/* کادر معرفی بخش‌ها */
+html[data-mode="light"] .about{ background:linear-gradient(180deg, rgba(255,203,61,0.14), rgba(255,255,255,0.74)); box-shadow:0 14px 30px -14px rgba(60,50,20,.28); }
+html[data-mode="light"] .about::after{ border-color:rgba(154,103,0,.12); }
+html[data-mode="light"] .about-item{ border-top-color:rgba(154,103,0,.2); }
+html[data-mode="light"] .about-item p{ color:rgba(24,38,30,.78); }
+html[data-mode="light"] .about-item b{ color:var(--acd); }
+
+/* ویجت‌ها */
+html[data-mode="light"] .w-card{
+  border-color:rgba(var(--accent,255,203,61),0.5);
+  background:
+    radial-gradient(130% 95% at 100% 0%, rgba(var(--accent,255,203,61),0.22), transparent 62%),
+    linear-gradient(180deg, rgba(255,255,255,0.80), rgba(255,252,243,0.94));
+  box-shadow:0 10px 22px -12px rgba(var(--accent,255,203,61),0.55), inset 0 1px 0 rgba(255,255,255,0.8);
+}
+html[data-mode="light"] .w-title{ color:var(--acd); }
+html[data-mode="light"] .w-ic{ background:rgba(var(--accent,255,203,61),0.18); box-shadow:inset 0 0 0 1px rgba(var(--accent,255,203,61),0.4); }
+html[data-mode="light"] .w-ic svg{ stroke:var(--acd); }
+html[data-mode="light"] .w-sub{ color:rgba(24,38,30,.55); }
+html[data-mode="light"] .w-dim{ color:rgba(24,38,30,.66); }
+html[data-mode="light"] .w-pm-count{ color:rgba(24,38,30,.7); }
+html[data-mode="light"] .w-pm-time{ color:var(--acd); text-shadow:none; }
+html[data-mode="light"] .w-pbar, html[data-mode="light"] .w-bar{ background:rgba(24,38,30,.10); }
+html[data-mode="light"] .w-pbar i, html[data-mode="light"] .w-bar i{ box-shadow:0 0 6px rgba(var(--accent),0.45); }
+html[data-mode="light"] .w-times{ border-top-color:rgba(var(--accent),0.3); }
+html[data-mode="light"] .w-time small{ color:rgba(24,38,30,.55); }
+html[data-mode="light"] .w-time b{ color:rgba(24,38,30,.9); }
+html[data-mode="light"] .w-time.is-next b, html[data-mode="light"] .w-time.is-next small{ color:var(--acd); }
+html[data-mode="light"] .w-ev-meta{ color:rgba(24,38,30,.6); }
+html[data-mode="light"] .w-ev-count{ color:var(--acd); background:rgba(var(--accent,34,193,127),0.16); }
+html[data-mode="light"] .w-ev.is-secondary .w-ev-title{ color:rgba(24,38,30,.8); }
+html[data-mode="light"] .w-ev.is-secondary .w-ev-count{ color:rgba(24,38,30,.7); background:transparent; }
+html[data-mode="light"] .w-today-lunar{ color:var(--acd); }
+html[data-mode="light"] .w-next{ color:rgba(24,38,30,.6); }
+html[data-mode="light"] .w-next b{ color:rgba(24,38,30,.85); }
+html[data-mode="light"] .w-zekr-text{ color:var(--acd); text-shadow:none; }
+html[data-mode="light"] .w-prog{ color:rgba(24,38,30,.6); }
+html[data-mode="light"] .w-continue-ic{ background:rgba(var(--accent),0.16); }
+html[data-mode="light"] .w-continue-ic svg{ stroke:var(--acd); }
+html[data-mode="light"] .w-continue-label{ color:var(--acd); }
+html[data-mode="light"] .w-continue-sub{ color:rgba(24,38,30,.58); }
+html[data-mode="light"] .w-dot{ background:rgba(24,38,30,.25); }
+</style>
+
+<style id="gnav-smooth">
+/* =====================================================================
+   نوار پایین: بدون پرش و لگ هنگام سوییچ و نگه‌داشتن انگشت
+   ۱) آیکون‌ها، نشانگر، درخششِ پشت آیکون و برچسب‌ها لایه‌ی ثابتِ GPU دارند (لایه هنگام شروع/پایان انیمیشن ساخته و ویران نمی‌شود؛
+      علتِ پرشِ ریز و لحظه‌ای تیز/محو شدنِ متن و آیکون).
+   ۲) تم نئونی: انتقال‌ها فقط روی ویژگی‌های لازم (به‌جای all)، بدون تأخیر ۰٫۲۵ ثانیه‌ای و بدون ترنزیشنِ سنگینِ همه‌چیز.
+   ظاهر نوار و بقیه‌ی تم‌ها (رنگ‌ها، فرم، سایه) تغییری نکرده است.
+   ===================================================================== */
+.gnav .icon{ will-change:transform; }
+.gnav .icon::before{ will-change:opacity; }
+.gnav .indicator{ will-change:transform; }
+.gnav .lbl{ will-change:transform, opacity; }
+
+html[data-nt="neon"] .gnav .icon{
+  transition:transform .42s cubic-bezier(.3,.9,.3,1), background-color .3s ease, color .3s ease;
+  transition-delay:0s;
+}
+html[data-nt="neon"] .gnav .list.active .icon{ transition-delay:.06s; }
+html[data-nt="neon"] .gnav .icon::before{ transition:opacity .35s ease; transition-delay:.08s; }
+html[data-nt="neon"] .gnav .list.active .icon::before{ transition-delay:.14s; }
+html[data-nt="neon"] .gnav .indicator{ transition:transform .42s cubic-bezier(.3,.9,.3,1); }
+html[data-nt="neon"] .gnav .lbl{ transition:opacity .28s ease, transform .3s cubic-bezier(.3,.9,.3,1); }
+html[data-nt="neon"] .gnav .list.active .lbl{ transition-delay:.12s; }
+@media (prefers-reduced-motion: reduce){
+  html[data-nt="neon"] .gnav .icon, html[data-nt="neon"] .gnav .icon::before, html[data-nt="neon"] .gnav .indicator, html[data-nt="neon"] .gnav .lbl{ transition:none !important; }
+}
+</style>
+
+<style id="nb-css">
+/* =====================================================================
+   دکمه‌ی روشن/خاموش کردن نوار پایین (بالای صفحه، بین تاریخ و ساعت)
+   ظاهر: قرص تیره با لبه‌ی درخشانِ چرخان و نورِ دنبال‌کننده‌ی انگشت/ماوس (الهام از ویدیو)
+   ===================================================================== */
+@keyframes nbIn{ from{ opacity:0; transform:translate(-50%,-6px); } to{ opacity:1; transform:translate(-50%,0); } }
+/* همه‌ی انیمیشن‌های این دکمه فقط با transform / opacity / translate / scale کار می‌کنند
+   (روی کارت گرافیک، بدون بازرسمِ دوباره‌ی هر فریم) تا لگ نداشته باشد */
+@keyframes nbSpin{ to{ transform:rotate(360deg); } }
+@keyframes nbSheen{ 0%,58%{ translate:-130% 0; } 100%{ translate:400% 0; } }
+@keyframes nbBreathe{ 0%,100%{ opacity:.55; } 50%{ opacity:1; } }
+@keyframes nbPing{ 0%{ transform:scale(1); opacity:.75; } 100%{ transform:scale(1.34); opacity:0; } }
+@keyframes nbRip{ 0%{ opacity:.95; transform:scale(.4); } 100%{ opacity:0; transform:scale(7.5); } }
+@keyframes nbPop{ 0%{ transform:scale(.96); } 24%{ transform:scale(.92); } 60%{ transform:scale(1.05); } 100%{ transform:scale(1); } }
+@keyframes nbSquish{ 0%,100%{ scale:1 1; } 32%{ scale:1.6 .82; } 68%{ scale:.9 1.1; } }
+@keyframes nbIcIn{ 0%{ transform:rotate(-80deg) scale(.55); opacity:.2; } 62%{ transform:rotate(9deg) scale(1.16); opacity:1; } 100%{ transform:none; opacity:1; } }
+@keyframes nbTxt{ 0%{ opacity:0; transform:translateY(8px) scale(.92); } 100%{ opacity:1; transform:none; } }
+
+/* ---- قاب کل بلوک بالا: دکمه در وسط، توضیح زیر ردیف ساعت/تاریخ ---- */
+.nb-wrap{
+  position:absolute; top:14px; left:50%; transform:translateX(-50%); z-index:3;
+  width:min(92%, 340px); display:flex; flex-direction:column; align-items:center; text-align:center;
+  pointer-events:none; opacity:0; animation:nbIn .6s ease .25s forwards;
+}
+
+/* ---- خودِ دکمه: لبه‌ی چرخان (لایه‌ی پشت) + صفحه‌ی تیره‌ی شیشه‌ای (لایه‌ی روی آن) + نور و محتوا ---- */
+.nb{
+  --nb-c:var(--crimson-rgb);
+  appearance:none; -webkit-appearance:none; border:0; margin:0; font:inherit; cursor:pointer; pointer-events:auto;
+  position:relative; isolation:isolate; overflow:hidden; height:36px; padding-block:0; padding-inline:4px 13px; border-radius:999px;
+  display:inline-flex; align-items:center; gap:9px; font-size:12px; font-weight:800; line-height:1; white-space:nowrap;
+  color:#eafff3; background:#04080a;
+  box-shadow:0 10px 22px -10px rgba(0,0,0,.85), 0 0 22px -6px rgba(var(--nb-c),.55);
+  -webkit-tap-highlight-color:transparent; touch-action:manipulation;
+  transition:transform .22s cubic-bezier(.3,1.3,.5,1);
+}
+.nb::before{                      /* مخروطِ رنگی که می‌چرخد؛ فقط حاشیه‌ی ۱.۵ پیکسلی‌اش دیده می‌شود */
+  content:''; position:absolute; left:50%; top:50%; width:320px; height:320px; margin:-160px 0 0 -160px; z-index:0; pointer-events:none;
+  background:conic-gradient(rgba(var(--nb-c),.10) 0deg, rgba(var(--nb-c),.10) 200deg, rgba(var(--nb-c),.98) 285deg, rgba(var(--nb-c),.10) 345deg, rgba(var(--nb-c),.10) 360deg);
+  animation:nbSpin 5s linear infinite; will-change:transform;
+}
+.nb > .nb-bg{                     /* صفحه‌ی تیره */
+  position:absolute; inset:1.5px; z-index:1; border-radius:inherit; overflow:hidden; pointer-events:none;
+  background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,0) 55%), #04080a;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14);
+}
+.nb-bg::before{                   /* درخششِ نفس‌کشنده‌ی ته دکمه */
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(120% 140% at 50% 135%, rgba(var(--nb-c),.34), transparent 62%);
+  animation:nbBreathe 3.6s ease-in-out infinite; will-change:opacity;
+}
+.nb-bg::after{                    /* برقِ گذرا */
+  content:''; position:absolute; top:0; bottom:0; left:0; width:38%; pointer-events:none; translate:-130% 0;
+  background:linear-gradient(105deg, transparent, rgba(255,255,255,.16), transparent);
+  animation:nbSheen 5.5s ease-in-out 1.2s infinite; will-change:translate;
+}
+.nb::after{                       /* نورِ دنبال‌کننده‌ی انگشت/ماوس؛ در حالت عادی کمی پایین‌تر از وسط می‌ماند */
+  content:''; position:absolute; left:50%; top:50%; width:150px; height:150px; margin:-75px 0 0 -75px; border-radius:50%;
+  z-index:2; pointer-events:none; opacity:.5; transition:opacity .3s ease;
+  translate:var(--gx,0px) var(--gy,46px); will-change:translate;
+  background:radial-gradient(circle, rgba(var(--nb-c),.38), transparent 65%);
+}
+.nb > .nb-rip{                    /* موجِ لمس */
+  position:absolute; left:50%; top:50%; width:44px; height:44px; margin:-22px 0 0 -22px; border-radius:50%;
+  z-index:2; opacity:0; pointer-events:none; translate:var(--gx,0px) var(--gy,0px);
+  background:radial-gradient(circle, rgba(var(--nb-c),.8), rgba(var(--nb-c),.32) 45%, transparent 70%);
+}
+.nb > :not(.nb-bg):not(.nb-rip){ position:relative; z-index:3; }
+.nb:active{ transform:scale(.96); }
+.nb:active::after{ opacity:1; }
+@media (hover:hover){
+  .nb:hover{ transform:translateY(-1px); }
+  .nb:hover::after{ opacity:1; }
+}
+.nb:focus-visible{ outline:2px solid rgb(var(--nb-c)); outline-offset:3px; }
+
+/* آیکونِ گرد ابتدای دکمه */
+.nb-ic{
+  position:relative; flex:none; width:28px; height:28px; display:grid; place-items:center; border-radius:50%;
+  background:radial-gradient(circle at 35% 28%, rgba(var(--nb-c),.6), rgba(var(--nb-c),.16) 72%);
+  box-shadow:inset 0 0 0 1px rgba(var(--nb-c),.5), 0 0 12px -2px rgba(var(--nb-c),.6);
+}
+.nb-ic::before{ content:''; position:absolute; inset:0; border-radius:50%; border:1.5px solid rgba(var(--nb-c),.7); pointer-events:none; animation:nbPing 2.6s ease-out infinite; }
+.nb-ic::after{ content:''; position:absolute; width:19px; height:2px; border-radius:2px; background:rgb(var(--nb-c)); box-shadow:0 0 0 1.5px #04080a; transform:rotate(-45deg) scaleX(0); transition:transform .35s cubic-bezier(.3,1.4,.5,1); }
+.nb-ic svg{ width:15px; height:15px; fill:none; stroke:#eafff3; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; transition:opacity .3s ease; }
+.nb-t{ letter-spacing:.01em; }
+.nb-s{ min-width:3.5em; text-align:center; color:rgb(var(--nb-c)); font-size:11px; font-weight:900; }
+
+/* کلید کشویی؛ مهره با translate جابه‌جا می‌شود (جهتش در راست‌به‌چپ و چپ‌به‌راست درست است) */
+.nb-sw{
+  --dx:14px; position:relative; flex:none; width:32px; height:18px; border-radius:999px;
+  background:rgba(var(--nb-c),.22); box-shadow:inset 0 0 0 1px rgba(var(--nb-c),.55);
+}
+html[dir="rtl"] .nb-sw{ --dx:-14px; }
+.nb-sw i{
+  position:absolute; top:2.5px; inset-inline-start:2.5px; width:13px; height:13px; border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, #fff 0, rgb(var(--nb-c)) 62%); box-shadow:0 0 9px rgba(var(--nb-c),.95);
+  translate:var(--dx) 0; transition:translate .45s cubic-bezier(.3,1.4,.5,1);
+}
+
+/* حالت غیرفعال: نقره‌ای */
+html.gnav-off .nb{ --nb-c:178,188,204; }
+html.gnav-off .nb-ic{ background:radial-gradient(circle at 35% 28%, rgba(var(--nb-c),.32), rgba(var(--nb-c),.10) 72%); box-shadow:inset 0 0 0 1px rgba(var(--nb-c),.5), 0 0 12px -3px rgba(var(--nb-c),.45); }
+html.gnav-off .nb-ic::before{ animation:none; opacity:0; }
+html.gnav-off .nb-ic::after{ transform:rotate(-45deg) scaleX(1); }
+html.gnav-off .nb-ic svg{ opacity:.65; }
+html.gnav-off .nb-sw{ background:rgba(var(--nb-c),.14); }
+html.gnav-off .nb-sw i{ translate:0 0; box-shadow:0 0 7px rgba(var(--nb-c),.6); background:radial-gradient(circle at 35% 30%, #fff 0, #c3ccd9 60%, #8e99aa 100%); }
+html.gnav-off .nb-t{ color:#eef2f8; }
+html:not(.gnav-off) .nb-s{ color:#4ee3a3; text-shadow:0 0 10px rgba(78,227,163,.45); }
+html.gnav-off .nb-s{ text-shadow:0 0 9px rgba(178,188,204,.35); }
+html.gnav-off .nb .s-on, html:not(.gnav-off) .nb .s-off{ display:none; }
+
+/* انیمیشن هنگام لمس (کلاس nb-go را اسکریپت یک لحظه اضافه می‌کند) */
+.nb.nb-go{ animation:nbPop .55s cubic-bezier(.3,1.3,.5,1); }
+.nb.nb-go .nb-rip{ animation:nbRip .8s cubic-bezier(.2,.7,.3,1); }
+.nb.nb-go .nb-sw i{ animation:nbSquish .5s ease; }
+.nb.nb-go .nb-ic svg{ animation:nbIcIn .55s cubic-bezier(.3,1.3,.5,1); }
+.nb.nb-go .nb-s{ animation:nbTxt .42s cubic-bezier(.2,.9,.3,1.2) .06s both; }
+
+html.gfan-on .nb, html.gfan-on .nb::before, html.gfan-on .nb-bg::before, html.gfan-on .nb-bg::after, html.gfan-on .nb-ic::before{ animation-play-state:paused !important; }
+@media (prefers-reduced-motion: reduce){
+  .nb::before, .nb-bg::before, .nb-bg::after, .nb-ic::before, .nb.nb-go, .nb.nb-go .nb-rip, .nb.nb-go .nb-sw i, .nb.nb-go .nb-ic svg, .nb.nb-go .nb-s{ animation:none !important; }
+  .nb, .nb-sw i, .nb-ic::after{ transition:none !important; }
+}
+
+/* ---- متن توضیح: وسط‌چین، دو سطر متعادل، با خط ظریف زیرش؛ پایین‌تر از ردیف ساعت/تاریخ ---- */
+.nb-hint{
+  position:relative; display:inline-flex; align-items:center; gap:7px; margin:40px 0 0; padding:4px 12px 4px 10px; max-width:100%;
+  font-size:10.5px; line-height:1.6; font-weight:600; text-align:center; color:rgba(250,240,214,.9); text-wrap:balance;
+  border-radius:999px; border:1px solid rgba(255,203,61,.26); background:rgba(255,203,61,.08);
+}
+.nb-hint::before{
+  content:''; flex:none; width:15px; height:15px; border-radius:50%;
+  background:center / 9px 9px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffcb3d' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M12 11v6'/%3E%3Ccircle cx='12' cy='6.5' r='.6'/%3E%3C/svg%3E"), rgba(255,203,61,.14);
+  box-shadow:inset 0 0 0 1px rgba(255,203,61,.45);
+}
+html[data-mode="light"] .nb-hint{ color:rgba(24,38,30,.88); border-color:rgba(154,103,0,.34); background:rgba(255,255,255,.7); }
+/* اگر دکمه‌ی نصب اپلیکیشن دیده می‌شود، جایی برای توضیح نیست؛ خودِ دکمه می‌ماند */
+.pwa-pill:not([hidden]) ~ .nb-wrap .nb-hint{ display:none; }
+
+/* ---- هم‌ترازی ردیف ساعت / تاریخ / دکمه‌ی نصب و فاصله‌ی بالای صفحه ---- */
+.top-chip{ top:58px; }
+.pwa-pill{ top:55px; }
+.portal{ padding-top:124px; }
+.portal:has(.pwa-pill:not([hidden])){ padding-top:100px; }
+
+@media (max-width:380px){ .nb-wrap{ width:min(94%, 320px); } .nb-hint{ font-size:10px; padding:3px 10px 3px 8px; gap:6px; max-width:100%; } }
+@media (max-width:359px){
+  .nb-wrap{ top:12px; }
+  .nb{ height:32px; font-size:11px; gap:7px; padding-inline:3px 10px; }
+  .nb-ic{ width:24px; height:24px; } .nb-ic svg{ width:13px; height:13px; }
+  .nb-s{ font-size:10px; } .nb-sw{ width:28px; height:16px; } .nb-sw i{ width:11px; height:11px; top:2.5px; inset-inline-start:calc(100% - 13.5px); }
+  .nb-hint{ margin-top:38px; font-size:9.5px; }
+  .top-chip{ top:52px; } .pwa-pill{ top:49px; }
+  .portal{ padding-top:116px; }
+  .portal:has(.pwa-pill:not([hidden])){ padding-top:94px; }
+}
+@media (min-width:900px){
+  .nb-wrap{ top:28px; width:380px; }
+  .nb{ height:40px; font-size:13.5px; gap:11px; padding-inline:5px 16px; }
+  .nb-ic{ width:30px; height:30px; } .nb-ic svg{ width:16px; height:16px; }
+  .nb-s{ font-size:12px; }
+  .nb-hint{ margin-top:12px; font-size:11.5px; }
+  .top-chip{ top:34px; } .pwa-pill{ top:78px; }
+  .portal{ padding-top:122px; }
+  .portal:has(.pwa-pill:not([hidden])){ padding-top:124px; }
+}
+@media (prefers-reduced-motion: reduce){ .nb .nb-rip, .nb.nb-go .nb-sw i, .nb.nb-go .nb-ic svg, .nb.nb-go .nb-s{ animation:none !important; } .nb-wrap{ animation:none; opacity:1; transform:translateX(-50%); } .nb::before{ animation:none !important; } .nb, .nb-sw i{ transition:none; animation:none !important; } .nb-ic::before{ animation:none !important; } }
+
+/* خاموش بودن نوار پایین: با حرکتِ رو به پایین و محو شدن پنهان می‌شود (visibility هم برای حذف از فوکوس/لمس) */
+.gnav{ transition:transform .45s cubic-bezier(.2,.9,.3,1), opacity .3s ease .08s, visibility 0s; }
+html.gnav-off .gnav{
+  transform:translateX(-50%) translateY(calc(100% + 36px)) scale(var(--gns));
+  opacity:0; visibility:hidden; pointer-events:none;
+  transition:transform .42s cubic-bezier(.5,0,.75,0), opacity .28s ease, visibility 0s linear .42s;
+}
+@media (prefers-reduced-motion: reduce){ .gnav, html.gnav-off .gnav{ transition:none; } }
+
+/* ---- رفع پرش و لگ هنگام فعال شدن ---- */
+/* ۱) دو برچسب «فعال/غیرفعال» روی هم می‌نشینند تا عرض دکمه در هر دو حالت یکی بماند */
+.nb-s{ display:inline-grid; min-width:0; }
+.nb-s > span{ grid-area:1 / 1; text-align:center; }
+html.gnav-off .nb .s-on, html:not(.gnav-off) .nb .s-off{ display:block; visibility:hidden; }
+/* ۲) نوار پایین هنگام خاموشی از صفحه پایین می‌رود ولی لایه‌اش زنده می‌ماند (visibility:hidden نمی‌شود)؛
+      پس موقع روشن شدن فقط حرکت می‌کند و دوباره رسم/ساخته نمی‌شود. لمس و فوکوس آن با inert بسته می‌شود. */
+.gnav{ will-change:transform, opacity; }
+html.gnav-off .gnav{ visibility:visible; transition:transform .42s cubic-bezier(.5,0,.75,0), opacity .28s ease; }
+</style>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><linearGradient id="gTeal" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#5eead4"/><stop offset="1" stop-color="#0ea5e9"/></linearGradient><linearGradient id="gViolet" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#d8b4fe"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient><linearGradient id="gSun" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#ffe066"/><stop offset="1" stop-color="#ff8a1f"/></linearGradient><linearGradient id="gMint" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#bbf7d0"/><stop offset="1" stop-color="#10b981"/></linearGradient><linearGradient id="gCoral" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#fed7aa"/><stop offset="1" stop-color="#ef4444"/></linearGradient></defs></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><linearGradient id="gSky" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#7dd3fc"/><stop offset="1" stop-color="#818cf8"/></linearGradient><linearGradient id="gTeal" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#5eead4"/><stop offset="1" stop-color="#0ea5e9"/></linearGradient><linearGradient id="gViolet" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#d8b4fe"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient><linearGradient id="gSun" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#ffe066"/><stop offset="1" stop-color="#ff8a1f"/></linearGradient><linearGradient id="gMint" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#bbf7d0"/><stop offset="1" stop-color="#10b981"/></linearGradient><linearGradient id="gCoral" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#fed7aa"/><stop offset="1" stop-color="#ef4444"/></linearGradient><linearGradient id="gRose" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#fbcfe8"/><stop offset="1" stop-color="#ec4899"/></linearGradient><linearGradient id="gSky" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#bae6fd"/><stop offset="1" stop-color="#3b82f6"/></linearGradient></defs></svg>
 
 <div class="portal-pattern" aria-hidden="true"></div>
 <div class="portal-frame" aria-hidden="true">
@@ -699,7 +1729,10 @@ html[dir="ltr"] .w-continue-go{ transform:scaleX(-1); }
   <span class="kzm-badge" id="kzm-badge" aria-hidden="true" hidden></span>
 </button>
 <div class="kzm-overlay" id="kzm-overlay">
-  <div class="kzm-menu" id="kzm-menu" role="dialog" aria-modal="true" aria-label="تنظیمات" data-i18n-aria="mTitle">
+  <div class="kzm-menu lg-panel" id="kzm-menu" role="dialog" aria-modal="true" aria-label="تنظیمات" data-i18n-aria="mTitle">
+    <div class="lg-fx" aria-hidden="true"><i class="lg-blob a"></i><i class="lg-blob b"></i><i class="lg-blob c"></i></div>
+    <div class="lg-glare" aria-hidden="true"><i class="lg-spot"></i></div>
+
     <div class="kzm-menu-head">
       <span class="kzm-menu-title" data-i18n="mTitle">تنظیمات</span>
       <button type="button" class="kzm-close" id="kzm-close" aria-label="بستن" data-i18n-aria="mClose">
@@ -707,41 +1740,101 @@ html[dir="ltr"] .w-continue-go{ transform:scaleX(-1); }
       </button>
     </div>
 
-    <div class="kzm-card kzm-c-lang">
-      <div class="kzm-card-head"><span class="kzm-card-title"><span class="kzm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.9 5.6 3.9 9S14.6 18.4 12 21c-2.6-2.6-3.9-5.6-3.9-9S9.4 5.6 12 3z"/></svg></span><span data-i18n="mLang">زبان</span></span></div>
-      <div class="kzm-langs" role="radiogroup" aria-label="زبان" data-i18n-aria="mLang">
+    <div class="lg-tabs" id="lg-tabs" role="tablist" aria-label="دسته‌بندی تنظیمات" data-i18n-aria="mCats" style="--i:0">
+      <span class="lg-pill" aria-hidden="true"></span>
+      <button type="button" class="lg-tab" role="tab" id="lg-tab-lang" data-tab="lang" aria-controls="lg-sec-lang" aria-selected="true" tabindex="0"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.9 5.6 3.9 9S14.6 18.4 12 21c-2.6-2.6-3.9-5.6-3.9-9S9.4 5.6 12 3z"/></svg><span data-i18n="mLang">زبان</span></button>
+      <button type="button" class="lg-tab" role="tab" id="lg-tab-theme" data-tab="theme" aria-controls="lg-sec-theme" aria-selected="false" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="13.5" cy="6.5" r=".6"/><circle cx="17.5" cy="10.5" r=".6"/><circle cx="8.5" cy="7.5" r=".6"/><circle cx="6.5" cy="12.5" r=".6"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.83-.44-1.12-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2z"/></svg><span data-i18n="tTheme">تم</span></button>
+      <button type="button" class="lg-tab" role="tab" id="lg-tab-nav" data-tab="nav" aria-controls="lg-sec-nav" aria-selected="false" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="12" width="18" height="8" rx="4"/><circle cx="12" cy="6.2" r="2.4"/></svg><span data-i18n="tNav">نوار پایین</span></button>
+      <button type="button" class="lg-tab" role="tab" id="lg-tab-size" data-tab="size" aria-controls="lg-sec-size" aria-selected="false" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 18l4.5-11 4.5 11M5.2 14h5.6M14.5 18l3-7 3 7M15.7 15.5h3.6"/></svg><span data-i18n="mSize">اندازه متن</span></button>
+      <button type="button" class="lg-tab" role="tab" id="lg-tab-sound" data-tab="sound" aria-controls="lg-sec-sound" aria-selected="false" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a4 4 0 0 1 0 7M18.5 6a7.5 7.5 0 0 1 0 12"/></svg><span data-i18n="mSound">صدا</span></button>
+      <button type="button" class="lg-tab" role="tab" id="lg-tab-help" data-tab="help" aria-controls="lg-sec-help" aria-selected="false" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.3 9.3a2.7 2.7 0 1 1 3.8 2.5c-.7.35-1.1.7-1.1 1.5v.4"/><circle cx="12" cy="16.6" r=".6" fill="currentColor"/></svg><span data-i18n="tHelp">راهنما</span></button>
+    </div>
+
+    <div class="lg-body">
+
+      <!-- ۱) زبان -->
+      <section class="lg-sec on kzm-c-lang" id="lg-sec-lang" role="tabpanel" aria-labelledby="lg-tab-lang">
+        <div class="lg-sec-head"><span class="lg-ic" aria-hidden="true"><svg style="stroke:url(#gTeal)" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.9 5.6 3.9 9S14.6 18.4 12 21c-2.6-2.6-3.9-5.6-3.9-9S9.4 5.6 12 3z"/></svg></span><span class="lg-sec-title" data-i18n="mLang">زبان</span></div>
+        <div class="kzm-langs" role="radiogroup" aria-label="زبان" data-i18n-aria="mLang">
         <button type="button" role="radio" aria-checked="true" data-lang="fa"><span class="g flag"><img src="data:image/webp;base64,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" alt="" width="34" height="23" draggable="false"></span><span class="n">فارسی</span></button>
         <button type="button" role="radio" aria-checked="false" data-lang="ar"><span class="g flag"><img src="data:image/webp;base64,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" alt="" width="34" height="23" draggable="false"></span><span class="n">العربية</span></button>
         <button type="button" role="radio" aria-checked="false" data-lang="en"><span class="g flag"><img src="data:image/webp;base64,UklGRtwNAABXRUJQVlA4INANAABwNgCdASp4AFAAPjEYiUMiIaETnHVIIAMEtgBWGX2eV9c/HL8pvlKrL9I+/X7v/7XouDQ9pP9X+5/sB7l/1S9yn6F9gr9Gv7p/M/xv7s/mM/XL9l/eg/136we+v/neor/fOo49AD9KPTc9kv9wf2y9kzA9OF34X8Vf3A9X/Jf7T9sORNEX7a/0n5X/1X3w79/k1/feoX+N/zT+9fjT+WP0rw/udMnX9U/z39x/dv+5fGVPXWA4J/2k/IT/wf5n0VfSP/R/xfwDfzr+rf6P84/7v81XsC/bD2Ov2J//IOkhTdz5wqGNr3F+sJB++yaaizfjoTSSnvwUFuCIw9kAhWFxsKMXAuHu83vxeYC/Tihm1e/1u5fJpUMd8OSo7VJ22gPtQ7s5uJsVRXt1owkW+e/LJExnuUnAezPGbJ2XyVc1z3AUpK9+O5XH18hbqUEjyI0e5T9rHMw+zJ//HZ/bCi/e6p6Jf90bhvAtqb0EfkKS+/JG6iywkja8iGdNi0Dc+gO7tq6xq1r/5L6Il9V2MtHPwUzjxZpz+z/1IbCT7Qyv2Bz/HzxHi/DjRqapcsQYCBhxY8oPhHW5KUtPuwIA/vw9ClIbQkVt7mdVqd46q8Lp+zUyVfqFjE//rlxIrukcsQSo5+07MMS8QfRnv4DLCc8TgJM8e9q9sBXViJJUBs8/4WSOOKeh/MvPTh7C8og09ajN10DBe1C8qbtWNvLqgIWbjtJz7/8mlHXpPGrIJaI0jthi62+o1KqT+YEVjRDR5nRZQvksIuYIQNHPpJWjDMh5RnrPVMdcmCTwxVBHlcx6HRZ/5tlSlhYjfm3G7ElkKXfjesuI22M4Pip1Kb80s8Q4OAvQMBXrXXzbDYe380LcasKY29dIqTdv6iZzXo/MEUSt3fOlnf9LD8d0MEizHJa64tEPUqAGlNR7H3+3gprv8YqEBfdkFFDhuVFyDVzdGjIU4qwqYCGYgpzKMRJcSwAoGVhDvZAOh6gOeAwJUTUf+O2MHpEfiSFVBqlTuiwiHUqjjLmMXvn1TXOAEHE34dZ4bM+bRhh6Q0gmFLs7Ff31hC3aWfw8Ggn8WxTbB9NJGRKygI8eSH/mMzbwib6fV2UOt/5pd6EdHWsQLf6Tc2Zb1Quk8URR+ORx/uOMFQ1ZQXYE+ajGxUkPN/2mXDDfxMvp72gns8Z1kfJOjQCg3XgkabDdlEl7c0BsLwx41nXMQjNOh9N0GrmMebNqrpv8IMUsuXgyiQylaHorciaPbsEpXvFtkTviiezE86WpVwM/OodIMVT1gZNaMn+1uYkbevHJnYIkknqZDR1rnOSIVL9hn5vQfYjpYdTae01a8MkgSZD6muenyFVD1F+9CFhdw3zORCXqwiayAwLzP2YEVQTGA1zbtmHCsaH6yUA9WvOBqHc/4IQ2PYGsHlW1ZQQ/fgVuR+5iSDfToQhSSlHGa/MbXWg/amiXrJ7ULTG/fyiZXDJzpnq9DzXTX5+o3PDkgMVbEq0n6QhSFEbACC1XAjBuO0EA9Vu8QTY7y6Hy+6DKNcQF20MN4ekBw/d5GTTBExeenH/fFO4q+WXT/ckEyZEje4tSIYxY4ijCg9hH35IAgu5CsF/0oR4RPnqRrJ7GTkPnHyr4Ge/fIjf2WnYDav/ES4XZnerjP5d+Lm5GIqJIuoVsLopKX4yG7C/HrBloVCV8rRwQOY1ZkgCXXZzCggy7nx2Xl05/75KNq6l8whHzFRnJH5/gUIhxCZlTmi1AD7pXpllggHQ6u8GV4cWEVYx/QiaVbd99lKvJFB2umefE/p9ksf7YabEKc4hkf6VhMuRIDq6a8vmHSX6aMgDcXMg+49F3bsuWI8XlxqoFBetyMpM8ysZ7eaQ8CYdq/7aYePMhT8NQEypn79blYlEFRKRRQZrx0ReVH0FkAIPxCGYsUUd3+1Xgyh8coduR+EsgScCd3mz4XflPRZCPh02Rj8iEiSCZe4/ldIm5VoGsPj+D+s5lPuM9It3ZERwVQNumm3NJ8INYCTD8bIOeyzNmP+WpwQzYSqxc3lJrSBtAxAZfaHzTWbu/hG6M+W9FRraBXJOgMZlHxVovSyqzKrChsIR9Rvq/tWDXm3XJM3JBZcyFqmqifxoW6JBJVtHkVTIFF4UQkJC74dzvCEP/S9aqWD50uOYw9gY1v1cVuc2zkWBvZ6Bq9UgZOA4YVw881ooShw3bJ/8YEz1T4XvRhxY8NvNnD44ewvBbkwX4UbtOtWKieZeD87O3pkHqfzJxvynOAt6xjZgVNMjFT83OMZk3d6mxG2f5xCL5kC2xb/JnI8sfewXoPGzJ3elXhb1Jih+lV1i1q7DU1hryFkECIDX7IMSiedrWhfL2Gd1XPwFn1REgvV2vB9lOPiHpsQ/qvJFW3lAVeCiaz7TH0rhlPS3AYcCEcx0oaN3sXOaHQ+Zymp59jOlogyl4n4IgFPNe8x13U40kAm2ikfNLX+Zf0sUgOmN95/6aQ0yOKTW1jc8S1zEKkKNfekcm5shH1Fiqc375CpriatLk95c5x4RyXGbr6beufJKwhRJhYX9K8ufBndM4uwHvAFiwOErFvE2XuPbL51D0btG3y+IV+lTcEm2t+d1TF1q+z3bUCJm8W3pqP6S5nvVZ17xQVHWXrHFd6YRXe3iy7+vE5dNJP7ZBU+XshT3Vfj0m3pkjxYEfZP7NHnEaS3sHBXpYAoRJvm5SeBJ4v8V9tJH1GShC+36KhQYAky1SbzUsBAoTFnefdJzw2F59gQRbxsTqyNxdFmEAk+G8+oqX7T4AgKFtLN1/iXnoCoH+MaelX7dDtJp2Goy4xtib+PZs0yinKwdZRhEluktQGrFuB/yXRVDCRDIkAc1RGfKeQ+C9aqVoj/bY1Ki4KmcPmJg4Br3B5Y26Av+KMKWmx87V5PB6XqvcFsscSoL88vCFzcoa1sPu+IMVlTrtiBj9NBy5leVmSVsGjpoUDpQckcquqrUNKYK2ADaSSNpwOf/1f0W/8m8RICgfBugSZ6/0gcE/Ni2Nc49hPTdmli/dLY2TH2rUPA4jt6SGSeI1AqdZfh5548/j8Z6nkxCW65qPcKblB3oHqoPm0LlL/xlUuXPANXz4JDXS3b2e7/I3B/8dfRfriHVdT6Ry7MhLreS/mAdLRMKHtNRaCChcPsPo14jJ8QU90Pv1UcsQokpT//wA20ylhGu44D6FRExy9lRL9JusvBkWr+AvKiM+THD2u7BHDPnrWup396egS5CTbLb3am/YoFdska0qEo/hnxYFu1uuLYB8DksYvUnyZ2uM7215GvSmn8OiysIiYsvqNznPdVV186UI9cD84c38jqAM7iecdFRfuabMmpZbq00HSPNJ+TvDMPkKNm8sQKyUI044aw+VqJ4O/oElv+O0vwkznfTLfZDUzSzzr6gJh8Q7AzOfYNofoSRnhsBCLJEw+ziP/NzB0R6JEAgaIrvIiV5lAMuTDFitD9iJ3vbp97KNy1jqH8cd0BrX6MqC+95pAFknCRSJ3vknm/3XH/he2qe0m5P4/JEm9bDd97fwRCUEgdssKP52kClInRZgvN6pu8IQS+l/dCWumuq1LxDMqVwab5yfzidal3Q6VGaqdvK2/MoEpsm0HdyJ/F1nWe8FUtSNNxu0fVR+SAOnrmEwx4xo2wahNemYMKEFNFaBO27CycTiADdzAKd6nk1x6Mj5C8ku0qyUG4G9n/5e0OZJ8eWarDmlaXkRtxyFdLmk4t36WD+C7FjqKw3n6NOt5XLuGhqLYNfouQlaMRyYHWyo4IxmUpZNotW+inU9MaM/yQhtlsW8s5y2hWgu7AJpWZDmO7zmLw5Rq39PRfHW6mCgk/tWpntlsxgQIGfbv2aSpUY5uu/7fvxWKOs9F0akGBKX2LNpIpFquHJes6vcxakx0BEQoZDbDqSM3+HMQGlMBwrZhDRgEHc/dSKXjj7/Chj/CpP5wFnlwMq5AKyvrGu0P1iP2xaTefPCz+/hYvNo0XRkCfMs93MOosD4ENC39tyjI9DgSJQo1fohcyPu/Ve9mxhPQz75C/Ef1loWlCEowOF2fDQkQqCPIIKrptTlfjcqZ57L5zpqf8AYiho4ebunT9BOcnWflnX/Y8gUEA3Uc6SeuPuj6WrPYzdDZJqYhVc2K9QIPrEkZUfn4wl7iXZ/BrOAyyIgsmU/hL38AvvzQ4xNhAhPXRmQ3DowsY7PFrAFeZDBO+KFghFl/NTSWxXcw4hlHQZygXb7OZX/vvNPnjJYuoyvJaoQjRLsWMO3tXcm8csLqbcT3l6wbAjIeF6omwkVfR4pCaWtWdLJJlApbONwNqetk6f+Mm2YfFMckmyDL5WZS1h0gzCwrEONFusY8wCb0RiGbsnOthSluSm0OGjeMZpW3YVmX9w40K5xN2pKxI1P/AZQzaPFZ2vw3Ew9Jt/K9fdR9PV5hj+3tEr92Ex/RFdlLpIOBXZ+/4jB9CYoRTZTtG+KDWlrFyva+W2uny27hBKxQ0vKM7DNlU353UAK+FrxWmlB5bxljOr+mD2McQwHAVBXau/tzNC7k9BL4dhPiBfWMUYByteIFli/jLpVw9Cb8knIGe5NqzGfIRm2r3Zw4B9tNWbQ+7dbXaQLF65UU/eUlNLUPCnNkkhVY423FmaaVSuX4wKaqHSMmLN9Z149SlBkAIjnesWQXx/Pk1xeFiSoZ0V5Rlx7iWZygTTQv4neu9sFdyvExk8/YYPyAAAAAA==" alt="" width="34" height="23" draggable="false"></span><span class="n">English</span></button>
-      </div>
+        </div>
+      </section>
+
+      <!-- ۲) تم برنامه -->
+      <section class="lg-sec" id="lg-sec-theme" role="tabpanel" aria-labelledby="lg-tab-theme">
+        <div class="lg-sec-head"><span class="lg-ic" aria-hidden="true"><svg style="stroke:url(#gRose)" viewBox="0 0 24 24" aria-hidden="true"><circle cx="13.5" cy="6.5" r=".6"/><circle cx="17.5" cy="10.5" r=".6"/><circle cx="8.5" cy="7.5" r=".6"/><circle cx="6.5" cy="12.5" r=".6"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.83-.44-1.12-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2z"/></svg></span><span class="lg-sec-title" data-i18n="mTheme">تم برنامه</span></div>
+        <div class="lg-tile lg-mode">
+          <span class="lg-mode-txt"><b data-i18n="mMode">حالت نمایش</b><small><span class="on-d" data-i18n="mDay">روز</span><span class="on-n" data-i18n="mNight">شب</span></small></span>
+          <button type="button" class="dn" id="dn-toggle" role="switch" aria-checked="false" aria-label="حالت نمایش" data-i18n-aria="mMode">
+            <span class="dn-sky"></span><span class="dn-sky2"></span>
+            <span class="dn-stars"></span><span class="dn-clouds"></span>
+            <span class="dn-thumb"><span class="dn-sun"></span><span class="dn-moon"><i class="c1"></i><i class="c2"></i><i class="c3"></i></span></span>
+          </button>
+        </div>
+        <div class="lg-grid" role="radiogroup" aria-label="تم برنامه" data-i18n-aria="mTheme">
+        <button type="button" role="radio" aria-checked="true" class="lg-sw" data-theme="emerald" style="--s1:#22c17f;--s2:#0e9b62;--s3:#071710"><span class="lg-sw-dot"><svg class="ck" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5l4.2 4.2L18.5 7.8"/></svg></span><span class="n" data-i18n="cEmerald">زمردی</span></button>
+        <button type="button" role="radio" aria-checked="false" class="lg-sw" data-theme="ruby" style="--s1:#f0506f;--s2:#d1274b;--s3:#18070b"><span class="lg-sw-dot"><svg class="ck" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5l4.2 4.2L18.5 7.8"/></svg></span><span class="n" data-i18n="cRuby">یاقوتی</span></button>
+        <button type="button" role="radio" aria-checked="false" class="lg-sw" data-theme="sapphire" style="--s1:#5b9cff;--s2:#2f7df0;--s3:#071222"><span class="lg-sw-dot"><svg class="ck" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5l4.2 4.2L18.5 7.8"/></svg></span><span class="n" data-i18n="cSapphire">آبی</span></button>
+        <button type="button" role="radio" aria-checked="false" class="lg-sw" data-theme="amethyst" style="--s1:#a78bfa;--s2:#8b5cf6;--s3:#120a20"><span class="lg-sw-dot"><svg class="ck" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5l4.2 4.2L18.5 7.8"/></svg></span><span class="n" data-i18n="cAmethyst">ارغوانی</span></button>
+        <button type="button" role="radio" aria-checked="false" class="lg-sw" data-theme="amber" style="--s1:#f5a623;--s2:#d98a0b;--s3:#1a1205"><span class="lg-sw-dot"><svg class="ck" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5l4.2 4.2L18.5 7.8"/></svg></span><span class="n" data-i18n="cAmber">کهربایی</span></button>
+        <button type="button" role="radio" aria-checked="false" class="lg-sw" data-theme="onyx" style="--s1:#9ca3af;--s2:#6b7280;--s3:#09090b"><span class="lg-sw-dot"><svg class="ck" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 12.5l4.2 4.2L18.5 7.8"/></svg></span><span class="n" data-i18n="cOnyx">مشکی</span></button>
+        </div>
+      </section>
+
+      <!-- تم نوار پایین -->
+      <section class="lg-sec" id="lg-sec-nav" role="tabpanel" aria-labelledby="lg-tab-nav">
+        <div class="lg-sec-head"><span class="lg-ic" aria-hidden="true"><svg style="stroke:url(#gSky)" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="12" width="18" height="8" rx="4"/><circle cx="12" cy="6.2" r="2.4"/></svg></span><span class="lg-sec-title" data-i18n="mNavTheme">تم نوار پایین</span></div>
+        <div class="lg-nts" role="radiogroup" aria-label="تم نوار پایین" data-i18n-aria="mNavTheme">
+          <button type="button" role="radio" aria-checked="true" class="lg-nt" data-nt="neon"><span class="nt-prev" aria-hidden="true"><i></i><i></i><i class="on"></i><i></i><i></i></span><span class="n" data-i18n="ntNeon">نئونی</span></button>
+          <button type="button" role="radio" aria-checked="false" class="lg-nt" data-nt="beam"><span class="nt-prev" aria-hidden="true"><i></i><i></i><i class="on"></i><i></i><i></i></span><span class="n" data-i18n="ntBeam">نورافکن</span></button>
+          <button type="button" role="radio" aria-checked="false" class="lg-nt" data-nt="bubble"><span class="nt-prev" aria-hidden="true"><i></i><i></i><i class="on"></i><i></i><i></i></span><span class="n" data-i18n="ntBubble">حباب</span></button>
+          <button type="button" role="radio" aria-checked="false" class="lg-nt" data-nt="labels"><span class="nt-prev" aria-hidden="true"><i></i><i></i><i class="on"></i><i></i><i></i></span><span class="n" data-i18n="ntLabels">برچسب‌دار</span></button>
+          <button type="button" role="radio" aria-checked="false" class="lg-nt" data-nt="magic"><span class="nt-prev" aria-hidden="true"><i></i><i></i><i class="on"></i><i></i><i></i></span><span class="n" data-i18n="ntMagic">جادویی</span></button>
+        </div>
+      </section>
+
+      <!-- ۳) اندازه متن -->
+      <section class="lg-sec kzm-c-size" id="lg-sec-size" role="tabpanel" aria-labelledby="lg-tab-size">
+        <div class="lg-sec-head"><span class="lg-ic" aria-hidden="true"><svg style="stroke:url(#gViolet)" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 18l4.5-11 4.5 11M5.2 14h5.6M14.5 18l3-7 3 7M15.7 15.5h3.6"/></svg></span><span class="lg-sec-title" data-i18n="mSize">اندازه متن</span><span class="kzm-val" id="kzm-size-val" aria-live="polite">۱۰۰٪</span></div>
+        <div class="lg-tile lg-sizewrap">
+          <div class="kzm-sizebox">
+            <button type="button" class="kzm-step kzm-dec" id="kzm-size-dec" aria-label="کوچک‌تر کردن متن" data-i18n-aria="mSizeDec"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 12h11"/></svg></button>
+            <span class="a s" aria-hidden="true">A</span>
+            <input type="range" class="kzm-range" id="kzm-size" min="70" max="170" step="10" value="100" aria-label="اندازه متن" data-i18n-aria="mSize">
+            <span class="a l" aria-hidden="true">A</span>
+            <button type="button" class="kzm-step kzm-inc" id="kzm-size-inc" aria-label="بزرگ‌تر کردن متن" data-i18n-aria="mSizeInc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5v11M6.5 12h11"/></svg></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ۴) صدا -->
+      <section class="lg-sec kzm-c-sound" id="lg-sec-sound" role="tabpanel" aria-labelledby="lg-tab-sound">
+        <div class="lg-sec-head"><span class="lg-ic" aria-hidden="true"><svg style="stroke:url(#gSun)" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a4 4 0 0 1 0 7M18.5 6a7.5 7.5 0 0 1 0 12"/></svg></span><span class="lg-sec-title" data-i18n="mSound">صدا</span></div>
+        <div class="lg-tile lg-soundrow">
+          <span class="lg-soundtxt"><b data-i18n="mSound">صدا</b><small data-i18n="mSoundHint">صدای ملایم هنگام لمس</small></span>
+          <button type="button" class="kzm-switch" id="kzm-sound" role="switch" aria-checked="false" aria-label="صدا" data-i18n-aria="mSound"><i></i></button>
+        </div>
+      </section>
+
+      <!-- ۵) راهنما -->
+      <section class="lg-sec" id="lg-sec-help" role="tabpanel" aria-labelledby="lg-tab-help">
+        <div class="lg-sec-head"><span class="lg-ic" aria-hidden="true"><svg style="stroke:url(#gMint)" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.3 9.3a2.7 2.7 0 1 1 3.8 2.5c-.7.35-1.1.7-1.1 1.5v.4"/><circle cx="12" cy="16.6" r=".6" fill="currentColor"/></svg></span><span class="lg-sec-title" data-i18n="mHelp">راهنمای استفاده</span></div>
+        <div class="lg-help">
+          <div class="lg-help-item"><span class="lg-hi" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="3.5"/><path d="M3.5 14.5h17"/><path d="M8 17.5h.01M12 17.5h.01M16 17.5h.01"/></svg></span><span class="lg-ht"><b data-i18n="gh1t">منوی پایین</b><small data-i18n="gh1d">با یک ضربه وارد خانه، کاظمیون، مسجد قائم، سایر یا تنظیمات می‌شوی.</small></span></div>
+          <div class="lg-help-item"><span class="lg-hi" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17a8 8 0 0 1 16 0"/><path d="M12 14V8"/><circle cx="12" cy="18.5" r="1.6"/></svg></span><span class="lg-ht"><b data-i18n="gh2t">میانبر صفحه‌ها</b><small data-i18n="gh2d">انگشتت را روی کاظمیون، مسجد قائم یا سایر نگه دار تا نیم‌دایره‌ی صفحه‌ها باز شود؛ روی گزینه ببر و رها کن.</small></span></div>
+          <div class="lg-help-item"><span class="lg-hi" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="lg-ht"><b data-i18n="gh3t">امروز در یک نگاه</b><small data-i18n="gh3d">وقت بعدی نماز، مراسم بعدی، تاریخ و مناسبت و ذکر روز را در صفحه‌ی اصلی ببین.</small></span></div>
+          <div class="lg-help-item"><span class="lg-hi" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/></svg></span><span class="lg-ht"><b data-i18n="gh4t">نصب اپلیکیشن</b><small data-i18n="gh4d">اگر مرورگرت اجازه بدهد، دکمه‌ی «نصب» بالای صفحه ظاهر می‌شود.</small></span></div>
+        </div>
+        <a class="lg-guide" href="guide.html" id="kzm-guide">
+          <span class="lg-guide-title" data-i18n="mGuide">راهنمای سایت</span>
+          <svg class="kzm-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+        </a>
+      </section>
+
     </div>
 
-    <div class="kzm-card kzm-c-size">
-      <div class="kzm-card-head">
-        <span class="kzm-card-title"><span class="kzm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3.5 18l4.5-11 4.5 11M5.2 14h5.6M14.5 18l3-7 3 7M15.7 15.5h3.6"/></svg></span><span data-i18n="mSize">اندازه متن</span></span>
-        <span class="kzm-val" id="kzm-size-val" aria-live="polite">۱۰۰٪</span>
-      </div>
-      <div class="kzm-sizebox">
-        <button type="button" class="kzm-step kzm-dec" id="kzm-size-dec" aria-label="کوچک‌تر کردن متن" data-i18n-aria="mSizeDec"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 12h11"/></svg></button>
-        <span class="a s" aria-hidden="true">A</span>
-        <input type="range" class="kzm-range" id="kzm-size" min="70" max="170" step="10" value="100" aria-label="اندازه متن" data-i18n-aria="mSize">
-        <span class="a l" aria-hidden="true">A</span>
-        <button type="button" class="kzm-step kzm-inc" id="kzm-size-inc" aria-label="بزرگ‌تر کردن متن" data-i18n-aria="mSizeInc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5v11M6.5 12h11"/></svg></button>
-      </div>
-    </div>
-
-    <div class="kzm-pair">
-      <div class="kzm-card kzm-c-sound">
-        <span class="kzm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8.5a4 4 0 0 1 0 7M18.5 6a7.5 7.5 0 0 1 0 12"/></svg></span>
-        <span class="kzm-card-title" data-i18n="mSound">صدا</span>
-        <button type="button" class="kzm-switch" id="kzm-sound" role="switch" aria-checked="false" aria-label="صدا" data-i18n-aria="mSound"><i></i></button>
-      </div>
-      <a class="kzm-card kzm-guide kzm-c-guide" href="guide.html" id="kzm-guide">
-        <span class="kzm-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.3 9.3a2.7 2.7 0 1 1 3.8 2.5c-.7.35-1.1.7-1.1 1.5v.4"/><circle cx="12" cy="16.6" r=".6" fill="currentColor"/></svg></span>
-        <span class="kzm-card-title" data-i18n="mGuide">راهنمای سایت</span>
-        <svg class="kzm-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
-      </a>
-    </div>
   </div>
 </div>
 
@@ -758,6 +1851,17 @@ html[dir="ltr"] .w-continue-go{ transform:scaleX(-1); }
     <span class="pwa-pill-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 18v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1"/></svg></span>
     <span class="lbl"><span class="lbl-long" data-i18n="pwaLong">نصب اپلیکیشن</span><span class="lbl-short" data-i18n="pwaShort">نصب</span></span>
   </button>
+  <div class="nb-wrap">
+    <button type="button" class="nb" id="nb-toggle" role="switch" aria-checked="true" aria-describedby="nb-hint">
+      <span class="nb-bg" aria-hidden="true"></span>
+      <span class="nb-rip" aria-hidden="true"></span>
+      <span class="nb-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="13" width="18" height="7" rx="3.5"/><circle cx="12" cy="6.5" r="2.5"/></svg></span>
+      <span class="nb-t" data-i18n="nbLabel">نوار پایین</span>
+      <span class="nb-s"><span class="s-on" data-i18n="nbOn">فعال</span><span class="s-off" data-i18n="nbOff">غیرفعال</span></span>
+      <span class="nb-sw" aria-hidden="true"><i></i></span>
+    </button>
+    <p class="nb-hint" id="nb-hint" data-i18n="nbHint">برای دسترسی به تنظیمات، نوار پایین باید فعال باشد</p>
+  </div>
 
 
   <header class="portal-head">
@@ -897,6 +2001,45 @@ html[dir="ltr"] .w-continue-go{ transform:scaleX(-1); }
   <div class="portal-foot" data-i18n="foot">قاضی‌آباد · خرم‌آباد</div>
 </main>
 
+<!-- ===== منوی ناوبری پایین (راست به چپ: خانه ← کاظمیون ← مسجد قائم ← سایر ← تنظیمات) ===== -->
+<nav class="gnav" id="gnav" aria-label="ناوبری اصلی" data-i18n-aria="nNav">
+  <ul>
+    <li class="list active" style="--clr:#22c17f;">
+      <a href="#" data-nav="home" aria-label="خانه" data-i18n-aria="nHome">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3.5 11.2 12 4l8.5 7.2"/><path d="M5.5 9.8V20h13V9.8"/><path d="M10 20v-5.5h4V20"/></svg></span>
+        <span class="lbl" data-i18n="nHome" aria-hidden="true">خانه</span>
+      </a>
+    </li>
+    <li class="list" style="--clr:#e0a21b;">
+      <a href="kazemiyoon.html" data-nav="heyat" data-key="heyat" aria-label="کاظمیون" data-i18n-aria="nHeyat" data-fan="heyat" aria-haspopup="true" draggable="false">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 21V3.5"/><path d="M6 4.5h12l-2.6 4 2.6 4H6"/></svg></span>
+        <span class="lbl" data-i18n="nHeyat" aria-hidden="true">کاظمیون</span>
+      </a>
+    </li>
+    <li class="list" style="--clr:#468cff;">
+      <a href="masjed-qaem.html" data-nav="qaem" data-key="qaem" aria-label="مسجد قائم" data-i18n-aria="nQaem" data-fan="qaem" aria-haspopup="true" draggable="false">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2.8v2.2"/><path d="M5.5 20v-7a6.5 6.5 0 0 1 13 0v7"/><path d="M3 20h18"/><path d="M10 20v-3.5a2 2 0 0 1 4 0V20"/></svg></span>
+        <span class="lbl" data-i18n="nQaem" aria-hidden="true">مسجد قائم</span>
+      </a>
+    </li>
+    <li class="list" style="--clr:#b270ff;">
+      <a href="other.html" data-nav="other" data-key="other" aria-label="سایر" data-i18n-aria="nOther" data-fan="other" aria-haspopup="true" draggable="false">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="1.6"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.6"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.6"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.6"/></svg></span>
+        <span class="lbl" data-i18n="nOther" aria-hidden="true">سایر</span>
+      </a>
+    </li>
+    <li class="list" style="--clr:#f0566a;">
+      <a href="#" data-nav="settings" aria-label="تنظیمات" data-i18n-aria="nSet" id="gnav-settings" aria-haspopup="dialog">
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></span>
+        <span class="lbl" data-i18n="nSet" aria-hidden="true">تنظیمات</span>
+        <span class="gbadge" id="gnav-badge" aria-hidden="true" hidden></span>
+      </a>
+    </li>
+    <li class="indicator" aria-hidden="true" role="presentation"></li>
+  </ul>
+</nav>
+
+
 <script>
 (function(){
   /* ذرات طلایی */
@@ -1013,7 +2156,8 @@ html[dir="ltr"] .w-continue-go{ transform:scaleX(-1); }
         wtTitle:'تاریخ و مناسبت امروز', wzSub:'۱۰۰ بار',
         tFajr:'صبح', tSunrise:'طلوع', tDhuhr:'ظهر', tMaghrib:'مغرب',
         pwaLong:'نصب اپلیکیشن', pwaShort:'نصب', pwaAria:'نصب اپلیکیشن تحت وب هیئت کاظمیون',
-        mOpen:'منو و تنظیمات', mClose:'بستن', mTitle:'تنظیمات', mLang:'زبان', mSize:'اندازه متن', mSizeDec:'کوچک‌تر کردن متن', mSizeInc:'بزرگ‌تر کردن متن', mSound:'صدا', mGuide:'راهنمای سایت',
+        mOpen:'منو و تنظیمات', nNav:'ناوبری اصلی', nHome:'خانه', nHeyat:'کاظمیون', nQaem:'مسجد قائم', nOther:'سایر', nSet:'تنظیمات', sOwqat:'اوقات شرعی', sZekr:'ذکر روز', sDua:'ادعیه', sCal:'تقویم', sSalavat:'صلوات‌شمار', sQuran:'قرآن ۲۴', sLive:'پخش زنده', sTour:'سه‌بعدی', sFrame:'فریم‌ساز', sNazr:'نذورات', sConvert:'تبدیل تاریخ', sFaq:'دستیار', sInstall:'نصب اپ', mClose:'بستن', mTitle:'تنظیمات', mLang:'زبان', mSize:'اندازه متن', mSizeDec:'کوچک‌تر کردن متن', mSizeInc:'بزرگ‌تر کردن متن', mSound:'صدا', mGuide:'راهنمای سایت',
+        mTheme:'تم برنامه', tTheme:'تم', mMode:'حالت نمایش', mDay:'روز', mNight:'شب', nbLabel:'نوار پایین', nbOn:'فعال', nbOff:'غیرفعال', nbHint:'برای دسترسی به تنظیمات، نوار پایین باید فعال باشد', tNav:'نوار پایین', mNavTheme:'تم نوار پایین', ntNeon:'نئونی', ntBeam:'نورافکن', ntBubble:'حباب', ntLabels:'برچسب‌دار', ntMagic:'جادویی', tHelp:'راهنما', mHelp:'راهنمای استفاده', gh1t:'منوی پایین', gh1d:'با یک ضربه وارد خانه، کاظمیون، مسجد قائم، سایر یا تنظیمات می‌شوی.', gh2t:'میانبر صفحه‌ها', gh2d:'انگشتت را روی کاظمیون، مسجد قائم یا سایر نگه دار تا نیم‌دایره‌ی صفحه‌ها باز شود؛ روی گزینه ببر و رها کن.', gh3t:'امروز در یک نگاه', gh3d:'وقت بعدی نماز، مراسم بعدی، تاریخ و مناسبت و ذکر روز را در صفحه‌ی اصلی ببین.', gh4t:'نصب اپلیکیشن', gh4d:'اگر مرورگرت اجازه بدهد، دکمه‌ی «نصب» بالای صفحه ظاهر می‌شود.', mSoundHint:'صدای ملایم هنگام لمس', mCats:'دسته‌بندی تنظیمات', cEmerald:'زمردی', cRuby:'یاقوتی', cSapphire:'آبی', cAmethyst:'ارغوانی', cAmber:'کهربایی', cOnyx:'مشکی',
         today:'امروز', tomorrow:'فردا', tomorrowParen:'(فردا)', holiday:'تعطیل', noOcc:'امروز مناسبت رسمی ثبت‌شده‌ای نیست',
         nextOcc:'مناسبت بعدی: ', zekrDay:'ذکر روز ', zekrDone:'ذکر امروز کامل شد ✓', zekrToday:'امروز ', zekrOf:' از ',
         contLabel:'ادامه‌ی مطالعه', contFbLabel:'ادعیه و زیارت‌نامه‌ها', contFbName:'کمیل، ندبه، عاشورا و ...', contFbSub:'شروع مطالعه'
@@ -1032,7 +2176,8 @@ html[dir="ltr"] .w-continue-go{ transform:scaleX(-1); }
         wtTitle:'تاريخ اليوم ومناسباته', wzSub:'١٠٠ مرة',
         tFajr:'الفجر', tSunrise:'الشروق', tDhuhr:'الظهر', tMaghrib:'المغرب',
         pwaLong:'تثبيت التطبيق', pwaShort:'تثبيت', pwaAria:'تثبيت تطبيق موكب الكاظميون',
-        mOpen:'القائمة والإعدادات', mClose:'إغلاق', mTitle:'الإعدادات', mLang:'اللغة', mSize:'حجم النص', mSizeDec:'تصغير النص', mSizeInc:'تكبير النص', mSound:'الصوت', mGuide:'دليل الموقع',
+        mOpen:'القائمة والإعدادات', nNav:'التنقل الرئيسي', nHome:'الرئيسية', nHeyat:'الكاظميون', nQaem:'مسجد القائم', nOther:'أخرى', nSet:'الإعدادات', sOwqat:'أوقات الصلاة', sZekr:'ذكر اليوم', sDua:'الأدعية', sCal:'التقويم', sSalavat:'عدّاد الصلوات', sQuran:'القرآن ٢٤', sLive:'بث مباشر', sTour:'ثلاثي الأبعاد', sFrame:'إطار الصور', sNazr:'النذور', sConvert:'محوّل التاريخ', sFaq:'المساعد', sInstall:'تثبيت التطبيق', mClose:'إغلاق', mTitle:'الإعدادات', mLang:'اللغة', mSize:'حجم النص', mSizeDec:'تصغير النص', mSizeInc:'تكبير النص', mSound:'الصوت', mGuide:'دليل الموقع',
+        mTheme:'مظهر التطبيق', tTheme:'المظهر', mMode:'وضع العرض', mDay:'نهار', mNight:'ليل', nbLabel:'الشريط السفلي', nbOn:'مفعّل', nbOff:'معطّل', nbHint:'للوصول إلى الإعدادات يجب تفعيل الشريط السفلي', tNav:'الشريط', mNavTheme:'سمة الشريط السفلي', ntNeon:'نيون', ntBeam:'كشّاف', ntBubble:'فقاعة', ntLabels:'بعناوين', ntMagic:'سحري', tHelp:'المساعدة', mHelp:'دليل الاستخدام', gh1t:'القائمة السفلية', gh1d:'بنقرة واحدة تنتقل إلى الرئيسية أو الكاظميون أو مسجد القائم أو أخرى أو الإعدادات.', gh2t:'اختصار الصفحات', gh2d:'اضغط مطولاً على الكاظميون أو مسجد القائم أو أخرى لتظهر دائرة الصفحات؛ مرّر إلى الخيار ثم ارفع إصبعك.', gh3t:'اليوم بنظرة', gh3d:'شاهد وقت الصلاة القادم والمراسم القادمة والتاريخ والمناسبة وذكر اليوم في الصفحة الرئيسية.', gh4t:'تثبيت التطبيق', gh4d:'إذا سمح المتصفح يظهر زر «تثبيت» أعلى الصفحة.', mSoundHint:'صوت لمس هادئ', mCats:'فئات الإعدادات', cEmerald:'زمردي', cRuby:'ياقوتي', cSapphire:'أزرق', cAmethyst:'أرجواني', cAmber:'كهرماني', cOnyx:'أسود',
         today:'اليوم', tomorrow:'غداً', tomorrowParen:'(غداً)', holiday:'عطلة', noOcc:'لا توجد مناسبة رسمية مسجّلة اليوم',
         nextOcc:'المناسبة القادمة: ', zekrDay:'ذكر يوم ', zekrDone:'اكتمل ذكر اليوم ✓', zekrToday:'اليوم ', zekrOf:' من ',
         contLabel:'متابعة القراءة', contFbLabel:'الأدعية والزيارات', contFbName:'كميل، الندبة، عاشوراء وغيرها', contFbSub:'ابدأ القراءة'
@@ -1051,7 +2196,8 @@ html[dir="ltr"] .w-continue-go{ transform:scaleX(-1); }
         wtTitle:'Today’s date & occasion', wzSub:'100 times',
         tFajr:'Fajr', tSunrise:'Sunrise', tDhuhr:'Dhuhr', tMaghrib:'Maghrib',
         pwaLong:'Install app', pwaShort:'Install', pwaAria:'Install the Heyat-e Kazemiyoon web app',
-        mOpen:'Menu & settings', mClose:'Close', mTitle:'Settings', mLang:'Language', mSize:'Text size', mSizeDec:'Smaller text', mSizeInc:'Larger text', mSound:'Sound', mGuide:'Site guide',
+        mOpen:'Menu & settings', nNav:'Main navigation', nHome:'Home', nHeyat:'Kazemiyoon', nQaem:'Qaem Mosque', nOther:'More', nSet:'Settings', sOwqat:'Prayer times', sZekr:'Daily dhikr', sDua:'Duas', sCal:'Calendar', sSalavat:'Salawat', sQuran:'Quran 24', sLive:'Live', sTour:'3D tour', sFrame:'Photo frame', sNazr:'Vows', sConvert:'Date converter', sFaq:'Assistant', sInstall:'Install app', mClose:'Close', mTitle:'Settings', mLang:'Language', mSize:'Text size', mSizeDec:'Smaller text', mSizeInc:'Larger text', mSound:'Sound', mGuide:'Site guide',
+        mTheme:'App theme', tTheme:'Theme', mMode:'Appearance', mDay:'Day', mNight:'Night', nbLabel:'Bottom bar', nbOn:'On', nbOff:'Off', nbHint:'The bottom bar must be on to reach Settings', tNav:'Nav bar', mNavTheme:'Bottom bar theme', ntNeon:'Neon', ntBeam:'Spotlight', ntBubble:'Bubble', ntLabels:'Labels', ntMagic:'Magic', tHelp:'Help', mHelp:'How to use', gh1t:'Bottom menu', gh1d:'Tap once to open Home, Kazemiyoon, Qaem Mosque, More or Settings.', gh2t:'Page shortcuts', gh2d:'Press and hold Kazemiyoon, Qaem Mosque or More to open a half-circle of pages; slide to one and release.', gh3t:'Today at a glance', gh3d:'See the next prayer time, next event, today\'s date and occasion, and the daily dhikr on the home page.', gh4t:'Install the app', gh4d:'If your browser allows it, an “Install” button appears at the top of the page.', mSoundHint:'Soft tap sounds', mCats:'Settings categories', cEmerald:'Emerald', cRuby:'Ruby', cSapphire:'Sapphire', cAmethyst:'Amethyst', cAmber:'Amber', cOnyx:'Onyx',
         today:'Today', tomorrow:'Tomorrow', tomorrowParen:'(tomorrow)', holiday:'Holiday', noOcc:'No official occasion today',
         nextOcc:'Next: ', zekrDay:'Dhikr · ', zekrDone:'Today’s dhikr complete ✓', zekrToday:'Today ', zekrOf:' of ',
         contLabel:'Continue reading', contFbLabel:'Supplications & Ziyarat', contFbName:'Kumayl, Nudbah, Ashura…', contFbSub:'Start reading'
@@ -1805,6 +2951,592 @@ function parseLastDoa(raw){
     window.addEventListener('pageshow', function(e){ if(e.persisted) render(); });
     window.addEventListener('kzm-lang', render);
   }catch(e){}
+})();
+</script>
+
+<script>
+/* منوی ناوبری پایین: خانه (همین صفحه) · کاظمیون · مسجد قائم · سایر · تنظیمات
+   + نیم‌دایره‌ی زیرمجموعه‌ها با نگه‌داشتن انگشت روی کاظمیون / مسجد قائم / سایر */
+(function(){
+  var nav = document.getElementById('gnav'); if(!nav) return;
+  var items = [].slice.call(nav.querySelectorAll('.list'));
+  var overlay = document.getElementById('kzm-overlay'), menuBtn = document.getElementById('kzm-menu-btn');
+  var badge = document.getElementById('kzm-badge'), gbadge = document.getElementById('gnav-badge');
+  var KEY = 'kzm-portal-last', busy = false, clickPending = false;
+
+  function setActive(li){
+    var idx = items.indexOf(li); if(idx < 0) return;
+    items.forEach(function(x){
+      var a = x.querySelector('a');
+      x.classList.toggle('active', x === li);
+      if(x === li && x === items[0]) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+    });
+    nav.style.setProperty('--pos', idx);
+    nav.style.setProperty('--ac', (li.style.getPropertyValue('--clr') || '#22c17f').trim());   /* رنگ آیتم فعال برای نشانگرِ تم‌های جدید */
+  }
+  setActive(items[0]);
+
+  function go(href){
+    if(busy) return; busy = true;
+    document.body.classList.add('page-exit');
+    setTimeout(function(){ location.href = href; }, 200);
+  }
+
+  items.forEach(function(li){
+    var a = li.querySelector('a'), kind = a.getAttribute('data-nav');
+    a.addEventListener('click', function(ev){
+      if(kind === 'home'){            /* خانه = همین صفحه‌ی ورود */
+        ev.preventDefault();
+        if(fan) closeFan();           /* اگر نیم‌دایره‌ای باز است بسته شود */
+        setActive(li);
+        try{ window.scrollTo({ top:0, behavior:'smooth' }); }catch(e){ window.scrollTo(0, 0); }
+        return;
+      }
+      if(kind === 'settings'){        /* باز کردن پنجره‌ی تنظیمات */
+        ev.preventDefault();
+        if(fan) closeFan(true, true);
+        setActive(li);
+        if(menuBtn) menuBtn.click();
+        return;
+      }
+      if(ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey || ev.button === 1) return;
+      ev.preventDefault();
+      if(busy) return;
+      clickPending = true;
+      setActive(li);                  /* اول انیمیشن نشانگر، بعد رفتن به صفحه */
+      try{ localStorage.setItem(KEY, a.getAttribute('data-key')); }catch(e){}
+      var href = a.getAttribute('href');
+      setTimeout(function(){ go(href); }, 380);
+    });
+  });
+
+  /* ================= نیم‌دایره‌ی زیرمجموعه‌ها ================= */
+  var IC = {
+    clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    beads:'<circle cx="12" cy="5" r="1.9"/><circle cx="18.4" cy="9.6" r="1.9"/><circle cx="16" cy="17.2" r="1.9"/><circle cx="8" cy="17.2" r="1.9"/><circle cx="5.6" cy="9.6" r="1.9"/>',
+    book:'<path d="M12 6.5C10.5 5 8 4.5 4 4.5V18c4 0 6.5.5 8 2 1.5-1.5 4-2 8-2V4.5c-4 0-6.5.5-8 2z"/><path d="M12 6.5V20"/>',
+    cal:'<rect x="4" y="5.5" width="16" height="14.5" rx="2.5"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/>',
+    count:'<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>',
+    quran:'<path d="M5 4.5h11a3 3 0 0 1 3 3V20H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h11"/>',
+    live:'<circle cx="12" cy="12" r="2"/><path d="M7.8 7.8a6 6 0 0 0 0 8.4M16.2 7.8a6 6 0 0 1 0 8.4M5 5a10 10 0 0 0 0 14M19 5a10 10 0 0 1 0 14"/>',
+    cube:'<path d="M12 3 4 7.5v9L12 21l8-4.5v-9z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/>',
+    frame:'<rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="9" cy="10" r="1.8"/><path d="m4 17 5-4.5 4 3.5 3-2.5 4 3.5"/>',
+    heart:'<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>',
+    swap:'<path d="M5 8h13l-3-3M19 16H6l3 3"/>',
+    chat:'<path d="M4 5.5h16v10H10l-4.5 3.5v-3.5H4z"/><path d="M8.5 10h.01M12 10h.01M15.5 10h.01"/>',
+    down:'<path d="M12 4v11m0 0-4-4m4 4 4-4M5 19h14"/>'
+  };
+  var PAL = ['34,224,138','255,210,63','61,220,255','255,79,163','255,159,67','178,112,255','70,140,255','45,212,191','240,86,106'];
+  var CAL = 'kazemiyoon.html#heyat-calendar';
+  var SUBS = {
+    heyat:{ t:'nHeyat', list:[['owqat.html','sOwqat','clock'], ['zekr.html','sZekr','beads'], ['page2.html','sDua','book'], [CAL,'sCal','cal']] },
+    qaem: { t:'nQaem',  list:[['page2.html','sDua','book'], ['salavat.html','sSalavat','count'], ['zekr.html','sZekr','beads'], ['owqat.html','sOwqat','clock'], ['quran24.html','sQuran','quran']] },
+    other:{ t:'nOther', list:[['live.html','sLive','live'], ['virtual-tour.html','sTour','cube'], [CAL,'sCal','cal'], ['page2.html','sDua','book'], ['frame.html','sFrame','frame'], ['nazr.html','sNazr','heart'], ['convert.html','sConvert','swap'], ['faq.html','sFaq','chat'], ['install.html','sInstall','down']] }
+  };
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  var fan = null, mode = null, holdT = 0, prepT = 0, sx = 0, sy = 0, held = null, heldA = null, suppress = false;
+  var nearest = null, pts = [], geo = null, moveRaf = 0, lastE = null;
+
+  function tr(k){ try{ return (window.KZM && KZM.t(k)) || k; }catch(e){ return k; } }
+  function hexRgb(h){
+    h = String(h || '').trim().replace('#', '');
+    if(h.length === 3) h = h.replace(/./g, function(c){ return c + c; });
+    var n = parseInt(h, 16); if(isNaN(n) || h.length !== 6) return '34,224,138';
+    return ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255);
+  }
+  function icon(inner, cls){
+    var s = document.createElementNS(SVGNS, 'svg');
+    s.setAttribute('viewBox', '0 0 24 24'); s.setAttribute('aria-hidden', 'true');
+    if(cls) s.setAttribute('class', cls);
+    s.innerHTML = inner; return s;
+  }
+  function div(cls){ var d = document.createElement('div'); d.className = cls; return d; }
+  function arc(cx, cy, R){ return 'M' + (cx - R).toFixed(1) + ' ' + cy.toFixed(1) + ' A' + R.toFixed(1) + ' ' + R.toFixed(1) + ' 0 0 1 ' + (cx + R).toFixed(1) + ' ' + cy.toFixed(1); }
+
+  function closeFan(immediate, keepActive){
+    if(!fan) return;
+    var f = fan; fan = null; mode = null; nearest = null; pts = []; geo = null;
+    f.classList.remove('open', 'tap'); f.classList.add('closing');
+    document.documentElement.classList.remove('gfan-on');
+    items.forEach(function(x){ x.classList.remove('pressing'); });
+    setTimeout(function(){ if(f.parentNode) f.parentNode.removeChild(f); }, immediate ? 0 : 220);
+    if(!keepActive && !items[4].classList.contains('active')) setActive(items[0]);
+  }
+
+  function buildFan(li, key){
+    var cfg = SUBS[key]; if(!cfg) return;
+    var n = cfg.list.length, vw = window.innerWidth;
+    var two = n > 6, Rout, Rin;
+    var S = two ? (vw < 370 ? 44 : 48) : (vw < 370 ? 46 : 52);                 /* بیش از ۶ آیتم: دو حلقه‌ی تو در تو تا برچسب‌ها روی هم نیفتند */
+    if(two){ Rout = Math.min(166, (vw - 90) / 2); Rin = Rout * 0.66; }
+    else   { Rout = Math.min(n <= 4 ? 118 : (n === 5 ? 130 : 140), (vw - 100) / 2); Rin = Rout; }
+    var lr = li.getBoundingClientRect(), nr = nav.getBoundingClientRect();
+    var hx = lr.left + lr.width / 2;
+    var cx = Math.max(Rout + 50, Math.min(vw - Rout - 50, hx));
+    var py = nr.top - 74;
+    var rtl = document.documentElement.dir === 'rtl';
+    var sr = hexRgb(li.style.getPropertyValue('--clr'));
+    var coreS = Math.round(S * 1.08);
+    geo = { cx:cx, py:py };
+
+    fan = div('gfan' + (two ? ' dense' : '')); fan.id = 'gfan';
+    fan.style.setProperty('--sr', sr); fan.style.setProperty('--bx', (cx / vw * 100).toFixed(1) + '%');
+    fan.appendChild(div('gfan-bg'));
+    var glow = div('gfan-glow'); glow.style.left = (cx - 280) + 'px'; fan.appendChild(glow);
+
+    /* مدارها: دایره‌ی خط‌چینِ چرخان، فقط نیمه‌ی بالایش دیده می‌شود */
+    function orbit(R){
+      var sz = 2 * R + 16, o = div('gfan-orbit'), sp = div('gfan-spin'), c = (sz / 2).toFixed(1);
+      o.style.cssText = 'left:' + (cx - R - 8).toFixed(1) + 'px;top:' + (py - R - 8).toFixed(1) + 'px;width:' + sz.toFixed(1) + 'px;height:' + (R + 16).toFixed(1) + 'px';
+      sp.style.width = sp.style.height = sz.toFixed(1) + 'px';
+      sp.innerHTML = '<svg viewBox="0 0 ' + sz.toFixed(1) + ' ' + sz.toFixed(1) + '" aria-hidden="true"><circle class="orbg" cx="' + c + '" cy="' + c + '" r="' + R.toFixed(1) + '"/><circle class="orb" cx="' + c + '" cy="' + c + '" r="' + R.toFixed(1) + '"/></svg>';
+      o.appendChild(sp); return o;
+    }
+    fan.appendChild(orbit(Rout)); if(two) fan.appendChild(orbit(Rin));
+
+    var pulse = div('gfan-pulse'); pulse.style.left = cx + 'px'; pulse.style.top = py + 'px'; fan.appendChild(pulse);
+
+    var core = div('gfan-core'); core.style.left = cx + 'px'; core.style.top = py + 'px'; core.style.width = core.style.height = coreS + 'px';
+    var liSvg = li.querySelector('svg'); if(liSvg) core.appendChild(icon(liSvg.innerHTML));
+    fan.appendChild(core);
+
+    /* اسم بخش: بالای کمان، نه وسط آن، تا جلوی هیچ برچسبی را نگیرد */
+    var title = div('gfan-title'); title.textContent = tr(cfg.t);
+    title.style.left = cx + 'px'; title.style.top = (py - Rout - S / 2 - (two ? 54 : 32)) + 'px';
+    fan.appendChild(title);
+
+    var grp = document.createElement('div'); grp.setAttribute('role', 'group'); grp.setAttribute('aria-label', tr(cfg.t));
+    pts = [];
+    var step = n === 1 ? 0 : Math.PI / (n - 1);
+    cfg.list.forEach(function(it, i){
+      var th = n === 1 ? Math.PI / 2 : (rtl ? i * step : Math.PI - i * step);
+      var R = two ? (i % 2 === 0 ? Rout : Rin) : Rout;
+      var x = cx + R * Math.cos(th), y = py - R * Math.sin(th);
+      var a = document.createElement('a');
+      a.className = 'fw' + ((two && i % 2 === 0) ? ' up' : ''); a.href = it[0]; a.setAttribute('aria-label', tr(it[1])); a.draggable = false;
+      a.style.setProperty('--px', cx.toFixed(1) + 'px'); a.style.setProperty('--py', py.toFixed(1) + 'px');
+      a.style.setProperty('--tx', (x - cx).toFixed(1) + 'px'); a.style.setProperty('--ty', (y - py).toFixed(1) + 'px');
+      a.style.setProperty('--S', S + 'px'); a.style.setProperty('--i', i); a.style.setProperty('--k', 0);
+      a.style.setProperty('--cr', PAL[i % PAL.length]);
+      var fc = document.createElement('span'); fc.className = 'fc';
+      fc.appendChild(icon(IC[it[2]] || IC.chat)); fc.appendChild(icon(IC[it[2]] || IC.chat, 'w'));
+      var fl = document.createElement('span'); fl.className = 'fl'; fl.textContent = tr(it[1]);
+      a.appendChild(fc); a.appendChild(fl); grp.appendChild(a);
+      pts.push({ x:x, y:y, el:a, href:it[0], cr:PAL[i % PAL.length], k:0 });
+    });
+    fan.appendChild(grp);
+    document.body.appendChild(fan);
+
+    fan.addEventListener('click', function(ev){
+      var a = ev.target.closest && ev.target.closest('.fw');
+      if(a){ ev.preventDefault(); go(a.getAttribute('href')); return; }
+      closeFan();
+    });
+    setActive(li);
+  }
+
+  /* نمایش: ساختن و محاسبه‌ی سبک از قبل (هنگام نگه داشتن) انجام شده؛ اینجا فقط کلاس open اضافه می‌شود تا هنگام باز شدن هیچ کار سنگینی نباشد */
+  function revealFan(){
+    if(!fan) return;
+    var f = fan; void f.offsetWidth;
+    requestAnimationFrame(function(){
+      if(fan !== f) return;
+      f.classList.add('open');
+      document.documentElement.classList.add('gfan-on');
+      var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(f.animate && !calm){
+        [].forEach.call(f.querySelectorAll('.fw'), function(a, i){
+          var tx = a.style.getPropertyValue('--tx'), ty = a.style.getPropertyValue('--ty');
+          try{
+            a.animate([
+              { transform:'translate(-50%,-50%) translate(0px,0px) scale(.3)', opacity:0 },
+              { transform:'translate(-50%,-50%) translate(' + tx + ',' + ty + ') scale(1)', opacity:1 }
+            ], { duration:520, delay:i * 28, easing:'cubic-bezier(.2,1.25,.4,1)', fill:'backwards' });
+          }catch(_){}
+        });
+      }
+    });
+  }
+  function openFan(li, key){ buildFan(li, key); revealFan(); }
+  function discardFan(){
+    if(!fan || fan.classList.contains('open')) return;
+    var f = fan; fan = null; pts = []; nearest = null; geo = null;
+    document.documentElement.classList.remove('gfan-on');
+    if(f.parentNode) f.parentNode.removeChild(f);
+  }
+
+  /* افکت مغناطیسی: هرچه انگشت به یک آیتم نزدیک‌تر باشد بزرگ‌تر و درخشان‌تر می‌شود */
+  function updateNear(){
+    moveRaf = 0; if(!fan || !lastE) return;
+    var best = null, bd = 1e9;
+    pts.forEach(function(p){
+      var d = Math.hypot(lastE.clientX - p.x, lastE.clientY - p.y);
+      var k = Math.max(0, 1 - d / 88); k = k * k * (3 - 2 * k);          /* منحنی نرم */
+      if(Math.abs(k - p.k) > 0.012){ p.k = k; p.el.style.setProperty('--k', k.toFixed(3)); }
+      if(d < bd){ bd = d; best = p; }
+    });
+    var nn = (best && bd <= 46) ? best : null;
+    if(nn !== nearest){
+      if(nearest) nearest.el.removeAttribute('data-near');
+      if(nn) nn.el.setAttribute('data-near', '1');
+      nearest = nn;
+    }
+  }
+  window.addEventListener('pointermove', function(e){
+    if(!fan) return;
+    lastE = e; if(!moveRaf) moveRaf = requestAnimationFrame(updateNear);
+  }, { passive:true });
+
+  function endPress(cancel){
+    clearTimeout(holdT); holdT = 0; clearTimeout(prepT); prepT = 0; discardFan();
+    if(held) held.classList.remove('pressing');
+    setTimeout(function(){ suppress = false; }, 80);
+    if(fan && mode === 'drag'){
+      if(cancel){ closeFan(); }
+      else if(nearest){ go(nearest.href); }
+      else { mode = 'tap'; fan.classList.add('tap'); }
+    }
+  }
+
+  items.forEach(function(li){
+    var a = li.querySelector('a'), key = a.getAttribute('data-fan'); if(!key) return;
+    a.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+    a.addEventListener('dragstart', function(e){ e.preventDefault(); });
+    a.addEventListener('pointerdown', function(e){
+      if(e.pointerType === 'mouse' && e.button !== 0) return;
+      if(fan) closeFan(true, true);          /* بدون برگشتن نشانگر به «خانه» */
+      setActive(li);                          /* نشانگر همان لحظه‌ی لمس زیر انگشت می‌آید */
+      held = li; heldA = a; sx = e.clientX; sy = e.clientY; lastE = e;
+      li.classList.add('pressing');
+      clearTimeout(holdT); clearTimeout(prepT);
+      prepT = setTimeout(function(){ prepT = 0; if(!fan) buildFan(li, key); }, 110);   /* آماده‌سازی پشت صحنه تا لحظه‌ی باز شدن لگ نکند */
+      holdT = setTimeout(function(){
+        holdT = 0; clearTimeout(prepT); prepT = 0;
+        try{ a.setPointerCapture(e.pointerId); }catch(_){}
+        if(!fan) buildFan(li, key);
+        revealFan(); mode = 'drag'; suppress = true;
+        if(navigator.vibrate){ try{ navigator.vibrate(12); }catch(_){} }
+        updateNear();
+      }, 360);
+    });
+    a.addEventListener('pointermove', function(e){
+      if(holdT && Math.hypot(e.clientX - sx, e.clientY - sy) > 14){
+        clearTimeout(holdT); holdT = 0; clearTimeout(prepT); prepT = 0; discardFan(); li.classList.remove('pressing');
+      }
+    });
+    a.addEventListener('pointerup', function(){ endPress(false); });
+    a.addEventListener('pointercancel', function(){ endPress(true); });
+    a.addEventListener('keydown', function(e){   /* صفحه‌کلید: ↑ نیم‌دایره را باز می‌کند */
+      if(e.key === 'ArrowUp' || e.key === 'ContextMenu'){
+        e.preventDefault(); if(fan) closeFan(true, true);
+        held = li; heldA = a; openFan(li, key); mode = 'tap'; fan.classList.add('tap');
+        var f = fan.querySelector('.fw'); if(f) f.focus({ preventScroll:true });
+      }
+    });
+  });
+
+  /* بازخورد لمس برای همه‌ی آیتم‌ها: نشانگر همان لحظه زیر انگشت می‌رود؛ اگر کاربر انگشتش را کنار کشید، یک‌بار و نرم به «خانه» برمی‌گردد */
+  function settle(){
+    setTimeout(function(){
+      if(busy || clickPending || fan) return;
+      if(overlay && overlay.classList.contains('open')) return;
+      if(!items[0].classList.contains('active')) setActive(items[0]);
+    }, 140);
+  }
+  items.forEach(function(li, idx){
+    if(idx === 0) return;
+    var a = li.querySelector('a');
+    if(!a.hasAttribute('data-fan')){            /* تنظیمات */
+      a.addEventListener('pointerdown', function(e){
+        if(e.pointerType === 'mouse' && e.button !== 0) return;
+        if(fan) closeFan(true, true);
+        setActive(li);
+      });
+    }
+    a.addEventListener('pointerup', settle);
+    a.addEventListener('pointercancel', settle);
+    a.addEventListener('pointerleave', function(e){ if(e.pointerType !== 'mouse' && !fan) settle(); });
+  });
+
+  /* لمس «خانه» وقتی نیم‌دایره‌ی یکی از سه بخش باز است => همان لحظه بسته می‌شود */
+  items[0].querySelector('a').addEventListener('pointerdown', function(e){
+    if(e.pointerType === 'mouse' && e.button !== 0) return;
+    if(fan) closeFan();
+  });
+
+  /* جلوگیری از رفتن به صفحه‌ی بخش، وقتی کاربر برای باز کردن نیم‌دایره انگشت را نگه داشته بود */
+  nav.addEventListener('click', function(ev){
+    if(suppress){ suppress = false; ev.preventDefault(); ev.stopImmediatePropagation(); }
+  }, true);
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && fan){ closeFan(); if(heldA){ try{ heldA.focus({ preventScroll:true }); }catch(_){} } }
+  });
+  window.addEventListener('resize', function(){ closeFan(true); });
+  window.addEventListener('kzm-lang', function(){ closeFan(true); });
+
+  /* بسته شدن پنجره‌ی تنظیمات (دکمه‌ی بستن، Esc یا لمس بیرون) => برگشت نشانگر به «خانه» */
+  if(overlay && window.MutationObserver){
+    new MutationObserver(function(){
+      if(!overlay.classList.contains('open') && items[4].classList.contains('active')){
+        setActive(items[0]);
+        var ae = document.activeElement;
+        if(!ae || ae === document.body){ try{ items[4].querySelector('a').focus({ preventScroll:true }); }catch(e){} }
+      }
+    }).observe(overlay, { attributes:true, attributeFilter:['class'] });
+  }
+
+  /* نقطه‌ی «جدید» دکمه‌ی تنظیمات قدیمی به منوی جدید منتقل شد */
+  function syncBadge(){ if(gbadge && badge) gbadge.hidden = badge.hidden; }
+  syncBadge();
+  if(badge && window.MutationObserver) new MutationObserver(syncBadge).observe(badge, { attributes:true, attributeFilter:['hidden'] });
+
+  /* برگشت با دکمه‌ی مرورگر (bfcache) */
+  window.addEventListener('pageshow', function(e){
+    if(e.persisted){ busy = false; clickPending = false; closeFan(true); document.body.classList.remove('page-exit'); setActive(items[0]); }
+  });
+})();
+</script>
+<script>
+/* ===== تنظیمات Liquid Glass: دسته‌بندی‌ها، تم برنامه، راهنما ===== */
+(function(){
+  try{
+    var root = document.documentElement;
+    var LS = {
+      get:function(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } },
+      set:function(k, v){ try{ localStorage.setItem(k, v); }catch(e){} }
+    };
+    var THEME_BG = { emerald:'#071710', ruby:'#18070b', sapphire:'#071222', amethyst:'#120a20', amber:'#1a1205', onyx:'#09090b' };
+    var THEME_BG_L = { emerald:'#eef5ee', ruby:'#f8ecec', sapphire:'#ecf1f9', amethyst:'#f1edf9', amber:'#f8f1df', onyx:'#f0f0f2' };
+    function bgFor(name){ return (root.getAttribute('data-mode') === 'light' ? THEME_BG_L : THEME_BG)[name]; }
+
+    /* ---------- تم برنامه ---------- */
+    function applyTheme(name, save){
+      if(!THEME_BG[name]) name = 'emerald';
+      root.setAttribute('data-theme', name);
+      var m = document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute('content', bgFor(name));
+      document.querySelectorAll('.lg-sw').forEach(function(b){ b.setAttribute('aria-checked', String(b.getAttribute('data-theme') === name)); });
+      if(save) LS.set('kazemiuon-theme', name);
+    }
+    document.querySelectorAll('.lg-sw').forEach(function(b){ b.addEventListener('click', function(){ applyTheme(b.getAttribute('data-theme'), true); }); });
+    applyTheme(LS.get('kazemiuon-theme'), false);
+
+    /* ---------- حالت روز / شب ---------- */
+    var dn = document.getElementById('dn-toggle');
+    var modeT = 0;
+    function commitMode(mode, save){
+      var h = document.documentElement;
+      h.classList.add('kzm-mode-switch');
+      root.setAttribute('data-mode', mode);
+      var m = document.querySelector('meta[name="theme-color"]'), bg = bgFor(root.getAttribute('data-theme'));
+      if(m && bg) m.setAttribute('content', bg);
+      if(save) LS.set('kazemiuon-mode', mode);
+      try{ window.dispatchEvent(new Event('kzm-mode')); }catch(e){}
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){ h.classList.remove('kzm-mode-switch'); }); });
+    }
+    /* اول خودِ سوییچ (روی GPU) شروع به حرکت می‌کند، بعد از چند میلی‌ثانیه کل صفحه عوض می‌شود؛ پرده‌ی تمام‌صفحه حذف شد
+       (محو شدنِ تمام‌صفحه باعث می‌شد شیشه‌ی تنظیمات در هر فریم دوباره بلور شود) */
+    function applyMode(mode, save, anim){
+      mode = (mode === 'light') ? 'light' : 'dark';
+      if(dn) dn.setAttribute('aria-checked', String(mode === 'light'));
+      clearTimeout(modeT);
+      if(anim){ modeT = setTimeout(function(){ commitMode(mode, save); }, 110); }
+      else commitMode(mode, save);
+    }
+    if(dn) dn.addEventListener('click', function(){ applyMode(dn.getAttribute('aria-checked') === 'true' ? 'dark' : 'light', true, true); });
+    applyMode(LS.get('kazemiuon-mode'), false, false);
+
+    /* ---------- تم نوار پایین ---------- */
+    var NAV_THEMES = ['neon', 'beam', 'bubble', 'labels', 'magic'];
+    var ntTok = 0;
+    function swapNavTheme(name){
+      var nav = document.getElementById('gnav'), tok = ++ntTok;
+      var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(!nav || !nav.animate || calm){ root.setAttribute('data-nt', name); return; }
+      var from = parseFloat(getComputedStyle(nav).opacity); if(!(from > 0)) from = 1;
+      nav.getAnimations().forEach(function(a){ a.cancel(); });          /* ضربه‌ی پشت‌سرهم: انیمیشن قبلی کامل لغو می‌شود */
+      root.classList.add('gnav-switching');
+      var out = nav.animate([{ opacity:from }, { opacity:0 }], { duration:Math.round(90 * from), easing:'ease-in', fill:'forwards' });
+      out.onfinish = function(){
+        if(tok !== ntTok) return;
+        root.setAttribute('data-nt', name);                              /* تعویض در لحظه‌ای که نوار نامرئی است => هیچ پرشی دیده نمی‌شود */
+        void nav.offsetWidth;
+        var inn = nav.animate([{ opacity:0 }, { opacity:1 }], { duration:170, easing:'ease-out' });
+        out.cancel();
+        inn.onfinish = inn.oncancel = function(){ if(tok === ntTok) root.classList.remove('gnav-switching'); };
+      };
+    }
+    function applyNavTheme(name, save){
+      if(NAV_THEMES.indexOf(name) < 0) name = 'neon';
+      var same = root.getAttribute('data-nt') === name;
+      document.querySelectorAll('.lg-nt').forEach(function(b){ b.setAttribute('aria-checked', String(b.getAttribute('data-nt') === name)); });
+      if(!same){ if(save) swapNavTheme(name); else root.setAttribute('data-nt', name); }
+      if(save) LS.set('kazemiuon-navtheme', name);
+    }
+    document.querySelectorAll('.lg-nt').forEach(function(b){ b.addEventListener('click', function(){ applyNavTheme(b.getAttribute('data-nt'), true); }); });
+    applyNavTheme(LS.get('kazemiuon-navtheme'), false);
+
+    var tabsEl = document.getElementById('lg-tabs'), panel = document.getElementById('kzm-menu'), overlay = document.getElementById('kzm-overlay');
+    if(!tabsEl || !panel) return;
+    var tabs = [].slice.call(tabsEl.querySelectorAll('.lg-tab'));
+    var secs = [].slice.call(panel.querySelectorAll('.lg-sec'));
+    var body = panel.querySelector('.lg-body'), pill = tabsEl.querySelector('.lg-pill'), spot = panel.querySelector('.lg-spot');
+    var cur = 0;
+    secs.forEach(function(s, k){ if('inert' in s) s.inert = (k !== cur); });   /* بخش‌های مخفی: بدون فوکوس/لمس، ولی لایه‌شان زنده می‌ماند */
+
+    /* ارتفاع بدنه ثابت است (بلندترین بخش به‌جز راهنما)؛ راهنما داخل خودش اسکرول می‌شود.
+       فقط هنگام باز شدن/تغییر زبان/چرخش صفحه دوباره اندازه‌گیری می‌شود، نه موقع سوییچ بین بخش‌ها. */
+    var helpIdx = tabs.map(function(t){ return t.getAttribute('data-tab'); }).indexOf('help');
+    function measure(){
+      if(!body) return;
+      var max = 0;
+      secs.forEach(function(s, k){
+        if(k === helpIdx) return;
+        var prev = s.style.cssText;
+        s.style.cssText = 'position:relative;top:0;max-height:none;overflow:visible;visibility:hidden;transition:none';
+        max = Math.max(max, s.offsetHeight); s.style.cssText = prev;
+      });
+      body.style.setProperty('--bh', Math.max(max + 10, 256) + 'px');
+    }
+
+    var swapRaf = 0, busyT = 0;
+    function markBusy(){
+      panel.classList.add('lg-busy');
+      clearTimeout(busyT); busyT = setTimeout(function(){ panel.classList.remove('lg-busy'); }, 700);
+    }
+    function showSection(){
+      swapRaf = 0;
+      var st = body ? body.scrollTop : 0;
+      secs.forEach(function(s, k){
+        var was = s.classList.contains('on'), now = (k === cur);
+        if(now){ clearTimeout(s._lt); s.classList.remove('lg-leave'); s.style.transform = ''; }
+        else if(was){
+          s.classList.add('lg-leave'); if(st) s.style.transform = 'translateY(' + (-st) + 'px)';
+          clearTimeout(s._lt); s._lt = setTimeout(function(){ s.classList.remove('lg-leave'); s.style.transform = ''; }, 280);
+        }
+        s.classList.toggle('on', now);
+        if('inert' in s) s.inert = !now;
+      });
+      if(body) body.scrollTop = 0;
+    }
+    function selectTab(i, focus){
+      if(i < 0 || i >= tabs.length) return;
+      var changed = i !== cur; cur = i;
+      markBusy();
+      tabs.forEach(function(t, k){ t.setAttribute('aria-selected', String(k === i)); t.tabIndex = (k === i) ? 0 : -1; });
+      tabsEl.style.setProperty('--i', i);                 /* ۱) اول فقط قرص حرکت می‌کند (ارزان) */
+      if(pill && changed){
+        if(pill.animate){ pill.animate([{ scale:'1 1' }, { scale:'1.16 .92', offset:.5 }, { scale:'1 1' }], { duration:500, easing:'ease' }); }
+        else { pill.classList.remove('moving'); void pill.offsetWidth; pill.classList.add('moving'); }
+      }
+      /* ۲) عوض شدن بخش‌ها (لِیاوت سنگین) دو فریم بعد؛ لمس‌های پشت‌سرهم یکی می‌شوند */
+      if(!swapRaf) swapRaf = requestAnimationFrame(function(){ swapRaf = requestAnimationFrame(showSection); });
+      if(focus) tabs[i].focus({ preventScroll:true });
+    }
+    tabs.forEach(function(t, i){ t.addEventListener('click', function(){ selectTab(i, false); }); });
+    tabsEl.addEventListener('keydown', function(e){
+      var rtl = root.dir === 'rtl', n = tabs.length, k = e.key;
+      if(k === 'ArrowRight') selectTab((cur + (rtl ? -1 : 1) + n) % n, true);
+      else if(k === 'ArrowLeft') selectTab((cur + (rtl ? 1 : -1) + n) % n, true);
+      else if(k === 'Home') selectTab(0, true);
+      else if(k === 'End') selectTab(n - 1, true);
+      else return;
+      e.preventDefault();
+    });
+
+    measure();
+    window.addEventListener('kzm-lang', function(){ setTimeout(measure, 0); });
+    window.addEventListener('resize', measure);
+    if(document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+
+    if(overlay && window.MutationObserver){
+      new MutationObserver(function(){
+        if(overlay.classList.contains('open')){
+          measure(); placeSpot(0.78, 0.08, true);
+          setTimeout(function(){ try{ tabs[cur].focus({ preventScroll:true }); }catch(e){} }, 40);
+        }
+      }).observe(overlay, { attributes:true, attributeFilter:['class'] });
+    }
+
+    /* ---------- درخشش شیشه: فقط transform (روی کارت گرافیک، بدون بازرسم) ---------- */
+    var raf = 0, px = 0, py = 0;
+    function placeSpot(fx, fy, instant){
+      if(!spot) return;
+      var w = panel.offsetWidth, h = panel.offsetHeight;
+      if(instant){ spot.style.transition = 'none'; }
+      spot.style.transform = 'translate3d(' + Math.round(w * fx) + 'px,' + Math.round(h * fy) + 'px,0)';
+      if(instant){ void spot.offsetWidth; spot.style.transition = ''; }
+    }
+    function moveGlare(e){
+      px = e.clientX; py = e.clientY;
+      if(raf) return;
+      raf = requestAnimationFrame(function(){
+        raf = 0;
+        var r = panel.getBoundingClientRect(); if(!r.width || !r.height) return;
+        placeSpot(Math.max(0, Math.min(1, (px - r.left) / r.width)), Math.max(0, Math.min(1, (py - r.top) / r.height)), false);
+      });
+    }
+    panel.addEventListener('pointermove', moveGlare, { passive:true });
+    panel.addEventListener('pointerdown', moveGlare, { passive:true });
+
+    document.addEventListener('click', function(e){
+      if(e.target && e.target.closest && e.target.closest('.lg-sw, .lg-nt, .dn')) markBusy();
+      if(e.target && e.target.closest && e.target.closest('.lg-tab, .lg-sw, .lg-nt, .lg-guide, .dn')){
+        requestAnimationFrame(function(){ try{ if(window.KZM && KZM.tick) KZM.tick(); }catch(x){} });   /* صدا بعد از فریم اول انتقال */
+      }
+    }, true);
+  }catch(e){}
+})();
+
+</script>
+<script>
+/* دکمه‌ی روشن/خاموش کردن نوار پایین + نورِ دنبال‌کننده‌ی انگشت */
+(function(){
+  try{
+    var root = document.documentElement, b = document.getElementById('nb-toggle'); if(!b) return;
+    var navEl = document.querySelector('.gnav');
+    function sync(){
+      var isOff = root.classList.contains('gnav-off');
+      b.setAttribute('aria-checked', isOff ? 'false' : 'true');
+      if(navEl && 'inert' in navEl) navEl.inert = isOff;
+    }
+    sync();
+    b.addEventListener('click', function(){
+      var off = !root.classList.contains('gnav-off');
+      root.classList.toggle('gnav-off', off);
+      try{ localStorage.setItem('kazemiuon-nav', off ? 'off' : 'on'); }catch(e){}
+      sync();
+      b.classList.remove('nb-go'); void b.offsetWidth; b.classList.add('nb-go');
+      clearTimeout(b._go); b._go = setTimeout(function(){ b.classList.remove('nb-go'); }, 800);
+      try{ if(window.KZM && KZM.tick) KZM.tick(); }catch(e){}
+      if(navigator.vibrate){ try{ navigator.vibrate(8); }catch(_){} }
+    });
+    var raf = 0, lx = 0, ly = 0;
+    function glow(e){
+      lx = e.clientX; ly = e.clientY;
+      if(raf) return;
+      raf = requestAnimationFrame(function(){
+        raf = 0; var r = b.getBoundingClientRect();
+        b.style.setProperty('--gx', (lx - r.left - r.width / 2) + 'px'); b.style.setProperty('--gy', (ly - r.top - r.height / 2) + 'px');
+      });
+    }
+    b.addEventListener('pointerdown', glow);
+    b.addEventListener('pointermove', glow, { passive:true });
+    b.addEventListener('pointerleave', function(){ b.style.removeProperty('--gx'); b.style.removeProperty('--gy'); });
+  }catch(e){}
+})();
+</script>
+<script>
+/* باز کردن مستقیم تنظیمات از صفحه‌های دیگر (دکمه‌ی «تنظیمات» نوار پایین در صفحه‌هایی که پنجره‌ی تنظیمات ندارند): index.html#settings */
+(function(){
+  if(location.hash !== '#settings') return;
+  function openSettings(){
+    try{ history.replaceState(null, '', location.pathname + location.search); }catch(e){}
+    var off = document.documentElement.classList.contains('gnav-off');
+    var b = (!off && document.getElementById('gnav-settings')) || document.getElementById('kzm-menu-btn');
+    if(b) b.click();
+  }
+  if(document.readyState === 'complete') setTimeout(openSettings, 350);
+  else window.addEventListener('load', function(){ setTimeout(openSettings, 350); });
 })();
 </script>
 </body>
