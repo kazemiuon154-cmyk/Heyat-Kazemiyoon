@@ -388,8 +388,20 @@
 }
 
 </style>
+<link rel="stylesheet" href="gset.css">
+<script src="gset.js"></script>
 <link rel="stylesheet" href="gnav.css">
 <script src="gnav.js"></script>
+<style id="gs-light">
+/* حالت روشن صفحه‌ی «سایر»: تصویر پس‌زمینه با یک پرده‌ی روشن محو می‌شود و کارت‌ها روشن می‌شوند */
+html[data-mode="light"] body::before{ filter:saturate(.7) brightness(1.5); }
+html[data-mode="light"] body::after{ content:""; position:fixed; inset:0; z-index:0; pointer-events:none; background:var(--void); opacity:.88; }
+html[data-mode="light"] .head h1{ background:linear-gradient(180deg,#c8901a 0%,#a06a00 55%,#7a4e00 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; text-shadow:none; filter:drop-shadow(0 2px 10px rgba(154,103,0,.2)); }
+html[data-mode="light"] .services-row{ --card-fill:rgba(255,255,255,.78); }
+html[data-mode="light"] .services-group-title{ color:var(--gold); text-shadow:none; }
+html[data-mode="light"] .services-search{ background:rgba(255,255,255,.82); box-shadow:0 8px 20px -10px rgba(60,50,20,.25); }
+html[data-mode="light"] .portal-home-btn{ background:rgba(255,255,255,.88); color:#7a4e00; box-shadow:0 6px 16px -8px rgba(60,50,20,.35); }
+</style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><linearGradient id="gRed" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#fecaca"/><stop offset="1" stop-color="#ef4444"/></linearGradient><linearGradient id="gTeal" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#5eead4"/><stop offset="1" stop-color="#0ea5e9"/></linearGradient><linearGradient id="gViolet" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#d8b4fe"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient><linearGradient id="gSun" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#ffe066"/><stop offset="1" stop-color="#ff8a1f"/></linearGradient><linearGradient id="gRose" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#fbcfe8"/><stop offset="1" stop-color="#ec4899"/></linearGradient><linearGradient id="gOrange" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#fed7aa"/><stop offset="1" stop-color="#f97316"/></linearGradient><linearGradient id="gBlue" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#93c5fd"/><stop offset="1" stop-color="#3b82f6"/></linearGradient><linearGradient id="gMint" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#bbf7d0"/><stop offset="1" stop-color="#10b981"/></linearGradient><linearGradient id="gSky" gradientUnits="userSpaceOnUse" x1="2" y1="2" x2="22" y2="22"><stop offset="0" stop-color="#bae6fd"/><stop offset="1" stop-color="#0284c7"/></linearGradient></defs></svg>

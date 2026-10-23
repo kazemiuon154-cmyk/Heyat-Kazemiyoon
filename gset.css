@@ -1,0 +1,27 @@
+/* ===== gset.css — تم رنگی و روز/شب (مشترک بین همه‌ی صفحه‌ها؛ از index.html برداشته شده) ===== */
+/* تم رنگی: اگر صفحه کلاسِ تمِ قدیمی روی body داشته باشد هم، تم تازه برنده است */
+html[data-theme="emerald"], html[data-theme="emerald"] body, html[data-theme="emerald"] body[class]{ --void:#071710; --void-2:#0e2419; --crimson:#0e9b62; --crimson-rgb:14,155,98; --crimson-bright:#22c17f; }
+html[data-theme="ruby"], html[data-theme="ruby"] body, html[data-theme="ruby"] body[class]{ --void:#18070b; --void-2:#26101a; --crimson:#d1274b; --crimson-rgb:209,39,75;  --crimson-bright:#f0506f; }
+html[data-theme="sapphire"], html[data-theme="sapphire"] body, html[data-theme="sapphire"] body[class]{ --void:#071222; --void-2:#0d1d36; --crimson:#2f7df0; --crimson-rgb:47,125,240;  --crimson-bright:#5b9cff; }
+html[data-theme="amethyst"], html[data-theme="amethyst"] body, html[data-theme="amethyst"] body[class]{ --void:#120a20; --void-2:#1c1232; --crimson:#8b5cf6; --crimson-rgb:139,92,246;  --crimson-bright:#a78bfa; }
+html[data-theme="amber"], html[data-theme="amber"] body, html[data-theme="amber"] body[class]{ --void:#1a1205; --void-2:#271b08; --crimson:#d98a0b; --crimson-rgb:217,138,11;  --crimson-bright:#f5a623; }
+html[data-theme="onyx"], html[data-theme="onyx"] body, html[data-theme="onyx"] body[class]{ --void:#09090b; --void-2:#141418; --crimson:#6b7280; --crimson-rgb:107,114,128; --crimson-bright:#9ca3af; }
+/* روز / شب */
+html[data-mode="light"], html[data-mode="light"] body, html[data-mode="light"] body[class]{ --void:#f6f1e3; --void-2:#efe9d8;
+  --parchment:#18261e; --parchment-dim:#56665c;
+  --gold:#9a6700; --gold-soft:#855900; --gold-bright:#a86f00;
+  --line:rgba(154,103,0,.30);
+  --ember:#c9941a; --ember-soft:#c9941a66; }
+@supports (color: color-mix(in srgb, red 50%, blue)){
+  html[data-mode="light"], html[data-mode="light"] body, html[data-mode="light"] body[class]{
+    --void:color-mix(in srgb, var(--crimson) 7%, #f9f5ea);
+    --void-2:color-mix(in srgb, var(--crimson) 12%, #f2ecdd);
+  }
+}
+html[data-mode="light"] body, html[data-mode="light"] body[class]{ color:var(--parchment); }
+/* لحظه‌ی عوض شدن حالت روز/شب: انیمیشن‌ها برای یک لحظه خاموش می‌شوند تا همه‌چیز هم‌زمان عوض شود */
+html.kzm-mode-switch :not(.dn):not(.dn *), html.kzm-mode-switch :not(.dn):not(.dn *)::before, html.kzm-mode-switch :not(.dn):not(.dn *)::after{ transition:none !important; }
+/* صفحه‌ی هیئت: بزرگ‌نمایی کل بدنه نباید پنل تنظیمات را بزرگ کند */
+html.kzm-bodyzoom #gset-host{ zoom:var(--kzm-inv, 1); }
+/* صفحه‌هایی که هنوز بزرگ‌نمایی متن نداشتند (مثل «سایر») هم اندازه‌ی متن را بگیرند */
+html:not(.kzm-bodyzoom) .page{ zoom:var(--kzm-zoom, 1); }

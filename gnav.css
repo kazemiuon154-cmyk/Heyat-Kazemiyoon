@@ -329,9 +329,6 @@ html.gnav-off .gnav{ visibility:visible; transition:transform .42s cubic-bezier(
 /* تنظیم اندازه‌ی متنِ صفحه نباید نوار را بزرگ/کوچک کند */
 html.kzm-bodyzoom .gnav, html.kzm-bodyzoom .gfan{ zoom:var(--kzm-inv, 1); }
 
-/* دکمه‌ی قدیمی «منو و تنظیمات» بالای صفحه: وقتی نوار روشن است در نوار پایین هست؛ وقتی خاموش است برمی‌گردد تا به تنظیمات دسترسی داشته باشی */
-html:not(.gnav-off) .kzm-menu-btn{ display:none !important; }
-
 /* وقتی نوار روشن است، دکمه‌های ثابتِ پایین صفحه بالاتر می‌روند تا زیر نوار نمانند */
 html:not(.gnav-off) .page2-back, html:not(.gnav-off) .zekr-page-back, html:not(.gnav-off) .downloads-fab{ bottom:calc(92px + env(safe-area-inset-bottom, 0px)) !important; }
 html:not(.gnav-off) .back-to-top{ bottom:calc(92px + env(safe-area-inset-bottom, 0px)) !important; }

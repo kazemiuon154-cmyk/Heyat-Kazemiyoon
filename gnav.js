@@ -104,7 +104,7 @@
     try{ var an = getComputedStyle(document.body).animationName; nav.classList.add(an && an !== 'none' ? 'gnav-in-late' : 'gnav-in'); }catch(e){}
     applyState(false);
 
-    var overlay = document.getElementById('kzm-overlay'), menuBtn = document.getElementById('kzm-menu-btn');
+    function settingsOpen(){ return !!(window.GSET && GSET.isOpen && GSET.isOpen()); }
     var busy = false, clickPending = false, curKey = null;
 
     function go(href, key){
@@ -121,7 +121,7 @@
           ev.preventDefault();
           if(fan) closeFan(true, true);
           setActive(li);
-          if(menuBtn) menuBtn.click(); else go('index.html#settings');
+          if(window.GSET) GSET.open(); else go('index.html#settings');   /* پنل تنظیمات مشترک (gset.js) در همین صفحه باز می‌شود */
           return;
         }
         if(ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey || ev.button === 1) return;
@@ -367,7 +367,7 @@
   function settle(){
     setTimeout(function(){
       if(busy || clickPending || fan) return;
-      if(overlay && overlay.classList.contains('open')) return;
+      if(settingsOpen()) return;
       if(!base.classList.contains('active')) setActive(base);
     }, 140);
   }
@@ -405,15 +405,13 @@
   try{ new MutationObserver(function(){ paintLabels(); closeFan(true); }).observe(root, { attributes:true, attributeFilter:['lang'] }); }catch(e){}
 
   /* بسته شدن پنجره‌ی تنظیمات (دکمه‌ی بستن، Esc یا لمس بیرون) => برگشت نشانگر به آیتم این صفحه */
-  if(overlay && window.MutationObserver){
-    new MutationObserver(function(){
-      if(!overlay.classList.contains('open') && items[4].classList.contains('active')){
-        setActive(base);
-        var ae = document.activeElement;
-        if(!ae || ae === document.body){ try{ items[4].querySelector('a').focus({ preventScroll:true }); }catch(e){} }
-      }
-    }).observe(overlay, { attributes:true, attributeFilter:['class'] });
-  }
+  window.addEventListener('gset-close', function(){
+    if(items[4].classList.contains('active')){
+      setActive(base);
+      var ae = document.activeElement;
+      if(!ae || ae === document.body){ try{ items[4].querySelector('a').focus({ preventScroll:true }); }catch(e){} }
+    }
+  });
 
   /* برگشت با دکمه‌ی مرورگر (bfcache): تنظیمات را دوباره از localStorage بخوان */
   window.addEventListener('pageshow', function(e){
