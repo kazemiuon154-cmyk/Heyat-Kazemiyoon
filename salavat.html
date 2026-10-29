@@ -1020,6 +1020,9 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
 <script src="gset.js"></script>
 <link rel="stylesheet" href="gnav.css">
 <script src="gnav.js"></script>
+<link rel="stylesheet" href="isl.css">
+<script src="kzm-core.js"></script>
+<script src="isl.js" defer></script>
 <style id="gs-light">
 /* حالت روشن: کارت شمارنده‌ی صلوات تیره نماند */
 html[data-mode="light"] .salavat-stage{ background:radial-gradient(120% 140% at 50% 0%, rgba(255,255,255,.75), transparent 55%), linear-gradient(180deg, rgba(255,252,243,.94), rgba(246,238,216,.96)); border-color:rgba(154,103,0,.32); box-shadow:0 14px 30px -14px rgba(60,50,20,.28); }
@@ -1340,11 +1343,12 @@ html[data-mode="light"] .salavat-stage{ background:radial-gradient(120% 140% at 
       try{ countsCache[k] = parseInt(localStorage.getItem(DHIKR[k].storeKey), 10) || 0; }
       catch(e){ countsCache[k] = 0; }
     });
+    const dirtyKeys = {};      /* فقط ذکرهایی که در همین صفحه تغییر کرده‌اند نوشته می‌شوند تا شمارشِ کپسول/تب دیگر بازنویسی نشود */
     let persistTimer = null;
     function persistCounts(){
       persistTimer = null;
       try{
-        Object.keys(DHIKR).forEach(k => localStorage.setItem(DHIKR[k].storeKey, String(countsCache[k])));
+        Object.keys(dirtyKeys).forEach(k => { localStorage.setItem(DHIKR[k].storeKey, String(countsCache[k])); delete dirtyKeys[k]; });
       }catch(e){}
     }
     function schedulePersist(){
@@ -1353,13 +1357,27 @@ html[data-mode="light"] .salavat-stage{ background:radial-gradient(120% 140% at 
     }
     function getCount(key){ return countsCache[key] || 0; }
     function setCount(key, val){
-      countsCache[key] = Math.max(0, val);
+      countsCache[key] = Math.max(0, val); dirtyKeys[key] = 1;
       schedulePersist();
     }
     document.addEventListener('visibilitychange', () => {
       if(document.visibilityState === 'hidden' && persistTimer){ clearTimeout(persistTimer); persistCounts(); }
     });
     window.addEventListener('pagehide', () => { if(persistTimer){ clearTimeout(persistTimer); persistCounts(); } });
+
+    /* همگام با کپسول جادویی و صفحه/تب‌های دیگر */
+    function syncFromStore(){
+      let changed = false;
+      Object.keys(DHIKR).forEach(k => {
+        if(dirtyKeys[k]) return;
+        let v = 0; try{ v = parseInt(localStorage.getItem(DHIKR[k].storeKey), 10) || 0; }catch(e){}
+        if(v !== countsCache[k]){ countsCache[k] = v; changed = true; }
+      });
+      if(changed) render(false);
+    }
+    window.addEventListener('storage', e => { if(!e.key || e.key.indexOf('kazemiuon-salavat-count-') === 0) syncFromStore(); });
+    document.addEventListener('visibilitychange', () => { if(!document.hidden) syncFromStore(); });
+    window.addEventListener('pageshow', e => { if(e.persisted) syncFromStore(); });
 
     let activeKey = 'salawat';
     try{

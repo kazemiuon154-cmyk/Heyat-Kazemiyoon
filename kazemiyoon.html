@@ -3896,6 +3896,9 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
 <script src="gset.js"></script>
 <link rel="stylesheet" href="gnav.css">
 <script src="gnav.js"></script>
+<link rel="stylesheet" href="isl.css">
+<script src="kzm-core.js"></script>
+<script src="isl.js" defer></script>
 </head>
 <body>
 <script>
@@ -6343,6 +6346,12 @@ module.exports = QRCode;
     }
     apply();
 
+    /* تغییر اندازه‌ی متن در صفحه/تب دیگر ← همین‌جا هم اعمال شود */
+    window.addEventListener('storage', e => {
+      if(e.key !== null && e.key !== 'kazemiuon-font-size') return;
+      let v = 100; try{ v = parseInt(localStorage.getItem('kazemiuon-font-size'), 10) || 100; }catch(err){}
+      if(v !== pct){ pct = v; apply(); }
+    });
     downBtn.addEventListener('click', () => { pct -= STEP; apply(); });
     upBtn.addEventListener('click', () => { pct += STEP; apply(); });
   })();

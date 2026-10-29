@@ -685,6 +685,9 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
 <script src="gset.js"></script>
 <link rel="stylesheet" href="gnav.css">
 <script src="gnav.js"></script>
+<link rel="stylesheet" href="isl.css">
+<script src="kzm-core.js"></script>
+<script src="isl.js" defer></script>
 </head>
 <body>
 
@@ -1058,6 +1061,17 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
     renderDay(true);
     setInterval(() => renderDay(false), 5 * 60 * 1000);
     setInterval(renderDayProgress, 60 * 1000);
+
+    /* همگام با کپسول جادویی و صفحه/تب‌های دیگر: شمارش ذکر امروز هرجا عوض شد اینجا هم عوض می‌شود */
+    function syncFromStore(){
+      if(todayKey() !== currentKey){ renderDay(true); return; }
+      const v = loadCount(currentKey);
+      if(v === count) return;
+      count = v; updateRing(); renderDayProgress(); renderStreak();
+    }
+    window.addEventListener('storage', e => { if(!e.key || e.key === currentKey) syncFromStore(); });
+    document.addEventListener('visibilitychange', () => { if(!document.hidden) syncFromStore(); });
+    window.addEventListener('pageshow', e => { if(e.persisted) syncFromStore(); });
   })();
 
   // ---------------- انتقال نرم به صفحه اول ----------------
