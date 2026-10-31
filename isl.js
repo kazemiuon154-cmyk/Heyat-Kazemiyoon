@@ -57,7 +57,7 @@
     ramadan:true, eve:true, liveEv:true, evDur:120,
     adhan:{ fajr:true, sunrise:false, dhuhr:true, maghrib:true }, evOn:{ majles:true, nodbeh:true },
     actions:true, alertSec:8, snooze:5, quiet:{ on:false, from:23, to:5 },
-    vibrate:true, haptic:true, sound:false, tone:'bell', satellite:true, timerAlarm:true, hold:400
+    vibrate:true, haptic:true, sound:false, tone:'bell', satellite:true, timerAlarm:true, hold:400, fan:true
   };
   var ENUM = { mode:['always', 'alerts'], style:['black', 'glass', 'theme'], glow:['sky', 'theme', 'gold', 'off'], size:[0, 1, 2], top:[0, 1, 2],
     motion:['soft', 'lively', 'minimal'], rotate:[0, 5, 7, 12], primary:['auto', 'prayer', 'event', 'clock', 'date', 'occasion', 'zekr'], evDur:[60, 90, 120, 180],
@@ -107,6 +107,7 @@
     now:['اکنون', 'الآن', 'Now'], half:['نیم ساعت', 'نصف ساعة', '30 minutes'], hour1:['یک ساعت', 'ساعة واحدة', 'an hour'], hour2:['دو ساعت', 'ساعتان', '2 hours'],
     zekrL:['ذکر روز', 'ذكر اليوم', 'Daily dhikr'], salL:['صلوات‌شمار شما', 'عدّاد صلواتك', 'Your salawat'], salA:['صلوات', 'الصلوات', 'Salawat'], salB:['فرج', 'الفرج', 'Faraj'], salC:['استغفار', 'الاستغفار', 'Istighfar'],
     emptyX:['بخشی برای نمایش انتخاب نشده است', 'لم يتم اختيار أي قسم للعرض', 'No sections selected to show'],
+    fanT:['باز شدن قرص‌ها با دو ضربه', 'فتح الصفحات بنقرتين', 'Double-tap to pop out pages'], fanH:['دو ضربه‌ی سریع روی قرص کوچک کنار کپسول، همه‌ی قرص‌ها را به شکل کپسول باز می‌کند؛ ضربه‌ی تکی روی آن با تأخیر خیلی کم همان کار همیشگی را می‌کند. کپسول اصلی بدون تغییر است', 'نقرتان سريعتان على الحبّة الصغيرة بجانب الكبسولة تفتحان كل الصفحات؛ والنقرة الواحدة عليها تعمل كالمعتاد بتأخير بسيط جداً. الكبسولة الرئيسية دون تغيير', 'Two quick taps on the small bubble beside the capsule pop out every page; a single tap on it still works as usual, after a tiny delay. The main capsule is unchanged'], fanHint:['انگشت را روی یک قرص بکشید', 'اسحب إصبعك إلى صفحة', 'Slide onto a page'], fanGuide:['راهنما', 'الدليل', 'Guide'],
     holdL:['نگه داشتن برای کارت کامل', 'اضغط مطولاً للبطاقة الكاملة', 'Hold to open the full card'], xAll:['همه‌ی بخش‌ها', 'كل الأقسام', 'All sections'],
     dtPrayer:['اوقات شرعی', 'مواقيت الصلاة', 'Prayer times'], dtEvent:['مراسم', 'المراسم', 'Gatherings'], dtClock:['ساعت', 'الساعة', 'Clock'],
     dtDate:['تقویم', 'التقويم', 'Calendar'], dtOcc:['مناسبت بعدی', 'المناسبة القادمة', 'Next occasion'], dtSal:['صلوات‌شمار', 'عدّاد الصلوات', 'Salawat counter'],
@@ -186,6 +187,7 @@
     hold:'<circle cx="12" cy="12" r="8.5" stroke-dasharray="3 2.4"/><circle cx="12" cy="12" r="2.6"/>',
     drag:'<path d="M12 4v16M7 9l5-5 5 5M7 15l5 5 5-5"/>',
     swap:'<path d="M4 10a8 8 0 0 1 14-3.5L20 9M20 4v5h-5M20 14a8 8 0 0 1-14 3.5L4 15M4 20v-5h5"/>',
+    fan:'<path d="M4 15a8 8 0 0 1 16 0"/><circle cx="4.8" cy="16.2" r="1.7"/><circle cx="12" cy="7.2" r="1.7"/><circle cx="19.2" cy="16.2" r="1.7"/><path d="M12 20.5v.01"/>',
     hello:'<circle cx="12" cy="12" r="8.5"/><path d="M8.4 13.6c.9 1.7 2.1 2.5 3.6 2.5s2.7-.8 3.6-2.5"/><path d="M9 9.6h.01M15 9.6h.01"/>',
     sparkle:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M18.5 16l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"/>'
   };
@@ -458,6 +460,7 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
   var pageIdx = 0;
   function intLS(k){ var n = parseInt(lsGet(k), 10); return (isNaN(n) || n < 0) ? 0 : n; }
   function curKind(s){
+    if(tmpKind){ if(Date.now() < tmpUntil) return tmpKind; tmpKind = ''; }
     if(cfg.rotate > 0){ var l = pagesList(); return l[pageIdx % l.length]; }
     var p = cfg.primary;
     if(p === 'auto') return (s.evs[0] && s.evs[0].remainMin < s.pm.remainMin) ? 'event' : 'prayer';
@@ -587,9 +590,9 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
   }
   function rotStep(manual){
     if(manual === true){ if(state !== 'compact' || busyRot) return; }
-    else if(doc.hidden || state !== 'compact' || busyRot || drag || root.hasAttribute('data-press')) return;
+    else if(doc.hidden || state !== 'compact' || busyRot || drag || fanOn || root.hasAttribute('data-press')) return;
     var l = pagesList(); if(l.length < 2) return;
-    pageIdx = (pageIdx + 1) % l.length; lastRot = Date.now(); rotSave();
+    pageIdx = (pageIdx + 1) % l.length; tmpKind = ''; lastRot = Date.now(); rotSave();
     var S2 = snap();
     if(tm){ paintSat(S2); return; }
     swapCompact(function(){ paintCompact(S2, true); });
@@ -597,7 +600,7 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
 
   /* حباب کناری: صفحه‌ی بعدی، کوچک، سمت راست قرص (مثل iOS) */
   var satIcon = '';
-  function satWanted(){ return !!(cfg.on && state === 'compact' && !root.hasAttribute('data-sh') && satPossible()); }
+  function satWanted(){ return !!(cfg.on && !fanOn && state === 'compact' && !root.hasAttribute('data-sh') && satPossible()); }
   function satSync(){
     var on = satWanted();
     if(on && !sat.classList.contains('on') && !satReady()) on = false;     /* اول قرص جا بیفتد، بعد حباب بیاید */
@@ -631,8 +634,8 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
   sat.addEventListener('click', function(e){
     e.stopPropagation();
     if(state !== 'compact') return;
-    if(pagesList().length < 2){ expand(); return; }
-    rotStep(true); rotSync();
+    var go1 = function(){ if(pagesList().length < 2){ expand(); return; } rotStep(true); rotSync(); };
+    if(!dblTap(go1)) go1();
   });
   sat.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); sat.click(); } });
 
@@ -756,6 +759,7 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
     if(queue.length && (state === 'compact' || state === 'idle') && !drag) showNext();
   }
   function showNext(){
+    if(fanOn) return;
     var a;
     while((a = queue.shift())){
       var stale = !a.preview && (getFired()[a.id] || (a.expireMs && a.expireMs < Date.now()) || (a.kind === 'lead' && a.targetMs <= Date.now()));
@@ -1249,6 +1253,11 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
       b:['انگشت را حدود چهار دهم ثانیه روی قرص نگه دارید تا کارت کامل باز شود: تایمر، اوقات شرعی، مراسم، تقویم، ذکر و صلوات، همه یک‌جا.',
          'أبقِ إصبعك على القرص نحو أربعة أعشار الثانية لتُفتح البطاقة الكاملة: المؤقّت والأوقات والمراسم والتقويم والذكر والصلوات في مكان واحد.',
          'Keep your finger on the pill for about four tenths of a second to open the full card: timer, prayer times, gatherings, calendar, dhikr and salawat in one place.'] },
+    { ic:'fan', col:'255,214,120', sh:'ring', tag:['×۲ ضربه', '×٢ نقرة', '×2 tap'],
+      t:['باز شدن قرص‌ها با دو ضربه', 'فتح الصفحات بنقرتين', 'Double-tap pop-out'],
+      b:['دو ضربه‌ی سریع پشت‌سرهم روی قرص کوچک کنار کپسول (حباب صفحه‌ی بعد) بزنید: همه‌ی قرص‌ها به شکل کپسول‌های کوچک بیرون می‌آیند و زیر کپسول ردیف می‌شوند. روی هر کدام بزنید تا در کپسول بنشیند. ضربه‌ی تکی روی همان قرص، صفحه‌ی بعد را نشان می‌دهد و ضربه‌ی تکی روی خود کپسول جزئیات را باز می‌کند.',
+         'انقر نقرتين سريعتين على الحبّة الصغيرة بجانب الكبسولة (فقاعة الصفحة التالية): تخرج كل الصفحات كحبوب كبسولية صغيرة وتصطف تحتها. المس واحدة لتظهر في الكبسولة. والنقرة الواحدة عليها تعرض الصفحة التالية، وعلى الكبسولة نفسها تفتح التفاصيل.',
+         'Tap the small bubble beside the capsule (the next-page bubble) twice quickly: every page pops out as a small capsule and lines up below. Tap one to show it in the capsule. A single tap on that bubble shows the next page; a single tap on the capsule itself opens the details.'] },
     { ic:'drag', col:'134,239,172', sh:'diamond', tag:['↓ باز  ·  ↑ بسته', '↓ فتح  ·  ↑ إغلاق', '↓ open  ·  ↑ close'],
       t:['کشیدن با انگشت', 'السحب بالإصبع', 'Drag'],
       b:['قرص را به پایین بکشید؛ کارت زنده دنبال انگشت شما باز می‌شود. برای بستن، سربرگ کارت را به بالا بکشید یا دکمه‌ی فلش بالا، کلید Escape و ضربه روی فضای تیره را بزنید. یادآوری‌ها را هم با کشیدن به بالا کنار بزنید.',
@@ -1410,6 +1419,161 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
     if(which === 'sal') { var sv = xL.querySelector('.isl-sv'); if(sv && sv.animate) sv.animate([{ scale:'1' }, { scale:'.97' }, { scale:'1' }], { duration:260, easing:'ease-out' }); }
   }
 
+  /* ---------- باز شدن قرص‌ها با دو ضربه‌ی سریع روی کپسول ----------
+     ضربه‌ی تکی همان کار همیشگی را می‌کند (جزئیات قرص فعلی؛ با تأخیر بسیار کوتاه تا معلوم شود ضربه‌ی دوم می‌آید).
+     دو ضربه‌ی پشت‌سرهم: همه‌ی قرص‌ها، هر کدام به شکل یک کپسول کوچک (همان ظاهر قرص اصلی)، از دل کپسول بیرون می‌آیند
+     و با فنر زیر آن ردیف می‌شوند. با یک ضربه روی هر قرص همان در کپسول می‌نشیند؛ ضربه‌ی بیرون یا لمس کپسول آن‌ها را می‌بندد.
+     (فقط transform و opacity انیمیت می‌شوند و هیچ بلور یا سایه‌ی سنگینی نیست، تا روی گوشی‌های ضعیف هم روان بماند) */
+  var FAN_DBL = 280;
+  var FAN_KINDS = ['prayer', 'event', 'clock', 'date', 'occasion', 'zekr', 'salavat', 'guide'];
+  var FAN_COLK = { prayer:'prayer', event:'event', clock:'clock', date:'date', occasion:'night', zekr:'zekr', salavat:'sal', guide:'guide' };
+  var fanOn = false, fan = null, fanPills = [], fanNear = null, fanMode = '', fanLast = null, fanRaf = 0, fanPid = -1, fanQuiet = 0, dtT = 0, fanGeo = null, fanRef = 0;
+  var tmpKind = '', tmpUntil = 0;
+
+  function fanVals(kd, s){
+    var m = pageModel(kd, s), n = m.n, u = m.u;
+    if(m.remain !== undefined){ var r = shortRemain(m.remain); n = r.n; u = r.u; }
+    return { m:m, n:n, u:u };
+  }
+  /* ضربه روی قرص کناری (حباب کوچک): اگر باز شدن قرص‌ها روشن باشد، ضربه‌ی تکی کمی صبر می‌کند؛ ضربه‌ی دوم قرص‌ها را باز می‌کند.
+     کپسول اصلی دست‌نخورده است و ضربه‌ی تکی‌اش بی‌تأخیر کار می‌کند. */
+  function dblTap(single){
+    if(!cfg.fan || tm) return false;
+    if(dtT){ clearTimeout(dtT); dtT = 0; if(cfg.haptic && !inQuiet(S && S.t)) buzz([10, 30, 10]); fanOpenTap(); return true; }
+    dtT = setTimeout(function(){ dtT = 0; if(state === 'compact' && !fanOn) single(); }, FAN_DBL);
+    return true;
+  }
+  function dblCancel(){ clearTimeout(dtT); dtT = 0; }
+  function fanOpenTap(){
+    if(fan || !cfg.on || state !== 'compact' || tm) return;
+    fanOn = true; fanMode = 'tap'; fanPid = -1; fanLast = null; fanQuiet = performance.now() + 250;
+    html.classList.add('isl-fan-on'); satSync();
+    fanBuild(); fanReveal(); fan.classList.add('tap');
+    var b = fan.querySelector('.ipl'); if(b){ try{ b.focus({ preventScroll:true }); }catch(_){} }
+  }
+  function fanBuild(){
+    S = snap();
+    var kinds = FAN_KINDS.filter(function(k){ return pageOk(k); });
+    var n = kinds.length, W = vw(), kk = SIZE_K[cfg.size], h = ch();
+    var topPx = parseFloat(getComputedStyle(root).top) || 10;
+    var pw = Math.min(Math.round(300 * kk), W - 32), gap = Math.round(8 * kk);
+    var first = topPx + h + Math.round(14 * kk), cur = curKind(S);
+    var avail = vh() - first - 14;
+    if(n > 1 && n * h + (n - 1) * gap > avail) gap = Math.max(3, Math.floor((avail - n * h) / (n - 1)));
+    fanGeo = { cx:W / 2, half:pw / 2 + 30, top:first, step:h + gap, gap:gap, n:n, h:h, capY:topPx + h / 2 };
+    var f = doc.createElement('div'); f.className = 'ipl-wrap'; f.setAttribute('role', 'group'); f.setAttribute('aria-label', tt('fanT'));
+    f.setAttribute('data-style', cfg.style);
+    f.style.setProperty('--k', String(kk)); f.style.setProperty('--ch', h + 'px'); f.style.setProperty('--pw', pw + 'px');
+    fanPills = []; fanNear = null;
+    kinds.forEach(function(kd, i){
+      var v = fanVals(kd, S), m = v.m, p = doc.createElement('div');
+      p.className = 'ipl' + (kd === cur ? ' cur' : ''); p.setAttribute('role', 'button'); p.tabIndex = 0; p.setAttribute('data-kind', kd);
+      p.style.cssText = 'top:' + (first + i * (h + gap)) + 'px;--ac:' + COL[FAN_COLK[kd]];
+      p.innerHTML = '<span class="isl-ring"><svg class="rg" viewBox="0 0 24 24" aria-hidden="true"><circle class="tr" cx="12" cy="12" r="10.5"/><circle class="pg" cx="12" cy="12" r="10.5"/></svg><span class="isl-ic">' + svg(m.icon) + '</span></span>' +
+        '<span class="isl-lb"></span><span class="isl-tm"><b></b><i></i></span>';
+      var o = { el:p, kind:kd, prog:clamp(m.progress, 0, 1), pg:p.querySelector('.pg'), lb:p.querySelector('.isl-lb'), b:p.querySelector('b'), u:p.querySelector('i'), sig:'' };
+      p.querySelector('.pg').style.strokeDashoffset = '66';
+      fanPaintPill(o, v);
+      f.appendChild(p); fanPills.push(o);
+    });
+    f.addEventListener('click', function(e){
+      if(performance.now() < fanQuiet) return;
+      var b = e.target.closest && e.target.closest('.ipl');
+      if(b){ e.preventDefault(); fanPick(b.getAttribute('data-kind')); return; }
+      fanClose();
+    });
+    f.addEventListener('keydown', function(e){
+      var i = fanPills.map(function(p){ return p.el; }).indexOf(doc.activeElement);
+      if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){ e.preventDefault(); var t = fanPills[clamp(i + (e.key === 'ArrowDown' ? 1 : -1), 0, fanPills.length - 1)]; if(t) t.el.focus(); }
+      else if((e.key === 'Enter' || e.key === ' ') && i > -1){ e.preventDefault(); fanPick(fanPills[i].kind); }
+    });
+    body.appendChild(f); fan = f;
+    clearInterval(fanRef); fanRef = setInterval(fanRefresh, 1000);
+  }
+  function fanPaintPill(o, v){
+    var sig = v.m.label + '|' + v.n + '|' + v.u;
+    if(sig === o.sig) return; o.sig = sig;
+    o.lb.textContent = v.m.label; o.b.textContent = v.n; o.u.textContent = v.u;
+    o.el.setAttribute('aria-label', v.m.label + ' ' + v.n + ' ' + v.u);
+  }
+  function fanRefresh(){
+    if(!fan) return;
+    S = snap();
+    fanPills.forEach(function(o){ var v = fanVals(o.kind, S); fanPaintPill(o, v); o.prog = clamp(v.m.progress, 0, 1); o.pg.style.strokeDashoffset = String(66 * (1 - o.prog)); });
+  }
+  function fanReveal(){
+    var f = fan; if(!f || !fanOn) return;
+    void f.offsetWidth;
+    requestAnimationFrame(function(){
+      if(fan !== f) return;
+      f.classList.add('open');
+      var anim = !!f.animate && !calm(), sp = spring(250, 21, 1), g = fanGeo;
+      fanPills.forEach(function(o, i){
+        if(anim){
+          var dy = g.capY - (parseFloat(o.el.style.top) + g.h / 2);       /* از جای کپسول اصلی شروع می‌شود */
+          try{
+            o.el.animate([
+              { transform:'translateY(' + dy.toFixed(1) + 'px) scale(.6,.5)', opacity:0 },
+              { opacity:1, offset:.28 },
+              { transform:'none', opacity:1 }
+            ], { duration:sp.duration, delay:i * 44, easing:sp.easing, fill:'backwards' });
+          }catch(_){}
+        }
+        setTimeout(function(){ if(fan === f) o.pg.style.strokeDashoffset = String(66 * (1 - o.prog)); }, anim ? 220 + i * 44 : 0);
+      });
+    });
+  }
+  function fanClose(instant){
+    var f = fan, pills = fanPills, g = fanGeo;
+    fanOn = false; fan = null; fanMode = ''; fanNear = null; fanPills = []; fanPid = -1; fanLast = null; fanGeo = null;
+    clearInterval(fanRef); fanRef = 0;
+    html.classList.remove('isl-fan-on');
+    if(!f) return;
+    f.classList.remove('open', 'tap'); f.classList.add('closing');
+    var wait = 0;
+    if(!instant && f.animate && !calm() && g){
+      var n = pills.length;
+      pills.forEach(function(o, i){                                       /* قرص‌ها دوباره به دل کپسول برمی‌گردند (دورترین اول) */
+        var dy = g.capY - (parseFloat(o.el.style.top) + g.h / 2);
+        try{ o.el.animate([{ transform:'none', opacity:1 }, { transform:'translateY(' + dy.toFixed(1) + 'px) scale(.6,.5)', opacity:0 }], { duration:230, delay:(n - 1 - i) * 16, easing:'cubic-bezier(.5,0,.75,0)', fill:'forwards' }); }catch(_){}
+      });
+      wait = 230 + n * 16 + 40;
+    }
+    setTimeout(function(){ if(f.parentNode) f.parentNode.removeChild(f); }, wait);
+    satSync();
+    setTimeout(function(){ if(queue.length && state === 'compact') showNext(); }, 450);
+  }
+  function fanPick(kd){
+    var idx = pagesList().indexOf(kd);
+    fanClose();
+    if(cfg.haptic && !inQuiet(S && S.t)) buzz(12);
+    tmpKind = '';
+    if(cfg.rotate > 0 && idx > -1){ pageIdx = idx; }
+    else { tmpKind = kd; tmpUntil = Date.now() + (cfg.rotate > 0 ? cfg.rotate * 1000 : 30000); }
+    if(typeof lastRot !== 'undefined') lastRot = Date.now();
+    if(typeof rotSave === 'function') rotSave();
+    S = snap(); lastSig = '';
+    swapCompact(function(){ paintCompact(S, true); });
+    rotSync();
+  }
+  /* هر قرصی که انگشت روی ردیفش باشد برجسته می‌شود (نوارهای پیوسته، بدون نقطه‌ی مرده) */
+  function fanNearUpdate(){
+    fanRaf = 0; if(!fan || !fanLast || !fanGeo) return;
+    var g = fanGeo, x = fanLast.clientX, y = fanLast.clientY, idx = Math.floor((y - (g.top - g.gap / 2)) / g.step);
+    var nn = (idx >= 0 && idx < g.n && Math.abs(x - g.cx) <= g.half) ? fanPills[idx] : null;
+    if(nn === fanNear) return;
+    if(fanNear) fanNear.el.classList.remove('near');
+    if(nn){ nn.el.classList.add('near'); if(cfg.haptic && !inQuiet(S && S.t)) buzz(5); }
+    fanNear = nn;
+  }
+  window.addEventListener('pointermove', function(e){
+    if(fan && fanOn && e.pointerType === 'mouse'){ fanLast = e; if(!fanRaf) fanRaf = requestAnimationFrame(fanNearUpdate); }
+  }, { passive:true });
+  doc.addEventListener('visibilitychange', function(){ if(doc.hidden){ dblCancel(); if(fanOn) fanClose(true); } });
+  window.addEventListener('resize', function(){ if(fanOn) fanClose(true); });
+  doc.addEventListener('keydown', function(e){ if(e.key === 'Escape' && fanOn){ e.preventDefault(); fanClose(); try{ root.focus(); }catch(_){} } });
+  root.addEventListener('keydown', function(e){ if(e.key === 'ArrowDown' && e.target === root && state === 'compact' && cfg.fan && !tm){ e.preventDefault(); fanOpenTap(); } });
+
   /* ---------- چرخه‌ی زمان ---------- */
   var timer = 0;
   function tick(){
@@ -1509,10 +1673,12 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
     if(state !== 'compact' || !drag || drag.on) return;
     drag = null; press(false); holdFired = true;
     if(cfg.haptic && !inQuiet(S && S.t)) buzz([14, 36, 14]);
+    dblCancel();
     expand(null, true);
   }
   root.addEventListener('contextmenu', function(e){ e.preventDefault(); });
   root.addEventListener('pointerdown', function(e){
+    if(fanOn){ fanClose(); holdFired = true; return; }     /* قرص‌ها باز است: لمس کپسول آن را می‌بندد */
     holdFired = false;
     if(state === 'idle' || (e.button !== undefined && e.button > 0)) return;
     if(e.target.closest && e.target.closest('button, a')) { if(state === 'alert') holdAlert(true); return; }
@@ -1669,6 +1835,7 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
     general:[
       { t:'seg', k:'mode', l:'modeL', o:[['always', 'mAlways'], ['alerts', 'mAlerts']] },
       { t:'chips', k:'hold', l:'holdL', o:[300, 400, 500, 800, 1200, 2000], f:'ms' },
+      { t:'sw', k:'fan', l:'fanT', h:'fanH' },
       { t:'btn', act:'preview', l:'prev', ic:'play' }, { t:'btn', act:'preview2', l:'prev2', ic:'play' }, { t:'btn', act:'reset', l:'reset', ic:'x', cls:'ghost' } ],
     look:[
       { t:'seg', k:'style', l:'styleL', o:[['black', 'sBlack'], ['glass', 'sGlass'], ['theme', 'sTheme']] },
@@ -1947,7 +2114,7 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
   if(cfg.on) start();
 
   /* برای آزمون و اشکال‌یابی */
-  window.KZM_ISLAND = { expand:expand, collapse:collapse, preview:preview, state:function(){ return state; }, cfg:function(){ return cfg; }, rot:rotStep, timer:startTimer, timerState:function(){ return tm; } };
+  window.KZM_ISLAND = { fanOpen:fanOpenTap, fanClose:fanClose, fanOn:function(){ return fanOn; }, expand:expand, collapse:collapse, preview:preview, state:function(){ return state; }, cfg:function(){ return cfg; }, rot:rotStep, timer:startTimer, timerState:function(){ return tm; } };
 
   }
   if(document.body) __islBoot(); else document.addEventListener('DOMContentLoaded', __islBoot);
