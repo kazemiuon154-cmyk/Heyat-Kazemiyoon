@@ -443,7 +443,9 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
 <link rel="stylesheet" href="gnav.css">
 <script src="gnav.js"></script>
 <link rel="stylesheet" href="isl.css">
+<script src="lunar-data.js"></script>
 <script src="kzm-core.js"></script>
+<script src="kzm-i18n.js" defer></script>
 <script src="isl.js" defer></script>
 </head>
 <body>
@@ -480,13 +482,6 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
           <button type="button" class="theme-opt" data-theme="dark">تاریک</button>
         </div>
       </div>
-    </div>
-    <div class="quick-menu-row">
-      <span class="quick-menu-label">صدا</span>
-      <button type="button" id="sound-toggle" class="sound-toggle" aria-label="قطع/وصل صدا" aria-pressed="false">
-        <svg class="icon-sound-on" viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a4 4 0 0 1 0 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M18.5 6a7.5 7.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/></svg>
-        <svg class="icon-sound-off" viewBox="0 0 24 24" fill="none" style="display:none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M15.5 9.5l5 5M20.5 9.5l-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-      </button>
     </div>
     <div class="quick-menu-row">
       <span class="quick-menu-label">راهنمای سایت</span>
@@ -634,25 +629,6 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
       if(!panel.contains(e.target) && e.target !== btn && !btn.contains(e.target)) closePanel();
     });
     document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closePanel(); });
-  })();
-
-  // ---------------- صدای کلیک سبک ----------------
-  (function soundToggle(){
-    let muted = true;
-    try{ muted = localStorage.getItem('kazemiuon-muted') === '1'; }catch(e){}
-    const btn = document.getElementById('sound-toggle');
-    if(!btn) return;
-    function reflect(){
-      btn.setAttribute('aria-pressed', String(!muted));
-      btn.querySelector('.icon-sound-on').style.display = muted ? 'none' : 'block';
-      btn.querySelector('.icon-sound-off').style.display = muted ? 'block' : 'none';
-    }
-    reflect();
-    btn.addEventListener('click', () => {
-      muted = !muted;
-      try{ localStorage.setItem('kazemiuon-muted', muted ? '1' : '0'); }catch(e){}
-      reflect();
-    });
   })();
 
   // ذرات ریز طلایی پس‌زمینه (امبر)

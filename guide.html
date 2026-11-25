@@ -660,7 +660,9 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
 <link rel="stylesheet" href="gnav.css">
 <script src="gnav.js"></script>
 <link rel="stylesheet" href="isl.css">
+<script src="lunar-data.js"></script>
 <script src="kzm-core.js"></script>
+<script src="kzm-i18n.js" defer></script>
 <script src="isl.js" defer></script>
 </head>
 <body>
@@ -1222,7 +1224,45 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
       footerSub: 'القناة الرسمية لموكب الكاظميون خرم‌آباد',
       quickMenuTheme: 'المظهر',
       quickMenuLang: 'اللغة',
-      quickMenuSound: 'الصوت'
+      quickMenuSound: 'الصوت',
+      guideClockName: 'ساعة طهران وكربلاء',
+      guideClockDesc: 'في أعلى الصفحة الأولى تظهر الساعة بتوقيت طهران. بالنقر عليها تُضاف ساعة كربلاء المقدسة ودرجة الحرارة، وبالنقر مرة أخرى تعود إلى الوضع الأول.',
+      guidePwaName: 'تثبيت التطبيق',
+      guidePwaDesc: 'لدينا صفحة مستقلة لتثبيت تطبيق الموقع. اضغط على «تثبيت التطبيق» من قائمة ☰ لتنتقل إليها، ثم ثبّت الموقع بزر كبير كأنه تطبيق حقيقي على هاتفك أو حاسوبك؛ وإن كان متصفحك لا يدعم التثبيت المباشر فهناك دليل خطوة بخطوة.',
+      guideTourName: '🕋 الزيارة ثلاثية الأبعاد',
+      guideTourDesc: 'من شبكة «الوصول السريع» في الصفحة الأولى اضغط على «الزيارة ثلاثية الأبعاد». لكل حرم (المسجد الحرام، حرم النبي، أمير المؤمنين، الإمام الحسين، العباس، الإمام الرضا، السيدة معصومة، ومسجد جمكران) بطاقة؛ وبالضغط على «دخول الجولة الافتراضية» تُفتح الجولة في تبويب جديد. هذه الجولات تابعة لمواقع أخرى ولا تتحمل الهيئة مسؤولية محتواها أو أدائها.',
+      guideMenuName: 'قائمة الإعدادات (السمة، اللغة، الصوت، حجم الخط)',
+      guideMenuDesc: 'بالنقر على أيقونة ☰ في أعلى يسار كل صفحة تُفتح قائمة يمكنك منها اختيار سمة الألوان، وتغيير اللغة بين الفارسية والعربية والإنجليزية، وتشغيل أصوات النقر أو إيقافها، وتكبير الصفحة أو تصغيرها بزرّي + و −.',
+      guideHeroStatusName: 'حالة المجلس المباشرة',
+      guideHeroStatusDesc: 'فوق الشارة والعدّ التنازلي في الصفحة الأولى شارة صغيرة بنقطة حمراء. إذا وَمَضت النقطة فالمجلس قائم الآن، وإلا فلم يحن موعده بعد. وبالنقر على الشارة تُفتح نافذة صغيرة تعرض اليوم والساعة والعنوان الدقيق مع زر الاتجاهات.',
+      guideAnnounceName: 'الإعلانات الخاصة',
+      guideAnnounceDesc: 'عند وجود مناسبة أو خبر مهم تظهر رسالة قصيرة أعلى الصفحة الأولى؛ انقر عليها لقراءة النص كاملاً.',
+      guideMapName: 'الخريطة والاتجاهات',
+      guideMapDesc: 'تعرض الخريطة التفاعلية الموقع الدقيق لمسجد الحجة القائم (عج)، مكان المجلس الأسبوعي. بالنقر على العلامة تظهر أزرار «نشان» و«بلد» لفتح المسار مباشرة في تطبيق الخرائط الذي تفضله.',
+      guideSocialName: 'وسائل التواصل الاجتماعي',
+      guideSocialDesc: 'تنقلك بطاقات إيتا وروبيكا وإنستغرام مباشرة إلى الصفحة الرسمية للهيئة في كل تطبيق. وبالنقر على أيقونة النسخ تنسخ معرّف القناة لتجد الهيئة بسهولة في أي تطبيق.',
+      guidePagesName: 'الوصول إلى أقسام الموقع',
+      guidePagesDesc: 'في أسفل الصفحة الأولى خمس بطاقات: «الأدعية والزيارات» و«النذورات» و«عدّاد الصلوات» و«مساعد الموقع» و«تحويل التاريخ». بالنقر على أيٍّ منها تنتقل إلى صفحتها، وبزر «رجوع» أعلى كل صفحة تعود إلى الصفحة الأولى.',
+      guideDownloadsName: 'مركز التنزيل',
+      guideDownloadsDesc: 'خيار «مركز التنزيل» في القائمة (☰) أعلى الصفحة الأولى هو مركز تنزيل الموقع كله. تجد فيه قائمة بكل الملفات القابلة للتنزيل (زيارة عاشوراء وغيرها) في مكان واحد، ويمكنك تنزيل كل ملف مع نسبة التقدم أو إلغاؤه أثناء التنزيل.',
+      guideLibraryName: '📖 الأدعية والزيارات (المكتبة)',
+      guideLibraryDesc: 'في هذه الصفحة يمكنك قراءة نص زيارة عاشوراء وسائر الأدعية أو الاستماع إلى صوتها. انقر على عنوان أي دعاء ليُفتح؛ وأزرار التشغيل وتنزيل الصوت متاحة في القسم نفسه.',
+      guideNazrName: '🕯️ النذورات',
+      guideNazrDesc: 'تعرض هذه الصفحة رقم البطاقة المصرفية لتحويل نذور الهيئة النقدية. بالنقر على أيقونة النسخ تنسخ الرقم مباشرة وتلصقه في تطبيق مصرفك.',
+      guideSalavatName: '📿 عدّاد الصلوات',
+      guideSalavatDesc: 'في هذه الصفحة تسجّل عدد الصلوات التي ترسلها بنقرة واحدة؛ ويُحفظ العدّ تلقائياً على هاتفك لتواصل من حيث توقفت عند عودتك. ويوجد زر إعادة الضبط لبدء العدّ من جديد.',
+      guideFaqName: '❓ مساعد الموقع',
+      guideFaqDesc: 'في هذه الصفحة مساعد حواري يعرض الأسئلة الشائعة عن الهيئة مصنفةً. اختر فئة (مثل «النذورات والمساعدات المالية») ثم السؤال الذي تريده لتظهر الإجابة كرسالة؛ وإن كانت الإجابة تتعلق بقسم آخر من الموقع يظهر تحتها زر للانتقال إليه مباشرة.',
+      guideConvertName: '📅 تحويل التاريخ',
+      guideConvertDesc: 'تحوّل هذه الصفحة التاريخ بين التقويمات الشمسي والميلادي والقمري. اختر التقويم الأصلي من التبويبات أعلى الصفحة، وأدخل اليوم/الشهر/السنة بالتمرير لتظهر النتيجة في التقاويم الثلاثة معاً؛ وبزر النسخ بجانب كل نتيجة يمكنك نسخ ذلك التاريخ.',
+      guideCardName: '🎴 بطاقة مشاركة اليوم',
+      guideCardDesc: 'في تقويم الصفحة الأولى يمكنك صنع بطاقة جميلة لأي يوم من سنة 1405: اضغط على اليوم واختر «إنشاء بطاقة مشاركة لهذا اليوم» (أو ابدأ من زر «بطاقة المشاركة» بجانب «اليوم»). اختر سمة الألوان وحجم القصة أو المنشور المربع، ثم أرسلها لأصدقائك بزر «إرسال» أو احفظها بزر «تنزيل الصورة».',
+      guideFrameName: '📸 صانع الإطارات',
+      guideFrameDesc: 'في هذه الصفحة تختار صورتك لتُدمج مع إطار هيئة كاظميون الخاص. بعد رفع الصورة يمكنك تحريكها وتكبيرها، وفي النهاية تحفظ النسخة النهائية المناسبة لقصص إنستغرام بزر التنزيل.',
+      guideOwqatName: '🕌 أوقات الصلاة',
+      guideOwqatDesc: 'تعرض هذه الصفحة أذان الفجر والشروق والغروب وأذان الظهر والمغرب ومنتصف الليل الشرعي لخرم‌آباد ولعدة مدن أخرى. من قسم «مدن أخرى» يمكنك اختيار مدينتك (مثل طهران أو قم أو مشهد أو كربلاء أو النجف) لتظهر أوقات الصلاة فيها.',
+      guideQaemName: '🕌 مسجد القائم',
+      guideQaemDesc: 'تخصص هذه الصفحة لمجلس قراءة دعاء الندبة «جمعة الانتظار» الذي يُقام كل جمعة الساعة 7 صباحاً بأصوات ذاكري أهل البيت (ع) في قاضي‌آباد، الشارع التاسع، مسجد القائم (عج). في أعلى الصفحة ترى العدّ التنازلي للمجلس القادم وشارة حالة المجلس؛ وبالنقر على الشارة يُفتح اليوم والساعة والعنوان الدقيق مع زر الاتجاهات على الخريطة.'
     },
     en: {
       backBtn: 'Back',
@@ -1237,7 +1277,45 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
       footerSub: 'Official channel of Heyat-e Kazemiyoon Khorramabad',
       quickMenuTheme: 'Theme',
       quickMenuLang: 'Language',
-      quickMenuSound: 'Sound'
+      quickMenuSound: 'Sound',
+      guideClockName: 'Tehran & Karbala clock',
+      guideClockDesc: 'At the top of the home page the time in Tehran is shown. Tap it to add the time in holy Karbala and the temperature; tap again to return to the original view.',
+      guidePwaName: 'Install the web app',
+      guidePwaDesc: 'There is a dedicated page for installing the site as an app. Tap “Install app” in the ☰ menu to open it, then install the site like a real app on your phone or computer with one big button; if your browser doesn’t support direct install, a step-by-step guide is there too.',
+      guideTourName: '🕋 3D Pilgrimage',
+      guideTourDesc: 'From the “Quick access” grid on the home page, tap “3D Pilgrimage”. Each holy shrine (Masjid al-Haram, the Prophet’s shrine, Imam Ali, Imam Husayn, Abbas, Imam Reza, Lady Masumah and Jamkaran Mosque) has its own card; tap “Enter virtual tour” to open the tour in a new tab. These tours belong to other websites, and the Heyat takes no responsibility for their content or performance.',
+      guideMenuName: 'Settings menu (theme, language, sound, text size)',
+      guideMenuDesc: 'Tap the ☰ icon at the top left of any page to open a menu where you can choose the site’s color theme, switch the language between Persian, Arabic and English, turn click sounds on or off, and enlarge or shrink the whole page with the + and − buttons.',
+      guideHeroStatusName: 'Live gathering status',
+      guideHeroStatusDesc: 'Above the badge and countdown on the home page there is a small badge with a red dot. If the dot blinks, the gathering is happening right now; otherwise its time hasn’t come yet. Tap the badge to open a small window showing the day, time and exact address, with a directions button.',
+      guideAnnounceName: 'Special announcements',
+      guideAnnounceDesc: 'Whenever there is an occasion or important news, a short message appears at the top of the home page; tap it to read the full text.',
+      guideMapName: 'Map and directions',
+      guideMapDesc: 'The interactive map shows the exact location of Masjid Hazrat Qa’im (aj), where the weekly gathering is held. Tap the marker to reveal the “Neshan” and “Balad” buttons, which open the route directly in your preferred map app.',
+      guideSocialName: 'Social networks',
+      guideSocialDesc: 'The Eitaa, Rubika and Instagram cards take you straight to the Heyat’s official page in each messenger. Tap the copy icon to copy the channel ID so you can easily find the Heyat in any messenger.',
+      guidePagesName: 'Reaching the site sections',
+      guidePagesDesc: 'At the bottom of the home page there are five cards: “Supplications & Ziyarat”, “Nadhr (Offerings)”, “Salawat Counter”, “Site Assistant” and “Date Converter”. Tap any of them to open its page, and use the “Back” button at the top of each page to return home.',
+      guideDownloadsName: 'Download center',
+      guideDownloadsDesc: 'The “Download center” option in the hamburger menu (☰) at the top of the home page is the site-wide download hub. It lists every downloadable file (Ziyarat Ashura and more) in one place, and you can download each one with a progress percentage or cancel it while downloading.',
+      guideLibraryName: '📖 Supplications & Ziyarat (library)',
+      guideLibraryDesc: 'On this page you can read the text of Ziyarat Ashura and other supplications, or listen to their audio. Tap a supplication’s title to open it; the play and download buttons are available in the same section.',
+      guideNazrName: '🕯️ Nadhr (offerings)',
+      guideNazrDesc: 'This page shows the bank card number for sending the Heyat’s cash offerings. Tap the copy icon to copy the card number and paste it into your banking app.',
+      guideSalavatName: '📿 Salawat counter',
+      guideSalavatDesc: 'On this page you can record the number of salawat you send with a single tap; the count is saved automatically on your phone so you can continue from where you left off. A reset button is also available to start counting again.',
+      guideFaqName: '❓ Site assistant',
+      guideFaqDesc: 'This page holds a chat-style assistant that shows frequently asked questions about the Heyat, grouped by category. Choose a category (for example “Offerings & donations”), then tap the question you want and the answer appears as a message; if the answer relates to another part of the site, a button below it takes you there directly.',
+      guideConvertName: '📅 Date converter',
+      guideConvertDesc: 'This page converts dates between the Solar Hijri, Gregorian and Lunar Hijri calendars. Choose the source calendar from the tabs at the top, enter the day/month/year by scrolling, and the result appears in all three calendars at once; the copy button next to each result copies that date.',
+      guideCardName: '🎴 Day share card',
+      guideCardDesc: 'In the home-page calendar you can create a beautiful card for any day of the year 1405: tap a day and choose “Create share card for this day” (or start from the “Share card” button next to “Today”). Pick a color theme and a story or square-post size, then send it to friends with “Send” or save it with “Download image”.',
+      guideFrameName: '📸 Photo frame maker',
+      guideFrameDesc: 'On this page you pick your own photo to combine with the Kazemiyoon Heyat’s special frame. After uploading, you can move and zoom the photo, and finally save the finished version, sized for Instagram stories, with the download button.',
+      guideOwqatName: '🕌 Prayer times',
+      guideOwqatDesc: 'This page shows the Fajr adhan, sunrise and sunset, Dhuhr and Maghrib adhan and the Islamic midnight for Khorramabad and several other cities. From the “Other cities” section you can choose your city (such as Tehran, Qom, Mashhad, Karbala or Najaf) to see its prayer times.',
+      guideQaemName: '🕌 Masjid Qa’im',
+      guideQaemDesc: 'This page is dedicated to the recitation of Dua Nudbah, the “Fridays of Waiting”, held every Friday at 7 AM with the voices of the Ahl al-Bayt (a) reciters in Qazi-Abad, 9th Street, Masjid Qa’im (aj). At the top you see the countdown to the next gathering and the status badge; tap the badge to open the day, time and exact address with a directions button on the map.'
     }
   };
 

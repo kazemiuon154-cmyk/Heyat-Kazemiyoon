@@ -48,6 +48,37 @@
 
 .isl[data-press]{ scale:.962; transition:scale .2s ease; }
 
+/* جدید: دستگیره‌ی سفید پایین کارت بازشده */
+.isl-grab{ position:absolute; left:50%; bottom:7px; translate:-50% 0; width:44px; height:5px; border-radius:3px; background:rgba(255,255,255,.55); opacity:0; pointer-events:none; touch-action:none; z-index:6; transition:opacity .3s ease; }
+.isl-grab::before{ content:""; position:absolute; inset:-14px -26px; }
+.isl[data-state="expanded"] .isl-grab{ opacity:1; pointer-events:auto; cursor:grab; }
+.isl[data-state="expanded"] .isl-x{ padding-bottom:26px; }
+/* جدید: روی هشدار، کشیدن به بالا از روی دکمه‌ها هم کار کند (قبلاً مرورگر حرکت را برای اسکرول می‌گرفت و کارت گیر می‌کرد) */
+.isl[data-state="alert"] button, .isl[data-state="alert"] a{ touch-action:none; }
+/* جدید: ساعت دیجیتال بالای کارت بازشده */
+.isl-xc .isl-xdt{ font-size:13px; font-weight:800; color:rgba(246,240,221,.8); }
+.isl-x.dtc .isl-xdt{ display:block; }
+.isl-dg{ padding:10px 8px 9px; }
+.dg-r{ display:flex; align-items:center; justify-content:center; gap:5px; direction:ltr; }
+.dg-b{ flex:1; min-width:0; max-width:76px; text-align:center; padding:9px 0 6px; border-radius:15px; background:rgba(255,255,255,.07); box-shadow:inset 0 0 0 1px rgba(255,255,255,.12), inset 0 1px 0 rgba(255,255,255,.14), 0 7px 12px -8px rgba(0,0,0,.65); }
+.dg-b b{ display:block; font-size:30px; font-weight:900; line-height:1.1; color:#fff; font-variant-numeric:tabular-nums; }
+.dg-b small{ display:block; margin-top:2px; font-size:10px; font-weight:800; color:rgba(246,240,221,.72); }
+.dg-r i{ font-style:normal; font-size:24px; font-weight:900; color:rgba(255,255,255,.5); margin-top:-12px; }
+.dg-ap{ flex:none; min-width:26px; text-align:center; font-size:13px; font-weight:900; color:#ffcb3d; }
+@media (max-width:359px){ .dg-b b{ font-size:25px; } .dg-ap{ min-width:22px; font-size:12px; } }
+/* جدید: انیمیشن اعداد ساعت و تاریخ وسط‌چین */
+.dg-b b{ will-change:transform, opacity; }
+.dg-r i{ animation:dgblink 1s steps(2, end) infinite; }
+@keyframes dgblink{ 50%{ opacity:.18; } }
+.isl-d .isl-dh{ text-align:center; padding:3px 0 1px; }
+.isl-d .dd{ display:flex; flex-direction:column; align-items:center; gap:2px; font-size:inherit; }
+.isl-d .dd .dxw{ display:inline-flex; align-items:center; gap:9px; font-style:normal; font-size:12.5px; font-weight:800; letter-spacing:.05em; color:#ffcb3d; }
+.isl-d .dd .dxw::before, .isl-d .dd .dxw::after{ content:""; width:26px; height:1px; background:linear-gradient(90deg, transparent, rgba(255,203,61,.75)); }
+.isl-d .dd .dxw::after{ transform:scaleX(-1); }
+.isl-d .dd .dxn{ font-size:23px; font-weight:900; line-height:1.3; color:#fff; }
+.isl-d .dl{ margin-top:3px; font-size:12px; font-weight:700; color:rgba(246,240,221,.74); }
+.isl-d .isl-oi{ display:flex; align-items:center; justify-content:center; gap:7px; text-align:center; }
+@media (max-width:359px){ .isl-d .dd .dxn{ font-size:20px; } }
 .isl[data-state="expanded"]{ cursor:default; touch-action:pan-y; box-shadow:inset 0 0 0 1px rgba(255,203,61,.24), inset 0 1px 0 rgba(255,255,255,.14), 0 18px 40px -14px rgba(0,0,0,.7), 0 0 26px -8px rgba(var(--glow),.62);
   transition:opacity .45s ease, translate .8s var(--isl-spring), scale .8s var(--isl-spring), box-shadow .22s ease; }
 

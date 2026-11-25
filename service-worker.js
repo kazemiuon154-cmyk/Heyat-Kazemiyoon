@@ -1,6 +1,8 @@
 // service-worker.js — هیئت کاظمیون خرم‌آباد
 // نسخه کش را با هر تغییر مهم در سایت افزایش دهید تا کاربران نسخه جدید را بگیرند
 // تاریخچه‌ی نسخه‌ها (جدیدترین بالا):
+//   v49: بهبود کار آفلاین (پیش‌کش آیکون‌ها و صفحه‌ی offline.html، تطبیق بدون پارامتر آدرس، زنجیره‌ی جایگزین صفحه)؛ هشدار «به مجلس برسید» ۱۰ دقیقه مانده به مراسم؛ ترجمه‌ی عربی/انگلیسی بخش‌های فارسی
+//   v38: جدول قمری در یک فایل مشترک (lunar-data.js)؛ حذف کلید صدای قدیمی kazemiuon-muted از status.html
 //   v37: بازگرداندن چرخ طبل به نسخه‌ی قبلی (v35)
 //   v36: چرخ طبل به‌شکل استوانه‌ی سه‌بعدی واقعی (محاسبه‌ی موقعیت روی استوانه بدون خواندن DOM، هم‌زمان با اسکرول)، قاب انتخاب هم‌رنگ صفحه، چرخش ورودی و لمس نرم
 //   v35: روان‌تر شدن باز/بسته شدن برگه‌ی آویز و چرخ طبل (انیمیشن با transform به‌جای clip-path، حذف mask، دندانه‌ها با transform، شانه‌های زبانه روی کارت گرافیک)
@@ -34,7 +36,7 @@
 //   v8:  صفحه‌ی جدید «زیارت سه‌بعدی»، دسته‌بندی منوی دسترسی سریع و انتقال مرکز دانلود به منوی همبرگری
 //   v7:  کارت اشتراک‌گذاری روز، اصلاح اوقات شرعی نزدیک نوروز و تاریخ قمری صفحه‌ی تبدیل، ثبت درست SW در همه‌ی صفحه‌ها
 //   v6:  کارت اشتراک‌گذاری به index.html اضافه شد
-const CACHE_VERSION = 'kazemiuon-v37';
+const CACHE_VERSION = 'kazemiuon-v49';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -61,12 +63,19 @@ const CORE_ASSETS = [
   './gset.js',
   './isl.css',
   './isl.js',
+  './lunar-data.js',
   './kzm-core.js',
+  './kzm-i18n.js',
   './other-icon.webp',
   './404.html',
   './manifest.json',
   './logo.jpg',
-  './logo.webp'
+  './logo.webp',
+  './offline.html',
+  './icon-192.png',
+  './icon-512.png',
+  './icon-maskable-512.png',
+  './apple-touch-icon.png'
 ];
 
 // نصب: فایل‌های اصلی را از قبل کش کن
@@ -132,12 +141,15 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(new Promise((resolve) => {
       let settled = false;
       const done = (r) => { if (!settled) { settled = true; resolve(r); } };
+      // زنجیره‌ی جایگزین آفلاین: همان صفحه (بدون پارامتر) ← صفحه‌ی اول ← offline.html
       const fallback = () =>
-        caches.match(req).then((cached) =>
-          cached || (isHTML ? caches.match('./kazemiyoon.html') : undefined) || Response.error()
+        caches.match(req, { ignoreSearch: true }).then((cached) =>
+          cached ||
+          (isHTML ? caches.match('./index.html').then((i) => i || caches.match('./kazemiyoon.html')).then((i) => i || caches.match('./offline.html')) : undefined) ||
+          Response.error()
         );
       const timer = isHTML ? setTimeout(() => {
-        caches.match(req).then((cached) => { if (cached) done(cached); });
+        caches.match(req, { ignoreSearch: true }).then((cached) => { if (cached) done(cached); });
       }, 4000) : null;
       fetch(req)
         .then((res) => { clearTimeout(timer); event.waitUntil(store(req, res)); done(res); })
@@ -147,7 +159,7 @@ self.addEventListener('fetch', (event) => {
   }
 
   event.respondWith(
-    caches.match(req).then((cached) => {
+    caches.match(req, { ignoreSearch: true }).then((cached) => {
       const networkFetch = fetch(req)
         .then((res) => { event.waitUntil(store(req, res)); return res; })
         .catch(() => cached || Response.error()); // آفلاین: اگه شبکه در دسترس نبود، همون کش رو نگه دار

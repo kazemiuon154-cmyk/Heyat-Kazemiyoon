@@ -109,19 +109,13 @@ function lunarMonthName(m){ return LUNAR_MONTHS_L[CUR_LANG][m - 1]; }
 var HIJRI_SUFFIX = { fa:'ه‍.ق', ar:'هـ', en:'AH' };
 
 /* آغاز ماه‌های قمری از تقویم رسمی — [سال قمری، ماه قمری، سال شمسی، ماه شمسی، روز شمسی]
-   (کپی همان جدول kazemiyoon.html و convert.html؛ سال جدید که اضافه شد، اینجا هم اضافه شود) */
-var LUNAR_STARTS_RAW = [
-  [1447,10,1405,1,1],  [1447,11,1405,1,30], [1447,12,1405,2,28],
-  [1448,1,1405,3,26],  [1448,2,1405,4,25],  [1448,3,1405,5,23],
-  [1448,4,1405,6,22],  [1448,5,1405,7,20],  [1448,6,1405,8,20],
-  [1448,7,1405,9,20],  [1448,8,1405,10,20], [1448,9,1405,11,19],
-  [1448,10,1405,12,19]
-];
-var LUNAR_END = [1405,12,29];
+   (منبع: lunar-data.js — فقط همان‌جا ویرایش شود) */
+var LUNAR_STARTS_RAW = (window.KZM_LUNAR || { starts:[], end:[1405,12,29] }).starts;   /* جدول در lunar-data.js */
+var LUNAR_END = (window.KZM_LUNAR || { starts:[], end:[1405,12,29] }).end;
 var LUNAR_STARTS = LUNAR_STARTS_RAW.map(function(r){ return { y:r[0], m:r[1], jdn:j2jdn(r[2], r[3], r[4]) }; });
 var LUNAR_END_JDN = j2jdn(LUNAR_END[0], LUNAR_END[1], LUNAR_END[2]);
 function lunarOf(jdn){
-  if(jdn < LUNAR_STARTS[0].jdn || jdn > LUNAR_END_JDN) return null;
+  if(!LUNAR_STARTS.length || jdn < LUNAR_STARTS[0].jdn || jdn > LUNAR_END_JDN) return null;
   for(var i = LUNAR_STARTS.length - 1; i >= 0; i--){
     if(jdn >= LUNAR_STARTS[i].jdn){
       var nx = LUNAR_STARTS[i + 1];
@@ -394,7 +388,7 @@ function parseLastDoa(raw){
   }catch(e){ return null; }
 }
 window.KZM_CORE = { ok:!!tehranFmt, setLang:setCoreLang, fa:fa, g2jdn:g2jdn, jdnWeekday:jdnWeekday, tehranParts:tehranParts,
-  tz:function(){ return tehranOffsetHours(new Date()); }, prayerFor:prayerFor, prayerModel:prayerModel, eventsModel:eventsModel, todayModel:todayModel,
+  tz:function(){ return tehranOffsetHours(new Date()); }, jdn2j:jdn2j, prayerFor:prayerFor, prayerModel:prayerModel, eventsModel:eventsModel, todayModel:todayModel,
   durText:durText, remainText:remainText, daysAhead:daysAhead, fmtClock:fmtClock, weekdayName:weekdayName, jalaliMonthName:jalaliMonthName,
   lunarMonthName:lunarMonthName, HIJRI_SUFFIX:HIJRI_SUFFIX, PRAYER_NAMES:PRAYER_NAMES, WEEKLY:WEEKLY, ZEKR_BY_DAY:ZEKR_BY_DAY,
   ZEKR_TARGET:ZEKR_TARGET, zekrKey:zekrKey };

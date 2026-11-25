@@ -10,6 +10,7 @@
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
 
+<script src="lunar-data.js"></script>
 <title>ورود به سایت | هیئت کاظمیون، مسجد قائم و سایر</title>
 <meta name="description" content="ورود به سایت — هیئت کاظمیون خرم‌آباد، مسجد قائم (عج) و سایر بخش‌ها">
 <link rel="icon" href="logo.jpg">
@@ -1765,6 +1766,37 @@ html.isl-pad .portal{ margin-top:var(--isl-pad, 40px); min-height:calc(100vh - v
 .isl[data-hide], .isl[data-sh]{ opacity:0; translate:0 -22px; scale:.5; pointer-events:none; transition:opacity .3s ease, translate .5s cubic-bezier(.5,0,.75,0), scale .5s cubic-bezier(.5,0,.75,0); }
 .isl[data-sh]{ scale:.8; }
 .isl[data-press]{ scale:.962; transition:scale .2s ease; }
+/* جدید: دستگیره‌ی سفید پایین کارت بازشده */
+.isl-grab{ position:absolute; left:50%; bottom:7px; translate:-50% 0; width:44px; height:5px; border-radius:3px; background:rgba(255,255,255,.55); opacity:0; pointer-events:none; touch-action:none; z-index:6; transition:opacity .3s ease; }
+.isl-grab::before{ content:""; position:absolute; inset:-14px -26px; }
+.isl[data-state="expanded"] .isl-grab{ opacity:1; pointer-events:auto; cursor:grab; }
+.isl[data-state="expanded"] .isl-x{ padding-bottom:26px; }
+/* جدید: روی هشدار، کشیدن به بالا از روی دکمه‌ها هم کار کند (قبلاً مرورگر حرکت را برای اسکرول می‌گرفت و کارت گیر می‌کرد) */
+.isl[data-state="alert"] button, .isl[data-state="alert"] a{ touch-action:none; }
+/* جدید: ساعت دیجیتال بالای کارت بازشده */
+.isl-xc .isl-xdt{ font-size:13px; font-weight:800; color:rgba(246,240,221,.8); }
+.isl-x.dtc .isl-xdt{ display:block; }
+.isl-dg{ padding:10px 8px 9px; }
+.dg-r{ display:flex; align-items:center; justify-content:center; gap:5px; direction:ltr; }
+.dg-b{ flex:1; min-width:0; max-width:76px; text-align:center; padding:9px 0 6px; border-radius:15px; background:rgba(255,255,255,.07); box-shadow:inset 0 0 0 1px rgba(255,255,255,.12), inset 0 1px 0 rgba(255,255,255,.14), 0 7px 12px -8px rgba(0,0,0,.65); }
+.dg-b b{ display:block; font-size:30px; font-weight:900; line-height:1.1; color:#fff; font-variant-numeric:tabular-nums; }
+.dg-b small{ display:block; margin-top:2px; font-size:10px; font-weight:800; color:rgba(246,240,221,.72); }
+.dg-r i{ font-style:normal; font-size:24px; font-weight:900; color:rgba(255,255,255,.5); margin-top:-12px; }
+.dg-ap{ flex:none; min-width:26px; text-align:center; font-size:13px; font-weight:900; color:#ffcb3d; }
+@media (max-width:359px){ .dg-b b{ font-size:25px; } .dg-ap{ min-width:22px; font-size:12px; } }
+/* جدید: انیمیشن اعداد ساعت و تاریخ وسط‌چین */
+.dg-b b{ will-change:transform, opacity; }
+.dg-r i{ animation:dgblink 1s steps(2, end) infinite; }
+@keyframes dgblink{ 50%{ opacity:.18; } }
+.isl-d .isl-dh{ text-align:center; padding:3px 0 1px; }
+.isl-d .dd{ display:flex; flex-direction:column; align-items:center; gap:2px; font-size:inherit; }
+.isl-d .dd .dxw{ display:inline-flex; align-items:center; gap:9px; font-style:normal; font-size:12.5px; font-weight:800; letter-spacing:.05em; color:#ffcb3d; }
+.isl-d .dd .dxw::before, .isl-d .dd .dxw::after{ content:""; width:26px; height:1px; background:linear-gradient(90deg, transparent, rgba(255,203,61,.75)); }
+.isl-d .dd .dxw::after{ transform:scaleX(-1); }
+.isl-d .dd .dxn{ font-size:23px; font-weight:900; line-height:1.3; color:#fff; }
+.isl-d .dl{ margin-top:3px; font-size:12px; font-weight:700; color:rgba(246,240,221,.74); }
+.isl-d .isl-oi{ display:flex; align-items:center; justify-content:center; gap:7px; text-align:center; }
+@media (max-width:359px){ .isl-d .dd .dxn{ font-size:20px; } }
 .isl[data-state="expanded"]{ cursor:default; touch-action:pan-y; box-shadow:inset 0 0 0 1px rgba(255,203,61,.24), inset 0 1px 0 rgba(255,255,255,.14), 0 18px 40px -14px rgba(0,0,0,.7), 0 0 26px -8px rgba(var(--glow),.62);
   transition:opacity .45s ease, translate .8s var(--isl-spring), scale .8s var(--isl-spring), box-shadow .22s ease; }
 .isl.dragging, .isl.dragging .isl-s{ transition:none !important; }
@@ -3458,18 +3490,12 @@ var HIJRI_SUFFIX = { fa:'ه‍.ق', ar:'هـ', en:'AH' };
 
 /* آغاز ماه‌های قمری از تقویم رسمی — [سال قمری، ماه قمری، سال شمسی، ماه شمسی، روز شمسی]
    (کپی همان جدول kazemiyoon.html و convert.html؛ سال جدید که اضافه شد، اینجا هم اضافه شود) */
-var LUNAR_STARTS_RAW = [
-  [1447,10,1405,1,1],  [1447,11,1405,1,30], [1447,12,1405,2,28],
-  [1448,1,1405,3,26],  [1448,2,1405,4,25],  [1448,3,1405,5,23],
-  [1448,4,1405,6,22],  [1448,5,1405,7,20],  [1448,6,1405,8,20],
-  [1448,7,1405,9,20],  [1448,8,1405,10,20], [1448,9,1405,11,19],
-  [1448,10,1405,12,19]
-];
-var LUNAR_END = [1405,12,29];
+var LUNAR_STARTS_RAW = (window.KZM_LUNAR || { starts:[], end:[1405,12,29] }).starts;   /* جدول در lunar-data.js */
+var LUNAR_END = (window.KZM_LUNAR || { starts:[], end:[1405,12,29] }).end;
 var LUNAR_STARTS = LUNAR_STARTS_RAW.map(function(r){ return { y:r[0], m:r[1], jdn:j2jdn(r[2], r[3], r[4]) }; });
 var LUNAR_END_JDN = j2jdn(LUNAR_END[0], LUNAR_END[1], LUNAR_END[2]);
 function lunarOf(jdn){
-  if(jdn < LUNAR_STARTS[0].jdn || jdn > LUNAR_END_JDN) return null;
+  if(!LUNAR_STARTS.length || jdn < LUNAR_STARTS[0].jdn || jdn > LUNAR_END_JDN) return null;
   for(var i = LUNAR_STARTS.length - 1; i >= 0; i--){
     if(jdn >= LUNAR_STARTS[i].jdn){
       var nx = LUNAR_STARTS[i + 1];
@@ -3744,7 +3770,7 @@ function parseLastDoa(raw){
 /*CORE-END*/
 /* کپسول زنده از همین هسته استفاده می‌کند */
 window.KZM_CORE = { ok:!!tehranFmt, setLang:setCoreLang, fa:fa, g2jdn:g2jdn, jdnWeekday:jdnWeekday, tehranParts:tehranParts,
-  tz:function(){ return tehranOffsetHours(new Date()); }, prayerFor:prayerFor, prayerModel:prayerModel, eventsModel:eventsModel, todayModel:todayModel,
+  tz:function(){ return tehranOffsetHours(new Date()); }, jdn2j:jdn2j, prayerFor:prayerFor, prayerModel:prayerModel, eventsModel:eventsModel, todayModel:todayModel,
   durText:durText, remainText:remainText, daysAhead:daysAhead, fmtClock:fmtClock, weekdayName:weekdayName, jalaliMonthName:jalaliMonthName,
   lunarMonthName:lunarMonthName, HIJRI_SUFFIX:HIJRI_SUFFIX, PRAYER_NAMES:PRAYER_NAMES, WEEKLY:WEEKLY, ZEKR_BY_DAY:ZEKR_BY_DAY,
   ZEKR_TARGET:ZEKR_TARGET, zekrKey:zekrKey };
@@ -4590,7 +4616,11 @@ window.KZM_CORE = { ok:!!tehranFmt, setLang:setCoreLang, fa:fa, g2jdn:g2jdn, jdn
     unitD:['روز', 'يوم', 'd'], unitH:['ساعت', 'س', 'h'], unitM:['دقیقه', 'د', 'min'],
     xCfg:['تنظیمات کپسول جادویی', 'إعدادات الكبسولة السحرية', 'Magic capsule settings'], xClose:['بستن', 'إغلاق', 'Close'],
     lead:['{d} مانده تا {n}', 'باقي {d} على {n}', '{d} until {n}'], startP:['وقت {n}', 'حان وقت {n}', '{n} time'], startE:['{n} شروع شد', 'بدأ {n}', '{n} is starting'],
+    hurryT:['به مجلس برسید','سارعوا إلى المجلس','Join the gathering'], hurryS:['{n} نزدیک است؛ بشتابید','{n} على الأبواب، فسارعوا','{n} is about to begin'],
     day1:['۲۴ ساعت', '٢٤ ساعة', '24 hours'], min5:['۵ دقیقه', '٥ دقائق', '5 minutes'],
+    afterU:['دقیقه پیش', 'دقيقة مضت', 'min ago'], afterL:['{n}', '{n}', '{n}'], afterT:['{d} از {n} گذشته', 'مضى {d} على {n}', '{d} since {n}'],
+    afterS:['نماز اول وقت فراموش نشود', 'لا تنسَ الصلاة في أول وقتها', 'Don’t forget to pray at the earliest time'],
+    dgH:['ساعت', 'ساعة', 'Hours'], dgM:['دقیقه', 'دقيقة', 'Minutes'], dgS:['ثانیه', 'ثانية', 'Seconds'], dgAm:['ق.ظ', 'ص', 'AM'], dgPm:['ب.ظ', 'م', 'PM'],
     now:['اکنون', 'الآن', 'Now'], half:['نیم ساعت', 'نصف ساعة', '30 minutes'], hour1:['یک ساعت', 'ساعة واحدة', 'an hour'], hour2:['دو ساعت', 'ساعتان', '2 hours'],
     zekrL:['ذکر روز', 'ذكر اليوم', 'Daily dhikr'], salL:['صلوات‌شمار شما', 'عدّاد صلواتك', 'Your salawat'], salA:['صلوات', 'الصلوات', 'Salawat'], salB:['فرج', 'الفرج', 'Faraj'], salC:['استغفار', 'الاستغفار', 'Istighfar'],
     emptyX:['بخشی برای نمایش انتخاب نشده است', 'لم يتم اختيار أي قسم للعرض', 'No sections selected to show'],
@@ -4751,7 +4781,7 @@ window.KZM_CORE = { ok:!!tehranFmt, setLang:setCoreLang, fa:fa, g2jdn:g2jdn, jdn
       '<span class="isl-lb"></span><span class="isl-tm"><b class="rl-box"></b><i></i></span><span class="isl-ck"><b class="rl-box"></b></span></span>' +
       '<span class="isl-tw"><button type="button" class="isl-tb p" data-a="tpause">' + svg('pause') + '</button><button type="button" class="isl-tb x" data-a="tcancel">' + svg('x') + '</button><span class="isl-tt"><small></small><b class="rl-box"></b></span><span class="isl-ring"><svg class="rg" viewBox="0 0 24 24" aria-hidden="true"><circle class="tr" cx="12" cy="12" r="10.5"/><circle class="pg" cx="12" cy="12" r="10.5"/></svg><span class="isl-ic"></span></span><i class="isl-tbar"></i></span></div></div>' +
     '<div class="isl-s isl-a"><div class="isl-ar"><span class="isl-aic"></span><span class="isl-at"><b></b><small></small></span><span class="isl-acd rl-box"></span></div><div class="isl-ab"></div><i class="isl-abar"></i></div>' +
-    '<div class="isl-s isl-x"></div>';
+    '<div class="isl-s isl-x"></div><div class="isl-grab" aria-hidden="true"></div>';   /* جدید: دستگیره‌ی کشیدن */
   body.appendChild(root);
   var scrim = doc.createElement('div'); scrim.className = 'isl-scrim'; body.appendChild(scrim);
   var sr = doc.createElement('div'); sr.className = 'isl-sr'; sr.setAttribute('role', 'status'); sr.setAttribute('aria-live', 'polite'); body.appendChild(sr);
@@ -4900,9 +4930,16 @@ window.KZM_CORE = { ok:!!tehranFmt, setLang:setCoreLang, fa:fa, g2jdn:g2jdn, jdn
     if(!fmtCache[ck]){ try{ fmtCache[ck] = new Intl.DateTimeFormat(LOC[lang()], Object.assign({ timeZone:'Asia/Tehran' }, opts)); }catch(e){ fmtCache[ck] = { format:function(){ return ''; } }; } }
     return fmtCache[ck];
   }
+  /* جدید: تاریخ شمسی حتی اگر جدول قمری (lunar-data.js) نرسیده باشد درست ساخته می‌شود */
+  function dateParts(s){
+    var m = s.day && s.day.today;
+    if(m) return { wd:m.weekday, d:m.jd, m:m.jm, y:m.jy };
+    if(C.jdn2j && s.jdn != null){ var j = C.jdn2j(s.jdn); return { wd:C.weekdayName(C.jdnWeekday(s.jdn)), d:j.d, m:j.m, y:j.y }; }
+    return null;
+  }
   function dateLine(s, withYear){
-  var m = s.day && s.day.today;
-  if(m) return m.weekday + ' ' + C.fa(m.jd) + ' ' + C.jalaliMonthName(m.jm) + (withYear ? ' ' + C.fa(m.jy) : '');
+  var m = dateParts(s);
+  if(m) return m.wd + ' ' + C.fa(m.d) + ' ' + C.jalaliMonthName(m.m) + (withYear ? ' ' + C.fa(m.y) : '');
   return dfmt(withYear ? { weekday:'long', day:'numeric', month:'long', year:'numeric' } : { weekday:'long', day:'numeric', month:'long' }, withYear ? 'full' : 'wd').format(new Date());
 }
 function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) + (sec ? ':' + f(p2(t.s)) : ''); }
@@ -4952,8 +4989,27 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
   function pagesList(){ var l = []; ['clock', 'prayer', 'date', 'event', 'guide', 'occasion', 'zekr', 'salavat'].forEach(function(k){ if(cfg.pages[k] && pageOk(k)) l.push(k); }); return l.length ? l : ['prayer']; }
   var pageIdx = 0;
   function intLS(k){ var n = parseInt(lsGet(k), 10); return (isNaN(n) || n < 0) ? 0 : n; }
+  /* ----- جدید: حالت‌های قفل کپسول -----
+     ۱) از نیم‌ساعت مانده به هر دو مراسم تا پایان مراسم، کپسول روی «مراسم» می‌ماند (و با شروع می‌نویسد «در حال برگزاری»)
+     ۲) تا نیم‌ساعت بعد از اذان، کپسول می‌گوید چند دقیقه از اذان گذشته */
+  var PRE_LOCK = 30, AFTER_LOCK = 30, AFTER_MARKS = [10, 20, 30];
+  function afterInfo(s){
+    for(var i = 0; i < ADHAN.length; i++){
+      var k = ADHAN[i]; if(k === 'sunrise' || !cfg.adhan[k]) continue;
+      var el = (s.nowH - s.today[k]) * 60;
+      if(el >= 0 && el < AFTER_LOCK) return { key:k, el:el };
+    }
+    return null;
+  }
+  function lockKind(s){
+    if(!cfg.on || !s) return '';
+    var e0 = s.evs[0];
+    if(s.live || (e0 && cfg.evOn[e0.ev.id] && e0.remainMin > 0 && e0.remainMin <= PRE_LOCK)) return 'event';
+    return afterInfo(s) ? 'after' : '';
+  }
   function curKind(s){
     if(tmpKind){ if(Date.now() < tmpUntil) return tmpKind; tmpKind = ''; }
+    var lk = lockKind(s); if(lk) return lk;
     if(cfg.rotate > 0){ var l = pagesList(); return l[pageIdx % l.length]; }
     var p = cfg.primary;
     if(p === 'auto') return (s.evs[0] && s.evs[0].remainMin < s.pm.remainMin) ? 'event' : 'prayer';
@@ -4997,12 +5053,17 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
       return { kind:kind, icon:'zekr', label:(zk && zk.text.length <= 24) ? zk.text : tt('zekrL'), n:f(zc), u:'/' + f(C.ZEKR_TARGET),
                progress:zc / C.ZEKR_TARGET, col:COL.zekr, roll:true };
     }
+    if(kind === 'after'){
+      var ai = afterInfo(s); if(!ai) return pageModel('prayer', s);
+      var em = Math.floor(ai.el);
+      return { kind:kind, icon:ai.key, label:tpl(tt('afterL'), { n:C.PRAYER_NAMES[lang()][ai.key].replace(/^اذان\s*/, '') }), n:em < 1 ? tt('now') : f(em), u:em < 1 ? '' : tt('afterU'), progress:clamp(ai.el / AFTER_LOCK, 0, 1), col:COL.prayer, roll:true };
+    }
     if(kind === 'event'){
       if(s.live){
-        return { kind:kind, icon:'event', label:pick(s.live.ev.title), n:tt('liveS'), u:'', progress:s.live.progress, col:COL.event, roll:false, live:true };
+        return { kind:kind, icon:'event', label:pick(s.live.ev.title).replace(/^دعای\s*/, '').replace(/\s*هفتگی$/, ''), n:tt('live'), u:'', progress:s.live.progress, col:COL.event, roll:false, live:true };
       }
       var it = s.evs[0];
-      return { kind:kind, icon:'event', label:pick(it.ev.title), remain:it.remainMin, progress:clamp(1 - it.remainMin / 1440, 0, 1), col:COL.event, roll:true };
+      return { kind:kind, icon:'event', label:pick(it.ev.title), remain:it.remainMin, progress:clamp(1 - it.remainMin / (it.remainMin <= PRE_LOCK ? PRE_LOCK : 1440), 0, 1), col:COL.event, roll:true };
     }
     return { kind:'prayer', icon:s.pm.key, label:prayerLabel(s, s.pm.key), remain:s.pm.remainMin, progress:s.pm.progress, col:COL.prayer, roll:true };
   }
@@ -5134,6 +5195,7 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
         if(typeof lastRot !== 'undefined') lastRot = Date.now();
         if(typeof rotSave === 'function') rotSave();
       } else { tmpKind = DM.l[idx]; tmpUntil = Date.now() + 30000; }      /* چرخش خودکار خاموش: صفحه‌ی انتخابی موقت می‌ماند (مثل انتخاب از قرص‌ها) */
+      if(lockKind(snap())){ tmpKind = DM.l[idx]; tmpUntil = Date.now() + 60000; }      /* جدید: در حالت قفل، انتخاب کاربر یک دقیقه می‌ماند */
       S = snap(); lastSig = ''; paintCompact(S, true);
     }catch(err){ drumClose(); return; }
     drumSpin(Math.round(to), calm() ? 220 : 560, function(){ drumClose(); rotSync(); });
@@ -5174,9 +5236,11 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
     if(manual === true){ if(state !== 'compact' || busyRot || DM.on) return; }
     else if(doc.hidden || state !== 'compact' || busyRot || DM.on || drag || fanOn || root.hasAttribute('data-press')) return;
     var l = pagesList(); if(l.length < 2) return;
+    if(manual !== true && lockKind(snap())) return;
     if(drumOk() && (manual === true || !calm()) && drumStep()) return;
     pageIdx = (pageIdx + 1) % l.length; tmpKind = '';
     var S2 = snap();
+    if(lockKind(S2)){ tmpKind = l[pageIdx]; tmpUntil = Date.now() + 60000; setTimeout(function(){ if(state === 'compact') restartTick(); }, 60100); }   /* جدید */
     if(tm){ paintSat(S2); return; }
     swapCompact(function(){ paintCompact(S2, true); });
   }
@@ -5298,7 +5362,7 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
 
   /* یادآوری‌های ثابت: اذان ۱ ساعت · نیم‌ساعت · ۵ دقیقه پیش؛ مراسم ۲۴ ساعت · ۱ ساعت · نیم‌ساعت · ۵ دقیقه پیش؛ و هنگام شروع.
      همیشه کوچک‌ترین بازه‌ی رسیده انتخاب می‌شود تا با بازکردن سایت چند یادآوری کهنه پشت‌سرهم نیاید. */
-  var LEAD_P = [60, 30, 5], LEAD_E = [1440, 60, 30, 5];
+  var LEAD_P = [60, 30, 5], LEAD_E = [1440, 60, 30, 10, 5];
   function pickLead(rem, arr){ var b = 0; if(!(rem > 0)) return 0; arr.forEach(function(L){ if(rem <= L && (!b || L < b)) b = L; }); return b; }
   function checkAlerts(s){
     if(!cfg.on) return;
@@ -5311,6 +5375,13 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
         out.push({ kind:'lead', type:'prayer', key:k, id:'L' + L + ':' + id, lead:L, atH:today[k], targetMs:Date.now() + rem * 60000, rem:rem });
       if(rem <= 0 && rem > -2 && !fired['S:' + id])
         out.push({ kind:'start', type:'prayer', key:k, id:'S:' + id, atH:today[k], targetMs:Date.now(), expireMs:Date.now() + 90000, rem:rem });
+    });
+    /* جدید: بعد از اذان، هر ۱۰ دقیقه تا نیم‌ساعت: «N دقیقه از اذان گذشته · نماز اول وقت فراموش نشود» */
+    ADHAN.forEach(function(k){
+      if(k === 'sunrise' || !cfg.adhan[k]) return;
+      var el = (nowH - today[k]) * 60; if(el < AFTER_MARKS[0]) return;
+      var M = el >= 30 ? 30 : (el >= 20 ? 20 : 10), id = 'A' + M + ':' + k + ':' + dk;
+      if(el - M <= 4 && !fired[id]) out.push({ kind:'after', type:'prayer', key:k, mark:M, id:id, atH:today[k], targetMs:Date.now(), expireMs:Date.now() + 90000, rem:-el });
     });
     s.evs.forEach(function(it){
       if(!cfg.evOn[it.ev.id]) return;
@@ -5349,6 +5420,10 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
       var ws = S || snap(), wh = ws.t.h, wk = wh >= 5 && wh < 12 ? 'welM' : (wh >= 12 && wh < 16 ? 'welN' : (wh >= 16 && wh < 19 ? 'welA' : 'welE'));
       return { title:tt('welT'), sub:'', icon:'hello', col:COL.hello, href:'' };
     }
+    if(a.kind === 'after'){                                   /* جدید */
+      name = prayerLabel(S || snap(), a.key);
+      return { title:tpl(tt('afterT'), { d:C.durText(a.mark), n:name }), sub:tt('afterS'), icon:a.key, col:COL.prayer, href:'owqat.html' };
+    }
     if(a.type === 'prayer'){
       name = prayerLabel(S || snap(), a.key); d.icon = a.key; d.col = COL.prayer; d.href = 'owqat.html';
       d.sub = K.t('wpCity') + ' · ' + C.fmtClock(a.atH);
@@ -5361,6 +5436,7 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
       var rem = Math.max(0, (a.targetMs - Date.now()) / 60000), named = { 1440:'day1', 60:'hour1', 30:'half', 5:'min5' }[a.lead];
       var ph = (!a.preview && !a.snoozed && named && rem >= a.lead - 1.5) ? tt(named) : C.durText(Math.max(1, Math.ceil(rem)));
       d.title = tpl(tt('lead'), { d:ph, n:name });
+      if(a.type === 'event' && a.lead === 10 && !a.snoozed){ d.title = tt('hurryT'); d.sub = tpl(tt('hurryS'), { n:name, d:ph }); }
     } else {
       d.title = tpl(tt(a.type === 'prayer' ? 'startP' : 'startE'), { n:name });
     }
@@ -5386,7 +5462,7 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
     setAc(d.col);
     aIc.innerHTML = svg(d.icon); aTi.textContent = d.title; aSu.textContent = d.sub;
     buildActions(a, d);
-    rAcd.set(a.kind === 'welcome' ? '' : ((a.kind === 'start' || a.kind === 'timer') ? (a.kind === 'timer' ? fmtCd(0) : tt('now')) : fmtCd(Math.max(0, Math.ceil((a.targetMs - Date.now()) / 1000)))), false);
+    rAcd.set((a.kind === 'welcome' || a.kind === 'after') ? '' : ((a.kind === 'start' || a.kind === 'timer') ? (a.kind === 'timer' ? fmtCd(0) : tt('now')) : fmtCd(Math.max(0, Math.ceil((a.targetMs - Date.now()) / 1000)))), false);
     aL.classList.toggle('is-welcome', a.kind === 'welcome');
     aL.classList.toggle('cd-long', rAcd.t.length > 5 && !rAcd.plain);
     aL.classList.toggle('is-tdone', a.kind === 'timer');
@@ -5408,7 +5484,7 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
   }
   function paintAlert(){
     if(state !== 'alert' || !cur) return;
-    if(cur.kind === 'start' || cur.kind === 'timer' || cur.kind === 'welcome') return;
+    if(cur.kind === 'start' || cur.kind === 'timer' || cur.kind === 'welcome' || cur.kind === 'after') return;
     rAcd.set(fmtCd(Math.max(0, Math.ceil((cur.targetMs - Date.now()) / 1000))), true);
     var lg = rAcd.t.length > 5;
     if(lg !== aL.classList.contains('cd-long')){ aL.classList.toggle('cd-long', lg); refreshDims(); }
@@ -5570,7 +5646,9 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
   var pre = null, preT = 0, preT2 = 0;
   function preKeyOf(kind){ var sh = ''; try{ sh = JSON.stringify(cfg.show); }catch(_){} return (kind || '') + '|' + lang() + '|' + sh + '|' + (tm ? 1 : 0); }
   function preCancel(){ clearTimeout(preT); clearTimeout(preT2); preT = preT2 = 0; }
+  function dk2(k){ return k === 'after' ? 'prayer' : k; }   /* جدید: صفحه‌ی «بعد از اذان» هنگام باز شدن همان جزئیات «وقت نماز» را نشان می‌دهد */
   function preBuild(kind){
+    kind = dk2(kind);
     if(state !== 'compact' && state !== 'alert') return;
     var keep = expKind;
     try{
@@ -5582,6 +5660,7 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
   }
   function expand(kind, quiet){
     if(state === 'expanded' || state === 'idle') return;
+    kind = dk2(kind);
     expKind = (typeof kind === 'string' && KIND_COL[kind]) ? kind : null;
     S = snap();
     if(!(pre && pre.key === preKeyOf(expKind) && performance.now() - pre.t < 5000 && xr.ok)) buildExpanded(S);
@@ -5598,7 +5677,7 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
   }
   function switchExp(kind){
     if(state !== 'expanded') return;
-    expKind = kind; S = snap(); buildExpanded(S); paintExpanded(S, false);
+    kind = dk2(kind); expKind = kind; S = snap(); buildExpanded(S); paintExpanded(S, false);
     setAc(expKind ? COL[KIND_COL[expKind]] : COL.prayer);
     xL.scrollTop = 0; xL.classList.add('swap'); void xL.offsetHeight;
     morphTo(dims('expanded'), SP.open);
@@ -5619,17 +5698,30 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
   /* ---------- کارت بازشده ---------- */
   var xr = { ok:false }, dateKey = '', rClk = null, rSal = null;
   function sec(k, cls, ac, inner){ return '<div class="isl-sec ' + cls + '" style="--k:' + k + ';--ac:' + ac + '">' + inner + '</div>'; }
+  /* جدید: ساعت دیجیتال (ساعت · دقیقه · ثانیه + ق.ظ/ب.ظ) بالای کارت بازشده */
+  function dgSet(el, v, anim){      /* جدید: عدد با حرکت جابه‌جا شود */
+    if(!el || el._v === v) return;
+    var first = el._v === undefined; el._v = v; el.textContent = v;
+    if(first || anim === false || !el.animate) return;
+    try{ if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return; }catch(_){}
+    el.animate([{ transform:'translateY(46%) scale(.9)', opacity:0, filter:'blur(3px)' }, { transform:'none', opacity:1, filter:'blur(0)' }], { duration:420, easing:'cubic-bezier(.2,.9,.25,1)' });
+  }
+  function digHTML(){
+    function bx(c, k){ return '<div class="dg-b"><b class="' + c + '">۰۰</b><small>' + esc(tt(k)) + '</small></div>'; }
+    return '<div class="isl-sec isl-dg" style="--k:0">' + '<div class="dg-r">' + bx('dg-h', 'dgH') + '<i>:</i>' + bx('dg-m', 'dgM') + '<i>:</i>' + bx('dg-s', 'dgS') + '<span class="dg-ap"></span></div></div>';
+  }
   function buildExpanded(s){
     C.setLang(lang());
     var h = '', k = 1, sh = cfg.show, any = false;
     xL.classList.toggle('dtc', expKind === 'clock');
     if(expKind){ h = detailHTML(s); } else {
     var head = sh.clock
-      ? '<div class="isl-xc"><div class="isl-xclk"><b class="rl-box clk"></b><small class="csec"></small></div><span class="isl-xdt"></span></div>'
+      ? '<div class="isl-xc"></div>'
       : '<span class="isl-xt">' + esc(K.t('wTitle')) + '</span>';
     h += '<div class="isl-xh" style="--k:0">' + head +
          '<button type="button" class="isl-xb" data-a="cfg" aria-label="' + esc(tt('xCfg')) + '">' + svg('gear') + '</button>' +
          '<button type="button" class="isl-xb" data-a="close" aria-label="' + esc(tt('xClose')) + '">' + svg('up') + '</button></div>';
+    if(sh.clock) h += digHTML();
     if(sh.timer){ any = true; h += sec(k++, 'isl-t', COL.timer, '<span class="isl-sl">' + esc(tt('tmrT')) + '</span><div class="isl-tim"></div>'); }
     if(sh.prayer){
       any = true;
@@ -5661,6 +5753,7 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
     rClk = xL.querySelector('.clk') ? new Roll(xL.querySelector('.clk')) : null;
     rSal = xL.querySelector('.isl-sn') ? new Roll(xL.querySelector('.isl-sn')) : null;
     xr = { ok:true,
+      dgh:xL.querySelector('.dg-h'), dgm:xL.querySelector('.dg-m'), dgs:xL.querySelector('.dg-s'), dga:xL.querySelector('.dg-ap'),
       csec:xL.querySelector('.csec'), xdt:xL.querySelector('.isl-xdt'),
       pn:xL.querySelector('.pn'), pt:xL.querySelector('.pt'), pc:xL.querySelector('.pc'), pf:xL.querySelector('.pf'),
       cells:[].slice.call(xL.querySelectorAll('.isl-cell')), evs:[].slice.call(xL.querySelectorAll('.isl-evw')),
@@ -5677,6 +5770,12 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
     if(!xr.ok) return;
     C.setLang(lang());
     var pm = s.pm, L = lang();
+    if(xr.dgh){                                              /* جدید: ساعت دیجیتال */
+      var tg = s.t, h12 = tg.h % 12 || 12;
+      dgSet(xr.dgh, C.fa(p2(h12)), animate); dgSet(xr.dgm, C.fa(p2(tg.mi)), animate); dgSet(xr.dgs, C.fa(p2(tg.s)), animate);
+      xr.dga.textContent = tt(tg.h < 12 ? 'dgAm' : 'dgPm');
+    }
+    if(xr.xdt) xr.xdt.textContent = dateLine(s, true);
     if(rClk){
       var t = s.t;
       rClk.set(C.fa(p2(t.h)) + ':' + C.fa(p2(t.mi)), animate !== false);
@@ -5712,13 +5811,13 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
       });
     }
     if(xr.dd){
-      var dk = s.jdn + '|' + L + '|' + (s.eve ? s.eve.title : '') ;
+      var dk = s.jdn + '|' + L + '|' + (s.eve ? s.eve.title : '') + '|' + (s.day && s.day.today ? 'm' : 'x');
       if(dk !== dateKey){
         dateKey = dk;
-        var m = s.day.today;
-        if(!m){ xr.dd.textContent = dfmt({ weekday:'long', day:'numeric', month:'long', year:'numeric' }, 'full').format(new Date()); xr.dl.textContent = ''; xr.occ.innerHTML = ''; }
+        var m = s.day.today, dp = dateParts(s);
+        if(dp) xr.dd.innerHTML = '<em class="dxw">' + esc(dp.wd) + '</em><span class="dxn">' + esc(C.fa(dp.d) + ' ' + C.jalaliMonthName(dp.m) + ' ' + C.fa(dp.y)) + '</span>';
+        if(!m){ if(!dp) xr.dd.textContent = dfmt({ weekday:'long', day:'numeric', month:'long', year:'numeric' }, 'full').format(new Date()); xr.dl.textContent = ''; xr.occ.innerHTML = ''; }
         else {
-          xr.dd.textContent = m.weekday + ' ' + C.fa(m.jd) + ' ' + C.jalaliMonthName(m.jm) + ' ' + C.fa(m.jy);
           xr.dl.textContent = C.fa(m.lunar.d) + ' ' + C.lunarMonthName(m.lunar.m) + ' ' + C.fa(m.lunar.y) + ' ' + C.HIJRI_SUFFIX[L];
           var tone = { birth:'#ff7eb8', eid:'#2dd4bf', mourn:'#b39dff', other:'#5aa9ff' }, rows = '';
           if(s.eve) rows += '<div class="isl-oi eve" style="color:' + (tone[s.eve.tone] || '#b0a0ff') + '"><i></i><span>' + esc(tt('tonight') + ' · ' + s.eve.title) + '</span></div>';
@@ -5759,11 +5858,11 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
   var TONE = { birth:'#ff7eb8', eid:'#2dd4bf', mourn:'#b39dff', other:'#5aa9ff' };
   function dtHead(s, title, icon, ac, withClock){
     var lead = withClock
-      ? '<div class="isl-xc"><div class="isl-xclk"><b class="rl-box clk"></b><small class="csec"></small></div><span class="isl-xdt"></span></div>'
+      ? '<div class="isl-xc"></div>'
       : '<span class="dt-ic">' + svg(icon) + '</span><span class="isl-xt">' + esc(title) + '</span>';
     return '<div class="isl-xh dt-h" style="--k:0;--ac:' + ac + '">' + lead +
       '<button type="button" class="isl-xb" data-a="xall" aria-label="' + esc(tt('xAll')) + '">' + svg('grid') + '</button>' +
-      '<button type="button" class="isl-xb" data-a="close" aria-label="' + esc(tt('xClose')) + '">' + svg('up') + '</button></div>';
+      '<button type="button" class="isl-xb" data-a="close" aria-label="' + esc(tt('xClose')) + '">' + svg('up') + '</button></div>' + (withClock ? digHTML() : '');
   }
   function dtPrayerSec(k){
     var cells = ['fajr', 'sunrise', 'dhuhr', 'maghrib'].map(function(p){
@@ -6285,6 +6384,7 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
     tmpKind = '';
     if(cfg.rotate > 0 && idx > -1){ pageIdx = idx; }
     else { tmpKind = kd; tmpUntil = Date.now() + (cfg.rotate > 0 ? cfg.rotate * 1000 : 30000); }
+    if(idx > -1 && lockKind(snap())){ tmpKind = kd; tmpUntil = Date.now() + 60000; }      /* جدید: در حالت قفل، انتخاب کاربر یک دقیقه می‌ماند */
     if(typeof lastRot !== 'undefined') lastRot = Date.now();
     if(typeof rotSave === 'function') rotSave();
     S = snap(); lastSig = '';
@@ -6332,6 +6432,7 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
     if(menuOpen) d = 4000;
     else if(fast) d = 1000 - (Date.now() % 1000) + 15;
     else d = Math.min(15000, 60000 - (Date.now() % 60000) + 40);
+    if(lockKind(S)) d = Math.min(d, 3000);                          /* جدید: در حالت قفل، تیک هر ۳ ثانیه */
     timer = setTimeout(tick, d);
   }
   function restartTick(){ clearTimeout(timer); timer = 0; tick(); }
@@ -6350,7 +6451,7 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
       paintCompact(S, true);
       drag.dFrom = dims('expanded'); drag.dTo = dims('compact'); drag.lf = xL; drag.lt = cL;
     } else {
-      expKind = (drag.from === 'compact' && !tm) ? curKind(S) : null;
+      expKind = (drag.from === 'compact' && !tm) ? dk2(curKind(S)) : null;
       buildExpanded(S); paintExpanded(S, false); void xL.offsetHeight;
       drag.dFrom = dims(drag.from); drag.dTo = dims('expanded'); drag.lf = LAYERS[drag.from]; drag.lt = xL;
     }
@@ -6414,8 +6515,15 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
     if(fanOn){ fanClose(); holdFired = true; return; }     /* قرص‌ها باز است: لمس کپسول آن را می‌بندد */
     holdFired = false;
     if(state === 'idle' || (e.button !== undefined && e.button > 0)) return;
-    if(e.target.closest && e.target.closest('button, a')) { if(state === 'alert') holdAlert(true); return; }
-    if(state === 'expanded' && !(e.target.closest && (e.target.closest('.isl-xh') || (expKind && e.target.closest('.isl-x.dtf'))))) return;
+    if(e.target.closest && e.target.closest('button, a')){
+      if(state === 'alert'){
+        holdAlert(true);
+        drag = { id:e.pointerId, x:e.clientX, y:e.clientY, t:performance.now(), on:false, from:'alert', p:0, btn:true };   /* جدید: شروع کشیدن از روی دکمه */
+        busy(true);
+      }
+      return;
+    }
+    if(state === 'expanded' && !(e.target.closest && (e.target.closest('.isl-xh') || e.target.closest('.isl-grab') || (expKind && e.target.closest('.isl-x.dtf'))))) return;
     drag = { id:e.pointerId, x:e.clientX, y:e.clientY, t:performance.now(), on:false, from:state, p:0 };
     if(state === 'compact' || state === 'alert') busy(true);
     if(state !== 'expanded') press(true);
@@ -6461,6 +6569,7 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
     else { drag = null; press(false); if(state === 'alert') holdAlert(false); }
     if(state !== 'expanded') busy(false);
   }
+  root.addEventListener('click', function(e){ if(performance.now() < swallowUntil){ e.stopPropagation(); e.preventDefault(); } }, true);   /* جدید: بعد از کشیدن، کلیک ناخواسته روی دکمه نیاید */
   root.addEventListener('pointerup', releasePtr);
   root.addEventListener('pointercancel', releasePtr);
   root.addEventListener('pointerleave', function(e){ if(!drag || (!drag.on && !drag.dm && !drag.sw)){ holdClear(); drag = null; press(false); if(state === 'alert') holdAlert(false); if(state !== 'expanded') busy(false); } });
@@ -6826,5 +6935,6 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
   window.KZM_ISLAND = { fanOpen:fanOpenTap, fanClose:fanClose, fanOn:function(){ return fanOn; }, expand:expand, collapse:collapse, preview:preview, state:function(){ return state; }, cfg:function(){ return cfg; }, rot:rotStep, timer:startTimer, timerState:function(){ return tm; } };
 })();
 </script>
+<script src="kzm-i18n.js" defer></script>
 </body>
 </html>

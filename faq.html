@@ -1187,7 +1187,9 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
 <link rel="stylesheet" href="gnav.css">
 <script src="gnav.js"></script>
 <link rel="stylesheet" href="isl.css">
+<script src="lunar-data.js"></script>
 <script src="kzm-core.js"></script>
+<script src="kzm-i18n.js" defer></script>
 <script src="isl.js" defer></script>
 </head>
 <body>
@@ -1388,6 +1390,95 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
       ]}
     ];
 
+    /* ترجمه‌ی دستیار (عربی/انگلیسی) — ترتیب با FAQ_DATA یکی است */
+    const FAQ_TR = {
+      ar:{
+        hello:'السلام عليكم! 👋 أنا مساعد موقع هيئة كاظميون. اختر إحدى الفئات أدناه لترى الأسئلة المتعلقة بها.',
+        pickCat:'اختر إحدى الفئات:', pickQ:'اختر أحد الأسئلة التالية:', related:'أسئلة أخرى ذات صلة:', another:'هل لديك سؤال آخر؟',
+        back:'🔙 العودة إلى الفئات', which:'تفضّل، أي سؤال يهمك؟ 🙂', seeHome:'عرض في الصفحة الرئيسية',
+        cats:['زمان المراسم ومكانها','النذورات والمساعدات المالية','المحتوى الديني للموقع','التنزيل','ميزات الموقع وإعداداته','التواصل مع الهيئة'],
+        items:[
+          [
+            {q:'متى وأين تُقام مراسم الهيئة؟',a:'تُقام المراسم الأسبوعية لهيئة كاظميون كل ثلاثاء الساعة 21 في مسجد الحجة القائم (عج)، حي قاضي‌آباد في خرم‌آباد. لرؤية العدّ التنازلي للمراسم القادمة والاتجاهات على الخريطة، يكفي أن تزور الصفحة الأولى للموقع.',l:'عرض العدّ التنازلي والخريطة'},
+            {q:'متى وأين تُقام قراءة دعاء الندبة؟',a:'تُقام قراءة دعاء الندبة في «جمعة الانتظار» كل جمعة الساعة 7 صباحاً بأصوات ذاكري أهل البيت (ع) في قاضي‌آباد، الشارع التاسع، مسجد القائم (عج). لرؤية العدّ التنازلي للمجلس القادم والاتجاهات على الخريطة، زر صفحة «مسجد القائم».',l:'الانتقال إلى صفحة مسجد القائم'},
+            {q:'هل يختلف برنامج المراسم وأوقاتها في محرم وصفر؟',a:'نعم؛ في أيام خاصة مثل محرم وصفر يتغير البرنامج والموعد عادةً وقد تُقام مجالس إضافية. للاطلاع الدقيق والمحدّث تابع الإعلانات أعلى الصفحة الأولى.',l:'عرض إعلانات الموقع'},
+            {q:'أين أرى أوقات الصلاة (الأذان وشروق الشمس وغروبها)؟',a:'في صفحة «أوقات الصلاة» ترى أذان الفجر والشروق والغروب وأذان الظهر والمغرب ومنتصف الليل الشرعي لخرم‌آباد؛ ومن قسم «مدن أخرى» يمكنك اختيار مدن مثل طهران وقم ومشهد وكربلاء والنجف.',l:'الانتقال إلى أوقات الصلاة'}
+          ],
+          [
+            {q:'كيف أقدّم نذراً نقدياً أو عينياً؟',a:'للنذر النقدي ادخل صفحة «النذورات»؛ يمكنك نسخ رقم البطاقة هناك بنقرة واحدة. أما النذور العينية كالطعام أو اللوازم فنسّق عبر قناتي الهيئة الرسميتين في إيتا أو روبيكا لتحديد مكان التسليم وزمانه.',l:'الانتقال إلى النذورات'},
+            {q:'فيمَ تُصرف النذورات وهل يُنشر تقرير مالي؟',a:'تُصرف النذورات على إقامة مجالس العزاء وضيافة المشاركين ومصاريف الهيئة الجارية. وللاطلاع على الوضع المالي وشفافية النذورات يمكنك طلب تقرير عبر قناة الهيئة الرسمية.'}
+          ],
+          [
+            {q:'أين أجد الأدعية والزيارات في الموقع؟',a:'في صفحة «المكتبة» يتوفر النص العربي والترجمة الفارسية والتشغيل الصوتي لزيارة عاشوراء ولعدة أدعية أخرى.',l:'الانتقال إلى المكتبة (الأدعية والزيارات)'},
+            {q:'ما هما عدّاد الصلوات وحديث اليوم؟',a:'عدّاد الصلوات أداة لعدّ الصلوات على النبي وآله إلكترونياً مع حفظ تلقائي على هاتفك، وتجده في صفحة «عدّاد الصلوات». أما حديث اليوم فيعرض في الصفحة الأولى تلقائياً حديثاً من المعصومين (ع) في كل مرة.',l:'الانتقال إلى عدّاد الصلوات'}
+          ],
+          [
+            {q:'من أين أنزّل الملفات الصوتية والصور المتاحة في الموقع؟',a:'«مركز التنزيل» متاح في قائمة ☰ أعلى الصفحة الأولى، ويعرض قائمة الملفات القابلة للتنزيل في مكان واحد.'}
+          ],
+          [
+            {q:'كيف أغيّر لغة الموقع وسمة ألوانه أو أثبّته كتطبيق؟',a:'من القائمة السريعة أعلى الصفحة (أيقونة ☰) افتح قسم «اللغة» واختر الفارسية أو العربية أو الإنجليزية؛ ومن قسم «السمة» غيّر لوحة الألوان. ولتثبيت الموقع كتطبيق اضغط «تثبيت التطبيق» (في المتصفحات التي تدعم ذلك).'},
+            {q:'كيف أكبّر نص الموقع أو أصغّره؟',a:'من القائمة السريعة أعلى الصفحة ابحث عن صف «حجم النص» وبزرّي + و − كبّر الصفحة كلها أو صغّرها إلى الحجم الذي يريحك. يتذكر الموقع هذا الإعداد.'},
+            {q:'ما هذه النقطة الحمراء أعلى الصفحة الأولى؟',a:'هي شارة حالة المراسم. إن كانت تومض فالمراسم قائمة الآن، وإلا فلم يحن وقتها بعد. بلمس الشارة تُفتح نافذة صغيرة تعرض اليوم والساعة والعنوان الدقيق للمراسم.',l:'العرض في الصفحة الأولى'},
+            {q:'كيف أشارك الموقع مع أصدقائي؟',a:'من زر المشاركة في الصفحة الأولى يمكنك إرسال رابط الموقع عبر إيتا وروبيكا وسروش وبله وتلغرام.'},
+            {q:'كيف أصنع صورتي بإطار الهيئة؟',a:'في صفحة «صانع الإطارات» ارفع صورتك واضبط موضعها وكبّرها، ثم احفظ النسخة النهائية المناسبة لقصص إنستغرام بزر التنزيل.',l:'الانتقال إلى صانع الإطارات'},
+            {q:'كيف أحوّل التاريخ بين الشمسي والميلادي والقمري؟',a:'في صفحة «تحويل التاريخ» اختر التقويم الأصلي وأدخل اليوم/الشهر/السنة بالتمرير؛ فتظهر النتيجة في التقاويم الثلاثة معاً، وبزر النسخ بجانب كل نتيجة تنسخ ذلك التاريخ.',l:'الانتقال إلى تحويل التاريخ'},
+            {q:'كيف أصنع بطاقة مشاركة ليوم من التقويم؟',a:'في تقويم الصفحة الأولى اضغط على اليوم الذي فيه مناسبة واختر «إنشاء بطاقة مشاركة لهذا اليوم»؛ أو استخدم زر «بطاقة المشاركة» بجانب «اليوم». اختر اليوم (سنة 1405 فقط) وسمة الألوان وحجم القصة أو المنشور المربع، ثم أرسلها لأصدقائك بزر «إرسال» أو احفظها بزر «تنزيل الصورة».',l:'الانتقال إلى التقويم'},
+            {q:'أين أرى الزيارة الافتراضية ثلاثية الأبعاد للأضرحة؟',a:'من شبكة «الوصول السريع» في الصفحة الأولى اضغط «الزيارة ثلاثية الأبعاد». لكل من المسجد الحرام وحرم النبي (ص) وأمير المؤمنين والإمام الحسين والعباس والإمام الرضا والسيدة معصومة ومسجد جمكران بطاقة، وبـ«دخول الجولة الافتراضية» تُفتح الجولة في تبويب جديد. هذه الجولات تابعة لمواقع أخرى ولا تتحمل الهيئة مسؤولية محتواها.',l:'الانتقال إلى الزيارة ثلاثية الأبعاد'}
+          ],
+          [
+            {q:'كيف أتواصل مع مسؤولي الهيئة أو أتطوع للمساعدة؟',a:'يمكنك المراسلة عبر قناتي إيتا أو روبيكا الرسميتين المعروضتين في الصفحة الأولى. وللتطوع أعلن استعدادك برسالة خاصة في هاتين القناتين؛ وعند جاهزية استمارة تسجيل الخدّام سيُعلَن عنها فيهما.',l:'عرض قنوات التواصل'}
+          ]
+        ]
+      },
+      en:{
+        hello:'Hello! 👋 I’m the Kazemiyoon Heyat site assistant. Pick a category below to see the related questions.',
+        pickCat:'Pick a category:', pickQ:'Pick one of the questions below:', related:'Other related questions:', another:'Have another question?',
+        back:'🔙 Back to categories', which:'Sure — which question matters to you? 🙂', seeHome:'View on the home page',
+        cats:['Event time & place','Offerings & donations','Religious content','Downloads','Site features & settings','Contacting the Heyat'],
+        items:[
+          [
+            {q:'When and where are the Heyat’s gatherings held?',a:'The weekly Kazemiyoon gathering is held every Tuesday at 9 PM at Masjid Hazrat Qa’im (aj) in the Qazi-Abad neighborhood of Khorramabad. To see the countdown to the next gathering and directions on the map, just visit the site’s home page.',l:'View countdown and map'},
+            {q:'When and where is Dua Nudbah recited?',a:'Dua Nudbah is recited at the “Fridays of Waiting” every Friday at 7 AM with the voices of the Ahl al-Bayt (a) reciters at Masjid Qa’im (aj), 9th Street, Qazi-Abad. For the countdown to the next session and directions on the map, visit the “Masjid Qa’im” page.',l:'Go to the Masjid Qa’im page'},
+            {q:'Do the schedule and times change in Muharram and Safar?',a:'Yes; in special periods such as Muharram and Safar the schedule and times usually change and extra gatherings may be held. For exact, up-to-date information, follow the announcements at the top of the site’s home page.',l:'View site announcements'},
+            {q:'Where can I see prayer times (adhan, sunrise and sunset)?',a:'On the “Prayer times” page you can see the Fajr adhan, sunrise and sunset, Dhuhr and Maghrib adhan and the Islamic midnight for Khorramabad; from the “Other cities” section you can pick cities such as Tehran, Qom, Mashhad, Karbala and Najaf.',l:'Go to Prayer times'}
+          ],
+          [
+            {q:'How can I give a cash or non-cash offering?',a:'For a cash offering, open the “Nadhr” page; the card number there can be copied with one tap. For non-cash offerings such as food or supplies, coordinate through the Heyat’s official Eitaa or Rubika channels so the delivery place and time can be set.',l:'Go to Offerings'},
+            {q:'What are offerings used for, and is a financial report published?',a:'Offerings are spent on holding mourning gatherings, hosting attendees and the Heyat’s running costs. To learn about the finances and transparency of offerings, you can request a report through the Heyat’s official channel.'}
+          ],
+          [
+            {q:'Where on the site can I find supplications and ziyarat texts?',a:'On the “Library” page you’ll find the Arabic text, Persian translation and audio of Ziyarat Ashura and several other supplications.',l:'Go to the Library (supplications & ziyarat)'},
+            {q:'What are the Salawat counter and the Hadith of the Day?',a:'The Salawat counter is a tool for counting salawat online with automatic saving on your phone, found on the “Salawat counter” page. The Hadith of the Day automatically shows a hadith from the Infallibles (a) on the site’s home page each time.',l:'Go to the Salawat counter'}
+          ],
+          [
+            {q:'Where can I get the site’s downloadable audio files and images?',a:'The “Download center” is available in the ☰ menu at the top of the home page and lists the site’s downloadable files in one place.'}
+          ],
+          [
+            {q:'How do I change the site’s language and color theme, or install it like an app?',a:'From the quick menu at the top of the page (hamburger icon), open the “Language” section and choose Persian, Arabic or English; from the “Theme” section you can change the site’s color palette. To install the site like an app, tap “Install app” (in browsers that support it).'},
+            {q:'How do I make the site’s text bigger or smaller?',a:'From the quick menu at the top of the page, find the “Text size” row and use the + and − buttons to enlarge or shrink the whole page to whatever size you see comfortably. The site remembers this setting.'},
+            {q:'What is the red dot at the top of the home page?',a:'It is the gathering status badge. If it blinks, the gathering is happening right now; otherwise its time hasn’t come yet. Touch the badge and a small window opens showing the day, time and exact address of the gathering.',l:'View on the home page'},
+            {q:'How can I share the site with my friends?',a:'From the share button on the home page, you can send the site’s link via Eitaa, Rubika, Soroush, Bale or Telegram.'},
+            {q:'How can I put my photo in the Heyat’s frame?',a:'On the “Photo frame maker” page, upload your photo, adjust its position and zoom, then save the final version, sized for Instagram stories, with the download button.',l:'Go to the Photo frame maker'},
+            {q:'How do I convert a date between Solar Hijri, Gregorian and Lunar Hijri?',a:'On the “Date converter” page, choose the source calendar and enter the day/month/year by scrolling; the result appears in all three calendars at once, and the copy button next to each result copies that date.',l:'Go to the Date converter'},
+            {q:'How do I create a share card for a day in the calendar?',a:'In the home-page calendar, tap a day that has an occasion and choose “Create share card for this day”; or use the “Share card” button next to “Today”. Choose the day (year 1405 only), a color theme and a story or square-post size, then send it to friends with “Send” or save it with “Download image”.',l:'Go to the calendar'},
+            {q:'Where can I see the 3D virtual pilgrimage of the shrines?',a:'From the “Quick access” grid on the home page tap “3D Pilgrimage”. Masjid al-Haram, the Prophet’s (s) shrine, Imam Ali, Imam Husayn, Abbas, Imam Reza, Lady Masumah and Jamkaran Mosque each have a card, and “Enter virtual tour” opens the tour in a new tab. These tours belong to other websites and the Heyat takes no responsibility for their content.',l:'Go to 3D Pilgrimage'}
+          ],
+          [
+            {q:'How can I contact the Heyat’s officials or volunteer to help?',a:'You can message through the official Eitaa or Rubika channels introduced on the home page. To volunteer, announce your readiness in a private message to those channels; once the volunteer (khadem) registration form is ready, it will be announced there.',l:'View contact channels'}
+          ]
+        ]
+      }
+    };
+    const _lg = () => { let l = document.documentElement.lang; if(l !== 'ar' && l !== 'en'){ try{ l = localStorage.getItem('kazemiuon-lang') || 'fa'; }catch(e){ l = 'fa'; } } return (l === 'ar' || l === 'en') ? l : 'fa'; };
+    const UI_FA = { hello:'سلام! 👋 من دستیار سایت هیئت کاظمیونم. یکی از دسته‌های زیر رو انتخاب کن تا سوال‌های مرتبط رو ببینی.', pickCat:'یکی از دسته‌ها رو انتخاب کن:', pickQ:'یکی از سوال‌های زیر رو انتخاب کن:', related:'سوال‌های مرتبط دیگه:', another:'سوال دیگه‌ای داری؟', back:'🔙 بازگشت به دسته‌ها', which:'بفرما، کدوم سوال برات مهمه؟ 🙂', seeHome:'مشاهده در صفحه اصلی' };
+    const ui = (k) => { const l = _lg(); return l === 'fa' ? UI_FA[k] : FAQ_TR[l][k]; };
+    const catIdx = (cat) => FAQ_DATA.indexOf(cat);
+    const catLabel = (cat) => { const l = _lg(); return l === 'fa' ? cat.label : FAQ_TR[l].cats[catIdx(cat)]; };
+    const qTr = (cat, item) => { const l = _lg(); if(l === 'fa') return null; const t = FAQ_TR[l].items[catIdx(cat)]; return t && t[cat.questions.indexOf(item)] || null; };
+    const qText = (cat, item) => { const t = qTr(cat, item); return t ? t.q : item.q; };
+    const aText = (cat, item) => { const t = qTr(cat, item); return t ? t.a : item.a; };
+    const lText = (cat, item, fb) => { const t = qTr(cat, item); return (t && t.l) || fb; };
+
     let state = { view:'categories', categoryId:null };
 
     function scrollToBottom(){
@@ -1456,59 +1547,64 @@ html[dir="ltr"] .kzm-chev{ transform:scaleX(-1); }
 
     function renderCategories(){
       state = { view:'categories', categoryId:null };
-      labelEl.textContent = 'یکی از دسته‌ها رو انتخاب کن:';
+      labelEl.textContent = ui('pickCat');
       clearReplies();
       FAQ_DATA.forEach(cat => {
-        addChip(cat.icon + ' ' + cat.label, () => selectCategory(cat.id));
+        addChip(cat.icon + ' ' + catLabel(cat), () => selectCategory(cat.id));
       });
     }
 
     function selectCategory(catId){
       const cat = FAQ_DATA.find(c => c.id === catId);
       if(!cat) return;
-      addMessage(cat.icon + ' ' + cat.label, 'user');
-      addTypingThenMessage('بفرما، کدوم سوال برات مهمه؟ 🙂');
+      addMessage(cat.icon + ' ' + catLabel(cat), 'user');
+      addTypingThenMessage(ui('which'));
       state = { view:'questions', categoryId:catId };
       renderQuestionChips(cat);
     }
 
     function renderQuestionChips(cat){
-      labelEl.textContent = 'یکی از سوال‌های زیر رو انتخاب کن:';
+      labelEl.textContent = ui('pickQ');
       clearReplies();
       cat.questions.forEach(item => {
-        addChip(item.q, () => askQuestion(cat, item));
+        addChip(qText(cat, item), () => askQuestion(cat, item));
       });
-      addChip('🔙 بازگشت به دسته‌ها', renderCategories, true);
+      addChip(ui('back'), renderCategories, true);
     }
 
     function renderRelated(cat, currentItem){
       const others = cat.questions.filter(q => q !== currentItem);
       clearReplies();
       if(others.length){
-        labelEl.textContent = 'سوال‌های مرتبط دیگه:';
-        others.forEach(item => addChip(item.q, () => askQuestion(cat, item)));
+        labelEl.textContent = ui('related');
+        others.forEach(item => addChip(qText(cat, item), () => askQuestion(cat, item)));
       } else {
-        labelEl.textContent = 'سوال دیگه‌ای داری؟';
+        labelEl.textContent = ui('another');
       }
-      addChip('🔙 بازگشت به دسته‌ها', renderCategories, true);
+      addChip(ui('back'), renderCategories, true);
       state = { view:'questions', categoryId:cat.id };
     }
 
     function askQuestion(cat, item){
-      addMessage(item.q, 'user');
-      addTypingThenMessage(item.a, () => {
+      addMessage(qText(cat, item), 'user');
+      addTypingThenMessage(aText(cat, item), () => {
         if(Array.isArray(item.links)){
-          item.links.forEach(l => addLinkButton(l.url, l.label || 'مشاهده در صفحه اصلی'));
+          item.links.forEach(l => addLinkButton(l.url, l.label || ui('seeHome')));
         } else if(item.url){
-          addLinkButton(item.url, item.linkLabel || 'مشاهده در صفحه اصلی');
+          addLinkButton(item.url, lText(cat, item, item.linkLabel || ui('seeHome')));
         }
         renderRelated(cat, item);
       });
     }
 
     // پیام خوش‌آمد اولیه
-    addMessage('سلام! 👋 من دستیار سایت هیئت کاظمیونم. یکی از دسته‌های زیر رو انتخاب کن تا سوال‌های مرتبط رو ببینی.', 'bot');
-    renderCategories();
+    function startChat(){ scrollEl.innerHTML = ''; addMessage(ui('hello'), 'bot'); renderCategories(); }
+    startChat();
+    /* با تغییر زبان، گفتگو از نو شروع می‌شود تا همه‌چیز هم‌زبان بماند */
+    try{
+      let _pl = _lg();
+      new MutationObserver(() => { const n = _lg(); if(n !== _pl){ _pl = n; startChat(); } }).observe(document.documentElement, { attributes:true, attributeFilter:['lang'] });
+    }catch(e){}
   })();
 
   // ---------------- تغییر و همگام‌سازی تم با صفحه اول ----------------
