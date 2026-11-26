@@ -276,10 +276,20 @@ body{font-family:'Vazirmatn',system-ui,Tahoma,sans-serif;background:var(--notte)
 @keyframes kzmD1{3%,97%{width:160px;height:100px;margin-top:-50px;margin-left:-80px}30%,36%{width:80px;height:120px;margin-top:-60px;margin-left:-40px}63%,69%{width:40px;height:80px;margin-top:-40px;margin-left:-20px}}
 @keyframes kzmD2{3%,97%{height:90px;width:150px;margin-left:-75px;margin-top:-45px}30%,36%{width:70px;height:96px;margin-left:-35px;margin-top:-48px}63%,69%{width:32px;height:60px;margin-left:-16px;margin-top:-30px}}
 @keyframes kzmD3{3%,97%{height:20px;width:40px;margin-left:-20px;margin-top:50px}30%,36%{width:8px;height:8px;margin-left:-5px;margin-top:49px;border-radius:8px}63%,69%{width:16px;height:4px;margin-left:-8px;margin-top:-37px;border-radius:10px}}
-/* متن «Loading» زیر لودر: حروف از وسط به دو طرف پر می‌شوند؛ با جاوااسکریپت و clip-path تا روی همه‌ی موبایل‌ها کار کند */
-.kzm-tx{position:absolute;z-index:13;top:calc(50% + 96px);left:50%;transform:translateX(-50%);display:flex;width:max-content;direction:ltr;font:700 clamp(28px,8vw,40px)/1.2 ui-monospace,Menlo,Consolas,monospace}
-.kzm-tx span{position:relative;display:block;width:1ch;color:transparent;-webkit-text-fill-color:transparent;-webkit-text-stroke:1.5px var(--bianco)}
-.kzm-tx b{position:absolute;left:0;top:0;font-weight:inherit;color:var(--vetta);-webkit-text-fill-color:var(--vetta);-webkit-text-stroke:1.5px var(--bianco);clip-path:inset(100% 0 0 0);-webkit-clip-path:inset(100% 0 0 0)}
+/* لودر مربع‌ها زیر لودر اول (Uiverse / Nawsome): یک دور کامل = ۴٫۵ ثانیه، هم‌زمان با رفتن به سایت */
+.kzm-sp{--sq:26px;--o:30px;--dur:4.3s;--dl:.2s;position:absolute;z-index:13;top:calc(50% + 96px);left:50%;width:calc(3*var(--o) + var(--sq));height:calc(2*var(--o) + var(--sq));margin-left:calc((3*var(--o) + var(--sq))/-2)}
+.kzm-sp div{position:absolute;width:var(--sq);height:var(--sq);border-radius:2px;background:darkorange}
+.kzm-sp .q1{left:calc(0*var(--o));top:calc(0*var(--o));animation:ksq1 var(--dur) var(--dl) ease-in-out infinite,ksqin .4s calc(1*.1s) ease-out both}
+.kzm-sp .q2{left:calc(0*var(--o));top:calc(1*var(--o));animation:ksq2 var(--dur) var(--dl) ease-in-out infinite,ksqin .4s calc(1*.1s) ease-out both}
+.kzm-sp .q3{left:calc(1*var(--o));top:calc(1*var(--o));animation:ksq3 var(--dur) var(--dl) ease-in-out infinite,ksqin .4s calc(2*.1s) ease-out both}
+.kzm-sp .q4{left:calc(2*var(--o));top:calc(1*var(--o));animation:ksq4 var(--dur) var(--dl) ease-in-out infinite,ksqin .4s calc(3*.1s) ease-out both}
+.kzm-sp .q5{left:calc(3*var(--o));top:calc(1*var(--o));animation:ksq5 var(--dur) var(--dl) ease-in-out infinite,ksqin .4s calc(4*.1s) ease-out both}
+@keyframes ksq1{0%{left:calc(0*var(--o));top:calc(0*var(--o))}8.333%{left:calc(0*var(--o));top:calc(1*var(--o))}100%{left:calc(0*var(--o));top:calc(1*var(--o))}}
+@keyframes ksq2{0%{left:calc(0*var(--o));top:calc(1*var(--o))}8.333%{left:calc(0*var(--o));top:calc(2*var(--o))}16.67%{left:calc(1*var(--o));top:calc(2*var(--o))}25%{left:calc(1*var(--o));top:calc(1*var(--o))}83.33%{left:calc(1*var(--o));top:calc(1*var(--o))}91.67%{left:calc(1*var(--o));top:calc(0*var(--o))}100%{left:calc(0*var(--o));top:calc(0*var(--o))}}
+@keyframes ksq3{0%,100%{left:calc(1*var(--o));top:calc(1*var(--o))}16.67%{left:calc(1*var(--o));top:calc(1*var(--o))}25%{left:calc(1*var(--o));top:calc(0*var(--o))}33.33%{left:calc(2*var(--o));top:calc(0*var(--o))}41.67%{left:calc(2*var(--o));top:calc(1*var(--o))}66.67%{left:calc(2*var(--o));top:calc(1*var(--o))}75%{left:calc(2*var(--o));top:calc(2*var(--o))}83.33%{left:calc(1*var(--o));top:calc(2*var(--o))}91.67%{left:calc(1*var(--o));top:calc(1*var(--o))}}
+@keyframes ksq4{0%{left:calc(2*var(--o));top:calc(1*var(--o))}33.33%{left:calc(2*var(--o));top:calc(1*var(--o))}41.67%{left:calc(2*var(--o));top:calc(2*var(--o))}50%{left:calc(3*var(--o));top:calc(2*var(--o))}58.33%{left:calc(3*var(--o));top:calc(1*var(--o))}100%{left:calc(3*var(--o));top:calc(1*var(--o))}}
+@keyframes ksq5{0%{left:calc(3*var(--o));top:calc(1*var(--o))}50%{left:calc(3*var(--o));top:calc(1*var(--o))}58.33%{left:calc(3*var(--o));top:calc(0*var(--o))}66.67%{left:calc(2*var(--o));top:calc(0*var(--o))}75%{left:calc(2*var(--o));top:calc(1*var(--o))}100%{left:calc(2*var(--o));top:calc(1*var(--o))}}
+@keyframes ksqin{0%{transform:scale(.75);opacity:0}100%{transform:scale(1);opacity:1}}
 </style>
 </head>
 <body>
@@ -313,7 +323,7 @@ body{font-family:'Vazirmatn',system-ui,Tahoma,sans-serif;background:var(--notte)
   </div>
 </div>
 
-<div class="kzm-ld" aria-hidden="true"><i></i><i></i><i></i><div class="kzm-tx"></div></div>
+<div class="kzm-ld" aria-hidden="true"><i></i><i></i><i></i><div class="kzm-sp" aria-hidden="true"><div class="q1"></div><div class="q2"></div><div class="q3"></div><div class="q4"></div><div class="q5"></div></div></div>
 <script>/* اگر هر چیزی در انیمیشن خراب شد، دکمه باز هم کار می‌کند: فقط نشانه را می‌گذارد و لینک را باز می‌کند */
 document.querySelector('.pillola').addEventListener('click',function(){try{sessionStorage.setItem('kzm-entered','1')}catch(e){}});</script>
 <script>(function(){
@@ -678,40 +688,16 @@ const TARGET = 'index.html';
 let entering = false;
 const LOADER_MS = matchMedia('(prefers-reduced-motion: reduce)').matches ? 700 : 4500; /* یک دور کامل انیمیشن */
 const loaderEl = document.querySelector('.kzm-ld');
-/* پر و خالی شدن حروف «LOADING»: هر حرف یک نسخه‌ی نارنجی دارد که با clip-path از پایین پر می‌شود و بعد از بالا خالی */
-const ldTx = document.querySelector('.kzm-tx'), ldFill = [];
-'LOADING'.split('').forEach((c) => {
-  const sp = document.createElement('span'), b = document.createElement('b');
-  sp.textContent = c; b.textContent = c; b.setAttribute('aria-hidden', 'true');
-  sp.appendChild(b); ldTx.appendChild(sp); ldFill.push(b);
-});
-const LD_PROF = [[0,1,1,1,1],[0,.5,1,1,1],[0,0,.5,1,1],[0,0,0,.5,1],[0,0,.5,1,1],[0,.5,1,1,1],[0,1,1,1,1]];
-let ldRaf = 0;
-function startLd() {
-  const CY = 4500, t0 = performance.now();
-  cancelAnimationFrame(ldRaf);
-  (function frame(now) {
-    const t = ((now - t0) % CY) / CY, first = t < 0.5, p = first ? t * 2 : 1 - (t - 0.5) * 2;
-    const seg = Math.min(p * 4, 3.9999), k = Math.floor(seg), f = seg - k;
-    LD_PROF.forEach((r, i) => {
-      const cut = ((1 - (r[k] + (r[k + 1] - r[k]) * f)) * 100).toFixed(1);
-      const v = first ? 'inset(' + cut + '% 0 0 0)' : 'inset(0 0 ' + cut + '% 0)';
-      ldFill[i].style.clipPath = v; ldFill[i].style.webkitClipPath = v;
-    });
-    ldRaf = requestAnimationFrame(frame);
-  })(t0);
-}
 document.querySelector('.pillola').addEventListener('click', (e) => {
   e.preventDefault();
   if (entering) return;
   entering = true;
   entGo();
   loaderEl.classList.add('on');
-  startLd();
   setTimeout(() => { location.href = TARGET; }, LOADER_MS);
 });
 addEventListener('pageshow', (e) => {
-  if (e.persisted) { entering = false; loaderEl.classList.remove('on'); cancelAnimationFrame(ldRaf); gsap.set(pagina, { opacity: 1, scale: 1 }); }
+  if (e.persisted) { entering = false; loaderEl.classList.remove('on'); gsap.set(pagina, { opacity: 1, scale: 1 }); }
 });
 
 /* زبان و صدا */
