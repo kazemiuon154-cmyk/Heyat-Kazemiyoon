@@ -267,8 +267,9 @@ body{font-family:'Vazirmatn',system-ui,Tahoma,sans-serif;background:var(--notte)
 .kzm-wait .occhiello,.kzm-wait .titolo,.kzm-wait .azione{opacity:0}
 
 /* ---- لودر ورود: بعد از زدن «ورود به سایت» نشان داده می‌شود (خوشنویسی «کاظمیون»؛ دور ۸ ثانیه با --t در .kzm-cal) ---- */
-.kzm-ld{position:fixed;inset:0;z-index:100;display:none;background:#000}
-.kzm-ld.on{display:block;animation:kzmLdIn .45s ease both}
+.kzm-ld{position:fixed;inset:0;z-index:100;display:block;background:#000;opacity:0;pointer-events:none}
+.kzm-ld.warm{opacity:.01}
+.kzm-ld.on{opacity:1;pointer-events:auto;animation:kzmLdIn .45s ease both}
 @keyframes kzmLdIn{from{opacity:0}to{opacity:1}}
 .kzm-ld .kzm-cal { position: absolute; top: 50%; left: 50%; width: min(512px, 92vw, 80vh); height: auto; transform: translate(-50%, -50%); --t: 8s; }
 .kzm-ld .kzm-cal path { fill-rule: evenodd; stroke-linejoin: round; stroke-linecap: round; }
@@ -282,6 +283,7 @@ body{font-family:'Vazirmatn',system-ui,Tahoma,sans-serif;background:var(--notte)
 .kzm-ld .frame g + g .line { stroke-width: 2px; }
 .kzm-ld .frame { filter: drop-shadow(0 0 5px #fff) drop-shadow(0 0 14px rgba(255,255,255,.55)); }
 .kzm-ld .word { filter: drop-shadow(0 0 7px rgba(255,255,255,.45)); }
+
 .kzm-ld .word .line, .kzm-ld .word .body { animation-delay: calc(var(--i) * .16s + .9s); }
 
 .kzm-ld .ring path { fill: #c9c9c9; fill-opacity: 0; stroke: #bdbdbd; stroke-width: 1.1px;
@@ -784,16 +786,37 @@ const TARGET = 'index.html';
 let entering = false;
 const LOADER_MS = matchMedia('(prefers-reduced-motion: reduce)').matches ? 700 : 8600; /* رفت و برگشت کامل انیمیشن (--t=8s + تأخیر حروف)؛ اگر --t را عوض کردی این را هم متناسب کن */
 const loaderEl = document.querySelector('.kzm-ld');
+/* پیش‌بارگذاری لودر: همین‌که صفحه‌ی ورود باز شد لودر (نامرئی) آماده، متوقف و یک‌بار رسم می‌شود تا با زدن دکمه بدون لگ از اول شروع شود */
+let ldAnims = [], ldReady = false;
+function ldSeek(ms, play) { ldAnims.forEach((a) => { try { a.pause(); a.currentTime = ms; if (play) a.play(); } catch (e) {} }); }
+function parkLoader() { loaderEl.classList.remove('on', 'warm'); if (ldReady) ldSeek(0, false); }
+function startLoader() {
+  loaderEl.classList.remove('warm');
+  if (ldReady) ldSeek(0, true);
+  else { const c = loaderEl.firstElementChild; if (c) loaderEl.replaceChild(c.cloneNode(true), c); }
+  loaderEl.classList.add('on');
+}
+requestAnimationFrame(() => requestAnimationFrame(() => {
+  try { ldAnims = loaderEl.getAnimations({ subtree: true }); } catch (e) { ldAnims = []; }
+  if (ldAnims.length) { ldReady = true; ldSeek(0, false); }
+}));
+setTimeout(() => {
+  if (!ldReady || entering) return;
+  loaderEl.classList.add('warm'); ldSeek(5000, false);
+  setTimeout(() => { if (!entering) { loaderEl.classList.remove('warm'); ldSeek(0, false); } }, 450);
+}, 2500);
 document.querySelector('.pillola').addEventListener('click', (e) => {
   e.preventDefault();
   if (entering) return;
   entering = true;
   entGo();
-  loaderEl.classList.add('on');
+  startLoader();
+  /* پس‌زمینه‌ی کانواس زیر لودر دیگر لازم نیست؛ مخفی می‌شود تا IntersectionObserver انیمیشنش را متوقف کند و لودر روان‌تر شود */
+  setTimeout(() => { pagina.style.display = 'none'; }, 500);
   setTimeout(() => { location.href = TARGET; }, LOADER_MS);
 });
 addEventListener('pageshow', (e) => {
-  if (e.persisted) { entering = false; loaderEl.classList.remove('on'); gsap.set(pagina, { opacity: 1, scale: 1 }); }
+  if (e.persisted) { entering = false; parkLoader(); pagina.style.display = ''; gsap.set(pagina, { opacity: 1, scale: 1 }); }
 });
 
 /* زبان و صدا */
