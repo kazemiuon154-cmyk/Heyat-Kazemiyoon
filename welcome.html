@@ -276,11 +276,10 @@ body{font-family:'Vazirmatn',system-ui,Tahoma,sans-serif;background:var(--notte)
 @keyframes kzmD1{3%,97%{width:160px;height:100px;margin-top:-50px;margin-left:-80px}30%,36%{width:80px;height:120px;margin-top:-60px;margin-left:-40px}63%,69%{width:40px;height:80px;margin-top:-40px;margin-left:-20px}}
 @keyframes kzmD2{3%,97%{height:90px;width:150px;margin-left:-75px;margin-top:-45px}30%,36%{width:70px;height:96px;margin-left:-35px;margin-top:-48px}63%,69%{width:32px;height:60px;margin-left:-16px;margin-top:-30px}}
 @keyframes kzmD3{3%,97%{height:20px;width:40px;margin-left:-20px;margin-top:50px}30%,36%{width:8px;height:8px;margin-left:-5px;margin-top:49px;border-radius:8px}63%,69%{width:16px;height:4px;margin-left:-8px;margin-top:-37px;border-radius:10px}}
-/* متن «Loading» زیر لودر: حروف یکی‌یکی از وسط به دو طرف پر می‌شوند (هم‌زمان با دور ۴٫۵ ثانیه‌ای) */
-.kzm-tx{position:absolute;z-index:13;top:calc(50% + 96px);left:50%;transform:translateX(-50%);width:fit-content;font:700 clamp(28px,8vw,40px) ui-monospace,Menlo,Consolas,monospace;text-transform:uppercase;color:transparent;-webkit-text-fill-color:transparent;-webkit-text-stroke:1.5px var(--bianco);--g:linear-gradient(var(--vetta),var(--vetta)) no-repeat;background:var(--g) 0 0,var(--g) 1ch 0,var(--g) 2ch 0,var(--g) 3ch 0,var(--g) 4ch 0,var(--g) 5ch 0,var(--g) 6ch 0;-webkit-background-clip:text;background-clip:text;animation:kzmT0 2.25s linear infinite alternate,kzmT1 4.5s linear infinite}
-.kzm-tx:before{content:"Loading"}
-@keyframes kzmT0{0%{background-size:1ch 0,1ch 0,1ch 0,1ch 0,1ch 0,1ch 0,1ch 0}25%{background-size:1ch 100%,1ch 50%,1ch 0,1ch 0,1ch 0,1ch 50%,1ch 100%}50%{background-size:1ch 100%,1ch 100%,1ch 50%,1ch 0,1ch 50%,1ch 100%,1ch 100%}75%{background-size:1ch 100%,1ch 100%,1ch 100%,1ch 50%,1ch 100%,1ch 100%,1ch 100%}to{background-size:1ch 100%,1ch 100%,1ch 100%,1ch 100%,1ch 100%,1ch 100%,1ch 100%}}
-@keyframes kzmT1{0%,50%{background-position-y:100%}50.01%,to{background-position-y:0}}
+/* متن «Loading» زیر لودر: حروف از وسط به دو طرف پر می‌شوند؛ با جاوااسکریپت و clip-path تا روی همه‌ی موبایل‌ها کار کند */
+.kzm-tx{position:absolute;z-index:13;top:calc(50% + 96px);left:50%;transform:translateX(-50%);display:flex;width:max-content;direction:ltr;font:700 clamp(28px,8vw,40px)/1.2 ui-monospace,Menlo,Consolas,monospace}
+.kzm-tx span{position:relative;display:block;width:1ch;color:transparent;-webkit-text-fill-color:transparent;-webkit-text-stroke:1.5px var(--bianco)}
+.kzm-tx b{position:absolute;left:0;top:0;font-weight:inherit;color:var(--vetta);-webkit-text-fill-color:var(--vetta);-webkit-text-stroke:1.5px var(--bianco);clip-path:inset(100% 0 0 0);-webkit-clip-path:inset(100% 0 0 0)}
 </style>
 </head>
 <body>
@@ -679,16 +678,40 @@ const TARGET = 'index.html';
 let entering = false;
 const LOADER_MS = matchMedia('(prefers-reduced-motion: reduce)').matches ? 700 : 4500; /* یک دور کامل انیمیشن */
 const loaderEl = document.querySelector('.kzm-ld');
+/* پر و خالی شدن حروف «LOADING»: هر حرف یک نسخه‌ی نارنجی دارد که با clip-path از پایین پر می‌شود و بعد از بالا خالی */
+const ldTx = document.querySelector('.kzm-tx'), ldFill = [];
+'LOADING'.split('').forEach((c) => {
+  const sp = document.createElement('span'), b = document.createElement('b');
+  sp.textContent = c; b.textContent = c; b.setAttribute('aria-hidden', 'true');
+  sp.appendChild(b); ldTx.appendChild(sp); ldFill.push(b);
+});
+const LD_PROF = [[0,1,1,1,1],[0,.5,1,1,1],[0,0,.5,1,1],[0,0,0,.5,1],[0,0,.5,1,1],[0,.5,1,1,1],[0,1,1,1,1]];
+let ldRaf = 0;
+function startLd() {
+  const CY = 4500, t0 = performance.now();
+  cancelAnimationFrame(ldRaf);
+  (function frame(now) {
+    const t = ((now - t0) % CY) / CY, first = t < 0.5, p = first ? t * 2 : 1 - (t - 0.5) * 2;
+    const seg = Math.min(p * 4, 3.9999), k = Math.floor(seg), f = seg - k;
+    LD_PROF.forEach((r, i) => {
+      const cut = ((1 - (r[k] + (r[k + 1] - r[k]) * f)) * 100).toFixed(1);
+      const v = first ? 'inset(' + cut + '% 0 0 0)' : 'inset(0 0 ' + cut + '% 0)';
+      ldFill[i].style.clipPath = v; ldFill[i].style.webkitClipPath = v;
+    });
+    ldRaf = requestAnimationFrame(frame);
+  })(t0);
+}
 document.querySelector('.pillola').addEventListener('click', (e) => {
   e.preventDefault();
   if (entering) return;
   entering = true;
   entGo();
   loaderEl.classList.add('on');
+  startLd();
   setTimeout(() => { location.href = TARGET; }, LOADER_MS);
 });
 addEventListener('pageshow', (e) => {
-  if (e.persisted) { entering = false; loaderEl.classList.remove('on'); gsap.set(pagina, { opacity: 1, scale: 1 }); }
+  if (e.persisted) { entering = false; loaderEl.classList.remove('on'); cancelAnimationFrame(ldRaf); gsap.set(pagina, { opacity: 1, scale: 1 }); }
 });
 
 /* زبان و صدا */
