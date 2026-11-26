@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+/* صفحه‌ی ورود: اگر کاربر هنوز در این نشست از آن رد نشده، اول به آنجا برود (حداکثر دو بار، تا هیچ‌وقت حلقه نشود) */
+(function(){try{var s=sessionStorage;if(!s.getItem('kzm-entered')&&!(+s.getItem('kzm-gate')>1)){s.setItem('kzm-gate',(+s.getItem('kzm-gate')||0)+1);location.replace('welcome.html');}}catch(e){}})();
+</script>
 
 <!-- ===== Security hardening ===== -->
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
