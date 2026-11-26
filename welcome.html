@@ -1,0 +1,790 @@
+<!doctype html>
+<!--
+  "Contour background" from Animorio · https://animorio.com
+  License: free on your own sites and your clients’ sites, paid work included.
+  Not for resale, redistribution, templates or code collections · https://animorio.com/en/license/
+-->
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>ورود | هیئت کاظمیون</title>
+<meta name="description" content="ورود به سایت هیئت کاظمیون خرم‌آباد، مسجد قائم (عج) و سایر بخش‌ها">
+<link rel="icon" href="logo.jpg">
+<link rel="canonical" href="https://kazemiuon154-cmyk.github.io/Heyat-Kazemiyoon/">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#121310">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300..800&display=swap">
+<script>document.documentElement.classList.add('kzm-wait');setTimeout(function(){document.documentElement.classList.remove('kzm-wait')},3500);</script>
+<style>
+/*
+  "Contour background" from Animorio · https://animorio.com
+  License: free on your own sites and your clients’ sites, paid work included.
+  Not for resale, redistribution, templates or code collections · https://animorio.com/en/license/
+*/
+/* Lo sfondo a curve di livello: una notte quasi nera, le curve di livello di un paesaggio inventato su un canvas
+   dietro a tutto, in due toni di grigio caldo (le curve fini e, ogni cinque, quelle maestre) e la sola quota più alta
+   nell'accento. Sopra, piccolo, il titolo di un rifugio inventato (Altura) in Archivo, che ha l'asse della larghezza. */
+:root {
+  --notte: #121310;                       /* il fondo */
+  --bianco: #efe9dd;                      /* il titolo */
+  --tenue: #9a9384;                       /* le scritte piccole */
+  --curva: rgba(239, 233, 221, 0.17);     /* le curve fini */
+  --maestra: rgba(239, 233, 221, 0.4);    /* le curve maestre, una ogni cinque */
+  --vetta: #ff7a3d;                       /* la quota più alta */
+  --elastico: cubic-bezier(0.34, 1.9, 0.45, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  overflow-x: clip;
+}
+
+body {
+  background: var(--notte);
+  color: var(--bianco);
+  font-family: 'Archivo Variable', 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.pagina {
+  --margine: clamp(16px, 4.4vw, 60px);
+  position: relative;
+  display: grid;
+  grid-template-rows: 1fr;
+  height: 100svh;
+  min-height: 460px;
+  padding: clamp(18px, 3vw, 34px) var(--margine);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.fondo {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 110px);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 110px);
+}
+
+/* ---------------------------------------------------------------- la testata */
+.testa {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.testa p {
+  margin: 0;
+}
+
+.marchio {
+  font-size: 19px;
+  font-weight: 720;
+  font-stretch: 112%;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.testa__nota {
+  color: var(--tenue);
+  font-size: 14px;
+  font-weight: 480;
+}
+
+/* ---------------------------------------------------------------- il titolo */
+.eroe {
+  display: grid;
+  place-items: center;
+  padding-bottom: 5vh;
+}
+
+.blocco {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+}
+
+.occhiello {
+  margin: 0 0 28px;
+  color: var(--tenue);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.titolo {
+  margin: 0;
+  font-size: clamp(2.2rem, 1rem + 4vw, 4.6rem);
+  font-weight: 640;
+  font-stretch: 100%;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* le lettere: GSAP muove l'involucro, la larghezza la tiene il figlio */
+.lettera {
+  display: inline-block;
+}
+
+.lettera__dentro {
+  display: inline-block;
+}
+
+.azione {
+  margin-top: 48px;
+}
+
+/* ---------------------------------------------------------------- la pillola elastica */
+.pillola {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 50px;
+  padding: 0 24px;
+  border-radius: 999px;
+  color: var(--notte);
+  font-size: 15px;
+  font-weight: 640;
+  text-decoration: none;
+  white-space: nowrap;
+  isolation: isolate;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.pillola::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--bianco);
+  transition: inset 0.6s var(--elastico);
+}
+
+.pillola__scritta {
+  font-stretch: 100%;
+  text-align: center;
+  transition: font-stretch 0.6s var(--elastico);
+}
+
+.pillola__scritta::before {
+  content: attr(data-testo);
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  font-stretch: 125%;
+}
+
+.pillola__freccia {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.6s var(--elastico);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pillola:hover::before {
+    inset: -2px -7px;
+  }
+
+  .pillola:hover .pillola__scritta {
+    font-stretch: 125%;
+  }
+
+  .pillola:hover .pillola__freccia {
+    transform: translateX(3px);
+  }
+}
+
+.pillola:active::before {
+  inset: 2px 3px;
+}
+
+.pillola:focus-visible {
+  outline: 2px solid var(--vetta);
+  outline-offset: 4px;
+}
+
+@media (max-width: 560px) {
+  .titolo {
+    font-size: clamp(1.9rem, 10.4vw, 2.6rem);
+    white-space: normal;
+  }
+}
+
+
+/* ---- نسخه‌ی فارسی ---- */
+:root{color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{font-family:'Vazirmatn',system-ui,Tahoma,sans-serif;background:var(--notte)}
+.pagina{height:calc(100svh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}
+.pagina *{letter-spacing:0!important;text-transform:none!important;font-stretch:100%!important}
+.marchio{font-weight:700}
+.titolo{font-weight:700;line-height:1.55;word-spacing:.35em}
+.pillola__freccia{transform:scaleX(-1)}
+@media (hover:hover) and (pointer:fine){.pillola:hover .pillola__freccia{transform:scaleX(-1) translateX(3px)}}
+.ent-gear{position:fixed;z-index:4;top:calc(env(safe-area-inset-top,0px) + 14px);inset-inline-end:max(14px,env(safe-area-inset-right,0px));width:42px;height:42px;display:grid;place-items:center;padding:0;border-radius:50%;border:1px solid var(--curva);background:rgba(18,19,16,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:var(--bianco);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.ent-gear svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transition:transform .6s var(--elastico)}
+.ent-gear[aria-expanded=true] svg{transform:rotate(60deg)}
+.ent-panel{position:fixed;z-index:4;top:calc(env(safe-area-inset-top,0px) + 64px);inset-inline-end:max(14px,env(safe-area-inset-right,0px));width:min(300px,calc(100vw - 28px));padding:18px;border-radius:20px;border:1px solid var(--curva);background:rgba(24,25,21,.88);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:var(--bianco);display:grid;gap:16px}
+.ent-panel[hidden]{display:none}
+.ent-title{margin:0;font-weight:700;font-size:15px}
+.ent-row{display:grid;gap:10px;font-size:13px;color:var(--tenue)}
+.ent-row--sw{display:flex;align-items:center;justify-content:space-between}
+.ent-langs{display:flex;gap:6px}
+.ent-langs button{flex:1;font:inherit;font-size:13px;font-weight:500;color:var(--bianco);background:none;border:1px solid var(--curva);border-radius:999px;padding:8px 6px;cursor:pointer}
+.ent-langs button[aria-checked=true]{background:var(--bianco);color:var(--notte);border-color:var(--bianco)}
+.ent-sw{position:relative;width:46px;height:26px;padding:0;border-radius:999px;border:1px solid var(--maestra);background:none;cursor:pointer}
+.ent-sw::after{content:'';position:absolute;top:3px;inset-inline-start:3px;width:18px;height:18px;border-radius:50%;background:var(--tenue);transition:inset-inline-start .4s var(--elastico),background .3s}
+.ent-sw[aria-checked=true]{background:var(--bianco)}
+.ent-sw[aria-checked=true]::after{inset-inline-start:23px;background:var(--notte)}
+[dir=ltr] .pillola__freccia{transform:none}
+@media (hover:hover) and (pointer:fine){[dir=ltr] .pillola:hover .pillola__freccia{transform:translateX(3px)}}
+
+
+.kzm-wait .occhiello,.kzm-wait .titolo,.kzm-wait .azione{opacity:0}
+</style>
+</head>
+<body>
+<main class="pagina" data-pagina>
+  <canvas class="fondo" aria-hidden="true" data-fondo></canvas>
+  <section class="eroe">
+    <div class="blocco" data-blocco>
+      <p class="occhiello" data-entra>بسم الله الرحمن الرحیم</p>
+      <h1 class="titolo" data-titolo aria-label="به هیئت کاظمیون خوش آمدید.">به هیئت کاظمیون خوش آمدید.</h1>
+      <div class="azione" data-entra>
+        <a class="pillola" href="index.html">
+          <span class="pillola__scritta" data-testo="ورود به سایت">ورود به سایت</span>
+          <svg class="pillola__freccia" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h10.5M9 3.8 13.2 8 9 12.2" /></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+<button class="ent-gear" type="button" aria-label="تنظیمات" data-i18n-aria="settings" aria-haspopup="dialog" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+<div class="ent-panel" role="dialog" aria-labelledby="ent-t" hidden>
+  <p class="ent-title" id="ent-t" data-i18n="settings">تنظیمات</p>
+  <div class="ent-row"><span data-i18n="lang">زبان</span>
+    <div class="ent-langs" role="radiogroup">
+      <button type="button" role="radio" aria-checked="false" data-lang="fa">فارسی</button>
+      <button type="button" role="radio" aria-checked="false" data-lang="ar">العربية</button>
+      <button type="button" role="radio" aria-checked="false" data-lang="en">English</button>
+    </div>
+  </div>
+  <div class="ent-row ent-row--sw"><span data-i18n="sound">صدا</span>
+    <button type="button" class="ent-sw" role="switch" aria-checked="true" data-i18n-aria="sound"></button>
+  </div>
+</div>
+
+<script>/* اگر هر چیزی در انیمیشن خراب شد، دکمه باز هم کار می‌کند: فقط نشانه را می‌گذارد و لینک را باز می‌کند */
+document.querySelector('.pillola').addEventListener('click',function(){try{sessionStorage.setItem('kzm-entered','1')}catch(e){}});</script>
+<script>(function(){
+var T=[],K=[],S=new WeakMap(),raf=0,last=0;
+function now(){return performance.now()/1000}
+var E={none:function(t){return t},'power1.in':function(t){return t*t},'power1.out':function(t){return 1-Math.pow(1-t,2)},'power2.in':function(t){return t*t*t},'power2.out':function(t){return 1-Math.pow(1-t,3)},'power3.out':function(t){return 1-Math.pow(1-t,4)}};
+function ez(n){var m=/^back\.out\(([\d.]+)\)$/.exec(n||'');if(m){var s=+m[1];return function(t){t-=1;return t*t*((s+1)*t+s)+1}}return E[n]||E['power1.out']}
+function list(x){return x&&x.nodeType?[x]:Array.isArray(x)?x:[x]}
+function dom(o){return o&&o.nodeType===1}
+function st(el){var s=S.get(el);if(!s){s={x:0,y:0,xPercent:0,yPercent:0,scale:1,opacity:parseFloat(getComputedStyle(el).opacity)};S.set(el,s)}return s}
+function get(o,k){return dom(o)?st(o)[k]:o[k]}
+function put(o,k,v){if(dom(o))st(o)[k]=v;else o[k]=v}
+function paint(o){if(!dom(o))return;var s=st(o);o.style.opacity=s.opacity;o.style.transform='translate('+s.x+'px,'+s.y+'px) translate('+s.xPercent+'%,'+s.yPercent+'%) scale('+s.scale+')'}
+var RES={duration:1,delay:1,ease:1,stagger:1,overwrite:1,onComplete:1,immediateRender:1,repeat:1};
+function mk(kind,targets,a,b,tl,pos){
+  var v=kind==='fromTo'?b:a,ts=list(targets),props=Object.keys(kind==='fromTo'?a:v).filter(function(k){return !(k in RES)});
+  if(v.overwrite)T=T.filter(function(w){return !w.ts.some(function(x){return ts.indexOf(x)>-1})});
+  var w={ts:ts,props:props,d:v.duration==null?0.5:v.duration,e:ez(v.ease),st:v.stagger||0,cb:v.onComplete,tl:tl,pos:(pos||0)+(v.delay||0),t0:now(),A:[],B:[]};
+  ts.forEach(function(o){var x={},y={};props.forEach(function(k){var c=get(o,k);if(kind==='to'){x[k]=c;y[k]=v[k]}else if(kind==='from'){x[k]=v[k];y[k]=c}else{x[k]=a[k];y[k]=b[k]}});w.A.push(x);w.B.push(y)});
+  if(kind!=='to'&&v.immediateRender!==false)ts.forEach(function(o,i){props.forEach(function(k){put(o,k,w.A[i][k])});paint(o)});
+  T.push(w);go();return w;
+}
+function tlTime(tl){var r=tl.paused?tl.time:now()-tl.origin;return(tl.repeat&&tl.total>0)?r%tl.total:r}
+function tick(){
+  T.slice().forEach(function(w){
+    var local=(w.tl?tlTime(w.tl):now()-w.t0)-w.pos,n=w.ts.length,end=w.d+(n-1)*w.st;
+    w.ts.forEach(function(o,i){
+      var lt=local-i*w.st;if(lt<0)return;
+      var p=w.d<=0?1:Math.min(1,lt/w.d),q=w.e(p);
+      w.props.forEach(function(k){put(o,k,w.A[i][k]+(w.B[i][k]-w.A[i][k])*q)});paint(o);
+    });
+    if(!(w.tl&&w.tl.repeat)&&local>=end){T=T.filter(function(x){return x!==w});if(w.cb)w.cb()}
+  });
+}
+function busy(){return K.length||T.some(function(w){return !w.tl||!w.tl.paused})}
+function loop(){raf=0;var t=now(),dt=last?(t-last)*1000:16.7;last=t;tick();K.slice().forEach(function(f){f(t,dt)});if(busy())go();else last=0}
+function go(){if(!raf)raf=requestAnimationFrame(loop)}
+function timeline(o){
+  o=o||{};var tl={origin:now(),time:0,paused:!!o.paused,repeat:o.repeat||0,total:0};
+  function add(kind,t,a,b,pos){var w=mk(kind,t,a,b,tl,pos==null?tl.total:pos);tl.total=Math.max(tl.total,w.pos+w.d+(w.ts.length-1)*w.st);return tl}
+  tl.to=function(t,v,p){return add('to',t,v,null,p)};
+  tl.from=function(t,v,p){return add('from',t,v,null,p)};
+  tl.fromTo=function(t,a,b,p){return add('fromTo',t,a,b,p)};
+  tl.play=function(){if(tl.paused){tl.paused=false;tl.origin=now()-tl.time;go()}return tl};
+  tl.pause=function(){if(!tl.paused){tl.time=now()-tl.origin;tl.paused=true}return tl};
+  return tl;
+}
+window.gsap={
+  to:function(t,v){return mk('to',t,v,null)},from:function(t,v){return mk('from',t,v,null)},fromTo:function(t,a,b){return mk('fromTo',t,a,b)},
+  set:function(t,v){list(t).forEach(function(o){Object.keys(v).forEach(function(k){put(o,k,v[k])});paint(o)})},
+  timeline:timeline,
+  delayedCall:function(s,f){var id=setTimeout(f,s*1000);return{kill:function(){clearTimeout(id)}}},
+  killTweensOf:function(t){var ts=list(t);T=T.filter(function(w){return !w.ts.some(function(x){return ts.indexOf(x)>-1})})},
+  ticker:{add:function(f){if(K.indexOf(f)<0)K.push(f);go()},remove:function(f){var i=K.indexOf(f);if(i>-1)K.splice(i,1)}}
+};
+})();</script>
+<script>
+/*
+  "Contour background" from Animorio · https://animorio.com
+  License: free on your own sites and your clients’ sites, paid work included.
+  Not for resale, redistribution, templates or code collections · https://animorio.com/en/license/
+*/
+/* Lo sfondo a curve di livello
+   Un fondo di pagina vivo da mettere dietro a un titolo: le curve di livello di un paesaggio inventato, generate da
+   un rumore e disegnate con le «marching squares» su un canvas. Il paesaggio scorre piano e in un giro intero torna
+   uguale; ogni cinque curve una maestra più chiara, e la sola quota più alta nell'accento, piccoli anelli sulle
+   cime. Sotto il titolo il terreno si spiana in un altopiano, così nessuna curva passa sulle parole. All'apertura il
+   paesaggio sale dal piano: gli anelli nascono sulle cime e si allargano. Il puntatore alza una collina morbida. */
+
+/* ---- valori da cambiare ---- */
+const GIRO = 26;             /* in quanti secondi il paesaggio fa un giro intero e torna uguale */
+const SCALA = 380;           /* la grandezza delle colline, in px */
+const DERIVA = 0.45;         /* quanta strada fa il paesaggio in un giro */
+const QUOTA = 0.07;          /* la distanza fra una curva e l'altra (più piccola, più curve) */
+const MAESTRA = 5;           /* ogni quante curve ce n'è una maestra, più chiara */
+const COLLINA = 0.6;         /* quanto alza il terreno il puntatore */
+const LARGA = 95;            /* quanto è larga la collina del puntatore, in px */
+const ALTOPIANO = 70;        /* quanti px di terreno piano restano intorno al titolo */
+const SPESSORE = 1;          /* lo spessore delle curve, in px */
+
+const RIDOTTO = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const pagina = document.querySelector('[data-pagina]');
+const tela = document.querySelector('[data-fondo]');
+const ctx = tela.getContext('2d');
+const blocco = document.querySelector('[data-blocco]');
+const titolo = document.querySelector('[data-titolo]');
+const entrano = [...document.querySelectorAll('[data-entra]')];
+const TAU = Math.PI * 2;
+const clamp = (a, b, v) => Math.min(b, Math.max(a, v));
+
+/* ---------------------------------------------------------------- il titolo in lettere (le parole non si spezzano) */
+const lettere = [];
+{
+  const testo = titolo.textContent.trim();
+  titolo.textContent = '';
+  testo.split(' ').forEach((parola, p, tutte) => {
+    const w = document.createElement('span');
+    w.style.display = 'inline-block';
+    w.style.whiteSpace = 'nowrap';
+    w.setAttribute('aria-hidden', 'true');
+    [parola].forEach((c) => {
+      const l = document.createElement('span');
+      l.className = 'lettera';
+      const d = document.createElement('span');
+      d.className = 'lettera__dentro';
+      d.textContent = c;
+      l.appendChild(d);
+      w.appendChild(l);
+      lettere.push(l);
+    });
+    titolo.appendChild(w);
+    if (p < tutte.length - 1) titolo.appendChild(document.createTextNode(' '));
+  });
+}
+
+/* ---------------------------------------------------------------- il rumore (Perlin 2D, sempre lo stesso seme) */
+const perm = new Uint8Array(512);
+{
+  const p = [...Array(256).keys()];
+  let s = 20261019;
+  for (let i = 255; i > 0; i--) {
+    s = (s * 16807) % 2147483647;
+    const j = s % (i + 1);
+    [p[i], p[j]] = [p[j], p[i]];
+  }
+  for (let i = 0; i < 512; i++) perm[i] = p[i & 255];
+}
+const GX = [1, -1, 1, -1, 1, -1, 0, 0];
+const GY = [1, 1, -1, -1, 0, 0, 1, -1];
+function rumore(x, y) {
+  const xi = Math.floor(x);
+  const yi = Math.floor(y);
+  const xf = x - xi;
+  const yf = y - yi;
+  const X = xi & 255;
+  const Y = yi & 255;
+  const g = (h, dx, dy) => GX[h & 7] * dx + GY[h & 7] * dy;
+  const u = xf * xf * xf * (xf * (xf * 6 - 15) + 10);
+  const v = yf * yf * yf * (yf * (yf * 6 - 15) + 10);
+  const aa = g(perm[X + perm[Y]], xf, yf);
+  const ba = g(perm[X + 1 + perm[Y]], xf - 1, yf);
+  const ab = g(perm[X + perm[Y + 1]], xf, yf - 1);
+  const bb = g(perm[X + 1 + perm[Y + 1]], xf - 1, yf - 1);
+  const x1 = aa + (ba - aa) * u;
+  const x2 = ab + (bb - ab) * u;
+  return x1 + (x2 - x1) * v;
+}
+
+/* ---------------------------------------------------------------- stato e misure */
+const st = { fase: 0, sale: RIDOTTO ? 1 : 0 };
+const punta = { x: -1e4, y: -1e4, tx: -1e4, ty: -1e4, vx: 0, vy: 0, forza: 0, fv: 0, dentro: false };
+const piano = { x: 0, y: 0, rx: 1, ry: 1 };
+let W = 0;
+let H = 0;
+let dpr = 1;
+let C = 10;
+let cols = 0;
+let rows = 0;
+let campo = new Float32Array(1);
+
+function misura() {
+  const r = pagina.getBoundingClientRect();
+  W = Math.max(1, r.width);
+  H = Math.max(1, r.height);
+  dpr = Math.min(window.devicePixelRatio || 1, 2);
+  tela.width = Math.round(W * dpr);
+  tela.height = Math.round(H * dpr);
+  C = W < 760 ? 6 : 8;
+  cols = Math.ceil(W / C) + 1;
+  rows = Math.ceil(H / C) + 1;
+  campo = new Float32Array((cols + 1) * (rows + 1));
+  const b = blocco.getBoundingClientRect();
+  piano.x = b.left - r.left + b.width / 2;
+  piano.y = b.top - r.top + b.height / 2;
+  piano.rx = b.width / 2 * 1.12 + ALTOPIANO * 0.5;
+  piano.ry = b.height / 2 * 1.12 + ALTOPIANO * 0.4;
+  if (RIDOTTO || !acceso) disegna();
+}
+
+/* ---------------------------------------------------------------- un fotogramma */
+let colori = ['#555', '#888', '#f73'];
+function disegna() {
+  const s = getComputedStyle(document.documentElement);
+  colori = ['--curva', '--maestra', '--vetta'].map((v, i) => s.getPropertyValue(v).trim() || colori[i]);
+  const th = st.fase * TAU;
+  const ax = Math.cos(th) * DERIVA;
+  const ay = Math.sin(th) * DERIVA;
+  const bx = Math.cos(-2 * th + 1) * DERIVA * 1.3;
+  const by = Math.sin(-2 * th + 1) * DERIVA * 1.3;
+  const s1 = 1 / SCALA;
+  const s2 = 2.3 / SCALA;
+  const alto = st.sale;
+  const q = Math.max(0.02, QUOTA);
+  /* l'altopiano sta a metà fra due curve: il terreno lì è piano e non lo attraversa nessuna */
+  const pianoQ = 0.5 * q;
+  const piuma = Math.max(10, ALTOPIANO);
+  const sig = 2 * LARGA * LARGA;
+  const pf = punta.forza * COLLINA;
+
+  for (let j = 0; j <= rows; j++) {
+    const y = j * C;
+    for (let i = 0; i <= cols; i++) {
+      const x = i * C;
+      let f = 0.68 * rumore(x * s1 + ax, y * s1 + ay) + 0.32 * rumore(x * s2 + bx + 7.3, y * s2 + by - 3.1);
+      f *= 1.25 * alto;
+      if (pf > 0.001) {
+        const dx = x - punta.x;
+        const dy = y - punta.y;
+        const d2 = dx * dx + dy * dy;
+        if (d2 < 9 * LARGA * LARGA) f += pf * Math.exp(-d2 / sig);
+      }
+      /* la distanza dal bordo dell'altopiano (un ovale un poco squadrato) */
+      const ux = Math.abs(x - piano.x) / piano.rx;
+      const uy = Math.abs(y - piano.y) / piano.ry;
+      const e = Math.pow(Math.pow(ux, 2.6) + Math.pow(uy, 2.6), 1 / 2.6);
+      if (e < 1 + piuma / piano.ry) {
+        let m = 1 - clamp(0, 1, (e - 1) * piano.ry / piuma);
+        m = m * m * (3 - 2 * m);
+        f += (pianoQ - f) * m;
+      }
+      campo[j * (cols + 1) + i] = f;
+    }
+  }
+
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, W, H);
+  ctx.lineCap = 'round';
+  const tracce = [new Path2D(), new Path2D(), new Path2D()];
+  const vetta = Math.round(0.62 / q);
+  const stride = cols + 1;
+  for (let j = 0; j < rows; j++) {
+    for (let i = 0; i < cols; i++) {
+      const a = campo[j * stride + i];
+      const b = campo[j * stride + i + 1];
+      const c = campo[(j + 1) * stride + i + 1];
+      const d = campo[(j + 1) * stride + i];
+      const lo = Math.min(a, b, c, d);
+      const hi = Math.max(a, b, c, d);
+      const k0 = Math.ceil(lo / q);
+      const k1 = Math.floor(hi / q);
+      for (let k = k0; k <= k1; k++) {
+        const L = k * q;
+        const caso = (a > L ? 8 : 0) | (b > L ? 4 : 0) | (c > L ? 2 : 0) | (d > L ? 1 : 0);
+        if (caso === 0 || caso === 15) continue;
+        const p = k >= vetta ? tracce[2] : (k % MAESTRA === 0 ? tracce[1] : tracce[0]);
+        const x0 = i * C;
+        const y0 = j * C;
+        /* i quattro lati della cella: sopra, destra, sotto, sinistra */
+        const su = () => [x0 + C * (L - a) / (b - a), y0];
+        const de = () => [x0 + C, y0 + C * (L - b) / (c - b)];
+        const gi = () => [x0 + C * (L - d) / (c - d), y0 + C];
+        const si = () => [x0, y0 + C * (L - a) / (d - a)];
+        const seg = (m, n) => { p.moveTo(m[0], m[1]); p.lineTo(n[0], n[1]); };
+        switch (caso) {
+          case 1: case 14: seg(si(), gi()); break;
+          case 2: case 13: seg(gi(), de()); break;
+          case 3: case 12: seg(si(), de()); break;
+          case 4: case 11: seg(su(), de()); break;
+          case 6: case 9: seg(su(), gi()); break;
+          case 7: case 8: seg(si(), su()); break;
+          case 5: seg(si(), su()); seg(gi(), de()); break;
+          case 10: seg(su(), de()); seg(si(), gi()); break;
+          default: break;
+        }
+      }
+    }
+  }
+  ctx.lineWidth = SPESSORE;
+  ctx.strokeStyle = colori[0];
+  ctx.stroke(tracce[0]);
+  ctx.lineWidth = SPESSORE * 1.2;
+  ctx.strokeStyle = colori[1];
+  ctx.stroke(tracce[1]);
+  ctx.lineWidth = SPESSORE * 1.3;
+  ctx.strokeStyle = colori[2];
+  ctx.stroke(tracce[2]);
+}
+
+/* ---------------------------------------------------------------- il puntatore: una collina che lo segue */
+function passo(time, dtMs) {
+  const dt = Math.min(dtMs / 1000, 1 / 30);
+  punta.vx += (70 * (punta.tx - punta.x) - 16 * punta.vx) * dt;
+  punta.vy += (70 * (punta.ty - punta.y) - 16 * punta.vy) * dt;
+  punta.x += punta.vx * dt;
+  punta.y += punta.vy * dt;
+  const vuole = punta.dentro && st.sale > 0.98 ? 1 : 0;
+  punta.fv += (30 * (vuole - punta.forza) - 9 * punta.fv) * dt;
+  punta.forza = clamp(0, 1.3, punta.forza + punta.fv * dt);
+  disegna();
+}
+function segui(e) {
+  const r = pagina.getBoundingClientRect();
+  punta.tx = e.clientX - r.left;
+  punta.ty = e.clientY - r.top;
+  if (!punta.dentro) {
+    /* la collina nasce dove arriva il puntatore, non corre da lontano */
+    punta.x = punta.tx;
+    punta.y = punta.ty;
+    punta.vx = 0;
+    punta.vy = 0;
+  }
+  punta.dentro = true;
+}
+addEventListener('pointermove', segui, { passive: true });
+addEventListener('pointerdown', segui, { passive: true });
+document.documentElement.addEventListener('pointerleave', () => { punta.dentro = false; });
+
+/* ---------------------------------------------------------------- il giro e la pausa fuori schermo */
+const giro = gsap.timeline({ repeat: -1, paused: true });
+giro.fromTo(st, { fase: 0 }, { fase: 1, duration: GIRO, ease: 'none', immediateRender: false });
+
+let visibile = true;
+let acceso = false;
+function accendi() {
+  const vuole = visibile && !document.hidden && !RIDOTTO;
+  if (vuole === acceso) return;
+  acceso = vuole;
+  if (acceso) {
+    gsap.ticker.add(passo);
+    giro.play();
+  } else {
+    gsap.ticker.remove(passo);
+    giro.pause();
+  }
+}
+new IntersectionObserver((voci) => {
+  visibile = voci[voci.length - 1].isIntersecting;
+  accendi();
+}).observe(pagina);
+document.addEventListener('visibilitychange', accendi);
+
+function apri() {
+  document.documentElement.classList.remove('kzm-wait');
+  misura();
+  if (RIDOTTO) {
+    disegna();
+    gsap.from([entrano[0], titolo, entrano[1]], { opacity: 0, duration: 0.8, ease: 'power1.out', stagger: 0.08 });
+    return;
+  }
+  accendi();
+  const dentro = lettere.map((l) => l.firstChild);
+  const tl = gsap.timeline();
+  /* il paesaggio sale dal piano, con un filo di troppo e il ritorno */
+  tl.to(st, { sale: 1, duration: 2.6, ease: 'back.out(1.15)' }, 0);
+  tl.from(lettere, { yPercent: 45, opacity: 0, duration: 1.5, ease: 'power3.out', stagger: 0.38 }, 1.0);
+  tl.from(entrano[0], { opacity: 0, y: 10, duration: 1.2, ease: 'power2.out' }, 0.5);
+  tl.from(entrano[1], { opacity: 0, y: 14, duration: 1.3, ease: 'power3.out' }, 3.1);
+}
+
+let attesa = null;
+addEventListener('resize', () => {
+  if (attesa) attesa.kill();
+  attesa = gsap.delayedCall(0.1, misura);
+});
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(apri);
+else apri();
+
+</script>
+<script>
+/* دکمه‌ی ورود: نشانه‌ی «وارد شد» را می‌گذارد و می‌رود به صفحه‌ی اصلی سایت */
+const TARGET = 'index.html';
+let entering = false;
+document.querySelector('.pillola').addEventListener('click', (e) => {
+  e.preventDefault();
+  if (entering) return;
+  entering = true;
+  entGo();
+  gsap.to(pagina, { opacity: 0, scale: 1.04, duration: 0.85, ease: 'power2.in', onComplete() { location.href = TARGET; } });
+  setTimeout(() => { location.href = TARGET; }, 2200);
+});
+addEventListener('pageshow', (e) => {
+  if (e.persisted) { entering = false; gsap.set(pagina, { opacity: 1, scale: 1 }); }
+});
+
+/* زبان و صدا */
+const ENT = {
+  fa: { dir: 'rtl', eyebrow: 'بسم الله الرحمن الرحیم', title: 'به هیئت کاظمیون خوش آمدید.', btn: 'ورود به سایت', settings: 'تنظیمات', lang: 'زبان', sound: 'صدا' },
+  ar: { dir: 'rtl', eyebrow: 'بسم الله الرحمن الرحيم', title: 'أهلاً بكم في هيئة الكاظميين.', btn: 'الدخول إلى الموقع', settings: 'الإعدادات', lang: 'اللغة', sound: 'الصوت' },
+  en: { dir: 'ltr', eyebrow: 'بسم الله الرحمن الرحيم', title: 'Welcome to Heyat Kazemiyoon.', btn: 'Enter the site', settings: 'Settings', lang: 'Language', sound: 'Sound' }
+};
+const entGet = (k) => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+const entSet = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
+let entLang = ENT[entGet('kazemiuon-lang')] ? entGet('kazemiuon-lang') : 'fa';
+let entSound = entGet('kzm-entry-sound') !== '0';
+const entGear = document.querySelector('.ent-gear'), entBox = document.querySelector('.ent-panel'), entSw = document.querySelector('.ent-sw');
+
+function entTitle(text) {
+  titolo.textContent = '';
+  lettere.length = 0;
+  text.split(' ').forEach((w, i, all) => {
+    const s = document.createElement('span');
+    s.style.display = 'inline-block';
+    s.style.whiteSpace = 'nowrap';
+    s.setAttribute('aria-hidden', 'true');
+    const l = document.createElement('span');
+    l.className = 'lettera';
+    const d = document.createElement('span');
+    d.className = 'lettera__dentro';
+    d.textContent = w;
+    l.appendChild(d);
+    s.appendChild(l);
+    titolo.appendChild(s);
+    lettere.push(l);
+    if (i < all.length - 1) titolo.appendChild(document.createTextNode(' '));
+  });
+  titolo.setAttribute('aria-label', text);
+}
+
+function entSetLang(l, replay) {
+  const t = ENT[l];
+  entLang = l;
+  document.documentElement.lang = l;
+  document.documentElement.dir = t.dir;
+  entTitle(t.title);
+  entrano[0].textContent = t.eyebrow;
+  const bt = document.querySelector('.pillola__scritta');
+  bt.textContent = t.btn;
+  bt.setAttribute('data-testo', t.btn);
+  document.querySelectorAll('[data-i18n]').forEach((n) => { n.textContent = t[n.dataset.i18n]; });
+  document.querySelectorAll('[data-i18n-aria]').forEach((n) => { n.setAttribute('aria-label', t[n.dataset.i18nAria]); });
+  document.querySelectorAll('.ent-langs button').forEach((b) => { b.setAttribute('aria-checked', String(b.dataset.lang === l)); });
+  if (!replay) return;
+  misura();
+  gsap.fromTo(entrano, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', stagger: 0.15, overwrite: true });
+  gsap.from(lettere, { yPercent: 45, opacity: 0, duration: 1, ease: 'power3.out', stagger: 0.2 });
+}
+
+function entPanel(open) {
+  entGear.setAttribute('aria-expanded', String(open));
+  if (open) {
+    entBox.hidden = false;
+    gsap.fromTo(entBox, { opacity: 0, y: -8, scale: 0.97 }, { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: 'power2.out', overwrite: true });
+  } else {
+    gsap.to(entBox, { opacity: 0, y: -8, duration: 0.2, overwrite: true, onComplete() { entBox.hidden = true; } });
+  }
+}
+
+let entAc = null;
+function entChime() {
+  try {
+    entAc = entAc || new (window.AudioContext || window.webkitAudioContext)();
+    if (entAc.state === 'suspended') entAc.resume();
+    const t = entAc.currentTime;
+    [[523.25, 0], [783.99, 0.1], [1046.5, 0.22]].forEach(([f, d]) => {
+      const o = entAc.createOscillator(), g = entAc.createGain();
+      o.type = 'sine';
+      o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, t + d);
+      g.gain.linearRampToValueAtTime(0.035, t + d + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + d + 0.75);
+      o.connect(g);
+      g.connect(entAc.destination);
+      o.start(t + d);
+      o.stop(t + d + 0.8);
+    });
+  } catch (e) {}
+}
+
+function entGo() {
+  if (!entBox.hidden) entPanel(false);
+  if (navigator.vibrate) { try { navigator.vibrate(14); } catch (e) {} }
+  if (entSound) entChime();
+}
+
+entGear.addEventListener('click', () => entPanel(entBox.hidden));
+document.addEventListener('pointerdown', (e) => {
+  if (!entBox.hidden && !entBox.contains(e.target) && !entGear.contains(e.target)) entPanel(false);
+});
+addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !entBox.hidden) { entPanel(false); entGear.focus(); }
+});
+entBox.querySelectorAll('.ent-langs button').forEach((b) => {
+  b.addEventListener('click', () => {
+    if (b.dataset.lang === entLang) return;
+    entSet('kazemiuon-lang', b.dataset.lang);
+    entSetLang(b.dataset.lang, true);
+  });
+});
+entSw.addEventListener('click', () => {
+  entSound = !entSound;
+  entSet('kzm-entry-sound', entSound ? '1' : '0');
+  entSw.setAttribute('aria-checked', String(entSound));
+  if (entSound) entChime();
+});
+entSw.setAttribute('aria-checked', String(entSound));
+entSetLang(entLang, false);
+</script>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('service-worker.js').catch(function(){});});}</script>
+</body>
+</html>
