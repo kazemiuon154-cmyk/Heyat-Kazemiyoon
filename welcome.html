@@ -260,6 +260,18 @@ body{font-family:'Vazirmatn',system-ui,Tahoma,sans-serif;background:var(--notte)
 .ent-sw::after{content:'';position:absolute;top:3px;inset-inline-start:3px;width:18px;height:18px;border-radius:50%;background:var(--tenue);transition:inset-inline-start .4s var(--elastico),background .3s}
 .ent-sw[aria-checked=true]{background:var(--bianco)}
 .ent-sw[aria-checked=true]::after{inset-inline-start:23px;background:var(--notte)}
+.ent-seg{display:flex;gap:6px}
+.ent-seg button{flex:1;font:inherit;font-size:12px;font-weight:500;color:var(--bianco);background:none;border:1px solid var(--curva);border-radius:999px;padding:8px 6px;cursor:pointer}
+.ent-seg button[aria-checked=true]{background:var(--bianco);color:var(--notte);border-color:var(--bianco)}
+.kzm-warn{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:20px;background:rgba(0,0,0,.74)}
+.kzm-warn[hidden]{display:none}
+.kzm-warn__box{width:min(420px,100%);max-height:88vh;overflow:auto;display:grid;gap:12px;padding:18px;border:1px solid #e5484d;border-radius:16px;background:var(--notte);color:var(--bianco);box-shadow:0 0 0 3px rgba(229,72,77,.18)}
+.kzm-warn__t{margin:0;font-weight:700;font-size:16px;line-height:1.6;color:#ff6b6f}
+.kzm-warn ul{margin:0;padding-inline-start:20px;display:grid;gap:8px;font-size:13px;line-height:1.8;color:var(--tenue)}
+.kzm-warn__act{display:flex;gap:8px;margin-top:4px}
+.kzm-warn__act button{flex:1;font:inherit;font-size:13px;font-weight:600;border-radius:999px;padding:10px 8px;cursor:pointer}
+.kzm-warn__no{background:var(--bianco);color:var(--notte);border:1px solid var(--bianco)}
+.kzm-warn__ok{background:none;color:#ff6b6f;border:1px solid #e5484d}
 [dir=ltr] .pillola__freccia{transform:none}
 @media (hover:hover) and (pointer:fine){[dir=ltr] .pillola:hover .pillola__freccia{transform:translateX(3px)}}
 
@@ -284,6 +296,9 @@ body{font-family:'Vazirmatn',system-ui,Tahoma,sans-serif;background:var(--notte)
 .kzm-ld .frame { filter: drop-shadow(0 0 5px #fff) drop-shadow(0 0 14px rgba(255,255,255,.55)); }
 .kzm-ld .word { filter: drop-shadow(0 0 7px rgba(255,255,255,.45)); }
 
+/* حالت سبک (گوشی ضعیف): فقط خط دور و «کاظمیون»؛ بدون پس‌زمینه‌ی گرادیان، بدون تزئین‌ها و بدون نور */
+.kzm-ld.kzm-lite .plate, .kzm-ld.kzm-lite .orn { display: none; }
+.kzm-ld.kzm-lite .frame, .kzm-ld.kzm-lite .word { filter: none; }
 .kzm-ld .word .line, .kzm-ld .word .body { animation-delay: calc(var(--i) * .16s + .9s); }
 
 .kzm-ld .ring path { fill: #c9c9c9; fill-opacity: 0; stroke: #bdbdbd; stroke-width: 1.1px;
@@ -396,6 +411,24 @@ body{font-family:'Vazirmatn',system-ui,Tahoma,sans-serif;background:var(--notte)
   </div>
   <div class="ent-row ent-row--sw"><span data-i18n="sound">صدا</span>
     <button type="button" class="ent-sw" role="switch" aria-checked="true" data-i18n-aria="sound"></button>
+  </div>
+  <div class="ent-row"><span data-i18n="ldLabel">لودر ورود</span>
+    <div class="ent-seg" role="radiogroup">
+      <button type="button" role="radio" aria-checked="true" data-ld="lite" data-i18n="ldLite">سبک (پیشنهادی)</button>
+      <button type="button" role="radio" aria-checked="false" data-ld="full" data-i18n="ldFull">کامل</button>
+    </div>
+  </div>
+</div>
+<div class="kzm-warn" role="alertdialog" aria-modal="true" aria-labelledby="kzm-w-t" hidden>
+  <div class="kzm-warn__box">
+    <p class="kzm-warn__t" id="kzm-w-t"><span aria-hidden="true">⚠️ </span><span data-i18n="wTitle">هشدار: حالت کامل سنگین است</span></p>
+    <ul>
+      <li data-i18n="w1"></li><li data-i18n="w2"></li><li data-i18n="w3"></li><li data-i18n="w4"></li><li data-i18n="w5"></li>
+    </ul>
+    <div class="kzm-warn__act">
+      <button type="button" class="kzm-warn__no" data-i18n="wNo">انصراف</button>
+      <button type="button" class="kzm-warn__ok" data-i18n="wOk">متوجه شدم، فعال کن</button>
+    </div>
   </div>
 </div>
 
@@ -792,19 +825,28 @@ function ldSeek(ms, play) { ldAnims.forEach((a) => { try { a.pause(); a.currentT
 function parkLoader() { loaderEl.classList.remove('on', 'warm'); if (ldReady) ldSeek(0, false); }
 function startLoader() {
   loaderEl.classList.remove('warm');
+  loaderEl.classList.toggle('kzm-lite', perfMode === 'lite');
   if (ldReady) ldSeek(0, true);
   else { const c = loaderEl.firstElementChild; if (c) loaderEl.replaceChild(c.cloneNode(true), c); }
   loaderEl.classList.add('on');
 }
+/* لودر ورود: پیش‌فرض برای همه «سبک» (فقط خط دور و «کاظمیون»، بدون نور و تزئین) تا به گوشی فشار نیاید.
+   کاربر از تنظیمات می‌تواند «کامل» را (بعد از دیدن هشدار) فعال کند؛ انتخابش در localStorage (kzm-loader) می‌ماند. */
+let perfMode = 'lite';
+function setPerf(mode, why) {
+  perfMode = mode;
+  loaderEl.classList.toggle('kzm-lite', mode === 'lite');
+  try { if (parent !== window) parent.postMessage({ kzmPerf: mode, why: why }, '*'); } catch (e) {}
+}
+(function () {
+  let m = 'lite';
+  try { if (localStorage.getItem('kzm-loader') === 'full') m = 'full'; } catch (e) {}
+  setPerf(m, m === 'full' ? 'انتخاب کاربر از تنظیمات' : 'پیش‌فرض');
+})();
 requestAnimationFrame(() => requestAnimationFrame(() => {
   try { ldAnims = loaderEl.getAnimations({ subtree: true }); } catch (e) { ldAnims = []; }
   if (ldAnims.length) { ldReady = true; ldSeek(0, false); }
 }));
-setTimeout(() => {
-  if (!ldReady || entering) return;
-  loaderEl.classList.add('warm'); ldSeek(5000, false);
-  setTimeout(() => { if (!entering) { loaderEl.classList.remove('warm'); ldSeek(0, false); } }, 450);
-}, 2500);
 document.querySelector('.pillola').addEventListener('click', (e) => {
   e.preventDefault();
   if (entering) return;
@@ -821,9 +863,9 @@ addEventListener('pageshow', (e) => {
 
 /* زبان و صدا */
 const ENT = {
-  fa: { dir: 'rtl', eyebrow: 'بسم الله الرحمن الرحیم', title: 'به هیئت کاظمیون خوش آمدید.', btn: 'ورود به سایت', settings: 'تنظیمات', lang: 'زبان', sound: 'صدا' },
-  ar: { dir: 'rtl', eyebrow: 'بسم الله الرحمن الرحيم', title: 'أهلاً بكم في هيئة الكاظميين.', btn: 'الدخول إلى الموقع', settings: 'الإعدادات', lang: 'اللغة', sound: 'الصوت' },
-  en: { dir: 'ltr', eyebrow: 'بسم الله الرحمن الرحيم', title: 'Welcome to Heyat Kazemiyoon.', btn: 'Enter the site', settings: 'Settings', lang: 'Language', sound: 'Sound' }
+  fa: { dir: 'rtl', eyebrow: 'بسم الله الرحمن الرحیم', title: 'به هیئت کاظمیون خوش آمدید.', btn: 'ورود به سایت', settings: 'تنظیمات', lang: 'زبان', sound: 'صدا', ldLabel: 'لودر ورود', ldLite: 'سبک (پیشنهادی)', ldFull: 'کامل', wTitle: 'هشدار: حالت کامل سنگین است', w1: 'ممکن است گوشی شما کند و لگ‌دار شود.', w2: 'مصرف باتری و گرمای گوشی بیشتر می‌شود.', w3: 'روی گوشی‌های ضعیف ممکن است صفحه چند ثانیه یخ بزند یا انیمیشن ناقص و پرش‌دار نشان داده شود.', w4: 'ممکن است خطای نمایش پیش بیاید یا مرورگر صفحه را ببندد.', w5: 'اگر مشکلی دیدید، دوباره به حالت سبک برگردید.', wOk: 'متوجه شدم، فعال کن', wNo: 'انصراف' },
+  ar: { dir: 'rtl', eyebrow: 'بسم الله الرحمن الرحيم', title: 'أهلاً بكم في هيئة الكاظميين.', btn: 'الدخول إلى الموقع', settings: 'الإعدادات', lang: 'اللغة', sound: 'الصوت', ldLabel: 'لودر الدخول', ldLite: 'خفيف (موصى به)', ldFull: 'كامل', wTitle: 'تحذير: الوضع الكامل ثقيل', w1: 'قد يصبح هاتفك بطيئًا ومتقطعًا.', w2: 'يزداد استهلاك البطارية وحرارة الجهاز.', w3: 'على الهواتف الضعيفة قد تتجمد الصفحة لثوانٍ أو تظهر الحركة ناقصة ومتقطعة.', w4: 'قد تظهر أخطاء في العرض أو يغلق المتصفح الصفحة.', w5: 'إذا واجهت مشكلة فارجع إلى الوضع الخفيف.', wOk: 'فهمت، فعّله', wNo: 'إلغاء' },
+  en: { dir: 'ltr', eyebrow: 'بسم الله الرحمن الرحيم', title: 'Welcome to Heyat Kazemiyoon.', btn: 'Enter the site', settings: 'Settings', lang: 'Language', sound: 'Sound', ldLabel: 'Entry loader', ldLite: 'Light (recommended)', ldFull: 'Full', wTitle: 'Warning: Full mode is heavy', w1: 'Your phone may become slow and laggy.', w2: 'Battery use and heat will increase.', w3: 'On weaker phones the page may freeze for a few seconds or the animation may look broken and choppy.', w4: 'Display errors may appear, or the browser may close the page.', w5: 'If you notice problems, switch back to Light mode.', wOk: 'I understand, enable it', wNo: 'Cancel' }
 };
 const entGet = (k) => { try { return localStorage.getItem(k); } catch (e) { return null; } };
 const entSet = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
@@ -911,7 +953,7 @@ function entGo() {
 
 entGear.addEventListener('click', () => entPanel(entBox.hidden));
 document.addEventListener('pointerdown', (e) => {
-  if (!entBox.hidden && !entBox.contains(e.target) && !entGear.contains(e.target)) entPanel(false);
+  if (!entBox.hidden && !entBox.contains(e.target) && !entGear.contains(e.target) && !e.target.closest('.kzm-warn')) entPanel(false);
 });
 addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && !entBox.hidden) { entPanel(false); entGear.focus(); }
@@ -931,6 +973,23 @@ entSw.addEventListener('click', () => {
 });
 entSw.setAttribute('aria-checked', String(entSound));
 entSetLang(entLang, false);
+
+/* انتخاب لودر در تنظیمات: «سبک» فوری؛ «کامل» فقط بعد از تأیید هشدار */
+const ldBtns = entBox.querySelectorAll('[data-ld]'), warnBox = document.querySelector('.kzm-warn');
+const ldMark = () => ldBtns.forEach((b) => b.setAttribute('aria-checked', String(b.dataset.ld === perfMode)));
+const warnOpen = (open) => { warnBox.hidden = !open; if (open) warnBox.querySelector('.kzm-warn__no').focus(); };
+ldBtns.forEach((b) => b.addEventListener('click', () => {
+  if (b.dataset.ld === perfMode) return;
+  if (b.dataset.ld === 'full') { warnOpen(true); return; }
+  entSet('kzm-loader', 'lite'); setPerf('lite', 'انتخاب کاربر از تنظیمات'); ldMark();
+}));
+warnBox.querySelector('.kzm-warn__ok').addEventListener('click', () => {
+  entSet('kzm-loader', 'full'); setPerf('full', 'انتخاب کاربر از تنظیمات'); ldMark(); warnOpen(false);
+});
+warnBox.querySelector('.kzm-warn__no').addEventListener('click', () => warnOpen(false));
+warnBox.addEventListener('click', (e) => { if (e.target === warnBox) warnOpen(false); });
+addEventListener('keydown', (e) => { if (e.key === 'Escape' && !warnBox.hidden) { warnOpen(false); e.stopImmediatePropagation(); } }, true);
+ldMark();
 </script>
 <script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('service-worker.js').catch(function(){});});}</script>
 </body>
