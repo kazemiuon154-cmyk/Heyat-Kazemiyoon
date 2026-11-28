@@ -245,12 +245,34 @@ body{font-family:'Vazirmatn',system-ui,Tahoma,sans-serif;background:var(--notte)
 .titolo{font-weight:700;line-height:1.55;word-spacing:.35em}
 .pillola__freccia{transform:scaleX(-1)}
 @media (hover:hover) and (pointer:fine){.pillola:hover .pillola__freccia{transform:scaleX(-1) translateX(3px)}}
-.ent-gear{position:fixed;z-index:4;top:calc(env(safe-area-inset-top,0px) + 14px);inset-inline-end:max(14px,env(safe-area-inset-right,0px));width:42px;height:42px;display:grid;place-items:center;padding:0;border-radius:50%;border:1px solid var(--curva);background:rgba(18,19,16,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:var(--bianco);cursor:pointer;-webkit-tap-highlight-color:transparent}
-.ent-gear svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transition:transform .6s var(--elastico)}
-.ent-gear[aria-expanded=true] svg{transform:rotate(60deg)}
-.ent-panel{position:fixed;z-index:4;top:calc(env(safe-area-inset-top,0px) + 64px);inset-inline-end:max(14px,env(safe-area-inset-right,0px));width:min(300px,calc(100vw - 28px));padding:18px;border-radius:20px;border:1px solid var(--curva);background:rgba(24,25,21,.88);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:var(--bianco);display:grid;gap:16px}
-.ent-panel[hidden]{display:none}
-.ent-title{margin:0;font-weight:700;font-size:15px}
+/* منوی جزیره‌ای تنظیمات (Nav Island: رنگ اصلی #0F0F12، رنگ دوم #E63333، اندازه 16px، سرعت 0.8x) */
+.uv-nis{--c1:#0f0f12;--c2:#e63333;--s:16px;--k:.8;position:fixed;z-index:4;left:0;right:0;top:calc(env(safe-area-inset-top,0px) + 14px);display:flex;justify-content:center;pointer-events:none;font-size:var(--s);color:#fff;-webkit-tap-highlight-color:transparent}
+.uv-nis .is{pointer-events:auto;position:relative;width:13em;height:3em;padding:0 .4em 0 1em;padding-inline:1em .4em;border-radius:1.5em;overflow:hidden;color:#fff;background:var(--c1);box-shadow:0 1em 2em -1em rgba(0,0,0,.5);transition:width calc(.55s / var(--k)) cubic-bezier(.22,1,.36,1),height calc(.55s / var(--k)) cubic-bezier(.22,1,.36,1),border-radius calc(.55s / var(--k)) cubic-bezier(.22,1,.36,1)}
+.uv-nis.open .is{width:min(19em,calc(100vw - 20px));border-radius:1.6em}
+.uv-nis .hd{display:flex;align-items:center;justify-content:space-between;height:3em}
+.uv-nis .lg{display:flex;align-items:center;gap:.5em;font-weight:750;font-size:.92em;white-space:nowrap}
+.uv-nis .lg i{width:.75em;height:.75em;border-radius:50%;background:var(--c2);box-shadow:0 0 .6em var(--c2)}
+.uv-nis .tg{font:inherit;margin:0;border:0;cursor:pointer;display:grid;padding:.5em .9em;border-radius:2em;font-size:.82em;font-weight:700;color:var(--c1);background:var(--c2);-webkit-tap-highlight-color:transparent}
+.uv-nis .tg span{grid-area:1/1;transition:opacity calc(.2s / var(--k)) cubic-bezier(.25,.1,.25,1),transform calc(.35s / var(--k)) cubic-bezier(.34,1.56,.64,1)}
+.uv-nis .tg .b{opacity:0;transform:translateY(.6em)}
+.uv-nis.open .tg .a{opacity:0;transform:translateY(-.6em)}
+.uv-nis.open .tg .b{opacity:1;transform:none}
+.uv-nis button:focus-visible{outline:2px solid var(--c2);outline-offset:2px}
+.uv-nis .bd{display:grid;gap:16px;padding:.6em .6em 1.1em 0;padding-inline:0 .6em;opacity:0;visibility:hidden;transform:translateY(.8em);transition:opacity calc(.2s / var(--k)) cubic-bezier(.25,.1,.25,1),transform calc(.4s / var(--k)) cubic-bezier(.22,1,.36,1),visibility 0s calc(.4s / var(--k))}
+.uv-nis.open .bd{opacity:1;visibility:visible;transform:none;transition-delay:calc(.18s / var(--k)),calc(.18s / var(--k)),0s}
+.uv-nis .ent-row{color:rgba(255,255,255,.6)}
+.uv-nis .ent-langs button,.uv-nis .ent-seg button{color:#fff;border-color:rgba(255,255,255,.16)}
+.uv-nis .ent-langs button[aria-checked=true],.uv-nis .ent-seg button[aria-checked=true]{background:var(--c2);color:var(--c1);border-color:var(--c2)}
+.uv-nis .ent-sw{border-color:rgba(255,255,255,.3)}
+.uv-nis .ent-sw::after{background:rgba(255,255,255,.6)}
+.uv-nis .ent-sw[aria-checked=true]{background:var(--c2);border-color:var(--c2)}
+.uv-nis .ent-sw[aria-checked=true]::after{background:var(--c1)}
+.uv-nis .bd{gap:8px;padding:.3em .1em .9em}
+.uv-nis .ent-row{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12.5px}
+.uv-nis .ent-langs,.uv-nis .ent-seg{flex:none;gap:4px}
+.uv-nis .ent-langs button,.uv-nis .ent-seg button{flex:none;padding:6px 10px;font-size:12px}
+.uv-nis .ent-seg button{font-size:11.5px}
+@media (prefers-reduced-motion:reduce){.uv-nis .is,.uv-nis .tg span,.uv-nis .bd{transition-duration:.01s;transition-delay:0s}}
 .ent-row{display:grid;gap:10px;font-size:13px;color:var(--tenue)}
 .ent-row--sw{display:flex;align-items:center;justify-content:space-between}
 .ent-langs{display:flex;gap:6px}
@@ -399,9 +421,8 @@ body{font-family:'Vazirmatn',system-ui,Tahoma,sans-serif;background:var(--notte)
     </div>
   </section>
 </main>
-<button class="ent-gear" type="button" aria-label="تنظیمات" data-i18n-aria="settings" aria-haspopup="dialog" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
-<div class="ent-panel" role="dialog" aria-labelledby="ent-t" hidden>
-  <p class="ent-title" id="ent-t" data-i18n="settings">تنظیمات</p>
+<nav class="uv-nis" aria-label="تنظیمات" data-i18n-aria="settings"><div class="is"><div class="hd"><span class="lg"><i></i><span data-i18n="settings">تنظیمات</span></span><button type="button" class="tg" aria-expanded="false" aria-controls="ent-body"><span class="a" data-i18n="open">باز کردن</span><span class="b" data-i18n="close">بستن</span></button></div>
+<div class="bd" id="ent-body">
   <div class="ent-row"><span data-i18n="lang">زبان</span>
     <div class="ent-langs" role="radiogroup">
       <button type="button" role="radio" aria-checked="false" data-lang="fa">فارسی</button>
@@ -418,7 +439,7 @@ body{font-family:'Vazirmatn',system-ui,Tahoma,sans-serif;background:var(--notte)
       <button type="button" role="radio" aria-checked="false" data-ld="full" data-i18n="ldFull">کامل</button>
     </div>
   </div>
-</div>
+</div></div></nav>
 <div class="kzm-warn" role="alertdialog" aria-modal="true" aria-labelledby="kzm-w-t" hidden>
   <div class="kzm-warn__box">
     <p class="kzm-warn__t" id="kzm-w-t"><span aria-hidden="true">⚠️ </span><span data-i18n="wTitle">هشدار: حالت کامل سنگین است</span></p>
@@ -863,15 +884,16 @@ addEventListener('pageshow', (e) => {
 
 /* زبان و صدا */
 const ENT = {
-  fa: { dir: 'rtl', eyebrow: 'بسم الله الرحمن الرحیم', title: 'به هیئت کاظمیون خوش آمدید.', btn: 'ورود به سایت', settings: 'تنظیمات', lang: 'زبان', sound: 'صدا', ldLabel: 'لودر ورود', ldLite: 'سبک (پیشنهادی)', ldFull: 'کامل', wTitle: 'هشدار: حالت کامل سنگین است', w1: 'ممکن است گوشی شما کند و لگ‌دار شود.', w2: 'مصرف باتری و گرمای گوشی بیشتر می‌شود.', w3: 'روی گوشی‌های ضعیف ممکن است صفحه چند ثانیه یخ بزند یا انیمیشن ناقص و پرش‌دار نشان داده شود.', w4: 'ممکن است خطای نمایش پیش بیاید یا مرورگر صفحه را ببندد.', w5: 'اگر مشکلی دیدید، دوباره به حالت سبک برگردید.', wOk: 'متوجه شدم، فعال کن', wNo: 'انصراف' },
-  ar: { dir: 'rtl', eyebrow: 'بسم الله الرحمن الرحيم', title: 'أهلاً بكم في هيئة الكاظميين.', btn: 'الدخول إلى الموقع', settings: 'الإعدادات', lang: 'اللغة', sound: 'الصوت', ldLabel: 'لودر الدخول', ldLite: 'خفيف (موصى به)', ldFull: 'كامل', wTitle: 'تحذير: الوضع الكامل ثقيل', w1: 'قد يصبح هاتفك بطيئًا ومتقطعًا.', w2: 'يزداد استهلاك البطارية وحرارة الجهاز.', w3: 'على الهواتف الضعيفة قد تتجمد الصفحة لثوانٍ أو تظهر الحركة ناقصة ومتقطعة.', w4: 'قد تظهر أخطاء في العرض أو يغلق المتصفح الصفحة.', w5: 'إذا واجهت مشكلة فارجع إلى الوضع الخفيف.', wOk: 'فهمت، فعّله', wNo: 'إلغاء' },
-  en: { dir: 'ltr', eyebrow: 'بسم الله الرحمن الرحيم', title: 'Welcome to Heyat Kazemiyoon.', btn: 'Enter the site', settings: 'Settings', lang: 'Language', sound: 'Sound', ldLabel: 'Entry loader', ldLite: 'Light (recommended)', ldFull: 'Full', wTitle: 'Warning: Full mode is heavy', w1: 'Your phone may become slow and laggy.', w2: 'Battery use and heat will increase.', w3: 'On weaker phones the page may freeze for a few seconds or the animation may look broken and choppy.', w4: 'Display errors may appear, or the browser may close the page.', w5: 'If you notice problems, switch back to Light mode.', wOk: 'I understand, enable it', wNo: 'Cancel' }
+  fa: { dir: 'rtl', eyebrow: 'بسم الله الرحمن الرحیم', title: 'به هیئت کاظمیون خوش آمدید.', btn: 'ورود به سایت', settings: 'تنظیمات', open: 'باز کردن', close: 'بستن', lang: 'زبان', sound: 'صدا', ldLabel: 'لودر ورود', ldLite: 'سبک (پیشنهادی)', ldFull: 'کامل', wTitle: 'هشدار: حالت کامل سنگین است', w1: 'ممکن است گوشی شما کند و لگ‌دار شود.', w2: 'مصرف باتری و گرمای گوشی بیشتر می‌شود.', w3: 'روی گوشی‌های ضعیف ممکن است صفحه چند ثانیه یخ بزند یا انیمیشن ناقص و پرش‌دار نشان داده شود.', w4: 'ممکن است خطای نمایش پیش بیاید یا مرورگر صفحه را ببندد.', w5: 'اگر مشکلی دیدید، دوباره به حالت سبک برگردید.', wOk: 'متوجه شدم، فعال کن', wNo: 'انصراف' },
+  ar: { dir: 'rtl', eyebrow: 'بسم الله الرحمن الرحيم', title: 'أهلاً بكم في هيئة الكاظميين.', btn: 'الدخول إلى الموقع', settings: 'الإعدادات', open: 'فتح', close: 'إغلاق', lang: 'اللغة', sound: 'الصوت', ldLabel: 'لودر الدخول', ldLite: 'خفيف (موصى به)', ldFull: 'كامل', wTitle: 'تحذير: الوضع الكامل ثقيل', w1: 'قد يصبح هاتفك بطيئًا ومتقطعًا.', w2: 'يزداد استهلاك البطارية وحرارة الجهاز.', w3: 'على الهواتف الضعيفة قد تتجمد الصفحة لثوانٍ أو تظهر الحركة ناقصة ومتقطعة.', w4: 'قد تظهر أخطاء في العرض أو يغلق المتصفح الصفحة.', w5: 'إذا واجهت مشكلة فارجع إلى الوضع الخفيف.', wOk: 'فهمت، فعّله', wNo: 'إلغاء' },
+  en: { dir: 'ltr', eyebrow: 'بسم الله الرحمن الرحيم', title: 'Welcome to Heyat Kazemiyoon.', btn: 'Enter the site', settings: 'Settings', open: 'Open', close: 'Close', lang: 'Language', sound: 'Sound', ldLabel: 'Entry loader', ldLite: 'Light (recommended)', ldFull: 'Full', wTitle: 'Warning: Full mode is heavy', w1: 'Your phone may become slow and laggy.', w2: 'Battery use and heat will increase.', w3: 'On weaker phones the page may freeze for a few seconds or the animation may look broken and choppy.', w4: 'Display errors may appear, or the browser may close the page.', w5: 'If you notice problems, switch back to Light mode.', wOk: 'I understand, enable it', wNo: 'Cancel' }
 };
 const entGet = (k) => { try { return localStorage.getItem(k); } catch (e) { return null; } };
 const entSet = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
 let entLang = ENT[entGet('kazemiuon-lang')] ? entGet('kazemiuon-lang') : 'fa';
 let entSound = entGet('kzm-entry-sound') !== '0';
-const entGear = document.querySelector('.ent-gear'), entBox = document.querySelector('.ent-panel'), entSw = document.querySelector('.ent-sw');
+const entIs = document.querySelector('.uv-nis'), entGear = entIs.querySelector('.tg'), entBox = entIs, entSw = entIs.querySelector('.ent-sw');
+const entIsOpen = () => entIs.classList.contains('open');
 
 function entTitle(text) {
   titolo.textContent = '';
@@ -908,6 +930,7 @@ function entSetLang(l, replay) {
   document.querySelectorAll('[data-i18n]').forEach((n) => { n.textContent = t[n.dataset.i18n]; });
   document.querySelectorAll('[data-i18n-aria]').forEach((n) => { n.setAttribute('aria-label', t[n.dataset.i18nAria]); });
   document.querySelectorAll('.ent-langs button').forEach((b) => { b.setAttribute('aria-checked', String(b.dataset.lang === l)); });
+  if (entIsOpen()) requestAnimationFrame(() => entPanel(true));
   if (!replay) return;
   misura();
   gsap.fromTo(entrano, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', stagger: 0.15, overwrite: true });
@@ -915,14 +938,12 @@ function entSetLang(l, replay) {
 }
 
 function entPanel(open) {
+  entIs.classList.toggle('open', open);
   entGear.setAttribute('aria-expanded', String(open));
-  if (open) {
-    entBox.hidden = false;
-    gsap.fromTo(entBox, { opacity: 0, y: -8, scale: 0.97 }, { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: 'power2.out', overwrite: true });
-  } else {
-    gsap.to(entBox, { opacity: 0, y: -8, duration: 0.2, overwrite: true, onComplete() { entBox.hidden = true; } });
-  }
+  const box = entIs.querySelector('.is');
+  box.style.height = open ? (entIs.querySelector('.hd').offsetHeight + entIs.querySelector('.bd').offsetHeight + 2) + 'px' : '';
 }
+addEventListener('resize', () => { if (entIsOpen()) entPanel(true); });
 
 let entAc = null;
 function entChime() {
@@ -946,17 +967,17 @@ function entChime() {
 }
 
 function entGo() {
-  if (!entBox.hidden) entPanel(false);
+  if (entIsOpen()) entPanel(false);
   if (navigator.vibrate) { try { navigator.vibrate(14); } catch (e) {} }
   if (entSound) entChime();
 }
 
-entGear.addEventListener('click', () => entPanel(entBox.hidden));
+entGear.addEventListener('click', () => entPanel(!entIsOpen()));
 document.addEventListener('pointerdown', (e) => {
-  if (!entBox.hidden && !entBox.contains(e.target) && !entGear.contains(e.target) && !e.target.closest('.kzm-warn')) entPanel(false);
+  if (entIsOpen() && !entIs.contains(e.target) && !e.target.closest('.kzm-warn')) entPanel(false);
 });
 addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && !entBox.hidden) { entPanel(false); entGear.focus(); }
+  if (e.key === 'Escape' && entIsOpen()) { entPanel(false); entGear.focus(); }
 });
 entBox.querySelectorAll('.ent-langs button').forEach((b) => {
   b.addEventListener('click', () => {
