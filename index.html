@@ -2552,7 +2552,197 @@ html.isl-lite .isl-sgb b{ animation:none; }
 .isl-cell b{ font-size:13px; font-weight:900; }
 .isl-eic{ width:34px; height:34px; border-radius:13px; }
 .isl-dh b{ font-size:14.5px; }
-.isl-sn{ font-size:28px; }
+.isl-sn{ font-size:28px; }@keyframes ixdrift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(8%,-6%) scale(1.12)}66%{transform:translate(-6%,7%) scale(.94)}}
+.ix-isl{pointer-events:auto;position:relative;direction:rtl;background:#000;color:#fff;overflow:hidden;width:250px;height:42px;border-radius:21px;touch-action:manipulation;cursor:pointer;
+ box-shadow:0 10px 30px rgba(0,0,0,.35);transition:width .6s cubic-bezier(.3,1.35,.5,1),height .6s cubic-bezier(.3,1.35,.5,1),border-radius .6s cubic-bezier(.3,1.35,.5,1),transform .25s cubic-bezier(.3,1.35,.5,1);contain:layout paint;will-change:width,height}
+.ix-isl.ix-pr{transform:scale(.97)}
+.ix-isl.ix-glw{box-shadow:0 0 0 1px rgba(var(--c),.4),0 16px 44px rgba(var(--c),.28)}
+.ix-pane{position:absolute;inset:0;display:flex;align-items:center;gap:10px;padding:0 12px;opacity:0;transform:scale(.94);transition:opacity .28s,transform .45s cubic-bezier(.3,1.35,.5,1)}
+.ix-pane.ix-in{opacity:1;transform:none}
+.ix-pane.ix-out{opacity:0;transform:scale(.94);pointer-events:none}
+.ix-ic{width:22px;height:22px;flex:none;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.ix-lb{font-size:13px;color:rgba(255,255,255,.62);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.ix-vl{margin-inline-start:auto;font-size:16px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ix-vl small{font-size:11px;font-weight:500;opacity:.7;margin-inline-start:3px}
+.ix-plus{width:26px;height:26px;border-radius:50%;border:0;background:rgba(255,255,255,.16);color:#fff;display:grid;place-items:center;cursor:pointer;flex:none;transition:transform .2s cubic-bezier(.3,1.35,.5,1)}
+.ix-plus:active{transform:scale(.88)}
+.ix-plus .ix-ic{width:14px;height:14px;stroke-width:2.4}
+.ix-bar{position:absolute;inset-inline:16px;bottom:4px;height:2px;border-radius:2px;background:rgba(255,255,255,.1);overflow:hidden}
+.ix-bar i{display:block;height:100%;background:var(--c);border-radius:2px;transition:width .4s}
+.ix-pane.ix-al{flex-direction:column;align-items:stretch;justify-content:center;gap:13px;padding:15px}
+.ix-ag{position:absolute;inset:-45% -10% auto;height:130%;background:radial-gradient(60% 60% at 50% 0%,rgba(var(--c),.38),transparent 70%);animation:ixglow 3.2s ease-in-out infinite;pointer-events:none}
+@keyframes ixglow{50%{opacity:.55;transform:scale(1.06)}}
+@keyframes ixrise{from{opacity:0;transform:translateY(14px) scale(.96)}}
+.ix-al>:not(.ix-ag){position:relative;z-index:1;animation:ixrise .6s cubic-bezier(.3,1.35,.5,1) both;animation-delay:calc(var(--i,0)*90ms + 150ms)}
+.ix-ah{display:flex;align-items:center;gap:12px}
+.ix-tile{width:48px;height:48px;border-radius:16px;flex:none;display:grid;place-items:center;color:rgb(var(--c));background:linear-gradient(145deg,rgba(var(--c),.3),rgba(var(--c),.1));position:relative;box-shadow:inset 0 0 0 1px rgba(var(--c),.4)}
+.ix-tile::after{content:"";position:absolute;inset:-5px;border-radius:21px;box-shadow:0 0 22px rgba(var(--c),.7);opacity:.3;animation:ixpls 2.4s ease-in-out infinite}
+@keyframes ixpls{50%{opacity:.9}}
+.ix-tile .ix-ic{width:26px;height:26px}
+.ix-tt{display:flex;flex-direction:column;min-width:0;flex:1;gap:2px}
+.ix-tt em{font-style:normal;font-size:11px;font-weight:600;color:rgb(var(--c));letter-spacing:.02em}
+.ix-tt b{font-size:16px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ix-tt span{font-size:12px;color:rgba(255,255,255,.55)}
+.ix-rg{position:relative;width:48px;height:48px;flex:none;display:grid;place-items:center;text-align:center;line-height:1}
+.ix-rg svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg) scaleY(-1)}
+.ix-rg circle{fill:none;stroke-width:3;stroke-linecap:round}
+.ix-rg .ix-bg{stroke:rgba(255,255,255,.12)}
+.ix-rg .ix-fg{stroke:rgb(var(--c))}
+.ix-rg b{font-size:15px;font-weight:650;display:block}
+.ix-rg small{font-size:8.5px;color:rgba(255,255,255,.55);display:block;margin-top:1px}
+.ix-pb{height:4px;border-radius:2px;background:rgba(255,255,255,.1);overflow:hidden}
+.ix-pb i{display:block;height:100%;border-radius:2px;background:linear-gradient(90deg,rgba(var(--c),.5),rgb(var(--c)))}
+.ix-ab{display:flex;gap:8px}
+.ix-ab button{flex:1;height:42px;border:0;border-radius:21px;font-family:inherit;font-size:13px;font-weight:650;color:#fff;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:transform .2s cubic-bezier(.3,1.35,.5,1)}
+.ix-ab button:active{transform:scale(.94)}
+.ix-ab .ix-ic{width:16px;height:16px}
+.ix-ab1{background:rgba(255,255,255,.12)}
+.ix-ab2{background:rgba(var(--c),.15);color:rgb(var(--c))!important;box-shadow:inset 0 0 0 1px rgba(var(--c),.4)}
+.ix-ab3{background:rgb(var(--c));color:#17110a!important;box-shadow:0 4px 18px rgba(var(--c),.4)}
+.ix-pane.ix-cardp{display:block;padding:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none}
+.ix-cardp::-webkit-scrollbar{display:none}
+.ix-ci{padding:14px 14px 16px;width:100%}
+.ix-hd{display:flex;align-items:center;justify-content:space-between;padding:2px 2px 4px;touch-action:none}
+.ix-hd b{font-size:15px;font-weight:650}
+.ix-xb{width:32px;height:32px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;display:grid;place-items:center;cursor:pointer}
+.ix-xb .ix-ic{width:16px;height:16px}
+.ix-sec{background:rgba(255,255,255,.07);border-radius:22px;padding:13px 14px;margin-top:10px;--c:255,255,255}
+.ix-sl{font-size:12px;color:rgb(var(--c));display:block;margin-bottom:6px;font-weight:600}
+.ix-big{font-size:42px;font-weight:600;font-variant-numeric:tabular-nums;text-align:center;line-height:1.15}
+.ix-sub{font-size:12px;color:rgba(255,255,255,.55);text-align:center;display:block}
+.ix-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ix-n2{font-size:26px;font-weight:600;font-variant-numeric:tabular-nums}
+.ix-pbar{height:4px;border-radius:2px;background:rgba(255,255,255,.1);overflow:hidden;margin-top:9px}
+.ix-pbar i{display:block;height:100%;background:rgb(var(--c));border-radius:2px;transition:width .4s}
+.ix-cells{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}
+.ix-cell{background:rgba(255,255,255,.07);border-radius:14px;text-align:center;padding:7px 0;font-size:11px;color:rgba(255,255,255,.6)}
+.ix-cell b{display:block;color:#fff;font-size:14px;margin-top:2px}
+.ix-cell.ix-on{background:rgba(255,203,61,.22)}
+.ix-chips{display:flex;flex-wrap:wrap;gap:7px}
+.ix-chip{border:0;height:34px;padding:0 14px;border-radius:17px;background:rgba(255,159,10,.16);color:#ff9f0a;font:inherit;font-size:13px;font-weight:650;cursor:pointer}
+.ix-chip.ix-g{background:rgba(255,255,255,.12);color:#fff}
+.ix-ev{display:flex;align-items:center;gap:10px;padding:7px 0;font-size:14px}
+.ix-ev+.ix-ev{border-top:1px solid rgba(255,255,255,.08)}
+.ix-ev span{color:rgb(var(--c));display:grid}
+.ix-ev small{margin-inline-start:auto;color:rgba(255,255,255,.6);font-size:12px}
+.ix-cnt{display:flex;align-items:center;gap:10px;margin-top:6px}
+.ix-cnt .ix-n2{margin-inline-end:auto}
+.ix-cb2{width:42px;height:42px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;display:grid;place-items:center;cursor:pointer;transition:transform .2s cubic-bezier(.3,1.35,.5,1)}
+.ix-cb2:active{transform:scale(.88)}
+.ix-cb2.ix-pl{background:rgb(var(--c));color:#111}
+.ix-cb2 .ix-ic{width:20px;height:20px}
+.ix-ms{position:absolute;visibility:hidden;left:-9999px;top:0}
+.ix-isl.ix-tint{box-shadow:0 0 0 1px rgba(var(--c),.2),0 10px 30px rgba(var(--c),.16)}
+.ix-isl::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:3;box-shadow:inset 0 1px 0 rgba(255,255,255,.14)}
+.ix-dc{width:26px;height:26px;border-radius:50%;flex:none;display:grid;place-items:center;background:rgba(var(--c),.16);color:rgb(var(--c));box-shadow:inset 0 0 0 1px rgba(var(--c),.3)}
+.ix-dc .ix-ic{width:16px;height:16px}
+.ix-bar i{background:linear-gradient(90deg,rgba(var(--c),.4),rgb(var(--c)))}
+.ix-sec{border-radius:24px;padding:14px 15px;background:linear-gradient(160deg,rgba(var(--c),.17),rgba(255,255,255,.04) 65%);box-shadow:inset 0 0 0 1px rgba(var(--c),.2),inset 0 1px 0 rgba(255,255,255,.08)}
+.ix-cardp .ix-sec{animation:ixrise2 .5s cubic-bezier(.2,.9,.3,1.15) both;animation-delay:calc(var(--i,0)*45ms + 110ms)}
+@keyframes ixrise2{from{opacity:0;transform:translateY(12px)}}
+.ix-sl{display:flex;align-items:center;gap:7px;margin-bottom:9px}
+.ix-sl i{display:grid;font-style:normal}
+.ix-sl .ix-ic{width:15px;height:15px}
+.ix-ht{display:flex;align-items:center;gap:9px}
+.ix-hi{width:32px;height:32px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(145deg,rgba(255,255,255,.2),rgba(255,255,255,.06));box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+.ix-hi .ix-ic{width:18px;height:18px}
+.ix-big{background:linear-gradient(180deg,#fff,rgba(125,211,252,.85));-webkit-background-clip:text;background-clip:text;color:transparent;font-size:48px;letter-spacing:-.01em}
+.ix-arc{display:block;width:100%;height:auto;margin:2px 0 2px}
+.ix-arc .ix-tr{fill:none;stroke:rgba(255,255,255,.12);stroke-width:3;stroke-linecap:round}
+.ix-arc .ix-pg{fill:none;stroke:rgb(var(--c));stroke-width:3;stroke-linecap:round}
+.ix-arc circle{fill:#fff;stroke:rgb(var(--c));stroke-width:3}
+.ix-cell{background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+.ix-cell.ix-on{background:rgba(255,203,61,.2);box-shadow:inset 0 0 0 1px rgba(255,203,61,.5)}
+.ix-ev span{width:30px;height:30px;border-radius:10px;place-items:center;background:rgba(var(--c),.16)}
+.ix-ev span .ix-ic{width:17px;height:17px}
+.ix-ev small{background:rgba(255,255,255,.1);padding:3px 9px;border-radius:10px;color:#fff}
+.ix-dd{display:flex;align-items:center;gap:14px}
+.ix-dd .ix-dn{font-size:50px;font-weight:650;line-height:1;background:linear-gradient(180deg,#fff,rgba(125,211,252,.8));-webkit-background-clip:text;background-clip:text;color:transparent}
+.ix-dd div b{display:block;font-size:17px}
+.ix-dd div span{font-size:12px;color:rgba(255,255,255,.6)}
+.ix-cn{display:flex;align-items:center;justify-content:space-between;padding:2px 4px}
+.ix-cn .ix-cb2{width:50px;height:50px}
+.ix-cn .ix-cb2 .ix-ic{width:22px;height:22px}
+.ix-rgc{position:relative;width:104px;height:104px;display:grid;place-items:center;text-align:center}
+.ix-rgc svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg) scaleY(-1)}
+.ix-rgc circle{fill:none;stroke-width:6;stroke-linecap:round}
+.ix-rgc .ix-bg{stroke:rgba(255,255,255,.1)}
+.ix-rgc .ix-fg{stroke:rgb(var(--c));transition:stroke-dashoffset .35s}
+.ix-rgc b{font-size:27px;font-weight:650;font-variant-numeric:tabular-nums;line-height:1}
+.ix-rgc small{display:block;font-size:10px;opacity:.6;margin-top:2px}
+.ix-isl{will-change:auto;transition:width .5s cubic-bezier(.3,1.35,.5,1),height .5s cubic-bezier(.3,1.35,.5,1),border-radius .5s cubic-bezier(.3,1.35,.5,1),transform .2s}
+.ix-isl.ix-tint{box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.ix-isl::before{display:none}
+.ix-ic{fill:currentColor;fill-opacity:.22}
+.ix-dc{width:auto;height:auto;background:none;box-shadow:none;border-radius:0;display:grid}
+.ix-dc .ix-ic{width:22px;height:22px}
+.ix-vl{font-size:17px}
+.ix-vl small{font-size:11px}
+.ix-sec{background:rgba(255,255,255,.065);box-shadow:none;border-radius:22px}
+.ix-cardp .ix-sec{animation:none}
+.ix-cardp .ix-ci{animation:ixfi .25s both}
+@keyframes ixfi{from{opacity:0}}
+.ix-sl{color:rgb(var(--c))}
+.ix-sl .ix-ic{width:18px;height:18px}
+.ix-hi{background:rgba(255,255,255,.1);box-shadow:none}
+.ix-big{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:rgb(var(--c));font-size:46px}
+.ix-dd .ix-dn{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:rgb(var(--c))}
+.ix-ev span{background:rgba(var(--c),.18);color:rgb(var(--c))}
+.ix-ev small{background:rgba(255,255,255,.1)}
+.ix-cell{box-shadow:none}
+.ix-cell.ix-on{box-shadow:none;background:rgba(255,203,61,.22)}
+.ix-cb2.ix-pl{background:rgb(var(--c))}
+.ix-isl{touch-action:auto}
+.ix-pane:not(.ix-cardp){touch-action:none}
+.ix-cardp{touch-action:pan-y}
+.ix-cardp.ix-ns{overflow:hidden;touch-action:none}
+.ix-mr{animation:ixfi .25s both}
+.ix-shine{font-size:15.5px!important;font-weight:900!important;background:linear-gradient(90deg,#d9dde3 0%,#aab1bc 35%,#f2f4f7 50%,#aab1bc 65%,#d9dde3 100%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:ixgdShine 3.4s linear infinite}
+@keyframes ixgdShine{to{background-position:-220% 0}}
+.ix-wb{transform-origin:right;animation:ixwbar 5.6s linear both}
+@keyframes ixwbar{to{transform:scaleX(0)}}
+.ix-pane.ix-wl{justify-content:center}
+.ix-wl .ix-ah{justify-content:flex-start}
+.ix-isl.ix-xl,.ix-isl.ix-cl{transition-duration:.5s,.5s,.5s,.2s;transition-timing-function:cubic-bezier(.32,.72,0,1)}
+.ix-cardp .ix-hd{position:sticky;top:0;z-index:3;background:#000;margin:-14px -14px 4px;padding:14px 14px 8px}
+.ix-pane.ix-wl{justify-content:center;gap:12px;padding:0 18px 5px}
+.ix-wi{width:40px;height:40px;border-radius:14px;flex:none;display:grid;place-items:center;color:#dfe3e9;background:linear-gradient(145deg,rgba(223,227,233,.22),rgba(223,227,233,.06));box-shadow:inset 0 0 0 1px rgba(223,227,233,.3)}
+.ix-wi .ix-ic{width:24px;height:24px}
+.ix-wl .ix-shine{white-space:nowrap;line-height:1.9;padding:2px 0;overflow:visible}
+.ix-wbar{position:absolute;inset-inline:24px;bottom:8px;height:3px;border-radius:2px;background:rgba(255,255,255,.1);overflow:hidden}
+.ix-wbar i{display:block;height:100%;border-radius:2px;background:linear-gradient(90deg,#aab1bc,#f2f4f7);transform-origin:right;animation:ixwbar 5.6s linear both}
+.ix-gr{position:absolute;inset-inline:0;bottom:0;height:28px;z-index:6;touch-action:none;display:grid;place-items:end center;padding-bottom:8px;opacity:0;pointer-events:none;transition:opacity .25s;cursor:grab}
+.ix-gr.ix-on{opacity:1;pointer-events:auto}
+.ix-gr i{width:40px;height:4px;border-radius:2px;background:rgba(255,255,255,.38)}
+.ix-isl.ix-drag{transition:none!important;will-change:transform}
+.ix-ci{padding-bottom:32px}
+.ix-pane.ix-al{padding-bottom:28px}
+.ix-pane.ix-wl{justify-content:flex-start;gap:14px;padding:0 26px 5px}
+.ix-wl .ix-dc .ix-ic{width:32px;height:32px}
+.ix-pane.ix-cardp.ix-out,.ix-pane.ix-al.ix-out{transition-duration:.12s,.12s;transform:none}
+.ix-pane.ix-out .ix-ag,.ix-pane.ix-out .ix-tile::after{animation:none}
+.ix-isl{contain:layout paint}
+.ix-isl,.ix-isl.ix-tint,.ix-isl.ix-glw{box-shadow:none!important}
+.ix-isl.ix-drag{will-change:auto}
+.ix-pane.ix-cardp,.ix-pane.ix-al{will-change:transform}
+@media(prefers-reduced-motion:reduce){.ix-isl,.ix-pane,.ix-ag,.ix-tile,.ix-al>*{transition-duration:.01s;animation:none}.ix-blobs i{animation:none}}
+/* ===== سبک iOS (ix-): همان ظاهر فایل «پیش‌نمایش کپسول جادویی»؛ کپسول اصلی در این سبک پنهان می‌ماند و فقط موتورش کار می‌کند ===== */
+html[data-ix] :is(.isl,.isl-sat,.isl-shw,.isl-scrim){ display:none !important; }
+html:not([data-ix]) :is(.ix-wrap,.ix-bd){ display:none !important; }
+.ix-wrap{ position:fixed; left:0; right:0; z-index:140; top:calc(var(--isl-top, 10px) + env(safe-area-inset-top, 0px)); display:flex; justify-content:center; pointer-events:none; transition:opacity .3s ease, translate .5s cubic-bezier(.22,1.14,.36,1), scale .5s cubic-bezier(.22,1.14,.36,1); }
+.ix-wrap[data-hide]{ opacity:0; translate:0 -22px; scale:.5; }
+.ix-bd{ position:fixed; inset:0; z-index:135; background:rgba(0,0,0,.6); opacity:0; pointer-events:none; transition:opacity .35s; }
+.ix-bd.on{ opacity:1; pointer-events:auto; }
+.ix-isl, .ix-ms{ font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Vazirmatn",Tahoma,sans-serif; -webkit-font-smoothing:antialiased; color:#fff; line-height:normal; text-align:start; }
+.ix-isl, .ix-isl *, .ix-ms, .ix-ms *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+.ix-isl{ user-select:none; -webkit-user-select:none; -webkit-touch-callout:none; }
+.ix-isl[dir="ltr"]{ direction:ltr; }
+.ix-ms{ direction:rtl; }
+.ix-ms .ix-pane{ position:static; opacity:1; transform:none; transition:none; width:auto; height:auto; margin:0; }
+.ix-ms.ix-msw .ix-pane{ display:inline-flex; width:max-content; }
+.ix-ms .ix-lb{ max-width:none; }
+.ix-ms *{ animation:none !important; }
+.ix-lb.ix-solo{ flex:1; text-align:center; }
 </style>
 </head>
 <body>
@@ -4576,7 +4766,7 @@ window.KZM_CORE = { ok:!!tehranFmt, setLang:setCoreLang, fa:fa, g2jdn:g2jdn, jdn
     actions:true, alertSec:8, snooze:5, quiet:{ on:false, from:23, to:5 },
     vibrate:true, haptic:true, sound:false, tone:'bell', satellite:true, timerAlarm:true, hold:400, fan:true
   };
-  var ENUM = { mode:['always', 'alerts'], style:['black', 'glass', 'theme', 'liquid', 'neon', 'gold', 'dot', 'sunrise', 'cards', 'mono', 'drum', 'sheet'], glow:['sky', 'theme', 'gold', 'off'], size:[0, 1, 2], top:[0, 1, 2],
+  var ENUM = { mode:['always', 'alerts'], style:['black', 'glass', 'theme', 'liquid', 'neon', 'gold', 'dot', 'sunrise', 'cards', 'mono', 'drum', 'sheet', 'ios'], glow:['sky', 'theme', 'gold', 'off'], size:[0, 1, 2], top:[0, 1, 2],
     motion:['soft', 'lively', 'minimal'], rotate:[0, 5, 7, 12], primary:['auto', 'prayer', 'event', 'clock', 'date', 'occasion', 'zekr'], evDur:[60, 90, 120, 180],
     alertSec:[5, 8, 12], snooze:[5, 10, 15], tone:['bell', 'drop', 'flute'], hold:[300, 400, 500, 800, 1200, 2000] };
   var FIXED = ['pages', 'rotate', 'primary', 'clockPill', 'clockSec', 'seconds', 'ramadan', 'eve', 'liveEv', 'evDur', 'adhan', 'evOn', 'actions', 'alertSec', 'snooze', 'quiet'];
@@ -4645,7 +4835,7 @@ window.KZM_CORE = { ok:!!tehranFmt, setLang:setCoreLang, fa:fa, g2jdn:g2jdn, jdn
     modeL:['زمان نمایش', 'وقت الظهور', 'When to show'], mAlways:['همیشه', 'دائماً', 'Always'], mAlerts:['فقط یادآوری‌ها', 'التنبيهات فقط', 'Reminders only'],
     presetL:['الگوی آماده', 'نمط جاهز', 'Quick preset'], pSimple:['ساده', 'بسيط', 'Simple'], pBal:['متعادل', 'متوازن', 'Balanced'], pFull:['کامل', 'كامل', 'Full'],
     g_general:['کلی', 'عام', 'General'], g_look:['ظاهر', 'المظهر', 'Look'], g_content:['محتوا', 'المحتوى', 'Content'], g_alerts:['یادآوری', 'التنبيه', 'Alerts'], g_motion:['حرکت', 'الحركة', 'Motion'],
-    styleL:['سبک کپسول', 'نمط الكبسولة', 'Capsule style'], sBlack:['مشکی', 'داكن', 'Black'], sGlass:['شیشه‌ای', 'زجاجي', 'Glass'], sTheme:['رنگ تم', 'لون السمة', 'Theme'], sLiquid:['شیشه‌ی مایع', 'زجاج سائل', 'Liquid glass'], sNeon:['نئون', 'نيون', 'Neon'], sGold:['قاب زرین', 'إطار ذهبي', 'Gold frame'], sDot:['قطره‌ای (ساده)', 'قطرة (بسيط)', 'Drop (plain)'], sSunrise:['طلوع (روشن)', 'شروق (فاتح)', 'Sunrise (light)'], sCards:['دست ورق', 'أوراق اللعب', 'Card hand'], sMono:['شبکه‌ی خطی', 'شبكة خطية', 'Mono grid'], sDrum:['طبل چرخان', 'أسطوانة دوّارة', 'Rolling drum'], sSheet:['برگه‌ی آویز', 'ورقة معلّقة', 'Hanging sheet'], shT:['همه‌ی صفحه‌ها', 'كل الصفحات', 'All pages'], shH:['برای بستن، بالا بکش', 'اسحب للأعلى للإغلاق', 'Swipe up to close'],
+    styleL:['سبک کپسول', 'نمط الكبسولة', 'Capsule style'], sBlack:['مشکی', 'داكن', 'Black'], sGlass:['شیشه‌ای', 'زجاجي', 'Glass'], sTheme:['رنگ تم', 'لون السمة', 'Theme'], sLiquid:['شیشه‌ی مایع', 'زجاج سائل', 'Liquid glass'], sNeon:['نئون', 'نيون', 'Neon'], sGold:['قاب زرین', 'إطار ذهبي', 'Gold frame'], sDot:['قطره‌ای (ساده)', 'قطرة (بسيط)', 'Drop (plain)'], sSunrise:['طلوع (روشن)', 'شروق (فاتح)', 'Sunrise (light)'], sCards:['دست ورق', 'أوراق اللعب', 'Card hand'], sMono:['شبکه‌ی خطی', 'شبكة خطية', 'Mono grid'], sDrum:['طبل چرخان', 'أسطوانة دوّارة', 'Rolling drum'], sSheet:['برگه‌ی آویز', 'ورقة معلّقة', 'Hanging sheet'], sIos:['iOS', 'iOS', 'iOS'], shT:['همه‌ی صفحه‌ها', 'كل الصفحات', 'All pages'], shH:['برای بستن، بالا بکش', 'اسحب للأعلى للإغلاق', 'Swipe up to close'],
     glowL:['رنگ درخشش', 'لون التوهج', 'Glow colour'], gSky:['آسمان', 'السماء', 'Sky'], gTheme:['تم', 'السمة', 'Theme'], gGold:['طلایی', 'ذهبي', 'Gold'], gOff:['خاموش', 'إيقاف', 'Off'],
     sizeL:['اندازه', 'الحجم', 'Size'], zS:['کوچک', 'صغير', 'Small'], zM:['معمولی', 'عادي', 'Normal'], zL:['بزرگ', 'كبير', 'Large'],
     topL:['فاصله از بالا', 'المسافة من الأعلى', 'Distance from top'], tN:['نزدیک لبه', 'قريب', 'Close'], tM:['معمولی', 'عادي', 'Normal'], tF:['پایین‌تر', 'أسفل', 'Lower'],
@@ -4808,7 +4998,7 @@ window.KZM_CORE = { ok:!!tehranFmt, setLang:setCoreLang, fa:fa, g2jdn:g2jdn, jdn
 
   /* ---------- مقیاس، فاصله و ظاهر ---------- */
   var SIZE_K = [0.92, 1, 1.12], TOP_PX = [10, 18, 28];
-  function ch(){ return Math.round((cfg.style === 'drum' ? 60 : 36) * SIZE_K[cfg.size]); }
+  function ch(){ if(cfg.style === 'ios') return 42; return Math.round((cfg.style === 'drum' ? 60 : 36) * SIZE_K[cfg.size]); }
   function cr(h){ var s = cfg.style; return s === 'gold' ? 15 : s === 'cards' ? 14 : s === 'mono' ? 8 : s === 'sheet' ? 24 : Math.round(h / 2); }
   function applyLook(){
     root.toggleAttribute('data-breathe', !!cfg.breathe);
@@ -4817,6 +5007,7 @@ window.KZM_CORE = { ok:!!tehranFmt, setLang:setCoreLang, fa:fa, g2jdn:g2jdn, jdn
       el.style.setProperty('--k', String(SIZE_K[cfg.size])); el.style.setProperty('--ch', ch() + 'px'); el.style.setProperty('--isl-top', (cfg.style === 'sheet' ? 0 : TOP_PX[cfg.top]) + 'px');
     });
     shwSync();
+    ixApply();
   }
 
   /* ---------- اندازه‌ها و حرکت فنری ---------- */
@@ -4917,6 +5108,7 @@ window.KZM_CORE = { ok:!!tehranFmt, setLang:setCoreLang, fa:fa, g2jdn:g2jdn, jdn
     padSync(); rotSync(); satSync();
     if(next === 'expanded') busy(true); else if(prev === 'expanded') busy(false);
     lockSync();
+    if(ixOn) ixSync(next);
   }
   var lockY = 0;
   var padV = '';
@@ -5097,7 +5289,7 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
   function satPossible(){ return !!(cfg.satellite && (tm || (cfg.rotate > 0 && pagesList().length > 1))); }
   function capW(){ return satPossible() ? vw() - 2 * (ch() + 14) : vw() - 24; }
   function timerW(){ var long = tm && timerLeft() >= 3600000; return Math.min(Math.round((long ? 192 : 156) * (ch() / 36)), capW()); }
-  function paintCompact(s, force){ if(tm){ paintTimerPill(s); if(ghSig) paintGhosts(s); } else paintCompactMain(s, force); paintSat(s); }
+  function paintCompact(s, force){ if(tm){ paintTimerPill(s); if(ghSig) paintGhosts(s); } else paintCompactMain(s, force); paintSat(s); if(ixOn) ixPaint(s, force); }
   function paintCompactMain(s, force){
     if(cfg.style === 'drum') paintGhosts(s);
     var kind = curKind(s), m = pageModel(kind, s), n = m.n, u = m.u;
@@ -5475,6 +5667,7 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
     aL.style.setProperty('--bar-d', ms + 'ms'); aL.classList.add('run');
     if(state === 'alert') refreshDims(); else setState('alert');
     alertT = setTimeout(collapse, ms);
+    if(ixOn) ixAlert(a, d);
     sr.textContent = ''; setTimeout(function(){ sr.textContent = d.title + '. ' + d.sub; }, 60);
     if(a.kind === 'timer'){
       if(cfg.timerAlarm) startRing(a);
@@ -6694,7 +6887,7 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
       { t:'sw', k:'fan', l:'fanT', h:'fanH' },
       { t:'btn', act:'preview', l:'prev', ic:'play' }, { t:'btn', act:'preview2', l:'prev2', ic:'play' }, { t:'btn', act:'reset', l:'reset', ic:'x', cls:'ghost' } ],
     look:[
-      { t:'schip', k:'style', l:'styleL', o:[['black', 'sBlack'], ['glass', 'sGlass'], ['theme', 'sTheme'], ['liquid', 'sLiquid'], ['neon', 'sNeon'], ['gold', 'sGold'], ['dot', 'sDot'], ['sunrise', 'sSunrise'], ['cards', 'sCards'], ['mono', 'sMono'], ['drum', 'sDrum'], ['sheet', 'sSheet']] },
+      { t:'schip', k:'style', l:'styleL', o:[['black', 'sBlack'], ['glass', 'sGlass'], ['theme', 'sTheme'], ['liquid', 'sLiquid'], ['neon', 'sNeon'], ['gold', 'sGold'], ['dot', 'sDot'], ['sunrise', 'sSunrise'], ['cards', 'sCards'], ['mono', 'sMono'], ['drum', 'sDrum'], ['sheet', 'sSheet'], ['ios', 'sIos']] },
       { t:'seg', k:'glow', l:'glowL', o:[['sky', 'gSky'], ['theme', 'gTheme'], ['gold', 'gGold'], ['off', 'gOff']] },
       { t:'seg', k:'size', l:'sizeL', o:[[0, 'zS'], [1, 'zM'], [2, 'zL']] },
       { t:'seg', k:'top', l:'topL', o:[[0, 'tN'], [1, 'tM'], [2, 'tF']] },
@@ -6715,7 +6908,7 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
   function minOrOff(v){ return v ? tpl(tt('minN'), { n:C.fa(v) }) : tt('off'); }
   function summary(p){
     if(p === 'guide') return tt('guideSum');
-    if(p === 'look') return tt({ black:'sBlack', glass:'sGlass', theme:'sTheme', liquid:'sLiquid', neon:'sNeon', gold:'sGold', dot:'sDot', sunrise:'sSunrise', cards:'sCards', mono:'sMono', drum:'sDrum', sheet:'sSheet' }[cfg.style]) + ' · ' + tt({ sky:'gSky', theme:'gTheme', gold:'gGold', off:'gOff' }[cfg.glow]);
+    if(p === 'look') return tt({ black:'sBlack', glass:'sGlass', theme:'sTheme', liquid:'sLiquid', neon:'sNeon', gold:'sGold', dot:'sDot', sunrise:'sSunrise', cards:'sCards', mono:'sMono', drum:'sDrum', sheet:'sSheet', ios:'sIos' }[cfg.style]) + ' · ' + tt({ sky:'gSky', theme:'gTheme', gold:'gGold', off:'gOff' }[cfg.glow]);
     if(p === 'pill') return tpl(tt('pagesN'), { n:C.fa(pagesList().length) }) + (cfg.rotate ? ' · ' + tpl(tt('rotN'), { n:C.fa(cfg.rotate) }) : '');
     if(p === 'card') return tt('xAll');
     if(p === 'alerts') return tt('onWord');
@@ -6928,6 +7121,411 @@ function clockStr(t, sec){ var f = C.fa; return f(p2(t.h)) + ':' + f(p2(t.mi)) +
     var ready = (doc.fonts && doc.fonts.ready) ? Promise.race([doc.fonts.ready, new Promise(function(r){ setTimeout(r, 1400); })]) : Promise.resolve();
     ready.then(function(){ setTimeout(go2, 520); });
     if(doc.fonts && doc.fonts.ready) doc.fonts.ready.then(function(){ if(state === 'compact'){ lastSig = ''; if(S) paintCompact(S, true); refreshDims(); } });
+  }
+
+
+  /* =====================================================================
+     سبک «iOS» — همان طراحی و رفتار فایل «پیش‌نمایش کپسول جادویی»، با داده‌ی واقعی کپسول
+     (اوقات، مراسم، تاریخ، ذکر، صلوات، تایمر و یادآوری‌ها). موتور اصلی کپسول در پس‌زمینه می‌ماند
+     (یادآوری‌ها، تایمر، چرخش و تنظیمات) و فقط ظاهرِ این سبک جدا رسم می‌شود. همه‌ی کلاس‌ها با ix- شروع می‌شوند.
+     ===================================================================== */
+  var ixOn = false, ixWrap = null, ixI = null, ixBd = null, ixGr = null, ixMode = 'pill', ixAl = null, ixCurH = 42, ixTk = 0, ixFast = false, ixIv = 0, ixSig = '', ixLocked = false;
+  var ixTapT = 0, ixHoldT = 0, ixPd = null, ixGd = null, ixGh = 0, ixGraf = 0, ixMO = null, ixQuiet = false, ixCardK = 'full';
+  var IXC = { prayer:'255,203,61', after:'255,203,61', event:'255,142,118', clock:'125,211,252', date:'125,211,252', occasion:'176,160,255', zekr:'134,239,172', salavat:'249,168,212', guide:'196,181,253', timer:'255,159,10' };
+  function ixP(d){ return '<svg class="ix-ic" viewBox="0 0 24 24" aria-hidden="true">' + d + '</svg>'; }
+  function ixN(d){ return ixP(d).replace('class="ix-ic"', 'class="ix-ic" style="fill:none"'); }
+  var IXI = {
+    prayer:ixP('<circle cx="16" cy="7.8" r="3.2"/><path d="M16 3.2V1.4M19.25 4.55l1.28-1.28M20.6 7.8h1.8M19.25 11.05l1.28 1.28M12.75 4.55l-1.28-1.28"/><path d="M8.67 8.81A6.2 6.2 0 1 0 15.03 16.44A5 5 0 1 1 8.67 8.81z" style="stroke:#c7d2fe;fill:#c7d2fe;fill-opacity:.34"/>'),
+    event:ixP('<path d="M12 2.5c3.2 3.2 5.5 5.7 5.5 9.2a5.5 5.5 0 0 1-11 0c0-1.7.7-3.1 1.8-4.4.3 1.4 1 2.3 2 2.7C10 7.5 10.6 5.3 12 2.5z"/><path d="M12 21.2c-1.5 0-2.6-1-2.6-2.4 0-1.4 1.3-2.1 2.6-3.6 1.3 1.5 2.6 2.2 2.6 3.6 0 1.4-1.1 2.4-2.6 2.4z"/>'),
+    clock:ixP('<circle cx="12" cy="12" r="9"/><path d="M12 6.8V12l3.4 2.1"/>'),
+    date:ixP('<rect x="3.5" y="5" width="17" height="15.5" rx="4"/><path d="M3.5 10h17M8.5 3v4M15.5 3v4"/><circle cx="8.5" cy="14.5" r=".6"/><circle cx="12" cy="14.5" r=".6"/><circle cx="15.5" cy="14.5" r=".6"/>'),
+    zekr:ixP('<circle cx="12" cy="3.6" r="1.7"/><circle cx="17.7" cy="6.4" r="1.7"/><circle cx="19" cy="12.4" r="1.7"/><circle cx="5" cy="12.4" r="1.7"/><circle cx="6.3" cy="6.4" r="1.7"/><path d="M12 14.2v3"/><path d="M10.3 21l1.7-3.8 1.7 3.8z"/>'),
+    sal:ixP('<path d="M12 20.6s-7.4-4.4-7.4-10a4 4 0 0 1 7.4-2.1 4 4 0 0 1 7.4 2.1c0 5.6-7.4 10-7.4 10z"/>'),
+    book:ixP('<path d="M5 4.5h9a3 3 0 0 1 3 3V20H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h9"/>'),
+    hello:ixP('<circle cx="12" cy="12" r="8.5"/><path d="M8.4 13.6c.9 1.7 2.1 2.5 3.6 2.5s2.7-.8 3.6-2.5"/><path d="M9 9.6h.01M15 9.6h.01"/>'),
+    timer:ixN('<circle cx="12" cy="13.5" r="7.5"/><path d="M12 9.5v4l2.6 1.6M9.5 3h5"/>'),
+    open:ixN('<path d="M7 17 17 7M9 7h8v8"/>'), plus:ixN('<path d="M12 5v14M5 12h14"/>'), minus:ixN('<path d="M5.5 12h13"/>')
+  };
+  var IXM = { event:'event', clock:'clock', date:'date', heart:'sal', zekr:'zekr', book:'book', timer:'timer', hello:'hello', moon:'prayer' };
+  function ixIc(n){ return IXI[IXM[n] || 'prayer']; }
+  function ixW(){ return Math.min(350, vw() - 24); }
+  function ixH(){ return (window.innerHeight || 640) - 90; }
+  function ixHMS(sec){ return C.fa(Math.floor(sec / 3600)) + ':' + C.fa(p2(Math.floor(sec % 3600 / 60))) + ':' + C.fa(p2(sec % 60)); }
+  /* اندازه‌گیری بیرون از صفحه */
+  function ixMs(h, w){
+    var m = doc.createElement('div'); m.className = 'ix-ms'; if(w) m.style.width = w + 'px'; m.innerHTML = h; body.appendChild(m);
+    var c = m.firstElementChild, r = c ? c.offsetHeight : m.offsetHeight; m.remove(); return r;
+  }
+  function ixPillW(h){
+    var m = doc.createElement('div'); m.className = 'ix-ms ix-msw'; m.innerHTML = h; body.appendChild(m);
+    var w = m.firstElementChild ? m.firstElementChild.offsetWidth : 200; m.remove();
+    return Math.max(tm ? 200 : 150, Math.min(Math.ceil(w) + 4, Math.min(320, vw() - 24)));
+  }
+  /* ---- نمایش پنل (همان show پیش‌نمایش) ---- */
+  function ixShow(h, w, ht, r){
+    ixI.setAttribute('dir', lang() === 'en' ? 'ltr' : 'rtl');
+    ixI.classList.toggle('ix-xl', ht > 300 || ixCurH > 300);
+    var closing = ht <= 60 && ixCurH > 60; ixI.classList.toggle('ix-cl', closing); ixCurH = ht;
+    ixGr.classList.toggle('ix-on', ixMode === 'card' || (ixMode === 'alert' && !!ixAl && !ixAl.w));
+    var old = ixI.querySelector('.ix-pane:not(.ix-out)'), heavy = false;
+    if(old){
+      var oc = old.classList.contains('ix-cardp') || old.classList.contains('ix-al');
+      heavy = closing && oc && !ixFast;
+      old.classList.remove('ix-in'); old.classList.add('ix-out');
+      if(oc) setTimeout(function(){ old.style.display = 'none'; }, 130);
+      setTimeout(function(){ old.remove(); }, oc ? 1000 : 430);
+    }
+    var tk = ++ixTk, apply = function(){ if(tk === ixTk){ ixI.style.width = w + 'px'; ixI.style.height = ht + 'px'; ixI.style.borderRadius = r + 'px'; } };
+    if(heavy) setTimeout(apply, 110); else apply();
+    ixI.insertAdjacentHTML('beforeend', h);
+    var n = ixI.lastElementChild;
+    n.style.left = '50%'; n.style.right = 'auto'; n.style.width = w + 'px'; n.style.marginLeft = (-w / 2) + 'px'; n.style.bottom = 'auto'; n.style.height = ht + 'px';
+    var dl = heavy ? .27 : (closing ? .16 : 0);
+    if(dl){ n.style.transitionDelay = dl + 's'; setTimeout(function(){ n.style.transitionDelay = ''; }, 900); }
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ n.classList.add('ix-in'); }); });
+  }
+  /* ---- قرص ---- */
+  function ixModel(s){
+    if(tm) return { timer:true };
+    var kind = curKind(s), m = pageModel(kind, s), n = m.n, u = m.u;
+    if(m.remain !== undefined){ var r = shortRemain(m.remain); n = r.n; u = r.u; }
+    return { kind:kind, c:IXC[kind] || m.col || IXC.prayer, ic:ixIc(m.icon), lb:m.label, n:String(n == null ? '' : n), u:String(u || ''), sig:m.kind + '|' + m.label + '|' + m.icon };
+  }
+  function ixPillHTML(md){
+    if(md.timer){
+      return '<div class="ix-pane"><span style="color:#ff9f0a;display:grid">' + IXI.timer + '</span>' + (tm && tm.paused ? '<span class="ix-lb">' + esc(tt('tmrPausedS')) + '</span>' : '') +
+        '<span class="ix-vl" style="color:#ff9f0a;font-size:17px" data-ixn>' + esc(fmtCd(Math.ceil(timerLeft() / 1000))) + '</span></div>';
+    }
+    return '<div class="ix-pane" style="--c:' + md.c + '"><span class="ix-dc">' + md.ic + '</span><span class="ix-lb' + (md.n || md.u ? '' : ' ix-solo') + '">' + esc(md.lb) + '</span>' +
+      '<span class="ix-vl" style="color:rgb(' + md.c + ')' + (md.n || md.u ? '' : ';display:none') + '"><span data-ixn>' + esc(md.n) + '</span><small data-ixu>' + esc(md.u) + '</small></span></div>';
+  }
+  function ixPill(){
+    if(!ixOn || !ixI) return;
+    var s = S || snap(), md = ixModel(s), h = ixPillHTML(md), w = ixPillW(h);
+    ixMode = 'pill'; ixAl = null; ixSig = md.timer ? 'T' + (tm && tm.paused ? 'p' : '') : md.sig;
+    ixI.classList.remove('ix-glw'); ixBd.classList.remove('on'); ixCardOff();
+    if(md.c) ixI.style.setProperty('--c', md.c);
+    ixShow(h, w, 42, 21);
+  }
+  function ixFit(p, md){
+    var w = ixPillW(ixPillHTML(md));
+    if(Math.abs(w - (parseFloat(ixI.style.width) || 0)) > 1){ ixI.style.width = w + 'px'; p.style.width = w + 'px'; p.style.marginLeft = (-w / 2) + 'px'; }
+  }
+  function ixPaint(s, force){
+    if(!ixOn || !ixI || ixMode !== 'pill' || state !== 'compact') return;
+    var md = ixModel(s), sig = md.timer ? 'T' + (tm && tm.paused ? 'p' : '') : md.sig;
+    if(sig !== ixSig || !ixI.querySelector('.ix-pane')){ ixPill(); return; }
+    var p = ixI.querySelector('.ix-pane:not(.ix-out)'); if(!p) return;
+    var nE = p.querySelector('[data-ixn]'), uE = p.querySelector('[data-ixu]');
+    var nv = md.timer ? fmtCd(Math.ceil(timerLeft() / 1000)) : md.n, uv = md.timer ? '' : md.u, ch2 = false;
+    if(nE && nE.textContent !== nv){ nE.textContent = nv; ch2 = true; }
+    if(uE && uE.textContent !== uv){ uE.textContent = uv; ch2 = true; }
+    if(ch2) ixFit(p, md);
+  }
+  /* ---- یادآوری ---- */
+  function ixAlertPg(a){ return (a.type === 'prayer' || a.kind === 'after') ? 'prayer' : (a.type === 'event' ? 'event' : ''); }
+  function ixAlertP(a, rem){ var tot = (a.lead || 30) * 60; return Math.max(0, Math.min(1, 1 - rem / tot)); }
+  function ixAlertHTML(a, d){
+    var pr = (a.type === 'prayer' || a.kind === 'after'), c = a.type === 'timer' ? IXC.timer : (pr ? IXC.prayer : IXC.event);
+    var tag = a.type === 'timer' ? tt('tmrT') : (pr ? tt('pgPrayer') : tt('pgEvent'));
+    var ring = '', pb = '', ab = '';
+    if(a.kind === 'lead'){
+      var rem = Math.max(0, (a.targetMs - Date.now()) / 1000), p = ixAlertP(a, rem), L = 2 * Math.PI * 17, big = rem >= 3600;
+      ring = '<div class="ix-rg"><svg viewBox="0 0 40 40"><circle class="ix-bg" cx="20" cy="20" r="17"/><circle class="ix-fg" data-ixrg cx="20" cy="20" r="17" stroke-dasharray="' + L + '" stroke-dashoffset="' + (L * (1 - p)) + '"/></svg><div><b data-ixrn>' + C.fa(big ? Math.ceil(rem / 3600) : Math.max(1, Math.ceil(rem / 60))) + '</b><small data-ixru>' + esc(tt(big ? 'unitH' : 'unitM')) + '</small></div></div>';
+      pb = '<div class="ix-pb" style="--i:1"><i data-ixpb style="width:' + (p * 100) + '%"></i></div>';
+    }
+    if(a.type === 'timer'){
+      ab = '<button type="button" class="ix-ab1" data-ixa="cls">' + esc(tt('xClose')) + '</button><button type="button" class="ix-ab3" data-ixa="rst">' + IXI.timer + esc(tt('tmrRestart')) + '</button>';
+    } else if(cfg.actions){
+      if(a.kind === 'lead') ab += '<button type="button" class="ix-ab1" data-ixa="snz">' + esc(tpl(tt('snoozeBtn'), { n:C.fa(cfg.snooze) })) + '</button>';
+      if(a.type === 'event') ab += '<button type="button" class="ix-ab2" data-ixa="ics">' + IXI.date + esc(tt('icsBtn')) + '</button>';
+      ab += '<button type="button" class="ix-ab3" data-ixa="opn" data-href="' + esc(d.href || '') + '">' + IXI.open + esc(tt('openBtn')) + '</button>';
+    }
+    return '<div class="ix-pane ix-al" style="--c:' + c + '"><div class="ix-ag"></div><div class="ix-ah" style="--i:0"><span class="ix-tile">' + ixIc(d.icon) + '</span>' +
+      '<div class="ix-tt"><em>' + esc(tag) + '</em><b>' + esc(d.title) + '</b><span>' + esc(d.sub || '') + '</span></div>' + ring + '</div>' + pb + (ab ? '<div class="ix-ab" style="--i:2">' + ab + '</div>' : '') + '</div>';
+  }
+  function ixWelcome(d){
+    ixAl = { w:1, a:cur }; ixMode = 'alert'; ixBd.classList.remove('on');
+    ixI.style.setProperty('--c', '176,184,196'); ixI.classList.add('ix-glw');
+    ixShow('<div class="ix-pane ix-wl" style="--c:223,227,233"><span class="ix-dc" style="color:#dfe3e9">' + IXI.hello + '</span><b class="ix-shine">' + esc(d.title) + '</b><div class="ix-wbar"><i></i></div></div>', Math.min(ixW(), 320), 64, 32);
+  }
+  function ixAlert(a, d){
+    if(!ixOn || !ixI) return;
+    d = d || describe(a);
+    ixCardOff();
+    if(a.kind === 'welcome' || a.type === 'welcome'){ ixWelcome(d); return; }
+    var h = ixAlertHTML(a, d), w = ixW();
+    ixAl = { a:a, pg:ixAlertPg(a), href:d.href };
+    ixMode = 'alert'; ixBd.classList.remove('on'); ixI.classList.add('ix-glw');
+    ixI.style.setProperty('--c', a.type === 'timer' ? IXC.timer : (ixAl.pg === 'prayer' ? IXC.prayer : IXC.event));
+    ixShow(h, w, ixMs(h, w), 36);
+    ixStartIv();
+  }
+  /* ---- کارت‌ها ---- */
+  function ixEvRows(s){
+    var rows = [];
+    if(s.live) rows.push({ live:true, ev:s.live.ev, elapsed:s.live.elapsed, diff:0 });
+    s.evs.forEach(function(it){ rows.push(it); });
+    return rows.slice(0, 2);
+  }
+  function ixSecSig(nm, s){
+    if(nm === 'timer') return tm ? tm.id + (tm.paused ? 'p' : 'r') : 'x';
+    if(nm === 'event') return ixEvRows(s).map(function(r){ return r.ev.id + (r.live ? 'L' : C.durText(r.remainMin)); }).join(',');
+    if(nm === 'date') return s.jdn + '|' + (s.eve ? s.eve.title : '') + '|' + lang();
+    return '';
+  }
+  function ixSC(nm, s, c, ic, lbl, inner){
+    return '<div class="ix-sec" data-ixsec="' + nm + '" data-ixsg="' + esc(ixSecSig(nm, s)) + '" style="--c:' + c + '"><span class="ix-sl">' + (ic ? '<i>' + ic + '</i>' : '') + esc(lbl) + '</span>' + inner + '</div>';
+  }
+  function ixCn(k, val, frac, small){
+    var L = 238.76;
+    return '<div class="ix-cn"><button type="button" class="ix-cb2" data-ixa="' + k + '-" aria-label="' + esc(tt('tapMinus')) + '">' + IXI.minus + '</button>' +
+      '<div class="ix-rgc"><svg viewBox="0 0 96 96"><circle class="ix-bg" cx="48" cy="48" r="38"/><circle class="ix-fg" data-ixrg2="' + k + '" cx="48" cy="48" r="38" stroke-dasharray="' + L + '" stroke-dashoffset="' + (L * (1 - Math.max(0, Math.min(1, frac)))) + '"/></svg><div><b data-ixv="' + k + '">' + esc(C.fa(val)) + (small ? '<small>' + esc(small) + '</small>' : '') + '</b></div></div>' +
+      '<button type="button" class="ix-cb2 ix-pl" data-ixa="' + k + '+" aria-label="' + esc(tt('tapPlus')) + '">' + IXI.plus + '</button></div>';
+  }
+  var IXSEC = {
+    clock:function(s){ return ixSC('clock', s, IXC.clock, IXI.clock, tt('tehranT'), '<div class="ix-big" data-ixclk>' + esc(clockStr(s.t, true)) + '</div>'); },
+    timer:function(s){
+      var inner;
+      if(tm){
+        var left = timerLeft(), f = Math.max(0, Math.min(1, left / (tm.dur || 1)));
+        inner = '<div class="ix-row"><b class="ix-n2" style="color:#ff9f0a" data-ixtm>' + esc(fmtCd(Math.ceil(left / 1000))) + '</b><div class="ix-chips"><button type="button" class="ix-chip" data-ixa="tmp">' + esc(tm.paused ? tt('tmrResume') : tt('tmrPause')) + '</button><button type="button" class="ix-chip ix-g" data-ixa="tm1">' + esc(tt('tmrAdd')) + '</button><button type="button" class="ix-chip ix-g" data-ixa="tmx">' + esc(tt('tmrCancel')) + '</button></div></div><div class="ix-pbar" style="--c:255,159,10"><i data-ixtf style="width:' + (f * 100) + '%"></i></div>';
+      } else {
+        inner = '<div class="ix-chips">' + [1, 5, 10, 15, 30].map(function(m){ return '<button type="button" class="ix-chip" data-ixa="tm" data-m="' + m + '">' + esc(tpl(tt('tmrMinN'), { n:C.fa(m) })) + '</button>'; }).join('') + '</div>';
+      }
+      return ixSC('timer', s, IXC.timer, '', tt('tmrT'), inner);
+    },
+    prayer:function(s){
+      var pm = s.pm, p = Math.max(0, Math.min(1, pm.progress)), x = 100 - 90 * Math.cos(Math.PI * p), y = 62 - 52 * Math.sin(Math.PI * p);
+      var cells = ['fajr', 'sunrise', 'dhuhr', 'maghrib'].map(function(k){
+        return '<div class="ix-cell' + (k === pm.key ? ' ix-on' : '') + '" data-ixp="' + k + '">' + esc(K.t({ fajr:'tFajr', sunrise:'tSunrise', dhuhr:'tDhuhr', maghrib:'tMaghrib' }[k])) + '<b>' + esc(C.fmtClock(pm.times[k])) + '</b></div>';
+      }).join('');
+      return ixSC('prayer', s, IXC.prayer, IXI.prayer, prayerLabel(s, pm.key) + ' · ' + K.t('wpCity'),
+        '<svg class="ix-arc" viewBox="0 0 200 70"><path class="ix-tr" d="M10 62A90 52 0 0 1 190 62"/><path class="ix-pg" data-ixarc pathLength="100" stroke-dasharray="' + (p * 100) + ' 100" d="M10 62A90 52 0 0 1 190 62"/><circle data-ixdot cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="5"/></svg>' +
+        '<div class="ix-row"><b class="ix-n2" style="color:#ffcb3d" data-ixpc>' + esc(ixHMS(Math.max(0, Math.ceil(pm.remainMin * 60)))) + '</b><span class="ix-sub">' + esc(pm.tomorrow ? K.t('tomorrowParen') : '') + '</span></div><div class="ix-cells">' + cells + '</div>');
+    },
+    event:function(s){
+      var rows = ixEvRows(s).map(function(it){
+        var ev = it.ev;
+        return '<div class="ix-ev" data-href="' + esc(ev.href || '') + '"><span>' + IXI.event + '</span>' + esc(pick(ev.title)) + '<small>' + esc(it.live ? tt('live') : C.durText(it.remainMin)) + '</small></div>';
+      }).join('');
+      return ixSC('event', s, IXC.event, IXI.event, K.t('weTitle'), rows || '<div class="ix-sub">' + esc(tt('emptyX')) + '</div>');
+    },
+    date:function(s){
+      var dp = dateParts(s), m = s.day.today, lun = m ? C.fa(m.lunar.d) + ' ' + C.lunarMonthName(m.lunar.m) : '';
+      var head = dp ? '<div class="ix-dd"><span class="ix-dn">' + esc(C.fa(dp.d)) + '</span><div><b>' + esc(C.jalaliMonthName(dp.m) + ' ' + C.fa(dp.y)) + '</b><span>' + esc(dp.wd) + '</span></div></div>' : '<div class="ix-sub">' + esc(dateLine(s, true)) + '</div>';
+      var list = [];
+      if(s.eve) list.push(tt('tonight') + ' · ' + s.eve.title);
+      if(m) m.items.forEach(function(o){ list.push(o.title + (o.hol ? ' · ' + K.t('holiday') : '')); });
+      if(!list.length) list.push(K.t('noOcc'));
+      var rows = list.slice(0, 3).map(function(t, i){
+        return '<div class="ix-ev" style="--c:176,160,255;margin-top:' + (i ? 0 : 8) + 'px"><span>' + IXI.date + '</span>' + esc(t) + (i === 0 && lun ? '<small>' + esc(lun) + '</small>' : '') + '</div>';
+      }).join('');
+      return ixSC('date', s, IXC.date, IXI.date, tt('shDate'), head + rows);
+    },
+    zekr:function(s){
+      var z = C.ZEKR_BY_DAY[s.dow], n = Math.min(intLS(C.zekrKey(s.t)), C.ZEKR_TARGET);
+      return ixSC('zekr', s, IXC.zekr, IXI.zekr, tt('zekrL') + (z ? ' · ' + z.text : ''), ixCn('z', n, n / C.ZEKR_TARGET, '/' + C.fa(C.ZEKR_TARGET)));
+    },
+    sal:function(s){
+      var c = intLS('kazemiuon-salavat-count-salawat');
+      return ixSC('sal', s, IXC.salavat, IXI.sal, tt('salL'), ixCn('s', c, (c % 100) / 100, ''));
+    }
+  };
+  var IXCK = { prayer:'prayer', after:'prayer', event:'event', clock:'clock', date:'date', occasion:'date', zekr:'zekr', salavat:'sal', guide:'full', full:'full', sal:'sal' };
+  function ixTitle(k){ return { full:tt('title'), prayer:tt('dtPrayer'), event:tt('dtEvent'), clock:tt('dtClock'), date:tt('dtDate'), zekr:tt('zekrL'), sal:tt('dtSal') }[k]; }
+  function ixCardHTML(k, s){
+    var order = k === 'full' ? ['clock', 'timer', 'prayer', 'event', 'date', 'zekr', 'sal'] : [k];
+    var secs = order.map(function(x, i){ return IXSEC[x](s).replace('style="', 'style="--i:' + i + ';'); });
+    return '<div class="ix-ci" style="width:' + ixW() + 'px"><div class="ix-hd"><div class="ix-ht"><span class="ix-hi">' + (IXI[k === 'full' ? 'prayer' : k] || IXI.prayer) + '</span><b>' + esc(ixTitle(k)) + '</b></div></div>' + secs.join('') + '</div>';
+  }
+  function ixOpenCard(k){
+    if(!ixOn || !ixI) return;
+    k = IXCK[k] || 'full'; S = snap();
+    if(state === 'idle'){ ixQuiet = true; try{ setState('compact'); }finally{ ixQuiet = false; } }
+    ixMode = 'card'; ixCardK = k; ixAl = null; ixI.classList.remove('ix-glw'); ixBd.classList.add('on'); ixLockSet(true); busy(true);
+    try{ tap(); }catch(_){}
+    var w = ixW(), inner = ixCardHTML(k, S), raw = ixMs(inner, w), h = Math.min(raw, ixH());
+    ixShow('<div class="ix-pane ix-cardp' + (raw > ixH() ? '' : ' ix-ns') + '"></div>', w, h, 34);
+    var pn = ixI.lastElementChild;
+    setTimeout(function(){ if(ixMode === 'card' && pn.isConnected){ pn.innerHTML = ixCardHTML(k, S = snap()); ixFitCard(); } }, 150);
+    ixStartIv();
+  }
+  function ixFitCard(){
+    var pn = ixI.querySelector('.ix-cardp'), ci = pn && pn.firstElementChild; if(!ci) return;
+    var raw = ci.offsetHeight, h = Math.min(raw, ixH());
+    pn.classList.toggle('ix-ns', raw <= ixH()); pn.style.height = h + 'px'; ixI.style.height = h + 'px'; ixCurH = h;
+  }
+  function ixSetCn(p, k, val, frac, small){
+    var v = p.querySelector('[data-ixv="' + k + '"]'), r = p.querySelector('[data-ixrg2="' + k + '"]');
+    if(v){ var t = C.fa(val) + (small ? '|' + small : ''); if(v._t !== t){ v._t = t; v.innerHTML = esc(C.fa(val)) + (small ? '<small>' + esc(small) + '</small>' : ''); } }
+    if(r) r.setAttribute('stroke-dashoffset', String(238.76 * (1 - Math.max(0, Math.min(1, frac)))));
+  }
+  function ixCardLive(s){
+    var p = ixI.querySelector('.ix-cardp'); if(!p) return;
+    var q = function(sel){ return p.querySelector(sel); }, e, swapped = false;
+    ['timer', 'event', 'date'].forEach(function(nm){
+      var el = q('[data-ixsec="' + nm + '"]'); if(!el) return;
+      if(el.getAttribute('data-ixsg') !== ixSecSig(nm, s)){
+        var t = doc.createElement('div'); t.innerHTML = IXSEC[nm](s); var nn = t.firstElementChild;
+        nn.setAttribute('style', el.getAttribute('style')); el.replaceWith(nn); swapped = true;
+      }
+    });
+    if(swapped) ixFitCard();
+    if((e = q('[data-ixclk]'))) e.textContent = clockStr(s.t, true);
+    if((e = q('[data-ixtm]'))){ var left = timerLeft(); e.textContent = fmtCd(Math.ceil(left / 1000)); var tf = q('[data-ixtf]'); if(tf && tm) tf.style.width = Math.max(0, Math.min(1, left / (tm.dur || 1))) * 100 + '%'; }
+    if((e = q('[data-ixpc]'))){
+      var pm = s.pm, pr = Math.max(0, Math.min(1, pm.progress));
+      e.textContent = ixHMS(Math.max(0, Math.ceil(pm.remainMin * 60)));
+      var arc = q('[data-ixarc]'), dot = q('[data-ixdot]');
+      if(arc) arc.setAttribute('stroke-dasharray', (pr * 100) + ' 100');
+      if(dot){ dot.setAttribute('cx', (100 - 90 * Math.cos(Math.PI * pr)).toFixed(1)); dot.setAttribute('cy', (62 - 52 * Math.sin(Math.PI * pr)).toFixed(1)); }
+      [].forEach.call(p.querySelectorAll('.ix-cell[data-ixp]'), function(c){ c.classList.toggle('ix-on', c.getAttribute('data-ixp') === pm.key); });
+    }
+    if(q('[data-ixv="z"]')){ var n = Math.min(intLS(C.zekrKey(s.t)), C.ZEKR_TARGET); ixSetCn(p, 'z', n, n / C.ZEKR_TARGET, '/' + C.fa(C.ZEKR_TARGET)); }
+    if(q('[data-ixv="s"]')){ var c2 = intLS('kazemiuon-salavat-count-salawat'); ixSetCn(p, 's', c2, (c2 % 100) / 100, ''); }
+  }
+  function ixAlertLive(){
+    if(!ixAl || ixAl.w || !ixAl.a || ixAl.a.kind !== 'lead') return;
+    var rem = Math.max(0, (ixAl.a.targetMs - Date.now()) / 1000), p = ixAlertP(ixAl.a, rem), big = rem >= 3600, q = function(s2){ return ixI.querySelector(s2); }, e;
+    if((e = q('[data-ixrn]'))) e.textContent = C.fa(big ? Math.ceil(rem / 3600) : Math.max(1, Math.ceil(rem / 60)));
+    if((e = q('[data-ixru]'))) e.textContent = tt(big ? 'unitH' : 'unitM');
+    if((e = q('[data-ixrg]'))) e.setAttribute('stroke-dashoffset', String(2 * Math.PI * 17 * (1 - p)));
+    if((e = q('[data-ixpb]'))) e.style.width = (p * 100) + '%';
+  }
+  function ixLive(){
+    if(!ixOn || !ixI || doc.hidden) return;
+    var s = S = snap();
+    if(ixMode === 'card') ixCardLive(s); else if(ixMode === 'alert') ixAlertLive();
+  }
+  function ixStartIv(){ if(!ixIv) ixIv = setInterval(ixLive, 1000); }
+  function ixCardOff(){ if(ixIv){ clearInterval(ixIv); ixIv = 0; } ixLockSet(false); }
+  function ixCloseAll(){
+    ixMode = 'pill'; ixCardOff(); ixBd.classList.remove('on'); busy(false);
+    if(cfg.mode === 'alerts' && !tm && state === 'compact'){ ixQuiet = true; try{ setState('idle'); }finally{ ixQuiet = false; } return; }
+    ixPill();
+  }
+  function ixBump(w, d){
+    var s = S || snap(), key = w === 'z' ? C.zekrKey(s.t) : 'kazemiuon-salavat-count-salawat', c0 = intLS(key);
+    if(d < 0 && c0 <= 0){ if(cfg.haptic) buzz([10, 40, 10]); return; }
+    lsSet(key, String(Math.max(0, c0 + d)));
+    if(cfg.haptic && !inQuiet(s.t)) buzz(10);
+    try{ if(K.tick) K.tick(); }catch(e){}
+    ixLive();
+  }
+  /* ---- هم‌گام‌سازی با موتور اصلی ---- */
+  function ixSync(next){
+    if(!ixOn || !ixI || ixQuiet) return;
+    if(next === 'compact'){ ixMode = 'pill'; ixPill(); }
+    else if(next === 'idle'){ ixMode = 'pill'; ixCardOff(); ixBd.classList.remove('on'); }
+    else if(next === 'expanded'){ ixOpenCard(expKind || 'full'); }
+  }
+  /* ---- قفل اسکرول صفحه هنگام کارت باز ---- */
+  function ixLockMove(e){
+    if(ixMode !== 'card') return;
+    var t = e.target, x = t && t.closest ? t.closest('.ix-cardp:not(.ix-ns)') : null;
+    if(x && !t.closest('.ix-hd')){
+      if(e.type === 'wheel'){ var up = e.deltaY < 0; if((up && x.scrollTop <= 0) || (!up && x.scrollTop + x.clientHeight >= x.scrollHeight - 1)){ if(e.cancelable) e.preventDefault(); } }
+      return;
+    }
+    if(e.cancelable) e.preventDefault();
+  }
+  function ixLockSet(on){
+    if(on === ixLocked) return; ixLocked = on;
+    html.classList.toggle('isl-lock', on);
+    if(on){ doc.addEventListener('touchmove', ixLockMove, { passive:false }); doc.addEventListener('wheel', ixLockMove, { passive:false }); }
+    else { doc.removeEventListener('touchmove', ixLockMove, { passive:false }); doc.removeEventListener('wheel', ixLockMove, { passive:false }); }
+  }
+  /* ---- ساخت DOM و رویدادها ---- */
+  function ixBuild(){
+    if(ixWrap) return;
+    ixBd = doc.createElement('div'); ixBd.className = 'ix-bd'; body.appendChild(ixBd);
+    ixWrap = doc.createElement('div'); ixWrap.className = 'ix-wrap';
+    ixI = doc.createElement('div'); ixI.className = 'ix-isl'; ixI.setAttribute('role', 'button'); ixI.setAttribute('aria-label', tt('title'));
+    ixI.style.width = '112px'; ixI.style.height = '34px'; ixI.style.borderRadius = '17px';
+    ixGr = doc.createElement('div'); ixGr.className = 'ix-gr'; ixGr.innerHTML = '<i></i>'; ixI.appendChild(ixGr);
+    ixWrap.appendChild(ixI); body.appendChild(ixWrap);
+    ixWrap.toggleAttribute('data-hide', root.hasAttribute('data-hide') || root.hasAttribute('data-sh'));
+    try{ ixMO = new MutationObserver(function(){ ixWrap.toggleAttribute('data-hide', root.hasAttribute('data-hide') || root.hasAttribute('data-sh')); }); ixMO.observe(root, { attributes:true, attributeFilter:['data-hide', 'data-sh'] }); }catch(_){}
+    ixI.addEventListener('click', function(e){
+      var b = e.target.closest ? e.target.closest('[data-ixa]') : null;
+      if(!b){ var ev = e.target.closest ? e.target.closest('.ix-ev[data-href]') : null; if(ev && ixMode === 'card' && ev.getAttribute('data-href')){ e.stopPropagation(); go(ev.getAttribute('data-href')); } return; }
+      e.stopPropagation();
+      var t = b.getAttribute('data-ixa'), a = ixAl && ixAl.a;
+      if(t === 'z+' || t === 'z-' || t === 's+' || t === 's-') ixBump(t.charAt(0), t.charAt(1) === '+' ? 1 : -1);
+      else if(t === 'tm'){ startTimer(+b.getAttribute('data-m')); ixCloseAll(); }
+      else if(t === 'tmp'){ pauseTimer(); ixLive(); }
+      else if(t === 'tm1'){ addTimer(1); ixLive(); }
+      else if(t === 'tmx'){ cancelTimer(); ixLive(); }
+      else if(t === 'snz') snoozeAlert();
+      else if(t === 'ics'){ if(a && a.ev) icsFor(a.ev, a.diff || 0); collapse(); }
+      else if(t === 'opn'){ var hf = b.getAttribute('data-href'); collapse(); if(hf) go(hf); }
+      else if(t === 'cls') collapse();
+      else if(t === 'rst'){ var mins = a ? Math.max(1, Math.round((a.dur || 300000) / 60000)) : 5; collapse(); startTimer(mins); }
+    });
+    ixI.addEventListener('pointerdown', function(e){
+      if(ixMode === 'alert' && ixAl && !ixAl.w) holdAlert(true);
+      if(e.target.closest('button')) return;
+      ixPd = { y:e.clientY, m:ixMode, hd:!!e.target.closest('.ix-hd'), dbl:false };
+      if(ixMode === 'pill' && ixTapT){ clearTimeout(ixTapT); ixTapT = 0; ixPd.dbl = true; }
+      ixI.classList.add('ix-pr');
+      if(ixMode === 'pill') ixHoldT = setTimeout(function(){ ixHoldT = 0; ixPd = null; ixI.classList.remove('ix-pr'); ixOpenCard('full'); }, cfg.hold || 400);
+    });
+    ixI.addEventListener('pointermove', function(e){ if(ixPd && ixHoldT && Math.abs(e.clientY - ixPd.y) > 8){ clearTimeout(ixHoldT); ixHoldT = 0; } });
+    ixI.addEventListener('pointerup', function(e){
+      clearTimeout(ixHoldT); ixHoldT = 0; ixI.classList.remove('ix-pr');
+      if(ixAl && !ixAl.w) holdAlert(false);
+      if(!ixPd) return;
+      var dy = e.clientY - ixPd.y, m = ixPd.m, hd = ixPd.hd, dbl = ixPd.dbl; ixPd = null;
+      if(dy < -35 && (m === 'alert' || (m === 'card' && hd))){ if(m === 'alert') collapse(); else ixCloseAll(); return; }
+      if(dy > 35 && m === 'pill'){ ixOpenCard('full'); return; }
+      if(Math.abs(dy) < 8){
+        if(m === 'pill'){
+          if(tm) ixOpenCard('full');
+          else if(dbl) ixOpenCard(curKind(S || snap()));
+          else ixTapT = setTimeout(function(){ ixTapT = 0; rotStep(true); }, 250);
+        } else if(m === 'alert' && ixAl && ixAl.pg){
+          var pg = ixAl.pg; clearTimeout(alertT); cur = null; stopRing();
+          ixQuiet = true; try{ setState('compact'); }finally{ ixQuiet = false; }
+          ixOpenCard(pg);
+        }
+      }
+    });
+    ixI.addEventListener('pointercancel', function(){ clearTimeout(ixHoldT); ixHoldT = 0; ixPd = null; ixI.classList.remove('ix-pr'); if(ixAl && !ixAl.w) holdAlert(false); });
+    ixI.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+    /* خط پایین کارت/اعلان: بکش پایین‌تر از ۶۰ پیکسل تا بسته شود */
+    ixGr.addEventListener('pointerdown', function(e){
+      e.stopPropagation();
+      var h0 = ixI.getBoundingClientRect().height, pn = ixI.querySelector('.ix-pane:not(.ix-out)') || doc.createElement('i');
+      ixGd = { y:e.clientY, h:h0, p:pn }; ixGh = h0;
+      pn.style.transition = 'none'; ixI.style.height = h0 + 'px'; ixI.classList.add('ix-drag');
+      try{ ixGr.setPointerCapture(e.pointerId); }catch(_){}
+    });
+    ixGr.addEventListener('pointermove', function(e){
+      if(!ixGd) return;
+      ixGh = Math.max(60, Math.min(ixGd.h, ixGd.h + (e.clientY - ixGd.y)));
+      if(!ixGraf) ixGraf = requestAnimationFrame(function(){ ixGraf = 0; if(!ixGd) return; ixI.style.height = ixGh + 'px'; ixGd.p.style.opacity = Math.max(0, 1 - 1.5 * (ixGd.h - ixGh) / Math.max(1, ixGd.h - 60)); });
+    });
+    function gEnd(){
+      if(!ixGd) return;
+      var d = ixGd, moved = d.h - ixGh; ixGd = null; cancelAnimationFrame(ixGraf); ixGraf = 0;
+      ixI.style.height = ixGh + 'px'; void ixI.offsetHeight;
+      ixI.classList.remove('ix-drag'); d.p.style.transition = '';
+      if(moved > 60){ d.p.style.opacity = '0'; ixFast = true; if(ixMode === 'alert') collapse(); else ixCloseAll(); ixFast = false; }
+      else { d.p.style.opacity = ''; ixI.style.height = d.h + 'px'; }
+    }
+    ixGr.addEventListener('pointerup', gEnd); ixGr.addEventListener('pointercancel', gEnd);
+    ixBd.addEventListener('click', function(){ if(ixMode === 'card') ixCloseAll(); });
+    doc.addEventListener('keydown', function(e){ if(e.key === 'Escape' && ixOn){ if(ixMode === 'card') ixCloseAll(); else if(ixMode === 'alert') collapse(); } });
+  }
+  function ixApply(){
+    var on = cfg.style === 'ios';
+    if(on){ ixBuild(); ixWrap.style.setProperty('--isl-top', TOP_PX[cfg.top] + 'px'); }
+    if(on === ixOn) return;
+    ixOn = on;
+    html.toggleAttribute('data-ix', on);
+    if(on){ if(state === 'compact') ixPill(); }
+    else if(ixWrap){ ixMode = 'pill'; ixCardOff(); ixBd.classList.remove('on'); busy(false); }
   }
 
   buildSprings(); applyLook(); localizeStatic();
